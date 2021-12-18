@@ -1,0 +1,57 @@
+Cambios realizados
+
+DATABASE
+- cambio de clave foranea, para la tabla tb_client_services_access_control
+tb_client_services_access_control_ibfk5   idMaintenanceFk (antes) tb_products (ahora) tb_type_maintenance
+
+- Cambio de nombre a campo en las tablas tb_client_services_totem
+	tipeMaintenance_SE => idTypeMaintenanceFk
+
+- Cambio en campos de la tabla tb_cameras_totem
+	coveredArea 		Type (int) => type (varchar)
+	locationCamera 		Type (int) => type (varchar)
+	nroSerieCamera 		Type (int) => type (varchar)
+	nroFabricCamera		Type (int) => type (varchar)
+	dateExpireCamera 	Type (int) => type (varchar)
+
+- Cambio en campos de la tabla tb_cameras
+	coveredArea 		type (varchar) 11 caracteres a 255
+	locationCamera 		type (varchar) 11 caracteres a 255
+	nroSerieCamera 		type (varchar) 11 caracteres a 255
+	nroFabricCamera		type (varchar) 11 caracteres a 255
+	dateExpireCamera 	Type(int) => type (varchar)
+
+- Agregado campo en tabla tb_clients
+	idClientAssociated_SE Type (int) (sera un campo que almacenara un numero de cliente con el que asociaran al sistema administrativo local)
+
+- Cambio en campo de la tabla tb_user_license
+	profileUser 		Type (int) => type (varchar)
+
+
+- Agregado campo en tabla tb_client_file_list
+	typeFile     Type (varchar)
+
+BACKEND: 
+services_model.php 
+ - getServicesPorIdContrato
+	 agregado la relacion con la tabla tb_type_maintenance
+	 Linea 914: 'idTypeMaintenanceFk' => [ 'tb_type_maintenance', 'idTypeMaintenance'],
+
+ - editTotem
+ 	 modificado nombre del campo tipeMaintenance_SE a idTypeMaintenanceFk
+ 	 modificado nombre del campo addressVpn a addreesVpn
+ 	 modificado nombre del campo portHttp a portHttpInter
+
+Client_model.php
+ - modificado de los servicios de add y update de clientes para agregar el campo nuevo idClientAssociated_SE.
+ - realizado servicio para subir archivos y asociarlos al cliente.
+
+
+PENDIENTES
+
+- Actualizar contrato.
+- Alarmas (faltan ajustes en el backend para finalizar la implementacion)
+- Archivos ajuntos de cliente --> inProgress
+- PDF de hoja de datos
+- Cambio de administracion (solo aplica para consorcios)
+- Servicio Control de acceso - en el campo puerta solo mostrar el que no este en uso.
