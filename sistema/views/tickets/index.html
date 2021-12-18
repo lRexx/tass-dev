@@ -1,0 +1,192 @@
+<!-- MANAGE TICKETS-->
+<div class="col-md-12">
+    <div class="panel panel-default padding-panel">
+      <div class="panel-heading">
+        <h3 class="panel-title">PEDIDOS </h3>
+      </div>
+      <div class="panel-body">
+        <div class="col-md-2">
+          <!-- NEW TICKET -->
+          <div>
+            <div class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="NUEVO TICKET" ng-click="">
+              <div class="depto-icon">
+                    <span><i class="product-success fas fa-clipboard-list"></i></span>
+              </div>
+              <div class="text-badge">
+                  <span class="new-customer badge badge-light"><i class="fas fa-plus"></i> NUEVO PEDIDO </span>
+              </div>
+            </div>
+          </div>
+          <!-- //NEW TICKET -->
+          <!-- SERVICES COST -->
+          <div>
+            <div class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="COSTOS DE SERVICIOS" ng-click="">
+              <div class="depto-icon">
+                    <span><i class="product-success glyphicon icon-dollar"></i></span>
+              </div>
+              <div class="text-badge">
+                  <span class="registered-customer badge badge-light"><i class="fas fa-eye"></i> COSTOS </span>
+              </div>
+            </div>
+          </div>
+          <!-- //SERVICES COST -->
+        </div>
+         <div class="col-md-10">
+            <div>
+              <div ng-if="sysContent=='registeredCustomers' || sysContent=='registeredNotCustomers'" class="pull-left col-md-12">
+                <div  class="panel panel-default">
+                    <div class="panel-heading">
+                      <h3 ng-if="sysContent=='registeredCustomers'" class="panel-title">CLIENTES</h3>
+                      <h3 ng-if="sysContent=='registeredNotCustomers'" class="panel-title">NO CLIENTES</h3>
+                    </div>
+                      <!--REGISTERED CUSTOMER PANEL -->
+                      <div id="custRegistered" ng-if="sysContent=='registeredCustomers'" class="panel-body">
+                          <!-- ROW WITH THE FILTERS USED TO DISPLAY DATA IN THE TABLE -->
+                        <div  class="row">
+                            <div class="form-group">
+                                <!-- Filter Search -->          
+                                <div class="col-md-4 col-sm-12 col-xs-12">	            
+                                    <div class="input-group search-box-rule col-md-12 col-sm-12 col-xs-12">
+                                          <input type="text" class="form-control" ng-disabled="rsCustomerListData.status==404" ng-change="search(searchboxfilter, false)"  ng-model="searchboxfilter" placeholder="Buscar..." style="border-radius: 4px;">
+                                    </div>
+                                </div>
+                                <!-- Filter Type of Tenant For Admins ng-if="sysContent=='customer'"-->
+                                <div class="col-md-3 col-sm-6">
+                                    <label style="padding-left: 15px;">Tipo de Cliente</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+                                        <select  name="filterTypeOfClient" 
+                                                 ng-change="getCustomersListByTypeFn(select.filterTypeOfClient.idClientType); onSelectCallback();" 
+                                                 ng-options="(item.ClientType | uppercase) for item in rsCustomerTypeFilterData" 
+                                                 ng-disabled="rsCustomerListData.status==404"  
+                                                 class="form-control" 
+                                                 ng-model="select.filterTypeOfClient">
+                                            <option value="" >Todos</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!-- Company Name-->    
+                                <div class="col-md-4 col-sm-6">
+                                    <label class="clf-p-left">
+                                      <span ng-if="select.filterTypeOfClient.idClientType==1">Administraciones </span>
+                                      <span ng-if="select.filterTypeOfClient.idClientType==2">Cliente Edificio</span>
+                                      <span ng-if="select.filterTypeOfClient.idClientType==3">Empresas </span>
+                                      <span ng-if="select.filterTypeOfClient.idClientType==4">Cliente Sucursal </span>
+                                      <span ng-if="select.filterTypeOfClient.idClientType==5">Cliente Particular </span>
+                                      <span ng-if="select.filterTypeOfClient.idClientType=='' || select.filterTypeOfClient.idClientType==undefined">Cliente </span>
+                                    </label>                             
+                                    <div class="input-group">
+                                          <span class="input-group-addon"><i class="fas fa-file-signature"></i></span>
+                                              <ui-select name="new_admin_id" 
+                                                          ng-disabled="(select.filterTypeOfClient=='' || select.filterTypeOfClient==undefined)" 
+                                                          class="dropdown-select" 
+                                                          ng-change="getLisOfCustomersByIdFn(select.filterCustomerIdFk.selected.idClient, true);" 
+                                                          ng-model="select.filterCustomerIdFk.selected"  
+                                                          autofocus>
+                                                  <ui-select-match placeholder="Seleccione una opci&#243n">{{$select.selected.name | uppercase}}</ui-select-match>
+                                                  <ui-select-choices allow-clear="true" repeat="item in rsCustomerListByTypeData | filter: $select.search">
+                                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                                    <small>Razon Social: </small>
+                                                    <small ng-if="item.idClientTypeFk==2 || item.idClientTypeFk==4 || item.idClientTypeFk==5" ng-bind-html="item.billing_information[0].businessNameBilling | highlight: $select.search" ng-bind-html="item.billing_information[0].businessNameBilling | highlight: $select.search"></small>
+                                                    <small ng-if="item.idClientTypeFk!=2 && item.idClientTypeFk!=4 && item.idClientTypeFk!=5" ng-bind-html="item.businessName | highlight: $select.search" ng-bind-html="item.billing_information[0].businessNameBilling | highlight: $select.search"></small>
+                                                  </ui-select-choices>
+                                                   <ui-select-no-choice>
+                                                      <span ng-if="rsCustomerListByTypeData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay clientes registrados de tipo 
+                                                        <span ng-if="select.filterTypeOfClient.idClientType==1"> Administracion </span>
+                                                        <span ng-if="select.filterTypeOfClient.idClientType==2"> Edificio</span>
+                                                        <span ng-if="select.filterTypeOfClient.idClientType==3"> Empresa </span>
+                                                        <span ng-if="select.filterTypeOfClient.idClientType==4"> Sucursal </span>
+                                                        <span ng-if="select.filterTypeOfClient.idClientType==5"> Particular </span>
+                                                      </span>
+                                                      <span ng-if="rsCustomerListData.status==404"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay clientes registrados</span>
+                                                   </ui-select-no-choice>
+                                              </ui-select>
+                                    </div>
+                                </div>              		
+                                <div class="btn-group-mg-top-s n-padding-l col-md-1"><br>         
+                                    <!-- Search button-->
+                                    <!--<button data-toggle="tooltip" data-placement="top" title="Buscar cliente" type="button" ng-click="" class="btn btn-md btn-labeled btn-success"><span class="btn-label"><i class="fas fa-search"></i> </span>Buscar</button>-->
+                                    <!-- //Search button -->
+                                    <!-- New Customer button -->
+                                    <button data-toggle="tooltip" data-placement="top" title="Nuevo Cliente" type="button" ng-click="switchCustomersFn('new','')" class="btn btn-xs btn-labeled btn-info"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i> </span>Nuevo</button>
+                                </div>
+                            </div>
+                          </div>
+                        <div class="clear-fix"></div>
+                        <!-- TABLE LIST WHERE IS DISPLAYED THE CUSTOMER -->
+                        <div ng-include="'views/customer/list/listCustomers.html'"></div>
+                        <!-- PAGINATION -->
+                          <div ng-if="rsCustomerListData.length>=10" style="text-align: center;">
+                                <!--<dir-pagination-controls
+                                  max-size="10"
+                                  direction-links="true"
+                                  boundary-links="true" >
+                              </dir-pagination-controls>-->
+                              <div ng-if="rsCustomerListData.length>10" style="text-align: center;" ng-include="'views/pagination/pager-tpl-v2.html'"></div>
+                                <!-- Filter Type of Tenant For Admins ng-if="sysContent=='customer'"-->
+                                <!--<div class="col-md-3 col-sm-3">
+                                    <div class="input-group">
+                                      <label>Registros por pagina</label>
+                                        <select  name="itemPerPage" 
+                                                 ng-disabled="rsCustomerListData.status==404"
+                                                 ng-change="groupToPages(itemPerPage)"
+                                                 class="form-control" 
+                                                 ng-model="itemPerPage">
+                                            <option value="10" >10</option>
+                                            <option value="25" >25</option>
+                                            <option value="50" >50</option>
+                                        </select>
+                                    </div>
+                                </div>-->                            
+                          </div>
+                        <!-- //PAGINATION -->
+                      </div>
+                      <!--NOT REGISTERED CUSTOMER PANEL -->
+                      <div id="custNotRegistered" ng-if="sysContent=='registeredNotCustomers'" class="panel-body">
+                        <div  class="row">
+                          <div class="form-group">
+                                <!-- Filter Search -->          
+                                <div class="col-md-4 col-sm-12 col-xs-12">              
+                                  <div class="input-group search-box-rule col-md-12 col-sm-12 col-xs-12">
+                                      <input type="text" class="form-control" ng-disabled="rsCustomerListData.status==404" ng-change="search(searchboxfilter, false)"  ng-model="searchboxfilter" placeholder="Buscar..." style="border-radius: 4px;">
+                                  </div>
+                                </div>
+                          </div>
+                        </div>                      
+                        <div class="clear-fix"></div>
+                        <!-- TABLE LIST WHERE IS DISPLAYED THE CUSTOMER -->
+                        <div ng-include="'views/customer/list/listCustomers.html'"></div>
+                        <!-- PAGINATION -->
+                          <div ng-if="rsCustomerListData.length>=10" style="text-align: center;">
+                            <div ng-if="rsCustomerListData.length>10" style="text-align: center;" ng-include="'views/pagination/pager-tpl-v2.html'"></div>  
+                                <!--<dir-pagination-controls
+                                  max-size="10"
+                                  direction-links="true"
+                                  boundary-links="true" >
+                              </dir-pagination-controls>-->
+                          </div>
+                        <!-- //PAGINATION -->
+                      </div>                  
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  <div ng-if="!isNewCustomer" ng-include="'views/customer/customer_details/components/comp_allowedUserInfo.html'"></div>
+  <div ng-include="'views/customer/change_admin/changeBuildingBetweenAdmin.html'"></div>
+  
+  <div ng-include="'views/customer/new/formAttachCustomerFiles.html'"></div>
+  <div ng-include="'views/customer/update/formUpdateCustomer.html'"></div>
+  <div ng-include="'views/customer/new/formRegisterCustomer.html'"></div>
+  <div ng-include="'views/customer/list/listAllowedUsers.html'"></div>
+  <div ng-include="'views/customer/list/phonesandschedule.html'"></div>
+  <div ng-include="'views/customer/list/mailscontact.html'"></div>
+  <div ng-include="'views/customer/list/multiLoadDepto.html'"></div>
+  <div ng-include="'views/customer/list/listDepartments.html'"></div>
+  <div ng-include="'views/customer/list/listParticularAddress.html'"></div>
+  <div ng-include="'views/customer/list/listCustomersFiles.html'"></div>
+  <div ng-include="'views/customer/customer_details/formCustomerDetails.html'"></div>
+  <div ng-include="'views/customer/company_details/formCompanyDetails.html'"></div>
+  <div ng-include="'views/utilities/modalConfirmation.html'"></div>
+  

@@ -1,0 +1,393 @@
+<!-- USER UPDATE FORM -->
+<div id="UpdateUser" class="modal fade bd-example-modal-lg" style="top: 130px;" role="dialog">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+                <h3 class="modal-title"><i class="product-success fas fa-user"></i> MODIFICAR USUARIO
+                    <span style="margin-top: -0.4em;" class="badge badge-success" ng-if="users.update.idStatusKf=='1'"><i class="fas fa-check-circle"></i> {{users.update.statusTenantName}}</span>
+                    <span style="margin-top: -0.4em;" class="badge badge-warning" ng-if="users.update.idStatusKf=='0'"><i class="fas fa-exclamation-triangle"></i> {{users.update.statusTenantName}}</span>
+                    <span style="margin-top: -0.4em;" class="badge badge-danger" ng-if="users.update.idStatusKf=='-1'"><i class="fas fa-user-slash"></i> {{users.update.statusTenantName}}</span>
+                </h3>
+            </div>
+            <div class="modal-body"  style="overflow-y: scroll;">
+                <!-- FORM CONTAINER-->
+                <form class="form-horizontal" name="fUpdateUser" novalidate>
+                    <fieldset>
+                    <!-- Select profile -->
+                    <div class="form-group col-md-6" ng-class="
+                        {	'has-success': 
+                            users.update.idProfileKf!='' && fUpdateUser.profile.$valid,
+                            'has-error':  
+                            (users.update.idProfileKf=='' || users.update.idProfileKf==undefined) && fUpdateUser.profile.$touched,
+                        }"> 
+                        <label style="padding-left: 15px;">Perfil</label>
+                        <div class="col-xs-12 selectContainer">
+                            <div class="input-group">
+                                    <span class="input-group-addon"><i class="fas fa-address-card"></i></span>
+                                    <select name="profile" class="form-control" ng-change="users.update.idTypeAttKf=null; idSysProfileFk=null; select.companies.selected=Undefined; select.address.selected=Undefined; users.update.idDepartmentKf=null; getCustomerListFn('',2); getCustomersListByTypeFn(users.update.idProfileKf)"   
+                                    ng-options="item.idProfile as item.nameProfile for item in listProfile" ng-model="users.update.idProfileKf" required autofocus >
+                                        <option value="">Seleccione una opcion</option>
+                                    </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Select SYS profile -->
+                    <div class="form-group col-md-6" ng-class="
+                        {	'has-success': 
+                            users.update.idSysProfileFk!='' && fUpdateUser.role.$valid,
+                            'has-error':  
+                            (users.update.idSysProfileFk=='' || users.update.idSysProfileFk==undefined) && fUpdateUser.role.$touched,
+                        }"> 
+                    <label style="padding-left: 15px;">Role de usuario</label>
+                        <div class="col-xs-12 selectContainer">
+                            <div class="input-group">
+                                    <span class="input-group-addon"><i class="fas fa-address-card"></i></span>
+                                    <select name="role" class="form-control"  ng-options="item.idProfiles as item.name for item in listProfiles" ng-model="users.update.idSysProfileFk" required autofocus >
+                                        <option value="">Seleccione una opcion</option>
+                                    </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Company List-->
+                    <div class="form-group col-md-12" ng-show="users.update.idProfileKf==2 || users.update.idProfileKf==4 || users.update.idProfileKf==6" ng-class="
+                        {	'has-success': 
+                            select.companies.selected!=undefined && fUpdateUser.company.$valid,
+                             'has-error':  
+                            (select.companies.selected==undefined) && fUpdateUser.company.$touched,
+                        }">
+                    <label ng-if="users.update.idProfileKf!=2 && users.update.idProfileKf!=4" style="padding-left: 15px;">Empresa / Administracion</label>
+                    <label ng-if="users.update.idProfileKf==2" style="padding-left: 15px;">Empresas</label>
+                    <label ng-if="users.update.idProfileKf==4" style="padding-left: 15px;">Administraciones</label>
+                        <div class="col-xs-12 selectContainer">
+                            <div class="input-group">
+                            <span class="input-group-addon"><i class="icon-suitcase"></i></span>
+                                <ui-select 
+                                    name="company" 
+                                    ng-required="users.update.idProfileKf==2 || users.update.idProfileKf==4" 
+                                    ng-model="select.companies.selected" 
+                                    on-select="onSelectCallback()"
+                                    ng-change="users.update.idProfileKf!=1 || users.update.idProfileKf!=3 || users.update.idProfileKf!=5?getLisOfCustomersByIdFn(select.companies.selected.idClient, true):''; users.update.idDepartmentKf=null;">
+
+                                <ui-select-match allow-clear="true" placeholder="Todos" >{{$select.selected.name | uppercase}}</ui-select-match>
+                                    <ui-select-choices repeat="item in rsCustomerListByTypeData | filter: $select.search">
+                                        <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                        <small>Razon Social: </small>
+                                        <small ng-if="item.idClientTypeFk==2 || item.idClientTypeFk==4 || item.idClientTypeFk==5" ng-bind-html="item.billing_information[0].businessNameBilling | highlight: $select.search" ng-bind-html="item.billing_information[0].businessNameBilling | highlight: $select.search"></small>
+                                        <small ng-if="item.idClientTypeFk!=2 && item.idClientTypeFk!=4 && item.idClientTypeFk!=5" ng-bind-html="item.businessName | highlight: $select.search" ng-bind-html="item.billing_information[0].businessNameBilling | highlight: $select.search"></small>
+                                    </ui-select-choices>
+                                    <ui-select-no-choice>
+                                        <span ng-if="rsCustomerListByTypeData.length > 0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay clientes registrados</span>
+                                    </ui-select-no-choice>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Select Type of Attendant -->
+                    <div class="form-group col-md-12" ng-show="users.update.idProfileKf==6 && select.companies.selected.idClient" ng-class="
+                        {	'has-success': 
+                            users.update.idTypeAttKf!='' && fUpdateUser.idTypeAttKf.$valid,
+                            'has-error':  
+                            (users.update.idTypeAttKf=='' || users.update.idTypeAttKf==undefined) && fUpdateUser.idTypeAttKf.$touched,
+                        }">
+                        <label style="padding-left: 15px;">Tipo de Encargado</label>
+                        <div class="col-xs-12 selectContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
+                                <select name="idTypeAttKf" class="form-control" ng-options="item.idTyepeAttendant as item.nameTypeAttendant for item in listTypeAttendant" ng-change="users.update.idAddressKf=null; users.update.idDepartmentKf=null;" ng-model="users.update.idTypeAttKf" ng-required="users.update.idProfileKf==6" autofocus />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Other Attendant Function -->
+                    <div  ng-show="users.update.idTypeAttKf!=1 && users.update.idTypeAttKf" class="form-group">
+                    <label class="col-md-3 control-label">Seleccione una opcion:</label>  
+                        <div class="col-md-9">
+                            <div class="">
+                                <label style="cursor: pointer;" class="col-md-3">
+                                    <input style="cursor: pointer;" type="radio" name="ownerOption" ng-click="users.update.idDepartmentKf=null" value="1" ng-model="att.ownerOption" ng-required="users.update.idProfileKf==6 && users.update.idTypeAttKf!=1" autofocus>
+                                        <code >Propietario</code>
+                                </label>
+                            </div>
+                            <div class="">
+                                <label style="cursor: pointer;" class="col-md-3">
+                                    <input style="cursor: pointer;" type="radio" name="ownerOption" ng-click="users.update.idDepartmentKf=null" value="2" ng-model="att.ownerOption" ng-required="users.update.idProfileKf==6 && users.update.idTypeAttKf!=1" autofocus>
+                                        <code>Habitante</code>
+                                </label>
+                            </div>
+                            <div class=""> 
+                                <label style="cursor: pointer;" class="col-md-3">
+                                    <input style="cursor: pointer;" type="radio" name="ownerOption" ng-click="users.update.idDepartmentKf=null" value="3" ng-model="att.ownerOption" ng-required="users.update.idProfileKf==6 && users.update.idTypeAttKf!=1" autofocus>
+                                        <code>Solo encargado</code>
+                                </label> 
+                            </div>
+                        </div>
+                    </div>
+                    <!-- List Address For Users-->
+                    <div ng-if="(((users.update.idProfileKf==3 || users.update.idProfileKf==5) && !users.update.idTypeAttKf) || (users.update.idProfileKf==6 && users.update.idTypeAttKf))" class="form-group"  ng-class="
+                        {	'has-success': 
+                            select.address.selected!=undefined && fUpdateUser.user_address.$valid,
+                            'has-error':  
+                            (select.address.selected==undefined) && fUpdateUser.user_address.$touched,
+                            'col-md-12':
+                            users.update.idProfileKf==6 || att.ownerOption==3,
+                            'col-md-6':
+                            (users.update.idProfileKf==3 || users.update.idProfileKf==5 || users.update.idProfileKf==6) && (!att.ownerOption || att.ownerOption!=3)
+                        }">
+                    <label style="padding-left: 15px;">Direcci&#243n</label>  
+                        <div class="col-xs-12 selectContainer">
+                            <div class="input-group">
+                            <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span> 
+                            <ui-select name="user_address"  
+                                        ng-required="((users.update.idProfileKf==6 && users.update.idTypeAttKf!=1) || ((users.update.idProfileKf==3 || users.update.idProfileKf==5) && !users.update.idTypeAttKf))" 
+                                        ng-change="getDeptoListByAddress(select.address.selected.idClient); users.update.idDepartmentKf=null;"
+                                        ng-model="select.address.selected" 
+                                        ng-disabled="select.address.selected!=undefined && users.update.idProfileKf==3 || users.update.idProfileKf==5 || (users.update.idProfileKf==6 && (!att.ownerOption || att.ownerOption!=3) && users.update.idTypeAttKf!=1)" autofocus>
+                                <ui-select-match  placeholder="Todos">{{$select.selected.address}}</ui-select-match>
+                                    <ui-select-choices repeat="item in rsCustomerListSelectData | filter: $select.search">
+										<div ng-bind-html="item.address | highlight: $select.search"></div>
+										<small ng-bind-html="item.province | highlight: $select.search"></small>
+									</ui-select-choices>
+									<ui-select-no-choice>
+										<span ng-if="rsCustomerListSelectData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay edificios registrados</span>
+									</ui-select-no-choice>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- List Department-->
+                    <!-- ng-change="users.update.idProfileKf==6 && att.ownerOption==1 ? deptoHasOwner(null, users.update.idTypeAttKf, users.update.idDepartmentKf):deptoHasOwner(users.update.idProfileKf, null, users.update.idDepartmentKf)"  -->
+                    <div ng-if="((users.update.idProfileKf==3 || users.update.idProfileKf==5) && !users.update.idTypeAttKf)||(users.update.idProfileKf==6 && users.update.idTypeAttKf!=1 && att.ownerOption>=1 && att.ownerOption!=3)" class="form-group col-md-6" ng-class="
+                        {	'has-success': 
+                            users.update.idDepartmentKf!='' &&
+                            users.update.idDepartmentKf!=undefined &&
+                             fUpdateUser.department.$valid,
+                             'has-error':  
+                            (users.update.idDepartmentKf=='' || users.update.idDepartmentKf==undefined) && fUpdateUser.department.$touched,
+                        }">
+                    <label style="padding-left: 15px;">Departamento</label>  
+                        <div class="col-xs-12 selectContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                <select name="department" 
+                                        class="form-control text-uppercase" 
+                                        ng-change="checkDeptoOwner(users.update.idDepartmentKf)"  
+                                        ng-options="item.idClientDepartament as item.floor+'-'+item.departament for item in ListDpto" 
+                                        ng-required="((users.update.idProfileKf==3 || users.update.idProfileKf==5) && !users.update.idTypeAttKf)||(users.update.idProfileKf==6 && users.update.idTypeAttKf!=1 && att.ownerOption==1)" 
+                                        ng-model="users.update.idDepartmentKf"
+                                        ng-disabled="users.update.idDepartmentKf" autofocus >
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                    </div>
+                    </div>
+                    <div ng-if="ownerFound && (users.update.idProfileKf==3) || ownerFound && (users.update.idProfileKf==6 && att.ownerOption==1)" class="col-md-12">
+                        <div class="alert alert-danger" role="alert">
+                            <strong><i class="fas fa-ban">&nbsp </i>ATENCION: </strong>el Departamento ya tiene propietario.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Other Attendant Type Functions -->
+                    <div ng-if="users.update.idProfileKf==6 && users.update.idTypeAttKf==1" class="form-group col-md-6" ng-class="
+                    {	'has-success': 
+                        users.update.typeOtherAtt!='' && fUpdateUser.typeOtherAtt.$valid,
+                        'has-error':  
+                        (users.update.typeOtherAtt=='' || users.update.typeOtherAtt==undefined) && fUpdateUser.typeOtherAtt.$touched,
+                    }">
+                    <label style="padding-left: 15px;">Funcion</label>  
+                            <div class="col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
+                                    <input  name="typeOtherAtt" autofocus="true" class="form-control" ng-model="users.update.typeOtherAtt"  type="text" ng-required="users.update.idProfileKf==6 && users.update.idTypeAttKf==1" autofocus/>
+                                </div>
+                            </div>
+                    </div>
+                    <!-- Form First Name -->
+                    <div class="form-group col-md-6" ng-class="
+                    {	'has-success': 
+                        users.update.fname!='' && fUpdateUser.fname.$valid,
+                         'has-error':  
+                        (users.update.fname=='' || users.update.fname==undefined) && fUpdateUser.fname.$touched,
+                    }">
+                    <label style="padding-left: 15px;">Nombre</label>  
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <input  name="fname" autofocus="true" placeholder="Nombre" class="form-control" ng-model="users.update.fname"  type="text" required autofocus/>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Form Last Name -->
+
+                    <div class="form-group col-md-6" ng-class="
+                    {	'has-success': 
+                        users.update.lname!='' && fUpdateUser.lname.$valid,
+                         'has-error':  
+                        (users.update.lname=='' || users.update.lname==undefined) && fUpdateUser.lname.$touched,
+                    }">
+                    <label style="padding-left: 15px;" >Apellido</label> 
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <input name="lname" placeholder="Apellido" class="form-control" ng-model="users.update.lname" type="text" required autofocus />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Text DNI-->
+                    <div class="form-group col-md-6" ng-class="
+                    {	'has-success': 
+                        users.update.dni!='' && fUpdateUser.dniUser.$valid,
+                         'has-error':  
+                        (users.update.dni=='' || users.update.dni==undefined) && fUpdateUser.dniUser.$touched,
+                    }">
+                    <label style="padding-left: 15px;">DNI</label>  
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fas fa-id-card"></i></span>
+                                <input name="dniUser" ng-blur="sysCheck4Duplicates(users.update.dni);" placeholder="Documento de identidad" class="form-control input--dni" ng-model="users.update.dni"  type="text" ng-keydown="fnLoadPhoneMask();" required autofocus />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Text Mail-->
+                    <div class="form-group col-md-6" ng-class="
+                        {	'has-success': 
+                            users.update.email!='' && fUpdateUser.emailUser.$valid,
+                            'has-error':  
+                            (users.update.email=='' || users.update.email==undefined) && fUpdateUser.emailUser.$touched,
+                        }">
+                        <label style="padding-left: 15px;">E-Mail</label>  
+                            <div class="col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                    <input name="emailUser" ng-blur="sysCheck4Duplicates(users.update.email);" placeholder="E-Mail" class="form-control" ng-model="users.update.email"  type="email" required autofocus />
+                                </div>
+                            </div>
+                        </div>
+						<div ng-if="sysDNIRegistered || sysEmailRegistered" class="form-group row n-margin-t n-margin-b">
+							<div ng-if="sysDNIRegistered" class="form-group n-margin-t n-margin-b" ng-class="{
+								'col-md-6':
+									sysDNIRegistered && sysEmailRegistered,
+								'col-md-12':
+									sysDNIRegistered && !sysEmailRegistered,
+									}">
+								<div class="alert alert-danger" role="alert">
+									<strong><i class="fas fa-ban">&nbsp </i>ATENCION: </strong>el numero de documento ingresado se encuentra registrado.
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+							</div>
+							<div ng-if="sysEmailRegistered" class="form-group n-margin-t n-margin-b" ng-class="{
+								'col-md-6':
+									sysDNIRegistered && sysEmailRegistered,
+								'col-md-12':
+									!sysDNIRegistered && sysEmailRegistered,
+									}">
+								<div class="alert alert-warning" role="alert">
+									<strong><i class="fas fa-exclamation-triangle">&nbsp </i>ATENCION: </strong>la direccion de correo ingresada se encuentra registrada.
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+							</div>
+						</div>
+                    <!-- Text Password--><!--
+
+                    <div ng-if="(users.update.idProfileKf!=6 && !users.update.idTypeAttKf) || (users.update.idProfileKf==6 && users.update.idTypeAttKf==2)" class="form-group col-md-6">
+                    <label style="padding-left: 15px;">Contrase&#241a</label>  
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i ng-show="(fUpdateUser.password1.$pristine && !fUpdateUser.password1.$dirty) || (fUpdateUser.password1.$valid && fUpdateUser.password1.$dirty && !fUpdateUser.password1.$valid.minlength && !fUpdateUser.password2.$valid)" class="glyphicon glyphicon-lock"></i>
+                                    <i style="color: red;" ng-if="fUpdateUser.password1.$invalid && fUpdateUser.password1.$dirty && fUpdateUser.password1.$error.minlength" class="glyphicon glyphicon-lock"></i>
+                                    <i ng-if="fUpdateUser.password1.$dirty && fUpdateUser.password1.$invalid && !fUpdateUser.password1.$error.minlength" class="glyphicon glyphicon-ok"></i>
+                                    <i style="color: green;" ng-if="fUpdateUser.password1.$valid && fUpdateUser.password2.$valid" class="glyphicon glyphicon-ok"></i>
+                                </span>
+                                <input id="password1" name="password1" placeholder="Contrase&#241a" aria-describedby="passwordHelpBlock1" class="form-control" ng-model="users.update.password1" ng-minlength="8" type="password" password-confirm match-target="users.update.password2" ng-required="(users.update.idProfileKf!=6 && !users.update.idTypeAttKf) || (users.update.idProfileKf==6 && users.update.idTypeAttKf==2)" autofocus />
+                            </div>
+                            <small id="passwordHelpBlock1" class="form-text text-muted">
+                                <span ng-if="!users.update.password1 && !fUpdateUser.password1.$error.minlength" class="text-info">La clave debe contener minimo 8 caracteres alfanumericos.</span> 
+                                <span class="bg-warning" ng-if="fUpdateUser.password1.$error.minlength">Su clave no cumple con el minimo requerido</span>
+                                <span class="bg-success" ng-if="password1 && !fUpdateUser.password1.$error.minlength && fUpdateUser.password2.$error.match">Confirma la clave en el proximo campo</span>
+                                <span ></span>
+                            </small>
+                        </div>
+                    </div>-->
+                    <!-- Text Password Check--><!--
+
+                    <div ng-if="(users.update.idProfileKf!=6 && !users.update.idTypeAttKf) || (users.update.idProfileKf==6 && users.update.idTypeAttKf==2) " class="form-group col-md-6">
+                    <label style="padding-left: 15px;">Confirme su Contrase&#241a</label>  
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i ng-show="(fUpdateUser.password2.$pristine && !fUpdateUser.password2.$dirty) || (fUpdateUser.password2.$invalid.match && fUpdateUser.password2.$dirty && !fUpdateUser.password2.$valid.minlength && !fUpdateUser.password1.$valid)" class="glyphicon glyphicon-lock"></i>
+                                    <i style="color: red;" ng-if="fUpdateUser.password2.$invalid && fUpdateUser.password2.$dirty && fUpdateUser.password2.$error.minlength" class="glyphicon glyphicon-lock"></i>
+                                    <i ng-if="fUpdateUser.password2.$dirty && fUpdateUser.password2.$invalid && !fUpdateUser.password2.$error.minlength" class="glyphicon glyphicon-ok"></i>
+                                    <i style="color: green;" ng-if="fUpdateUser.password1.$valid && fUpdateUser.password2.$valid" class="glyphicon glyphicon-ok"></i>
+                                </span>
+                                <input id="password2" name="password2" ng-change="fnValidatePwd()" placeholder="Confirme su Contrase&#241a" aria-describedby="passwordHelpBlock2" class="form-control" ng-minlength="8" ng-model="users.update.password2" type="password" password-confirm match-target="users.update.password1" ng-required="(users.update.idProfileKf!=6 && !users.update.idTypeAttKf) || (users.update.idProfileKf==6 && users.update.idTypeAttKf==2)" autofocus />
+                            </div>
+                            <small  id="passwordHelpBlock2" class="form-text text-muted">
+                                <span ng-if="!users.update.password2 && !fUpdateUser.password2.$error.minlength" class="text-info">La clave debe contener minimo 8 caracteres alfanumericos.</span> 
+                                <span class="bg-warning" ng-if="fUpdateUser.password2.$error.minlength">Su clave no cumple con el minimo requerido</span>
+                                <span class="bg-danger" ng-show="fUpdateUser.password2.$error.match && !fUpdateUser.password2.$error.minlength && users.update.password2">Las claves no coinciden, por favor verificar.</span>
+                            </small>
+                        </div>
+                    </div>-->
+                    <!-- Text Phone-->
+                            
+                    <div class="form-group col-md-6" ng-class="{
+                        'has-success': 
+                            users.update.phonelocalNumberUser!='' && users.update.phonelocalNumberUser!=null  && fUpdateUser.phoneLocal.$valid,
+                        'has-warning':
+                            !users.update.phonelocalNumberUser && users.update.phoneMovilNumberUser,
+                        'has-error':
+                            !users.update.phoneMovilNumberUser && !users.update.phonelocalNumberUser && fUpdateUser.phoneLocal.$touched,
+                        }">
+                    <label style="padding-left: 15px;">Telefono Fijo</label>  
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                <input name="phoneLocal" ng-minlength="8" class="form-control input--phone" ng-model="users.update.phonelocalNumberUser" type="text" autofocus ng-blur="fnLoadPhoneMask();" ng-keydown="fnLoadPhoneMask();" ng-required="users.update.phoneMovilNumberUser==''" />
+                            </div>
+                    </div>
+                    </div>
+                    <!-- Text Phone-->
+                            
+                    <div class="form-group col-md-6" ng-class="{
+                        'has-success': 
+                            users.update.phoneMovilNumberUser!='' && users.update.phoneMovilNumberUser!=null  && fUpdateUser.phoneMovil.$valid,
+                        'has-warning':
+                            !users.update.phoneMovilNumberUser && users.update.phonelocalNumberUser,
+                        'has-error':
+                            !users.update.phonelocalNumberUser && !users.update.phoneMovilNumberUser && fUpdateUser.phoneMovil.$touched,
+                        }">
+                    <label style="padding-left: 15px;">Telefono Movil</label>  
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                                <input name="phoneMovil" ng-minlength="8" class="form-control input--phone" ng-model="users.update.phoneMovilNumberUser"  type="text" ng-blur="fnLoadPhoneMask();" ng-keydown="fnLoadPhoneMask();" ng-required="users.update.phonelocalNumberUser==''" autofocus />
+                            </div>
+                    </div>
+                    </div>
+
+                    </fieldset>
+                </form>
+                <div class="clearfix"> </div> 
+            </div>
+            <!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button type="submit" ng-click="customerDataFn(users.update, 'update')" ng-disabled="fUpdateUser.$invalid || ownerFound || emailFound" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Actualizar</button>
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // USER REGISTER FORM -->

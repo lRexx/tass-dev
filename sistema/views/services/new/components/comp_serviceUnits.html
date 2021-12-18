@@ -1,0 +1,108 @@
+<!-- Modal Building Unit -->
+<div id="newServiceUnit" style="top: 210px;" class="modal fade modal-dialog-centered" role="dialog" ng-init="getTypeOfServicesFn(); getInternetTypesFn(); getAccessCtrlDoorListFn();">
+	<div class="modal-dialog modal-md" >
+	    <div class="modal-content">
+	    	<div class="modal-header">
+            	<h3 class="modal-title">SERVICIO</h3>
+        	</div>
+	    	<div class="modal-body">
+				<!-- FORM CONTAINER-->
+				<div class="form-group col-md-12" ng-class="{
+					'col-md-6': service.new.serviceType.idClientTypeServices!='' && service.new.serviceType.idClientTypeServices!=undefined && service.new.serviceType.idClientTypeServices!='1' && service.new.serviceType.idClientTypeServices!='5' && service.new.serviceType.idClientTypeServices!='6'
+			}"> 
+				  	<div class="col-md-8"><label>Servicios</label></div>
+				  	<div class="pull-right col-md-4"><button ng-if="service.new.serviceType.idClientTypeServices=='5' || service.new.serviceType.idClientTypeServices=='6'" ng-disabled="service.new.serviceType.idClientTypeServices!='' && service.new.serviceType.idClientTypeServices!=undefined && service.new.serviceType.idClientTypeServices!='5' && service.new.serviceType.idClientTypeServices!='6'" ng-click="addServiceArrFn('new', service.new)" class="btn btn-xs btn-success"><i class="fas fa-plus"></i> Agregar</button></div>
+				    <div class="col-xs-12 input-group">
+			    		<span class="input-group-addon"><i class="fas fa-screwdriver"></i></span>
+				    	<select id="serviceType" name="serviceType" class="form-control" ng-change="service.new.serviceItems=null" ng-options="item as item.clientTypeServices for item in rsServiceTypeData" ng-model="service.new.serviceType" required autofocus >
+					    	<option value="">Selecciona un servicio</option>
+				    	</select>
+				  	</div>
+				</div>
+				<!-- Control Access -->
+				<div ng-if="service.new.serviceType.idClientTypeServices=='1'" class="form-group col-md-6"> 
+				  	<div class="col-md-8"><label>Puerta de acceso</label></div>				  	
+				    <div class="col-xs-12 input-group">
+			    		<span class="input-group-addon"><i class="fas fa-door-open"></i></span>
+				    	<select id="serviceDoor" name="serviceDoor" class="form-control" ng-options="item as item.titulo for item in rsAccCrtlDoorListData" ng-model="service.new.serviceItems.accCrtlDoor" ng-required="service.new.serviceType.idClientTypeServices=='2'" autofocus >
+					    	<option value="">Selecciona una puerta</option>
+				    	</select>
+				  	</div>
+				</div>				
+				<!-- Cameras or Door Qtty-->
+				<div ng-if="service.new.serviceType.idClientTypeServices=='1' || service.new.serviceType.idClientTypeServices=='3' || service.new.serviceType.idClientTypeServices=='4'" class="form-group col-md-6" style="margin-top: -0.6%;">
+					<!-- Item Label -->
+					<div class="col-md-8  n-padding-r">
+						<label ng-if="(service.new.serviceType.idClientTypeServices=='3' || service.new.serviceType.idClientTypeServices=='4')">Cantidad de camaras</label>
+						<label ng-if="(service.new.serviceType.idClientTypeServices=='1')">Cantidad de puertas</label>
+					</div>
+					<div ng-if="service.new.serviceType.idClientTypeServices=='3' || service.new.serviceType.idClientTypeServices=='4'" class="pull-right col-md-4"><button ng-disabled="service.new.serviceItems.qtty==undefined || service.new.serviceItems.qtty==''" ng-click="addServiceArrFn('new', service.new)" class="btn btn-xs btn-success"><i class="fas fa-plus"></i> Agregar</button> </div>
+					<div ng-if="service.new.serviceType.idClientTypeServices=='1'" class="pull-right col-md-4"><button ng-disabled="service.new.serviceItems.accCrtlDoor==null || (service.new.serviceItems.qtty==undefined || service.new.serviceItems.qtty=='')" ng-click="addServiceArrFn('new', service.new)" class="btn btn-xs btn-success"><i class="fas fa-plus"></i> Agregar</button></div>					
+					<div class="col-xs-12 input-group">
+						<span class="input-group-addon">
+							<i ng-if="service.new.serviceType.idClientTypeServices=='3' || service.new.serviceType.idClientTypeServices=='4'" class="fas fa-video"></i>
+							<i ng-if="service.new.serviceType.idClientTypeServices=='1'" class="fas fa-door-closed"></i>
+						</span>
+					  	<input id="itemQtty" name="itemQtty" autofocus="true" class="form-control input--number" ng-pattern="pattOnlyNumbersX2" ng-keydown="fnLoadPhoneMask()" ng-model="service.new.serviceItems.qtty" type="text" ng-required="camera_list.length==0" autofocus/>
+					</div>
+				</div>
+
+				<!-- Control Access Aclaration -->
+				<!--<div ng-if="service.new.serviceType.idClientTypeServices=='1' && service.new.serviceItems.accCrtlDoor.idAccessControlDoor=='7'" class="form-group col-md-12">
+				  <label style="padding-left: 15px;">Aclaracion <button ng-if="service.new.serviceType.idClientTypeServices=='1' && service.new.serviceItems.accCrtlDoor.idAccessControlDoor=='7'" style="margin-left: 320px;" ng-disabled="service.new.serviceItems.itemAclaracion==null || service.new.serviceItems.accCrtlDoor==null" ng-click="addServiceArrFn('new', service.new)" class="btn btn-xs btn-success"><i class="fas fa-plus"></i> Agregar</button></label>  
+				    <div class="input-group">
+				        <span class="input-group-addon"><i class="far fa-sticky-note"></i></span>
+				  		<input name="serviceItemAclaration" class="form-control" ng-model="service.new.serviceItems.itemAclaracion" type="text" autofocus ng-required="service.new.serviceType.idClientTypeServices=='1'" />
+				    </div>
+				</div>-->
+				<!-- Internet Service -->
+				<div ng-if="service.new.serviceType.idClientTypeServices=='2'" class="form-group col-md-6" style="margin-top: -0.6%;"> 
+				  	<label style="padding-left: 15px;">Tipo <button style="margin-left: 125px;" ng-disabled="service.new.serviceItems.internetType==undefined || service.new.serviceItems.internetType==''" ng-click="addServiceArrFn('new', service.new)" class="btn btn-xs btn-success"><i class="fas fa-plus"></i> Agregar</button></label>
+				    <div class="input-group">
+			    		<span class="input-group-addon"><i class="fas fa-network-wired"></i></span>
+				    	<select name="serviceInternetType" class="form-control" ng-options="item as item.nombre for item in rsInternetTypesData" ng-model="service.new.serviceItems.internetType" ng-required="service.new.serviceType.idClientTypeServices=='2'" autofocus >
+					    	<option value="">Selecciona un tipo</option>
+				    	</select>
+				  	</div>
+				</div>
+				<div ng-if="service.new.serviceType.idClientTypeServices!='' && service.new.serviceType.idClientTypeServices!=undefined && service.new.serviceType.idClientTypeServices!='5' && service.new.serviceType.idClientTypeServices!='6'" class="form-group col-md-12">
+					<div class="well-checkbox n-padding-t n-padding-b" style="margin-left: 0px;margin-right: 0px;">
+					  	<table ng-if="list_services_tmp.length>0" ng-repeat="service in list_services_tmp | filter: (!!service.new.serviceType.idClientTypeServices || undefined) && {idServiceType:service.new.serviceType.idClientTypeServices}">
+					    	<tr ng-repeat="item in service.serviceItems" class="tr-space-5">
+					    		<td style="width: 30%;padding: 0 10px 0 10px;"><label style="font-size: 100%" class="label label-default">{{$index+1}}</label></td>
+					      		<td style="width: 35%">
+					      			<span class="text-muted text-box">
+					      				<label style="font-size: 100%" class="label label-default">{{item.itemName | uppercase}}</label>
+					      			</span>
+					      		</td>
+					      		<!-- ACLARATION -->
+								<td style="width: 20%; cursor: pointer;"><span ng-if="item.itemAclaracion!=null" uib-popover-html="'<span>{{item.itemAclaracion}}</span>'" popover-placement="right" popover-title="Aclaracion" popover-trigger="mouseenter" class="text-muted text-box"><i style="font-size: 120%" class="far fa-sticky-note"></i></span></td>
+								<!-- QTTY -->
+					      		<td style="width: 20%"><span ng-if="item.qtty!=null" class="text-muted text-box"><label style="font-size: 100%" data-toggle="tooltip" data-placement="left" title="cantidad" class="label label-info">{{item.qtty}}</label></span></td>
+					      		<!-- DELETE BUTTON -->
+					          	<td>
+					            	<button ng-disabled="item.idServiciosDelContratoFk!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeServiceItemFn(service, item)" class="btn btn-xs btn-danger"><i class="fas fa-minus-circle"></i></button>
+					          	</td>
+					      	</tr>
+					  	</table>
+					  	<div ng-if="list_services_tmp.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay item cargados</h5></div>
+					</div>
+				</div>
+				<!--<div class="well col-md-12">
+					<pre>{{list_services_tmp | json}}</pre>
+				</div>-->
+			<div class="clearfix"> </div> 						
+			</div>
+			<!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+						<a data-dismiss="modal" type="button" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Continuar</a>                            
+                    </div>
+                </div>
+            </div>			
+		</div>
+	</div>
+</div>
+<!-- //Modal Building Unit -->

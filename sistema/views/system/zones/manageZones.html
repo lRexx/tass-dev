@@ -1,0 +1,38 @@
+<table id="tableSysZones" class="table table-striped table-bordered table-condensed table-list table-responsive">
+    <thead style=" background: #4d5d6f; color: white;">
+      <tr style="text-align: center;">
+          <!--<th> ID </th>-->
+          <th><i class="fas fa-location-arrow"></i> N° DE ZONA</th>
+          <!--<th><i class="glyphicon glyphicon-phone"> </i> Tlf Movil</th>
+          <th><i class="glyphicon glyphicon-earphone"> </i> Tlf Fijo</th>-->
+          <th><i class="fas fa-sticky-note"></i> DESCRIPCION</th>
+          <th><i class="fas fa-dollar-sign"></i> COSTO DE ENVIO</th>
+          <th><i class="fas fa-dollar-sign"></i> VALOR DE ENVIO</th>
+          <th><i class="glyphicon icon-flag"></i> STATUS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="animate-repeat" style="align-content: center;" ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
+        <!--<td ng-trim="true">{{item.idZona}}</td>-->
+        <td ng-trim="true">{{item.n_zona}}</label></td>
+        <td ng-trim="true">{{item.descripcion}}</td>
+        <td ng-trim="true">{{item.costo_envio}}</td>
+        <td ng-trim="true">{{item.valor_envio}}</td>
+        <td> <!-- TD to Admins -->
+            <label ng-if="item.status==1" class="label label-success">ACTIVO
+            </label>
+            <label ng-if="item.status==0" class="label label-warning">INACTIVO
+            </label>
+            <label ng-if="item.status==-1" class="label label-danger"><del>ELIMINADO</del>
+            </label>
+        </td>
+        <td>
+          <button ng-click="selectZoneFn(item);" data-toggle="tooltip" data-placement="right" title="Editar Zona" type="button" class="btn btn-info btn-xs"><i class="fas fa-pen-square"></i></button>
+          <button ng-if="item.idStatus!='0'" ng-click="modalConfirmation('removeZone', 0, item)" data-toggle="tooltip" data-placement="right" title="Eliminar Zona" type="button" class="btn btn-danger btn-xs"><i class="fas fa-minus-square"></i></button>
+        </td>
+      </tr>
+       <!--<tr ng-if="searchboxfilter.length==0" class="animate-repeat" style="align-content: center;">no items found</tr>-->
+    </tbody>
+</table>
+<div ng-include="'views/system/zones/newZone.html'"></div>
+<div ng-include="'views/system/zones/updateZone.html'"></div> 
