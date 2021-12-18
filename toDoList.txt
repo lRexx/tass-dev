@@ -1,0 +1,117 @@
+
+El servicio en si lo que tiene es que:
+
+
+Retornar listado de los usuarios Que no esten asociados a ningun departamento.
+- Propietarios 
+- Inquilinos
+- Encargados : subperfil [propietarios o inquilinos]
+- Admin consorcio : subperfil [propietarios o inquilinos]
+
+
+
+
+*********************************************************************************
+
+Dispositivo deapertura
+
+[Pending] solo permitir agregar un solo dispositivo. 
+
+*********************************************************************************
+Usuarios Autorizados
+
+[Completado] mostrar mail en la lista
+
+*********************************************************************************
+Archivos adjuntos
+
+Tipos 
+
+[Pending] word/excel/pdf/jpg/png/gif
+[Pending]Agregar visor de archivos adjuntos.
+*********************************************************************************
+
+Horario de atencion
+[Completado] heredar horas de un campo al resto
+
+*********************************************************************************
+Verificacion de mail 
+
+[Completado] notificar si existe pero permitir igual el registro.
+*********************************************************************************
+
+Asociar cliente administracion/empresa
+
+*********************************************************************************
+Datos de facturacion
+
+tomar campos principales y replicarlos
+
+[Completado]razon social / CUIT / provincia / localidad
+*********************************************************************************
+
+Usuarios autorizar en registro 
+no requerido
+[Pending] agregar campo al usuario autorizado como role
+
+[Pending] Agregar boton para registrar usuario asociado al cliente creado.
+
+
+*********************************************************************************
+Telefonos de contacto
+
+[Completado] tag (urgente/comercial/guardia) numero
+
+*********************************************************************************
+Nuevo usuario (empresa/admin consorcio/)
+
+[Pending]agregar campo cargo (secretaria/gerente/tecnico)
+
+
+
+26/02/2020
+EDITAR SERVICIO FindEmail que busque inclusive si el mail existe en la tabla clientes.
+
+
+
+
+BASE
+
+Agregar en tabla tb_location
+
+  `idProvinceFK` int(11) DEFAULT NULL COMMENT 'ID DE LA PROVINCIA A LA QUE SE ASOCIA LA LOCALIDAD'
+
+
+Agregar en tabla tb_client_phone_contact
+
+ `phoneTag` varchar(80) DEFAULT NULL COMMENT 'Etiqueta del telefono de contacto Ejmp: Guardia/Urgencia',
+
+
+
+
+
+ Usuarios DVR:
+
+Agregar campos
+	- Role
+	- Observacion
+
+
+
+1953437
+
+
+26/05/2020
+
+ENTREGABLES DE LAS TARJETAS
+
+1 - BOTONES DESACTIVAR Y ELIMINAR   (Eliminar opciones del menu)		[DONE]
+2 - Direcciones de un particular anexa el tipo de inmueble. 			[DONE]
+3 - Agregar Direccion de Facturacion a todos los clientes. 				[DONE]
+4 - Telefono para cliente edificio no son requeridos  					[DONE]
+5 - Telefono para cliente sucursal heredar de la empresa. 				[DONE]
+6 - Listar todas las sucursales y edificios de una administracion       [DONE]
+7 - Listar sucursales de una empresa 									[DONE]
+8 - Listar direcciones asociadas de un particular 						[PENDING]
+9 - Separar listado de edificio en un pantalla sola 					[DONE]
+10 - Tipo de inmueble sumarselo a todos los clientes excepto Edificio 	[DONE]
