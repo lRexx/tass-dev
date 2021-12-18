@@ -1,0 +1,36 @@
+# Copyright (c) 1993-2009 Microsoft Corp.
+#
+# This is a sample HOSTS file used by Microsoft TCP/IP for Windows.
+#
+# This file contains the mappings of IP addresses to host names. Each
+# entry should be kept on an individual line. The IP address should
+# be placed in the first column followed by the corresponding host name.
+# The IP address and the host name should be separated by at least one
+# space.
+#
+# Additionally, comments (such as these) may be inserted on individual
+# lines or following the machine name denoted by a '#' symbol.
+#
+# For example:
+#
+#      102.54.94.97     rhino.acme.com          # source server
+#       38.25.63.10     x.acme.com              # x client host
+
+# localhost name resolution is handled within DNS itself.
+#	127.0.0.1       localhost
+#	::1             localhost
+#181.170.204.244 api.tass.sytes.net
+0.0.0.0       track.easeus.com
+0.0.0.0       update.easeus.com
+0.0.0.0       activation.easeus.com
+0.0.0.0       easeus.com
+192.168.0.53 prometheus-dev
+192.168.0.53 prometheus-dela
+192.168.0.53 lnxstrix.sytes.net
+192.168.0.53 lnx1.strix lnx2
+192.168.0.54 lnx2.strix lnx2
+192.168.0.55 lnx3.strix lnx3
+181.170.204.244 tass.sytes.net
+181.170.204.244 api.tass.sytes.net
+192.168.0.214 dev-tass.com.ar
+192.168.0.214 api-tass.com.ar
