@@ -2389,6 +2389,16 @@ input:checked + .slider-3x:before {
   cursor: pointer;
 } 
 /********************************************/
+/********************************************/
+/*FileList*/
+.h-300px{
+  height: 300px !important;
+}
+.h-auto-px{
+  height: auto !important;
+}
+
+/********************************************/
  ::-webkit-scrollbar {
         width: 12px;
  }
