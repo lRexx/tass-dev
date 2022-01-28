@@ -6,39 +6,38 @@
 	  </div>
 	  <div class="panel-body">
 		<div class="col-md-2"> 
-			<div class="row">
-				<!-- NEW USER -->
-				<div class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="NUEVO CLIENTE" ng-click="managedUsers('new','user');cleanFilters();">
-					<div class="depto-icon">
-							<span><i class="product-success fas fa-user"></i></span>
-					</div>
-					<div class="text-badge">
-						<span class="new-user badge badge-light"><i class="fas fa-plus"></i> NUEVO USUARIO </span>
-					</div>
+			<!-- NEW USER -->
+			<div class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="NUEVO CLIENTE" ng-click="managedUsers('new','user');cleanFilters();">
+				<div class="depto-icon">
+						<span><i class="product-success fas fa-user"></i></span>
 				</div>
-				<!-- //NEW USER -->
-				<!-- USERS -->
-				<div class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="VER USUARIOS" ng-click="managedUsers('list','users');cleanFilters();">
-					<div class="depto-icon">
-							<span><i class="product-success fas fa-users"></i></span>
-					</div>
-					<div class="text-badge">
-						<span class="new-user badge badge-light"><i class="fas fa-eye"></i> USUARIOS </span>
-					</div>
+				<div class="text-badge">
+					<span class="new-user badge badge-light"><i class="fas fa-plus"></i> NUEVO USUARIO </span>
 				</div>
-				<!-- //USERS -->
-				<!-- Roles -->
-				<div class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="VER ROLES" ng-click="managedUsers('list','profileRoles');cleanFilters();">
-					<div class="depto-icon">
-							<span><i class="product-success fas fa-user-tag"></i></span>
-					</div>
-					<div class="text-badge">
-						<span class="new-user badge badge-light"><i class="fas fa-eye"></i> ROLES </span>
-					</div>
-				</div>
-				<!-- //Roles -->
 			</div>
+			<!-- //NEW USER -->
+			<!-- USERS -->
+			<div class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="VER USUARIOS" ng-click="managedUsers('list','users');cleanFilters();">
+				<div class="depto-icon">
+						<span><i class="product-success fas fa-users"></i></span>
+				</div>
+				<div class="text-badge">
+					<span class="new-user badge badge-light"><i class="fas fa-eye"></i> USUARIOS </span>
+				</div>
+			</div>
+			<!-- //USERS -->
+			<!-- Roles -->
+			<div class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="VER ROLES" ng-click="managedUsers('list','profileRoles');cleanFilters();">
+				<div class="depto-icon">
+						<span><i class="product-success fas fa-user-tag"></i></span>
+				</div>
+				<div class="text-badge">
+					<span class="new-user badge badge-light"><i class="fas fa-eye"></i> ROLES </span>
+				</div>
+			</div>
+			<!-- //Roles -->
 		</div>
+		<!--USERS-->
 		<div class="col-md-10 n-padding-r" ng-if="sysContentList=='users' || sysContentList=='owners_tenants' || sysContentList=='tenant' || sysContentList=='att' || sysContentList=='company' || sysContentList=='sysProfile' || sysContentList=='products' || sysContentList=='sysUsers' || sysContentList=='sysZones'">
 			<div  class="panel panel-default">
 				<div class="panel-heading">
@@ -167,7 +166,7 @@
 								<div class="btn-group">
 									<!-- REFRESH BUTTON -->
 									<!-- USERS -->
-									<button ng-if="sysContentList=='users'" type="button" ng-click="getUserLists(1, 'users');cleanFilters();" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>
+									<button ng-if="sysContentList=='users'" type="button" ng-click="refreshList();" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>
 									<!-- TENANTS -->
 									<button ng-if="sysContentList=='owners_tenants'" type="button" ng-click="getUserLists(1, 'owners_tenants');cleanFilters();" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>
 									<!-- ATTENDANTS -->
@@ -199,6 +198,7 @@
 				</div>
 			</div>
 		</div>
+		<!--PROFILES-->
 		<div class="col-md-10 n-padding-r" ng-if="sysContentList=='profileRoles'">
 			<div  class="panel panel-default">
 				<div class="panel-heading">
@@ -233,7 +233,7 @@
 									<!-- New Profile button -->
 									<button data-toggle="tooltip" data-placement="top" title="Nuevo Perfil" type="button" class="btn btn-md btn-labeled btn-info" ng-click="managedUsers('new','profileRole')"><span class="btn-label"><i class="fas fa-id-card-alt"></i> </span>Nuevo</button>
 								</div>
-							</div>							
+							</div>
 						</div>
 					</div>
 					<div ng-include="'views/users/profilesRoles/newProfileRole.html'"></div>
@@ -249,7 +249,7 @@
 	  </div>
 	</div>
 </div>
-<div ng-include="'views/utilities/modalConfirmation.html'"></div>
-<div ng-include="'views/users/newUser.html'"></div>
-<div ng-include="'views/users/updateUser.html'"></div>
 
+<div ng-show="isNewUser" ng-include="'views/users/newUser.html'"></div>
+<div ng-show="isUpdateUser" ng-include="'views/users/updateUser.html'"></div>
+<div ng-include="'views/utilities/modalConfirmation.html'"></div>

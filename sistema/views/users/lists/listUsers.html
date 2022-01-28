@@ -71,6 +71,7 @@
           <label class="label label-default">{{item.nameTypeAttendant}}</label>
         </td>
         <td style="vertical-align: middle;text-align: center;" ng-if="item.name"><label class="label label-default">{{item.name}}</label></td>
+        <td style="vertical-align: middle;text-align: center;" ng-if="item.name==null"><label class="label label-warning" data-toggle="tooltip" data-placement="left" title="Role no asociado">N/A</label></td>
         <td style="vertical-align: middle;text-align: center;"> <!-- TD to Admins -->
             <label ng-if="item.idStatusKf==1" class="label label-success">ACTIVO
             </label>
@@ -81,10 +82,10 @@
         </td>
         <td  style="vertical-align: middle;text-align: center;">{{item.dateCreated | dateToISO | date:'MM/dd/yyyy'}}</td>
         <td>
-        <button ng-click="selectUserDataFn(item);" data-toggle="tooltip" data-placement="right" title="Editar Inquilino" type="button" ng-disabled="sessionIdUser==item.idUser" class="btn btn-info btn-xs"><i class="fas fa-user-edit"></i></button>
-        <button ng-if="item.idStatusKf==0 " ng-click="modalConfirmation('enabled', 0, item)" data-toggle="tooltip" data-placement="right" title="Activar Inquilino" type="button" ng-disabled="sessionIdUser==item.idUser" class="btn btn-success btn-xs"><i class="far fa-check-circle"></i></button>
-        <button ng-if="item.idStatusKf>0" ng-click="modalConfirmation('disabled', 0, item)" data-toggle="tooltip" data-placement="right" title="Desactivar Inquilino" type="button" ng-disabled="sessionIdUser==item.idUser" class="btn btn-warning btn-xs"><i class="fas fa-user-slash"></i></button>
-        <button ng-if="item.idStatusKf>0" ng-click="modalConfirmation('remove', 0, item)" data-toggle="tooltip" data-placement="right" title="Eliminar Inquilino" type="button" ng-disabled="sessionIdUser==item.idUser" class="btn btn-danger btn-xs"><i class="fas fa-user-times"></i></button>
+        <button ng-click="selectUserDataFn(item);" data-toggle="tooltip" data-placement="right" title="Editar" type="button" ng-disabled="sessionIdUser==item.idUser" class="btn btn-info btn-xs"><i class="fas fa-user-edit"></i></button>
+        <button ng-if="item.idStatusKf==0 " ng-click="modalConfirmation('enabled', 0, item)" data-toggle="tooltip" data-placement="right" title="Activar" type="button" ng-disabled="sessionIdUser==item.idUser" class="btn btn-success btn-xs"><i class="far fa-check-circle"></i></button>
+        <button ng-if="item.idStatusKf>0" ng-click="modalConfirmation('disabled', 0, item)" data-toggle="tooltip" data-placement="right" title="Desactivar" type="button" ng-disabled="sessionIdUser==item.idUser" class="btn btn-warning btn-xs"><i class="fas fa-user-slash"></i></button>
+        <button ng-if="item.idStatusKf>0" ng-click="modalConfirmation('remove', 0, item)" data-toggle="tooltip" data-placement="right" title="Eliminar" type="button" ng-disabled="sessionIdUser==item.idUser" class="btn btn-danger btn-xs"><i class="fas fa-user-times"></i></button>
         </td>
       </tr>
       <tr ng-if="pagedItems.length==0" >
