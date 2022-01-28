@@ -1,42 +1,32 @@
-var app = angular.module('systemApp', ["module.LoginUser",
+var app = angular.module('systemApp', ["ngRoute",
+                                             "module.Menu",
+                                            "module.Login",
                                      "module.RegisterUser",
+                                         "module.Products",
+                                          "module.Monitor",
+                                        "module.Customers",
+                                         "module.Services",
                                            "module.NewPwd",
                                         "module.ForgotPwd",
                                            "services.User",
                                        "services.Profiles",
                                        "services.Products",
-                                         "module.MainCtrl",
-                                                 "blockUI",  
-                                                 "ngRoute",   
-                                                  "inform", 
-                                        "inform-exception", 
-                                                "showdown", 
+                                         "services.Ticket",
+                                            "module.Users",
+                                           "services.Keys",
+                                             "module.Keys",
+                                                 "blockUI",
+                                                  "inform",
+                                        //"inform-exception",
+                                                "showdown",
                                              "tokenSystem",
-                                               "ngAnimate", 
+                                               "ngAnimate",
                                             "ui.bootstrap",
-                                       "angularFileUpload",
                                              "ngclipboard",
-                   "angularUtils.directives.dirPagination",                                             
+                   "angularUtils.directives.dirPagination",
+                                          "angular.filter",
                                              "angularCSS"]);
-/**************************************************************************
-*                                                                         *
-*               Servicio para validar si tiene un valor para              *
-*                                                                         *
-*                      agregar o remover la clase css                     *
-***************************************************************************/
-app.service("inputService",function(){
-      return {
-          setClass: function(value, obj) {
-                if (value!==""){
-                    //console.log(value);
-                    //console.log(obj);
-                    obj.addClass('active');
-                }else{
-                    obj.removeClass('active');
-                }
-          },
-      }
-});
+
 app.config(function(blockUIConfig) {
       // Tell blockUI not to mark the body element as the main block scope.
       blockUIConfig.autoInjectBodyBlock = true;  
@@ -51,116 +41,89 @@ app.config(['$routeProvider', '$locationProvider',
 
      $routeProvider
         .when('/login', {
+            templateUrl: 'views/login/',
+            controller: 'LoginCtrl',
+            css: 'views/login/style-login.css'
+
+        })
+        .when('/login/auth/:Type/id/:ticketId/token/:secureToken', {
             templateUrl: 'views/login/login.html',
             controller: 'LoginCtrl',
             css: 'views/login/style-login.css'
 
         })
         .when('/register', {
-            templateUrl: 'views/register/register.html',
+            templateUrl: 'views/register/',
             controller: 'RegisterUserCtrl',
             css: 'views/login/style-login.css'
         })
         .when('/forgotpwd', {
-            templateUrl: 'views/forgotpwd/forgotpwd.html',
+            templateUrl: 'views/forgotpwd/',
             controller: 'ForgotPwdCtrl',
             css: 'views/login/style-login.css'
         })
         .when('/newpwd', {
-            templateUrl: 'views/newpwd/newpwd.html',
+            templateUrl: 'views/newpwd/',
             controller: 'NewPwdCtrl',
             css: 'views/login/style-login.css'
-        })
-        .when('/mainapp', {
-            templateUrl: 'views/mainapp/mainapp.html',
-            controller: 'MainAppCtrl',
+        })    
+        .when('/monitor', {
+            templateUrl: 'views/monitor/',
+            controller: 'MonitorCtrl',
             css: 'views/mainapp/style.css'
         })
-        .when('/alta', {
-            templateUrl: 'views/tickets/altaLlave.html',
-            controller: 'MainAppCtrl',
+        .when('/customers', {
+          templateUrl: 'views/customer/',
+          controller: 'CustomersCtrl',
+          css: 'views/mainapp/style.css'
+        })
+        .when('/services', {
+            templateUrl: 'views/services/',
+            controller: 'ServicesCtrl',
+            css: 'views/mainapp/style.css'
+          })
+        .when('/products', {
+            templateUrl: 'views/products/',
+            controller: 'ProductsCtrl',
             css: 'views/mainapp/style.css'
         })
+        .when('/keys', {
+            templateUrl: 'views/keys/',
+            controller: 'KeysCtrl',
+            css: 'views/mainapp/style.css'
+        })
+        .when('/tickets', {
+            templateUrl: 'views/tickets/',
+            controller: 'TicketsCtrl',
+            css: 'views/mainapp/style.css'
+        })
+        .when('/users', {
+            templateUrl: 'views/users/',
+            controller: 'UsersCtrl',
+            css: 'views/mainapp/style.css'
+        })        
         .otherwise({
-            redirectTo: '/login/'
+            redirectTo: '/'
         });
+        // use the HTML5 History API
+        $locationProvider.html5Mode(true);
 }]);
-
-
-app.constant("serverHost","http://coferba.com.ar/");
-app.constant("serverBackend","Coferba/Back/index.php/");
-app.constant("serverHeaders", {'headers':{'Content-Type': 'application/json; charset=utf-8' }});
-
-app.directive('passwordConfirm', ['$parse', function ($parse) {
- return {
-    restrict: 'A',
-    scope: {
-      matchTarget: '=',
-    },
-    require: 'ngModel',
-    link: function link(scope, elem, attrs, ctrl) {
-      var validator = function (value) {
-        ctrl.$setValidity('match', value === scope.matchTarget);
-        return value;
-      }
- 
-      ctrl.$parsers.unshift(validator);
-      ctrl.$formatters.push(validator);
-      
-      // This is to force validator when the original password gets changed
-      scope.$watch('matchTarget', function(newval, oldval) {
-        validator(ctrl.$viewValue);
-      });
-
-    }
-  };
-}]);
-app.controller('MainCtrl', function($scope, $rootScope, $location, serverHost, serverBackend, serverHeaders, $http, blockUI, $timeout, tokenSystem, inform, $window){
-    $scope.counT;
-    $scope.redirect;
-    $scope.wLoader  = false;
-    $scope.sysToken    = tokenSystem.getTokenStorage(1);
-    $scope.sysLoggedUser = tokenSystem.getTokenStorage(2);
-   $scope.launchLoader = function(){
-     $scope.wLoader  = true;
-      $timeout(function() {
-        $('#loader').fadeOut();
-        $('#wLoader').delay(350).fadeOut('slow'); 
-        $scope.wLoader  = false;
-      }, 1500);
-      
-    }   
-    /**************************************************
-    *                                                 *
-    *         SET THE JSON CONTENT TYPE HEADER        *
-    *                                                 *
-    **************************************************/ 
-        $scope.setHeaderRequest = function(){
-           return  { headers: { 'Content-Type': 'application/json; charset=utf-8' }}
-        }
-
-    /**************************************************
-    *                                                 *
-    *         COUNT DOWN FUNCTION TO REDIRECT         *
-    *                                                 *
-    **************************************************/ 
-        $scope.countDownRedirect = function(redirect, count){
-            
-            if(count > 0){
-                count--;
-
-                $scope.time2Redirect = count;
-                  $timeout(function() {
-                        
-                        $scope.countDownRedirect(redirect, count);  
-                    }, 1000);
-                  //console.log(count+1)
-                
-            }else{
-                $scope.redirectSuccessfull = false;
-                location.href = redirect;
-            }
-        }
-
-
+app.constant("serverHost","https://sistema.coferba.com.ar/");
+app.constant("serverBackend","Back/index.php/");
+app.constant("serverHeaders", {'headers':{'Content-Type': 'application/json; charset=utf-8'}});
+app.constant('APP_SYS', {
+  'app_name': 'Gestion de Clientes',
+  'version' : '1.0',
+  'api_url' : 'http://dev-tass.com.ar/',
+  'api_path': 'Back/index.php/',
+  'headers' : {'headers':{'Content-Type': 'application/json; charset=utf-8'}}
+});
+app.constant('APP_REGEX',{
+    'checkEmail':/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
+    'checkDNI': /^\d{8}(?:[-\s]\d{4})?$/,
+})
+app.controller('AppCtrl', function($scope, $location, $window, tokenSystem, APP_SYS){
+    console.log("App "+APP_SYS.app_name);
+    console.log("Version v"+APP_SYS.version);
+    
 });

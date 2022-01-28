@@ -13,6 +13,8 @@ var app = angular.module('systemApp', ["ngRoute",
                                        "services.Products",
                                          "services.Ticket",
                                             "module.Users",
+                                           "services.Keys",
+                                             "module.Keys",
                                                  "blockUI",
                                                   "inform",
                                         //"inform-exception",
@@ -83,6 +85,11 @@ app.config(['$routeProvider', '$locationProvider',
         .when('/products', {
             templateUrl: 'views/products/',
             controller: 'ProductsCtrl',
+            css: 'views/mainapp/style.css'
+        })
+        .when('/keys', {
+            templateUrl: 'views/keys/',
+            controller: 'KeysCtrl',
             css: 'views/mainapp/style.css'
         })
         .when('/tickets', {
