@@ -9,9 +9,63 @@ class Department_model extends CI_Model
          /*MAIL*/ $this->load->model('mail_model');
 	}
 
+	// GET DE LISTADO BUSQUEDA DE INQUIILINO //
+	public function get ($id = null, $searchFilter = null)
+	{
+		$quuery = null;
+		$rs     = null;
 
+		// SI RECIBIMOS EL ID DE EL USUARIO //
+		if (!is_null($id)) {
+
+//            $this->db->select("*")->from("tb_department");
+//            $this->db->join('tb_addres', 'tb_addres.idAdress = tb_department.idAdressKf', 'left');
+//            $this->db->where("tb_department.idStatusKf !=", -1);
+//            $quuery = $this->db->where("tb_department.idDepartment = ", $id)->get();
+
+			$this->db->select("*")->from("tb_client_departament");
+			$this->db->join('tb_clients', 'tb_clients.idClient = tb_client_departament.idClientFk', 'left');
+			$this->db->join('tb_user', 'tb_user.idUser = tb_client_departament.idUserKf', 'left');
+			$this->db->where("tb_client_departament.idStatusfk !=", -1);
+			$quuery = $this->db->where("tb_client_departament.idClientDepartament = ", $id)->get();
+
+
+			if ($quuery->num_rows() === 1) {
+				$rs                     = $quuery->row_array();
+				$rs['user_departament'] = $this->db->select("*")->from("tb_user")->where('idDepartmentKf', $rs['idClientDepartament'])->get()->row_array();
+				$rs['user']             = $this->db->select("*")->from("tb_user")->where('idUser', $rs['idUserKf'])->get()->row_array();
+				return $rs;
+			}
+		} /*else {
+
+			$this->db->select("*")->from("tb_client_departament");
+			$this->db->where("tb_client_departament.idStatusKf !=", -1);
+
+
+			/* Busqueda por filtro */
+//			if (!is_null($searchFilter['searchFilter'])) {
+//				$this->db->like('tb_department.departmentAddress', $searchFilter['searchFilter']);
+//				$this->db->or_like('tb_department.departmentFloor', $searchFilter['searchFilter']);
+//				$this->db->or_like('tb_department.deparmentNumber', $searchFilter['searchFilter']);
+//				$this->db->or_like('tb_department.deparmentDescription', $searchFilter['searchFilter']);
+//
+//			}
+		/*
+		// Si recibimos un limite //
+		if ($searchFilter['topFilter'] > 0) {
+			$this->db->limit($searchFilter['topFilter']);
+		}
+
+		$quuery = $this->db->order_by("tb_department.idDepartment", "DESC")->get();
+
+		if ($quuery->num_rows() > 0) {
+			return $quuery->result_array();
+		}
+		return null;
+	}*/
+	}
 	 // GET DE LISTADO BUSQUEDA DE INQUIILINO //
-    public function get($id = null, $searchFilter = null) {
+    public function get_old($id = null, $searchFilter = null) {
         $quuery = null;
         $rs = null;
 

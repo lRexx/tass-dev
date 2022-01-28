@@ -17,9 +17,17 @@ class Llavero_model extends CI_Model
 	{
 		$quuery = null;
 		$rs = null;
-
-		$quuery = $this->db->select("*")->from("tb_keychain")->get();
-
+		$fields_selected="tb_keychain.idKeyChain, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo, tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf, tb_keychain.isKeyTenantOnly,
+		tb_client_departament.floor, tb_client_departament.departament, tb_category_departament.categoryDepartament, tb_category_keychain.idCategory as idCategoryKey, tb_category_keychain.name as categoryKeychain, a.idClient as idClientA, a.address as addressA, b.idClient as idClientB, b.address as addressB,
+		tb_products.descriptionProduct, tb_products.model";
+		$this->db->select($fields_selected)->from("tb_keychain");
+		$this->db->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left');
+		$this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left');
+		$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_keychain.idDepartmenKf', 'left');
+		$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
+		$this->db->join('tb_clients as a', 'a.idClient = tb_client_departament.idClientFk', 'left');
+		$this->db->join('tb_clients as b', 'b.idClient = tb_keychain.idClientKf', 'left');
+		$quuery = $this->db->order_by("tb_keychain.idKeyChain", "ASC")->get();
 
 		if ($quuery->num_rows() > 0) {
 			$rs = $quuery->result_array();
@@ -32,9 +40,17 @@ class Llavero_model extends CI_Model
 	{
 		$quuery = null;
 		$rs = null;
-
-		$quuery = $this->db->select("*")->from("tb_keychain")->where('codigo', $code)->get();
-
+		$fields_selected="tb_keychain.idKeyChain, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo, tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf, tb_keychain.isKeyTenantOnly,
+		tb_client_departament.floor, tb_client_departament.departament, tb_category_departament.categoryDepartament, tb_category_keychain.idCategory as idCategoryKey, tb_category_keychain.name as categoryKeychain, a.idClient as idClientA, a.address as addressA, b.idClient as idClientB, b.address as addressB,
+		tb_products.descriptionProduct, tb_products.model";
+		$this->db->select($fields_selected)->from("tb_keychain");
+		$this->db->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left');
+		$this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left');
+		$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_keychain.idDepartmenKf', 'left');
+		$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
+		$this->db->join('tb_clients as a', 'a.idClient = tb_client_departament.idClientFk', 'left');
+		$this->db->join('tb_clients as b', 'b.idClient = tb_keychain.idClientKf', 'left');
+		$quuery = $this->db->where('codigo', $code)->get();
 		if ($quuery->num_rows() > 0) {
 			$rs = $quuery->result_array()[0];
 			return $rs;
@@ -49,8 +65,31 @@ class Llavero_model extends CI_Model
 		}
 		$quuery = null;
 		$rs = null;
+		$fields_selected="tb_keychain.idKeyChain, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo, tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf, tb_keychain.isKeyTenantOnly,
+		tb_client_departament.floor, tb_client_departament.departament, tb_category_departament.categoryDepartament, tb_category_keychain.idCategory as idCategoryKey, tb_category_keychain.name as categoryKeychain, a.idClient as idClientA, a.address as addressA, b.idClient as idClientB, b.address as addressB,
+		tb_products.descriptionProduct, tb_products.model";
+		$this->db->select($fields_selected)->from("tb_keychain");
+		$this->db->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left');
+		$this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left');
+		$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_keychain.idDepartmenKf', 'left');
+		$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
+		$this->db->join('tb_clients as a', 'a.idClient = tb_client_departament.idClientFk', 'left');
+		$this->db->join('tb_clients as b', 'b.idClient = tb_keychain.idClientKf', 'left');
+		$quuery = $this->db->where('idDepartmenKf', $idDepartmenKf)->get();
 
-		$quuery = $this->db->select("*")->from("tb_keychain")->where('idDepartmenKf', $idDepartmenKf)->get();
+		if ($quuery->num_rows() > 0) {
+			$rs = $quuery->result_array();
+			return $rs;
+		}
+		return null;
+	}
+
+	public function getLlaveroSinDepartameto()
+	{
+		$quuery = null;
+		$rs = null;
+
+		$quuery = $this->db->select("*")->from("tb_keychain")->where('idDepartmenKf is NULL')->get();
 
 		if ($quuery->num_rows() > 0) {
 			$rs = $quuery->result_array();
@@ -68,12 +107,15 @@ class Llavero_model extends CI_Model
 					$errors_multiple[] = $items['codigo'][$i];
 				} else {
 					$this->db->insert('tb_keychain', [
-							"dptoContact" => $items['departamento'][$i],
-							"cantKeyChain" => $items['cantidad'][$i],
-							"idProductKf" => $items['tipo'][$i],
-							"modelo" => $items['modelo'][$i],
+							"idProductKf" => $items['producto'][$i],
+							"codExt" => $items['codigoExt'][$i],
 							"codigo" => $items['codigo'][$i],
-//					"idDepartmenKf" => $item['']
+							"idDepartmenKf" => $items['departamento'][$i],
+							"idClientKf" => $items['cliente'][$i],
+							"idCategoryKf" => $items['categoria'][$i],
+//						"idUserKf" => $items['idUserKf'][$i],
+//						"isKeyTenantOnly" => $items['isKeyTenantOnly'][$i],
+
 						]
 					);
 				}
@@ -86,12 +128,14 @@ class Llavero_model extends CI_Model
 				return 2;
 			} else {
 				$this->db->insert('tb_keychain', [
-						"dptoContact" => $items['dptoContact'],
-						"cantKeyChain" => $items['cantKeyChain'],
 						"idProductKf" => $items['idProductKf'],
-						"modelo" => $items['modelo'],
+						"codExt" => $items['codExt'],
 						"codigo" => $items['codigo'],
-						"idDepartmenKf" => $items['idDepartmenKf']
+						"idDepartmenKf" => $items['idDepartmenKf'],
+						"idClientKf" => $items['idClientKf'],
+						"idUserKf" => $items['idUserKf'],
+						"idCategoryKf" => $items['idCategoryKf'],
+						"isKeyTenantOnly" => $items['isKeyTenantOnly'],
 					]
 				);
 			}
@@ -112,16 +156,18 @@ class Llavero_model extends CI_Model
 		if ($quuery->num_rows() > 0) {
 			$this->db->set(
 				[
-					"dptoContact" => $item['dptoContact'],
-					"cantKeyChain" => $item['cantKeyChain'],
 					"idProductKf" => $item['idProductKf'],
-					"modelo" => $item['modelo'],
+					"codExt" => $item['codExt'],
 					"codigo" => $item['codigo'],
-					"idDepartmenKf" => $item['idDepartmenKf']
+					"idDepartmenKf" => $item['idDepartmenKf'],
+					"idClientKf" => $item['idClientKf'],
+					"idUserKf" => $item['idUserKf'],
+					"idCategoryKf" => $item['idCategoryKf'],
+					"isKeyTenantOnly" => $item['isKeyTenantOnly'],
 				]
 			)->where("idKeychain", $item['idKeychain'])->update("tb_keychain");
 
-			if ($this->db->affected_rows() === 1) {
+			if ($this->db->affected_rows() >= 0) {
 				return 1;
 			} else {
 				return 0;
@@ -131,6 +177,7 @@ class Llavero_model extends CI_Model
 		}
 	}
 
+//ya no se usa
 	public function addVarios($file)
 	{ //recibe excel y lo decodifica
 
@@ -162,7 +209,6 @@ class Llavero_model extends CI_Model
 			echo "Error! no es una plantilla de excel valida<br>";
 			$archivo_valido = false;
 		}
-//$objFecha = new PHPExcel_Shared_Date();
 		if ($archivo_valido) {
 			$locale = 'es_es';
 			$validLocale = PHPExcel_Settings::setLocale($locale);
@@ -213,20 +259,184 @@ class Llavero_model extends CI_Model
 			echo "Error! no es una plantilla de excel valida<br>";
 		}
 
-//		$this->db->insert('tb_keychain', [
-//				"dptoContact" => $item['dptoContact'],
-//				"cantKeyChain" => $item['cantKeyChain'],
-//				"idProductKf" => $item['idProductKf'],
-//				"modelo" => $item['modelo'],
-//				"codigo" => $item['codigo'],
-//				"idDepartmenKf" => $item['idDepartmenKf']
-//			]
-//		);
-//		if ($this->db->affected_rows() === 1) {
-//			return 1;
-//		} else {
-//			return 0;
-//		}
+	}
+
+	public function asignar($obj)
+	{
+		$quuery = $this->db->select("*")->from("tb_keychain")->where("idKeychain", $obj['idKeychain'])->get();
+		if ($quuery->num_rows() > 0) {
+			$this->db->set(
+				[
+					"idUserKf" => $obj['idUserKf'],
+				]
+			)->where("idKeychain", $obj['idKeychain'])->update("tb_keychain");
+
+			if ($this->db->affected_rows() === 1) {
+				return 1;
+			} else {
+				return 0;
+			}
+		} else {
+			return 3;
+		}
+
+	}
+
+	public function asignareliminar($obj)
+	{
+		$quuery = $this->db->select("*")->from("tb_keychain")->where("idKeychain", $obj['idKeychain'])->get();
+		if ($quuery->num_rows() > 0) {
+			$this->db->set(
+				[
+					"idUserKf" => null,
+				]
+			)->where("idKeychain", $obj['idKeychain'])->update("tb_keychain");
+
+			if ($this->db->affected_rows() === 1) {
+				return 1;
+			} else {
+				return 0;
+			}
+		} else {
+			return 3;
+		}
+
+	}
+
+	public function listarasignar()
+	{
+		$quuery = $this->db->select("*")
+			->from("tb_keychain")
+			->where("idUserKf is not NULL")
+			->get();
+		if ($quuery->num_rows() > 0) {
+			$rs = $quuery->result_array();
+			foreach ($quuery->result_array() as $key => $keyChain) {
+				$quuery2 = $this->db->select("*")
+					->from("tb_user")
+					->where("idUser", $keyChain['idUserKf'])
+					->get();
+				if ($quuery2->num_rows() > 0) {
+					$rs[$key]['user'] = $quuery2->result_array()[0];
+				}
+			}
+			return $rs;
+		} else {
+			return 0;
+		}
+
+	}
+
+	public function findKeychainOnlineAssociate($obj)
+	{
+		/*
+		   [
+			   {
+				 "idTypeTenant":"1",
+				"typeTenantName":"Propietario"
+			  },
+			  {
+				 "idTypeTenant":"2",
+				"typeTenantName":"Inquilino"
+			  }
+			]
+		*/
+
+		$this->db->select("*")->from("tb_keychain");
+		if ($obj['idTypeTenant'] == 1) {
+			$this->db->group_start();
+			$this->db->where("isKeyTenantOnly", 1);
+			$this->db->or_where("isKeyTenantOnly", 0);
+			$this->db->or_where("isKeyTenantOnly is null");
+			$this->db->group_end();
+		} elseif ($obj['idTypeTenant'] == 2) {
+			$this->db->where("isKeyTenantOnly", 1);
+		}
+		$this->db->where("idDepartmenKf", $obj['idDepartmenKf']); //solo por el departamento del usuario
+
+		$result = $this->db->get();
+		if ($result->num_rows() > 0) {
+			$rs = $result->result_array();
+			foreach ($result->result_array() as $key => $keyChain) {
+				$quuery2 = $this->db->select("*")
+					->from("tb_user")
+					->where("idUser", $keyChain['idUserKf'])
+					->get();
+				if ($quuery2->num_rows() > 0) {
+					$rs[$key]['user'] = $quuery2->result_array()[0];
+				}
+			}
+			return $rs;
+		} else {
+			return null;
+		}
+
+	}
+
+	public function addVarios2($file)
+	{ //recibe excel y lo decodifica
+		//print_r($_FILES['excel']);
+		//return null;
+		$uploaddir = 'uploads/';
+		$path = $_FILES['excel']['name'];
+		$ext = pathinfo($path, PATHINFO_EXTENSION);
+		$user_img = time() . rand() . '.' . $ext;
+		$uploadfile = $uploaddir . time() . '_' . str_replace(" ", "", $path);
+//		$this->response($uploadfile, 200);
+		if ($file["excel"]["name"]) {
+			move_uploaded_file($file["excel"]["tmp_name"], "$uploadfile");
+		}
+
+		$archivo_plantilla = null;
+		$ruta = $uploadfile;
+		if (!file_exists($ruta)) {
+			return "No existe el archivo";
+		}
+		$objReader = new PHPExcel_Reader_Excel2007();
+		$objPHPExcel = new PHPExcel();
+		$archivo_valido = false;
+		try {
+			$inputFileType = PHPExcel_IOFactory::identify($ruta);
+			if ($inputFileType == "Excel2007") {
+				$archivo_valido = true;
+				$objPHPExcel = PHPExcel_IOFactory::load($ruta);
+			}
+		} catch (Exception $e) {
+			echo "Error! no es una plantilla de excel valida<br>";
+			$archivo_valido = false;
+		}
+		if ($archivo_valido) {
+			$locale = 'es_es';
+			$validLocale = PHPExcel_Settings::setLocale($locale);
+			if (!$validLocale) {
+				echo "Unable to set locale to " . $locale . " - reverting to en_us";
+			}
+			$fila = 2; //ajuste de inicio
+			$salida = true;
+			for ($fila; $salida; $fila++) {
+				if ($objPHPExcel->getActiveSheet()->getCell('A' . $fila)->getValue() ||
+					$objPHPExcel->getActiveSheet()->getCell('B' . $fila)->getValue() ||
+					$objPHPExcel->getActiveSheet()->getCell('E' . $fila)->getValue() ||
+					$objPHPExcel->getActiveSheet()->getCell('G' . $fila)->getValue() ||
+					$objPHPExcel->getActiveSheet()->getCell('H' . $fila)->getValue() ||
+					$objPHPExcel->getActiveSheet()->getCell('I' . $fila)->getValue()
+				) {
+					$a['departamento'][] = $objPHPExcel->getActiveSheet()->getCell('A' . $fila)->getValue();
+					$a['cliente'][] = $objPHPExcel->getActiveSheet()->getCell('B' . $fila)->getValue();
+					$a['producto'][] = $objPHPExcel->getActiveSheet()->getCell('E' . $fila)->getValue();
+					$a['codigo'][] = (string)$objPHPExcel->getActiveSheet()->getCell('G' . $fila)->getValue();
+					$a['codigoExt'][] = (string)$objPHPExcel->getActiveSheet()->getCell('H' . $fila)->getValue();
+					$a['categoria'][] = (string)$objPHPExcel->getActiveSheet()->getCell('I' . $fila)->getValue();
+
+				} else {
+					$salida = false;
+				}
+			}
+			return $this->add($a);
+
+		} else {
+			echo "Error! no es una plantilla de excel valida<br>";
+		}
 
 	}
 

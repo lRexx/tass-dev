@@ -825,7 +825,8 @@ class User_model extends CI_Model
 						$users[$key]['building'] = $query2->result_array();
 					}
 				}
-				if ($idProfile == 6 && $item['idTyepeAttendantKf'] != null && $item['idTypeTenantKf'] == null) {
+				if ($idProfile == 6 && $item['idTyepeAttendantKf'] != null && ($item['idTypeTenantKf'] == null || $item['idTypeTenantKf'] != null)) {
+					$query2    = null;
 					$query2 = $this->db->select("*")->from("tb_clients");
 					$query2 = $this->db->where('idClient', $item['idCompanyKf']);
 					$query2 = $this->db->get();
@@ -833,7 +834,8 @@ class User_model extends CI_Model
 						$users[$key]['company'] = $query2->result_array();
 					}
 				}
-				if ($idProfile == 6 && $item['idTyepeAttendantKf'] != null && $item['idTypeTenantKf'] == null) {
+				if ($idProfile == 6 && $item['idTyepeAttendantKf'] != null && ($item['idTypeTenantKf'] == null || $item['idTypeTenantKf'] != null)) {
+					$query2    = null;
 					$query2 = $this->db->select("*")->from("tb_clients");
 					$query2 = $this->db->where('idClient', $item['idAddresKf']);
 					$query2 = $this->db->get();

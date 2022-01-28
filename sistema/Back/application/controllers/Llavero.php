@@ -36,6 +36,58 @@ class Llavero extends REST_Controller
 
 	}
 
+	public function asignar_post()
+	{
+		$obj = null;
+		if (!$this->post('asignar')) {
+			$this->response(null, 404);
+		}
+		$obj = $this->llavero_model->asignar($this->post('asignar'));
+		if ($obj == 1) {
+			$this->response(['response' => "Asignación exitosa"], 200);
+		} else {
+			if ($obj == 0) {
+				$this->response(['error' => "Ya está asignado el usuario a la llave"], 500);
+			} else {
+				if ($obj == 2) {
+					$this->response(['response' => "Elemento ya se encuentra registrado"], 203);
+				}
+			}
+		}
+	}
+
+	public function asignareliminar_post()
+	{
+		$obj = null;
+		if (!$this->post('eliminar')) {
+			$this->response(null, 404);
+		}
+		$obj = $this->llavero_model->asignareliminar($this->post('eliminar'));
+		if ($obj == 1) {
+			$this->response(['response' => "Eliminación exitosa"], 200);
+		} else {
+			if ($obj == 0) {
+				$this->response(['error' => "El llavero no tiene usuario asignado"], 500);
+			} else {
+				if ($obj == 2) {
+					$this->response(['response' => "Elemento ya se encuentra registrado"], 203);
+				}
+			}
+		}
+	}
+
+	public function listarasignar_get()
+	{
+		$obj = null;
+
+		$obj = $this->llavero_model->listarasignar();
+		if (!is_null($obj)) {
+			$this->response($obj, 200);
+		} else {
+			$this->response(['response' => "Elemento ya se encuentra registrado"], 203);
+		}
+	}
+
 	public function varios_post()
 	{
 //		$this->response( $_FILES['excel'], 200);
@@ -44,9 +96,9 @@ class Llavero extends REST_Controller
 		if (!$_FILES) {
 			$this->response(null, 404);
 		}
-		$obj = $this->llavero_model->addVarios($_FILES);
+		$obj = $this->llavero_model->addVarios2($_FILES);
 		if (is_array($obj)) {
-			$this->response(['response' => "Codigos repetidos", "codigos" => $obj], 200);
+			$this->response(['response' => "Codigos repetidos, se encuentran registrados", "codigos" => $obj], 203);
 		} else {
 			if ($obj == 1) {
 				$this->response(['response' => "Registro exitoso"], 200);
@@ -61,7 +113,6 @@ class Llavero extends REST_Controller
 			}
 		}
 	}
-
 
 	public function edit_post()
 	{
@@ -103,6 +154,29 @@ class Llavero extends REST_Controller
 	{
 
 		$user = $this->llavero_model->getByDeparment($idDepartmenKf);
+		if (!is_null($user)) {
+			$this->response($user, 200);
+		} else {
+			$this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+		}
+	}
+	public function findKeychainOnlineAssociate_post()
+	{
+		if (!$this->post('search')) {
+			$this->response(null, 404);
+		}
+		$obj = $this->llavero_model->findKeychainOnlineAssociate($this->post('search'));
+		if (!is_null($obj)) {
+			$this->response($obj, 200);
+		} else {
+			$this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+		}
+	}
+
+	public function findLlaveroSinDepartamento_get()
+	{
+
+		$user = $this->llavero_model->getLlaveroSinDepartameto();
 		if (!is_null($user)) {
 			$this->response($user, 200);
 		} else {

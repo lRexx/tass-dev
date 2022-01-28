@@ -70,6 +70,16 @@ class Seeds extends REST_Controller {
 			}
 		}
 
+		public function CategoryKeyChains_get() {
+
+			$user = $this->seeds_model->getCategoryKeyChains();
+			if (!is_null($user)) {
+				$this->response($user, 200);
+			} else {
+				$this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+			}
+		}
+
 		public function TypeGps_get() {
 
 			$user = $this->seeds_model->getTypeGps();

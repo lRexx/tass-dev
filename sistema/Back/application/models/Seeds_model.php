@@ -81,6 +81,18 @@ class Seeds_model extends CI_Model
             return null;
      }
 
+     public function getCategoryKeyChains() {
+        $quuery = null;
+        $rs = null;
+
+        $quuery =  $this->db->select("*")->from("tb_category_keychain")->get();
+        if ($quuery->num_rows() > 0) {
+            $rs = $quuery->result_array();
+            return $rs;
+        }
+            return null;
+     }
+
      public function getTypeGps() {
         $quuery = null;
         $rs = null;
