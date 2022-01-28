@@ -32,6 +32,27 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
           $scope.messAction="";
           //console.log("$scope.swMenu: "+$scope.swMenu);
           switch ($scope.swMenu){
+            case "closeWindow":
+                if (confirm==0){
+                    if ($scope.isNewUser==true){
+                      $scope.mess2show="Se perderan todos los datos cargados del registro actual, esta seguro que desea cancelar?";
+                    }else{
+                      $scope.mess2show="Se perderan todas las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
+                    }
+                    $("#confirmRequestModal").modal('show');
+                }else if (confirm==1){
+                    $("#confirmRequestModal").modal('hide');
+                    $("#RegisterUser").modal('hide');
+                    $("#newSysProfile").modal('hide');
+                    $("#updateSysProfile").modal('hide');
+                    $("#UpdateUser").modal('hide');
+                    if ($scope.isNewUser==true || $scope.isUpdateUser==true){
+                      $scope.getUserLists(1, 'users');
+                    }else if ($scope.isNewProfileRole==true || $scope.isUpdateProfileRole==true){
+                      $scope.getSysProfilesFn("");
+                    }
+                }
+            break;
             case "remove":
             case "disabled":
             case "enabled":
@@ -47,7 +68,7 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
                     $scope.mess2show="El usuario ("+obj.fullNameUser+") bajo el perfil de "+obj.nameProfile+" sera "+$scope.messAction+"     Confirmar?";
                     $scope.idUserKf   =  obj.idUser;
                     $scope.argObj = obj;
-                    console.log('El Usuario sera '+$scope.messAction+' ID: '+$scope.idUser+' BAJO EL NOMBRE: '+obj.fullNameUser);
+                    console.log('El Usuario sera '+$scope.messAction+' ID: '+$scope.idUserKf+' BAJO EL NOMBRE: '+obj.fullNameUser);
                     console.log("============================================================================")
                     console.log($scope.argObj);
                   }
@@ -66,7 +87,7 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
             break;
             case "removeSysProf":
               if (confirm==0){
-                  if ($scope.sessionidProfile==1 && obj.idProfiles!=0){
+                  if (obj.idProfiles!=0){
                     $scope.idSysProf = obj.idProfiles;
                     $scope.mess2show="El Perfil "+obj.name+" sera Eliminado.     Confirmar?";
                       console.log('Usuario a eliminar ID: '+obj.idProfiles+' BAJO EL NOMBRE: '+obj.name);
@@ -266,15 +287,15 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
           $scope.getCustomerListFn = function(search, opt){
             $scope.rsCustomerListByTypeData = [];
             $scope.rsCustomerListData = [];
+            $scope.rsCustomerSelectData = [];
             var jsonSearch = !search || search=="" ||  search=="registered" ? $scope.jsonCustomerRegistered : $scope.jsonCustomerNotRegistered;
             console.log("getCustomerListFn => search: [searchFilter:"+jsonSearch.searchFilter+", isNotCliente:"+jsonSearch.isNotCliente+"] opcion: "+opt);
             CustomerServices.getCustomerList(jsonSearch).then(function(data){
                 $scope.rsCustomerListData = data;
                 $scope.rsCustomerSelectData = data;
                 $scope.rsCustomerListByTypeData = data;
-                if(opt==1){$scope.loadPagination($scope.rsCustomerListData, "idClient", "10");}
-                if(opt==2){$scope.rsCustomerListSelectData = data;}
-                //console.log("rsCustomerListData");
+                $scope.rsCustomerListSelectData = data;
+                //console.log($scope.rsCustomerSelectData);
                 //
             });
           };$scope.getCustomerListFn("","");
@@ -287,47 +308,71 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
           $scope.getCustomersListByTypeFn = function(type){
             console.log("getCustomerListByTypeFn => type:"+type);
               $scope.rsCustomerListByTypeData=[];
-              console.log($scope.rsCustomerSelectData);
+              //console.log($scope.rsCustomerSelectData);
                 if (type!=undefined && type!='' && type!=null){
                   var clientType="";
                   if (type=="2"){
                     clientType="3";
-                  }else if (type=="4" || type=="6"){
+                  }else if (type=="4"){
                     clientType="1";
-                  }else if (type=="3" || type=="5"){
+                  }else if (type=="3" || type=="5" || type=="6"){
                     clientType="2";
                   }
                   if (type!="1"){
-                    for (var item in $scope.rsCustomerSelectData){
-                      if ($scope.rsCustomerSelectData[item].idClientTypeFk==clientType){
-                        $scope.rsCustomerListByTypeData.push($scope.rsCustomerSelectData[item]);
+                    for (var item in $scope.rsCustomerListData){
+                      if ($scope.rsCustomerListData[item].idClientTypeFk==clientType){
+                        //console.log($scope.rsCustomerListData[item]);
+                        //console.log(clientType);
+                        $scope.rsCustomerListByTypeData.push($scope.rsCustomerListData[item]);
                         //console.log($scope.rsCustomerListByTypeData);
                       }
                     }
                     //console.log($scope.rsCustomerListByTypeData);
                   }
                 }
+          };
+        /**************************************************
+        *                                                 *
+        *      SHOW ONLY CUSTOMER BY TYPE OF PROFILE      *
+        *                                                 *
+        **************************************************/
+        $scope.filterCustomerByType = function(item){
+          var objOpt = $scope.isNewUser==true?$scope.users.new.idProfileKf.idProfile:$scope.users.update.idProfileKf;
+          switch(objOpt){
+            case "2":
+              return item.idClientTypeFk == "3";
+            break;
+            case "4":
+              return item.idClientTypeFk == "1" || item.idClientTypeFk == "3";
+            break;
+            case "3":
+            case "5":
+            case "6":
+              return item.idClientTypeFk == "2";
+            break;
+          }
         };
         /**************************************************
         *                                                 *
-        *       GET LIST OF CUSTOMER BY CUSTOMER ID       *
+        *       SHOW ONLY ROLES BY TYPE OF PROFILE        *
         *                                                 *
         **************************************************/
-          $scope.rsListCustomersOfCustomerData = [];
-          $scope.rsAllCustomersList = [];
-          $scope.getLisOfCustomersByIdFn = function(id){
-            console.log("getLisOfCustomersByIdFn: "+id);
-            $scope.rsCustomerListSelectData=[];
-            CustomerServices.getCustomersListByCustomerId(id).then(function(response){
-              //console.log(response);
-              if(response.status==200){
-                $scope.rsCustomerListSelectData = response.data;
-              }else{
-                $scope.rsCustomerListSelectData = [];
-              }
-              //console.log($scope.rsCustomerListSelectData);
-            });
-          };
+         $scope.filterRolesByType = function(item){
+           //console.log(item);
+          var objOpt = $scope.isNewUser==true?$scope.users.new.idProfileKf.idProfile:$scope.users.update.idProfileKf;
+          switch(objOpt){
+            case "1":
+              return item.idProfiles;
+            break;
+            case "2":
+            case "3":
+            case "4":
+            case "5":
+            case "6":
+              return item.idProfiles != "1";
+            break;
+          }
+        };
         /**************************************************
         *                                                 *
         *                GET DEPTOS BY ID                 *
@@ -363,73 +408,73 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
               });
             }
           }
-         $scope.tmpVar=0;
-         $scope.deptoHasOwner = function (idTypeTenant, idTypeAttendant, idDepartment) {
-           var dho_idTypeT=null,dho_idTypeA=null,dho_msgT=null;
-           if(idTypeAttendant!=null){
-             dho_idTypeA = idTypeAttendant;
-           }
-           if(idTypeTenant!=null){
-             dho_idTypeT = idTypeTenant;
-             dho_msgT     = dho_idTypeT==2 || dho_idTypeT==5 ? "Es de tipo Inquilino No Aplica":"Es propietario se procesa"
-           }
-           if (dho_idTypeT){console.log("Tipo de Inquilino: "+dho_idTypeT+" - "+dho_msgT); $scope.IsTenant=true;}else{$scope.IsTenant=false;}
-           if (dho_idTypeA){console.log("Tipo de Encargado: "+dho_idTypeA); $scope.IsAttendant=true;}else{$scope.IsAttendant=false}
-           $scope.tmp.idDepartment = idDepartment;
-           console.log("dho_idTypeT: "+dho_idTypeT +" / "+ "$scope.IsTenant: "+$scope.IsTenant+" / "+ "dho_idTypeA: "+dho_idTypeA+" / "+"$scope.IsAttendant: "+$scope.IsAttendant)
-           if($scope.tmp.idDepartment){
-             if ((dho_idTypeT==1 || dho_idTypeT==3) || (dho_idTypeA>1)){
-                 console.log("$scope.tmp.idDepartment N#: "+$scope.tmp.idDepartment);
-                 console.log("deparmentName: "+$scope.getDeptoName($scope.tmp.idDepartment));
-                 var deparmentName = $scope.getDeptoName($scope.tmp.idDepartment);
-                 $scope.deptoFloor = deparmentName;
-               if((deparmentName == "Porteria" || deparmentName == "porteria") && $scope.IsAttendant && $scope.tmpVar<=0){
-                  inform.add('Si el encargado posee un depto distinto a la porteria debera darse de alta desde su usuario.',{
-                             ttl:6000, type: 'info'
-                       });
-                  $scope.tmpVar++;
-               }else if((deparmentName == "Porteria" || deparmentName == "porteria") && $scope.IsTenant){
-                 $scope.tmpVar=0;
-                 inform.add('Si desea registrar un propietario en el departamento: '+deparmentName+ ' debe seleccionar el perfil Encargado.',{
-                             ttl:6000, type: 'warning'
-                 });
-               }else{$scope.tmpVar=0;}
-               $http({
-                 method : "GET",
-                 url : serverHost+serverBackend+"Department/chekDepartamenteOwner/"+$scope.tmp.idDepartment
-               }).then(function mySuccess(response) {
-                     if (response.data==true){
-                       $scope.ownerFound=true;
-                       console.log("EL DEPTO: "+$scope.tmp.idDepartment+" Ya tiene un propietario Asignado");
-                     }else if(response.data==false){
-                       $scope.ownerFound=false;
-                       console.log("EL DEPTO: "+$scope.tmp.idDepartment+" No tiene un propietario Asignado");
-                     }
-                       
-                 }, function myError(response) {
-                     if (!$scope.tmp.idDepartment){
-                         inform.add('Debe seleccionar un departamento de la lista.',{
-                             ttl:6000, type: 'warning'
-                       });
+          $scope.tmpVar=0;
+          $scope.deptoHasOwner = function (idTypeTenant, idTypeAttendant, idDepartment) {
+            var dho_idTypeT=null,dho_idTypeA=null,dho_msgT=null;
+            if(idTypeAttendant!=null){
+              dho_idTypeA = idTypeAttendant;
+            }
+            if(idTypeTenant!=null){
+              dho_idTypeT = idTypeTenant;
+              dho_msgT     = dho_idTypeT==2 || dho_idTypeT==5 ? "Es de tipo Inquilino No Aplica":"Es propietario se procesa"
+            }
+            if (dho_idTypeT){console.log("Tipo de Inquilino: "+dho_idTypeT+" - "+dho_msgT); $scope.IsTenant=true;}else{$scope.IsTenant=false;}
+            if (dho_idTypeA){console.log("Tipo de Encargado: "+dho_idTypeA); $scope.IsAttendant=true;}else{$scope.IsAttendant=false}
+            $scope.tmp.idDepartment = idDepartment;
+            console.log("dho_idTypeT: "+dho_idTypeT +" / "+ "$scope.IsTenant: "+$scope.IsTenant+" / "+ "dho_idTypeA: "+dho_idTypeA+" / "+"$scope.IsAttendant: "+$scope.IsAttendant)
+            if($scope.tmp.idDepartment){
+              if ((dho_idTypeT==1 || dho_idTypeT==3) || (dho_idTypeA>1)){
+                  console.log("$scope.tmp.idDepartment N#: "+$scope.tmp.idDepartment);
+                  console.log("deparmentName: "+$scope.getDeptoName($scope.tmp.idDepartment));
+                  var deparmentName = $scope.getDeptoName($scope.tmp.idDepartment);
+                  $scope.deptoFloor = deparmentName;
+                if((deparmentName == "Porteria" || deparmentName == "porteria") && $scope.IsAttendant && $scope.tmpVar<=0){
+                    inform.add('Si el encargado posee un depto distinto a la porteria debera darse de alta desde su usuario.',{
+                              ttl:6000, type: 'info'
+                        });
+                    $scope.tmpVar++;
+                }else if((deparmentName == "Porteria" || deparmentName == "porteria") && $scope.IsTenant){
+                  $scope.tmpVar=0;
+                  inform.add('Si desea registrar un propietario en el departamento: '+deparmentName+ ' debe seleccionar el perfil Encargado.',{
+                              ttl:6000, type: 'warning'
+                  });
+                }else{$scope.tmpVar=0;}
+                $http({
+                  method : "GET",
+                  url : serverHost+serverBackend+"Department/chekDepartamenteOwner/"+$scope.tmp.idDepartment
+                }).then(function mySuccess(response) {
+                      if (response.data==true){
+                        $scope.ownerFound=true;
+                        console.log("EL DEPTO: "+$scope.tmp.idDepartment+" Ya tiene un propietario Asignado");
+                      }else if(response.data==false){
+                        $scope.ownerFound=false;
+                        console.log("EL DEPTO: "+$scope.tmp.idDepartment+" No tiene un propietario Asignado");
+                      }
+                        
+                  }, function myError(response) {
+                      if (!$scope.tmp.idDepartment){
+                          inform.add('Debe seleccionar un departamento de la lista.',{
+                              ttl:6000, type: 'warning'
+                        });
 
-                     }else if(response.error==500){
+                      }else if(response.error==500){
 
-                       inform.add('El Consorcio no ha cargado el departamento correspondiente a la porteria, por lo que no es posible asignar un Encargado.',{
-                             ttl:6000, type: 'danger'
-                       });
-                     }
-                   
-               });
-             }else{
-               $scope.ownerFound=false;
-             }
-           }else{
-               inform.add('Debe seleccionar un departamento de la lista.',{
-                     ttl:6000, type: 'warning'
-               });
-               $scope.ownerFound=false;
-           }
-         };         
+                        inform.add('El Consorcio no ha cargado el departamento correspondiente a la porteria, por lo que no es posible asignar un Encargado.',{
+                              ttl:6000, type: 'danger'
+                        });
+                      }
+                    
+                });
+              }else{
+                $scope.ownerFound=false;
+              }
+            }else{
+                inform.add('Debe seleccionar un departamento de la lista.',{
+                      ttl:6000, type: 'warning'
+                });
+                $scope.ownerFound=false;
+            }
+          };
         /**************************************************
         *                                                 *
         *                 USER  SERVICES                  *
@@ -482,13 +527,22 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
         *                GET USER DATA                    *
         *                                                 *
         **************************************************/
+
           $scope.selectUserDataFn = function (obj) {
-            $scope.users.update={'idUser':null,'idProfileKf':{}, 'idSysProfileFk':null, 'fname':'','lname':'', 'dni':'','email':'', 'phonelocalNumberUser':'', 'phoneMovilNumberUser':'', 'idDepartmentKf':null, 'idTypeAttKf':null, 'typeOtherAtt':''}
+            $scope.users.update={'idUser':null,'idProfileKf':{}, 'idSysProfileFk':null, 'fname':'','lname':'', 'dni':'','email':'', 'phonelocalNumberUser':'', 'phoneMovilNumberUser':'', 'idDepartmentKf':null, 'idTypeAttKf':null, 'typeOtherAtt':'', 'idTypeTenantKf':''}
+            $scope.users.tmp={'dni':'','email':''}
             $scope.select.address.selected = undefined;
             $scope.select.companies.selected = undefined;
+            $scope.sysDNIRegistered = 0;
+            $scope.sysEmailRegistered = 0;
+            $scope.userOwnerDeptos=[];
             $scope.users.tmp={};
             $scope.users.tmp=obj;
             console.log(obj);
+            $scope.isNewProfileRole=false;
+            $scope.isUpdateProfileRole=false;
+            $scope.isNewUser=false;
+            $scope.isUpdateUser=true;
             $scope.users.update.idUser=obj.idUser;
             var switchOption = obj.idProfileKf;
             var fullNameUser = obj.fullNameUser.split(" ");
@@ -505,11 +559,16 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
             $scope.users.update.idProfileKf           = obj.idProfileKf;
             $scope.users.update.idSysProfileFk        = obj.idSysProfileFk;
             $scope.users.update.dni                   = obj.dni;
+            $scope.users.tmp.dni                      = obj.dni;
             $scope.users.update.email                 = obj.emailUser;
+            $scope.users.tmp.email                    = obj.emailUser;
             $scope.users.update.phonelocalNumberUser  = obj.phoneLocalNumberUser;
             $scope.users.update.phoneMovilNumberUser  = obj.phoneNumberUser;
             $scope.users.update.idStatusKf            = obj.idStatusKf;
             $scope.users.update.statusTenantName      = obj.statusTenantName;
+            $scope.users.update.deptos                = obj.deptos;
+            $scope.userOwnerDeptos                    = obj.deptos;
+            $scope.users.update.idTypeTenantKf        = obj.idTypeTenantKf;
             switch (switchOption) {
               case "1": //SYS USER
                 
@@ -519,38 +578,60 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
               break;
               case "3": //OWNER USER
                 $scope.register.user.idDeparment_Tmp  = obj.idDepartmentKf;
-                $scope.register.user.idTypeTenantKf   = 1;
               break;
               case "4": //BUILDING ADMIN USER
                 $scope.select.companies.selected      = {'idClient': obj.company[0].idClient, 'name': obj.company[0].name};
                 //console.log($scope.register.user);
               break;
               case "5": //TENANT USER
-                $scope.select.address.selected        = {'idClient': obj.building[0].idClient, 'address': obj.building[0].address};
-                $scope.getDeptoListByAddress(obj.building[0].idClient);
-                $scope.users.update.idDepartmentKf    = obj.idDepartmentKf
+                $scope.rsCustomerListSelectData       = $scope.rsCustomerSelectData;
+                $scope.select.address.selected        = obj.idAddresKf!=null?{'idClient': obj.building[0].idClient, 'address': obj.building[0].address}:null;
+                if(obj.idAddresKf!=null){
+                  $scope.getDeptoListByAddress(obj.building[0].idClient);
+                  $scope.users.update.idDepartmentKf    = obj.idDepartmentKf
+                };
+                
               break;
               case "6": //ATTENDANT USER
+                $scope.rsCustomerListSelectData     = $scope.rsCustomerSelectData;
                 if (obj.idTyepeAttendantKf!=1 && obj.idTypeTenantKf==1){
-                  $scope.att.ownerOption              = 1
+                  //console.log(obj);
+                  $scope.att.ownerOption              = "1"
                 }else if (obj.idTyepeAttendantKf!=1 && obj.idTypeTenantKf==2){
-                  $scope.select.address.selected      = {'idClient': obj.building[0].idClient, 'address': obj.building[0].address};
-                  $scope.getDeptoListByAddress(obj.building[0].idClient);
-                  $scope.users.update.idDepartmentKf  = obj.idDepartmentKf;
-                  $scope.att.ownerOption              = 2;
+                  if(obj.idAddresKf!=null){
+                    $scope.getDeptoListByAddress(obj.building[0].idClient);
+                    $scope.users.update.idDepartmentKf    = obj.idDepartmentKf
+                  };
+                  $scope.att.ownerOption              = "2";
                 }else if (obj.idTyepeAttendantKf!=1 && obj.idTypeTenantKf==null){
-                  $scope.att.ownerOption              = 3;
-                }else{
-                  $scope.select.address.selected      = {'idClient': obj.building[0].idClient, 'address': obj.building[0].address};
+                  $scope.att.ownerOption              = "3";
                 }
-                $scope.select.companies.selected      = obj.idCompanyKf!=null?{'idClient': obj.company[0].idClient, 'name': obj.company[0].name}:undefined;
+                $scope.select.address.selected      = obj.idAddresKf!=null?{'idClient': obj.building[0].idClient, 'address': obj.building[0].address}:null;
+                //$scope.getLisOfCustomersByIdFn(obj.company[0].idClient, true)
                 $scope.users.update.typeOtherAtt      = obj.descOther;
                 $scope.users.update.idTypeAttKf       = obj.idTyepeAttendantKf;
               break;
             }
             console.log($scope.users.update);
-            $('#UpdateUser').modal('toggle');
+            $("#UpdateUser").modal({backdrop: 'static', keyboard: false});
           };
+
+          $scope.refreshList = function() {
+            blockUI.start('Actualizando listado de usuarios.');
+            var nameProfile = $scope.filters.userProfile==undefined?null:$scope.filters.userProfile.nameProfile;
+            var statusTenantName = $scope.filters.userStatus==undefined?null:$scope.filters.userStatus.statusTenantName;
+            var customerName = $scope.filters.companies.selected==undefined?null:$scope.filters.companies.selected.name;
+            var buildings = $scope.filters.buildings.selected==undefined?null:$scope.filters.buildings.selected.address;
+            var nameTypeAttendant = $scope.filters.attProfile.nameTypeAttendant==undefined?null:$scope.filters.attProfile.nameTypeAttendant;
+            var searchboxfilter = $scope.searchboxfilter==undefined?null:$scope.searchboxfilter;
+            $timeout(function() {
+              $scope.getUserLists(1, 'users');
+            }, 500);
+            $timeout(function() {
+              $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true);
+              blockUI.stop();
+            }, 600);
+          }
         /**************************************************
         *                                                 *
         *                 SWITCH USER DATA                *
@@ -601,7 +682,6 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
                       $scope.register.user.idTypeTenantKf        =  null;
                       $scope.register.user.idAddresKf            = $scope.select.address.selected.idClient;
                     }
-                    $scope.register.user.idCompanyKf             = $scope.select.companies.selected.idClient;
                     $scope.register.user.requireAuthentication   = obj.idTypeAttKf==1?0:1;
                     $scope.register.user.descOther               = obj.idTypeAttKf==1?obj.typeOtherAtt:null;
                     $scope.register.user.idTyepeAttendantKf      = obj.idTypeAttKf;
@@ -651,12 +731,10 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
                       }else if (obj.idTypeAttKf!=1 && $scope.att.ownerOption==2){
                         $scope.update.user.idTypeTenantKf        =  2;
                         $scope.update.user.idDepartmentKf        = obj.idDepartmentKf;
-                        $scope.update.user.idAddresKf            = $scope.select.address.selected.idClient;
                       }else{
                         $scope.update.user.idTypeTenantKf        =  null;
-                        $scope.update.user.idAddresKf            = $scope.select.address.selected.idClient;
                       }
-                      $scope.update.user.idCompanyKf             = $scope.select.companies.selected.idClient;
+                      $scope.update.user.idAddresKf              = $scope.select.address.selected.idClient;
                       $scope.update.user.requireAuthentication   = obj.idTypeAttKf==1?0:1;
                       $scope.update.user.descOther               = obj.idTypeAttKf==1?obj.typeOtherAtt:null;
                       $scope.update.user.idTyepeAttendantKf      = obj.idTypeAttKf;
@@ -674,13 +752,26 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
         *                                                 *
         **************************************************/
           $scope.sysRegisterFn = function(){
-            //console.log($scope.register);
+            console.log($scope.register);
+            var nameProfile = $scope.filters.userProfile==undefined?null:$scope.filters.userProfile.nameProfile;
+            var statusTenantName = $scope.filters.userStatus==undefined?null:$scope.filters.userStatus.statusTenantName;
+            var customerName = $scope.filters.companies.selected==undefined?null:$scope.filters.companies.selected.name;
+            var buildings = $scope.filters.buildings.selected==undefined?null:$scope.filters.buildings.selected.address;
+            var nameTypeAttendant = $scope.filters.attProfile.nameTypeAttendant==undefined?null:$scope.filters.attProfile.nameTypeAttendant;
+            var searchboxfilter = $scope.searchboxfilter==undefined?null:$scope.searchboxfilter;
               userServices.addUser($scope.register).then(function(response_userRegister){
                 if(response_userRegister.status==200){
                   console.log("REGISTERED SUCCESSFULLY");
                     inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
                       ttl:5000, type: 'success'
                     });
+                    $timeout(function() {
+                      $scope.getUserLists(1, 'users');
+                    }, 500);
+                    $timeout(function() {
+                      $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
+                      blockUI.stop();
+                    }, 600);
                     userServices.findUserByEmail($scope.register.user.dni).then(function(response_userFound) {
                       if(response_userFound.status==200){
                         if(($scope.register.user.idProfileKf==3 || $scope.register.user.idProfileKf==6) && $scope.register.user.idTypeTenantKf==1 && $scope.register.user.idDeparment_Tmp){
@@ -722,12 +813,7 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
                     });
                 }
               });
-              $timeout(function() {
-                $scope.getUserLists(1, 'users');
-                $('#RegisterUser').modal('hide');
-                $scope.managedUsers('list','users', null);
-                blockUI.stop();
-              }, 1500);
+              $('#RegisterUser').modal('hide');
           }
         /**************************************************
         *                                                 *
@@ -736,6 +822,12 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
         **************************************************/
           $scope.sysUpdateFn = function(){
             console.log($scope.update.user);
+            var nameProfile = $scope.filters.userProfile==undefined?null:$scope.filters.userProfile.nameProfile;
+            var statusTenantName = $scope.filters.userStatus==undefined?null:$scope.filters.userStatus.statusTenantName;
+            var customerName = $scope.filters.companies.selected==undefined?null:$scope.filters.companies.selected.name;
+            var buildings = $scope.filters.buildings.selected==undefined?null:$scope.filters.buildings.selected.address;
+            var nameTypeAttendant = $scope.filters.attProfile.nameTypeAttendant==undefined?null:$scope.filters.attProfile.nameTypeAttendant;
+            var searchboxfilter = $scope.searchboxfilter==undefined?null:$scope.searchboxfilter;
             userServices.updateUser($scope.update).then(function(response){
               if(response.status==200){
                 $timeout(function() {
@@ -745,6 +837,13 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
                   });
                   blockUI.message('Usuario: '+$scope.update.user.fullNameUser+' actualizado con exito');
                 }, 1500);
+                $timeout(function() {
+                  $scope.getUserLists(1, 'users');
+                }, 500);
+                $timeout(function() {
+                  $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
+                  blockUI.stop();
+                }, 600);
 
               }else if (response.status==404){
                 $timeout(function() {
@@ -762,12 +861,7 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
                 }, 1500);
               }
             });
-            $timeout(function() {
-              $scope.getUserLists(1, 'users');
-              $('#UpdateUser').modal('hide');
-              $scope.managedUsers('list','users', null);
-              blockUI.stop();
-            }, 2000);
+            $('#UpdateUser').modal('hide');
           }
         /**************************************************
         *                                                 *
@@ -830,7 +924,7 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
         **************************************************/
           $scope.disabledUser = function (user) {
             blockUI.start('Deshabilitando usuario.');
-            var nameProfile = $scope.filters.userProfile.nameProfile==undefined?null:$scope.filters.userProfile.nameProfile;
+            var nameProfile = $scope.filters.userProfile==undefined?null:$scope.filters.userProfile.nameProfile;
             var statusTenantName = $scope.filters.userStatus==undefined?null:$scope.filters.userStatus.statusTenantName;
             var customerName = $scope.filters.companies.selected==undefined?null:$scope.filters.companies.selected.name;
             var buildings = $scope.filters.buildings.selected==undefined?null:$scope.filters.buildings.selected.address;
@@ -839,8 +933,8 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
             userServices.disabled(user.idUser).then(function(response){
               //console.log(response);
               if(response.status==200 && response.data){
-                inform.add('El usuario '+user.fullNameUse+' ha sido deshabilitado con exito.',{
-                  ttl:5000, type: 'success'
+                inform.add('El usuario '+user.fullNameUser+' ha sido deshabilitado con exito.',{
+                  ttl:5000, type: 'warning'
                 });
                 blockUI.message('El usuario ha sido deshabilitado con exito!');
                 $timeout(function() {
@@ -849,7 +943,7 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
                 $timeout(function() {
                   $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
                   blockUI.stop();
-                }, 1000);
+                }, 600);
               }else if(response.status==200 && !response.data){
                 blockUI.message('El usuario no ha sido deshabilitado!');
                 inform.add('El usuario no ha sido deshabilitado, intenta de nuevo o contacta el area de soporte.',{
@@ -861,7 +955,7 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
                 $timeout(function() {
                   $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
                   blockUI.stop();
-                }, 1000);
+                }, 600);
               }else if(response.status==404){
                 inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
                   ttl:5000, type: 'warning'
@@ -872,7 +966,7 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
                 $timeout(function() {
                   $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
                   blockUI.stop();
-                }, 1000);
+                }, 600);
               }else if(response.status==500){
                 inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
                   ttl:5000, type: 'danger'
@@ -883,7 +977,7 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
                 $timeout(function() {
                   $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
                   blockUI.stop();
-                }, 1000);
+                }, 600);
               }
               $scope.argObj={};
             });
@@ -895,7 +989,7 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
         **************************************************/
           $scope.enabledUser = function (user) {
             blockUI.start('Habilitando usuario.');
-            var nameProfile = $scope.filters.userProfile.nameProfile==undefined?null:$scope.filters.userProfile.nameProfile;
+            var nameProfile = $scope.filters.userProfile==undefined?null:$scope.filters.userProfile.nameProfile;
             var statusTenantName = $scope.filters.userStatus==undefined?null:$scope.filters.userStatus.statusTenantName;
             var customerName = $scope.filters.companies.selected==undefined?null:$scope.filters.companies.selected.name;
             var buildings = $scope.filters.buildings.selected==undefined?null:$scope.filters.buildings.selected.address;
@@ -904,7 +998,7 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
             userServices.enabled(user.idUser).then(function(response){
               //console.log(response);
               if(response.status==200 && response.data){
-                inform.add('El usuario '+user.fullNameUse+' ha sido habilitado con exito.',{
+                inform.add('El usuario '+user.fullNameUser+' ha sido habilitado con exito.',{
                   ttl:5000, type: 'success'
                 });
                 blockUI.message('El usuario ha sido habilitado con exito!');
@@ -913,10 +1007,10 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
                   
                 }, 500);
                 $timeout(function() {
-                  console.log(nameProfile+statusTenantName+customerName+buildings+nameTypeAttendant+searchboxfilter);
+                  //console.log(nameProfile+statusTenantName+customerName+buildings+nameTypeAttendant+searchboxfilter);
                   $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
                   blockUI.stop();
-                }, 1000);
+                }, 600);
               }else if(response.status==200 && !response.data){
                 blockUI.message('El usuario no ha sido habilitado!');
                 inform.add('El usuario no ha sido habilitado, intenta de nuevo o contacta el area de soporte.',{
@@ -928,7 +1022,7 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
                 $timeout(function() {
                   $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
                   blockUI.stop();
-                }, 1000);
+                }, 600);
               }else if(response.status==404){
                 inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
                   ttl:5000, type: 'warning'
@@ -939,7 +1033,7 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
                   $timeout(function() {
                     $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
                     blockUI.stop();
-                  }, 1000);
+                  }, 600);
               }else if(response.status==500){
                 inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
                   ttl:5000, type: 'danger'
@@ -950,7 +1044,7 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
                   $timeout(function() {
                     $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
                     blockUI.stop();
-                  }, 1000);
+                  }, 600);
               }
               $scope.argObj={};
             });
@@ -962,7 +1056,7 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
         **************************************************/
           $scope.deleteUser = function (user) {
             blockUI.start('Eliminando usuario.');
-            var nameProfile = $scope.filters.userProfile.nameProfile==undefined?null:$scope.filters.userProfile.nameProfile;
+            var nameProfile = $scope.filters.userProfile==undefined?null:$scope.filters.userProfile.nameProfile;
             var statusTenantName = $scope.filters.userStatus==undefined?null:$scope.filters.userStatus.statusTenantName;
             var customerName = $scope.filters.companies.selected==undefined?null:$scope.filters.companies.selected.name;
             var buildings = $scope.filters.buildings.selected==undefined?null:$scope.filters.buildings.selected.address;
@@ -971,8 +1065,8 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
             userServices.remove(user.idUser).then(function(response){
               //console.log(response);
               if(response.status==200 && response.data){
-                inform.add('El usuario '+user.fullNameUse+' ha sido eliminado con exito.',{
-                  ttl:5000, type: 'success'
+                inform.add('El usuario '+user.fullNameUser+' ha sido eliminado con exito.',{
+                  ttl:5000, type: 'danger'
                 });
                 blockUI.message('El usuario ha sido eliminado con exito!');
                 $timeout(function() {
@@ -981,7 +1075,7 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
                 $timeout(function() {
                   $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
                   blockUI.stop();
-                }, 1000);
+                }, 600);
               }else if(response.status==200 && !response.data){
                 blockUI.message('El usuario no ha sido eliminado!');
                 inform.add('El usuario no ha sido eliminado, intenta de nuevo o contacta el area de soporte.',{
@@ -993,7 +1087,7 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
                 $timeout(function() {
                   $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
                   blockUI.stop();
-                }, 1000);
+                }, 600);
               }else if(response.status==404){
                 inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
                   ttl:5000, type: 'warning'
@@ -1004,7 +1098,7 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
                 $timeout(function() {
                   $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
                   blockUI.stop();
-                }, 1000);
+                }, 600);
               }else if(response.status==500){
                 inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
                   ttl:5000, type: 'danger'
@@ -1015,7 +1109,7 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
                 $timeout(function() {
                   $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
                   blockUI.stop();
-                }, 1000);
+                }, 600);
               }
               $scope.argObj={};
             });
@@ -1024,30 +1118,35 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
         *                                                 *
         *                CHECK MAIL OR DNI                *
         *                   DUPLICATES                    *
-        *                                                 *
+        *                                                 *|
         **************************************************/
-          $scope.sysCheck4Duplicates = function(value){
+          $scope.sysCheck4Duplicates = function(value, opt){
             if(value){
-              userServices.findUserByEmail(value).then(function(response) {
-                //console.log(response);
-                if(response.status==200){
-                  if(APP_REGEX.checkDNI.test(value)){
-                    $scope.sysDNIRegistered=true;
-                    //console.log(response.data[0].fullNameUser);
-                    $scope.users.new.dni=undefined;
+              console.log($scope.users.update.mail);
+              console.log(value);
+              console.log(opt);
+              if ((($scope.users.new.dni!=undefined && opt=="dni") || ($scope.users.new.email!=undefined && opt=="mail")) || (($scope.users.update.dni!=undefined && $scope.users.tmp.dni!=value && opt=="dni") || ($scope.users.update.email!=undefined && $scope.users.tmp.email!=value && opt=="mail"))){
+                userServices.findUserByEmail(value).then(function(response) {
+                  //console.log(response);
+                  if(response.status==200){
+                    if(APP_REGEX.checkDNI.test(value)){
+                      $scope.sysDNIRegistered=true;
+                      //console.log(response.data[0].fullNameUser);
+                      $scope.users.new.dni=undefined;
+                    }
+                    if(APP_REGEX.checkEmail.test(value)){
+                      $scope.sysEmailRegistered=true;
+                    }
+                  }else if (response.status==404){
+                    if(APP_REGEX.checkDNI.test(value)){
+                      $scope.sysDNIRegistered=false;
+                    }
+                    if(APP_REGEX.checkEmail.test(value)){
+                      $scope.sysEmailRegistered=false;
+                    }
                   }
-                  if(APP_REGEX.checkEmail.test(value)){
-                    $scope.sysEmailRegistered=true;
-                  }
-                }else if (response.status==404){
-                  if(APP_REGEX.checkDNI.test(value)){
-                    $scope.sysDNIRegistered=false;
-                  }
-                  if(APP_REGEX.checkEmail.test(value)){
-                    $scope.sysEmailRegistered=false;
-                  }
-                }
-              });
+                });
+              }
             }
           }
         /**************************************************
@@ -1101,7 +1200,7 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
         *               LIST SYS PROFILE                  *
         *                                                 *
         **************************************************/
-          $scope.rsProfileData = {};
+         $scope.rsProfileData = [];
           $scope.getSysProfilesFn = function(search){
             ProfileServices.listProfiles(search).then(function(data){
                 $scope.rsProfileData = data;
@@ -1182,14 +1281,21 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
                   $scope.chkBox.modulo[key]=false;
                 }
             }
-            $scope.sysUpProfile.Name=$scope.tmpSysModules.name;  
-            $('#updateSysProfile').modal('show');
+            $scope.sysUpProfile.Name=$scope.tmpSysModules.name;
+            $scope.isNewProfileRole=false;
+            $scope.isUpdateProfileRole=true;
+            $scope.isNewUser=false;
+            $scope.isUpdateUser=false;
             console.log($scope.tmpSysModules.modules);
             //console.log($scope.tmpSysModules.length);
             $scope.chkBox.modulo.row
             for (var i = 0; i < $scope.tmpSysModules.modules.length; i++) {
               $scope.chkBox.modulo[$scope.tmpSysModules.modules[i].idModule]=true;
             }
+            $("#updateSysProfile").modal({backdrop: 'static', keyboard: false});
+              $("#updateSysProfile").on('shown.bs.modal', function () {
+                $("#profileName").focus();
+              });
             //console.log($scope.checkBoxes);
           }
           $scope.data2UpdateSysProfileFn=function(){
@@ -1358,7 +1464,7 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
           /**************************************************************************************/
             $scope.cleanFilters = function(){
               $scope.filters={'companies':{'selected':undefined},'buildings':{'selected':undefined},'attProfile':{},'status':{}, 'tenantProfile':{}, 'userProfile':{}, 'searchboxfilter':''}
-              $scope.select={'companies':{'selected':undefined}, 'address':{'selected':undefined}}              
+              $scope.select={'companies':{'selected':undefined}, 'address':{'selected':undefined}}
             }
 
             $scope.getUserLists("","");
@@ -1371,8 +1477,14 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
             $scope.update.user={'fullNameUser':null, 'emailUser': null, 'phoneNumberUser': null, 'phoneLocalNumberUser': null, 'idAddresKf': null, 'idProfileKf': null, 'idTypeTenantKf': null, 'idCompanyKf': null, 'idTyepeAttendantKf': null, 'descOther': null, 'idDepartmentKf':null, 'isEdit': null, 'requireAuthentication': null, 'dni': null, 'idSysProfileFk': null, 'isCreateByAdmin': null};
             $scope.depto={'department':{'idDepartment':null, 'idUserKf':null}};
             $scope.userList={};
+            $scope.isNewUser=null;
+            $scope.isUpdateUser=null;
+            $scope.isNewProfileRole=null;
+            $scope.isUpdateProfileRole=null;
+            $scope.userOwnerDeptos=[];
             $scope.sysContentList = "";
             $scope.att={'ownerOption':null};
+            $scope.form = {};
             $scope.managedUsers = function(val1, val2, fnAction){
                 $scope.sysReg={};
                 //$scope.filterCompanyKf.selected           = undefined;
@@ -1382,14 +1494,29 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
                   case "new":
                       switch (val2) {
                           case "user":
+                            $scope.form.fNewUser.$setPristine();
                             $scope.users={'new':{}, 'update':{}, 'details':{}, 'register':{}}
+                            $scope.select={'companies':{'selected':undefined}, 'address':{'selected':undefined}}
+                            $scope.users.new={'idUser':null,'idProfileKf':{}, 'idSysProfileFk':null, 'fname':'','lname':'', 'dni':'','email':'', 'phonelocalNumberUser':'', 'phoneMovilNumberUser':'', 'idDepartmentKf':null, 'idTypeAttKf':null, 'typeOtherAtt':''}
                             $scope.att={'ownerOption':null};
-                            $('#RegisterUser').modal('show');
+                            $scope.isNewUser=true;$scope.isUpdateUser=false;
+                            $scope.isNewProfileRole=false;$scope.isUpdateProfileRole=false;
+                            $scope.sysDNIRegistered = 0;
+                            $scope.sysEmailRegistered = 0;
+                            $("#RegisterUser").modal({backdrop: 'static', keyboard: false});
+                            $("#RegisterUser").on('shown.bs.modal', function () {
+                              $("#profile").focus();
+                            });
                           break;
                           case "profileRole":
                             $scope.sysProfile.Name="";
                             $scope.checkBoxes.modulo=false;
-                            $('#newSysProfile').modal('show');
+                            $scope.isNewProfileRole=true;$scope.isUpdateProfileRole=false;
+                            $scope.isNewUser=false;$scope.isUpdateUser=false;
+                            $("#newSysProfile").modal({backdrop: 'static', keyboard: false});
+                            $("#newSysProfile").on('shown.bs.modal', function () {
+                              $("#profileName").focus();
+                            });
                           break;
                       }
                   break;
@@ -1439,140 +1566,7 @@ users.controller('UsersCtrl', function($scope, $location, $routeParams, blockUI,
                         break;
                     }
                   break;
-                  /*CUSTOMER USERS*/
-                  /*SYSTEM USERS*/
-                  case "sys":
-                    switch (val2){
-                      case "dash":
-                        switch (fnAction){
-                            case "open":
-                              $scope.getSysData();
-                              $scope.getParameter();
-                              $scope.loadParameter(1, 11,'sysParam');
-                              $scope.sysContent = 'dashboard';
-                            break;
-                        }
-                      break;
-                      case "sysProfile":
-                          switch (fnAction){
-                            case "dash":
-                              $scope.sysContent = "";
-                              $scope.loadPagination($scope.rsProfileData, "idProfiles", "10");
-                              $scope.sysContent = 'sysProfile';
-                            break;
-                            case "newProfile":
-                              $scope.sysProfile.Name="";
-                              $scope.checkBoxes.modulo=false;
-                              $('#newSysProfile').modal('show');
-                            break;
-                            case "updProfile2":
-                              $scope.sysUpProfile.Name="";
-                              $scope.filterSysProfile=null;
-                              $scope.sysProfFound=false;
-                              $('#updateSysProfile2').modal('show');
-                            break;
-                            default:
-                          }
-                      break;
-                      case "smtp":
-                        if(fnAction=="open"){
-                          $scope.smtp.mail ="";
-                          $scope.smtp.password ="";
-                          $scope.loadParameter(1, 6,'sysParam');
-                          $('#ModalSMTPEmail').modal('show');
-                        }
-                        if(fnAction=="save"){
-                          $scope.smtpMail="";
-                          $scope.smtpPwd = "";
-                          $scope.updateMailSmtp($http, $scope);
-                        }
-                      break;
-                      case "mails":
-                        if(fnAction=="open"){
-                          $scope.sys.email ="";
-                          $scope.loadParameter(1, 6,'sysParam');
-                          $('#ModalSetupEmail').modal('show');
-            
-                        }
-                        if(fnAction=="save"){
-                          $scope.salesMail    = "";
-                          $scope.payrollMail  = "";
-                          $scope.supportMail  = "";
-                          $scope.adminMail    = "";
-                          switch ($scope.sys.idTypeOutherKf){
-                            case "1":
-                              $scope.sysParam.idParam = 7;
-                              $scope.sysParam.msg="VENTAS";
-                            break;
-                            case "3":
-                              $scope.sysParam.idParam = 8;
-                              $scope.sysParam.msg="SERVICIO TECNICO";
-                            break;
-                            case "4":
-                              $scope.sysParam.idParam = 9;
-                              $scope.sysParam.msg="FACTURACION";
-                            break;
-                            case "5":
-                              $scope.sysParam.idParam = 10;
-                              $scope.sysParam.msg="ADMINISTRATIVO";
-                            break;
-                            default:
-                          }
-                          
-                          $scope.sysParam.value = $scope.sys.email;
-                          console.log($scope.sys.email);  
-                          $scope.updateSysParam($http, $scope);
-                        }
-                      break;
-                      case "services":
-                        if(fnAction=="open"){
-                          $scope.select.idCompanyKf="";
-                          $scope.select.idAddressAtt="";
-                          $('#ModalServiceCost').modal('show');
-                        }
-                        if(fnAction=="save"){
-                          var i = 3;
-                          for (i=3; i<6; i++){
-                            $scope.updateServiceCost($http, $scope, i)
-                          }
-                        }
-                      break;
-                      case "zones":
-                          switch (fnAction){
-                            case "dash":
-                              $scope.sysContent = "";
-                              $scope.loadPagination($scope.rsZonesData, "idZona", "10");
-                              $scope.sysContent = 'sysZones';
-                            break;
-                            case "newZone":
-                              $('#newZoneModal').modal('toggle');
-                            break;
-                            case "updateZone":
-                              $('#updateZoneModal').modal('show');
-                            break;
-                            default:
-                          }
-                      break;
-                      case "products":
-                          switch (fnAction){
-                            case "listProducts":
-                              $scope.sysContent = "";
-                              $scope.getProductsFn("",1);
-                              $scope.sysContent = 'products';
-                            break;
-                            case "newProduct":
-                              $scope.newProduct={product:{}};
-                                $scope.list_id_divice=[];
-                                $scope.list_divices=[];
-                                $scope.isDeviceExist=null;
-                              $('#newProduct').modal('show');
-                            break;
-                            default:
-                          }
-                      break;
-                      default:
-                    }
-                  break;
+                  /*USERS*/
                   default:
                 }
             }

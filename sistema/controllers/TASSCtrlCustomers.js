@@ -598,7 +598,6 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
               return item.idClientTypeFk == "1" || item.idClientTypeFk == "3";
             break;
           }
-           
         };
       /**************************************************
       *                                                 *
@@ -634,7 +633,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
               //console.log("rsCustomerListData");
               //
           });
-        };$scope.getCustomerListFn("","");
+        };//$scope.getCustomerListFn("","");
       /**************************************************
       *                                                 *
       *             LIST CUSTOMER BY TYPE               *
@@ -729,10 +728,9 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
             case "closeCustomerWindow":
                 if (confirm==0){
                     if ($scope.isNewCustomer==true){
-                      console.log("Proeuaasdsad")
                     $scope.mess2show="Se perderan todos los datos cargados para el registro del cliente, esta seguro que desea cancelar?";
                     }else{
-                    $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
+                    $scope.mess2show="Se perderan todas las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
                     }    
                     $('#confirmRequestModal').modal('show');
                 }else if (confirm==1){
@@ -1064,7 +1062,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                                 $("#AddressLatLon").modal({backdrop: 'static', keyboard: false});
                                 $("#AddressLatLon").on('shown.bs.modal', function () {
                                   $("#addr_Lat").focus();
-                                });                  
+                                });
                               break;
                               case "payment":
 
@@ -1083,7 +1081,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                                   $("#addr_Lat").focus();
                                 });
                               break;
-                            }                      
+                            }
                         }, 1500);
                       } 
                   });   
@@ -3094,7 +3092,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       $scope.sysContent                         = 'registeredNotCustomers';
                     break;
                   }
-                break;       
+                break;
                 case "new":
                   $scope.isNewCustomer=true;
                   $scope.isUpdateCustomer=false;
@@ -3314,11 +3312,11 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                   }, 1500);
                 break;
                 case "allowedUsers":
-                $scope.isNewCustomer=false;
-                $scope.isUpdateCustomer=false;
-                $scope.isListCustomer=true;
-                $scope.customerDataFn(cObj,'allowedUsers'); 
-              break;
+                  $scope.isNewCustomer=false;
+                  $scope.isUpdateCustomer=false;
+                  $scope.isListCustomer=true;
+                  $scope.customerDataFn(cObj,'allowedUsers'); 
+                break;
                 case "allowedUsers_update":
       
                   $scope.customerDataFn(cObj,'allowedUsers_update'); 
@@ -5109,14 +5107,14 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                 a.href = obj.urlFile;
                 a.download = obj.title;
                 a.click();
-                a.remove();            
+                a.remove();
               };
             /**************************************
             *         LOAD FILES TO UPLOAD        *
             **************************************/
               $scope.loadFilesFn = function(e) {
                 $scope.fileListTmp=[];
-                var list = e;            
+                var list = e;
                 $scope.$apply(function($scope) {
                 for(var i=0;i<list.files.length;i++){
                   file = list.files[i];
@@ -5139,14 +5137,14 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                 }
                 //console.log($scope.fileListTmp);
                 $scope.processFileListFn();
-                });               
+                });
               }
             /**************************************
             *          UPLOAD SINGLE FILE         *
             **************************************/
               $scope.uploadSingleFile = function(item){
                 for (var key in $scope.filesUploadList){
-                  if ($scope.filesUploadList[key].name==item.name && $scope.filesUploadList[key].type==item.type){                
+                  if ($scope.filesUploadList[key].name==item.name && $scope.filesUploadList[key].type==item.type){
                     var file      =  $scope.filesUploadList[key];
                     var fileTitle  =  item.fileTitle==''?'':item.fileTitle.replace(/ /g,"_");;
                     break;
@@ -5158,12 +5156,12 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
             /**************************************
             *          UPLOAD ALL FILES           *
             **************************************/
-              $scope.uploadAllFiles = function(fileList){            
+              $scope.uploadAllFiles = function(fileList){
                 for (var item in fileList){
                   //console.log(fileList[item]);
                   if (fileList[item].uploadStatus==false){
                     for (var key in $scope.filesUploadList){
-                      if ($scope.filesUploadList[key].name==fileList[item].name && $scope.filesUploadList[key].type==fileList[item].type){                
+                      if ($scope.filesUploadList[key].name==fileList[item].name && $scope.filesUploadList[key].type==fileList[item].type){
                         var file      =  $scope.filesUploadList[key];
                         var fileTitle  =  fileList[item].fileTitle==''?'':fileList[item].fileTitle.replace(/ /g,"_");;
                       //SEND DATA TO THE UPLOAD SERVICE
@@ -5205,7 +5203,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                   //console.log(rsupload);
                   if(rsupload.status==200){
                     $scope.uploadCustomerData.idClient = idClient;
-                    $scope.uploadCustomerData.urlFile  = rsupload.data.dir+rsupload.data.filename;                
+                    $scope.uploadCustomerData.urlFile  = rsupload.data.dir+rsupload.data.filename;
                     $scope.uploadCustomerData.name     = rsupload.data.filename;
                     $scope.uploadCustomerData.type     = rsupload.data.type;
                     //console.log($scope.uploadCustomerData);
@@ -5216,7 +5214,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                               ttl:2000, type: 'success'
                         });                    
                         item.uploadStatus=true;
-                        $scope.getCustomerListFn("",1);                    
+                        $scope.getCustomerListFn("",1);
                       }else if(response.status==404){
                       console.log("not found, contact administrator");
                       inform.add('Error: [404] Contacta al area de soporte. ',{
@@ -5274,17 +5272,17 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                     });
                   }
                 });
-              }                  
+              }
             /**************************************
             *             SET FILENAME            *
             **************************************/
-              $scope.editItem = function(item) {          
+              $scope.editItem = function(item) {
                 $('#editItemTitleModal').modal({backdrop: 'static', keyboard: false});
                 angular.element(document.getElementById("editItemTitleModal")).scope().item = {};
                 $('#editItemTitleModal').on('shown.bs.modal', function () {
                   angular.element(document.getElementById("editItemTitleModal")).scope().item = item;
                   $("#fileTitle").focus();
-                });              
+                });
               };
               $scope.saveItem = function(item) {
                 $('#editItemTitleModal').modal('hide');
@@ -5334,7 +5332,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                     }
                     reader.readAsDataURL(file);
                     $("#uploadCustomerfiles").val(null);
-              }            
+              }
         /**************************************************/
 
           $scope.tmpAddres = {'province':{},'location':{}};

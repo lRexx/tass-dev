@@ -280,7 +280,7 @@ login.controller('LoginCtrl', function($scope, $location, $routeParams, blockUI,
                 placement:'auto right',
                 trigger: 'manual',
                 sanitize: false,
-                title: '<div>Soporte coferba</div>',
+                title: '<div>TASS Seguridad</div>',
                 template: '<div class="popover"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div><div class="popover-footer"><button type="button" class="btn btn-sm btn-success modalYes">Si</button>&nbsp<button type="button" class="btn btn-sm btn-danger modalNo" data-dismiss="modal">No</button></div></div>',
                 html: true
             }); 
