@@ -48,7 +48,7 @@
 							  </div>
 							</div>
 						</div>
-						<!-- INTERNET: Maintenance Type -->					  
+						<!-- INTERNET: Maintenance Type -->
 						<div class="form-group col-md-6" >  
 						  	<label style="padding-left: 15px;">Tipo de mantenimiento</label>
 						    <div class="col-xs-12 ">
@@ -58,7 +58,7 @@
 					    		</div>
 					    	</div>
 						</div>
-						<!-- INTERNET: Maintenance Type -->						
+						<!-- INTERNET: Maintenance Type -->
 						<div class="form-group col-md-6" ng-class="
 									{	'has-success': 
 										service.new.idInternetCompanyFk!='' && fCustomerNewService.service_internetCompany.$valid,
@@ -78,7 +78,7 @@
 							  </div>
 							</div>
 						</div>
-						<!-- INTERNET: plan list -->						
+						<!-- INTERNET: plan list -->
 						<div class="form-group col-md-6" ng-class="
 									{	'has-success': 
 										service.new.idServiceFk!='' && fCustomerNewService.service_internetPlan.$valid,
@@ -121,7 +121,7 @@
 					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.MODEM | filter: $select.search">
 					                      <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
 					                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
-					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>
 					                    </ui-select-choices>
 					                    <ui-select-no-choice>
 										    No hay resultados, contacte are de soporte.
@@ -129,7 +129,7 @@
 					                </ui-select>
 					            </div>
 						  	</div>
-						</div>					
+						</div>
 						<!-- INTERNET: Start_date -->
 						<div class="form-group col-md-6" ng-class="
 									{	'has-success': 
@@ -182,7 +182,7 @@
 									<input name="service_numChip" type="text" class="form-control" ng-model="service.new.numChip" />
 							  </div>
 							</div>
-						</div>						
+						</div>
 						<!-- INTERNET: Service Associated -->
 						<div class="form-group col-md-6" ng-class="
 								{	'has-success': 
@@ -194,7 +194,7 @@
 							  <div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-wrench"></i></span>
-									<select style="height: 182px;" name="service_customerServiceList" class="form-control" ng-options="item.idClientServices as (item.idClientServices+' - '+item.clientTypeServices+' ('+item.service[0].titulo+''+item.service[0].name+')') for item in rsServicesListByCustomerIdData | filter:filterAssociatedServices" ng-model="service.new.idServiceAsociateFk" autofocus multiple>
+									<select style="height: 182px;" name="service_customerServiceList" class="form-control" ng-options="item.idClientServices as item.idClientServices+' - '+item.clientTypeServices+' ('+item.service[0].titulo+''+item.service[0].name+')' for item in rsServicesListByCustomerIdData | filter:filterAssociatedServices" ng-model="service.new.idServiceAsociateFk" autofocus multiple>
 									    <option class="text-uppercase" value="">Selecciona una opci&#243;n</option>
 								    </select>
 							  </div>
@@ -211,7 +211,7 @@
 						  	<label style="padding-left: 15px;">Router conectado </label></div>
 						  <div class="pull-right col-md-4"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.router.selected==undefined" ng-click="compServiceProductDetailsFn(service.router.selected, productListType.ROUTER)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 						  	<button ng-if="service.router.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeProductDetailsFn(service.router.selected, productListType.ROUTER, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
-						    <div class="col-xs-12 selectContainer">							   
+						    <div class="col-xs-12 selectContainer">
 							    <div class="input-group">
 					              <span class="input-group-addon"><i class="fas fa-wifi"></i></span>
 					              <ui-select name="service_router"  
@@ -278,7 +278,7 @@
 											<input name="service_passAdmin" type="text" class="form-control" ng-model="service.new.passAdmin" />
 									  </div>
 									</div>
-								</div>							
+								</div>
 							</div>
 							<div ng-if="service.new.idTypeInternetFk!=undefined && service.new.idTypeInternetFk=='1'" class="well-checkbox form-group col-md-6 n-padding-l n-padding-r">
 								<div class="form-group col-md-6 text-badge"> <h4>Wifi TASS</h4></div>
@@ -299,7 +299,7 @@
 											<input name="service_passTass" type="text" class="form-control" ng-model="service.new.passTass" />
 									  </div>
 									</div>
-								</div>							
+								</div>
 							</div>
 							<div ng-if="service.new.idTypeInternetFk!=undefined && service.new.idTypeInternetFk=='2'" class="well-checkbox form-group col-md-6 n-padding-l n-padding-r">
 								<div class="form-group col-md-6 text-badge"> <h4>Wifi Cliente</h4></div>
@@ -320,7 +320,7 @@
 											<input name="service_passCliente" type="text" class="form-control" ng-model="service.new.passCliente" />
 									  </div>
 									</div>
-								</div>							
+								</div>
 							</div>
 						</div>
 					</fieldset>

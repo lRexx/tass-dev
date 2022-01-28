@@ -26,7 +26,7 @@
 									<input name="service_name" id="service_name" type="text" class="form-control" ng-model="service.update.name" required="true" />
 							  </div>
 							</div>
-						</div>					
+						</div>
 						<!-- APP_MONITOR: contrato -->
 						<div class="form-group col-md-6 n-padding-l n-padding-r" ng-class="
 									{	'has-success': 
@@ -61,8 +61,8 @@
 									<input name="service_numberCustomer" type="text" class="form-control" ng-model="service.update.sucribeNumber" required="true" />
 							  </div>
 							</div>
-						</div>						
-						<!-- APP_MONITOR: Maintenance Type -->					  
+						</div>
+						<!-- APP_MONITOR: Maintenance Type -->
 						<div class="form-group col-md-6 n-padding-l n-padding-r" >  
 						  	<label style="padding-left: 15px;">Tipo de mantenimiento</label>
 						    <div class="col-xs-12 ">
@@ -71,7 +71,7 @@
 					    			<input name="service_mnt_type" type="text" class="form-control" ng-disabled="true" ng-model="service.update.MntType" />
 					    		</div>
 					    	</div>
-						</div>					
+						</div>
 						<!-- APP_MONITOR: Start_date -->
 						<div class="form-group col-md-6 n-padding-l n-padding-r" ng-class="
 									{	'has-success': 
@@ -156,8 +156,8 @@
 							<div class="input-group col-md-4">
 								<button  ng-click="isCollapsed = !isCollapsed;" class="btn btn-sm btn-warning"><i class="fas fa-plus"></i> Licencias</button>
 							</div>
-						</div>						
-						<!-- Cantidad de nuevas licencias -->						  
+						</div>
+						<!-- Cantidad de nuevas licencias -->
 						<div ng-show="!isCollapsed"  class="form-group col-md-4 col-xs-12" >
 						  	<label style="padding-left: 15px; margin-top: 5px;">Cantidad de nuevas licencias:</label>
 						</div>
@@ -172,7 +172,7 @@
 							    	<span class="input-group-addon"><i class="fas fa-sort-numeric-up-alt"></i></span>
 									<input name="service_numbOfLicences" class="form-control input--number" type="number" min="0" max="999" ng-min="0" ng-max="999" only-number ng-keydown="fnLoadPhoneMask();" ng-model="service.numbOfNewLicence" ng-required="service.numbOfLicenceSet<=0 || list_user_licence.length==0" autofocus>				    			
 					    		</div>
-					    	</div>						
+					    	</div>
 						</div>
 						<div ng-show="!isCollapsed" class="form-group col-md-4  col-xs-6">
 							<div class="input-group">
@@ -235,7 +235,7 @@
 										    	<span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
 										  		<select name="deparment_registered_list" 
 										  				class="form-control input-sm"
-										  				ng-change="search(service.idDepartmentList, '', true);"
+										  				ng-change="search(service.idDepartmentList, null, null, null, null, null, true);"
 										  				ng-options="item.idDepto as item.Depto for item in rsBuildingDepartmentsData" 
 										  				ng-required="false"
 										  				ng-model="service.idDepartmentList" autofocus >

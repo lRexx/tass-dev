@@ -78,7 +78,7 @@
 							  </div>
 							</div>
 						</div>
-						<!-- INTERNET: plan list -->						
+						<!-- INTERNET: plan list -->
 						<div class="form-group col-md-6" ng-class="
 									{	'has-success': 
 										service.update.idServiceFk!='' && fCustomerUpdateService.service_internetPlan.$valid,
@@ -108,7 +108,7 @@
 						  	<div class="col-md-6"><label style="padding-left: 15px;">MODEM </label> </div>
 						  	<div class="pull-right col-md-4"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.modem.selected==undefined" ng-click="compServiceProductDetailsFn(service.modem.selected, productListType.MODEM)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 						  	<button ng-if="service.modem.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeProductDetailsFn(service.modem.selected, productListType.MODEM, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div> 
-						    <div class="col-xs-12 selectContainer">							   
+						    <div class="col-xs-12 selectContainer">
 							    <div class="input-group">
 					              <span class="input-group-addon"><i class="fas fa-project-diagram"></i></span>
 					              <ui-select name="service_modem"  
@@ -121,7 +121,7 @@
 					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.MODEM | filter: $select.search">
 					                      <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
 					                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
-					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>
 					                    </ui-select-choices>
 					                    <ui-select-no-choice>
 										    No hay resultados, contacte are de soporte.
@@ -182,7 +182,7 @@
 									<input name="service_numChip" type="text" class="form-control" ng-model="service.update.numberChip" />
 							  </div>
 							</div>
-						</div>						
+						</div>
 						<!-- INTERNET: Service Associated -->
 						<div class="form-group col-md-6" ng-class="
 								{	'has-success': 
@@ -194,8 +194,8 @@
 							  <div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-wrench"></i></span>
-									<select style="height: 182px;" name="service_customerServiceList" class="form-control" ng-options="item.idClientServices as (item.idClientServices+' - '+item.clientTypeServices+' ('+item.service[0].titulo+''+item.service[0].name+')') for item in rsServicesListByCustomerIdData | filter:filterAssociatedServices" ng-model="service.update.idServiceAsociateFk" multiple autofocus>
-									    <option class="text-uppercase" value="">Selecciona una opci&#243;n</option>
+									<select style="height: 182px;" name="service_customerServiceList" class="form-control" ng-options="item.idClientServices as item.idClientServices+' - '+item.clientTypeServices+' ('+item.service[0].titulo+''+item.service[0].name+')' for item in rsServicesListByCustomerIdData | filter:filterAssociatedServices" ng-model="service.update.idServiceAsociateFk" multiple autofocus>
+									    <!--<option class="text-uppercase" value="">Selecciona una opci&#243;n</option>-->
 								    </select>
 							  </div>
 							</div>
@@ -224,7 +224,7 @@
 					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.ROUTER | filter: $select.search">
 					                      <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
 					                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
-					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>
 					                    </ui-select-choices>
 					                    <ui-select-no-choice>
 										    No hay resultados, contacte are de soporte.
