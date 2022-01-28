@@ -11,11 +11,11 @@
                 <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.info.idClientTypeFk==4">Sucursal</span>
                 <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.info.idClientTypeFk==5">Particular</span> :: 
                 {{customer.info.name}}
-              </h4>                
+              </h4>
           </div>
         <div class="modal-body">
         	<div class="col-md-12 col-sm-12">
-			      <label class="from-left-from-label" style="font-size: 18px;">CORREOS DE CONTACTO</label>            
+			      <label class="from-left-from-label" style="font-size: 18px;">CORREOS DE CONTACTO</label>
         	</div>
           <div class="clearfix"> </div> 
           <!-- Mails -->
@@ -53,7 +53,7 @@
                             <i class="fas fa-key"></i>
                           </label>
                         </span>
-                      </td>                               
+                      </td>
                       <td style="width: 150%"><span class="text-muted text-box"><label style="font-size: 100%" class="label label-info">{{customer.info.mailFronKey | uppercase}}</label></span></td>
                         <td style="padding-bottom: 5px;">
                           <button data-toggle="tooltip" data-placement="right" title="Copiar" ngclipboard data-clipboard-text="{{customer.info.mailFronKey}}" class="btn btn-sm btn-success"><i style="font-size: 14px;" class="fas fa-copy"></i></button>
@@ -67,7 +67,7 @@
                             <i class="fas fa-tools"></i>
                           </label>
                         </span>
-                      </td>                               
+                      </td>
                       <td style="width: 150%"><span class="text-muted text-box"><label style="font-size: 100%" class="label label-info">{{customer.info.mailServiceTecnic | uppercase}}</label></span></td>
                         <td style="padding-bottom: 5px;">
                           <button data-toggle="tooltip" data-placement="right" title="Copiar" ngclipboard data-clipboard-text="{{customer.info.mailServiceTecnic}}" class="btn btn-sm btn-success" style="cursor: pointer;"><i style="font-size: 14px;" class="fas fa-copy"></i></button>
@@ -81,7 +81,7 @@
                             <i class="fas fa-file-invoice-dollar"></i>
                           </label>
                         </span>
-                      </td>                               
+                      </td>
                       <td style="width: 150%"><span class="text-muted text-box"><label style="font-size: 100%" class="label label-info">{{customer.info.mailCollection | uppercase}}</label></span></td>
                         <td style="padding-bottom: 5px;">
                           <button data-toggle="tooltip" data-placement="right" title="Copiar" ngclipboard data-clipboard-text="{{customer.info.mailCollection}}" class="btn btn-sm btn-success"><i style="font-size: 14px;" class="fas fa-copy"></i></button>
@@ -95,16 +95,16 @@
                             <i class="fas fa-envelope"></i>
                           </label>
                         </span>
-                      </td>                               
+                      </td>
                       <td style="width: 150%"><span class="text-muted text-box"><label style="font-size: 100%" class="label label-info">{{customer.info.mail | uppercase}}</label></span></td>
                         <td style="padding-bottom: 5px;">
                           <button data-toggle="tooltip" data-placement="right" title="Copiar" ngclipboard data-clipboard-text="{{customer.info.mail}}" class="btn btn-sm btn-success"><i style="font-size: 14px;" class="fas fa-copy"></i></button>
 
                         </td>
-                  </tr>                       
+                  </tr>
                 </table>-->
                 <div ng-if="list_mails.length==0 && customer.info.mailFronKey==undefined && customer.info.mailServiceTecnic==undefined && customer.info.mailCollection==undefined && customer.info.mail==undefined" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay correos cargados</h5></div>
-            </div>                  
+            </div>
           </div>
           <div class="clearfix"> </div> 
         </div>

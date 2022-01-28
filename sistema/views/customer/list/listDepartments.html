@@ -16,7 +16,7 @@
 			        </thead>
 			        <tbody class="fixed-body">
 				        <tr id="floor-{{floor.nameFloor}}" ng-repeat="floor in list_depto_floors">	
-				        <!-- CELL CONTROL {{floor.deptos.length}}-->			                    	
+				        <!-- CELL CONTROL {{floor.deptos.length}}-->
 				          	<td class="td-btn"  ng-class="{
 				          								   'listDeptoCo-RO':rolePermission=='ro' && floor.nameFloor=='co',
 				          								   'listDepto-RO':rolePermission=='ro' && floor.nameFloor!='co'
@@ -48,7 +48,7 @@
 				          				(floor.nameFloor=='lo' && list_depto_floors[2].deptos.length==0) || 
 				          				(floor.nameFloor=='pb' && list_depto_floors[3].deptos.length==0) ||
 				          				(floor.nameFloor!='co' && floor.nameFloor!='ba' && floor.nameFloor!='lo' && floor.nameFloor!='pb' && list_depto_floors[floor.id].deptos.length==0)"><i class="far fa-trash-alt"></i></button>
-								</div>						          				
+								</div>
 				          	</td>
 				        <!-- //CELL CONTROL -->
 				        <!-- CELL WHEN THERE ISNT DEPTOS DEFINED -->
@@ -62,7 +62,7 @@
 					          	</div>		
 					          	<div class="col-md-12" ng-if="floor.nameFloor!='co' && floor.nameFloor!='ba' && floor.nameFloor!='lo' && floor.nameFloor!='pb' && list_depto_floors.length==floor.nameFloor+4">
 									<button ng-if="rolePermission=='rw'" ng-click="delFloorFn(floor);" data-toggle="tooltip" data-placement="right" title="" type="button" class="btn btn-danger btn-xl ng-scope" data-original-title="Eliminar piso" style="margin-left: 20em;"><i class="far fa-trash-alt"></i> Eliminar piso</button>
-					          	</div>				          				
+					          	</div>
 				          	</td>
 				        <!-- //CELL WHEN THERE ISNT DEPTOS DEFINED -->
 				        	<!-- COCHERAS -->
@@ -86,12 +86,12 @@
 					          						</label>
 													<label ng-if="depto.unitNumber=='' || depto.unitNumber=='0'" style="cursor: pointer; font-size:  14px;padding-left: 5px;" data-toggle="tooltip" data-placement="right" title="No asignado" class="label" ng-class="{'label-warning': depto.unitNumber=='' || depto.unitNumber=='0'}"><i  class="fas fa-tag"> </i> 
 					          							<span>N/A</span>
-					          						</label>					          						
+					          						</label>
 								          		</span>
 									    	</div>
 									    	<div ng-if="rolePermission=='rw' && depto.floor=='co'" class="form-inline col-xs-12 nopadding-containter" style="margin-top: -1px;">
 									    		<button style="margin-top: 5px;" ng-click="deleteSelectedDeptoMultiFn(depto)" data-toggle="tooltip" data-placement="right" title="Eliminar" type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;<i class="far fa-trash-alt">&nbsp;&nbsp;&nbsp;</i></button>
-									    	</div>						    			
+									    	</div>
 				          				</li>
 				          			</ul>
 			          			</div> 
@@ -115,7 +115,7 @@
 		          						</label>
 										<label ng-if="depto.unitNumber=='' || depto.unitNumber=='0'" style="cursor: pointer; font-size:  14px;padding-left: 5px;" data-toggle="tooltip" data-placement="right" title="No asignado" class="label" ng-class="{'label-warning': depto.unitNumber=='' || depto.unitNumber=='0'}"><i  class="fas fa-tag"> </i> 
 		          							<span>N/A</span>
-		          						</label>			          							          			
+		          						</label>
 					          		</span>
 						         </div>
 						    	<div ng-if="rolePermission=='rw'" class="form-inline col-xs-12 nopadding-containter" style="margin-top: -1px;">
@@ -150,8 +150,8 @@
 						    	</div>	
 				          	</td>
 				          	<!-- //LOCALES -->
-				          	<!-- Bulding Unit Stores -->          	
-				          	<!-- Bulding Unit Department -->       				
+				          	<!-- Bulding Unit Stores -->
+				          	<!-- Bulding Unit Department -->
 				          	<td ng-if="floor.nameFloor!='co' && floor.nameFloor!='ba' && floor.nameFloor!='lo' && depto.idStatusFk=='1'" id="depto-{{depto.idDepto}}" ng-repeat="depto in floor.deptos" class="td-depto">   
 					          	<div class="form-inline col-xs-12 nopadding-containter" style="padding-bottom: 5px;">
 					          		<span>
@@ -183,13 +183,13 @@
 		          						</label>
 										<label ng-if="depto.unitNumber=='' || depto.unitNumber=='0'" style="cursor: pointer; font-size:  14px;padding-left: 5px;" data-toggle="tooltip" data-placement="right" title="No asignado" class="label" ng-class="{'label-warning': depto.unitNumber=='' || depto.unitNumber=='0'}"><i  class="fas fa-tag"> </i> 
 		          							<span>N/A</span>
-		          						</label>			          							          			
+		          						</label>
 					          		</span>
 						         </div>
 						    	<div ng-if="rolePermission=='rw'" class="form-inline col-xs-12 nopadding-containter" style="    margin-top: -4px;">
 						    		<button style="margin-top: 5px;" ng-click="deleteSelectedDeptoMultiFn(depto)" data-toggle="tooltip" data-placement="right" title="Eliminar" type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;<i class="far fa-trash-alt">&nbsp;&nbsp;&nbsp;</i></button>
 						    	</div>	
-				          	</td>                        	
+				          	</td>
 				        </tr>
 					</tbody>
 			      </table>
@@ -207,5 +207,5 @@
         </div>
     </div>
   </div>
-</div>			 
+</div>
 <!-- // DEPARTMENTS -->
