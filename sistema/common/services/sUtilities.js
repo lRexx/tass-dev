@@ -93,8 +93,20 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   },function myError(response) { 
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
+            });
           },
+          CategoryKeyChains: function() {
+            //console.log("[Utilities Services]: Get KeyChains Category ");
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"seeds/CategoryKeyChains"
+                  }).then(function mySuccess(response) {
+                    return response;
+                  },function myError(response) { 
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                    return response;
+            });
+          },          
           typeOfMails: function() {
             //console.log("[Utilities Services]: Get Type of Mails");
               return $http({
