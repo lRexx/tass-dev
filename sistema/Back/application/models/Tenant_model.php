@@ -145,6 +145,10 @@ class Tenant_model extends CI_Model
 
                 if (@$idType > 0){
                     $this->db->select("*")->from("tb_user");
+                    $this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
+                    $this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
+                    $this->db->join('tb_typetenant', 'tb_typetenant.idTypeTenant = tb_user.idTypeTenantKf', 'left');
+                    $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
                     
                     if (@$id > 0){
                         $this->db->where("tb_user.idTypeTenantKf =", $idType);
@@ -160,10 +164,11 @@ class Tenant_model extends CI_Model
                     
                     if (@$id > 0){
                         $this->db->select("*")->from("tb_user");
+                        $this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
+                        $this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
+                        $this->db->join('tb_typetenant', 'tb_typetenant.idTypeTenant = tb_user.idTypeTenantKf', 'left');
+                        $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
                         $query = $this->db->where("tb_user.idDepartmentKf =", $id)->get();
-                        
-                    }else{
-                        $query =  $this->db->select("*")->from("tb_user")->get();
                         
                     }
                  }
@@ -188,24 +193,56 @@ class Tenant_model extends CI_Model
         
                 $tenant = null;
                 $extrawhere = "";
-                $extrawheresubquery = "";
-                $rs = null;
+                $extrawherekey = "";
+                $keyfound = null;
 
                 if($id > 0){
-                    $extrawhere = " where  t1.idDepartmentKf = ".$id."  or idUser in (select idUserKf from  tb_client_departament where idClientDepartament = ".$id." ) ";
+                    $extrawhere = " t1.idDepartmentKf in (select tb_client_departament.idClientDepartament from tb_client_departament where idClientDepartament = ".$id.")  or t1.idUser in (select tb_client_departament.idUserKf from  tb_client_departament where idClientDepartament = ".$id." ) ";
+                }else{
+                    return null;
                 }
-                
-                $query = $query = $this->db->query(" select * from tb_user t1 ".$extrawhere);
+                $this->db->select("*")->from("tb_user as t1");
+                $this->db->join('tb_profile', 'tb_profile.idProfile = t1.idProfileKf', 'left');
+                $this->db->join('tb_profiles', 'tb_profiles.idProfiles = t1.idSysProfileFk', 'left');
+                $this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = t1.idDepartmentKf', 'left');
+                $this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
+                $this->db->join('tb_typetenant', 'tb_typetenant.idTypeTenant = t1.idTypeTenantKf', 'left');
+                $this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = t1.idTyepeAttendantKf', 'left');
+                $this->db->join('tb_status', 'tb_status.idStatusTenant = t1.idStatusKf', 'left');
+                $query = $this->db->where($extrawhere)->get();
 
 
     
             if($query->num_rows() > 0){
-                $rs = $query->row_array();
                 $tenant = $query->result_array();
-            
+                
+                foreach ($tenant as $key => $item) {
+                    $idTypeTenantKf = $item['idTypeTenantKf'];
+                    $idUserKf = $item['idUser'];
+                    $query2    = null;
+                    if (isset($idTypeTenantKf)) {
+                        
+                        $extrawherekey = "tb_keychain.idUserKf=$idUserKf AND tb_keychain.idDepartmenKf=$id";
+                        
+                        // Buscamos los perfiles de sistema //
+                        $this->db->select("*")->from("tb_keychain");
+                        $this->db->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left');
+                        $this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left');
+                        $query2 = $this->db->where($extrawherekey)->get();
+                        if ($query2->num_rows() === 1) {
+                            $keyfound = $query2->row_array();
+                            $tenant[$key]['myKeys'] = $keyfound;
+                        }else{
+                            $tenant[$key]['myKeys']=null;
+                        }
+                    }
+                    
+                }
                 $rs = array(
                     'tenant' => $tenant
                 );
+            }else{
+                $rs = null;
             }
                 return $rs;
     }

@@ -453,7 +453,7 @@ moduleMainApp.controller('MainAppCtrl',  function($route, $scope, Lightbox, $sce
         $scope.vIndex=null;
         $scope.selectTableRow = function (value, idItem, opt) {
           $scope.vIndex = value;
-          $scope.idDeptoKf = idItem;           
+          $scope.idDeptoKf = idItem;
           console.log("[selectTableRow]->idItem: "+idItem);
             if ($scope.dayDataCollapse === 'undefined') {
                 $scope.dayDataCollapse = $scope.dayDataCollapseFn();
@@ -1823,19 +1823,19 @@ moduleMainApp.controller('MainAppCtrl',  function($route, $scope, Lightbox, $sce
     **************************************************/
       $scope.approveOwnerDepto = function (idDepto) {
         userServices.approveOwnerDepto(idDepto).then(function(data) {
-                  $scope.approveDeptoResult= data;
-                  if($scope.approveDeptoResult){
-                    inform.add('Propietario autorizado satisfactoriamente.',{
-                                ttl:5000, type: 'success'
-                    });
-                    $scope.listUserDepto(1,$scope.selectIdAddressKf.selected.idAdress);
-                    $scope.searchTenant('listTenant', idDepto);
-                  }else{
-                    inform.add('Contacte con la administracion del consorcio.',{
-                      ttl:6000, type: 'danger'
-                    });
-                  }
-                });
+          $scope.approveDeptoResult= data;
+          if($scope.approveDeptoResult){
+            inform.add('Propietario autorizado satisfactoriamente.',{
+                        ttl:5000, type: 'success'
+            });
+            $scope.listUserDepto(1,$scope.selectIdAddressKf.selected.idAdress);
+            $scope.searchTenant('listTenant', idDepto);
+          }else{
+            inform.add('Contacte con la administracion del consorcio.',{
+              ttl:6000, type: 'danger'
+            });
+          }
+        });
        };
 
     /**************************************************
@@ -2038,7 +2038,7 @@ moduleMainApp.controller('MainAppCtrl',  function($route, $scope, Lightbox, $sce
                          });          
                     }
             });
-        }
+      }
 
 
     /**************************************************
@@ -3722,7 +3722,7 @@ moduleMainApp.controller('MainAppCtrl',  function($route, $scope, Lightbox, $sce
                     $scope.lisTenantByType($scope.select.idDepartmentKf,$scope.typeTenant);
                   }
                 break;
-                /*case "depto":
+                  /*case "depto":
                   if ($scope.sessionidProfile==3){
                     $scope.typeTenant = 2;
                     $scope.lisTenantByType(idDpto,$scope.typeTenant);
@@ -17368,11 +17368,10 @@ moduleMainApp.controller('MainAppCtrl',  function($route, $scope, Lightbox, $sce
               $scope.chkBox.modulo[key]=false;
             }
         }
-        $scope.sysUpProfile.Name=$scope.tmpSysModules.name;  
+        $scope.sysUpProfile.Name=$scope.tmpSysModules.name;
         $('#updateSysProfile').modal('show');
         console.log($scope.tmpSysModules.modules);
         //console.log($scope.tmpSysModules.length);
-        $scope.chkBox.modulo.row
         for (var i = 0; i < $scope.tmpSysModules.modules.length; i++) {
           $scope.chkBox.modulo[$scope.tmpSysModules.modules[i].idModule]=true;
         }

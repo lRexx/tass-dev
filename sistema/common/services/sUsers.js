@@ -1,13 +1,14 @@
 var moduleUserServices = angular.module("services.User", ["tokenSystem"]);
 
-moduleUserServices.service("userServices", ['$http', 'tokenSystem', '$timeout', 'serverHost', 'serverBackend', 'serverHeaders', 
-  function($http, tokenSystem, $timeout, serverHost, serverBackend, serverHeaders){
+moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$timeout', 'serverHost', 'serverBackend', 'serverHeaders', 
+  function($http, $q, tokenSystem, $timeout, serverHost, serverBackend, serverHeaders){
       var checkResult=0;
       var rsJson = {};
       var attempsToken = {emailAttempted:'', attempsCount: 0};
       var loginResult="";
       var rsJSON;
       var mail2Search = {mail:{ email: ''}};
+      var deferred = $q.defer();
       return {
           /* FIND USER BY EMAIL */
           checkUserMail: function(userMail, typeOfCheck) {
@@ -63,9 +64,20 @@ moduleUserServices.service("userServices", ['$http', 'tokenSystem', '$timeout', 
             //console.log("Email a verificar: "+userMail);  
               return $http.post(serverHost+serverBackend+"User/findUserByEmail",mail2Search, serverHeaders)
                 .then(function mySucess(response, status, data) {
-                    rsJson=response;
-                    return rsJson;
-                  },function myError(response) { 
+                    return response;
+                  }).catch(function onError(response) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                    return response;
+                  })
+          },
+          /* FIND USER BY ID */
+          findUserById: function(idUser) {
+            return $http({
+              method : "GET",
+              url : serverHost+serverBackend+"User/index/"+idUser
+                  }).then(function mySuccess(response) {
+                    return response;
+                  }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
                   })
@@ -184,7 +196,6 @@ moduleUserServices.service("userServices", ['$http', 'tokenSystem', '$timeout', 
                       default:
                     }
                 },function myError(response) {
-                  alert(status);
                     if(response.status == 404){
                       console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
                       /*inform.add(response.data.error,{
@@ -200,6 +211,22 @@ moduleUserServices.service("userServices", ['$http', 'tokenSystem', '$timeout', 
                 })   
           },
           /*/LOGIN SERVICE*/
+          /* UPDATE LOGGED USER DATA SERVICE */
+          updateLoggedUserData: function(idUser) {
+            return $http({
+                  method : "GET",
+                  url : serverHost+serverBackend+"User/index/"+idUser
+                }).then(function mySuccess(response) {
+                  
+                  tokenSystem.destroyTokenStorage(5);
+                  tokenSystem.setTokenStorage(true, response.data, response.data.modules);
+                  return response;
+                }).catch(function onError(response) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                    return response;
+                });
+          },
+          /*/LOGIN SERVICE*/
           /*GET OFFICES BY COMPANY ID*/
           officeList: function(idCompany) {
               var rsData = {};
@@ -212,7 +239,7 @@ moduleUserServices.service("userServices", ['$http', 'tokenSystem', '$timeout', 
                       //console.log(rsData);
                       return rsData;
 
-                  },function myError(response, error) { 
+                  }).catch(function onError(response) {
                       console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
                       return response;
                   });
@@ -249,20 +276,31 @@ moduleUserServices.service("userServices", ['$http', 'tokenSystem', '$timeout', 
                   });
           },
           /*/GET THE TENANT WITHOUT DEPT AND OWNER WITH OR WITHOUT DEPT*/
-          usersWithoutDepto: function(idDepto) {
+          userListToAssing: function(idDepto) {
               console.log("[Service][usersWithoutDepto]---> idDeparment: "+idDepto);
               return $http({
                     method : "GET",
                     url : serverHost+serverBackend+"user/usernoregister/"+idDepto
                   }).then(function mySuccess(response) {
-                      response = response.data;
                       return response;
-
                   },function myError(response, error) { 
                       console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
                       return response;
                   });
           },
+          /*/GET THE TENANT WITHOUT DEPT AND OWNER WITH OR WITHOUT DEPT*/
+          attendantsListToAssing: function() {
+            console.log("[Service][attendantsWithoutAddressAssigned]");
+            return $http({
+                  method : "GET",
+                  url : serverHost+serverBackend+"user/attendantWithNobuildingAssigned/"
+                }).then(function onSuccess(response) {
+                  return response;
+                }).catch(function onError(response) {
+                  console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                  return response;
+                });
+        },
           /*GET USER LIST BY GROUP*/
           userLists: function() {
               var rsData = {};
@@ -280,6 +318,20 @@ moduleUserServices.service("userServices", ['$http', 'tokenSystem', '$timeout', 
                       return response;
                   });
           },
+          /*GET ATTENDANT LIST BY ADDRESS*/
+          attendantList: function(idAddress) {
+            var rsData = {};
+            console.log("[Service][Getting]--->[attendants] by Address "+idAddress);
+            return $http({
+                  method : "GET",
+                  url : serverHost+serverBackend+"User/attendantByIdDirecction/"+idAddress
+                }).then(function mySuccess(response) {
+                  return response;
+                },function myError(response, error) { 
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                    return response;
+                });
+        },
           /*GET FILTER FORM LIST*/
           filterForm: function() {
             var rsData = {};
@@ -288,9 +340,7 @@ moduleUserServices.service("userServices", ['$http', 'tokenSystem', '$timeout', 
                   method : "GET",
                   url : serverHost+serverBackend+"User/filterForm/"
                 }).then(function mySuccess(response) {
-                    rsData = response;
-                    //console.log(rsData);
-                    return rsData;
+                    return response;
                 },function myError(response, error) { 
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
                     return response;

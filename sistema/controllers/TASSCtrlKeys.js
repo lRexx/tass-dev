@@ -50,7 +50,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
         'info':{}, 
         'select':{'main':{},'date':{}, 'codes':{}}
     };
-    $scope.select={'filterCategoryKey':'', 'department':'', 'filterCustomerIdFk':{'selected':undefined}, 'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined}, 'products2':{'selected':undefined}}
+    $scope.select={'filterCategoryKey':'', 'department':'', 'filterCustomerIdFk':{'selected':undefined}, 'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined}, 'products2':{'selected':undefined}, 'products3':{'selected':undefined}}
     $scope.keys={'llavero':{}, 
     'new':{'address':{'selected':undefined}, 'products':{'selected':undefined}, 'categoryKey':'', 'department':{}, 'codigo':'', 'codigoExt':''},
     'update':{'address':{'selected':undefined}, 'products':{'selected':undefined}, 'categoryKey':'', 'department':{}, 'codigo':'', 'codigoExt':''},
@@ -74,9 +74,9 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
            var rowList=[];
            var rowId=null;
            for (var key in item){
-             if (item[key].idKeyChain!=undefined && typeof item[key].idKeyChain === 'string'){
-               rowId=Number(item[key].idKeyChain);
-               item[key].idKeyChain=rowId;
+             if (item[key].idKeychain!=undefined && typeof item[key].idKeychain === 'string'){
+               rowId=Number(item[key].idKeychain);
+               item[key].idKeychain=rowId;
                rowList.push(item[key]);
              }
            }
@@ -257,9 +257,9 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                 if (confirm==0){
                     $scope.keyObj=obj;
                         console.log(obj)
-                        $scope.mess2show="Se actualizaran los datos de la llave ID: "+obj.idKeyChain+", Codigo: "+obj.codigo+" por favor,     Confirmar?";
+                        $scope.mess2show="Se actualizaran los datos de la llave ID: "+obj.idKeychain+", Codigo: "+obj.codigo+" por favor,     Confirmar?";
                     
-                        console.log("Llave a actualizar  : "+obj.idKeyChain);
+                        console.log("Llave a actualizar  : "+obj.idKeychain);
                         console.log("============================================================================");
                         //console.log(obj);
                 $('#confirmRequestModal').modal('toggle');
@@ -538,6 +538,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                                     f++;
                                 }
                                 d=0;
+                                //console.log($scope.list_depto_floors);
                                 for (arrList in $scope.list_depto_floors){
                                     if( $scope.rsCategoryKeyChainsData[category].name.toLowerCase().substring(0,2)==$scope.list_depto_floors[arrList].nameFloor){
                                         $scope.list_depto_floors[arrList].deptos.push({
@@ -560,18 +561,19 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                                     
                                 }
                             }
-                            $scope.list_depto_floors.push({'id':4,'nameFloor':'pb', 'qttyKeys':'', 'deptos':[]});
+                            $scope.list_depto_floors.push({'id':4,'nameFloor':'co', 'qttyKeys':'', 'deptos':[]});
+                            $scope.list_depto_floors.push({'id':5,'nameFloor':'pb', 'qttyKeys':'', 'deptos':[]});
                             //FLOORS
                             var buildingList=$scope.keys.file.building.list_departament;
                             $scope.keys.file.building.list_departament=buildingList.sort(function(a, b) {
                                 return b.floor.localeCompare(a.floor)
                             });
-                            //console.table($scope.keys.file.building.list_departament);
+                            //console.table($scope.keys.file.building.list_departament); $scope.keys.file.building.list_departament[floor].floor!="co" &&
                             var lastFloor=null;
                             var lastFloorTmp=null;
                             for (floor in $scope.keys.file.building.list_departament){
-                                if ($scope.keys.file.building.list_departament[floor].floor!="co" && $scope.keys.file.building.list_departament[floor].floor!="ba" && 
-                                    $scope.keys.file.building.list_departament[floor].floor!="lo" &&$scope.keys.file.building.list_departament[floor].floor!="st" && 
+                                if ($scope.keys.file.building.list_departament[floor].floor!="ba" && 
+                                    $scope.keys.file.building.list_departament[floor].floor!="lo" && $scope.keys.file.building.list_departament[floor].floor!="st" && 
                                     $scope.keys.file.building.list_departament[floor].floor!="re" && $scope.keys.file.building.list_departament[floor].floor!="ap" && 
                                     $scope.keys.file.building.list_departament[floor].floor!="ad" && $scope.keys.file.building.list_departament[floor].floor!="pb"){
                                     //console.log("lastFloor: "+lastFloor+" se valida si es mayor que lastFloorTmp: "+lastFloorTmp);
@@ -582,11 +584,11 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                                 }
                             }
                             for (var floorItem=1;  floorItem<=lastFloor; floorItem++){
-                                $scope.list_depto_floors.push({'id':(floorItem+4),'nameFloor':floorItem.toString(), 'qttyKeys':'', 'deptos':[]});
+                                $scope.list_depto_floors.push({'id':(floorItem+5),'nameFloor':floorItem.toString(), 'qttyKeys':'', 'deptos':[]});
                             }
                             var d=0;
                             //DEPTOS
-                            for (arrList in $scope.list_depto_floors){
+                            for (var arrList in $scope.list_depto_floors){
                                 d=0;
                                 for (var depto in $scope.keys.file.building.list_departament){
                                     if($scope.keys.file.building.list_departament[depto].floor.toLowerCase()==$scope.list_depto_floors[arrList].nameFloor){
@@ -624,10 +626,8 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                     };
                     $scope.getCustomerListFn = function(){
                         $scope.buildingCustomerList = [];
-                        CustomerServices.getCustomerList($scope.buildingCustomerRegistered).then(function(data){
-                            $scope.buildingCustomerList = data;
-                            //
-                        });
+                        $scope.buildingCustomerList = $scope.globalCustomers.buildings;
+
                     };$scope.getCustomerListFn(); //LOAD CUSTOMER LIST
                 /**************************************************
                 *                                                 *
@@ -636,13 +636,13 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                 **************************************************/
                     $scope.getDeptoListByAddress = function (idAddress){
                         if(idAddress!=undefined){
-                            $scope.ListDpto={};
+                            $scope.ListDpto=[];
                             var idStatusFk='-1';
                             DepartmentsServices.byIdDireccion(idAddress, idStatusFk).then(function(response) {
                                 if(response.status==200){
                                     $scope.ListDpto = response.data;
                                 }else if (response.status==404){
-                                    $scope.ListDpto = {};
+                                    $scope.ListDpto = [];
                                     inform.add('No hay departamentos en esta direccion para ser asociados, contacte al area de soporte de TASS.',{
                                     ttl:5000, type: 'danger'
                                     });
@@ -674,7 +674,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             $scope.rsAllKeysData = response.data;
                             if (pag){
                                 $scope.rsKeyListsData = response.data;
-                                $scope.loadPagination($scope.rsKeyListsData, "idKeyChain", "10");
+                                $scope.loadPagination($scope.rsKeyListsData, "idKeychain", "10");
                             }
                         }else if(response.status==404){
                             inform.add('[Info]: No hay llaveros registrados. ',{
@@ -704,6 +704,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             'update':{'address':{'selected':undefined}, 'products':{'selected':undefined}, 'categoryKey':'', 'department':{}, 'codigo':'', 'codigoExt':''},
                             'file':{'mainQttyKeys':null, 'product':{}, 'building':{}, 'address':{'selected':undefined}, 'products':{'selected':undefined}, 'categoryKey':'', 'department':{}, 'codigo':'', 'codigoExt':''}};
                             $scope.isNewKey=true;
+                            $scope.select={'filterCategoryKey':'', 'department':'', 'filterCustomerIdFk':{'selected':undefined}, 'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined}, 'products2':{'selected':undefined}, 'products3':{'selected':undefined}}
                             $('#newKeysFile').modal({backdrop: 'static', keyboard: false});
                             $('#newKeysFile').on('shown.bs.modal', function () {
                                 $('#client_address').focus();
@@ -742,7 +743,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                         case "editKey":
                             $scope.isNewKey=false;
                             $scope.isEditKey=true;
-                            //console.log(obj);
+                            console.log(obj);
                             $scope.keys={'llavero':{}, 
                             'new':{'address':{'selected':undefined}, 'products':{'selected':undefined}, 'categoryKey':'', 'department':{}, 'codigo':'', 'codigoExt':''},
                             'update':{'address':{'selected':undefined}, 'products':{'selected':undefined}, 'categoryKey':'', 'department':{}, 'codigo':'', 'codigoExt':''},
@@ -750,9 +751,9 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             var address=obj.addressA==null?obj.addressB:obj.addressA;
                             var idClient=obj.idClientA==null?obj.idClientB:obj.idClientA;
                             $scope.keys.update=obj;
-                            $scope.keys.update.idKeyChain=obj.idKeyChain
+                            $scope.keys.update.idKeychain=obj.idKeychain
                             $scope.keys.update.buildingAddress=address;
-                            $scope.keys.update.categoryKey=obj.idCategoryKey;
+                            $scope.keys.update.categoryKey=obj.idCategoryKf;
                             $scope.keys.update.codigo=obj.codigo;
                             $scope.keys.update.codigoExt=obj.codExt;
                             $scope.keys.update.products={'selected':undefined};
@@ -768,20 +769,20 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             $scope.isNewKey=false;
                             $scope.isEditKey=true;
                             console.log(obj);
-                            $scope.keys.llavero.idKeychain      = obj.idKeyChain;
+                            $scope.keys.llavero.idKeychain      = obj.idKeychain;
                             $scope.keys.llavero.idProductKf     = obj.products.selected.idProduct;
                             $scope.keys.llavero.codExt          = obj.codigoExt;
                             $scope.keys.llavero.codigo          = obj.codigo;
-                            $scope.keys.llavero.idDepartmenKf   = obj.categoryKey=="1"?obj.idDepartmenKf:null;
-                            if (obj.categoryKey!="1" && obj.idClientKf=="0" && obj.idClientB==null && obj.idClientA!=null){
+                            $scope.keys.llavero.idDepartmenKf   = obj.idCategoryKf=="1"?obj.idDepartmenKf:null;
+                            if (obj.idCategoryKf!="1" && obj.idClientKf=="0" && obj.idClientB==null && obj.idClientA!=null){
                                 $scope.keys.llavero.idClientKf  = obj.idClientA;
-                            }else if (obj.categoryKey!="1" && obj.idClientKf=="0" && obj.idClientA==null && obj.idClientB!=null){
+                            }else if (obj.idCategoryKf!="1" && obj.idClientKf=="0" && obj.idClientA==null && obj.idClientB!=null){
                                 $scope.keys.llavero.idClientKf  = obj.idClientB;
                             }else{
                                 $scope.keys.llavero.idClientKf  = obj.idClientKf;
                             }
                             $scope.keys.llavero.idUserKf        = obj.idUserKf;
-                            $scope.keys.llavero.idCategoryKf    = obj.categoryKey;
+                            $scope.keys.llavero.idCategoryKf    = obj.idCategoryKf;
                             $scope.keys.llavero.isKeyTenantOnly = obj.isKeyTenantOnly;
                             console.log($scope.keys.llavero);
                             $scope.updateKeyFn($scope.keys);
@@ -801,7 +802,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             $scope.select.filterCustomerIdFk.selected = undefined;
                             $("#categoryKeyAll").prop("checked", true);
                             $("#categoryKeyAll").val("undefined");
-                            $scope.loadPagination($scope.rsKeyListsData, "idKeyChain", "10");
+                            $scope.loadPagination($scope.rsKeyListsData, "idKeychain", "10");
                             $scope.sysContent                         = 'listKeys';
                         break;
                         case "keyDetails":
@@ -925,7 +926,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                 console.log(product);
                 for (var f in $scope.list_depto_floors){
                     for (var d in $scope.list_depto_floors[f].deptos){
-                        if (($scope.list_depto_floors[f].nameFloor=="re" && $scope.select.products2.selected==undefined) || ($scope.list_depto_floors[f].nameFloor!="re" && $scope.list_depto_floors[f].deptos[d].idProductKf!=product.idProduct)){
+                        if (($scope.list_depto_floors[f].nameFloor=="re" && $scope.list_depto_floors[f].nameFloor=="co" && ($scope.select.products2.selected==undefined || $scope.select.products3.selected==undefined)) || ($scope.list_depto_floors[f].nameFloor!="re" && $scope.list_depto_floors[f].nameFloor!="co" && $scope.list_depto_floors[f].deptos[d].idProductKf!=product.idProduct)){
                             $scope.list_depto_floors[f].deptos[d].idProductKf=product.idProduct;
                             $scope.list_depto_floors[f].deptos[d].productName=product.descriptionProduct+" ("+product.model+")";
                         }
@@ -938,10 +939,10 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
         *  SET THE PRODUCT TYPE USED AS A KEY TO AN UNIT  *
         *                                                 *
         **************************************************/
-            $scope.setProductKeyToDepto = function(depto, product){
-                console.log(depto);
+            $scope.setProductKeyToDepto = function(floor, product){
+                console.log(floor);
                 for (var f in $scope.list_depto_floors){
-                    if ($scope.list_depto_floors[f].id==depto.idFloor){
+                    if ($scope.list_depto_floors[f].nameFloor==floor){
                         for (var d in $scope.list_depto_floors[f].deptos){
                                 $scope.list_depto_floors[f].deptos[d].idProductKf=product.idProduct;
                                 $scope.list_depto_floors[f].deptos[d].productName=product.descriptionProduct+" ("+product.model+")";

@@ -219,5 +219,18 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
                     return checkResult;
             });   
           },
+          /* VERIFY TICKET */
+          verifyTicketsByIdUser: function(idUser) {
+            console.log("[Ticket Services] => verificar si un usuario tiene un pedido asociado: "+idUser);
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"Ticket/verificateTicketByIdUser/"+idUser
+                  }).then(function mySuccess(response) {
+                      return response;
+                  },function myError(response, error) { 
+                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                      return response;
+                  });
+          },
       }
 }]);

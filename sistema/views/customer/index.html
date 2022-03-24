@@ -55,20 +55,39 @@
                     <div id="custRegistered" ng-if="sysContent=='registeredCustomers'" class="panel-body">
                   	  <!-- ROW WITH THE FILTERS USED TO DISPLAY DATA IN THE TABLE -->
                       <div  class="row">
-                      	<div class="form-group">
+                      	<div class="form-group col-md-6 col-sm-6 col-xs-6 n-padding-l n-padding-r">
                               <!-- Filter Search -->
-                              <div class="col-md-4 col-sm-12 col-xs-12">
+                              <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                <label style="padding-left: 15px;">Busquéda de cliente:</label>
                               	<div class="input-group search-box-rule col-md-12 col-sm-12 col-xs-12">
-                                		<input type="text" class="form-control" ng-disabled="rsCustomerListData.status==404" ng-change="search(searchboxfilter, false)"  ng-model="searchboxfilter" placeholder="Buscar..." style="border-radius: 4px;">
+                                		<input type="text" class="form-control" ng-disabled="rsCustomerListData.status==404" ng-change="search(null, searchboxfilter, true)"  ng-model="searchboxfilter" placeholder="Buscar..." style="border-radius: 4px;">
                               	</div>
                               </div>
+                        </div>
+                      	<div class="form-group col-md-6 col-sm-6 col-xs-6 n-padding-l n-padding-r" style="margin-top: 3.3%;">
+                              <div class="col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r">
+                                <div class="col-md-2 col-xs-2 n-padding-r">
+                                  <label class="switch switch-2x" for="strict-search">
+                                      <input type="checkbox" class="success" ng-click="search(null, searchboxfilter, true)" ng-model="customerSearch.strict" id="strict-search">
+                                      <span class="slider slider-2x flat"></span>
+                                  </label>
+                                </div>
+                                <div class="col-md-3 col-xs-3 n-padding-l">
+                                  <label ng-if="customerSearch.strict" style="cursor: pointer;" class="badge badge-success">Busquéda exacta</label>
+                                  <label ng-if="!customerSearch.strict" style="cursor: pointer;" class="badge badge-warning">Busquéda exacta</label>
+                                </div>
+                              </div>
+                        </div>
+                      </div>
+                      <div  class="row">
+                        <div class="form-group">
                               <!-- Filter Type of Tenant For Admins ng-if="sysContent=='customer'"-->
-                              <div class="col-md-3 col-sm-6">
+                              <div class="col-md-6 col-sm-6 col-xs-12">
                                   <label style="padding-left: 15px;">Tipo de Cliente</label>
                                   <div class="input-group">
                                       <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
                                       <select  name="filterTypeOfClient" 
-                                               ng-change="getCustomersListByTypeFn(select.filterTypeOfClient.idClientType); onSelectCallback();" 
+                                               ng-change="getCustomersListByTypeFn(select.filterTypeOfClient.idClientType); select.filterCustomerIdFk.selected=undefined; onSelectCallback();" 
                                                ng-options="(item.ClientType | uppercase) for item in rsCustomerTypeFilterData" 
                                                ng-disabled="rsCustomerListData.status==404"  
                                                class="form-control" 
@@ -77,8 +96,8 @@
                                       </select>
                                   </div>
                               </div>
-                              <!-- Company Name-->    
-                              <div class="col-md-4 col-sm-6">
+                              <!-- Company Name-->
+                              <div class="col-md-6 col-sm-6 col-xs-12">
                                   <label class="clf-p-left">
                                     <span ng-if="select.filterTypeOfClient.idClientType==1">Administraciones </span>
                                     <span ng-if="select.filterTypeOfClient.idClientType==2">Cliente Edificio</span>
@@ -95,8 +114,8 @@
                                                         ng-change="getLisOfCustomersByIdFn(select.filterCustomerIdFk.selected.idClient, true);" 
                                                         ng-model="select.filterCustomerIdFk.selected"  
                                                         autofocus>
-                                                <ui-select-match placeholder="Seleccione una opci&#243n">{{$select.selected.name | uppercase}}</ui-select-match>
-                                                <ui-select-choices allow-clear="true" repeat="item in rsCustomerListByTypeData | filter: $select.search">
+                                                <ui-select-match allow-clear="true" placeholder="Seleccione una opci&#243n">{{$select.selected.name | uppercase}}</ui-select-match>
+                                                <ui-select-choices repeat="item in rsCustomerListByTypeData | filter: $select.search">
                                                   <div ng-bind-html="item.name | highlight: $select.search"></div>
                                                   <small>Razon Social: </small>
                                                   <small ng-if="item.idClientTypeFk==2 || item.idClientTypeFk==4 || item.idClientTypeFk==5" ng-bind-html="item.billing_information[0].businessNameBilling | highlight: $select.search" ng-bind-html="item.billing_information[0].businessNameBilling | highlight: $select.search"></small>
@@ -115,18 +134,18 @@
                                             </ui-select>
                                   </div>
                               </div>
-                              <div class="btn-group-mg-top-s n-padding-l col-md-1"><br>
+                              <!--<div class="btn-group-mg-top-s n-padding-l col-md-1"><br>
                           		<!-- Search button-->
                           		<!--<button data-toggle="tooltip" data-placement="top" title="Buscar cliente" type="button" ng-click="" class="btn btn-md btn-labeled btn-success"><span class="btn-label"><i class="fas fa-search"></i> </span>Buscar</button>-->
-                  				<!-- //Search button -->
-                  				<!-- New Customer button -->
-                          		<button data-toggle="tooltip" data-placement="top" title="Nuevo Cliente" type="button" ng-click="switchCustomersFn('new','')" class="btn btn-xs btn-labeled btn-info"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i> </span>Nuevo</button>
-                              </div>
+                  				    <!-- //Search button -->
+                  				    <!-- New Customer button 
+                          		  <button data-toggle="tooltip" data-placement="top" title="Nuevo Cliente" type="button" ng-click="switchCustomersFn('new','')" class="btn btn-xs btn-labeled btn-info"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i> </span>Nuevo</button>
+                              </div>-->
                       	</div>
                 	    </div>
                       <div class="clear-fix"></div>
                       <!-- TABLE LIST WHERE IS DISPLAYED THE CUSTOMER -->
-                      <div ng-include="'views/customer/list/listCustomers.html'"></div>
+                      <div ng-include="'views/customer/list/listCustomers.html'" style="margin-top: 0.4% !important;"></div>
                       <!-- PAGINATION -->
                         <div ng-if="rsCustomerListData.length>=10" style="text-align: center;">
                               <!--<dir-pagination-controls
@@ -156,11 +175,26 @@
                     <!--NOT REGISTERED CUSTOMER PANEL -->
                     <div id="custNotRegistered" ng-if="sysContent=='registeredNotCustomers'" class="panel-body">
                       <div  class="row">
-                        <div class="form-group">
+                      	<div class="form-group col-md-6 col-sm-6 col-xs-6 n-padding-l n-padding-r">
                               <!-- Filter Search -->
-                              <div class="col-md-4 col-sm-12 col-xs-12">
-                                <div class="input-group search-box-rule col-md-12 col-sm-12 col-xs-12">
-                                    <input type="text" class="form-control" ng-disabled="rsCustomerListData.status==404" ng-change="search(searchboxfilter, false)"  ng-model="searchboxfilter" placeholder="Buscar..." style="border-radius: 4px;">
+                              <div class="col-md-12 col-sm-12 col-xs-12 ">
+                                <label style="padding-left: 15px;">Busquéda de cliente:</label>
+                              	<div class="input-group search-box-rule col-md-12 col-sm-12 col-xs-12">
+                                		<input type="text" class="form-control" ng-disabled="rsCustomerListData.status==404" ng-change="search(null, searchboxfilter, true)"  ng-model="searchboxfilter" placeholder="Buscar..." style="border-radius: 4px;">
+                              	</div>
+                              </div>
+                        </div>
+                      	<div class="form-group col-md-6 col-sm-6 col-xs-6 n-padding-l n-padding-r" style="margin-top: 3.3%;">
+                              <div class="col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r">
+                                <div class="col-md-1 col-xs-1 n-padding-r">
+                                  <label class="switch switch-2x" for="strict-search">
+                                      <input type="checkbox" class="success" ng-click="search(null, searchboxfilter, true)" ng-model="customerSearch.strict" id="strict-search">
+                                      <span class="slider slider-2x flat"></span>
+                                  </label>
+                                </div>
+                                <div class="col-md-7 col-xs-7 n-padding-l">
+                                  <label ng-if="customerSearch.strict" style="cursor: pointer;" class="badge badge-success">Busquéda exacta</label>
+                                  <label ng-if="!customerSearch.strict" style="cursor: pointer;" class="badge badge-warning">Busquéda exacta</label>
                                 </div>
                               </div>
                         </div>

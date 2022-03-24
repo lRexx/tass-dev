@@ -37,7 +37,7 @@
 				    		</div>
 				    	</div>
 					</div>-->
-					<!-- Control_de_Acceso: Aclaracion -->					  
+					<!-- Control_de_Acceso: Aclaracion -->
 					<div class="form-group col-md-6" ng-class="
 								{	'has-success': 
 									service.new.aclaration!='' && fCustomerNewService.service_aclaration.$valid,
@@ -70,8 +70,8 @@
 						  </div>
 						</div>
 					</div>
-					<!-- Control_de_Acceso: Maintenance Type -->					  
-					<div class="form-group col-md-6" >  
+					<!-- Control_de_Acceso: Maintenance Type -->
+					<div ng-if="service.new.idTypeMaintenanceFkConstract!='3'" class="form-group col-md-6" >  
 					  	<label style="padding-left: 15px;">Tipo de mantenimiento</label>
 					    <div class="col-xs-12 ">
 						    <div class="input-group">
@@ -79,7 +79,7 @@
 				    			<input name="service_mnt_type" type="text" class="form-control" ng-disabled="true" ng-model="service.new.MntType" />
 				    		</div>
 				    	</div>
-					</div>					
+					</div>
 					<!-- Control_de_Acceso: Start_date -->
 					<div class="form-group col-md-6" ng-class="
 								{	'has-success': 
@@ -93,6 +93,25 @@
 								<span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
 								<input name="service_start_date" type="text" ng-keydown="fnLoadPhoneMask()" required="true" class="form-control input--date" ng-model="service.new.dateUp" />
 						  </div>
+						</div>
+					</div>
+					<div ng-if="service.new.idTypeMaintenanceFkConstract=='3'" class="form-group col-md-6" ng-class="
+					{	'has-success': 
+						service.new.idTypeMaintenanceFk!='' && fCustomerNewService.contract_mnt_type.$valid,
+						 'has-error':  
+						(service.new.idTypeMaintenanceFk=='' || service.new.idTypeMaintenanceFk==undefined) && fCustomerNewService.contract_mnt_type.$touched,
+					}">
+					<label style="padding-left: 15px;">Tipo de mantenimiento</label>  
+						<div class="col-xs-12">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fas fa-screwdriver"></i></span>
+								<select name="contract_mnt_type" 
+										class="form-control"
+										ng-options="item.idTypeMaintenance as item.typeMaintenance for item in rsTypeOfMaintenanceData | filter:filterTypeOfMaintenance" 
+										ng-model="service.new.idTypeMaintenanceFk" ng-change="validateServiceListItemsFn()"  ng-required="true" autofocus >
+									<option class="text-uppercase" value="">Selecciona un tipo</option>
+								</select>
+							</div>
 						</div>
 					</div>
 					<!-- Control_de_Acceso: End_date -->

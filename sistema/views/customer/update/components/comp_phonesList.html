@@ -11,8 +11,7 @@
         <option class="text-uppercase" value="movil guardia">Movil Guardia</option>
 	    	<option class="text-uppercase" value="urgente">Urgente</option>
     </select>
-    								  				
-  	<input style="width: 57%" id="contactNumbers" name="contact_numbers" autofocus="true" ng-disabled="(customer.update.idClientTypeFk==5 && contactPhones.phoneTag=='') || (customer.update.idClientTypeFk!=5 && contactPhones.phoneTag=='')" ng-blur="enabledNextBtn();" class="form-control input--phone" ng-keydown="fnLoadPhoneMask()" ng-model="contactPhones.phoneContact" type="text" ng-required="list_phones.length==0" autofocus/>
+  	<input style="width: 57%" id="contactNumbers" name="contact_numbers" autofocus="true" ng-disabled="(customer.update.idClientTypeFk==5 && contactPhones.phoneTag=='') || (customer.update.idClientTypeFk!=5 && contactPhones.phoneTag=='')" ng-blur="enabledNextBtn();" class="form-control input--phone-no-format" ng-blur="fnLoadPhoneMask();" ng-keydown="fnLoadPhoneMask()" ng-model="contactPhones.phoneContact" type="text" ng-required="list_phones.length==0" autofocus/>
 	</div>
 	<div class="well-checkbox n-padding-t n-padding-b" style="margin-left: 0px;margin-right: 0px;">
 	  	<table ng-if="list_phones.length>0">

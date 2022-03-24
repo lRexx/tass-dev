@@ -97,6 +97,8 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
     const sysMonth = sysDate.toLocaleString('es-AR', { month: 'numeric'});
     const sysDay   = sysDate.toLocaleString('es-AR', { day: 'numeric'});
 
+    $scope.getSelectedCustomerData = tokenSystem.getTokenStorage(7);
+
     $scope.tmpVars ={};
     $scope.service = {
         'customer':{},
@@ -133,10 +135,9 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
     };
     $scope.select = {'filterTypeOfClient': {}, 'filterCustomerIdFk':{'selected':undefined}};
     $scope.customerSearch={'name':'', 'typeClient':'all'};
-    blockUI.start('Cargando datos de clientes...');
     $timeout(function() {
-        $scope.getCustomerListFn("",""); //LOAD CUSTOMER LIST
-    }, 1500);
+        $scope.getCustomerListFn("registered", ""); //LOAD CUSTOMER LIST
+    }, 500);
     blockUI.stop();
     $("#customerSearch").focus();
     $scope.switchCustomersFn = function(opt1, obj1, opt2){
@@ -273,7 +274,7 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                         $scope.isUpdateCustomerService=true;
                         $scope.isListCustomerService=false;
                         //$scope.defArrForCustomersFn();
-                        $scope.getCustomerListFn("", 2);
+                        $scope.getCustomerListFn("all", 2);
                         $scope.getProductsList4ServiceFn();
                         $scope.cleanServiceInputsFn();
                         blockUI.start('Cargando datos del servicio '+cObj.clientTypeServices);
@@ -1064,32 +1065,76 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                 $scope.rsFrmCustomerListData = [];
                 $scope.rsCustomerListByTypeData = [];
                 $scope.rsCustomerSelectData = [];
-                $scope.jsonCustomerRegistered={
-                    "searchFilter":"",
-                    "isNotCliente":"0"
-                };
-                $scope.jsonCustomerNotRegistered={
-                    "searchFilter":"",
-                    "idClientTypeFk":"2",
-                    "isNotCliente":"1"
-                };
-                $scope.getCustomerListFn = function(search, opt){
-                    $scope.rsCustomerListByTypeData = [];
+                $scope.customersRawData=[];
+                $scope.getCustomerListFn = function(optSwitch, opt){
                     $scope.rsCustomerListData = [];
-                    var jsonSearch = !search || search=="" ||  search=="registered" ? $scope.jsonCustomerRegistered : $scope.jsonCustomerNotRegistered;
-                    console.log("getCustomerListFn => search: [searchFilter:"+jsonSearch.searchFilter+", isNotCliente:"+jsonSearch.isNotCliente+"] opcion: "+opt);
-                    CustomerServices.getCustomerList(jsonSearch).then(function(data){
-                        $scope.rsCustomerListData = data;
-                        $scope.rsCustomerSelectData = data;
-                        $scope.rsCustomerAdminListData = data;
-                        $scope.rsCustomerListByTypeData  = data.status==404?$scope.rsCustomerListByTypeData=[]:data;
-                        if(opt==1){$scope.loadPagination($scope.rsCustomerListData, "idClient", "10");}
-                        if(opt==2){$scope.rsFrmCustomerListData = data;}
-                        //console.log("rsCustomerListData");
-                        //
-                    });
+                    $scope.rsCustomerAdminListData = [];
+                    $scope.rsFrmCustomerListData = [];
+                    $scope.rsCustomerListByTypeData = [];
+                    $scope.rsCustomerSelectData = [];
+                    switch (optSwitch){
+                        case 1:
+                          $scope.customersRawData = $scope.globalCustomers.administrations;
+                        break;
+                        case 2:
+                          $scope.customersRawData = $scope.globalCustomers.buildings;
+                        break;
+                        case 3:
+                          $scope.customersRawData = $scope.globalCustomers.companies;
+                        break;
+                        case 4:
+                          $scope.customersRawData = $scope.globalCustomers.branches;
+                        break;
+                        case 5:
+                          $scope.customersRawData = $scope.globalCustomers.particulars;
+                        break;
+                        case "registered":
+                          $scope.customersRawData = $scope.globalCustomers.registered;
+                        break;
+                        case "notregistered":
+                          $scope.customersRawData = $scope.globalCustomers.notRegistered;
+                        break;
+                        case "all":
+                          $scope.customersRawData = $scope.globalCustomers.all;
+                        break;
+                        default:
+                      }
+                    $scope.rsCustomerListData = $scope.customersRawData;
+                    $scope.rsCustomerSelectData = $scope.customersRawData;
+                    $scope.rsCustomerAdminListData = $scope.customersRawData;
+                    $scope.rsCustomerListByTypeData  = $scope.customersRawData.length>0?$scope.rsCustomerListByTypeData=[]:$scope.customersRawData;
+                    if(opt==1){$scope.loadPagination($scope.rsCustomerListData, "idClient", "10");}
+                    if(opt==2){$scope.rsFrmCustomerListData = $scope.customersRawData;}
                 };
-
+            /**************************************************
+            *                                                 *
+            *              GET CUSTOMERS CONTRACT             *
+            *                                                 *
+            **************************************************/
+             $scope.rsContractsListByCustomerIdData=[];
+             $scope.rsContractNotFound=false;
+             $scope.getContractsByCustomerIdFn=function(idClient, opt){
+                 $scope.rsContractsListByCustomerIdData=[];
+                 ContractServices.getContractListByCustomerId(idClient).then(function(data){
+                     $scope.rsJsonData = data;
+                     //console.log($scope.rsJsonData);
+                     if($scope.rsJsonData.status==200){
+                     $scope.rsContractNotFound=false;
+                     $scope.rsContractsListByCustomerIdData=$scope.rsJsonData.data;
+                     if(opt=="assign"){$scope.customerFound.contratos=$scope.rsContractsListByCustomerIdData;}
+                     }else{
+                     $scope.rsContractsListByCustomerIdData=[];
+                     $scope.rsContractNotFound=true;
+                     inform.add('No se existen contratos asociados al cliente. ',{
+                             ttl:2000, type: 'warning'
+                     });
+                     }
+                     //console.log($scope.rsContractsListByCustomerIdData);
+                 });
+             }
+             $scope.filterTypeOfMaintenance = function(item){
+                      return item.idTypeMaintenance != "3" 
+              };
             /**************************************************
             *                                                 *
             *                 SEARCH CUSTOMERS                *
@@ -1105,28 +1150,41 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                     var i=0;
                     if (string!=undefined && string!=""){
                         if ($scope.rsCustomerListData.length==0){
-                            $scope.getCustomerListFn("","");
+                            $scope.getCustomerListFn("registered", "");
                         }
-                        //console.log($scope.rsCustomerListData);
-                        angular.forEach($scope.rsCustomerListData,function(customer){
-                            var customerName=customer.name;
-                            var customerId=customer.idClient;
-                            var customerType=customer.idClientType;
-                            var customerNumber=customer.idClientAssociated_SE;
-                            var customerBusinessName=customer.companyBusinessName==null || customer.companyBusinessName==undefined?null:customer.companyBusinessName;
-                            //console.log("customerNumber: "+customerNumber);
-                            if($scope.customerSearch.typeClient!="all"){
-                                //(customerNumber!=null && customerNumber.toLowerCase().indexOf(string.toLowerCase()>=0))
-                                if(customerType==$scope.customerSearch.typeClient && (customerId.toLowerCase().indexOf(string.toLowerCase())>=0 || customerName.toLowerCase().indexOf(string.toLowerCase())>=0 )){
-                                    output.push({customer});
+                            //console.log($scope.rsCustomerListData);
+                            angular.forEach($scope.rsCustomerListData,function(customer){
+                                var customerName=customer.name;
+                                var customerAddress=customer.address;
+                                var customerId=customer.idClient;
+                                var customerType=customer.idClientType;
+                                var customerNumber=customer.idClientAssociated_SE;
+                                var customerBusinessName=customer.companyBusinessName==null || customer.companyBusinessName==undefined?null:customer.companyBusinessName;
+                                //console.log("customerNumber: "+customerNumber);
+                                if($scope.customerSearch.typeClient!="all"){
+                                    if (!$scope.customerSearch.strict){
+                                        if(customerType==$scope.customerSearch.typeClient && (customerId.indexOf(string.toLowerCase())>=0 || customerName.toLowerCase().indexOf(string.toLowerCase())>=0 )){
+                                            output.push({customer});
+                                        }
+                                    }else{
+                                        if(customerType===$scope.customerSearch.typeClient && (customerId===string || customerName===string.toUpperCase() || customerAddress===string.toUpperCase() )){
+                                            output.push({customer});
+                                        }
+                                    }
+                                }else{
+                                    if (!$scope.customerSearch.strict){
+                                        //console.log(customer);
+                                        if(customerId.toLowerCase().indexOf(string.toLowerCase())>=0 || customerName.toLowerCase().indexOf(string.toLowerCase())>=0){
+                                            output.push({customer});
+                                        }
+                                    }else{
+                                        if(customerId===string || customerName===string.toUpperCase() || customerAddress===string.toUpperCase()){
+                                            output.push({customer});
+                                        }
+                                    }
                                 }
-                            }else{
-                                //console.log(customer);
-                                if(customerId.toLowerCase().indexOf(string.toLowerCase())>=0 || customerName.toLowerCase().indexOf(string.toLowerCase())>=0){
-                                    output.push({customer});
-                                }
-                            }
-                        });
+                            });
+                            console.log(output);
                     }else{
                             $scope.listCustomerFound=null;
                             $scope.searchCustomerFound=false;
@@ -1147,7 +1205,7 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                         console.log("UNDEFINED");
                         inform.add("El Consorcio "+obj.name+ "no posee Datos de Facturación.",{
                                 ttl:10000, type: 'danger'
-                        });          
+                        });
                     }else{
                         $scope.customerFound.billing_information_details=obj.billing_information[0];
                     }
@@ -1157,7 +1215,7 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                     if($scope.customerFound.idClientType=="2"){
                         if ($scope.customerFound.idClientAdminFk!=null && $scope.customerFound.idClientAdminFk!=undefined){
                         var companyBusinessName = $scope.customerFound.idClientAdminFk;
-                        //console.log(companyBusinessName);                    
+                        //console.log(companyBusinessName);
                         arrCompany=$scope.getCustomerBusinessNameByIdFn(companyBusinessName);
                         if (arrCompany.length==1){
                             console.log(arrCompany);
@@ -1183,8 +1241,8 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                                 ttl:10000, type: 'danger'
                         });
                         }
-                    }       
-                    //console.log($scope.customerFound.idClient);
+                    }
+                    console.log($scope.customerFound.idClient);
                     var zonaInfo=$scope.getZoneNameFn($scope.customerFound.idZonaFk);
                     $scope.getContractsByCustomerIdFn($scope.customerFound.idClient,'assign');
                     $scope.dayDataCollapseFn();
@@ -1204,7 +1262,17 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                     //console.log($scope.customerFound);
 
                 }
-
+                /**************************************************
+                *                                                 *
+                *      CHECK IF THERE IS LOCAL STORAGE DATA       *
+                *                                                 *
+                **************************************************/
+                    console.log($scope.getSelectedCustomerData);
+                    if ($scope.getSelectedCustomerData) {
+                        $scope.searchCustomerFound=true;
+                        $scope.loadCustomerFieldsFn($scope.getSelectedCustomerData);
+                        tokenSystem.destroyTokenStorage(6);
+                    }
             /**************************************************
             *                                                 *
             *           SERVICES CONTRACTS CUSTOMERS          *
@@ -1359,7 +1427,7 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                     $scope.customerSearch={Name:''};
                     $scope.customerFound={};
                     $('#customerSearch').focus();
-                    $scope.getCustomerListFn("","");
+                    $scope.getCustomerListFn("registered", "");
                     $scope.customerSearch.typeClient="all"
                 }
                 
@@ -1791,10 +1859,11 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                                             $('#RegisterCtrlAccessService').on('shown.bs.modal', function () {
                                                 $('#service_door').focus();
                                             });                        
-                                            for (var key in $scope.rsTypeOfMaintenanceData){                      
+                                            for (var key in $scope.rsTypeOfMaintenanceData){
                                                 if ($scope.rsContractServiceData.maintenanceType==$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance){
-                                                $scope.service.new.idTypeMaintenanceFk  = $scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
-                                                $scope.service.new.MntType              = $scope.rsTypeOfMaintenanceData[key].typeMaintenance;
+                                                    $scope.service.new.idTypeMaintenanceFk           = $scope.rsContractServiceData.maintenanceType=="3"?0:$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    $scope.service.new.idTypeMaintenanceFkConstract  = $scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    $scope.service.new.MntType              = $scope.rsTypeOfMaintenanceData[key].typeMaintenance;
                                                 }
                                             }
                                             $scope.service.new.serviceName              = $scope.rsContractServiceData.services[0].serviceName;
@@ -1805,7 +1874,7 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                                             $scope.service.new.idContratoFk             = $scope.rsContractServiceData.idContrato;
                                             $scope.service.new.contractNumb             = $scope.rsContractServiceData.numeroContrato;
                                             $scope.service.new.idTipeServiceFk          = $scope.rsContractServiceData.services[0].idServiceType;
-                                            $scope.service.new.idServiceType            = $scope.service.new.idTipeServiceFk;                                    
+                                            $scope.service.new.idServiceType            = $scope.service.new.idTipeServiceFk;
                                             inform.add('Contrato: '+$scope.rsContractServiceData.numeroContrato+' Nuevo servicio [Control de Acceso]. ',{
                                                 ttl:5000, type: 'info'
                                             });
@@ -1831,6 +1900,7 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                                             ttl:5000, type: 'danger'
                                             });   
                                         }
+                                        console.log($scope.service.new);
                                     break;
                                     case "2"://StartInternetService
                                         if ($scope.rsContractServiceData.idStatusFk=="1"){
@@ -1840,10 +1910,11 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                                             $('#RegisterInternetService').on('shown.bs.modal', function () {
                                                 $('#service_internetType').focus();
                                             });                        
-                                            for (var key in $scope.rsTypeOfMaintenanceData){                      
+                                            for (var key in $scope.rsTypeOfMaintenanceData){
                                                 if ($scope.rsContractServiceData.maintenanceType==$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance){
-                                                $scope.service.new.idTypeMaintenanceFk  = $scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
-                                                $scope.service.new.MntType              = $scope.rsTypeOfMaintenanceData[key].typeMaintenance;
+                                                    $scope.service.new.idTypeMaintenanceFk           = $scope.rsContractServiceData.maintenanceType=="3"?0:$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    $scope.service.new.idTypeMaintenanceFkConstract  = $scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    $scope.service.new.MntType              = $scope.rsTypeOfMaintenanceData[key].typeMaintenance;
                                                 }
                                             }
                                             $scope.service.new.serviceName      = $scope.rsContractServiceData.services[0].serviceName;
@@ -1889,11 +1960,12 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                                             $('#RegisterTotemService').on('shown.bs.modal', function () {
                                                 $('#service_name').focus();
                                                     $scope.getUserLists();
-                                            });                        
-                                            for (var key in $scope.rsTypeOfMaintenanceData){                      
+                                            });
+                                            for (var key in $scope.rsTypeOfMaintenanceData){
                                                 if ($scope.rsContractServiceData.maintenanceType==$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance){
-                                                $scope.service.new.idTypeMaintenanceFk=$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
-                                                $scope.service.new.MntType=$scope.rsTypeOfMaintenanceData[key].typeMaintenance;
+                                                    $scope.service.new.idTypeMaintenanceFk           = $scope.rsContractServiceData.maintenanceType=="3"?0:$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    $scope.service.new.idTypeMaintenanceFkConstract  = $scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    $scope.service.new.MntType              = $scope.rsTypeOfMaintenanceData[key].typeMaintenance;
                                                 }
                                             }
                                             $scope.service.new.serviceName=$scope.rsContractServiceData.services[0].serviceName;
@@ -1941,11 +2013,12 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                                             $('#RegisterCamerasService').on('shown.bs.modal', function () {
                                                 $('#service_name').focus();
                                                     $scope.getUserLists();
-                                            });                        
-                                            for (var key in $scope.rsTypeOfMaintenanceData){                      
+                                            });
+                                            for (var key in $scope.rsTypeOfMaintenanceData){
                                                 if ($scope.rsContractServiceData.maintenanceType==$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance){
-                                                $scope.service.new.idTypeMaintenanceFk=$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
-                                                $scope.service.new.MntType=$scope.rsTypeOfMaintenanceData[key].typeMaintenance;
+                                                    $scope.service.new.idTypeMaintenanceFk           = $scope.rsContractServiceData.maintenanceType=="3"?0:$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    $scope.service.new.idTypeMaintenanceFkConstract  = $scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    $scope.service.new.MntType              = $scope.rsTypeOfMaintenanceData[key].typeMaintenance;
                                                 }
                                             }
                                             $scope.service.new.serviceName=$scope.rsContractServiceData.services[0].serviceName;
@@ -1993,14 +2066,14 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                                             $('#RegisterAlarmService').on('shown.bs.modal', function () {
                                                 $('#service_name').focus();
                                                     $scope.getUserLists();
-                                            });                        
-                                            for (var key in $scope.rsTypeOfMaintenanceData){                      
+                                            });
+                                            for (var key in $scope.rsTypeOfMaintenanceData){
                                                 if ($scope.rsContractServiceData.maintenanceType==$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance){
-                                                $scope.service.new.idTypeMaintenanceFk=$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
-                                                $scope.service.new.MntType=$scope.rsTypeOfMaintenanceData[key].typeMaintenance;
+                                                    $scope.service.new.idTypeMaintenanceFk           = $scope.rsContractServiceData.maintenanceType=="3"?0:$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    $scope.service.new.idTypeMaintenanceFkConstract  = $scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    $scope.service.new.MntType              = $scope.rsTypeOfMaintenanceData[key].typeMaintenance;
                                                 }
                                             }
-
                                             $scope.service.new.serviceName        = $scope.rsContractServiceData.services[0].serviceName;
                                             $scope.service.new.idClientFk         = $scope.rsContractServiceData.idClientFk;
                                             $scope.service.idClientTypeFk         = $scope.customerFound.idClientTypeFk;
@@ -2024,7 +2097,7 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                                             }
                                             inform.add('Contrato: '+$scope.rsContractServiceData.numeroContrato+' Nuevo servicio [Alarma]. ',{
                                                 ttl:5000, type: 'info'
-                                            });                    
+                                            });
                                             //console.log($scope.service);
                                             }else{
                                             inform.add('Servicio [Alarma]: Ya ha sido asignado a un servicio. ',{
@@ -2053,11 +2126,12 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                                             $('#RegisterAppMonitorService').on('shown.bs.modal', function () {
                                                 $('#service_name').focus();
                                                     $scope.getUserLists();
-                                            });                        
-                                            for (var key in $scope.rsTypeOfMaintenanceData){                      
+                                            });
+                                            for (var key in $scope.rsTypeOfMaintenanceData){
                                                 if ($scope.rsContractServiceData.maintenanceType==$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance){
-                                                $scope.service.new.idTypeMaintenanceFk=$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
-                                                $scope.service.new.MntType=$scope.rsTypeOfMaintenanceData[key].typeMaintenance;
+                                                    $scope.service.new.idTypeMaintenanceFk           = $scope.rsContractServiceData.maintenanceType=="3"?0:$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    $scope.service.new.idTypeMaintenanceFkConstract  = $scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    $scope.service.new.MntType              = $scope.rsTypeOfMaintenanceData[key].typeMaintenance;
                                                 }
                                             }
                                             $scope.isCollapsed                  = false;
@@ -2319,7 +2393,7 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                             switch(service.idTipeServiceFk){
                                 case "1": //LOAD CONTROL ACCESS
                                     $timeout(function() {
-                                        $scope.checkDoorType($scope.service.update.idDoorFk);                      
+                                        $scope.checkDoorType($scope.service.update.idDoorFk);
                                         $scope.service.update.idContratoFk         = service.idContracAssociated_SE;
                                         $scope.service.update.numeroContrato       = service.idContracAssociated_SE_array[0].numeroContrato;
                                         $scope.service.crtlAccess.selected         = service.idAccessControlFk==undefined || service.idAccessControlFk==null?null:service.idAccessControlFk_array[0];
@@ -2382,7 +2456,7 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                                         $('#updateCtrlAccessService').on('shown.bs.modal', function () {});
                                     }, 500);
                                     blockUI.stop();
-                                break;
+                            break;
                                 case "2": //LOAD INTERNET
                                     //SET THE SELECTED SERVICES ASOCIATED WITH THE INTERNET SERVICE
                                     $scope.$watch('service.update.idServiceAsociateFk_array', function(nowSelected){
@@ -2426,7 +2500,7 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                                         $('#updateInternetService').on('shown.bs.modal', function () {});
                                     }, 500);
                                     blockUI.stop();
-                                break;
+                            break;
                                 case "3": //LOAD TOTEM
                                 ContractServices.getSelectedServiceByIdContract(service.idContracAssociated_SE, service.idTipeServiceFk).then(function(data){
                                 $scope.rsJsonData = data;
@@ -3138,32 +3212,6 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                 //console.log(item);
                 return item.idTipeServiceFk != '2';
                 };
-            /**************************************************
-            *                                                 *
-            *              GET CUSTOMERS CONTRACT             *
-            *                                                 *
-            **************************************************/
-                $scope.rsContractsListByCustomerIdData=[];
-                $scope.rsContractNotFound=false;
-                $scope.getContractsByCustomerIdFn=function(idClient, opt){
-                    $scope.rsContractsListByCustomerIdData=[];
-                    ContractServices.getContractListByCustomerId(idClient).then(function(data){
-                        $scope.rsJsonData = data;
-                        //console.log($scope.rsJsonData);
-                        if($scope.rsJsonData.status==200){
-                        $scope.rsContractNotFound=false;
-                        $scope.rsContractsListByCustomerIdData=$scope.rsJsonData.data;
-                        if(opt=="assign"){$scope.customerFound.contratos=$scope.rsContractsListByCustomerIdData;}
-                        }else{
-                        $scope.rsContractsListByCustomerIdData=[];
-                        $scope.rsContractNotFound=true;
-                        inform.add('No se existen contratos asociados al cliente. ',{
-                                ttl:2000, type: 'warning'
-                        });
-                        }
-                        //console.log($scope.rsContractsListByCustomerIdData);
-                    });
-                }
             /**************************************************
             *                                                 *
             *              GET CONTRACT SERVICES              *

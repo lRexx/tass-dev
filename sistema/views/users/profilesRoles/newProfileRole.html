@@ -25,24 +25,16 @@
 							<div class="col-md-3 col-sm-3 item" ng-repeat="item in rsModulesData">
 								<div class="hero-widget well well-sm">
 					            	<div class="icon">
-					                 	<i ng-if="item.name=='monitor'" class="fas fa-tachometer-alt" 
-					                 		ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
-					                 	<i ng-if="item.name=='llaveros'" class="icon-file-text" 
-					                 		ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
-					                 	<i ng-if="item.name=='edificios'" class="icon-building" 
-					                 		ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
-					                 	<i ng-if="item.name=='configuracion'" class="icon-cogs" 
-					                 		ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
-					                 	<i ng-if="item.name=='perfil de usuario'" class="fas fa-user-circle"
-					                 		ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
-					                 	<i ng-if="item.name=='cliente'" class="fas fa-users-cog" 
-					                 		ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
-					                 	<i ng-if="item.name=='servicio'" class="fas fa-cubes" 
-					                 		ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
-					                 	<i ng-if="item.name=='producto'" class="fas fa-sitemap" 
-					                 	ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
-					                 	<i ng-if="item.name=='usuarios'" class="fas fa-users" 
-					                 	ng-class="chkBox.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>										 
+					                 	<i ng-if="item.name=='monitor'" class="fas fa-tachometer-alt" ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
+					                 	<i ng-if="item.name=='llaveros'" class="fas fa-key" ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
+					                 	<i ng-if="item.name=='edificios'" class="icon-building" ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
+					                 	<i ng-if="item.name=='configuracion'" class="icon-cogs" ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
+					                 	<i ng-if="item.name=='perfil de usuario'" class="fas fa-user-circle" ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
+					                 	<i ng-if="item.name=='cliente'" class="fas fa-users-cog" ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
+					                 	<i ng-if="item.name=='servicio'" class="fas fa-cubes" ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
+					                 	<i ng-if="item.name=='producto'" class="fas fa-sitemap" ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
+					                 	<i ng-if="item.name=='usuarios'" class="fas fa-users" ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
+										<i ng-if="item.name=='pedidos'" class="icon-file-text" ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
 					            	</div>
 					            	<div class="text">
 					                	<span class="text-muted text-uppercase text-box">{{item.name}}</span>

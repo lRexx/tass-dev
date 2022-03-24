@@ -7,8 +7,8 @@
             	<h3 class="modal-title"><i class="product-success fas fa-bullhorn"></i> {{service.people.tittle}}</h3>
         	</div>
     		<div class="modal-body"  style="overflow-y: scroll;">
-    			<form class="form-horizontal" name="fServicePeopleDetails"> 				
-					<!-- Name & Lastname -->						  
+    			<form class="form-horizontal" name="fServicePeopleDetails">
+					<!-- Name & Lastname -->
 					<div class="form-group col-md-12" ng-class="
 								{	'has-success': 
 									service.people.nombre_apellido!='' && fServicePeopleDetails.servicePeopleNames.$valid,
@@ -23,7 +23,7 @@
 				    		</div>
 				    	</div>
 					</div>
-					<!-- Link -->					  
+					<!-- Link -->
 					<div class="form-group col-md-12" ng-class="
 								{	'has-success': 
 									service.people.vinculo!='' && fServicePeopleDetails.servicePeopleLink.$valid,
@@ -38,7 +38,7 @@
 				    		</div>
 				    	</div>
 					</div>
-					<!-- Secret word -->					  
+					<!-- Secret word -->
 					<div ng-if="service.people.opt=='getnotice'" class="form-group col-md-12" ng-class="
 								{	'has-success': 
 									service.people.palabra_clave!='' && fServicePeopleDetails.servicePeopleSecretWord.$valid,
@@ -53,7 +53,7 @@
 				    		</div>
 				    	</div>
 					</div>
-					<!-- phone -->					  
+					<!-- phone -->
 					<div class="form-group col-md-12" ng-class="
 								{	'has-success': 
 									service.people.telefono!='' && fServicePeopleDetails.servicePeoplePhone.$valid,
@@ -68,7 +68,7 @@
 				    		</div>
 				    	</div>
 					</div>
-					<!-- User Number -->					  
+					<!-- User Number -->
 					<div class="form-group col-md-12" ng-class="
 								{	'has-success': 
 									service.people.numero_del_usuario!='' && service.people.numero_del_usuario!=undefined,
@@ -77,10 +77,10 @@
 					    <div class="col-xs-12">
 						    <div class="input-group">
 						    	<span class="input-group-addon"><i class="fas fa-user-tie"></i></span>
-				    			<input name="servicePeopleUserNumber" type="text" class="form-control input--phone" ng-keydown="fnLoadPhoneMask()" ng-model="service.people.numero_del_usuario" />
+				    			<input name="servicePeopleUserNumber" type="text" class="form-control" ng-keydown="fnLoadPhoneMask()" ng-model="service.people.numero_del_usuario" />
 				    		</div>
 				    	</div>
-					</div>					
+					</div>
 				</form>
 			</div>
 			<!-- Actions Button -->

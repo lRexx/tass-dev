@@ -162,13 +162,13 @@ class Department extends REST_Controller {
                 }
             }
     /* SERVICIO GET QUE RETORNA LOS DEPARTAMENTO SEGUN EL ID DE DIRECION Y ID DEL INQUILINO */
-    public function byIdTenantYDireccion_get($id, $idT, $idStatus) {
+    public function byIdTenantYDireccion_get($id, $idT, $idStatus, $typeTenant) {
         if (!$id || !$idT) {
             $this->response(NULL, 404);
         }
 
         $department = null;
-        $department = $this->department_model->byIdTenantYDireccion($id, $idT, $idStatus);
+        $department = $this->department_model->byIdTenantYDireccion($id, $idT, $idStatus, $typeTenant);
 
         if (!is_null($department)) {
             $this->response($department, 200);
@@ -255,6 +255,22 @@ class Department extends REST_Controller {
         }
     }
 
+    //*** SOCILITAR BAJA DE DEPARTAMENTO POR INQUILINO */
+
+    public function requesLowByTenant_get($id) {
+        if (!$id) {
+            $this->response(NULL, 404);
+        }
+
+        $rs = null;
+        $rs = $this->department_model->requesLowByTenant($id);
+
+        if (!is_null($rs)) {
+            $this->response($rs, 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
 
     /* EDITAR DATOS DE UN inquilino */
     public function removeTenant_post() {

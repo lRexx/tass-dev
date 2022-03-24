@@ -27,8 +27,8 @@
             
           </span>
           <span ng-if="
-            ((item.idProfileKf==5 || (item.idProfileKf==6 && item.idTypeTenantKf==2)) && (item.idAddresKf || item.idAdress) && !item.idDepartmentKf)" class="badge badge-notify">
-            <i data-toggle="tooltip" data-placement="right" title="Depto. No seleccionado." class="fas fa-home"></i>
+            (((item.idProfileKf==5 || (item.idProfileKf==6 && item.idTypeTenantKf==2)) && (item.idAddresKf || item.idAdress) && !item.idDepartmentKf) || ((item.idProfileKf==3 || item.idProfileKf==4 || item.idProfileKf==6) && item.idTypeTenantKf==1 && item.deptos==undefined))" class="badge badge-notify">
+            <i data-toggle="tooltip" data-placement="right" title="Depto. No asignado." class="fas fa-home"></i>
           </span>
           <span ng-if="
             ((item.idProfileKf==5 || (item.idProfileKf==6 && item.idTypeTenantKf==2)) && (!item.idAddresKf && !item.idAdress) && !item.idDepartmentKf && !item.phoneLocalNumberUser && !item.phoneNumberUser)" class="badge badge-notify">
@@ -38,23 +38,33 @@
             ((item.idProfileKf==5 || (item.idProfileKf==6 && item.idTypeTenantKf==2)) && (item.idAddresKf || item.idAdress) && item.idDepartmentKf  && !item.phoneLocalNumberUser && !item.phoneNumberUser)" class="badge badge-notify">
             <i data-toggle="tooltip" data-placement="right" title="No posee numeros de tlf" class="fas fa-phone-slash"></i>
           </span>
+          <span ng-if="
+          (item.idProfileKf==6 && item.idAddresKf==null)" class="badge badge-notify">
+          <i data-toggle="tooltip" data-placement="right" title="No asociado a un consorcio" class="fas fa-exclamation-triangle"></i>
+        </span>
         </td>
         <td>{{item.fullNameUser}}</td>
         <td>{{item.emailUser}}</td>
-        <!-- ADDRESS FOR TENANTS & ATTENDANTS WITH TENANT TYPE-->
-        <td style="vertical-align: middle;text-align: center;" ng-if="(filters.userProfile.idProfile=='5' || filters.userProfile.idProfile=='6') && item.idTypeTenantKf!='1'" class="text-uppercase">
+        <!-- ADDRESS FOR ATTENDANTS WITH NO TENNANT TYPE-->
+        <td style="vertical-align: middle;text-align: center;" ng-if="(filters.userProfile.idProfile=='6' && (item.idTypeTenantKf==null || item.idTypeTenantKf!=null))" class="text-uppercase">
           <span ng-if="item.building.length>0">{{item.building[0].address}}</span>
-          <label ng-if="(item.building==undefined || item.building.length==0)" class="label label-warning">-</label>
+          <label ng-if="(item.building==undefined || item.building.length==0)" class="label label-warning">Consorcio no asignado</label>
         </td>
-        <!-- ADDRESS FOR OWNER & ATTENDANTS WITH OWNER TYPE-->
+        <!-- ADDRESS FOR TENANTS & ATTENDANTS WITH TENANT TYPE-->
+        <td style="vertical-align: middle;text-align: center;" ng-if="(filters.userProfile.idProfile=='5' && item.idTypeTenantKf=='2')" class="text-uppercase">
+          <span ng-if="item.deptos.length>0">{{item.deptos[0].address}}</span>
+          <label ng-if="(item.deptos==undefined || item.deptos.length==0)" class="label label-warning">Departamento no asignado</label>
+        </td>
+        <!-- ADDRESS FOR OWNER & ATTENDANTS WITH OWNER TYPE
         <td style="vertical-align: middle;text-align: center;" ng-if="filters.userProfile.idProfile=='6' && item.idTypeTenantKf=='1'" class="text-uppercase">
           <span ng-if="item.deptos.length>0">{{item.deptos[0].address}}</span>
           <label ng-if="(item.deptos==undefined || item.deptos.length==0)" class="label label-warning">-</label>
-        </td>
+        </td>-->
         <!-- DEPARTMENTS QUANTITY  OF OWNERS &  DEPARTMENT RELATED TO A TENANT -->
         <td style="vertical-align: middle;text-align: center;" ng-if="filters.userProfile.idProfile=='3' || filters.userProfile.idProfile=='5' || filters.userProfile.idProfile=='6'" class="text-uppercase">
           <span ng-if="(item.idTypeTenantKf==1) && item.deptos.length>0" style="cursor:pointer;" data-toggle="tooltip" data-placement="left" title="Cantidad de departamentos" class="label label-success">{{item.deptos.length}}</span>
-          <span ng-if="item.floor!=null && item.departament!=null && item.idTypeTenantKf==2 && item.building.length>0" style="cursor:pointer;" data-toggle="tooltip" data-placement="left" title="Departamento asociado" class="label label-success text-uppercase">{{item.floor}}-{{item.departament}}</span>
+          <span ng-if="(item.idTypeTenantKf==1) && item.deptos==undefined" style="cursor:pointer;" data-toggle="tooltip" data-placement="top" title="No asignado" class="label label-warning">-</span>
+          <span ng-if="item.floor!=null && item.departament!=null && item.idTypeTenantKf==2 && (item.building==undefined || item.building.length>0)" style="cursor:pointer;" data-toggle="tooltip" data-placement="left" title="Departamento asociado" class="label label-success text-uppercase">{{item.floor}}-{{item.departament}}</span>
           <label ng-if="(item.idTypeTenantKf==null || item.idTypeTenantKf==0 || item.idTypeTenantKf=='') && ((item.building==undefined || item.building.length==0) || (item.deptos==undefined || item.deptos.length==0))" class="label label-warning">-</label>
           <label ng-if="item.floor==null && item.departament==null && (item.idTypeTenantKf==2) && ((item.building==undefined || item.building.length==0) || (item.deptos==undefined || item.deptos.length==0))" class="label label-warning">-</label>
         </td>
@@ -62,7 +72,7 @@
         <td style="vertical-align: middle;text-align: left;" ng-if="filters.userProfile.idProfile=='2' || filters.userProfile.idProfile=='4'" class="text-uppercase">
           <span ng-if="item.company.length>0">{{item.company[0].name}}</span>
           <label ng-if="(item.company==undefined || item.company.length==0)" class="label label-warning">-</label>
-        </td>        
+        </td>
         <td  style="vertical-align: middle;text-align: center;" ng-if="item.idProfileKf=='null' || item.idProfileKf==''"><label class="label label-warning">Debe ser Asignado</label></td>
         <td  style="vertical-align: middle;text-align: center;" ng-if="(item.idProfileKf!='null' && item.idProfileKf!='undefined' && item.idProfileKf!='' && filters.userProfile.idProfile!='6')">{{item.nameProfile}} </td>
         <td  style="vertical-align: middle;text-align: right;" ng-if="(item.idProfileKf!='null' && item.idProfileKf!='undefined' && item.idProfileKf!='' && filters.userProfile.idProfile=='6')">
@@ -84,8 +94,8 @@
         <td>
         <button ng-click="selectUserDataFn(item);" data-toggle="tooltip" data-placement="right" title="Editar" type="button" ng-disabled="sessionIdUser==item.idUser" class="btn btn-info btn-xs"><i class="fas fa-user-edit"></i></button>
         <button ng-if="item.idStatusKf==0 " ng-click="modalConfirmation('enabled', 0, item)" data-toggle="tooltip" data-placement="right" title="Activar" type="button" ng-disabled="sessionIdUser==item.idUser" class="btn btn-success btn-xs"><i class="far fa-check-circle"></i></button>
-        <button ng-if="item.idStatusKf>0" ng-click="modalConfirmation('disabled', 0, item)" data-toggle="tooltip" data-placement="right" title="Desactivar" type="button" ng-disabled="sessionIdUser==item.idUser" class="btn btn-warning btn-xs"><i class="fas fa-user-slash"></i></button>
-        <button ng-if="item.idStatusKf>0" ng-click="modalConfirmation('remove', 0, item)" data-toggle="tooltip" data-placement="right" title="Eliminar" type="button" ng-disabled="sessionIdUser==item.idUser" class="btn btn-danger btn-xs"><i class="fas fa-user-times"></i></button>
+        <button ng-if="item.idStatusKf>0 && item.idProfileKf!='1'" ng-click="modalConfirmation('disabled', 0, item)" data-toggle="tooltip" data-placement="right" title="Desactivar" type="button" ng-disabled="sessionIdUser==item.idUser" class="btn btn-warning btn-xs"><i class="fas fa-user-slash"></i></button>
+        <button ng-if="item.idStatusKf>0 && item.idProfileKf!='1'" ng-click="modalConfirmation('remove', 0, item)" data-toggle="tooltip" data-placement="right" title="Eliminar" type="button" ng-disabled="sessionIdUser==item.idUser" class="btn btn-danger btn-xs"><i class="fas fa-user-times"></i></button>
         </td>
       </tr>
       <tr ng-if="pagedItems.length==0" >

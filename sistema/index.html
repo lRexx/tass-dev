@@ -105,11 +105,17 @@
 									<br>Monitor de pedidos
 								</a>
 							</li>
-							<li id="m_pedidos" class="dropdown"  ng-class="{ active: getRoute('/tickets')}" ng-if="sysModules.idLlaveros">
-							<a href="/tickets">
+							<li id="m_pedidos" ng-class="{ active: getRoute('/tickets')}" ng-if="sysModules.idPedidos">
+								<a href="/tickets">
+								<i style="margin-left: 0.1em;" class="icon-file-text icon-4x"></i>
+								<br>Pedidos
+								</a>
+							</li>
+							<!--<li id="m_llaveros" ng-class="{ active: getRoute('/keys')}" ng-if="sysModules.idLlaveros">
+								<a href="/keys">
 								<i style="margin-left: 0.1em;" class="icon-file-text icon-4x"></i>
 								<br>Pedidos 
-								<!--<b class="caret"></b></a>
+								<b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li ng-show="sysLoggedUser.idProfileKf!=2" class="dropdown-header">Llaveros</li>
 									<li ng-show="sysLoggedUser.idProfileKf!=2"><a ng-click="fnShowHide('rukeyup', 'open')"  class="dropItemTitle"><i class="glyphicon glyphicon-upload"></i> Alta</a></li>
@@ -127,36 +133,12 @@
 								</ul>-->
 								</a>
 							</li>
-							<li id="m_depto" class="icon-m" ng-class="{ active: getRoute('/building')}" ng-if="sysModules.idEdificios">
-								<a ng-click="fnShowHide('managedepto', 'open')"> 
-									<i class="icon-building icon-4x"></i>
-									<br>Gestion de Edificio
+							<li id="m_depto" class="icon-m" ng-class="{ active: getRoute('/buildings')}" ng-if="sysModules.idEdificios">
+								<a href="/buildings"> 
+								<i class="icon-building icon-4x"></i>
+								<br>Gestion de Edificio
 								</a>
 							</li>
-							<!--<li id="m_user" ng-show="sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4">
-								<a href="#Usuarios" ng-click="fnShowHide('user', 'open')"> 
-									<i class="icon-group"></i>
-									<br>Gestion de inquilinos
-								</a>
-							</li>-->
-							<!--<li id="m_contact" class="icon-m">
-								<a ng-click="fnShowHide('frmcontact', 'open')"> 
-									<i style="margin-left: -0.4em" class="icon-phone icon-4x"></i>
-									<br><span>Contacto</span>
-								</a>
-							</li>-->
-							<!--<li style="text-align: left; text-align: justify;" id="m_client" ng-show="sysLoggedUser.idProfileKf==1" class="icon-m">
-								<a ng-click="fnShowHide('managedclient', 'open')"> 
-									<i style="margin-left: -0.1em" class="fas fa-users-cog icon-4x"></i>
-									<br>Gestion de Clientes
-								</a>
-							</li>-->
-							<!--<li id="m_client" ng-show="sysLoggedUser.idProfileKf" class="icon-m">
-								<a ng-click="sysSendNotifyMail()"> 
-									<i style="margin-left: -0.5em" class="far fa-envelope icon-4x"></i>
-									<br>Send Mail
-								</a>
-							</li>-->
 							<li id="m_product" class="icon-m" ng-class="{ active: getRoute('/products')}" ng-if="sysModules.idProducto">
 								<a  href="/products"> 
 								<i style="margin-left: -0.5em" class="fas fa-th icon-4x"></i>
@@ -165,8 +147,8 @@
 							</li>	
 							<li id="m_services" class="icon-m" ng-class="{ active: getRoute('/services')}" ng-if="sysModules.idServices">
 								<a  href="/services"> 
-								<i style="margin-left: -0.58em" class="fas fa-tools icon-4x"></i>
-								<br>Servicios
+									<i style="margin-left: -0.58em" class="fas fa-tools icon-4x"></i>
+									<br>Servicios
 								</a>
 							</li>
 							<li id="m_keys" class="icon-m" ng-class="{ active: getRoute('/keys')}" ng-if="sysModules.idKeys">
@@ -283,7 +265,7 @@
 <!--<script src="lib/angular/ui-bootstrap/js/ui-bootstrap.js"></script>-->
 <script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>
 
-<script src="https://cdn.rawgit.com/zenorocha/clipboard.js/master/dist/clipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
 <script src="lib/angular/angular-clipboard/ngclipboard.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.0/angular-touch.min.js"></script>
 <!--<script src="https://code.angularjs.org/1.3.14/angular-touch.js"></script>-->
@@ -315,19 +297,20 @@
 <script src="common/services/sContracts.js"></script>
 <script src="common/services/sKeys.js"></script>
 
-<script src="controllers/TASSCtrlMenu.js"></script> <!--  Seguridad TASS Angular Login Functions -->
-<script src="controllers/TASSCtrlMonitor.js"></script> <!--  Seguridad TASS Angular Login Functions -->
-<script src="controllers/TASSCtrlProducts.js"></script> <!--  Seguridad TASS Angular Login Functions -->
-<script src="controllers/TASSCtrlKeys.js"></script> <!--  Seguridad TASS Angular Login Functions -->
-<script src="controllers/TASSCtrlCustomers.js"></script> <!--  Seguridad TASS Angular Login Functions -->
-<script src="controllers/TASSCtrlServices.js"></script> <!--  Seguridad TASS Angular Login Functions -->
-<script src="controllers/TASSCtrlUsers.js"></script> <!--  Seguridad TASS Angular Login Functions -->
-
-<script src="controllers/TASSCtrlLogin.js"></script> <!--  Seguridad TASS Angular Login Functions -->
-<script src="controllers/TASSCtrlRegister.js"></script> <!--  Seguridad TASS Angular Register Functions -->
-<script src="controllers/TASSCtrlforgotPwd.js"></script> <!--  Seguridad TASS Angular ForgotPwd Functions -->
-<script src="controllers/TASSCtrlNewPwd.js"></script> <!--  Seguridad TASS Angular Tenant Functions -->
-
+<!--  Seguridad TASS Angular Functions -->
+<script src="controllers/TASSCtrlMenu.js"></script> 
+<script src="controllers/TASSCtrlMonitor.js"></script>
+<script src="controllers/TASSCtrlProducts.js"></script>
+<script src="controllers/TASSCtrlKeys.js"></script>
+<script src="controllers/TASSCtrlCustomers.js"></script>
+<script src="controllers/TASSCtrlServices.js"></script>
+<script src="controllers/TASSCtrlUsers.js"></script>
+<script src="controllers/TASSCtrlBuildings.js"></script>
+<script src="controllers/TASSCtrlLogin.js"></script>
+<script src="controllers/TASSCtrlRegister.js"></script>
+<script src="controllers/TASSCtrlforgotPwd.js"></script>
+<script src="controllers/TASSCtrlNewPwd.js"></script>
+<!--  //Seguridad TASS Angular Login Functions -->
 
 
 </body>

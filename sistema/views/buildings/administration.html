@@ -1,0 +1,144 @@
+<!-- MANAGE ADMINISTRATION-->
+<div class="col-md-12 n-padding-l n-padding-r">
+    <div  class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">ADMINISTRACIÓN :: 
+            <span ng-if="sysLoggedUser.idProfileKf=='4'" class="panel-title">{{sysLoggedUser.company[0].name}}</span>
+        </h3>
+
+      </div>
+      <!--ADMINISTRATION PANEL -->
+        <div id="custRegistered" class="panel-body">
+        <!-- ROW WITH THE FILTERS USED TO DISPLAY DATA IN THE TABLE -->
+            <div  class="row">
+                <div class="form-group" style="padding-bottom: 25px;">
+                    <!-- Administration List-->
+                    <div ng-if="sysLoggedUser.idProfileKf=='1'" class="form-group col-md-6">
+                        <label style="padding-left: 15px;">Administración</label>
+                        <div class="col-xs-12 selectContainer">
+                            <div class="input-group">
+                            <span class="input-group-addon"><i class="icon-suitcase"></i></span>
+                                <ui-select 
+                                    name="admins"
+                                    ng-change="select.buildings.selected=undefined;getBuildingListFn(select.admins.selected.idClient); "
+                                    ng-disabled="sysLoggedUser.idProfileKf!='1'"
+                                    ng-model="select.admins.selected" 
+                                    on-select="onSelectCallback()" >
+                                <ui-select-match allow-clear="true" placeholder="Selecione una opción" >{{$select.selected.name | uppercase}}</ui-select-match>
+                                    <ui-select-choices repeat="item in administrationList | filter: $select.search">
+                                        <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                        <small>Tipo de Cliente: </small><small class="label label-default" ng-bind-html="item.ClientType | highlight: $select.search"></small>
+                                    </ui-select-choices>
+                                    <ui-select-no-choice>
+                                        <span ng-if="administrationList.length > 0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay Administraciones registradas</span>
+                                    </ui-select-no-choice>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div ng-if="sysLoggedUser.idProfileKf!='1'" class="form-group col-md-6">
+                        <label style="padding-left: 15px;">Administración</label>
+                        <div class="col-xs-12 selectContainer">
+                            <div class="input-group">
+                            <span class="input-group-addon"><i class="icon-suitcase"></i></span>
+                                <ui-select 
+                                    name="admins"
+                                    ng-disabled="true"
+                                    ng-model="select.admins.selected" 
+                                    on-select="onSelectCallback()" >
+                                <ui-select-match placeholder="Selecione una opción" >{{$select.selected.name | uppercase}}</ui-select-match>
+                                    <ui-select-choices repeat="item in administrationList | filter: $select.search">
+                                        <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                        <small>Tipo de Cliente: </small><small class="label label-default" ng-bind-html="item.ClientType | highlight: $select.search"></small>
+                                    </ui-select-choices>
+                                    <ui-select-no-choice>
+                                        <span ng-if="administrationList.length == 0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay Administraciones registradas</span>
+                                    </ui-select-no-choice>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>-->
+                    <!-- Building List-->
+                    <div class="form-group n-padding-r" ng-class="
+                    {	'col-md-6': 
+                        sysLoggedUser.idProfileKf=='1',
+                        'col-md-12':  
+                        sysLoggedUser.idProfileKf!='1',
+                    }">
+                        <label style="padding-left: 15px;">Consorcio</label>
+                        <div class="col-xs-12 selectContainer">
+                            <div class="input-group">
+                            <span class="input-group-addon"><i class="icon-suitcase"></i></span>
+                                <ui-select 
+                                    name="buildings"
+                                    ng-disabled="select.admins.selected==undefined"
+                                    ng-change="isCollapsed = !isCollapsed;dayDataCollapseFn();"
+                                    ng-model="select.buildings.selected">
+                                <ui-select-match allow-clear="true" placeholder="Selecione una opción" >{{$select.selected.name | uppercase}}</ui-select-match>
+                                    <ui-select-choices repeat="item in buildingList | filter: $select.search">
+                                        <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                        <small>Tipo de Cliente: </small><small class="label label-default" ng-bind-html="item.ClientType | highlight: $select.search"></small>
+                                    </ui-select-choices>
+                                    <ui-select-no-choice>
+                                        <span ng-if="buildingList.length == 0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay consorcios asociados</span>
+                                    </ui-select-no-choice>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear-fix"></div>
+                <div ng-if="select.admins.selected!=undefined && select.buildings.selected!=undefined" class="form-group">
+                    <div class="col-md-12 n-padding-r col-md-offset-1">
+                        <!--  -->
+                        <div class="col-md-3 ">
+                            <div class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="DEPARTAMENTOS" ng-click="switchBuildingFn('departments', null)">
+                                <div class="depto-icon">
+                                    <span><i class="product-success fas fa-house-user"></i></span>
+                                </div>
+                                <div class="text">
+                                    <h4 class="text-muted"><span class="badge "  ng-class="sysSubContent=='departments'? 'badge-success' : 'badge-light'"><i class="fas fa-eye"></i> DEPARTAMENTOS </span></h4>
+                                </div>
+                            </div>
+                        <!-- // -->
+                        <!--  -->
+                        </div>
+                        <div class="col-md-3">
+                            <div ng-if="sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4" class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="ENCARGADOS" ng-click="switchBuildingFn('attendants', null)">
+                                <div class="depto-icon">
+                                    <span><i class="product-success fas fa-user-tie"></i></span>
+                                </div>
+                                <div class="text">
+                                <h4 class="text-muted"><span class="badge" ng-class="sysSubContent=='attendants'? 'badge-success' : 'badge-light'"><i class="fas fa-eye"></i> ENCARGADOS </span></h4>
+                                </div>
+                            </div>
+                        <!-- // -->
+                        </div>
+                        <div class="col-md-3">
+                            <div ng-if="sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4" class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="ENCARGADOS" ng-click="switchBuildingFn('authorization', select.buildings.selected)">
+                                <div class="depto-icon">
+                                    <span><i class="product-success fas fa-user-lock"></i></span>
+                                </div>
+                                <div class="text">
+                                <h4 class="text-muted"><span class="badge" ng-class="sysSubContent=='authorization'? 'badge-success' : 'badge-light'"><i class="fas fa-eye"></i> AUTORIZACIONES </span></h4>
+                                </div>
+                            </div>
+                        <!-- // -->
+                    </div>
+                    </div>
+                </div>
+            <div class="clear-fix"></div>
+        </div>
+    </div>
+</div>
+<div class="col-md-12 n-padding-r n-padding-l">
+    <div ng-if="(sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4') && sysSubContent=='departments' && select.buildings.selected!=undefined" class="col-md-12 n-padding-r n-padding-l">
+        <div ng-include="'views/buildings/departments.html'"></div>
+    </div>
+    <div ng-if="(sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4') && sysSubContent=='attendants' && select.buildings.selected!=undefined" class="col-md-12 n-padding-r n-padding-l">
+        <div ng-include="'views/buildings/attendants.html'"></div>
+    </div>
+    <div ng-if="(sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4') && sysSubContent=='authorization' && select.buildings.selected!=undefined" class="col-md-12 n-padding-r n-padding-l">
+        <div ng-include="'views/buildings/authorizations.html'"></div>
+    </div>
+</div>

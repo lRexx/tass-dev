@@ -23,6 +23,19 @@ moduleAddressServices.service("addressServices", ['$http', 'tokenSystem', '$time
                     return checkResult;
             });   
           },
+          /* GET BUILDING LIST BY ADMIN ID */
+          buildingListByAdminId: function(idAdmin) {
+            console.log("[Address Services] => Listado de consorcios por id de administracion: "+idAdmin);
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"Direccion/addressListByCompanyid/"+idAdmin
+                  }).then(function mySuccess(response) {
+                      return response;
+                  },function myError(response) { 
+                      console.log("Error: "+response.data.error); 
+                      return response;
+                  })
+          },
           /* GET ALL BUILDINGS CUSTOMERS */
           getBuildings: function() {
             rsJson={};

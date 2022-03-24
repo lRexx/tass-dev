@@ -28,6 +28,8 @@ moduleNewPwd.directive('noSpaces', function() {
 });
 moduleNewPwd.controller('NewPwdCtrl', function($scope, $rootScope, $location, $http, blockUI,userServices, inputService, userServices, $timeout, tokenSystem, inform, $window, APP_SYS, APP_REGEX){
 
+  console.log("Bienvenido al sistema de "+APP_SYS.app_name);
+  console.log("Version v"+APP_SYS.version);
   //console.log(serverHeaders)
   $scope.new = {pwd1: '', pwd2:''};
   tokenSystem.destroyTokenStorage(2);
@@ -79,10 +81,10 @@ moduleNewPwd.controller('NewPwdCtrl', function($scope, $rootScope, $location, $h
         userServices.updateUser(data2update).then(function(response){
           if(response.status==200){
             tokenSystem.destroyTokenStorage(4);
-            inform.add('El cambio de clave se ha realizado con exito, ya puede acceder al sistema.',{
+            inform.add('El cambio de contraseña se ha realizado con exito, ya puede acceder al sistema.',{
               ttl:4000, type: 'warning'
             });
-            blockUI.message('Su Nueva Clave fue cambiada con exito!');
+            blockUI.message('Su Nueva contraseña fue cambiada con exito!');
             $timeout(function() {
               blockUI.stop();
               $location.path("/login");

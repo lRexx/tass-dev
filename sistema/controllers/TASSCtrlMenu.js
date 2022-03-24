@@ -1,7 +1,7 @@
   /**
    * Menu Controller
    */
-  var menu = angular.module("module.Menu", ["tokenSystem", "angular.filter", "services.Address", "services.User", "services.Utilities"]);
+  var menu = angular.module("module.Menu", ["tokenSystem", "angular.filter", "services.Customers", "services.Address", "services.User", "services.Utilities"]);
   menu.directive('allowTyping', function () {
     return {
       restrict : 'A',
@@ -27,7 +27,33 @@
       }
     };
   });
-  menu.controller('MenuCtrl', function($scope, $location, $routeParams, $document, $interval, blockUI, $timeout, inform, inputService, userServices, tokenSystem, addressServices, UtilitiesServices, $window, $filter, APP_SYS){
+  menu.directive('noSpaces', function() {
+    return {
+      require: 'ngModel',
+      link: function(scope, element, attrs, ngModel) {
+        attrs.ngTrim = 'false';
+  
+        element.bind('keydown', function(e) {
+          if (e.which === 32) {
+            e.preventDefault();
+            return false;
+          }
+        });
+  
+        ngModel.$parsers.unshift(function(value) {
+          var spacelessValue = value.replace(/ /g, '');
+  
+          if (spacelessValue !== value) {
+            ngModel.$setViewValue(spacelessValue);
+            ngModel.$render();
+          }
+  
+          return spacelessValue;
+        });
+      }
+    };
+  });
+  menu.controller('MenuCtrl', function($scope, $location, $routeParams, $document, $interval, blockUI, $timeout, inform, inputService, CustomerServices, userServices, tokenSystem, addressServices, UtilitiesServices, $window, $filter, APP_SYS, APP_REGEX){
       //if ($location.path() == "/login"){console.log($location.path());}
       console.log("Bienvenido al sistema de "+APP_SYS.app_name);
       console.log("Version v"+APP_SYS.version);
@@ -40,6 +66,14 @@
       $scope.pattX3CharactersNumbersX3 = /^([a-zA-Z]|[\d])|^[0-9]{1,3}$/;
       $scope.pattOnlyNumbersX6         = /^[0-9]{1,6}$/;
       $scope.counterInformShow = 0;
+      $scope.regexStrongPwd=/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
+      $scope.regexRules = {uperChar:false, lowerChar:false, numberChar:false, specialChar:false, minChar:false } ;
+      var regexUperChar    =/^(?=.*[A-Z]).{1,}$/;
+      var regexLowerChar   =/^(?=.*[a-z]).{1,}$/;
+      var regexNumberChar  =/^(?=.*\d).{1,}$/;
+      var regexSpecialChar =/^(?=.*\W).{1,}$/;
+      var regexMinChar     =/^.{8,}/;
+      $scope.chg = {'pwd1': '', 'pwd2':''};
       $('.modal-backdrop').hide();
       $scope.launchLoader = function(){
         $scope.wLoader  = true;
@@ -50,6 +84,22 @@
          }, 1500);
          
        }
+      /*************************************************************
+      *                                                            *
+      *               UPDATE SYS LOGGED USER DATA                  *
+      *                                                            *
+      *************************************************************/
+        $scope.updateSysUserLoggedSession = function(idUser){
+          userServices.updateLoggedUserData(idUser).then(function(response){
+              if(response.status==200){
+                  //console.log("User Logged data has been updated");
+                  $scope.sysLoggedUser        = tokenSystem.getTokenStorage(2);
+                  $scope.sysLoggedUserModules = tokenSystem.getTokenStorage(6);
+              }else if (response.status==404){
+                  console.log("Something went wrong");
+              }
+          });
+      }
       /**
        * LOAD SYSTEM MODULES AND MENU
        */
@@ -83,7 +133,10 @@
             break;
             case "9":
               $scope.sysModules.idUsers=true;
-            break;          
+            break;
+            case "10":
+              $scope.sysModules.idPedidos=true;
+            break;
             default:
           }
           }
@@ -101,6 +154,22 @@
               if (confirm==0){
                   if ($scope.sessionidProfile==1 && obj.idUser!=0){
                     if (obj.idProfileKf){$scope.mess2show="El usuario ("+obj.fullNameUser+") bajo el perfil de "+obj.nameProfile+" sera Actualizado.     Confirmar?";}
+                      $scope.idUserKf   =  obj.idUser;
+                      $scope.argObj = obj;
+                      console.log('Usuario a eliminar ID: '+$scope.idUserKf+' BAJO EL NOMBRE: '+obj.fullNameUser);
+                      console.log("============================================================================")
+                      console.log($scope.argObj);
+                  }      
+                $('#confirmRequestModalMenu').modal('toggle');
+              }else if (confirm==1){
+                    $scope.sysUpdateUserFn($scope.argObj);
+                $('#confirmRequestModalMenu').modal('hide');
+              }
+            break;
+            case "updateUserPwd":
+              if (confirm==0){
+                  if ($scope.sessionidProfile==1 && obj.idUser!=0){
+                    if (obj.idProfileKf){$scope.mess2show="Esta seguro que desea hacer el cambio de contraseña.     Confirmar?";}
                       $scope.idUserKf   =  obj.idUser;
                       $scope.argObj = obj;
                       console.log('Usuario a eliminar ID: '+$scope.idUserKf+' BAJO EL NOMBRE: '+obj.fullNameUser);
@@ -543,6 +612,7 @@
             /**********************************************
             *               INPUT PHONE MASK              *
             **********************************************/
+             $('.input--phone-no-format').mask('9999999999999');
               $('.input--phone').mask('+54 (0##) (15) ####-####',
               {
                 reverse: false,
@@ -632,16 +702,17 @@
         *           UPDATE PROFILE LOGGED USER            *
         *     (status, profile, typeTenant, company)      *
         **************************************************/
-          $scope.profile=[];
+          $scope.profile={};
           $scope.profileUserOpen = function(){
-            $scope.profile=[];
+            $scope.profile={};
             $scope.profile=tokenSystem.getTokenStorage(2);
-
-            $('#ProfileModalUser').modal('toggle');
+            $('#ProfileModalUser').modal({backdrop: 'static', keyboard: false});
+            $('#ProfileModalUser').on('shown.bs.modal', function () {
+                $('#profileNames').focus();
+            });
+            //console.log($scope.profile);
           }
           $scope.updateProfileLoggedUser=function(){
-            //Update Profile and LocalStorage Variable Module
-            var isEditUser=0;
             console.log("==========================================");
                 $scope.sysLoggedUser.fullNameUser         = $scope.profile.fullNameUser;
                 $scope.sysLoggedUser.emailUser            = $scope.profile.emailUser;
@@ -655,14 +726,12 @@
             userServices.updateUser($scope.rsUser).then(function(response){
               if(response.status==200){
                 console.log("Usuario: "+$scope.rsUser.user.fullNameUser+" Successfully updated");
-                inform.add('El Usuario: '+$scope.rsUser.user.fullNameUser+' ha sido actualizado con exito. ',{
-                      ttl:3000, type: 'success'
+                inform.add($scope.rsUser.user.fullNameUser+', su perfil ha sido actualizado con exito. ',{
+                      ttl:4000, type: 'success'
                 });
-                tokenSystem.destroyTokenStorage(5);
                 $('#ProfileModalUser').modal('hide');
                 setTimeout(function() {
-                  tokenSystem.setLoggedUserStorage($scope.rsUser.user);
-                  $scope.sysLoggedUser        = tokenSystem.getTokenStorage(2);
+                  $scope.updateSysUserLoggedSession($scope.rsUser.user.idUser);
                 }, 1000);
               }else if(response.status==404){
                 inform.add('[Error]: '+response.status+', Ocurrio error verifique los datos e intenta de nuevo o contacta el area de soporte. ',{
@@ -676,9 +745,129 @@
               }
             });
           }
-          $scope.passwdModalUserOpen = function(){
-            $('#PasswdModalUser').modal('toggle');
+
+        /**************************************************
+        *                                                 *
+        *             CHECK THE PASSWD STRENG             *
+        *                                                 *
+        **************************************************/
+          $scope.regexChecker = function(value){
+            if (value!=undefined && value!=''){
+              $scope.regexRules.lowerChar   = regexLowerChar.test(value);
+              $scope.regexRules.uperChar    = regexUperChar.test(value);
+              $scope.regexRules.numberChar  = regexNumberChar.test(value);
+              $scope.regexRules.specialChar = regexSpecialChar.test(value);
+              $scope.regexRules.minChar     = regexMinChar.test(value);
+              //console.log("regexRules.lowerChar: "+$scope.regexRules.lowerChar);
+            }else{
+              $scope.regexRules = {uperChar:false, lowerChar:false, numberChar:false, specialChar:false, minChar:false }
+            }
           }
+          $scope.passwdModalUserOpen = function(){
+            $scope.chg = {'pwd1': '', 'pwd2':''};
+            $('#PasswdModalUser').modal({backdrop: 'static', keyboard: false});
+            $('#PasswdModalUser').on('shown.bs.modal', function () {
+                $('#pwd1').focus();
+            });
+          }
+        /**************************************************
+        *                                                 *
+        *           SEND THE NEW PWD TO UPDATE            *
+        *                                                 *
+        **************************************************/
+          $scope.sysPwdChangeFn= function (){
+            blockUI.start('Iniciando el cambio de contrañea.');
+            $scope.rsUser       = {'user':{}}
+            $scope.rsUser.user  = $scope.sysLoggedUser;
+            if ($scope.chg.pwd1 == $scope.chg.pwd2){
+              $scope.rsUser.user.isEditUser='true';
+              $scope.rsUser.user.passwordUser=$scope.chg.pwd2;
+              console.log($scope.rsUser);
+              userServices.updateUser($scope.rsUser).then(function(response){
+                if(response.status==200){
+                  $timeout(function() {
+                    blockUI.message('Su contraseña fue cambiada con exito.');
+                    inform.add('El cambio de contraseña se ha realizado con exito.',{
+                      ttl:4000, type: 'success'
+                    });
+                  }, 1000);
+                  $timeout(function() {
+                    $scope.updateSysUserLoggedSession($scope.rsUser.user.idUser);
+                    blockUI.stop();
+                    $('#PasswdModalUser').modal('hide');
+                  }, 2000);
+                }else if(response.status==404){
+                  inform.add('[Error]: '+response.status+', Ocurrio error verifique los datos e intenta de nuevo o contacta el area de soporte. ',{
+                    ttl:5000, type: 'danger'
+                    });
+                }else if(response.status==500){
+                  inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con servidor, contacta el area de soporte. ',{
+                    ttl:5000, type: 'danger'
+                    });
+                }
+
+              });
+            }
+          }
+          /**************************************************
+          *                                                 *
+          *            GET ADMINISTRATION LIST              *
+          *                                                 *
+          **************************************************/
+              $scope.buildingCustomerRegistered={
+                "searchFilter":"",
+                "isNotCliente":"",
+                "idClientTypeFk":"",
+              };
+              $scope.globalCustomers = {'status':0, 'all':[], 'registered':[],'notRegistered':[],'administrations':[], 'buildings':[], 'branches':[], 'companies':[], 'particulars':[]}
+              $scope.globalGetCustomerListFn = function(isClient, idClientType){
+                console.log("getting Customers List from Database");
+                $scope.globalCustomers = {'status':0, 'all':[], 'registered':[],'notRegistered':[],'administrations':[], 'buildings':[], 'branches':[], 'companies':[], 'particulars':[]}
+                $scope.buildingCustomerRegistered.isNotCliente=isClient;
+                $scope.buildingCustomerRegistered.idClientTypeFk=idClientType;
+                  CustomerServices.getCustomerList($scope.buildingCustomerRegistered).then(function(response){
+                    if(response.status==200){
+                      $scope.globalCustomers.all=response.data;
+                      $scope.globalCustomers.status=1;
+                      for (var key in response.data){
+                        if (response.data[key].isNotCliente == "0"){
+                          $scope.globalCustomers.registered.push(response.data[key]);
+                          switch (response.data[key].idClientType){
+                            case "1":
+                              $scope.globalCustomers.administrations.push(response.data[key]);
+                            break;
+                            case "2":
+                              $scope.globalCustomers.buildings.push(response.data[key]);
+                            break;
+                            case "3":
+                              $scope.globalCustomers.companies.push(response.data[key]);
+                            break;
+                            case "4":
+                              $scope.globalCustomers.branches.push(response.data[key]);
+                            break;
+                            case "5":
+                              $scope.globalCustomers.particulars.push(response.data[key]);
+                            break;
+                          }
+                        }else if (response.data[key].isNotCliente == "1"){
+                          $scope.globalCustomers.notRegistered.push(response.data[key]);
+                        }
+                      }
+                      //console.log($scope.globalCustomers)
+                    }else{
+                      $scope.globalCustomers = {'status':2,'registered':[],'notRegistered':[],'administrations':[], 'buildings':[], 'branches':[], 'companies':[], 'particulars':[]}
+                    }
+                  });
+              };
+              if (($scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=4 && $scope.sysLoggedUser.idProfileKf!=5 && $scope.sysLoggedUser.idProfileKf!=6) && $scope.sysLoggedUser.idTypeTenantKf!=null){
+                blockUI.start('Cargando...');
+                $scope.globalGetCustomerListFn(null, null); //LOAD CUSTOMER LIST
+                $timeout(function() {
+                  blockUI.stop(); 
+                }, 5500);
+              }
+              
+              
         /**************************************************
         *                                                 *
         *                LOGOUT FUNCTION                  *
@@ -696,7 +885,8 @@
         *                                                 *
         **************************************************/
             // Timeout timer value
-            $scope.TimeOutTimeValue   = 900000;//900000; //15 min
+            //$scope.TimeOutTimeValue   = 900000;//900000; //15 min
+            $scope.TimeOutTimeValue   = 90000000;//900000; //15 min
             //$scope.TimeOutTimeValue   = 90000;//900000; //15 min
             $scope.IntervalTimerValue   = (20/100)*$scope.TimeOutTimeValue;
             $scope.intervalCountDown = 0;
@@ -729,7 +919,7 @@
                       function pad(i) { return ('0'+i).slice(-2); }
                       $scope.counterTimeOutDown = d.getUTCHours() + ':' + pad(d.getUTCMinutes()) + ':' + pad(d.getUTCSeconds());
                       //console.clear();
-                      console.log($scope.counterTimeOutDown);
+                      //console.log($scope.counterTimeOutDown);
                     }
                   }, 1000);
                 break;
@@ -794,14 +984,14 @@
                 //console.log(e.type);
                 /// Stop the reset the timeout timer
                 if (!$scope.showTimeOutWarning){
-                  console.log("Timer count down resetted");
+                  //console.log("Timer count down resetted");
                   $scope.warningTimeOut("stop_timeout");
                 }
             }
             $scope.timeOutFn = function(){
               var currentLocation = $location.path();
               if (currentLocation!="/login" && currentLocation!="/register" && currentLocation!="/forgotpwd" &&  currentLocation!="/newpwd"){
-                  console.log('starting session timer');
+                  //console.log('starting session timer');
                   $scope.warningTimeOut("start_timeout");
                   //Get the inputs Events of mouse/keyboard to check the activity.
                   var bodyElement = angular.element($document);
@@ -836,6 +1026,16 @@
             });
             $scope.timeOutFn();
           }, 620);
+          $interval( function(){
+            $scope.updateSysUserLoggedSession($scope.sysLoggedUser.idUser);
+          }, 30000);
+          if (($scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=4 && $scope.sysLoggedUser.idProfileKf!=5 && $scope.sysLoggedUser.idProfileKf!=6) && $scope.sysLoggedUser.idTypeTenantKf==null){
+            blockUI.start('Cargando...');
+            $scope.globalGetCustomerListFn(null, null); //LOAD CUSTOMER LIST
+            $timeout(function() {
+              blockUI.stop(); 
+            }, 5500);
+          }
           
         }
       }

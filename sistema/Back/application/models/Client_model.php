@@ -156,6 +156,157 @@ class Client_model extends CI_Model {
 
     }
 
+    public function aprobarPedidoClient($client)
+	{
+		$val = false;
+		$query = $this->db->select("*")->from("tb_clients")->where('idClient', $client['idClient'])->get();
+		if ($query->num_rows() > 0) { //si existe el cliente
+			if (!is_null($client['autoApproveAll'])) {
+				if ($client['autoApproveAll'] == 1) {
+					$val = true;
+				}
+				if ($client['autoApproveAll'] == 0) {
+					$val = true;
+				}
+			}
+		} else {
+			return 0;
+		}
+		if ($val) {
+			$this->db->set(
+				[
+					'autoApproveAll' => $client['autoApproveAll'],
+				]
+			)->where("idClient", $client['idClient'])->update("tb_clients");
+			return 1;
+		} else {
+			return 0;
+		}
+
+	}
+    public function autoAprobarPedidoPropietarios($client)
+	{
+		$val = false;
+		$query = $this->db->select("*")->from("tb_clients")->where('idClient', $client['idClient'])->get();
+		if ($query->num_rows() > 0) { //si existe el cliente
+			if (!is_null($client['autoApproveOwners'])) {
+				if ($client['autoApproveOwners'] == 1) {
+					$val = true;
+				}
+				if ($client['autoApproveOwners'] == 0) {
+					$val = true;
+				}
+			}
+		} else {
+			return 0;
+		}
+		if ($val) {
+			$this->db->set(
+				[
+					'autoApproveOwners' => $client['autoApproveOwners'],
+				]
+			)->where("idClient", $client['idClient'])->update("tb_clients");
+			return 1;
+		} else {
+			return 0;
+		}
+
+	}
+
+	public function aprobarPedidoClientDepartment($client)
+	{
+		$val = false;
+		$val2 = false;
+		$query = $this->db->select("*")->from("tb_client_departament")->where('idClientDepartament', $client['idClientDepartament'])->get();
+		if ($query->num_rows() > 0) { //si existe el cliente
+			if (!is_null($client['autoApproveFloor'])) {
+				if ($client['autoApproveFloor'] == 1) {
+					$val = true;
+				}
+				if ($client['autoApproveFloor'] == 0) {
+					$val = true;
+				}
+			}
+			if (!is_null($client['autoApproveDepto'])) {
+				if ($client['autoApproveDepto'] == 1) {
+					$val2 = true;
+				}
+				if ($client['autoApproveDepto'] == 0) {
+					$val2 = true;
+				}
+			}
+		} else {
+			return 0;
+		}
+		if ($val && $val2) {
+			$this->db->set(
+				[
+					'autoApproveFloor' => $client['autoApproveFloor'],
+					'autoApproveDepto' => $client['autoApproveDepto'],
+				]
+			)->where("idClientDepartament", $client['idClientDepartament'])->update("tb_client_departament");
+			return 1;
+		} else {
+			return 0;
+		}
+
+	}
+
+	public function chargeForExpenses($client)
+	{
+		$val = false;
+		$query = $this->db->select("*")->from("tb_clients")->where('idClient', $client['idClient'])->get();
+		if ($query->num_rows() > 0) { //si existe el cliente
+			if (!is_null($client['chargeForExpenses'])) {
+				if ($client['chargeForExpenses'] == 1) {
+					$val = true;
+				}
+				if ($client['chargeForExpenses'] == 0) {
+					$val = true;
+				}
+			}
+		} else {
+			return 0;
+		}
+		if ($val) {
+			$this->db->set(
+				[
+					'chargeForExpenses' => $client['chargeForExpenses'],
+				]
+			)->where("idClient", $client['idClient'])->update("tb_clients");
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+
+	public function IsInDebt($client)
+	{
+		$val = false;
+		$query = $this->db->select("*")->from("tb_clients")->where('idClient', $client['idClient'])->get();
+		if ($query->num_rows() > 0) { //si existe el cliente
+			if (!is_null($client['IsInDebt'])) {
+				if ($client['IsInDebt'] == 1) {
+					$val = true;
+				}
+				if ($client['IsInDebt'] == 0) {
+					$val = true;
+				}
+			}
+		} else {
+			return 0;
+		}
+		if ($val) {
+			$this->db->set(
+				[
+					'IsInDebt' => $client['IsInDebt'],
+				]
+			)->where("idClient", $client['idClient'])->update("tb_clients");
+			return 1;
+		} else {
+			return 0;
+		}
+	}
 
     public function updateAdmin($client) {
 

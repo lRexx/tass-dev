@@ -72,7 +72,7 @@
                             <i class="fas fa-file-invoice-dollar"></i>
                           </label>
                         </span>
-                      </td>                               
+                      </td>
                       <td style="width: 150%"><span class="text-muted text-box"><label style="font-size: 100%" class="label label-info">{{customer.details.mailCollection | uppercase}}</label></span></td>
                         <td style="padding-bottom: 5px;">
                           <button data-toggle="tooltip" data-placement="right" title="Copiar" ngclipboard data-clipboard-text="{{customer.details.mailCollection}}" class="btn btn-sm btn-success"><i style="font-size: 14px;" class="fas fa-copy"></i></button>
@@ -86,16 +86,16 @@
                             <i class="fas fa-envelope"></i>
                           </label>
                         </span>
-                      </td>                               
+                      </td>
                       <td style="width: 150%"><span class="text-muted text-box"><label style="font-size: 100%" class="label label-info">{{customer.details.mail | uppercase}}</label></span></td>
                         <td style="padding-bottom: 5px;">
                           <button data-toggle="tooltip" data-placement="right" title="Copiar" ngclipboard data-clipboard-text="{{customer.details.mail}}" class="btn btn-sm btn-success"><i style="font-size: 14px;" class="fas fa-copy"></i></button>
 
                         </td>
-                  </tr>                       
-                </table>                    
+                  </tr>
+                </table>
                 <div ng-if="list_mails.length==0 && customer.details.mailFronKey==undefined && customer.details.mailServiceTecnic==undefined && customer.details.mailCollection==undefined && customer.details.mail==undefined" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay correos cargados</h5></div>
-            </div>                  
+            </div>
           </div>
           <div class="clearfix"> </div> 
         </div>

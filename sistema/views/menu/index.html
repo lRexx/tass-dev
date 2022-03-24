@@ -60,8 +60,8 @@
                                 <br>Monitor de pedidos
                             </a>
                         </li>
-                        <li id="m_pedidos" class="dropdown"  ng-class="{ active: getRoute('/tickets')}" ng-if="sysModules.idLlaveros">
-                        <a href="/tickets">
+                        <li id="m_pedidos" ng-class="{ active: getRoute('/pedidos')}" ng-if="sysModules.idPedidos">
+                        <a href="/pedidos">
                             <i style="margin-left: 0.1em;" class="icon-file-text icon-4x"></i>
                             <br>Pedidos 
                             <!--<b class="caret"></b></a>
@@ -82,8 +82,30 @@
                             </ul>-->
                             </a>
                         </li>
-                        <li id="m_depto" class="icon-m" ng-class="{ active: getRoute('/building')}" ng-if="sysModules.idEdificios">
-                            <a ng-click="fnShowHide('managedepto', 'open')"> 
+                        <li id="m_llaveros" ng-class="{ active: getRoute('/keys')}" ng-if="sysModules.idLlaveros">
+                            <a href="/keys">
+                                <i style="margin-left: -0.58em" class="fas fa-key icon-4x"></i>
+                                <br>Pedidos 
+                                <!--<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li ng-show="sysLoggedUser.idProfileKf!=2" class="dropdown-header">Llaveros</li>
+                                    <li ng-show="sysLoggedUser.idProfileKf!=2"><a ng-click="fnShowHide('rukeyup', 'open')"  class="dropItemTitle"><i class="glyphicon glyphicon-upload"></i> Alta</a></li>
+                                    <li ng-show="sysLoggedUser.idProfileKf!=2"><a ng-click="fnShowHide('rukeydown', 'open')"  class="dropItemTitle"><i class="glyphicon glyphicon-download"></i> Baja</a></li>
+                                    <li ng-show="sysLoggedUser.idProfileKf!=2" class="divider"></li>
+                                    <li ng-show="sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==2 || sysLoggedUser.idProfileKf==4" class="cms">
+                                        <a ng-click="fnShowHide('ruservice', 'open')" ><i class="glyphicon icon-wrench"></i> Servicio Tecnico</a>
+                                    </li>
+                                    <li ng-show="sysLoggedUser.idProfileKf!=0" class="cms">
+                                        <a ng-click="fnShowHide('ruother', 'open')" ><i class="glyphicon glyphicon-envelope"></i> Otras Consultas</a>
+                                    </li>
+                                    <li ng-show="sysLoggedUser.idProfileKf!=2" class="cms"> class="im active"
+                                        <a ng-click="fnShowHide('frmcost', 'open')" ><i class="glyphicon icon-dollar"></i> Costos</a>
+                                    </li>
+                                </ul>-->
+                                </a>
+                            </li>
+                        <li id="m_depto" class="icon-m" ng-class="{ active: getRoute('/buildings')}" ng-if="sysModules.idEdificios">
+                            <a href="/buildings">
                                 <i class="icon-building icon-4x"></i>
                                 <br>Gestion de Edificio
                             </a>
@@ -135,13 +157,13 @@
                             <i style="margin-left: -0.7em" class="fas fa-users icon-4x"></i>
                             <br>Usuarios
                             </a>
-                        </li>			              	
+                        </li>
                         <li id="m_config" class="icon-m" ng-class="{ active: getRoute('/system')}" ng-if="sysModules.idConfiguracion">
                             <a  ng-click="fnShowHide('sysConfig', 'open')"> 
                             <i style="margin-left: -0.4em" class="icon-cogs icon-4x"></i>
                             <br>Configuracion
                             </a>
-                        </li>		              			              			        		       
+                        </li>
                     </ul>
 
                     <!--<ul class="nav navbar-nav navbar-right">

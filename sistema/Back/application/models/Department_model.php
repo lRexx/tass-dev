@@ -136,7 +136,8 @@ class Department_model extends CI_Model
         //    $this->db->where("tb_department.isAprobatedAdmin =", 0);
         //}
 
-		$this->db->select("*")->from("tb_client_departament");
+		$this->db->select("*, UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto")->from("tb_client_departament");
+        $this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
 		$this->db->join('tb_clients', 'tb_clients.idClient = tb_client_departament.idClientFk', 'left');
 		$this->db->where("tb_clients.idClient =", $id);
 
@@ -191,26 +192,44 @@ class Department_model extends CI_Model
 	}
 
 	// GET DE LISTADO DE DEPARTAMENTO POR ID DE DIRECCION, ID DE INQUILINO Y SI ESTA APROBADO //
-	public function byIdTenantYDireccion ($id, $idT, $idStatus)
+	public function byIdTenantYDireccion ($id = null, $idT = null, $idStatus = -1, $typeTenant)
 	{
 		$quuery = null;
 		$rs     = null;
 
+        if (!is_null($typeTenant) && $typeTenant==1){
+            $this->db->select("*, UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto")->from("tb_client_departament");
+            //$this->db->join('tb_addres', 'tb_addres.idAdress = tb_department.idAdressKf', 'left');
+            $this->db->join('tb_clients', 'tb_clients.idClient = tb_client_departament.idClientFk', 'left');
+            $this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
+            if (is_null($id)){
+                $this->db->where("tb_clients.idClient =", $id);
+            }
 
-		$this->db->select("*")->from("tb_client_departament");
-        //$this->db->join('tb_addres', 'tb_addres.idAdress = tb_department.idAdressKf', 'left');
-		$this->db->join('tb_clients', 'tb_clients.idClient = tb_client_departament.idClientFk', 'left');
-		$this->db->where("tb_clients.idClient =", $id);
+            if ($idStatus == 1) { // si le mandas 1 te retorna los APROBADOS
+                $this->db->where("tb_client_departament.isAprobatedAdmin =", 1);
+            } else if ($idStatus == 0) {// SI LE MANDAS 0 LOS NO APROBADOS
+                $this->db->where("tb_client_departament.isAprobatedAdmin =", 0);
+            }
+            //$this->db->where("tb_department.idUserKf =", $idT);
+            $this->db->where("tb_client_departament.idUserKf =", $idT);
+            $quuery = $this->db->order_by("tb_clients.address", "asc")->get();
+        }else if (!is_null($typeTenant) && $typeTenant==2){
+            $this->db->select("*, UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto")->from("tb_user");
+            $this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_user.idDepartmentKf', 'left');
+            $this->db->join('tb_clients', 'tb_clients.idClient = tb_client_departament.idClientFk', 'left');
+            $this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
 
-		if ($idStatus == 1) { // si le mandas 1 te retorna los APROBADOS
-			$this->db->where("tb_client_departament.isAprobatedAdmin =", 1);
-		} else if ($idStatus == 0) {// SI LE MANDAS 0 LOS NO APROBADOS
-			$this->db->where("tb_client_departament.isAprobatedAdmin =", 0);
-		}
-        //$this->db->where("tb_department.idUserKf =", $idT);
-		$this->db->where("tb_client_departament.idUserKf =", $idT);
-		$quuery = $this->db->order_by("tb_clients.address", "asc")->get();
+            if ($idStatus == 1) { // si le mandas 1 te retorna los APROBADOS
+                $this->db->where("tb_user.isDepartmentApproved =", 1);
+            } else if ($idStatus == 0) {// SI LE MANDAS 0 LOS NO APROBADOS
+                $this->db->where("tb_user.isDepartmentApproved =", 0);
+            }
 
+            $this->db->where("tb_user.idDepartmentKf =", $id);
+            $quuery = $this->db->where("tb_user.idUser =", $idT)->get();
+
+        }
 		if ($quuery->num_rows() > 0) {
 			return $quuery->result_array();
 		}
@@ -304,6 +323,21 @@ class Department_model extends CI_Model
 		}
 	}
 
+	public function requesLowByTenant ($id)
+	{
+		$this->db->set(
+			array(
+				'isRequesLowByTenant' => 1
+			)
+		)->where("idUser", $id)->update("tb_user");
+
+
+		if ($this->db->affected_rows() === 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	
     /* AGREGRA NUEVO USUARIO EMPRESA */
     public function add($department) {
@@ -352,13 +386,13 @@ class Department_model extends CI_Model
     public function removeTenant ($data)
     {
 
-
-        if ($data['idTypeTenant'] == 1) //PROPIETARO
+        $idAddress_tmp=null;
+        if ($data['idTypeTenant'] == 1) //USUARIO DE TIPO PROPIETARO
         {
             $this->db->set(
                 array(
                     'idUserKf'         => null,
-                    'isAprobatedAdmin' => 0
+                    'isAprobatedAdmin' => null
                 )
             )
                 ->where("idUserKf", $data['idUser'])
@@ -388,19 +422,46 @@ class Department_model extends CI_Model
                 return false;
             }
 
-        } else { // inquilino
-
-            $this->db->set(
-                array(
-                    'idDepartmentKf'       => null,
-                    'isDepartmentApproved' => null,
-                    'idAddresKf'           => null,
-                    'idCompanyKf'          => null
+        } else { // USUARIO DE TIPO HABITANTE
+            if ($data['idProfileKf'] == 4 || $data['idProfileKf'] == 6){
+                if ($data['idProfileKf'] == 4){
+                    $this->db->set(
+                        array(
+                            'idDepartmentKf'       => null,
+                            'idAddresKf'           => null,
+                            'isDepartmentApproved' => 0,
+                            'isRequesLowByTenant'  => 0,
+                        )
+                    )
+                    ->where("idUser", $data['idUser'])
+                    ->where("idDepartmentKf", $data['idDepartmentKf'])
+                    ->update("tb_user");
+                }else{
+                    $this->db->set(
+                        array(
+                            'idDepartmentKf'       => null,
+                            'isDepartmentApproved' => 0,
+                            'isRequesLowByTenant'  => 0,
+                        )
+                    )
+                    ->where("idUser", $data['idUser'])
+                    ->where("idDepartmentKf", $data['idDepartmentKf'])
+                    ->update("tb_user");
+                }
+            }else{
+                $this->db->set(
+                    array(
+                        'idDepartmentKf'       => null,
+                        'isDepartmentApproved' => 0,
+                        'idAddresKf'           => null,
+                        'isRequesLowByTenant'  => 0,
+                    )
                 )
-            )
-                ->where("idUser", $data['idUser'])
-                ->where("idDepartmentKf", $data['idDepartmentKf'])
-                ->update("tb_user");
+                    ->where("idUser", $data['idUser'])
+                    ->where("idDepartmentKf", $data['idDepartmentKf'])
+                    ->update("tb_user");
+            }
+
 
 
             if ($this->db->affected_rows() === 1) {

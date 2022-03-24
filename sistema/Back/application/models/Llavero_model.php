@@ -17,17 +17,42 @@ class Llavero_model extends CI_Model
 	{
 		$quuery = null;
 		$rs = null;
-		$fields_selected="tb_keychain.idKeyChain, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo, tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf, tb_keychain.isKeyTenantOnly,
-		tb_client_departament.floor, tb_client_departament.departament, tb_category_departament.categoryDepartament, tb_category_keychain.idCategory as idCategoryKey, tb_category_keychain.name as categoryKeychain, a.idClient as idClientA, a.address as addressA, b.idClient as idClientB, b.address as addressB,
+		$fields_selected="tb_keychain.idKeychain, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo, tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf, tb_keychain.isKeyTenantOnly,
+		UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto, tb_category_keychain.idCategory as idCategoryKf, tb_category_keychain.name as categoryKeychain, a.idClient as idClientA, a.address as addressA, b.idClient as idClientB, b.address as addressB,
 		tb_products.descriptionProduct, tb_products.model";
 		$this->db->select($fields_selected)->from("tb_keychain");
 		$this->db->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left');
 		$this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left');
 		$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_keychain.idDepartmenKf', 'left');
-		$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
+		//$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
 		$this->db->join('tb_clients as a', 'a.idClient = tb_client_departament.idClientFk', 'left');
 		$this->db->join('tb_clients as b', 'b.idClient = tb_keychain.idClientKf', 'left');
-		$quuery = $this->db->order_by("tb_keychain.idKeyChain", "ASC")->get();
+		$quuery = $this->db->order_by("tb_keychain.idKeychain", "ASC")->get();
+
+		if ($quuery->num_rows() > 0) {
+			$rs = $quuery->result_array();
+			return $rs;
+		}
+		return null;
+	}
+
+	public function getByBuilding($idClientKf = null)
+	{
+		$quuery = null;
+		$rs = null;
+		$fields_selected="tb_keychain.idKeychain, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo, tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf, tb_keychain.isKeyTenantOnly,
+		UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto, tb_category_keychain.idCategory as idCategoryKf, tb_category_keychain.name as categoryKeychain, a.idClient as idClientA, a.address as addressA, b.idClient as idClientB, b.address as addressB,
+		tb_products.descriptionProduct, tb_products.model";
+		$this->db->select($fields_selected)->from("tb_keychain");
+		$this->db->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left');
+		$this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left');
+		$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_keychain.idDepartmenKf', 'left');
+		//$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
+		$this->db->join('tb_clients as a', 'a.idClient = tb_client_departament.idClientFk', 'left');
+		$this->db->join('tb_clients as b', 'b.idClient = tb_keychain.idClientKf', 'left');
+		$this->db->where('a.idClient', $idClientKf);
+		$this->db->or_where('b.idClient', $idClientKf);
+		$quuery = $this->db->order_by("tb_keychain.idKeychain", "ASC")->get();
 
 		if ($quuery->num_rows() > 0) {
 			$rs = $quuery->result_array();
@@ -40,14 +65,14 @@ class Llavero_model extends CI_Model
 	{
 		$quuery = null;
 		$rs = null;
-		$fields_selected="tb_keychain.idKeyChain, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo, tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf, tb_keychain.isKeyTenantOnly,
-		tb_client_departament.floor, tb_client_departament.departament, tb_category_departament.categoryDepartament, tb_category_keychain.idCategory as idCategoryKey, tb_category_keychain.name as categoryKeychain, a.idClient as idClientA, a.address as addressA, b.idClient as idClientB, b.address as addressB,
+		$fields_selected="tb_keychain.idKeychain, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo, tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf, tb_keychain.isKeyTenantOnly,
+		UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto, tb_category_keychain.idCategory as idCategoryKf, tb_category_keychain.name as categoryKeychain, a.idClient as idClientA, a.address as addressA, b.idClient as idClientB, b.address as addressB,
 		tb_products.descriptionProduct, tb_products.model";
 		$this->db->select($fields_selected)->from("tb_keychain");
 		$this->db->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left');
 		$this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left');
 		$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_keychain.idDepartmenKf', 'left');
-		$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
+		//$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
 		$this->db->join('tb_clients as a', 'a.idClient = tb_client_departament.idClientFk', 'left');
 		$this->db->join('tb_clients as b', 'b.idClient = tb_keychain.idClientKf', 'left');
 		$quuery = $this->db->where('codigo', $code)->get();
@@ -65,14 +90,14 @@ class Llavero_model extends CI_Model
 		}
 		$quuery = null;
 		$rs = null;
-		$fields_selected="tb_keychain.idKeyChain, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo, tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf, tb_keychain.isKeyTenantOnly,
-		tb_client_departament.floor, tb_client_departament.departament, tb_category_departament.categoryDepartament, tb_category_keychain.idCategory as idCategoryKey, tb_category_keychain.name as categoryKeychain, a.idClient as idClientA, a.address as addressA, b.idClient as idClientB, b.address as addressB,
+		$fields_selected="tb_keychain.idKeychain, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo, tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf, tb_keychain.isKeyTenantOnly,
+		UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto, tb_category_keychain.idCategory as idCategoryKf, tb_category_keychain.name as categoryKeychain, a.idClient as idClientA, a.address as addressA, b.idClient as idClientB, b.address as addressB,
 		tb_products.descriptionProduct, tb_products.model";
 		$this->db->select($fields_selected)->from("tb_keychain");
 		$this->db->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left');
 		$this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left');
 		$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_keychain.idDepartmenKf', 'left');
-		$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
+		//$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
 		$this->db->join('tb_clients as a', 'a.idClient = tb_client_departament.idClientFk', 'left');
 		$this->db->join('tb_clients as b', 'b.idClient = tb_keychain.idClientKf', 'left');
 		$quuery = $this->db->where('idDepartmenKf', $idDepartmenKf)->get();
@@ -113,8 +138,8 @@ class Llavero_model extends CI_Model
 							"idDepartmenKf" => $items['departamento'][$i],
 							"idClientKf" => $items['cliente'][$i],
 							"idCategoryKf" => $items['categoria'][$i],
-//						"idUserKf" => $items['idUserKf'][$i],
-//						"isKeyTenantOnly" => $items['isKeyTenantOnly'][$i],
+		//"idUserKf" => $items['idUserKf'][$i],
+		//"isKeyTenantOnly" => $items['isKeyTenantOnly'][$i],
 
 						]
 					);
@@ -186,7 +211,7 @@ class Llavero_model extends CI_Model
 		$ext = pathinfo($path, PATHINFO_EXTENSION);
 		$user_img = time() . rand() . '.' . $ext;
 		$uploadfile = $uploaddir . time() . '_' . str_replace(" ", "", $path);
-//		$this->response($uploadfile, 200);
+		//$this->response($uploadfile, 200);
 		if ($file["excel"]["name"]) {
 			move_uploaded_file($file["excel"]["tmp_name"], "$uploadfile");
 		}
@@ -241,7 +266,7 @@ class Llavero_model extends CI_Model
 					$a['tipo'][] = (string)$objPHPExcel->getActiveSheet()->getCell('C' . $fila)->getValue();
 					$a['modelo'][] = (string)$objPHPExcel->getActiveSheet()->getCell('D' . $fila)->getValue();
 					$a['codigo'][] = (string)$objPHPExcel->getActiveSheet()->getCell('E' . $fila)->getValue();
-//					$a['llena'][] = $fila;
+			//$a['llena'][] = $fila;
 				} else {
 					if ($objPHPExcel->getActiveSheet()->getCell('A' . ($fila + 1))->getValue() == "" ||
 						$objPHPExcel->getActiveSheet()->getCell('B' . ($fila + 1))->getValue() == "" ||
@@ -382,7 +407,7 @@ class Llavero_model extends CI_Model
 		$ext = pathinfo($path, PATHINFO_EXTENSION);
 		$user_img = time() . rand() . '.' . $ext;
 		$uploadfile = $uploaddir . time() . '_' . str_replace(" ", "", $path);
-//		$this->response($uploadfile, 200);
+		//$this->response($uploadfile, 200);
 		if ($file["excel"]["name"]) {
 			move_uploaded_file($file["excel"]["tmp_name"], "$uploadfile");
 		}
@@ -439,5 +464,19 @@ class Llavero_model extends CI_Model
 		}
 
 	}
+    public function verifyKeysByidUser($idDepto, $idUser) {
 
+        $query = null;
+
+		$this->db->select("*")->from("tb_keychain");
+		$this->db->where("idDepartmenKf", $idDepto);
+		$this->db->where("idUserKf", $idUser);
+        $query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+			return 1;
+		} else {
+			return null;
+		}
+    }
 }

@@ -126,9 +126,9 @@
               <li ng-if="contract.idStatusFk>0" role="presentation"><div class="divider"></div>
               <li ng-if="contract.idStatusFk>0" class="dropdown-item">
                 <a href="" ng-click="modalConfirmation('contract_disable', 0, contract)" data-toggle="tooltip" data-placement="bottom" title="Desactivar" type="button"><i class="font-size-18px text-danger fas fa-ban"></i> Desactivar</a></li>
-            </ul>               
+            </ul>
           </div>
-        </td>        
+        </td>
       </tr>
       <!-- **************************************************** -->
       <!-- *                                                  * -->
@@ -213,9 +213,9 @@
                                 </span>
                                 <span ng-if="service.tb_tipo_conexion_remoto_array==undefined || service.tb_tipo_conexion_remoto_array==0">
                                   <label class="text-uppercase label label-warning">No asignado</label>
-                                </span>                                
+                                </span>
                               </span>
-                            </span>                            
+                            </span>
                             <!-- SMART PANIC SERVICE -->
                             <span ng-if="service.idTipeServiceFk=='6'">
                               <span> <label class="text-uppercase label label-default">{{service.name}}</label> | </span>
@@ -229,20 +229,20 @@
                                 <i ng-if="service.idParticularAddressFk_array[0].idTipoInmuebleFk==3" class="fas fa-store-alt" data-toggle="tooltip" data-placement="bottom" title="Local">&nbsp;</i> Departamento: 
                                 <label class="text-uppercase label label-success" data-toggle="tooltip" data-placement="top" title="{{service.idParticularAddressFk_array[0].clarification}}">{{service.idParticularAddressFk_array[0].depto}}</label>
                               </span>-->
-                              <!--<span ng-if="customerFound.idClientTypeFk=='2'"><i class="fas fa-arrow-alt-circle-right"></i> Destino de las licencias: <label class="text-uppercase label label-success">{{service.idDetinationOfLicenseFk_array[0].detinationOfLicense}}</label></span>                             
+                              <!--<span ng-if="customerFound.idClientTypeFk=='2'"><i class="fas fa-arrow-alt-circle-right"></i> Destino de las licencias: <label class="text-uppercase label label-success">{{service.idDetinationOfLicenseFk_array[0].detinationOfLicense}}</label></span>
                               <span ng-if="customerFound.idClientTypeFk=='2'"><i class="fas fa-building"></i> Departamento: <label class="text-uppercase label label-success">{{service.idDepartmentFk_array[0].departament}} - {{service.idDepartmentFk_array[0].floor}}</label></span>-->
                             </span>
                           </td>
                           <td class="show-column-table media-middle text-center">{{service.dateUp}}</td>
                           <!--<td>{{item.dateCreated}}</td>-->
                           <td ng-trim="true" ng-click="">
-                            <button style="font-size: 70%" ng-click="switchCustomersFn('services', service, 'edit');" data-toggle="tooltip" data-placement="bottom" title="Modificar" type="button" class="btn btn-warning btn-xs"><i class="far fa-edit"></i></button>                            
+                            <button style="font-size: 70%" ng-click="switchCustomersFn('services', service, 'edit');" data-toggle="tooltip" data-placement="bottom" title="Modificar" type="button" class="btn btn-warning btn-xs"><i class="far fa-edit"></i></button>
                             <button style="font-size: 70%" ng-if="service.idTipeServiceFk=='3' || service.idTipeServiceFk=='4'"ng-click="switchCustomersFn('services', service, 'listCameras');" data-toggle="tooltip" data-placement="bottom" title="Ver camaras" type="button" class="btn btn-success btn-xs"><i class="fas fa-video"></i></button>
                             <button style="font-size: 70%" ng-if="service.idTipeServiceFk=='3' || service.idTipeServiceFk=='4'" ng-click="switchCustomersFn('services', service, 'userDVR');" data-toggle="tooltip" data-placement="bottom" title="Ver Usuarios" type="button" class="btn btn-success btn-xs"><i class="far fa-address-book"></i></button>
 
                             <button style="font-size: 70%" ng-if="service.idTipeServiceFk=='6' && service.tb_user_license_array.length>0"ng-click="switchCustomersFn('services', service, 'userLicense');" data-toggle="tooltip" data-placement="bottom" title="Ver licencias" type="button" class="btn btn-success btn-xs"><i class="far fa-address-book"></i></button>
-                          </td>                           
-                      </tr>                                        
+                          </td>
+                      </tr>
                     </tbody>
                 </table>
                 <div ng-if="rsServicesListByContractsIdData.length==0"  class="col-md-12">

@@ -103,8 +103,7 @@ moduleCustomerServices.service("CustomerServices", ['$http', '$q', 'tokenSystem'
             //console.log("[Customer Services] => criterio de busqueda: "+sMsg);
               return $http.post(serverHost+serverBackend+"Clientes/search",sFilter,serverHeaders)
                 .then(function mySucess(response, status) {
-                  rsJson=response.data;
-                  return rsJson;
+                  return response;
                 },function myError(response) { 
                   console.log("Error: "+response.data.error); 
                   return response;
@@ -200,6 +199,36 @@ moduleCustomerServices.service("CustomerServices", ['$http', '$q', 'tokenSystem'
                   console.log("Error: "+response.data.error); 
                   return response;
                 })  
-          },          
+          },
+          chargeForExpenses: function(userData) {
+            console.log("[Service][chargeForExpenses]---> Customer Configuration Charge for Expenses: ");
+            return $http.post(serverHost+serverBackend+"Clientes/chargeForExpenses",userData, serverHeaders)
+              .then(function mySucess(response) {
+                 return response;
+            }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                 return response;
+            });
+          },
+          autoApproveAll: function(userData) {
+            console.log("[Service][autoApproveAll]---> Customer Auto Approve All: ");
+            return $http.post(serverHost+serverBackend+"Clientes/aprobarPedidoClient",userData, serverHeaders)
+              .then(function mySucess(response) {
+                 return response;
+            }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                 return response;
+            });
+          },
+          autoApproveOwners: function(userData) {
+            console.log("[Service][autoApproveOwners]---> Customer Auto Approve Owners Only: ");
+            return $http.post(serverHost+serverBackend+"Clientes/autoAprobarPedidosOwners",userData, serverHeaders)
+              .then(function mySucess(response) {
+                 return response;
+            }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                 return response;
+            });
+          },
       }
 }]);

@@ -29,7 +29,7 @@
           </td>
           <td ng-trim="true">
             <button ng-click="selectProfileDataFn(item);" data-toggle="tooltip" data-placement="right" title="Modificar Perfil"  type="button" class="btn btn-info btn-xs"><i class="far fa-edit"></i></button>
-            <button ng-disabled="item.idProfiles==1 || item.idProfiles==2" ng-click="modalConfirmation('removeSysProf', 0, item)" data-toggle="tooltip" data-placement="right" title="Eliminar Perfil" type="button" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
+            <button ng-disabled="item.idProfiles==1 || item.users.length>0" ng-click="modalConfirmation('removeSysProf', 0, item)" data-toggle="tooltip" data-placement="right" title="Eliminar Perfil" type="button" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
           </td>
           <!--<td>{{item.dateCreated | dateToISO | date:'MM/dd/yyyy'}}</td>-->
       </tr>

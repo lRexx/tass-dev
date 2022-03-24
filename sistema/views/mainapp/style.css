@@ -794,19 +794,19 @@ input.fileUpload{
       color: #007bff!important;
     }
     .badge-warning {
-      color: #212529;
-      border-color: #ffc107;
-      background-color: #ffc107;
+      color: #212529 !important;
+      border-color: #ffc107 !important;
+      background-color: #ffc107 !important;
     }
     .badge-danger{
-      background-color: #f9f2f4; 
-      color: #c9302c;
-      border-color: #f9f2f4;
+      background-color: #f9f2f4 !important; 
+      color: #c9302c !important;
+      border-color: #f9f2f4 !important;
     }
     .badge-success{
-      background-color: #5cb85c;
-      color: #ffffff;
-      border-color: #4cae4c;
+      background-color: #5cb85c !important;
+      color: #ffffff !important;
+      border-color: #4cae4c !important;
     }
     /*.badge-primary{
       background-color: #337ab7;
@@ -2399,6 +2399,24 @@ input:checked + .slider-3x:before {
 }
 
 /********************************************/
+/*CLASS OF DEPARTMENT LIST*/
+.dpto-t-head {
+  background-color: #777;
+  color: #fff;
+  table-layout: fixed;
+  border: 0 !important;
+  border-radius: 10px 10px 0 0;
+}
+
+.dpto-th-head {
+  vertical-align: middle;
+  text-align: center;
+  border: 0 !important;
+  -webkit-box-shadow: 0px 7px 5px -2px rgb(0 0 0 / 30%);
+  -moz-box-shadow: 0px 7px 5px -2px rgba(0,0,0,.30);
+  box-shadow: 0px 7px 5px -2px rgb(0 0 0 / 30%);
+}
+/********************************************/
  ::-webkit-scrollbar {
         width: 12px;
  }
@@ -2410,6 +2428,158 @@ input:checked + .slider-3x:before {
     border-radius: 10px;
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
  }
+
+ /*******************************************/
+ /*         BUILDING MODULE HOME            */
+ /******************************************/
+ .p-lg {
+  padding: 30px;
+}
+
+.lazur-bg {
+  background-color: #23c5c84b;
+  color: #ffffff;
+}
+
+.red-bg {
+  background-color: #ed5565;
+  color: #ffffff;
+}
+
+.navy-bg {
+  background-color: #1ab394;
+  color: #ffffff;
+}
+
+.yellow-bg {
+  background-color: #f8ac59;
+  color: #ffffff;
+}
+
+.widget-head-color-box {
+  border-radius: 5px 5px 0px 0px;
+  margin-top: 10px;
+}
+
+.m-b-md {
+  margin-bottom: 20px;
+}
+
+.no-margins {
+  margin: 0 !important;
+}
+
+.font-bold {
+  font-weight: 600;
+}
+
+img.circle-border {
+  border: 6px solid #FFFFFF;
+  border-radius: 50%;
+}
+
+.widget-text-box {
+  padding: 20px;
+  border: 1px solid #e7eaec;
+  background: #ffffff;
+}
+
+.media-heading {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+/*****************************************/
+/*         PASSSWORD CHANGE MODAL        */
+/*****************************************/
+.ulPwdRules{
+  list-style: none;
+  margin-top: -10px;
+}
+.ulPwdRules li{
+  margin-left: -2.8em;
+  line-height: 1.6em;
+  font-size: 1.2em;
+  color: rgba(20, 22, 43, .5);
+}
+.iPwdRules {
+  font-size: 1.8em;
+  padding-top: 0.4em;
+}
+.success-Rules{
+  color: #5cb85c
+}
+.warning-Rules {
+  color: #f0ad4e
+}
+.danger-Rules{
+  color: #d9534f
+}
+.default-Rules {
+  color: rgba(20, 22, 43, .5);
+}
+ /*****************************************/
+/*-----------------------------------------------------------------------*/
+@media (max-width: 1199px) {
+  .ulPwdRules li{
+    line-height: 3.3em;
+    font-size: 1em;
+    color: rgba(20, 22, 43, .5);
+  }
+  .iPwdRules {
+    font-size: 1.8em;
+    padding-top: 0.4em;
+  }
+}
+@media (max-width: 991px) {
+  .ulPwdRules li{
+    margin-left: -5em;
+    line-height: 5em;
+    font-size: 0.7em;
+    color: rgba(20, 22, 43, .5);
+  }
+  .iPwdRules {
+    font-size: 1.6em;
+    padding-top: 0.4em;
+  }
+}
+@media (max-width: 767px) {
+  .registerForm{
+    padding-top: 0;
+
+  }
+  .newPwdForm{
+    padding-top: 75px;
+  }
+  .newPwdRules{
+    padding-top: 0px;
+  }
+  .frontbox{
+     margin-right: 0;
+  }
+  .popover {
+    visibility: hidden;
+  }
+  .modal{
+    visibility: visible;
+  }
+  .inform-fixed {
+    position: fixed;
+    top: 360px;
+  }
+  .verticalAllign{
+    padding-top: 70px;
+  }
+  .ulPwdRules li{
+    margin-left: -3em;
+    line-height: 6em;
+    font-size: 1em;
+  }
+  .iPwdRules {
+    font-size: 1.8em;
+    padding-top: 0.4em;
+  }
+}
+/*-----------------------------------------------------------------------*/
 @media screen and (min-width: 1601px) and (max-width: 1680px){
     .margin-filter-bar-1 {
         width: 65.33333333%;

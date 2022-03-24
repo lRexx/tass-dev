@@ -414,7 +414,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
           for (var key in item){
             if (item[key].idClient!=undefined && typeof item[key].idClient === 'string'){
               rowId=Number(item[key].idClient);
-              item[key].idClient=rowId;
+              item[key].idClientIndex=rowId;
               rowList.push(item[key]);
             }else if (item[key].idUser!=undefined && typeof item[key].idUser === 'string'){
               rowId=Number(item[key].idUser);
@@ -427,11 +427,11 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
             }else if (item[key].idProduct!=undefined && typeof item[key].idProduct === 'string'){
               rowId=Number(item[key].idProduct);
               item[key].idProduct=rowId;
-              rowList.push(item[key]);            
+              rowList.push(item[key]);
             }else if (item[key].idDepartmentFk!=undefined && typeof item[key].idProduct === 'string'){
               rowId=Number(item[key].idDepartmentFk);
               item[key].idDepartmentFk=rowId;
-              rowList.push(item[key]);            
+              rowList.push(item[key]);
             }else{
               rowList.push(item[key]);
             }
@@ -454,11 +454,41 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
       }
       // init the filtered items
       $scope.search = function (qvalue1, qvalue2, vStrict) {
-              //console.log("[search]-->qvalue1: "+qvalue1);
-              //console.log("[search]-->qvalue2: "+qvalue2);
-              //console.log("[search]-->vStrict: "+vStrict);
-              $scope.filteredItems = $filter("filter")($scope.items, qvalue1, vStrict);
-              if (qvalue2!='' && qvalue2!=null){$scope.filteredItems = $filter("filter")($scope.filteredItems, qvalue2, vStrict);}
+              console.log("[search]-->qvalue1: "+qvalue1);
+              console.log("[search]-->qvalue2: "+qvalue2);
+              console.log("[search]-->vStrict: "+vStrict);
+              console.log("$scope.customerSearch.strict: "+$scope.customerSearch.strict)
+              $scope.filteredItems = $scope.items;
+              var output=[];
+              if (qvalue2!=undefined && qvalue2!='' && qvalue2!=null){
+                $scope.filteredItems = [];
+                angular.forEach($scope.items,function(customer){
+                  
+                  var customerName=customer.name;
+                  var customerAddress=customer.address;
+                  var customerId=customer.idClient;
+                  var customerType=customer.idClientType;
+                  var customerNumber=customer.idClientAssociated_SE;
+                  var customerBusinessName=customer.companyBusinessName==null || customer.companyBusinessName==undefined?null:customer.companyBusinessName;
+                  var customerbusinessNameBilling=customer.billing_information==null || customer.billing_information==undefined || customer.billing_information.length==0?null:customer.billing_information[0].businessNameBilling;
+                  
+                  console.log("customerAddress: "+customerAddress);
+                  console.log("customerName: "+customerName);
+                      if (!$scope.customerSearch.strict){
+                          if(customerId.indexOf(qvalue2.toLowerCase())>=0 || (customerName!=null && customerName.indexOf(qvalue2.toUpperCase())>=0) || (customerAddress!=null && customerAddress.indexOf(qvalue2.toUpperCase())>=0) || (customerBusinessName!=null && customerBusinessName.indexOf(qvalue2.toUpperCase())>=0) || (customerbusinessNameBilling!=null && customerbusinessNameBilling.indexOf(qvalue2.toUpperCase())>=0)){
+                              output.push(customer);
+                              //console.log(output);
+                          }
+                      }else{
+                          if(customerId===qvalue2 || customerName===qvalue2.toUpperCase() || customerAddress===qvalue2.toUpperCase() || (customerBusinessName!=null && customerBusinessName===qvalue2.toUpperCase()) || (customerbusinessNameBilling!=null && customerbusinessNameBilling===qvalue2.toUpperCase())){
+                              output.push(customer);
+                              //console.log(output);
+                          }
+                      }
+                });
+                //console.log(output);
+                $scope.filteredItems = output;
+              }
           //console.log($scope.filteredItems);
           // take care of the sorting order
           if ($scope.sortingOrder !== '') {
@@ -609,31 +639,47 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
         $scope.rsFrmCustomerListData = [];
         $scope.rsCustomerListByTypeData = [];
         $scope.rsCustomerSelectData = [];
-        $scope.jsonCustomerRegistered={
-              "searchFilter":"",
-              "isNotCliente":"0"
+        $scope.customersRawData=[];
+        $scope.getCustomerListFn = function(optSwitch, opt){
+            $scope.rsCustomerListData = [];
+            $scope.rsCustomerAdminListData = [];
+            $scope.rsFrmCustomerListData = [];
+            $scope.rsCustomerListByTypeData = [];
+            $scope.rsCustomerSelectData = [];
+            switch (optSwitch){
+                case 1:
+                  $scope.customersRawData = $scope.globalCustomers.administrations;
+                break;
+                case 2:
+                  $scope.customersRawData = $scope.globalCustomers.buildings;
+                break;
+                case 3:
+                  $scope.customersRawData = $scope.globalCustomers.companies;
+                break;
+                case 4:
+                  $scope.customersRawData = $scope.globalCustomers.branches;
+                break;
+                case 5:
+                  $scope.customersRawData = $scope.globalCustomers.particulars;
+                break;
+                case "registered":
+                  $scope.customersRawData = $scope.globalCustomers.registered;
+                break;
+                case "notregistered":
+                  $scope.customersRawData = $scope.globalCustomers.notRegistered;
+                break;
+                case "all":
+                  $scope.customersRawData = $scope.globalCustomers.all;
+                break;
+                default:
+              }
+            $scope.rsCustomerListData = $scope.customersRawData;
+            $scope.rsCustomerSelectData = $scope.customersRawData;
+            $scope.rsCustomerAdminListData = $scope.customersRawData;
+            $scope.rsCustomerListByTypeData  = $scope.customersRawData.length>0?$scope.rsCustomerListByTypeData=[]:$scope.customersRawData;
+            if(opt==1){$scope.loadPagination($scope.rsCustomerListData, "idClient", "10");}
+            if(opt==2){$scope.rsFrmCustomerListData = $scope.customersRawData;}
         };
-        $scope.jsonCustomerNotRegistered={
-              "searchFilter":"",
-              "idClientTypeFk":"2",
-              "isNotCliente":"1"
-        };
-        $scope.getCustomerListFn = function(search, opt){
-          $scope.rsCustomerListByTypeData = [];
-          $scope.rsCustomerListData = [];
-          var jsonSearch = !search || search=="" ||  search=="registered" ? $scope.jsonCustomerRegistered : $scope.jsonCustomerNotRegistered;
-          console.log("getCustomerListFn => search: [searchFilter:"+jsonSearch.searchFilter+", isNotCliente:"+jsonSearch.isNotCliente+"] opcion: "+opt);
-          CustomerServices.getCustomerList(jsonSearch).then(function(data){
-              $scope.rsCustomerListData = data;
-              $scope.rsCustomerSelectData = data;
-              $scope.rsCustomerAdminListData = data;
-              $scope.rsCustomerListByTypeData  = data.status==404?$scope.rsCustomerListByTypeData=[]:data;
-              if(opt==1){$scope.loadPagination($scope.rsCustomerListData, "idClient", "10");}
-              if(opt==2){$scope.rsFrmCustomerListData = data;}
-              //console.log("rsCustomerListData");
-              //
-          });
-        };//$scope.getCustomerListFn("","");
       /**************************************************
       *                                                 *
       *             LIST CUSTOMER BY TYPE               *
@@ -653,7 +699,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                   }
                 }
               }else{
-                 $scope.getCustomerListFn('registered',1);
+                 $scope.getCustomerListFn("registered",1);
               }
           //console.log($scope.rsCustomerListByTypeData);
         };
@@ -710,7 +756,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
             }else{
               $scope.rsCustomerListData = [];
             }
-            $scope.loadPagination($scope.rsCustomerListData, "idClient", "10");
+            $scope.loadPagination($scope.rsCustomerListData, "idClientIndex", "10");
             //console.log($scope.rsCustomerListData);
           });
         };
@@ -738,11 +784,15 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                     $('#customerParticularAddress').modal('hide');
                     $('#BuildingUnit').modal('hide');
                     $('#functionalUnit').modal('hide');
-                    $("#AddressLatLon").modal('hide');
+                    $('#AddressLatLon').modal('hide');
                     $('#RegisterModalCustomer').modal('hide');
                     $('#UpdateModalCustomer').modal('hide');
                     $('#changeModalAdmin').modal('hide');
-                    $scope.switchCustomersFn('dashboard','', 'registered');
+                    if($scope.sysContent=="registeredCustomers"){
+                      $scope.switchCustomersFn('dashboard','', 'registered')
+                    }else{
+                      $scope.switchCustomersFn('dashboard','', 'unregistered')
+                    }
                 }
             break;
             case "deleteSingleFile":
@@ -1439,7 +1489,11 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
           $scope.closeAllowedUsersFn = function(){
             $("#allowedUsers").modal('hide');
             $("#allowedUsers").on('hidden.bs.modal', function () {
-              $scope.getCustomerListFn("",1);
+              if($scope.sysContent=="registeredCustomers"){
+                $scope.switchCustomersFn('dashboard','', 'registered')
+              }else{
+                $scope.switchCustomersFn('dashboard','', 'unregistered')
+              }
             }); 
           
           }
@@ -1645,7 +1699,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                   if(!$scope.isMailExist){
                         console.log("ADD_NO_EXIST");
                         $scope.list_mails_contact.push({'idClienteFk':$scope.customer.update.idClient,'mailTag':null, 'mailContact':obj.mailContact, 'idTipoDeMailFk': obj.idTipoDeMailFk, 'status':1, 'typeName':typeName});
-                                $scope.list_mails.push({'idClienteFk':$scope.customer.update.idClient,'mailTag':null, 'mailContact':obj.mailContact, 'idTipoDeMailFk': obj.idTipoDeMailFk, 'status':1, 'typeName':typeName});
+                        $scope.list_mails.push({'idClienteFk':$scope.customer.update.idClient,'mailTag':null, 'mailContact':obj.mailContact, 'idTipoDeMailFk': obj.idTipoDeMailFk, 'status':1, 'typeName':typeName});
                   }
                 }      
               }
@@ -2922,6 +2976,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
         $scope.isListCustomerService=false;
         $scope.isInfoCustomer=false;
         $scope.confirmAdminDataChange=false;
+        $scope.customerSearch={'typeClient':'','strict':false};
         $scope.defArrForCustomersFn = function(){
           $scope.mySwitch = $scope.pasos[0];
           $scope.btnShow=true;
@@ -3076,19 +3131,19 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       $scope.isNewCustomer                      = false;
                       $scope.isUpdateCustomer                   = false;
                       //$scope.customerPaginationFn($scope.rsCustomerListData, 10);
-                      $scope.loadPagination($scope.rsCustomerListData, "idClient", "10");
+                      $scope.loadPagination($scope.rsCustomerListData, "idClientIndex", "10");
                       $scope.sysContent                         = 'registeredCustomers';
                     break;
                     case "unregistered":
                       $scope.defArrForCustomersFn();
                       $scope.getBuildingsFn();
                       $scope.sysContent                         = "";
-                      $scope.getCustomerListFn("notRegistered",1);
+                      $scope.getCustomerListFn("notregistered",1);
                       $scope.select.filterTypeOfClient          = undefined;
                       $scope.select.filterCustomerIdFk.selected = undefined;
                       $scope.isNewCustomer                      = false;
                       $scope.isUpdateCustomer                   = false;
-                      $scope.loadPagination($scope.rsCustomerListData, "idClient", "10");
+                      $scope.loadPagination($scope.rsCustomerListData, "idClientIndex", "10");
                       $scope.sysContent                         = 'registeredNotCustomers';
                     break;
                   }
@@ -3098,7 +3153,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                   $scope.isUpdateCustomer=false;
                   $scope.setScheduleListFn();
                   $scope.defArrForCustomersFn();
-                  $scope.getCustomerListFn("", 2);
+                  $scope.getCustomerListFn("all", 2);
                   $scope.getBuildingsFn();
                   $scope.customer.new.isNotClient=false;
                   $('#RegisterModalCustomer').modal({backdrop: 'static', keyboard: false});
@@ -3116,7 +3171,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                   $scope.isUpdateCustomer=true;
                   $scope.setScheduleListFn();
                   $scope.defArrForCustomersFn();
-                  $scope.getCustomerListFn("", 2);
+                  $scope.getCustomerListFn("all", 2);
                   $scope.getBuildingsFn();
                   if (cObj.isNotCliente=="0"){
                     $scope.isUpdateCustomerRegistered=true;
@@ -3233,15 +3288,13 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                   }, 1500);         
                 break;
                 case "switchToServices":
-                  blockUI.start('Cambiando al modulo de servicios');
-                  $timeout(function() {
-                    $scope.fnShowHide('services', 'open');
-                  }, 1500);
-                  
+                  tokenSystem.setSelectedCustomerDataStorage(cObj);
                   $timeout(function() {
                     blockUI.message('Cargando datos asociados cliente '+cObj.ClientType);
-                    $scope.searchCustomerFound=true;
-                    $scope.loadCustomerFieldsFn(cObj);
+                  }, 1500);
+                  blockUI.start('Cambiando al modulo de servicios');
+                  $timeout(function() {
+                    $location.path("/services");
                     blockUI.stop();
                   }, 2500);
                 break;
@@ -3521,29 +3574,45 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
           *   ADDING NEW THE CUSTOMER   *
           ******************************/
             $scope.fnAddCustomerFn = function(client){
-              CustomerServices.addCustomer(client).then(function(data){
-                  $scope.rsJsonData = data;
-                  //console.log($scope.rsJsonData);
-                  if($scope.rsJsonData.status==200){
-                    console.log("Customer Successfully Created");
-                    inform.add('Registro de cliente realizado con exito. ',{
-                          ttl:2000, type: 'success'
-                    });
-                    $('#RegisterModalCustomer').modal('hide');
-                  }else if($scope.rsJsonData.status==203){
+              blockUI.start('Registrando Nuevo Cliente.');
+              CustomerServices.addCustomer(client).then(function(response){
+                  //console.log(response);
+                  if(response.status==200){
+                    $timeout(function() {
+                      blockUI.message('Cliente Registrado Satisfactoriamente.');
+                      console.log("Customer Successfully Created");
+                      inform.add('Cliente Registrado Satisfactoriamente. ',{
+                            ttl:5000, type: 'success'
+                      });
+                      $('#RegisterModalCustomer').modal('hide');
+                    }, 5000);
+                    $scope.globalGetCustomerListFn(null, null);
+                    
+                  }else if(response.status==203){
                     console.log("Customer already exist, contact administrator");
                     inform.add('INFO: Cliente ya se encuentra registrado. ',{
-                          ttl:2000, type: 'warning'
+                          ttl:5000, type: 'warning'
                     });
                     //$('#RegisterModalCustomer').modal('hide');
-                  }else if($scope.rsJsonData.status==500){
+                  }else if(response.status==500){
                     console.log("Customer not Created, contact administrator");
                     inform.add('Error: [500] Contacta al area de soporte. ',{
-                          ttl:2000, type: 'danger'
+                          ttl:5000, type: 'danger'
                     });
                     //$('#RegisterModalCustomer').modal('hide');
                   }
-                    $scope.getCustomerListFn("",1);
+                  $timeout(function() {
+                    blockUI.message('Actualizando listado de clientes.');
+                  }, 10000);
+                  $timeout(function() {
+                    if($scope.isNewCustomer || client.isNotCliente=='0'){
+                      $scope.switchCustomersFn('dashboard','', 'registered')
+                    }else{
+                      $scope.switchCustomersFn('dashboard','', 'unregistered')
+                    }
+                    blockUI.stop();
+                  }, 15000);
+                    //$scope.getCustomerListFn("",1);
                     $scope.isNewCustomer=false;
                     $scope.isUpdateCustomer=false;
                   //console.log($scope.rsLocations_API_Data);
@@ -3560,7 +3629,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
             $scope.chekBox={row: {}};
             $scope.tmpVars ={};
             $scope.customerDataFn=function(obj, switchOption){
-              //console.log(obj);            
+              //console.log(obj);
               switch (switchOption){
                   case "edit":
                     var subOption = obj.idClientTypeFk;
@@ -3579,7 +3648,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                               }
                           }
                           var arrProvince  = [];
-                          var arrLocation = [];                              
+                          var arrLocation = [];
                           arrProvince = $scope.getCustomerProvinceNameFromIdFn($scope.customer.update.idProvinceFk);
                           arrLocation= $scope.getCustomerLocationNameFromIdFn($scope.customer.update.idLocationFk, $scope.customer.update.idProvinceFk);
                           $scope.customer.select.main.province.selected = {idProvince: arrProvince[0].idProvince, province: arrProvince[0].province};
@@ -4125,7 +4194,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                             //Printing the current array before add the customer
                             console.log($scope.customer.update);
                             //Send the customer data to the addcustomer service
-                            $scope.updateCustomerFn($scope.customer.update);                     
+                            $scope.updateCustomerFn($scope.customer.update);
                       break;                    
                       case "3": //COMPANY CUSTOMER
                         //Getting the customer schedule setting
@@ -4947,33 +5016,43 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
           *     UPDATE THE CUSTOMER     *
           ******************************/
             $scope.updateCustomerFn = function(client){
-              CustomerServices.updateCustomer(client).then(function(data){
-                  $scope.rsJsonData = data;
-                  //console.log($scope.rsJsonData);
-                  if($scope.rsJsonData.status==200){
-                    console.log("Customer Successfully Updated");
-                    inform.add('Actualizacion de cliente realizado con exito. ',{
-                          ttl:2000, type: 'success'
-                    });
-                    $('#UpdateModalCustomer').modal('hide');
-                  }else if($scope.rsJsonData.status==404){
+              blockUI.start('Actualizando cliente.');
+              CustomerServices.updateCustomer(client).then(function(response){
+                  //console.log(response);
+                  if(response.status==200){
+                    $timeout(function() {
+                      blockUI.message('Cliente Actualizado satisfactoriamente.');
+                      console.log("Customer Successfully Updated");
+                      inform.add('Cliente Actualizado satisfactoriamente. ',{
+                            ttl:5000, type: 'success'
+                      });
+                      $('#UpdateModalCustomer').modal('hide');
+                    }, 5000);
+                    $scope.globalGetCustomerListFn(null, null);
+                  }else if(response.status==404){
                     console.log("not found, contact administrator");
                     inform.add('Error: [404] Contacta al area de soporte. ',{
-                          ttl:2000, type: 'danger'
+                          ttl:5000, type: 'danger'
                     });
                     //$('#RegisterModalCustomer').modal('hide');
-                  }else if($scope.rsJsonData.status==500){
+                  }else if(response.status==500){
                     console.log("Customer not Created, contact administrator");
                     inform.add('Error: [500] Contacta al area de soporte. ',{
-                          ttl:2000, type: 'danger'
+                          ttl:5000, type: 'danger'
                     });
                     //$('#RegisterModalCustomer').modal('hide');
                   }
-                  if($scope.isUpdateCustomerRegistered || client.isNotCliente=='0'){
-                    $scope.switchCustomersFn('dashboard','', 'registered')
-                  }else{
-                    $scope.switchCustomersFn('dashboard','', 'unregistered')
-                  }
+                  $timeout(function() {
+                    blockUI.message('Actualizando listado de clientes.');
+                  }, 10000);
+                  $timeout(function() {
+                    if($scope.isUpdateCustomerRegistered || client.isNotCliente=='0'){
+                      $scope.switchCustomersFn('dashboard','', 'registered')
+                    }else{
+                      $scope.switchCustomersFn('dashboard','', 'unregistered')
+                    }
+                    blockUI.stop();
+                  }, 15000);
                   $scope.isUpdateCustomerRegistered=null;
                   $scope.isArrChanged=false;
                   //console.log($scope.rsLocations_API_Data);
@@ -5057,7 +5136,6 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                   inform.add('Codigo de Seguridad ha sido generado con exito. ',{
                         ttl:2000, type: 'success'
                   });
-                  $scope.getCustomerListFn("registered",1);
                 }else if($scope.rsJsonData.status==404){
                   console.log("error, contact administrator");
                   inform.add('Error: [404] Contacta al area de soporte. ',{
@@ -5069,6 +5147,15 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                         ttl:2000, type: 'danger'
                   });
                 }
+                blockUI.start('');
+                $scope.globalGetCustomerListFn(null, null);
+                $timeout(function() {
+                  blockUI.message('Actualizando listado de clientes.');
+                }, 10000);
+                $timeout(function() {
+                  $scope.switchCustomersFn('dashboard','', 'registered')
+                  blockUI.stop();
+                }, 15000);
             });
           };
       /**************************************************
@@ -5152,6 +5239,15 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                 }
                 //SEND DATA TO THE UPLOAD SERVICE
                 $scope.uploadFilesFn(file, $scope.customer.upload.idClient, fileTitle, item)
+                blockUI.start('');
+                $scope.globalGetCustomerListFn(null, null);
+                $timeout(function() {
+                  blockUI.message('Actualizando listado de clientes.');
+                }, 10000);
+                $timeout(function() {
+                  $scope.switchCustomersFn('dashboard','', 'registered')
+                  blockUI.stop();
+                }, 15000);
               }
             /**************************************
             *          UPLOAD ALL FILES           *
@@ -5169,8 +5265,17 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       }
                     }
                   }
-                }                       
-              }          
+                }
+                blockUI.start('');
+                $scope.globalGetCustomerListFn(null, null);
+                $timeout(function() {
+                  blockUI.message('Actualizando listado de clientes.');
+                }, 10000);
+                $timeout(function() {
+                  $scope.switchCustomersFn('dashboard','', 'registered')
+                  blockUI.stop();
+                }, 15000);
+              }
             /**************************************
             *          REMOVE SINGLE FILE         *
             **************************************/
@@ -5214,7 +5319,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                               ttl:2000, type: 'success'
                         });                    
                         item.uploadStatus=true;
-                        $scope.getCustomerListFn("",1);
+                        //$scope.getCustomerListFn("",1);
                       }else if(response.status==404){
                       console.log("not found, contact administrator");
                       inform.add('Error: [404] Contacta al area de soporte. ',{
@@ -5239,6 +5344,16 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
               $scope.deleteSingleFile = function(file){
                 //SEND DATA TO THE DELETE FILE SERVICE
                 $scope.deleteFilesFn(file)
+                blockUI.start('');
+                $scope.globalGetCustomerListFn(null, null);
+                $timeout(function() {
+                  blockUI.message('Actualizando listado de clientes.');
+                }, 10000);
+                $timeout(function() {
+                  $scope.switchCustomersFn('dashboard','', 'registered')
+                  $scope.getCustomerByIdFn($scope.customer.files.idClient);
+                  blockUI.stop();
+                }, 15000);
               }          
             /**************************************
             *           DELETED FILES             *
@@ -5254,8 +5369,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                         inform.add('Archivo '+fileName+' eliminado satisfactoriamente. ',{
                               ttl:2000, type: 'success'
                         });
-                        $scope.getCustomerListFn("",1);
-                        $scope.getCustomerByIdFn($scope.customer.files.idClient);
+                        
                       }else if(response.status==404){
                       console.log("not found, contact administrator");
                       inform.add('Error: [404] Contacta al area de soporte. ',{

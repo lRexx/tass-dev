@@ -8,17 +8,17 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
       var rsKey={'llavero':{}};
       var checkResult =0;
       var typeOfCustomer = "";
+      var deferred = $q.defer();
       return {
           addKey: function(data) {
             rsKey.llavero=data.llavero;
-            console.log("[Key Services] => add: ");
-            console.log(rsKey);
+            //console.log("[Key Services] => add: ");
+            //console.log(rsKey);
               return $http.post(serverHost+serverBackend+"Llavero/add",rsKey,serverHeaders)
-                .then(function mySucess(response, status) {
-                  rsJson=response;
-                  return rsJson;
-                },function myError(response) { 
-                  console.log("Error: "+response.data.error); 
+                .then(function onSuccess(response) {
+                  return response;
+                }).catch(function onError(response) {
+                  //console.log("Error: "+response.data.error); 
                   return response;
                 })  
           },
@@ -27,11 +27,10 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
             console.log("[Key Services] => update: ");
             console.log(rsKey);
               return $http.post(serverHost+serverBackend+"Llavero/edit",rsKey,serverHeaders)
-                .then(function mySucess(response, status) {
-                  rsJson=response;
-                  return rsJson;
-                },function myError(response) { 
-                  console.log("Error: "+response.data.error); 
+                .then(function onSuccess(response) {
+                  return response;
+                }).catch(function onError(response) {
+                  console.log(response); 
                   return response;
                 })  
           },
@@ -48,95 +47,99 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
                 return response;
               });
           },
-          getCustomersById: function(id) {
-            //console.log("[Customer Services] => get customer by id: "+sMsg);
+          getKeyListByBuildingId: function(id) {
+            //console.log("[Key Services] => get key List by Building id: "+id);
               return $http({
-                    method : "GET",
-                    url : serverHost+serverBackend+"Clientes/findadmin/"+id
-                  }).then(function mySuccess(response) {
-                  rsJson=response;
-                  return rsJson;
-                },function myError(response) { 
-                  console.log("Error: "+response.data.error); 
+                  method : "GET",
+                  url : serverHost+serverBackend+"Llavero/findByBuldingId/"+id
+              }).then(function onSuccess(response) {
                   return response;
-                })  
+              }).catch(function onError(response) {
+                //console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                  return response;
+              })
+          },
+          getKeyListByDepartmentId: function(id) {
+            //console.log("[Key Services] => get key List by Department id: "+id);
+              return $http({
+                  method : "GET",
+                  url : serverHost+serverBackend+"Llavero/findIdDeparment/"+id
+              }).then(function onSuccess(response) {
+                  return response;
+              }).catch(function onError(response) {
+                  //console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                  return response;
+              })
           },
           getCustomersListByCustomerId: function(id) {
             //console.log("[Customer Services] => Listado de clientes asociado a un cliente: "+sMsg);
               return $http({
-                    method : "GET",
-                    url : serverHost+serverBackend+"Clientes/listCustomersById/"+id
-                  }).then(function mySuccess(response) {
-                  rsJson=response;
-                  return rsJson;
-                },function myError(response) { 
-                  console.log("Error: "+response.data.error); 
-                  return response;
-                })  
+                method : "GET",
+                url : serverHost+serverBackend+"Clientes/listCustomersById/"+id
+              }).then(function onSuccess(response) {
+                return response;
+              }).catch(function onError(response) {
+                //console.log("Error: "+response.data.error); 
+                return response;
+              })  
           },
           addMultiKeys: function(file){
               var fd = new FormData();
               fd.append('excel', file);
-              console.log("[Key Services] => addMultiKeys uploading file: ");
-              console.log(fd)
+              //console.log("[Key Services] => addMultiKeys uploading file: ");
               return $http.post(serverHost+serverBackend+"Llavero/varios", fd, {
                   transformRequest: angular.identity,
                   headers: {'Content-Type': undefined}
-              }).then(function mySuccess(response) {
-                rsJson=response;
-                return rsJson;
-              },function myError(response) { 
-                console.log("Error: "+response); 
+              }).then(function onSuccess(response) {
+                return response;
+              }).catch(function onError(response) {
+               //console.log("Error: "+response); 
                 return response;
               })
           },
           addUploadedCustomerFile: function(data) {
             rsCustomer.client = data;
-            console.log("[Customer Services] => add Customer Uploaded File");
+            //console.log("[Customer Services] => add Customer Uploaded File");
             return $http.post(serverHost+serverBackend+"Clientes/addCustomerUploadedFile",rsCustomer,serverHeaders)
-              .then(function mySucess(response, status) {
+              .then(function onSuccess(response) {
                 rsJson=response;
                 return rsJson;
-              },function myError(response) { 
-                console.log("Error: "+response); 
+              }).catch(function onError(response) {
+                //console.log("Error: "+response); 
                 return response;
               });
           },
-          deleteCustomerFiles: function(fileName){
-            rsCustomer.fileName = fileName; 
-            console.log("[Customer Services] => Delete Customer Uploaded File from hard drive ");
-            return $http.post(serverHost+serverBackend+"Clientes/deleteFile",rsCustomer,serverHeaders)
-            .then(function mySuccess(response) {
-              rsJson=response;
-              return rsJson;                
-            },function myError(response) { 
-              console.log("Error: "+response); 
-              return response;
-            })
-          },
-          deleteUploadedCustomerFile: function(idClientFiles) {
-            console.log("[Customer Services] => Delete Customer Uploaded File from db");
-            return $http.delete(serverHost+serverBackend+"Clientes/deleteCustomerUploadedFile/"+idClientFiles)
-              .then(function mySucess(response, status) {
-                rsJson=response;
-                return rsJson;
-              },function myError(response) { 
-                console.log("Error: "+response); 
+          assignKeyToUser: function(data) {
+            //console.log("[Customer Services] => add Customer Uploaded File");
+            return $http.post(serverHost+serverBackend+"Llavero/asignar",data,serverHeaders)
+              .then(function onSuccess(response) {
+                return response;
+              }).catch(function onError(response) {
+                //console.log("Error: "+response); 
                 return response;
               });
           },
-          generateCustomerSecurityCode: function(id) {
-            //console.log("[Customer Services] => Generando codigo de seguridad del cliente: "+id);
+          unAssignKeyToUser: function(data) {
+            //console.log("[Customer Services] => add Customer Uploaded File");
+            return $http.post(serverHost+serverBackend+"Llavero/asignareliminar",data,serverHeaders)
+              .then(function onSuccess(response) {
+                return response;
+              }).catch(function onError(response) {
+                //console.log("Error: "+response); 
+                return response;
+              });
+          },
+          verifyKeysByIdUser: function(idDepto, idUser) {
+            //console.log("[Key Services] => get key List by Department id: "+id);
               return $http({
-                    method : "GET",
-                    url : serverHost+serverBackend+"Clientes/segurityCodeCliente/"+id
-                  }).then(function mySuccess(response) {
-                  rsJson=response;
-                  return rsJson;
-                },function myError(response) { 
-                  console.log("Error: "+response.data.error); 
+                  method : "GET",
+                  url : serverHost+serverBackend+"Llavero/verifyKeysByIdUser/"+idDepto+"/"+idUser
+              }).then(function onSuccess(response) {
                   return response;
-                })  
+              }).catch(function onError(response) {
+                  //console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                  return response;
+              })
           },
       }
 }]);

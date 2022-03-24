@@ -15,6 +15,8 @@ var app = angular.module('systemApp', ["ngRoute",
                                             "module.Users",
                                            "services.Keys",
                                              "module.Keys",
+                                        "services.Address",
+                                        "module.Buildings",
                                                  "blockUI",
                                                   "inform",
                                         //"inform-exception",
@@ -26,7 +28,6 @@ var app = angular.module('systemApp', ["ngRoute",
                    "angularUtils.directives.dirPagination",
                                           "angular.filter",
                                              "angularCSS"]);
-
 app.config(function(blockUIConfig) {
       // Tell blockUI not to mark the body element as the main block scope.
       blockUIConfig.autoInjectBodyBlock = true;  
@@ -44,13 +45,11 @@ app.config(['$routeProvider', '$locationProvider',
             templateUrl: 'views/login/',
             controller: 'LoginCtrl',
             css: 'views/login/style-login.css'
-
         })
         .when('/login/auth/:Type/id/:ticketId/token/:secureToken', {
             templateUrl: 'views/login/login.html',
             controller: 'LoginCtrl',
             css: 'views/login/style-login.css'
-
         })
         .when('/register', {
             templateUrl: 'views/register/',
@@ -97,11 +96,16 @@ app.config(['$routeProvider', '$locationProvider',
             controller: 'TicketsCtrl',
             css: 'views/mainapp/style.css'
         })
+        .when('/buildings', {
+            templateUrl: 'views/buildings/',
+            controller: 'BuildingsCtrl',
+            css: 'views/mainapp/style.css'
+        })        
         .when('/users', {
             templateUrl: 'views/users/',
             controller: 'UsersCtrl',
             css: 'views/mainapp/style.css'
-        })        
+        })
         .otherwise({
             redirectTo: '/'
         });

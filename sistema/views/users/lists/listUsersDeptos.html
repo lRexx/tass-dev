@@ -1,7 +1,7 @@
 <!-- Deptos -->
 <div class=" col-md-12">
-    <table ng-if="userOwnerDeptos.length>0">
-        <tr ng-repeat="depto in userOwnerDeptos" style="font-size: 16px;">
+    <table ng-if="userDepartamentList.length>0">
+        <tr ng-repeat="depto in userDepartamentList" style="font-size: 16px;">
             <td style="width: 10%">
             <span class="text-muted text-box">
                 <label data-toggle="tooltip" data-placement="top" title="Unidad {{depto.categoryDepartament | uppercase}}" style="font-size: 100%; cursor: pointer;" class="label label-default">
@@ -17,10 +17,11 @@
             </td>
             <td style="width: 60%"><span class="text-muted text-box"><label style="font-size: 80%" class="label label-default">{{depto.address}}</label></span></td>
             <td style="padding-bottom: 5px;">
-                <button data-toggle="tooltip" data-placement="right" title="Copiar" ngclipboard data-clipboard-text="{{depto.categoryDepartament}} {{depto.floor}}-{{depto.departament}}, {{depto.address}}" class="btn btn-sm btn-success" style="cursor: pointer;"><i style="font-size: 14px;" class="fas fa-copy"></i></button>
+                <button ng-if="isNewUser" data-toggle="tooltip" data-placement="right" title="Eliminar" ng-click="removeDepartmentFromListFn(depto, tmp.data)" class="btn btn-sm btn-danger" style="cursor: pointer;"><i style="font-size: 14px;" class="fas fa-trash-alt"></i></button>
+                <button ng-if="isUpdateUser" data-toggle="tooltip" data-placement="right" title="Eliminar" ng-click="modalConfirmation('removet', 0, depto);"  class="btn btn-sm btn-danger" style="cursor: pointer;"><i style="font-size: 14px;" class="fas fa-trash-alt"></i></button>
 
             </td>
         </tr>
     </table>
-    <div ng-if="userOwnerDeptos.length==0 " class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay departamentos cargados</h5></div>
+    <div ng-if="userDepartamentList.length==0 " class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay departamentos cargados</h5></div>
 </div>

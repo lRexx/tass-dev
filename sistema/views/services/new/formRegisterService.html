@@ -22,7 +22,7 @@
 						  </div>
 						</div>
 					</div>
-					<!-- Control_de_Acceso: Aclaracion -->					  
+					<!-- Control_de_Acceso: Aclaracion -->
 					<div class="form-group col-md-6" >  
 					  	<label style="padding-left: 15px;">Aclaracion</label>
 					    <div class="col-xs-12">
@@ -31,7 +31,7 @@
 				    			<input name="service_aclaration" type="text" class="form-control" ng-model="contract.new.service.aclaration" />
 				    		</div>
 				    	</div>
-					</div>					
+					</div>
 					<!-- Control_de_Acceso: Puerta -->
 					<div class="form-group col-md-6">
 					  <label style="padding-left: 15px;">Contrato asociado</label>  
@@ -44,8 +44,8 @@
 						  </div>
 						</div>
 					</div>
-					<!-- Control_de_Acceso: Maintenance Type -->					  
-					<div class="form-group col-md-6" >  
+					<!-- Control_de_Acceso: Maintenance Type -->
+					<div ng-if="service.new.idTypeMaintenanceFkConstract!='3'" class="form-group col-md-6" > 
 					  	<label style="padding-left: 15px;">Tipo de mantenimiento</label>
 					    <div class="col-xs-12 ">
 						    <div class="input-group">
@@ -53,7 +53,26 @@
 				    			<input name="service_mnt_type" type="text" class="form-control" ng-model="contract.new.service.MntType" />
 				    		</div>
 				    	</div>
-					</div>					
+					</div>
+					<div ng-if="service.new.idTypeMaintenanceFkConstract=='3'" class="form-group col-md-6" ng-class="
+					{	'has-success': 
+						service.new.idTypeMaintenanceFk!='' && fCustomerNewService.contract_mnt_type.$valid,
+						 'has-error':  
+						(service.new.idTypeMaintenanceFk=='' || service.new.idTypeMaintenanceFk==undefined) && fCustomerNewService.contract_mnt_type.$touched,
+					}">
+					<label style="padding-left: 15px;">Tipo de mantenimiento</label>  
+						<div class="col-xs-12">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fas fa-screwdriver"></i></span>
+								<select name="contract_mnt_type" 
+										class="form-control"
+										ng-options="item.idTypeMaintenance as item.typeMaintenance for item in rsTypeOfMaintenanceData | filter:{idTypeMaintenance:service.new.idTypeMaintenanceFkConstract}" 
+										ng-model="service.new.idTypeMaintenanceFk" ng-change="validateServiceListItemsFn()"  ng-required="true" autofocus >
+									<option class="text-uppercase" value="">Selecciona un tipo</option>
+								</select>
+							</div>
+						</div>
+					</div>
 					<!-- Control_de_Acceso: Start_date -->
 					<div class="form-group col-md-6">
 					  <label style="padding-left: 15px;">Fecha de alta</label>  
@@ -144,7 +163,7 @@
 								    </select>
 							  </div>
 							</div>
-						</div>						
+						</div>
 					</div>
 					<div class="well-checkbox form-group col-md-12 n-padding-l n-padding-r" style="width: auto;">
 						<!-- Battery List -->
@@ -165,7 +184,7 @@
 							      				<label ng-if="battery.phoneTag=='guardia'" style="font-size: 100%" class="label label-warning">{{battery.phoneTag | uppercase}}</label>
 							      				<label ng-if="battery.phoneTag=='urgente'" style="font-size: 100%" class="label label-danger">{{battery.phoneTag | uppercase}}</label>
 							      			</span>
-							      		</td>					                    	
+							      		</td>
 							      		<td style="width: 150%"><span class="text-muted text-box"><label style="font-size: 100%" class="label label-info">{{battery.phoneContact}}</label></span></td>
 							          	<td style="padding-bottom: 5px;">
 							            	<button data-toggle="tooltip" data-placement="right" title="Eliminar" ng-click="removePhoneNumFn(phone); enabledNextBtn();" class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></button>
@@ -192,7 +211,7 @@
 		                    </label> 
 		                </div>
 		            </div>
-					<!-- Control_de_Acceso: Aclaracion -->					  
+					<!-- Control_de_Acceso: Aclaracion -->
 					<div class="form-group col-md-6" >  
 					  	<label style="padding-left: 15px;">Aclaracion</label>
 					    <div class="col-xs-12">

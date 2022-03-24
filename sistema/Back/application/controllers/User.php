@@ -71,6 +71,14 @@ class User extends REST_Controller {
         }
     }
 
+    public function attendantWithNobuildingAssigned_get() {
+        $attendants = $this->user_model->attendantsNotBuildingAssigned();
+        if (!is_null($attendants)) {
+            $this->response($attendants, 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
      public function filterForm_get() {
         $filters = $this->user_model->getFilterForm();
 
