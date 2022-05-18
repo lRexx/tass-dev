@@ -4351,73 +4351,73 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                 ************************************/
                     $scope.isDVRUserEdit = false;
                     $scope.loadSelectedUserDVRFn = function(obj){
-                    $scope.previewData = [];
-                    $scope.service.users = {'idItem':'', 'name':'','user':'', 'pass':'', 'profile':'', 'userProfile':'', 'qrCode':'', 'qrBase64':''};
-                    $scope.service.users.idItem          = obj.idItem;
-                    $scope.service.users.name            = obj.name;
-                    $scope.service.users.user            = obj.user;
-                    $scope.service.users.pass            = obj.pass;
-                    $scope.service.users.profile         = obj.profile;
-                    $scope.service.users.userProfile    = obj.profile;
-                    $scope.service.users.qrCode          = obj.qrBase64==null?obj.qrCode:obj.qrBase64;
-                    $scope.service.users.qrBase64        = obj.qrBase64==null?obj.qrCode:obj.qrBase64;
-                    $scope.isDVRUserEdit = true;
-                    $('#serviceUserDetails').modal({backdrop: 'static', keyboard: false});
-                    console.log($scope.service.users);
+                        $scope.previewData = [];
+                        $scope.service.users = {'idItem':'', 'name':'','user':'', 'pass':'', 'profile':'', 'userProfile':'', 'qrCode':'', 'qrBase64':''};
+                        $scope.service.users.idItem          = obj.idItem;
+                        $scope.service.users.name            = obj.name;
+                        $scope.service.users.user            = obj.user;
+                        $scope.service.users.pass            = obj.pass;
+                        $scope.service.users.profile         = obj.profile;
+                        $scope.service.users.userProfile    = obj.profile;
+                        $scope.service.users.qrCode          = obj.qrBase64==null?obj.qrCode:obj.qrBase64;
+                        $scope.service.users.qrBase64        = obj.qrBase64==null?obj.qrCode:obj.qrBase64;
+                        $scope.isDVRUserEdit = true;
+                        $('#serviceUserDetails').modal({backdrop: 'static', keyboard: false});
+                        console.log($scope.service.users);
                     }            
                 /***********************************
                 *     ADDING USER DATA DETAILS     *
                 ************************************/
                     $scope.qrCodeImageDetails={};
                     $scope.processServiceUserDVRFn=function(obj){
-                    console.log(obj);
-                    var idUser      = obj.idUser==null  || obj.idUser==undefined?obj.idClientFk:obj.idUser;
-                    var idProfile   = obj.profile==null || obj.profile==undefined?obj.userProfile:obj.profile;
-                    var qrCode      = obj.qrCode==null  || obj.qrCode==undefined?obj.qrBase64:obj.qrCode;
-                    var idListItem  = $scope.list_user.length==0?1:($scope.list_user_licence.length+1);
-                    if ($scope.list_user.length==0 || !$scope.isDVRUserEdit){
-                        $scope.list_user.push({'idItem':idListItem,'idClientFk':idUser,'name':obj.name, 'user':obj.user, 'pass':obj.pass, 'profile':idProfile, 'userProfile':idProfile, 'qrCode':qrCode, 'qrBase64':qrCode});
-                        inform.add("Usuario DVR: "+obj.user+" ha sido cargado correctamente.",{
-                        ttl:5000, type: 'success'
-                        });
-                    }else{
-                        for (var key in $scope.list_user){
-                        if ($scope.list_user[key].idItem==obj.idItem){
-                            $scope.list_user[key].name          = obj.name;
-                            $scope.list_user[key].user          = obj.user;
-                            $scope.list_user[key].pass          = obj.pass;
-                            $scope.list_user[key].profile       = obj.profile;
-                            $scope.list_user[key].userProfile   = obj.profile;
-                            $scope.list_user[key].qrCode        = obj.qrCode;
-                            $scope.list_user[key].qrBase64      = obj.qrCode;
-                            inform.add("Usuario DVR: "+obj.user+" ha sido actualizado correctamente.",{
+                        console.log(obj);
+                        var idUser      = obj.idUser==null  || obj.idUser==undefined?obj.idClientFk:obj.idUser;
+                        var idProfile   = obj.profile==null || obj.profile==undefined?obj.userProfile:obj.profile;
+                        var qrCode      = obj.qrCode==null  || obj.qrCode==undefined?obj.qrBase64:obj.qrCode;
+                        var idListItem  = $scope.list_user.length==0?1:($scope.list_user_licence.length+1);
+                        if ($scope.list_user.length==0 || !$scope.isDVRUserEdit){
+                            $scope.list_user.push({'idItem':idListItem,'idClientFk':idUser,'name':obj.name, 'user':obj.user, 'pass':obj.pass, 'profile':idProfile, 'userProfile':idProfile, 'qrCode':qrCode, 'qrBase64':qrCode});
+                            inform.add("Usuario DVR: "+obj.user+" ha sido cargado correctamente.",{
                             ttl:5000, type: 'success'
-                            });                      
-                            break;              
+                            });
+                        }else{
+                            for (var key in $scope.list_user){
+                            if ($scope.list_user[key].idItem==obj.idItem){
+                                $scope.list_user[key].name          = obj.name;
+                                $scope.list_user[key].user          = obj.user;
+                                $scope.list_user[key].pass          = obj.pass;
+                                $scope.list_user[key].profile       = obj.profile;
+                                $scope.list_user[key].userProfile   = obj.profile;
+                                $scope.list_user[key].qrCode        = obj.qrCode;
+                                $scope.list_user[key].qrBase64      = obj.qrCode;
+                                inform.add("Usuario DVR: "+obj.user+" ha sido actualizado correctamente.",{
+                                ttl:5000, type: 'success'
+                                });                      
+                                break;              
+                            }
+                            }
                         }
-                        }
-                    }
-                    
-                    $scope.qrCodeImageDetails=$scope.previewData;
-                    $scope.previewData=[];
-                        $('#serviceUserDetails').modal('hide');
-                        if (obj.idUser!=null){$scope.service.sysUser.selected=undefined;};
                         
-                        
-                        
-                    //console.log($scope.list_user);
+                        $scope.qrCodeImageDetails=$scope.previewData;
+                        $scope.previewData=[];
+                            $('#serviceUserDetails').modal('hide');
+                            if (obj.idUser!=null){$scope.service.sysUser.selected=undefined;};
+                            
+                            
+                            
+                        //console.log($scope.list_user);
                     }
                 /***********************************
                 *     REMOVE USER DATA DETAILS     *
                 ************************************/
                     $scope.removeServiceUserDetailsFn=function(obj){
-                    var objItem             = $scope.list_user; 
-                    var arrItem             = objItem.map(function(i){return i.idClientFk;});        
-                    var indexItem           = arrItem.indexOf(obj.idClientFk);
-                    $scope.list_user.splice(indexItem, 1);
-                        inform.add("Usuario DVR: "+obj.user+" ha sido removido correctamente.",{
-                        ttl:5000, type: 'success'
-                        });             
+                        var objItem             = $scope.list_user; 
+                        var arrItem             = objItem.map(function(i){return i.idClientFk;});        
+                        var indexItem           = arrItem.indexOf(obj.idClientFk);
+                        $scope.list_user.splice(indexItem, 1);
+                            inform.add("Usuario DVR: "+obj.user+" ha sido removido correctamente.",{
+                            ttl:5000, type: 'success'
+                            });
                     }
                 /***********************************
                 *  LOAD QR CODE USER DATA DETAILS  *

@@ -1672,7 +1672,7 @@ class Client_model extends CI_Model {
 
     }
 
-    public function getadmin($id, $searchFilter, $idClientTypeFk, $isNotCliente) {
+    public function getadmin($id, $searchFilter, $idClientTypeFk, $isNotCliente, $limit = '', $start = '')
         $quuery = null;
         $rs     = null;
 
@@ -1770,6 +1770,9 @@ class Client_model extends CI_Model {
                 $this->db->like('tb_clients.name', $searchFilter);
             }
 
+            if ($limit != '' && $start != '') {
+				$this->db->limit($limit, $start);
+			}
 
             $quuery = $this->db->order_by("tb_clients.idClient", "DESC")->get();
 
@@ -1900,7 +1903,57 @@ class Client_model extends CI_Model {
         $this->db->delete('tb_client_files_list', array('idClientFiles' => $idClientFile));  
         return true;
 
-    }    
+    }
+    public function getKeysAssociatedToACustomerService($idClient = null) {
+        $quuery      = null;
+        $rs          = null;
+        $where_string= null;
+        if (! is_null($idClient)) {
+            $this->db->select("tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_products.*, tb_products_classification.classification")->from("tb_contratos");
+            $this->db->join('tb_servicios_del_contrato_cabecera', 'tb_servicios_del_contrato_cabecera.idContratoFk = tb_contratos.idContrato', 'left');
+            $this->db->join('tb_servicios_del_contrato_cuerpo', 'tb_servicios_del_contrato_cuerpo.idServiciosDelContratoFk = tb_servicios_del_contrato_cabecera.idServiciosDelContrato', 'left');
+            $this->db->join('tb_client_services_access_control', 'tb_client_services_access_control.idContracAssociated_SE = tb_contratos.idContrato', 'left');
+            $this->db->join('tb_open_devices_access_control', 'tb_open_devices_access_control.idOPClientServicesAccessControlFk = tb_client_services_access_control.idClientServicesAccessControl', 'left');
+            $this->db->join('tb_products', 'tb_products.idProduct = tb_open_devices_access_control.idOpenDevice', 'left');
+            $this->db->join('tb_products_classification', 'tb_products_classification.idProductClassification = tb_products.idProductClassificationFk', 'left');
+            $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
+            $where_string = "tb_contratos.idClientFk = $idClient AND tb_contratos.idStatusFk = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 1 AND tb_client_services_access_control.idContracAssociated_SE!='' 
+            GROUP BY tb_products.idProduct,tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_products.idProduct";
+            $quuery = $this->db->where($where_string)->get();
+            if ($quuery->num_rows() > 0) {
+                $rs = $quuery->result_array();
+                return $rs;
+            }else{
+                return null;
+            }
+        }else{
+            return null;
+        }
+    }
+    public function getControlAccessDoorsAssociatedToACustomerServices($idClient = null) {
+        $quuery      = null;
+        $rs          = null;
+        $where_string= null;
+        if (! is_null($idClient)) {
+            $this->db->select("tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_access_control_door.*")->from("tb_contratos");
+            $this->db->join('tb_servicios_del_contrato_cabecera', 'tb_servicios_del_contrato_cabecera.idContratoFk = tb_contratos.idContrato', 'left');
+            $this->db->join('tb_servicios_del_contrato_cuerpo', 'tb_servicios_del_contrato_cuerpo.idServiciosDelContratoFk = tb_servicios_del_contrato_cabecera.idServiciosDelContrato', 'left');
+            $this->db->join('tb_client_services_access_control', 'tb_client_services_access_control.idContracAssociated_SE = tb_contratos.idContrato', 'left');
+            $this->db->join('tb_access_control_door', 'tb_access_control_door.idAccessControlDoor = tb_client_services_access_control.idDoorFk', 'left');
+            $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
+            $where_string = "tb_contratos.idClientFk = $idClient AND tb_contratos.idStatusFk = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 1 AND tb_client_services_access_control.idContracAssociated_SE!=''
+            GROUP BY tb_access_control_door.idAccessControlDoor,tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_access_control_door.idAccessControlDoor;";
+            $quuery = $this->db->where($where_string)->get();
+            if ($quuery->num_rows() > 0) {
+                $rs = $quuery->result_array();
+                return $rs;
+            }else{
+                return null;
+            }
+        }else{
+            return null;
+        }
+    }
 }
 
 ?>

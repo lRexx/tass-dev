@@ -1034,8 +1034,8 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                     }
                   break;
                   default:
-                  $scope.idProvinceFk=null;         
-                }            
+                  $scope.idProvinceFk=null;
+                }
               });
           }
 
@@ -1176,14 +1176,17 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                     $scope.gobApiAddressNotFound=false;
                     $scope.addrrSelected=false;
                     $scope.enabledNextBtn();
-                }else{
+                }else if(data==null){
                   $scope.gobApiAddressNotFound=true;
                   $scope.geoLocation = {'address':'','addressLat':'', 'addressLon':'', 'option':''};
                   inform.add('Direccion no encontrada en la API del Servicio de Normalizacion de Datos Geograficos. ',{
                       ttl:4000, type: 'danger'
                   });
-
                   $scope.searchAddressByNameFn(name,'address', opt);
+                }else{
+                  inform.add('Error Api Gob AR: '+data.message+'. ',{
+                    ttl:4000, type: 'danger'
+                  });
                 }
               });
             }else{
@@ -1269,12 +1272,12 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       blockUI.message('Complete los campos restantes.');
                       if (opt2=="main"){
                         if ($scope.isNewCustomer){
-                          $scope.customer.new.nameAddress=obj.calle.nombre+" "+obj.altura.valor;              
+                          $scope.customer.new.nameAddress=obj.calle.nombre+" "+obj.altura.valor;
                           $scope.customer.new.address=obj.calle.nombre+" "+obj.altura.valor;
                           $scope.customer.new.addressLat=obj.ubicacion.lat;
                           $scope.customer.new.addressLon=obj.ubicacion.lon;
                         }else{
-                          $scope.customer.update.nameAddress=obj.calle.nombre+" "+obj.altura.valor;              
+                          $scope.customer.update.nameAddress=obj.calle.nombre+" "+obj.altura.valor;
                           $scope.customer.update.address=obj.calle.nombre+" "+obj.altura.valor;
                           $scope.customer.update.addressLat=obj.ubicacion.lat;
                           $scope.customer.update.addressLon=obj.ubicacion.lon;
@@ -1391,7 +1394,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
           }
           $scope.addAuthUserFn = function (obj, opt){
             if (opt=="new"){
-              if ($scope.list_users.length<=0){            
+              if ($scope.list_users.length<=0){
                 $scope.list_client_user.push({'idUserFk':obj.idUser});
                 $scope.list_users.push({'idUserFk':obj.idUser, 'fullNameUser':obj.fullNameUser});
               }else{

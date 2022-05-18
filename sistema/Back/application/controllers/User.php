@@ -166,6 +166,36 @@ class User extends REST_Controller {
         }
     }
 
+    public function attendantsOnlyByIdDirecction_get($id) {
+        if (!$id) {
+            $this->response(NULL, 404);
+        }
+
+        $rs = null;
+        $rs = $this->user_model->attendantsOnlyByIdDirection($id);
+
+        if (!is_null($rs)) {
+            $this->response($rs, 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
+
+    public function chekBuildingTitularAttendant_get($id) {
+        if (!$id) {
+            $this->response(NULL, 404);
+        }
+
+        $rs = null;
+        $rs = $this->user_model->chekBuildingTitularAttendant($id);
+
+        if (!is_null($rs)) {
+            $this->response($rs, 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
+
     /* SERVICIO GET QUE OBTIENE LOS USUARIOS POR FILTRO */
     public function search_post() {
 
@@ -411,10 +441,6 @@ empresa
         }
     }
     
-
-    
-
-
     public function getCompany_get() {
         $filters = $this->user_model->getCompany();
 
@@ -429,6 +455,19 @@ empresa
     public function getListOfUsers_get() {
 
         $lists = $this->user_model->getListOfUsers();
+        if (!is_null($lists)) {
+            $this->response($lists, 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
+    
+    /* SERVICIO GET QUE OBTIENE TODO LOS USUARIOS ASOCIADOS A UNA ADMINISTRACION/COMPAÑIA*/
+    public function getUsersByCompanyClientId_get($id) {
+        if (!$id) {
+            $this->response(NULL, 404);
+        }
+        $lists = $this->user_model->getUsersByCompanyClientId($id);
         if (!is_null($lists)) {
             $this->response($lists, 200);
         } else {

@@ -388,6 +388,93 @@ class Services extends REST_Controller {
             $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
         }
     }
+
+    public function addTechService_post() {
+
+        $rs = null;
+        $rs = $this->services_model->addTechService($this->post('service'));
+
+        if ($rs == 1) {
+            $this->response([ 'response' => "Registro exitoso" ], 200);
+        } else {
+            if ($rs == 0) {
+                $this->response([ 'error' => "ERROR INESPERADO" ], 500);
+            } else {
+                if ($rs == 2) {
+                    $this->response([ 'response' => "Elemento ya se encuentra registrado" ], 203);
+                }
+            }
+        }
+    }
+
+    public function editTechService_post() {
+
+        $rs = null;
+        $rs = $this->services_model->editTechService($this->post('service'));
+
+        if ($rs == 1 || $rs == 0) {
+            $this->response([ 'response' => "Actualización exitosa" ], 200);
+        } else {
+            if ($rs != 0) {
+                $this->response([ 'error' => "ERROR INESPERADO" ], 500);
+            }
+        }
+    }
+
+    public function deleteTechService_delete($id) {
+        $rs = null;
+        $rs = $this->services_model->deleteTechService($id);
+
+        if ($rs == 1) {
+            $this->response([ 'response' => "Eliminación exitosa" ], 200);
+        } else {
+            if ($rs == 0) {
+                $this->response([ 'error' => "ERROR INESPERADO" ], 500);
+            }
+        }
+    }
+
+    public function listarTechService_get() {
+
+        $rs = null;
+        $rs = $this->services_model->listarTechServices();
+
+        if (! is_null($rs)) {
+            $this->response($rs, 200);
+        } else {
+            $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
+        }
+    }
+
+    public function maintenanceTypeByTechServiceId_get($id = null) {
+        $rs = null;
+        if ($id == null) {
+            $this->response([ 'error' => 'DEBE PASAR UN ARGUMENTO' ], 404);
+        }
+        $rs = $this->services_model->getMaintenanceTypeByTechServiceId($id);
+
+        if (! is_null($rs)) {
+            $this->response($rs, 200);
+        } else {
+            $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
+        }
+    }
+
+    public function checkTechServiceName_get($name) {
+        if (!$name) {
+            $this->response(NULL, 404);
+        }
+
+        $rs = null;
+        $rs = $this->services_model->checkTechServiceName($name);
+
+        if (!is_null($rs)) {
+            $this->response($rs, 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
+
 }
 
 ?>

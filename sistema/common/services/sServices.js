@@ -103,14 +103,13 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
               console.log("[Service Services]: update customer service ");
               console.log(rsCustomerServices);
               return $http.post(serverHost+serverBackend+"Services/"+typeOfService,rsCustomerServices,serverHeaders)
-                .then(function mySucess(response, status) {
-                  rsJson=response;
-                  return rsJson;
-                },function myError(response) { 
+                .then(function mySucess(response) {
+                  return response;
+                }).catch(function onError(response) {
                   console.log("Error: "+response); 
                   return response;
                 });
-          },          
+          },
           getServiceListByIdContract: function(idContract) {
             rsJson={};
             console.log("[Service Services]: List of Services Items By Contract: "+idContract);
@@ -118,9 +117,8 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
                     method : "GET",
                     url : serverHost+serverBackend+"services/servicesPorIdContrato/"+idContract
                   }).then(function mySuccess(response) {
-                    rsJson=response;
-                    return rsJson;
-                  },function myError(response) { 
+                    return response;
+                  }).catch(function onError(response) {
                     console.log("Error: "+response.data.error); 
                     return response;
             });   
@@ -132,13 +130,125 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
                     method : "GET",
                     url : serverHost+serverBackend+"services/getServicesPorIdCliente/"+idCustomer
                   }).then(function mySuccess(response) {
-                    rsJson=response;
-                    return rsJson;
-                  },function myError(response) { 
+                    return response;
+                  }).catch(function onError(response) {
                     console.log("Error: "+response.data.error); 
-                    rsJson=response;
-                    return rsJson;
+                    return response;
             });   
-          },                    
+          },
+          getTechServiceList: function() {
+            rsJson={};
+            console.log("[Service Services]: List of Technician Services");
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"services/listarTechService"
+                  }).then(function mySuccess(response) {
+                    return response;
+                  }).catch(function onError(response) {
+                    console.log("Error: "+response.data.error); 
+                    return response;
+            });
+          },
+          getTechServiceCostList: function() {
+            console.log("[Service Services]: List of Technician Services Costs");
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"rates/listar"
+                  }).then(function mySuccess(response) {
+                    return response;
+                  }).catch(function onError(response) {
+                    console.log("Error: "+response.data.error); 
+                    return response;
+            });
+          },
+          getTechServiceCostByTypeServiceIdList: function(id) {
+            console.log("[Service Services]: List of Technician Services Costs By Service Type ID");
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"rates/listarByServiceType/"+id
+                  }).then(function mySuccess(response) {
+                    return response;
+                  }).catch(function onError(response) {
+                    console.log("Error: "+response.data.error); 
+                    return response;
+            });
+          },
+          maintenanceTypeByTechServiceId: function(id) {
+            console.log("[Service][maintenanceTypeByTechServiceId]: List of Maintenance Types By Technician Services ID");
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"services/maintenanceTypeByTechServiceId/"+id
+                  }).then(function mySuccess(response) {
+                    return response;
+                  }).catch(function onError(response) {
+                    console.log("Error: "+response.data.error); 
+                    return response;
+            });
+          },
+          addTechService: function(data) {
+            console.log("[Service][addTechService]---> add a technician service ");
+            return $http.post(serverHost+serverBackend+"services/addTechService",data, serverHeaders)
+              .then(function mySucess(response) {
+                 return response;
+            }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                 return response;
+            });
+          },
+
+          updateTechService: function(data) {
+            console.log("[Service][updateTechService]---> update a technician service ");
+            return $http.post(serverHost+serverBackend+"services/editTechService",data, serverHeaders)
+              .then(function mySucess(response) {
+                 return response;
+            }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                 return response;
+            });
+          },
+          addTechServiceCost: function(data) {
+            console.log("[Service][addTechService]---> add a technician service ");
+            return $http.post(serverHost+serverBackend+"rates/add",data, serverHeaders)
+              .then(function mySucess(response) {
+                 return response;
+            }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                 return response;
+            });
+          },
+
+          updateTechServiceCost: function(data) {
+            console.log("[Service][updateTechService]---> update a technician service ");
+            return $http.post(serverHost+serverBackend+"rates/edit",data, serverHeaders)
+              .then(function mySucess(response) {
+                 return response;
+            }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                 return response;
+            });
+          },
+          checkTechServiceName: function(name) {
+            console.log("[Service][maintenanceTypeByTechServiceId]: List of Maintenance Types By Technician Services ID");
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"services/checkTechServiceName/"+name
+                  }).then(function mySuccess(response) {
+                    return response;
+                  }).catch(function onError(response) {
+                    console.log("Error: "+response.data.error); 
+                    return response;
+            });
+          },
+          getServiceCostByCustomer: function(data) {
+            console.log("[Service][getServiceCostByCustomer] ");
+            return $http.post(serverHost+serverBackend+"rates/getServiceCostByCustomer",data, serverHeaders)
+              .then(function mySucess(response) {
+                 return response;
+            }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                 return response;
+            });
+          },
+
       }
 }]);

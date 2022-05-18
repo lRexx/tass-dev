@@ -210,490 +210,490 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
         * Modal Confirmation function 
         **/
         $scope.modalConfirmation = function(opt, confirm, obj, obj2){
-        $scope.swMenu = opt;
-        $scope.vConfirm = confirm;
-        var tmpOpt=$scope.div2Open;
-        //console.log(tmpOpt);
-        $scope.mess2show="";
-        switch ($scope.swMenu){
-            case "closeWindow":
-                if (confirm==0){
-                    if ($scope.isNewTenant==true || $scope.isNewAttendant==true){
-                        $scope.mess2show="Se perderan todos los datos cargados para el registro actual, esta seguro que desea cancelar?";
-                    }else{
-                        $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
-                    }    
-                    $("#confirmRequestModal").modal('show');
-                }else if (confirm==1){
-                    if ($scope.idDeptoKf!=undefined){
-                        $timeout(function() {
-                            $scope.tableRowExpanded = false;
-                            $scope.tableRowIndexCurrExpanded = "";
-                            $scope.selectTableRow($scope.vIndex, $scope.selectedDepto, "depto");
-                            //$scope.dayDataCollapse[$scope.vIndex] = false;
-                        }, 200);
+            $scope.swMenu = opt;
+            $scope.vConfirm = confirm;
+            var tmpOpt=$scope.div2Open;
+            //console.log(tmpOpt);
+            $scope.mess2show="";
+            switch ($scope.swMenu){
+                case "closeWindow":
+                    if (confirm==0){
+                        if ($scope.isNewTenant==true || $scope.isNewAttendant==true){
+                            $scope.mess2show="Se perderan todos los datos cargados para el registro actual, esta seguro que desea cancelar?";
+                        }else{
+                            $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
+                        }    
+                        $("#confirmRequestModal").modal('show');
+                    }else if (confirm==1){
+                        if ($scope.idDeptoKf!=undefined){
+                            $timeout(function() {
+                                $scope.tableRowExpanded = false;
+                                $scope.tableRowIndexCurrExpanded = "";
+                                $scope.selectTableRow($scope.vIndex, $scope.selectedDepto, "depto");
+                                //$scope.dayDataCollapse[$scope.vIndex] = false;
+                            }, 200);
+                        }
+                        $("#confirmRequestModal").modal('hide');
+                        $("#RegisterTenant").modal('hide');
+                        $("#UpdateTenant").modal('hide');
+                        $("#RegisterAttendant").modal('hide');
+                        $("#UpdateAttendant").modal('hide');
+                        //$scope.switchCustomersFn('dashboard','', 'registered');
                     }
-                    $("#confirmRequestModal").modal('hide');
-                    $("#RegisterTenant").modal('hide');
-                    $("#UpdateTenant").modal('hide');
-                    $("#RegisterAttendant").modal('hide');
-                    $("#UpdateAttendant").modal('hide');
-                    //$scope.switchCustomersFn('dashboard','', 'registered');
-                }
-            break;
-            case "downloadFile":
-                if (confirm==0){
-                    $scope.keyList=obj;
-                        console.log(obj)
-                        $scope.mess2show="El listado de llaveros generados sera descargado a su computadora a continuación.     Confirmar?";
-                    
-                        console.log("Descargar Archivo  execel");
-                        console.log("============================================================================");
-                        //console.log(obj);
-                $('#confirmRequestModal').modal('toggle');
-                }else if (confirm==1){
-                    $scope.switchKeysFn("downloadKeyFile", $scope.keyList);
-                $('#confirmRequestModal').modal('hide');
-                }
-            break;
-            case "uploadFile":
-                if (confirm==0){
-                    $scope.keyList=obj;
-                        console.log(obj)
-                        $scope.mess2show="Las llaves indicadas en el archivo "+obj.name+" seran registradas.     Confirmar?";
-                    
-                        console.log("Subir Archivo  execel  : "+obj.name);
-                        console.log("============================================================================");
-                        //console.log(obj);
-                $('#confirmRequestModal').modal('toggle');
-                }else if (confirm==1){
-                    $scope.switchKeysFn("uploadKeyFile", $scope.filesUploadList[0]);
-                $('#confirmRequestModal').modal('hide');
-                }
-            break;
-            case "addKey":
-                if (confirm==0){
-                    $scope.keyObj=obj;
-                        console.log(obj)
-                        $scope.mess2show="La llave con el codigo: "+obj.codigo+" sera registrada en el sistema,     Confirmar?";
-                    
-                        console.log("Llave a registrar  : "+obj.codigo);
-                        console.log("============================================================================");
-                        //console.log(obj);
-                $('#confirmRequestModal').modal('toggle');
-                }else if (confirm==1){
-                    $scope.switchKeysFn("addKey", $scope.keyObj);
-                $('#confirmRequestModal').modal('hide');
-                }
-            break;
-            case "assignKeyToUser":
-                if (confirm==0){
-                    $scope.tenantObj=obj;
-                    console.log(obj);
-                    $scope.keyDetailTmp=null;
-                    $scope.isKeyUsed=false;
-                        for (var key in $scope.departmentSelected.keys){
-                            if ($scope.tenantObj.myKeys!=undefined && $scope.tenantObj.myKeys!=null && $scope.tenantObj.myKeys.idKeychain!=$scope.tenantObj.key && $scope.tenantObj.key==$scope.departmentSelected.keys[key].idKeychain && $scope.departmentSelected.keys[key].idUserKf==null){
-                                $scope.tenantObj.keyDetail = $scope.departmentSelected.keys[key];
-                                $scope.mess2show="El Llavero: "+$scope.tenantObj.keyDetail.descriptionProduct+" Codigo: "+$scope.tenantObj.keyDetail.codigo+" sera asociado al Habitante "+$scope.tenantObj.fullNameUser+",     Confirmar?";
-                                $scope.isKeyUsed=false;
-                                break;
-                            }else if (($scope.tenantObj.myKeys==undefined || $scope.tenantObj.myKeys==null) && $scope.tenantObj.key==$scope.departmentSelected.keys[key].idKeychain && $scope.departmentSelected.keys[key].idUserKf==null){
-                                $scope.tenantObj.keyDetail = $scope.departmentSelected.keys[key];
-                                $scope.mess2show="El Llavero: "+$scope.tenantObj.keyDetail.descriptionProduct+" Codigo: "+$scope.tenantObj.keyDetail.codigo+" sera asociado al Habitante "+$scope.tenantObj.fullNameUser+",     Confirmar?";
-                                $scope.isKeyUsed=false;
-                                break;
-                            }else if ($scope.tenantObj.myKeys!=undefined && $scope.tenantObj.myKeys!=null && $scope.tenantObj.key==null && $scope.tenantObj.idUser == $scope.departmentSelected.keys[key].idUserKf && $scope.tenantObj.keyTmp==$scope.departmentSelected.keys[key].idKeychain && $scope.departmentSelected.keys[key].idUserKf!=null){
-                                $scope.tenantObj.keyDetail = $scope.departmentSelected.keys[key];
-                                $scope.mess2show="El Llavero: "+$scope.tenantObj.keyDetail.descriptionProduct+" Codigo: "+$scope.tenantObj.keyDetail.codigo+" sera desvinculado del Habitante "+$scope.tenantObj.fullNameUser+",     Confirmar?";
-                                $scope.isKeyUsed=false;
-                                break;
-                            }else if ((($scope.tenantObj.myKeys==undefined || $scope.tenantObj.myKeys==null) || ($scope.tenantObj.myKeys!=undefined && $scope.tenantObj.myKeys!=null)) && ($scope.tenantObj.keyTmp==null || $scope.tenantObj.keyTmp!=null) && $scope.tenantObj.idUser != $scope.departmentSelected.keys[key].idUserKf && $scope.departmentSelected.keys[key].idUserKf!=null){
-                                $scope.keyDetailTmp = $scope.departmentSelected.keys[key];
-                                $scope.isKeyUsed = true;
+                break;
+                case "downloadFile":
+                    if (confirm==0){
+                        $scope.keyList=obj;
+                            console.log(obj)
+                            $scope.mess2show="El listado de llaveros generados sera descargado a su computadora a continuación.     Confirmar?";
+                        
+                            console.log("Descargar Archivo  execel");
+                            console.log("============================================================================");
+                            //console.log(obj);
+                    $('#confirmRequestModal').modal('toggle');
+                    }else if (confirm==1){
+                        $scope.switchKeysFn("downloadKeyFile", $scope.keyList);
+                    $('#confirmRequestModal').modal('hide');
+                    }
+                break;
+                case "uploadFile":
+                    if (confirm==0){
+                        $scope.keyList=obj;
+                            console.log(obj)
+                            $scope.mess2show="Las llaves indicadas en el archivo "+obj.name+" seran registradas.     Confirmar?";
+                        
+                            console.log("Subir Archivo  execel  : "+obj.name);
+                            console.log("============================================================================");
+                            //console.log(obj);
+                    $('#confirmRequestModal').modal('toggle');
+                    }else if (confirm==1){
+                        $scope.switchKeysFn("uploadKeyFile", $scope.filesUploadList[0]);
+                    $('#confirmRequestModal').modal('hide');
+                    }
+                break;
+                case "addKey":
+                    if (confirm==0){
+                        $scope.keyObj=obj;
+                            console.log(obj)
+                            $scope.mess2show="La llave con el codigo: "+obj.codigo+" sera registrada en el sistema,     Confirmar?";
+                        
+                            console.log("Llave a registrar  : "+obj.codigo);
+                            console.log("============================================================================");
+                            //console.log(obj);
+                    $('#confirmRequestModal').modal('toggle');
+                    }else if (confirm==1){
+                        $scope.switchKeysFn("addKey", $scope.keyObj);
+                    $('#confirmRequestModal').modal('hide');
+                    }
+                break;
+                case "assignKeyToUser":
+                    if (confirm==0){
+                        $scope.tenantObj=obj;
+                        console.log(obj);
+                        $scope.keyDetailTmp=null;
+                        $scope.isKeyUsed=false;
+                            for (var key in $scope.departmentSelected.keys){
+                                if ($scope.tenantObj.myKeys!=undefined && $scope.tenantObj.myKeys!=null && $scope.tenantObj.myKeys.idKeychain!=$scope.tenantObj.key && $scope.tenantObj.key==$scope.departmentSelected.keys[key].idKeychain && $scope.departmentSelected.keys[key].idUserKf==null){
+                                    $scope.tenantObj.keyDetail = $scope.departmentSelected.keys[key];
+                                    $scope.mess2show="El Llavero: "+$scope.tenantObj.keyDetail.descriptionProduct+" Codigo: "+$scope.tenantObj.keyDetail.codigo+" sera asociado al Habitante "+$scope.tenantObj.fullNameUser+",     Confirmar?";
+                                    $scope.isKeyUsed=false;
+                                    break;
+                                }else if (($scope.tenantObj.myKeys==undefined || $scope.tenantObj.myKeys==null) && $scope.tenantObj.key==$scope.departmentSelected.keys[key].idKeychain && $scope.departmentSelected.keys[key].idUserKf==null){
+                                    $scope.tenantObj.keyDetail = $scope.departmentSelected.keys[key];
+                                    $scope.mess2show="El Llavero: "+$scope.tenantObj.keyDetail.descriptionProduct+" Codigo: "+$scope.tenantObj.keyDetail.codigo+" sera asociado al Habitante "+$scope.tenantObj.fullNameUser+",     Confirmar?";
+                                    $scope.isKeyUsed=false;
+                                    break;
+                                }else if ($scope.tenantObj.myKeys!=undefined && $scope.tenantObj.myKeys!=null && $scope.tenantObj.key==null && $scope.tenantObj.idUser == $scope.departmentSelected.keys[key].idUserKf && $scope.tenantObj.keyTmp==$scope.departmentSelected.keys[key].idKeychain && $scope.departmentSelected.keys[key].idUserKf!=null){
+                                    $scope.tenantObj.keyDetail = $scope.departmentSelected.keys[key];
+                                    $scope.mess2show="El Llavero: "+$scope.tenantObj.keyDetail.descriptionProduct+" Codigo: "+$scope.tenantObj.keyDetail.codigo+" sera desvinculado del Habitante "+$scope.tenantObj.fullNameUser+",     Confirmar?";
+                                    $scope.isKeyUsed=false;
+                                    break;
+                                }else if ((($scope.tenantObj.myKeys==undefined || $scope.tenantObj.myKeys==null) || ($scope.tenantObj.myKeys!=undefined && $scope.tenantObj.myKeys!=null)) && ($scope.tenantObj.keyTmp==null || $scope.tenantObj.keyTmp!=null) && $scope.tenantObj.idUser != $scope.departmentSelected.keys[key].idUserKf && $scope.departmentSelected.keys[key].idUserKf!=null){
+                                    $scope.keyDetailTmp = $scope.departmentSelected.keys[key];
+                                    $scope.isKeyUsed = true;
+                                }
                             }
-                        }
-                        if(!$scope.isKeyUsed){
-                            console.log("ID del Habitante            : "+$scope.tenantObj.idUser);
-                            console.log("ID del Llavero              : "+$scope.tenantObj.key);
-                            console.log("ID del Departmento          : "+$scope.departmentSelected.idClientDepartament);
-                            console.log("============================================================================");
-                            console.log($scope.tenantObj);
-                            $('#confirmRequestModalCustom').modal('toggle');
+                            if(!$scope.isKeyUsed){
+                                console.log("ID del Habitante            : "+$scope.tenantObj.idUser);
+                                console.log("ID del Llavero              : "+$scope.tenantObj.key);
+                                console.log("ID del Departmento          : "+$scope.departmentSelected.idClientDepartament);
+                                console.log("============================================================================");
+                                console.log($scope.tenantObj);
+                                $('#confirmRequestModalCustom').modal('toggle');
+                            }else{
+                                console.log("ID del Habitante            : "+$scope.tenantObj.idUser);
+                                console.log("ID del Llavero              : "+$scope.keyDetailTmp.idKeychain);
+                                console.log("ID del Departmento          : "+$scope.departmentSelected.idClientDepartament);
+                                console.log("============================================================================");
+                                console.log($scope.tenantObj);
+                                inform.add('La llave seleccionada'+$scope.keyDetailTmp.descriptionProduct+' Codigo: '+$scope.keyDetailTmp.codigo+' ya se encuentra asociada a otro usuario.',{
+                                    ttl:5000, type: 'warning'
+                                });
+                                $scope.tenantObj.key=$scope.tenantObj.keyTmp;
+                            }
+                            //console.log(obj)
+                    }else if (confirm==1){
+                        if ($scope.tenantObj.myKeys!=undefined && $scope.tenantObj.myKeys!=null && $scope.tenantObj.key==null){
+                            $scope.switchBuildingFn("unAssignKeyToUser", $scope.tenantObj);
                         }else{
-                            console.log("ID del Habitante            : "+$scope.tenantObj.idUser);
-                            console.log("ID del Llavero              : "+$scope.keyDetailTmp.idKeychain);
-                            console.log("ID del Departmento          : "+$scope.departmentSelected.idClientDepartament);
-                            console.log("============================================================================");
-                            console.log($scope.tenantObj);
-                            inform.add('La llave seleccionada'+$scope.keyDetailTmp.descriptionProduct+' Codigo: '+$scope.keyDetailTmp.codigo+' ya se encuentra asociada a otro usuario.',{
-                                ttl:5000, type: 'warning'
-                            });
-                            $scope.tenantObj.key=$scope.tenantObj.keyTmp;
+                            $scope.switchBuildingFn("assignKeyToUser", $scope.tenantObj);
                         }
-                        //console.log(obj)
-                }else if (confirm==1){
-                    if ($scope.tenantObj.myKeys!=undefined && $scope.tenantObj.myKeys!=null && $scope.tenantObj.key==null){
-                        $scope.switchBuildingFn("unAssignKeyToUser", $scope.tenantObj);
-                    }else{
-                        $scope.switchBuildingFn("assignKeyToUser", $scope.tenantObj);
+                    $('#confirmRequestModalCustom').modal('hide');
+                    }else if (confirm<0){
+                        if ($scope.tenantObj.key==null && $scope.tenantObj.keyTmp==null){
+                            $scope.tenantObj.key=null
+                        }else{
+                            $scope.tenantObj.key=$scope.tenantObj.keyTmp
+                        }
                     }
-                $('#confirmRequestModalCustom').modal('hide');
-                }else if (confirm<0){
-                    if ($scope.tenantObj.key==null && $scope.tenantObj.keyTmp==null){
-                        $scope.tenantObj.key=null
-                    }else{
-                        $scope.tenantObj.key=$scope.tenantObj.keyTmp
-                    }
-                }
-            break;
-            case "isKeyTenantOnly":
-                if (confirm==0){
-                    $scope.keyObj=obj;
-                        console.log(obj)
+                break;
+                case "isKeyTenantOnly":
+                    if (confirm==0){
+                        $scope.keyObj=obj;
+                            console.log(obj)
+                            if($scope.keyObj.selected){
+                                $scope.mess2show="El Llavero: "+$scope.keyObj.descriptionProduct+" Codigo: "+$scope.keyObj.codigo+" sera habilitado para los Iniquilinos,     Confirmar?";
+                                console.log("============================================================================");
+                                console.log("Habilitar Llavero para ser asociado a un Inquilino");
+                                console.log("============================================================================");
+                                console.log("ID del Llavero                                  : "+$scope.keyObj.idKeyChain);
+                                console.log("ID del Departmento                              : "+$scope.departmentSelected.idClientDepartament);
+                                console.log("============================================================================");
+                            }else{
+                                $scope.mess2show="El Llavero: "+$scope.keyObj.descriptionProduct+" Codigo: "+$scope.keyObj.codigo+" sera deshabilitado para los Iniquilinos,     Confirmar?";
+                                console.log("============================================================================");
+                                console.log("Deshabilitar Llavero para ser asociado a un Inquilino");
+                                console.log("============================================================================");
+                                console.log("ID del Llavero                                  : "+$scope.keyObj.idKeyChain);
+                                console.log("ID del Departmento                              : "+$scope.departmentSelected.idClientDepartament);
+                                console.log("============================================================================");
+                            }
+                            console.log($scope.keyObj);
+                    $('#confirmRequestModalCustom').modal('toggle');
+                    }else if (confirm==1){
                         if($scope.keyObj.selected){
-                            $scope.mess2show="El Llavero: "+$scope.keyObj.descriptionProduct+" Codigo: "+$scope.keyObj.codigo+" sera habilitado para los Iniquilinos,     Confirmar?";
-                            console.log("============================================================================");
-                            console.log("Habilitar Llavero para ser asociado a un Inquilino");
-                            console.log("============================================================================");
-                            console.log("ID del Llavero                                  : "+$scope.keyObj.idKeyChain);
-                            console.log("ID del Departmento                              : "+$scope.departmentSelected.idClientDepartament);
-                            console.log("============================================================================");
+                            $scope.keyObj.isKeyTenantOnly=1;
                         }else{
-                            $scope.mess2show="El Llavero: "+$scope.keyObj.descriptionProduct+" Codigo: "+$scope.keyObj.codigo+" sera deshabilitado para los Iniquilinos,     Confirmar?";
-                            console.log("============================================================================");
-                            console.log("Deshabilitar Llavero para ser asociado a un Inquilino");
-                            console.log("============================================================================");
-                            console.log("ID del Llavero                                  : "+$scope.keyObj.idKeyChain);
-                            console.log("ID del Departmento                              : "+$scope.departmentSelected.idClientDepartament);
-                            console.log("============================================================================");
+                            $scope.keyObj.isKeyTenantOnly=null;
                         }
                         console.log($scope.keyObj);
-                $('#confirmRequestModalCustom').modal('toggle');
-                }else if (confirm==1){
-                    if($scope.keyObj.selected){
-                        $scope.keyObj.isKeyTenantOnly=1;
-                    }else{
-                        $scope.keyObj.isKeyTenantOnly=null;
-                    }
-                    console.log($scope.keyObj);
-                    $scope.switchBuildingFn("isKeyTenantOnly", $scope.keyObj);
-                $('#confirmRequestModalCustom').modal('hide');
-                }else if (confirm<0){
-                    if ($scope.keyObj.isKeyTenantOnly==0 || $scope.keyObj.isKeyTenantOnly==null){
-                        $scope.keyObj.selected = false
-                    }else{
-                        $scope.keyObj.selected = true
-                    }
-                }
-            break;
-            case "update":
-                if (confirm==0){
-                    $scope.tenantObj=obj;
-                        //console.log(obj)
-                        if (obj.idProfileKf!="6"){
-                            $scope.mess2show="Se actualizaran los datos del habitante: "+$scope.tenantObj.fullNameUser+" por favor,     Confirmar?";
+                        $scope.switchBuildingFn("isKeyTenantOnly", $scope.keyObj);
+                    $('#confirmRequestModalCustom').modal('hide');
+                    }else if (confirm<0){
+                        if ($scope.keyObj.isKeyTenantOnly==0 || $scope.keyObj.isKeyTenantOnly==null){
+                            $scope.keyObj.selected = false
                         }else{
-                            $scope.mess2show="Se actualizaran los datos del encargado: "+$scope.tenantObj.fullNameUser+" por favor,     Confirmar?";
+                            $scope.keyObj.selected = true
                         }
-                        console.log("ID del Habitante a actualizar  : "+obj.idUser);
-                        console.log("Nombres del Habitante a actualizar  : "+obj.fullNameUser);
-                        console.log("============================================================================");
-                        //console.log(obj);
-                $('#confirmRequestModal').modal('toggle');
-                }else if (confirm==1){
-                    $scope.switchBuildingFn("update", $scope.tenantObj);
-                $('#confirmRequestModal').modal('hide');
-                }
-            break;
-            case "approveDepto":
-                if (confirm==0){
-                    $scope.tenantObj=obj;
-                        console.log(obj)
-                        if (obj.idTypeTenantKf=="1"){
-                            $scope.mess2show="El Propietario: "+$scope.tenantObj.fullNameUser+" sera asociado al departamento: "+$scope.departmentSelected.Depto+",     Confirmar y Aprobar?";
-                        }else{
-                            $scope.mess2show="El Habitante: "+$scope.tenantObj.fullNameUser+" sera asociado al departamento: "+$scope.departmentSelected.Depto+",     Confirmar y Aprobar?";
-                        }
-                        console.log("ID del usuario a asociar y aprobar         : "+$scope.tenantObj.idUser);
-                        console.log("Nombres del Habitante a asociar y aprobar  : "+$scope.tenantObj.fullNameUser);
-                        console.log("============================================================================");
-                        //console.log(obj);
-                $('#confirmRequestModal').modal('toggle');
-                }else if (confirm==1){
-                    if($scope.sysContent=="administration"){
-                        $scope.switchBuildingFn("approveDepto", $scope.tenantObj);
-                    }else if ($scope.sysContent=="home"){
-                        $scope.switchBuildingFn("approveDeptoTenant", $scope.tenantObj);
                     }
-                $('#confirmRequestModal').modal('hide');
-                }
-            break;
-            case "assignAttendant":
-                if (confirm==0){
-                    $scope.tenantObj.user=obj;
-                        //console.log(obj)
-                        $scope.mess2show="El encargado: "+$scope.tenantObj.user.fullNameUser+" sera asociado al consorcio: "+$scope.select.buildings.selected.name+",     Confirmar y Aprobar?";
-                        $scope.tenantObj.user.idAddresKf = $scope.select.buildings.selected.idClient;
-                        console.log("ID del encargado a asociar al consorcio         : "+$scope.tenantObj.user.idUser);
-                        console.log("Nombres del encargado a asociar al consorcio    : "+$scope.tenantObj.user.fullNameUser);
-                        console.log("ID del consorcio                                : "+$scope.select.buildings.selected.idClient);
-                        console.log("============================================================================");
-                        console.log($scope.tenantObj);
-                $('#confirmRequestModal').modal('toggle');
-                }else if (confirm==1){
-                    $scope.assignAttendantFn($scope.tenantObj);
-                $('#confirmRequestModal').modal('hide');
-                }
-            break;
-            case "unAssignAttendant":
-                if (confirm==0){
-                    $scope.tenantObj.user=obj;
-                        //console.log(obj)
-                        $scope.mess2show="El encargado: "+$scope.tenantObj.user.fullNameUser+" sera dado de baja del consorcio: "+$scope.select.buildings.selected.name+",     Confirmar y Aprobar?";
-                        $scope.tenantObj.user.idAddresKf = null;
-                        console.log("ID del encargado a dar de baja del consorcio         : "+$scope.tenantObj.user.idUser);
-                        console.log("Nombres del encargado a dar de baja del consorcio    : "+$scope.tenantObj.user.fullNameUser);
-                        console.log("ID del consorcio                                : "+$scope.select.buildings.selected.idClient);
-                        console.log("============================================================================");
-                        console.log($scope.tenantObj);
-                $('#confirmRequestModal').modal('toggle');
-                }else if (confirm==1){
-                    $scope.unAssignAttendantFn($scope.tenantObj);
-                $('#confirmRequestModal').modal('hide');
-                }
-            break;
-            case "expensesPayment":
-                if (confirm==0){
-                    $scope.buildingObj.client=$scope.select.buildings.selected;
-                    console.log($scope.functions)
-                        //console.log(obj)
+                break;
+                case "update":
+                    if (confirm==0){
+                        $scope.tenantObj=obj;
+                            //console.log(obj)
+                            if (obj.idProfileKf!="6"){
+                                $scope.mess2show="Se actualizaran los datos del habitante: "+$scope.tenantObj.fullNameUser+" por favor,     Confirmar?";
+                            }else{
+                                $scope.mess2show="Se actualizaran los datos del encargado: "+$scope.tenantObj.fullNameUser+" por favor,     Confirmar?";
+                            }
+                            console.log("ID del Habitante a actualizar  : "+obj.idUser);
+                            console.log("Nombres del Habitante a actualizar  : "+obj.fullNameUser);
+                            console.log("============================================================================");
+                            //console.log(obj);
+                    $('#confirmRequestModal').modal('toggle');
+                    }else if (confirm==1){
+                        $scope.switchBuildingFn("update", $scope.tenantObj);
+                    $('#confirmRequestModal').modal('hide');
+                    }
+                break;
+                case "approveDepto":
+                    if (confirm==0){
+                        $scope.tenantObj=obj;
+                            console.log(obj)
+                            if (obj.idTypeTenantKf=="1"){
+                                $scope.mess2show="El Propietario: "+$scope.tenantObj.fullNameUser+" sera asociado al departamento: "+$scope.departmentSelected.Depto+",     Confirmar y Aprobar?";
+                            }else{
+                                $scope.mess2show="El Habitante: "+$scope.tenantObj.fullNameUser+" sera asociado al departamento: "+$scope.departmentSelected.Depto+",     Confirmar y Aprobar?";
+                            }
+                            console.log("ID del usuario a asociar y aprobar         : "+$scope.tenantObj.idUser);
+                            console.log("Nombres del Habitante a asociar y aprobar  : "+$scope.tenantObj.fullNameUser);
+                            console.log("============================================================================");
+                            //console.log(obj);
+                    $('#confirmRequestModal').modal('toggle');
+                    }else if (confirm==1){
+                        if($scope.sysContent=="administration"){
+                            $scope.switchBuildingFn("approveDepto", $scope.tenantObj);
+                        }else if ($scope.sysContent=="home"){
+                            $scope.switchBuildingFn("approveDeptoTenant", $scope.tenantObj);
+                        }
+                    $('#confirmRequestModal').modal('hide');
+                    }
+                break;
+                case "assignAttendant":
+                    if (confirm==0){
+                        $scope.tenantObj.user=obj;
+                            //console.log(obj)
+                            $scope.mess2show="El encargado: "+$scope.tenantObj.user.fullNameUser+" sera asociado al consorcio: "+$scope.select.buildings.selected.name+",     Confirmar y Aprobar?";
+                            $scope.tenantObj.user.idAddresKf = $scope.select.buildings.selected.idClient;
+                            console.log("ID del encargado a asociar al consorcio         : "+$scope.tenantObj.user.idUser);
+                            console.log("Nombres del encargado a asociar al consorcio    : "+$scope.tenantObj.user.fullNameUser);
+                            console.log("ID del consorcio                                : "+$scope.select.buildings.selected.idClient);
+                            console.log("============================================================================");
+                            console.log($scope.tenantObj);
+                    $('#confirmRequestModal').modal('toggle');
+                    }else if (confirm==1){
+                        $scope.assignAttendantFn($scope.tenantObj);
+                    $('#confirmRequestModal').modal('hide');
+                    }
+                break;
+                case "unAssignAttendant":
+                    if (confirm==0){
+                        $scope.tenantObj.user=obj;
+                            //console.log(obj)
+                            $scope.mess2show="El encargado: "+$scope.tenantObj.user.fullNameUser+" sera dado de baja del consorcio: "+$scope.select.buildings.selected.name+",     Confirmar y Aprobar?";
+                            $scope.tenantObj.user.idAddresKf = null;
+                            console.log("ID del encargado a dar de baja del consorcio         : "+$scope.tenantObj.user.idUser);
+                            console.log("Nombres del encargado a dar de baja del consorcio    : "+$scope.tenantObj.user.fullNameUser);
+                            console.log("ID del consorcio                                : "+$scope.select.buildings.selected.idClient);
+                            console.log("============================================================================");
+                            console.log($scope.tenantObj);
+                    $('#confirmRequestModal').modal('toggle');
+                    }else if (confirm==1){
+                        $scope.unAssignAttendantFn($scope.tenantObj);
+                    $('#confirmRequestModal').modal('hide');
+                    }
+                break;
+                case "expensesPayment":
+                    if (confirm==0){
+                        $scope.buildingObj.client=$scope.select.buildings.selected;
+                        console.log($scope.functions)
+                            //console.log(obj)
+                            if($scope.functions.expensePayment){
+                                $scope.mess2show="Autorizar el Cobro de pedidos por expensas,     Confirmar y Aprobar?";
+                                console.log("============================================================================");
+                                console.log("Autorizar el cobro por expensas para los pedidos");
+                                console.log("============================================================================");
+                                console.log("ID del Cliente             : "+$scope.buildingObj.client.idClient);
+                                console.log("Dirección del consorcio    : "+$scope.buildingObj.client.address);
+                                console.log("============================================================================");
+                            }else{
+                                $scope.mess2show="Desactivar el Cobro de pedidos por expensas,     Confirmar y Aprobar?";
+                                console.log("============================================================================");
+                                console.log("Desactivar el cobro por expensas para los pedidos");
+                                console.log("============================================================================");
+                                console.log("ID del Cliente             : "+$scope.buildingObj.client.idClient);
+                                console.log("Dirección del consorcio    : "+$scope.buildingObj.client.address);
+                                console.log("============================================================================");
+                            }
+                            console.log($scope.buildingObj);
+                    $('#confirmRequestModalCustom').modal('toggle');
+                    }else if (confirm==1){
                         if($scope.functions.expensePayment){
-                            $scope.mess2show="Autorizar el Cobro de pedidos por expensas,     Confirmar y Aprobar?";
-                            console.log("============================================================================");
-                            console.log("Autorizar el cobro por expensas para los pedidos");
-                            console.log("============================================================================");
-                            console.log("ID del Cliente             : "+$scope.buildingObj.client.idClient);
-                            console.log("Dirección del consorcio    : "+$scope.buildingObj.client.address);
-                            console.log("============================================================================");
+                            $scope.buildingObj.client.chargeForExpenses=1;
                         }else{
-                            $scope.mess2show="Desactivar el Cobro de pedidos por expensas,     Confirmar y Aprobar?";
-                            console.log("============================================================================");
-                            console.log("Desactivar el cobro por expensas para los pedidos");
-                            console.log("============================================================================");
-                            console.log("ID del Cliente             : "+$scope.buildingObj.client.idClient);
-                            console.log("Dirección del consorcio    : "+$scope.buildingObj.client.address);
-                            console.log("============================================================================");
+                            $scope.buildingObj.client.chargeForExpenses=0;
                         }
                         console.log($scope.buildingObj);
-                $('#confirmRequestModalCustom').modal('toggle');
-                }else if (confirm==1){
-                    if($scope.functions.expensePayment){
-                        $scope.buildingObj.client.chargeForExpenses=1;
-                    }else{
-                        $scope.buildingObj.client.chargeForExpenses=0;
+                        $scope.switchBuildingFn("expensesPayment", $scope.buildingObj);
+                    $('#confirmRequestModalCustom').modal('hide');
+                    }else if (confirm<0){
+                        if ($scope.buildingObj.client.chargeForExpenses==0 || $scope.buildingObj.client.chargeForExpenses==null){
+                            $scope.functions.expensePayment=false
+                        }else{
+                            $scope.functions.expensePayment=true
+                        }
+                        
                     }
-                    console.log($scope.buildingObj);
-                    $scope.switchBuildingFn("expensesPayment", $scope.buildingObj);
-                $('#confirmRequestModalCustom').modal('hide');
-                }else if (confirm<0){
-                    if ($scope.buildingObj.client.chargeForExpenses==0 || $scope.buildingObj.client.chargeForExpenses==null){
-                        $scope.functions.expensePayment=false
-                    }else{
-                        $scope.functions.expensePayment=true
-                    }
-                    
-                }
-            break;
-            case "autoApproveAll":
-                if (confirm==0){
-                    $scope.buildingObj.client=$scope.select.buildings.selected;
-                    console.log($scope.functions)
-                        //console.log(obj)
+                break;
+                case "autoApproveAll":
+                    if (confirm==0){
+                        $scope.buildingObj.client=$scope.select.buildings.selected;
+                        console.log($scope.functions)
+                            //console.log(obj)
+                            if($scope.functions.autoApproveAll){
+                                $scope.mess2show="Autorizar auto aprobación de pedidos para todos los habitantes del consorcio,     Confirmar y Aprobar?";
+                                console.log("============================================================================");
+                                console.log("Autorizar la auto aprobación de pedidos para todos los clientes");
+                                console.log("============================================================================");
+                                console.log("ID del Cliente             : "+$scope.buildingObj.client.idClient);
+                                console.log("Dirección del consorcio    : "+$scope.buildingObj.client.address);
+                                console.log("============================================================================");
+                            }else{
+                                $scope.mess2show="Desactivar auto aprobación de pedidos para todos los habitantes del consorcio,     Confirmar y Aprobar?";
+                                console.log("============================================================================");
+                                console.log("Desactivar la auto aprobación de pedidos para todos los clientes");
+                                console.log("============================================================================");
+                                console.log("ID del Cliente             : "+$scope.buildingObj.client.idClient);
+                                console.log("Dirección del consorcio    : "+$scope.buildingObj.client.address);
+                                console.log("============================================================================");
+                            }
+                            console.log($scope.buildingObj);
+                    $('#confirmRequestModalCustom').modal('toggle');
+                    }else if (confirm==1){
                         if($scope.functions.autoApproveAll){
-                            $scope.mess2show="Autorizar auto aprobación de pedidos para todos los habitantes del consorcio,     Confirmar y Aprobar?";
-                            console.log("============================================================================");
-                            console.log("Autorizar la auto aprobación de pedidos para todos los clientes");
-                            console.log("============================================================================");
-                            console.log("ID del Cliente             : "+$scope.buildingObj.client.idClient);
-                            console.log("Dirección del consorcio    : "+$scope.buildingObj.client.address);
-                            console.log("============================================================================");
+                            $scope.buildingObj.client.autoApproveAll=1;
                         }else{
-                            $scope.mess2show="Desactivar auto aprobación de pedidos para todos los habitantes del consorcio,     Confirmar y Aprobar?";
-                            console.log("============================================================================");
-                            console.log("Desactivar la auto aprobación de pedidos para todos los clientes");
-                            console.log("============================================================================");
-                            console.log("ID del Cliente             : "+$scope.buildingObj.client.idClient);
-                            console.log("Dirección del consorcio    : "+$scope.buildingObj.client.address);
-                            console.log("============================================================================");
+                            $scope.buildingObj.client.autoApproveAll=0;
                         }
                         console.log($scope.buildingObj);
-                $('#confirmRequestModalCustom').modal('toggle');
-                }else if (confirm==1){
-                    if($scope.functions.autoApproveAll){
-                        $scope.buildingObj.client.autoApproveAll=1;
-                    }else{
-                        $scope.buildingObj.client.autoApproveAll=0;
+                        $scope.switchBuildingFn("autoApproveAll", $scope.buildingObj);
+                    $('#confirmRequestModalCustom').modal('hide');
+                    }else if (confirm<0){
+                        if ($scope.buildingObj.client.autoApproveAll==0 || $scope.buildingObj.client.autoApproveAll==null){
+                            $scope.functions.autoApproveAll=false
+                        }else{
+                            $scope.functions.autoApproveAll=true
+                        }
+                        
                     }
-                    console.log($scope.buildingObj);
-                    $scope.switchBuildingFn("autoApproveAll", $scope.buildingObj);
-                $('#confirmRequestModalCustom').modal('hide');
-                }else if (confirm<0){
-                    if ($scope.buildingObj.client.autoApproveAll==0 || $scope.buildingObj.client.autoApproveAll==null){
-                        $scope.functions.autoApproveAll=false
-                    }else{
-                        $scope.functions.autoApproveAll=true
-                    }
-                    
-                }
-            break;
-            case "autoApproveOwners":
-                if (confirm==0){
-                    $scope.buildingObj.client=$scope.select.buildings.selected;
-                    console.log($scope.functions)
-                        //console.log(obj)
+                break;
+                case "autoApproveOwners":
+                    if (confirm==0){
+                        $scope.buildingObj.client=$scope.select.buildings.selected;
+                        console.log($scope.functions)
+                            //console.log(obj)
+                            if($scope.functions.autoApproveOwners){
+                                $scope.mess2show="Autorizar auto aprobación de pedidos solo Propietarios del consorcio,     Confirmar y Aprobar?";
+                                console.log("============================================================================");
+                                console.log("Autorizar la auto aprobación de pedidos solo para propietarios");
+                                console.log("============================================================================");
+                                console.log("ID del Cliente             : "+$scope.buildingObj.client.idClient);
+                                console.log("Dirección del consorcio    : "+$scope.buildingObj.client.address);
+                                console.log("============================================================================");
+                            }else{
+                                $scope.mess2show="Desactivar auto aprobación de pedidos solo Propietarios del consorcio,     Confirmar y Aprobar?";
+                                console.log("============================================================================");
+                                console.log("Desactivar la auto aprobación de pedidos solo para propietarios");
+                                console.log("============================================================================");
+                                console.log("ID del Cliente             : "+$scope.buildingObj.client.idClient);
+                                console.log("Dirección del consorcio    : "+$scope.buildingObj.client.address);
+                                console.log("============================================================================");
+                            }
+                            console.log($scope.buildingObj);
+                    $('#confirmRequestModalCustom').modal('toggle');
+                    }else if (confirm==1){
                         if($scope.functions.autoApproveOwners){
-                            $scope.mess2show="Autorizar auto aprobación de pedidos solo Propietarios del consorcio,     Confirmar y Aprobar?";
-                            console.log("============================================================================");
-                            console.log("Autorizar la auto aprobación de pedidos solo para propietarios");
-                            console.log("============================================================================");
-                            console.log("ID del Cliente             : "+$scope.buildingObj.client.idClient);
-                            console.log("Dirección del consorcio    : "+$scope.buildingObj.client.address);
-                            console.log("============================================================================");
+                            $scope.buildingObj.client.autoApproveOwners=1;
                         }else{
-                            $scope.mess2show="Desactivar auto aprobación de pedidos solo Propietarios del consorcio,     Confirmar y Aprobar?";
-                            console.log("============================================================================");
-                            console.log("Desactivar la auto aprobación de pedidos solo para propietarios");
-                            console.log("============================================================================");
-                            console.log("ID del Cliente             : "+$scope.buildingObj.client.idClient);
-                            console.log("Dirección del consorcio    : "+$scope.buildingObj.client.address);
-                            console.log("============================================================================");
+                            $scope.buildingObj.client.autoApproveOwners=0;
                         }
-                        console.log($scope.buildingObj);
-                $('#confirmRequestModalCustom').modal('toggle');
-                }else if (confirm==1){
-                    if($scope.functions.autoApproveOwners){
-                        $scope.buildingObj.client.autoApproveOwners=1;
-                    }else{
-                        $scope.buildingObj.client.autoApproveOwners=0;
+                        $scope.switchBuildingFn("autoApproveOwners", $scope.buildingObj);
+                    $('#confirmRequestModalCustom').modal('hide');
+                    }else if (confirm<0){
+                        if ($scope.buildingObj.client.autoApproveOwners==0 || $scope.buildingObj.client.autoApproveOwners==null){
+                            $scope.functions.autoApproveOwners=false
+                        }else{
+                            $scope.functions.autoApproveOwners=true
+                        }
                     }
-                    $scope.switchBuildingFn("autoApproveOwners", $scope.buildingObj);
-                $('#confirmRequestModalCustom').modal('hide');
-                }else if (confirm<0){
-                    if ($scope.buildingObj.client.autoApproveOwners==0 || $scope.buildingObj.client.autoApproveOwners==null){
-                        $scope.functions.autoApproveOwners=false
-                    }else{
-                        $scope.functions.autoApproveOwners=true
-                    }
-                }
-            break;
-            case "cancelRequest":
-                if (confirm==0){
-                    $scope.deptoObj=obj;
-                        //console.log(obj)
-                        $scope.mess2show="La solicitud de la unidad: "+$scope.deptoObj.Depto+" sera cancelada,     Confirmar?";
-                        console.log("============================================================================");
-                        console.log("Cancelar la solicitud de asociacion");
-                        console.log("============================================================================");
-                        console.log("ID del Departamento :  "+$scope.deptoObj.idClientDepartament);
-                        console.log("Departamento        :  "+$scope.deptoObj.Depto);
-                        console.log("============================================================================");
-                        $scope.depto={'department':{'idDepartment':null, 'idUserKf':null}};
-                        $scope.depto.department.idUserKf=null;
-                        $scope.depto.department.idDepartment=$scope.deptoObj.idClientDepartament;
-                        //console.log(obj);
-                $('#confirmRequestModal').modal('toggle');
-                }else if (confirm==1){
-                    $scope.fnUnAssignDepto($scope.depto);
-                $('#confirmRequestModal').modal('hide');
-                }
-            break;
-            case "removet":
-              if (confirm==0){
-                $scope.tenantObj    = obj;
-                $scope.buildingObj  = obj2;
-                $scope.isHasTicket  = true;
-                $scope.isHasKeys    = true;
-                console.log($scope.tenantObj);
-                  if (($scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=4 && $scope.sysLoggedUser.idProfileKf!=5 && $scope.sysLoggedUser.idProfileKf!=6 && $scope.tenantObj.idTypeTenantKf!=0) || 
-                      ($scope.sysLoggedUser.idProfileKf==3 && $scope.tenantObj.idTypeTenantKf==2) || 
-                      ($scope.sysLoggedUser.idProfileKf==4 && $scope.sysLoggedUser.idUser!=$scope.tenantObj.idUser && $scope.sysLoggedUser.idTypeTenantKf!=null && $scope.tenantObj.idTypeTenantKf==2) || 
-                      ($scope.sysLoggedUser.idProfileKf==6 && $scope.tenantObj.idTypeTenantKf==2)){
-                    $scope.mess2show="Esta seguro que desea dar de baja al Habitante "+$scope.tenantObj.fullNameUser+" ?";
-                  }else if ((($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==5 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf==1) ||
-                    (($scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==5 ||  $scope.sysLoggedUser.idProfileKf==6 && $scope.sysLoggedUser.idTypeTenantKf==2))){
-                    $scope.mess2show="Esta seguro que desea darse de baja?";
-                  }
-                  if(($scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=4 && $scope.sysLoggedUser.idProfileKf!=5 && $scope.tenantObj.idTypeTenantKf!=0) || 
-                     ($scope.sysLoggedUser.idProfileKf==3 && $scope.sysLoggedUser.idTypeTenantKf==1 && ($scope.tenantObj.idTypeTenantKf==1 || $scope.tenantObj.idTypeTenantKf==2)) || 
-                     ($scope.sysLoggedUser.idProfileKf==4 && $scope.sysLoggedUser.idTypeTenantKf==1 && ($scope.tenantObj.idTypeTenantKf==1 || $scope.tenantObj.idTypeTenantKf==2)) || 
-                     ($scope.sysLoggedUser.idProfileKf==6 && $scope.sysLoggedUser.idTypeTenantKf==1 && ($scope.tenantObj.idTypeTenantKf==1 || $scope.tenantObj.idTypeTenantKf==2))){
-                        $scope.remove.info.idUser           = $scope.tenantObj.idUser;
-                        if ($scope.sysContent=='administration'){
-                            $scope.remove.info.idDepartmentKf   = $scope.idDeptoKf;
-                        }else if ($scope.sysContent=='home' && $scope.buildingObj==null){
-                            $scope.remove.info.idDepartmentKf   = $scope.departmentSelected.idClientDepartament;
-                        }else{
-                            console.log(":::ENTRO ACA::")
-                            $scope.remove.info.idDepartmentKf   = $scope.buildingObj.idClientDepartament;
-                        }
-                        $scope.remove.info.idTypeTenant     = $scope.tenantObj.idTypeTenantKf;
-                        $scope.remove.info.idProfileKf      = $scope.tenantObj.idProfileKf;
-                        console.log('ID: '+$scope.tenantObj.idUser+' ID DPTO: '+$scope.remove.info.idDepartmentKf+' ID TIPO TENANT: '+$scope.tenantObj.idTypeTenantKf);
-                        console.log("DATOS DEL INQUILINO O PROPIETARIO A DAR DE BAJA");
-                        console.log($scope.remove.info);
-                        blockUI.start('Verificando si el habitante posee un pedido activo asociado.');
-                        $scope.checkTicketTenant($scope.remove.info.idUser);
-                        blockUI.start('Verificando si el habitante posee llaves asociada.');
-                        $scope.checkKeyTenant($scope.remove.info.idDepartmentKf, $scope.remove.info.idUser);
-                  }else if($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==5 || $scope.sysLoggedUser.idProfileKf==6){
-                        console.log("::::::: REMOVE AN DEPTO OWNER/TENANT :::::::");
-                        $scope.remove.info.idUser           = $scope.tenantObj.idUser;
-                        if ($scope.sysContent=='administration'){
-                            $scope.remove.info.idDepartmentKf   = $scope.idDeptoKf;
-                        }else if ($scope.sysContent=='home' && $scope.buildingObj==null){
-                            $scope.remove.info.idDepartmentKf   = $scope.departmentSelected.idClientDepartament;
-                        }else{
-                            console.log(":::ENTRO ACA::")
-                            $scope.remove.info.idDepartmentKf   = $scope.buildingObj.idClientDepartament;
-                        }
-                        $scope.remove.info.idTypeTenant     = $scope.tenantObj.idTypeTenantKf;
-                        $scope.remove.info.idProfileKf      = $scope.tenantObj.idProfileKf;
-
-                        console.log('ID: '+$scope.tenantObj.idUser+' ID DPTO: '+$scope.remove.info.idDepartmentKf+' ID TIPO TENANT: '+$scope.tenantObj.idTypeTenantKf);
-                        console.log("DATOS DEL INQUILINO O PROPIETARIO A DAR DE BAJA");
-                        console.log($scope.remove.info);
-                        console.log($scope.buildingObj);
-                        blockUI.start('Verificando si posee un pedido activo asociado.');
-                        $scope.checkTicketTenant($scope.remove.info.idUser);
-                        blockUI.start('Verificando si el posee llaves asociada.');
-                        $scope.checkKeyTenant($scope.remove.info.idDepartmentKf, $scope.remove.info.idUser);
-                  }
-                  $timeout(function() {
-                      console.log("$scope.isHasTicket : "+$scope.isHasTicket );
-                      console.log("$scope.isHasKeys : "+$scope.isHasKeys );
-                    if (!$scope.isHasTicket && !$scope.isHasKeys){
+                break;
+                case "cancelRequest":
+                    if (confirm==0){
+                        $scope.deptoObj=obj;
+                            //console.log(obj)
+                            $scope.mess2show="La solicitud de la unidad: "+$scope.deptoObj.Depto+" sera cancelada,     Confirmar?";
+                            console.log("============================================================================");
+                            console.log("Cancelar la solicitud de asociacion");
+                            console.log("============================================================================");
+                            console.log("ID del Departamento :  "+$scope.deptoObj.idClientDepartament);
+                            console.log("Departamento        :  "+$scope.deptoObj.Depto);
+                            console.log("============================================================================");
+                            $scope.depto={'department':{'idDepartment':null, 'idUserKf':null}};
+                            $scope.depto.department.idUserKf=null;
+                            $scope.depto.department.idDepartment=$scope.deptoObj.idClientDepartament;
+                            //console.log(obj);
                         $('#confirmRequestModal').modal('toggle');
+                    }else if (confirm==1){
+                        $scope.fnUnAssignDepto($scope.depto);
+                        $('#confirmRequestModal').modal('hide');
                     }
-                    blockUI.stop();
-                  }, 1500);
-              }else if (confirm==1){
-                $scope.IsFnRemove=true;
-                if(($scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=4 && $scope.sysLoggedUser.idProfileKf!=5 && $scope.tenantObj.idTypeTenantKf!=0) || 
-                ($scope.sysLoggedUser.idProfileKf==3 && $scope.sysLoggedUser.idTypeTenantKf==1 && $scope.tenantObj.idTypeTenantKf==2) || 
-                ($scope.sysLoggedUser.idProfileKf==4 && $scope.sysLoggedUser.idTypeTenantKf==1 && $scope.tenantObj.idTypeTenantKf==2) || 
-                ($scope.sysLoggedUser.idProfileKf==6 && $scope.sysLoggedUser.idTypeTenantKf==1 && $scope.tenantObj.idTypeTenantKf==2)){
-                    $scope.removeTenantFn($scope.remove);
-                }else if(($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf==1){
-                    $scope.switchBuildingFn("unSubsDeptoOwner", $scope.buildingObj);
-                }else if(($scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==5 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf==2){
-                    $scope.switchBuildingFn("unSubsDeptoTenant", $scope.tenantObj);
+                break;
+                case "removet":
+                if (confirm==0){
+                    $scope.tenantObj    = obj;
+                    $scope.buildingObj  = obj2;
+                    $scope.isHasTicket  = true;
+                    $scope.isHasKeys    = true;
+                    console.log($scope.tenantObj);
+                    if (($scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=4 && $scope.sysLoggedUser.idProfileKf!=5 && $scope.sysLoggedUser.idProfileKf!=6 && $scope.tenantObj.idTypeTenantKf!=0) || 
+                        ($scope.sysLoggedUser.idProfileKf==3 && $scope.tenantObj.idTypeTenantKf==2) || 
+                        ($scope.sysLoggedUser.idProfileKf==4 && $scope.sysLoggedUser.idUser!=$scope.tenantObj.idUser && $scope.sysLoggedUser.idTypeTenantKf!=null && $scope.tenantObj.idTypeTenantKf==2) || 
+                        ($scope.sysLoggedUser.idProfileKf==6 && $scope.tenantObj.idTypeTenantKf==2)){
+                        $scope.mess2show="Esta seguro que desea dar de baja al Habitante "+$scope.tenantObj.fullNameUser+" ?";
+                    }else if ((($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==5 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf==1) ||
+                        (($scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==5 ||  $scope.sysLoggedUser.idProfileKf==6 && $scope.sysLoggedUser.idTypeTenantKf==2))){
+                        $scope.mess2show="Esta seguro que desea darse de baja?";
+                    }
+                    if(($scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=4 && $scope.sysLoggedUser.idProfileKf!=5 && $scope.tenantObj.idTypeTenantKf!=0) || 
+                        ($scope.sysLoggedUser.idProfileKf==3 && $scope.sysLoggedUser.idTypeTenantKf==1 && ($scope.tenantObj.idTypeTenantKf==1 || $scope.tenantObj.idTypeTenantKf==2)) || 
+                        ($scope.sysLoggedUser.idProfileKf==4 && $scope.sysLoggedUser.idTypeTenantKf==1 && ($scope.tenantObj.idTypeTenantKf==1 || $scope.tenantObj.idTypeTenantKf==2)) || 
+                        ($scope.sysLoggedUser.idProfileKf==6 && $scope.sysLoggedUser.idTypeTenantKf==1 && ($scope.tenantObj.idTypeTenantKf==1 || $scope.tenantObj.idTypeTenantKf==2))){
+                            $scope.remove.info.idUser           = $scope.tenantObj.idUser;
+                            if ($scope.sysContent=='administration'){
+                                $scope.remove.info.idDepartmentKf   = $scope.idDeptoKf;
+                            }else if ($scope.sysContent=='home' && $scope.buildingObj==null){
+                                $scope.remove.info.idDepartmentKf   = $scope.departmentSelected.idClientDepartament;
+                            }else{
+                                console.log(":::ENTRO ACA::")
+                                $scope.remove.info.idDepartmentKf   = $scope.buildingObj.idClientDepartament;
+                            }
+                            $scope.remove.info.idTypeTenant     = $scope.tenantObj.idTypeTenantKf;
+                            $scope.remove.info.idProfileKf      = $scope.tenantObj.idProfileKf;
+                            console.log('ID: '+$scope.tenantObj.idUser+' ID DPTO: '+$scope.remove.info.idDepartmentKf+' ID TIPO TENANT: '+$scope.tenantObj.idTypeTenantKf);
+                            console.log("DATOS DEL INQUILINO O PROPIETARIO A DAR DE BAJA");
+                            console.log($scope.remove.info);
+                            blockUI.start('Verificando si el habitante posee un pedido activo asociado.');
+                            $scope.checkTicketTenant($scope.remove.info.idUser);
+                            blockUI.start('Verificando si el habitante posee llaves asociada.');
+                            $scope.checkKeyTenant($scope.remove.info.idDepartmentKf, $scope.remove.info.idUser);
+                    }else if($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==5 || $scope.sysLoggedUser.idProfileKf==6){
+                            console.log("::::::: REMOVE AN DEPTO OWNER/TENANT :::::::");
+                            $scope.remove.info.idUser           = $scope.tenantObj.idUser;
+                            if ($scope.sysContent=='administration'){
+                                $scope.remove.info.idDepartmentKf   = $scope.idDeptoKf;
+                            }else if ($scope.sysContent=='home' && $scope.buildingObj==null){
+                                $scope.remove.info.idDepartmentKf   = $scope.departmentSelected.idClientDepartament;
+                            }else{
+                                console.log(":::ENTRO ACA::")
+                                $scope.remove.info.idDepartmentKf   = $scope.buildingObj.idClientDepartament;
+                            }
+                            $scope.remove.info.idTypeTenant     = $scope.tenantObj.idTypeTenantKf;
+                            $scope.remove.info.idProfileKf      = $scope.tenantObj.idProfileKf;
+
+                            console.log('ID: '+$scope.tenantObj.idUser+' ID DPTO: '+$scope.remove.info.idDepartmentKf+' ID TIPO TENANT: '+$scope.tenantObj.idTypeTenantKf);
+                            console.log("DATOS DEL INQUILINO O PROPIETARIO A DAR DE BAJA");
+                            console.log($scope.remove.info);
+                            console.log($scope.buildingObj);
+                            blockUI.start('Verificando si posee un pedido activo asociado.');
+                            $scope.checkTicketTenant($scope.remove.info.idUser);
+                            blockUI.start('Verificando si el posee llaves asociada.');
+                            $scope.checkKeyTenant($scope.remove.info.idDepartmentKf, $scope.remove.info.idUser);
+                    }
+                    $timeout(function() {
+                        console.log("$scope.isHasTicket : "+$scope.isHasTicket );
+                        console.log("$scope.isHasKeys : "+$scope.isHasKeys );
+                        if (!$scope.isHasTicket && !$scope.isHasKeys){
+                            $('#confirmRequestModal').modal('toggle');
+                        }
+                        blockUI.stop();
+                    }, 1500);
+                }else if (confirm==1){
+                    $scope.IsFnRemove=true;
+                    if(($scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=4 && $scope.sysLoggedUser.idProfileKf!=5 && $scope.tenantObj.idTypeTenantKf!=0) || 
+                    ($scope.sysLoggedUser.idProfileKf==3 && $scope.sysLoggedUser.idTypeTenantKf==1 && $scope.tenantObj.idTypeTenantKf==2) || 
+                    ($scope.sysLoggedUser.idProfileKf==4 && $scope.sysLoggedUser.idTypeTenantKf==1 && $scope.tenantObj.idTypeTenantKf==2) || 
+                    ($scope.sysLoggedUser.idProfileKf==6 && $scope.sysLoggedUser.idTypeTenantKf==1 && $scope.tenantObj.idTypeTenantKf==2)){
+                        $scope.removeTenantFn($scope.remove);
+                    }else if(($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf==1){
+                        $scope.switchBuildingFn("unSubsDeptoOwner", $scope.buildingObj);
+                    }else if(($scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==5 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf==2){
+                        $scope.switchBuildingFn("unSubsDeptoTenant", $scope.tenantObj);
+                    }
+                    $('#confirmRequestModal').modal('hide');
                 }
-                $('#confirmRequestModal').modal('hide');
-              }
-            break;
-            default:
-        }
+                break;
+                default:
+            }
         }
     /********************************************************************************************************************************************
     *                                                                                                                                           *
@@ -1041,11 +1041,6 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                 *            GET ADMINISTRATION LIST              *
                 *                                                 *
                 **************************************************/
-                    $scope.buildingCustomerRegistered={
-                        "searchFilter":"",
-                        "isNotCliente":"0",
-                        "idClientTypeFk":"1",
-                    };
                     $scope.getAdminListFn = function(){
                         $scope.administrationList = [];
                         $scope.administrationList = $scope.globalCustomers.administrations;
@@ -1062,7 +1057,11 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                             //console.log($scope.users.update.mail);
                             //console.log(value);
                             //console.log(opt);
-                            if ((($scope.tenant.new.dni!=undefined && $scope.tenant.new.dni!="" && opt=="dni") || ($scope.tenant.new.mail!=undefined && $scope.tenant.new.mail!="" && opt=="mail")) || (($scope.tenant.update.dni!=undefined && $scope.tenant.tmp.dni!=value && opt=="dni") || ($scope.tenant.update.mail!=undefined && $scope.tenant.tmp.mail!=value && opt=="mail"))){
+                            if (((($scope.tenant.new!=undefined && $scope.tenant.new.dni!="" && opt=="dni") || ($scope.tenant.new!=undefined && $scope.tenant.new.mail!="" && opt=="mail")) || 
+                                (($scope.tenant.update!=undefined && $scope.tenant.tmp.dni!=value && opt=="dni") || ($scope.tenant.update!=undefined && $scope.tenant.tmp.mail!=value && opt=="mail"))) ||
+                                ((($scope.attendant.new!=undefined && $scope.attendant.tmp.dni!=value && opt=="dni") || ($scope.attendant.new!=undefined && $scope.attendant.tmp.mail!=value && opt=="mail")) ||
+                                (($scope.attendant.update!=undefined && $scope.attendant.tmp.dni!=value && opt=="dni") || ($scope.attendant.update!=undefined && $scope.attendant.tmp.mail!=value && opt=="mail")))
+                                ){
                                 userServices.findUserByEmail(value).then(function(response) {
                                 //console.log(response);
                                 if(response.status==200){
@@ -1070,6 +1069,7 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                                     $scope.sysDNIRegistered=true;
                                     //console.log(response.data[0].fullNameUser);
                                     $scope.tenant.new.dni=undefined;
+                                    $scope.attendant.new.dni=undefined;
                                     }
                                     if(APP_REGEX.checkEmail.test(value)){
                                     $scope.sysEmailRegistered=true;
@@ -1200,7 +1200,7 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                 };
                 $scope.getBuildingFn = function(obj){
                     $scope.building = obj;
-                    blockUI.start('Cargando los departamento.');
+                    blockUI.start('Cargando los departamentos.');
                     $timeout(function() {
                         $scope.getKeyListByBuildingIdFn($scope.building.idClient);
                     }, 1000);
@@ -1251,6 +1251,7 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                             if(response.status==200){
                                 $scope.select.buildings.selected.idClient=idAddress;
                                 $scope.ListDpto = response.data;
+                                console.log($scope.keyListByBuildingId.length);
                                 if ($scope.keyListByBuildingId!=undefined && $scope.keyListByBuildingId.length>=0){
                                     for (var depto in $scope.ListDpto){
                                         //console.log($scope.ListDpto[depto]);
@@ -1360,34 +1361,34 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
             *  VERIFICAR SI UN OWNER/INQUILINO TIENE UNA LLAVE ASIGNADA  *
             *                                                            *
             *************************************************************/
-                    $scope.checkKeyTenant = function(idDepto, idUser){
-                        var msg1, msg2;
-                        KeysServices.verifyKeysByIdUser(idDepto, idUser).then(function(response){
-                            if(response.status==200){
-                                $timeout(function() {
-                                    blockUI.message('El habitante posee Llaves asociadas asociados.');
-                                    $scope.isHasKeys = true;
-                                    console.log("POSEE LLAVES")
-                                }, 1500);
-                                $timeout(function() {
-                                    msg1="Tenes llaves asociadas, en el departamento seleccionado, realizar la desvinculación para poder solicitar la bajar del departamento.";
-                                    msg2="El Habitante presenta llaves asociadas, se deben realizar la desvinculación de la/s llave/s para poder dar de baja.";
-                                    $scope.messageInform = $scope.sysLoggedUser.idProfileKf!=1 && $scope.sysLoggedUser.idProfileKf!=4 &&  ($scope.sysLoggedUser.idTypeTenantKf==null || $scope.sysLoggedUser.idTypeTenantKf!=null) ? msg1 : msg2;
-                                    inform.add($scope.messageInform,{
-                                        ttl:5000, type: 'warning'
-                                    });
+                $scope.checkKeyTenant = function(idDepto, idUser){
+                    var msg1, msg2;
+                    KeysServices.verifyKeysByIdUser(idDepto, idUser).then(function(response){
+                        if(response.status==200){
+                            $timeout(function() {
+                                blockUI.message('El habitante posee Llaves asociadas asociados.');
+                                $scope.isHasKeys = true;
+                                console.log("POSEE LLAVES")
+                            }, 1500);
+                            $timeout(function() {
+                                msg1="Tenes llaves asociadas, en el departamento seleccionado, realizar la desvinculación para poder solicitar la bajar del departamento.";
+                                msg2="El Habitante presenta llaves asociadas, se deben realizar la desvinculación de la/s llave/s para poder dar de baja.";
+                                $scope.messageInform = $scope.sysLoggedUser.idProfileKf!=1 && $scope.sysLoggedUser.idProfileKf!=4 &&  ($scope.sysLoggedUser.idTypeTenantKf==null || $scope.sysLoggedUser.idTypeTenantKf!=null) ? msg1 : msg2;
+                                inform.add($scope.messageInform,{
+                                    ttl:5000, type: 'warning'
+                                });
+                            blockUI.stop();
+                            }, 2000);
+                        }else if (response.status==404){
+                            $scope.isHasKeys = false;
+                            $timeout(function() {
+                                blockUI.message('El habitante no posee llaves asociados.');
+                                console.log("NO POSEE LLAVES --> SE PROCEDE A SOLICITAR LA CONFIRMACION PARA LA BAJA.");
                                 blockUI.stop();
-                                }, 2000);
-                            }else if (response.status==404){
-                                $scope.isHasKeys = false;
-                                $timeout(function() {
-                                    blockUI.message('El habitante no posee llaves asociados.');
-                                    console.log("NO POSEE LLAVES --> SE PROCEDE A SOLICITAR LA CONFIRMACION PARA LA BAJA.");
-                                    blockUI.stop();
-                                }, 1500);
-                            }
-                        });
-                    }
+                            }, 1500);
+                        }
+                    });
+                }
             /**************************************************
             *                                                 *
             *       UASSIGN DEPARMENT TO A TENANT USER        *
@@ -1756,68 +1757,68 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
             *  unsubscribe REQUEST DEPARTMENT TO TENANT USER  *
             *                                                 *
             **************************************************/
-             $scope.fn2unsubsDeptoTenant = function (idUser) {
-                DepartmentsServices.requesLowByTenant(idUser).then(function(response) {
-                    if(response.status==200){
-                        inform.add('Solicitud de baja ha sido enviaada satisfactoriamente.',{
-                        ttl:5000, type: 'success'
-                        });
-                        $scope.updateSysUserLoggedSession($scope.sysLoggedUser.idUser);
-                    }else if (response.status==404){
-                        inform.add('La solicitud no ha sido enviada por favor, contacte al area de soporte de TASS.',{
-                        ttl:5000, type: 'warning'
-                        });
-                    }else if (response.status==500){
-                        inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
-                        ttl:5000, type: 'danger'
-                        });
-                    }
-                });
-            }
+                $scope.fn2unsubsDeptoTenant = function (idUser) {
+                    DepartmentsServices.requesLowByTenant(idUser).then(function(response) {
+                        if(response.status==200){
+                            inform.add('Solicitud de baja ha sido enviaada satisfactoriamente.',{
+                            ttl:5000, type: 'success'
+                            });
+                            $scope.updateSysUserLoggedSession($scope.sysLoggedUser.idUser);
+                        }else if (response.status==404){
+                            inform.add('La solicitud no ha sido enviada por favor, contacte al area de soporte de TASS.',{
+                            ttl:5000, type: 'warning'
+                            });
+                        }else if (response.status==500){
+                            inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                            ttl:5000, type: 'danger'
+                            });
+                        }
+                    });
+                }
             /**************************************************
             *                                                 *
             *     SELECCIONA DATA DE TENANT SELECCIONADO      *
             *                 DE LA LISTA                     *
             **************************************************/
                 $scope.lisTenantByType = function(idDepto, idTypeTenant){
-                var typeTenant=idTypeTenant==null?-1:idTypeTenant;
-                if (($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==5 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf!=null){
-                    DepartmentsServices.listTenant2AssignedDeptoByIdDeptoByTypeTenant(idDepto, typeTenant).then(function(response) {
-                        if(response.status==200){
-                            console.log('typeTenant = '+ typeTenant + ' / Profile = '+$scope.sysLoggedUser.idProfileKf);
-                            $scope.listTenant = response.data.tenant;
-                        }else if (response.status==404){
-                            $scope.listTenant =[];
-                        }else if (response.status==500){
-                            $scope.listTenant =[];
-                        }
-                    });
-                }else{
-                    DepartmentsServices.listTenant2AssignedDeptoByIdDepto(idDepto).then(function(response) {
-                        if(response.status==200){
-                            $scope.listTenant = response.data.tenant;
-                            $scope.tenantNotFound=false; 
-                            $scope.dayDataCollapse[$scope.vIndex] = false;
-                            console.log('typeTenant = '+ typeTenant + ' / Profile = '+$scope.sysLoggedUser.idProfileKf);
-                            console.log(response.data.tenant);
-                        }else if (response.status==404){
-                            $scope.tenantNotFound=true;
-                            $scope.dayDataCollapse[$scope.vIndex] = false;
-                            $scope.tenantNotFound=true;
-                            $scope.messageInform1 = " Propietario registrado.";
-                            $scope.messageInform2 = " inquilinos registrados.";
-                            $scope.messageInform  = typeTenant == 1 ? $scope.messageInform1 : $scope.messageInform2;
-                            inform.add('El departamento no presenta'+$scope.messageInform+'.',{
-                                ttl:3000, type: 'warning'
-                            });
-                        }else if (response.status==500){
-                            $scope.tenantNotFound=true;
-                            inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
-                                ttl:3000, type: 'danger'
-                            });
-                        }
-                    });
-                }
+                    var typeTenant=idTypeTenant==null?-1:idTypeTenant;
+                    if (($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==5 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf!=null){
+                        DepartmentsServices.listTenant2AssignedDeptoByIdDeptoByTypeTenant(idDepto, typeTenant).then(function(response) {
+                            if(response.status==200){
+                                console.log('typeTenant = '+ typeTenant + ' / Profile = '+$scope.sysLoggedUser.idProfileKf);
+                                $scope.listTenant = response.data.tenant;
+                            }else if (response.status==404){
+                                $scope.listTenant =[];
+                            }else if (response.status==500){
+                                $scope.listTenant =[];
+                            }
+                        });
+                    }else{
+                        DepartmentsServices.listTenant2AssignedDeptoByIdDepto(idDepto).then(function(response) {
+                            if(response.status==200){
+                                $scope.listTenant = response.data.tenant;
+                                $scope.tenantNotFound=false; 
+                                $scope.dayDataCollapse[$scope.vIndex] = false;
+                                console.log('typeTenant = '+ typeTenant + ' / Profile = '+$scope.sysLoggedUser.idProfileKf);
+                                console.log(response.data.tenant);
+                            }else if (response.status==404){
+                                $scope.tenantNotFound=true;
+                                $scope.dayDataCollapse[$scope.vIndex] = false;
+                                $scope.tenantNotFound=true;
+                                $scope.messageInform1 = " Propietario registrado.";
+                                $scope.messageInform2 = " inquilinos registrados.";
+                                $scope.messageInform  = typeTenant == 1 ? $scope.messageInform1 : $scope.messageInform2;
+                                inform.add('El departamento no presenta'+$scope.messageInform+'.',{
+                                    ttl:3000, type: 'warning'
+                                });
+                            }else if (response.status==500){
+                                $scope.tenantNotFound=true;
+                                inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                                    ttl:3000, type: 'danger'
+                                });
+                            }
+                        });
+                    }
                 }
             /**************************************************
             *                                                 *
@@ -2308,26 +2309,26 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
             *    LIST OF ATTENDANT WIHTOUT ADDRESS ASSIGNED   *
             *                                                 *
             **************************************************/
-             $scope.listOfAttendantsToAssign = [];
-             $scope.listOfAttendantToAssignFn = function(){
-                 userServices.attendantsListToAssing().then(function(response) {
-                     if(response.status==200){
-                         $scope.listOfAttendantsToAssign = response.data;
-                         //console.log($scope.listOfUsersToAssign);
-                     }else if (response.status==404){
-                        $scope.listOfAttendantsToAssign = [];
-                         inform.add('[info]: No hay encargados sin consorcio asignado. ',{
-                             ttl:5000, type: 'info'
-                         });
-                     }else if (response.status==500){
-                        $scope.listOfAttendantsToAssign = [];
-                         inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
-                             ttl:5000, type: 'warning'
-                         });
-                     }
-                 });
-                 
-             }
+                $scope.listOfAttendantsToAssign = [];
+                $scope.listOfAttendantToAssignFn = function(){
+                    userServices.attendantsListToAssing().then(function(response) {
+                        if(response.status==200){
+                            $scope.listOfAttendantsToAssign = response.data;
+                            //console.log($scope.listOfUsersToAssign);
+                        }else if (response.status==404){
+                            $scope.listOfAttendantsToAssign = [];
+                            inform.add('[info]: No hay encargados sin consorcio asignado. ',{
+                                ttl:5000, type: 'info'
+                            });
+                        }else if (response.status==500){
+                            $scope.listOfAttendantsToAssign = [];
+                            inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                                ttl:5000, type: 'warning'
+                            });
+                        }
+                    });
+                    
+                }
                 $scope.selectTenantFromListFn = function(obj){
                     console.log(obj);
                 }
@@ -2366,7 +2367,7 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                     CustomerServices.chargeForExpenses(obj).then(function(response){
                         //console.log(response);
                         if(response.status==200){
-                            if (obj.client.autoApproveAll){
+                            if (obj.client.chargeForExpenses){
                                 inform.add('Cobro por expensas activado satisfactoriamente.',{
                                     ttl:5000, type: 'success'
                                 });
@@ -2477,7 +2478,7 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                 }, 30000);
             /**************************************************
             *                                                 *
-            *            TENANTS MENU FUNCTION                *
+            *            BUILDING MENU FUNCTION                *
             *                                                 *
             **************************************************/
                 $scope.switchBuildingFn = function(opt, obj){
@@ -2521,7 +2522,7 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                             $scope.register.user.idTyepeAttendantKf     = obj.idProfileKf==6?obj.idTyepeAttendantKf:null;
                             $scope.register.user.dni                    = obj.dni;
                             $scope.register.user.isCreateByAdmin        = $scope.sysLoggedUser.idProfileKf==1 || $scope.sysLoggedUser.idProfileKf==4?1:null;
-                            $scope.register.user.idAddresKf             = ($scope.update.user.idProfileKf==4 || $scope.update.user.idProfileKf==5) && ($scope.update.user.idTypeTenantKf!=null || $scope.update.user.idTypeTenantKf!=0)?obj.idAddresKf:null;
+                            $scope.register.user.idAddresKf             = ($scope.register.user.idProfileKf==4 || $scope.register.user.idProfileKf==5) && ($scope.register.user.idTypeTenantKf!=null || $scope.register.user.idTypeTenantKf!=0)?obj.idAddresKf:null;
                             $scope.register.user.idTypeTenantKf         = obj.idTypeTenantKf;
                             $scope.register.user.idDepartmentKf         = (obj.idProfileKf==5 || obj.idProfileKf==6) && obj.idTypeTenantKf==2?obj.idDepartmentKf:null;
                             $scope.register.user.idDeparment_Tmp        = (obj.idProfileKf==3 || obj.idProfileKf==6) && obj.idTypeTenantKf==1?obj.idDepartmentKf:null;

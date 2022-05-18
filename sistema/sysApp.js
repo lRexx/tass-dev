@@ -17,6 +17,8 @@ var app = angular.module('systemApp', ["ngRoute",
                                              "module.Keys",
                                         "services.Address",
                                         "module.Buildings",
+                                          "module.Tickets",
+                                           "module.System",
                                                  "blockUI",
                                                   "inform",
                                         //"inform-exception",
@@ -100,10 +102,15 @@ app.config(['$routeProvider', '$locationProvider',
             templateUrl: 'views/buildings/',
             controller: 'BuildingsCtrl',
             css: 'views/mainapp/style.css'
-        })        
+        })
         .when('/users', {
             templateUrl: 'views/users/',
             controller: 'UsersCtrl',
+            css: 'views/mainapp/style.css'
+        })
+        .when('/system', {
+            templateUrl: 'views/system/',
+            controller: 'SystemCtrl',
             css: 'views/mainapp/style.css'
         })
         .otherwise({
@@ -112,7 +119,8 @@ app.config(['$routeProvider', '$locationProvider',
         // use the HTML5 History API
         $locationProvider.html5Mode(true);
 }]);
-app.constant("serverHost","http://dev-tass.com.ar/");
+app.constant("serverHost","http://dev-tass.sytes.net/");
+//app.constant("serverHost","http://dev-tass.com.ar/");
 app.constant("serverBackend","Back/index.php/");
 app.constant("serverHeaders", {'headers':{'Content-Type': 'application/json; charset=utf-8'}});
 app.constant('APP_SYS', {

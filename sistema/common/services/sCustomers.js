@@ -230,5 +230,29 @@ moduleCustomerServices.service("CustomerServices", ['$http', '$q', 'tokenSystem'
                  return response;
             });
           },
+          getKeysAssociatedToACustomerService: function(id) {
+            //console.log("[Customer Services] => get customer by id: "+sMsg);
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"Clientes/keysAssociatedToACustomerService/"+id
+                  }).then(function mySuccess(response) {
+                    return response;
+                  }).catch(function onError(response) {
+                    console.log("Error: "+response.data.error); 
+                    return response;
+              })
+          },
+          getControlAccessDoorsAssociatedToACustomerServices: function(id) {
+            //console.log("[Customer Services] => get customer by id: "+sMsg);
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"Clientes/controlAccessDoorsAssociatedToACustomerServices/"+id
+                  }).then(function mySuccess(response) {
+                    return response;
+                  }).catch(function onError(response) {
+                    console.log("Error: "+response.data.error); 
+                    return response;
+              })
+          },
       }
 }]);

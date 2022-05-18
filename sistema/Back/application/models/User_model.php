@@ -979,6 +979,63 @@ class User_model extends CI_Model
 		return null;
 	}
 
+	// GET DE LISTADO ENCARGADOS POR ID DIRECCION QUE NO SON PROPIETARIO O INQUILINO. //
+	public function attendantsOnlyByIdDirection ($id)
+	{
+		$quuery = null;
+		$rs     = null;
+		$extrawhere  = null;
+		$atten = [];
+		
+		$this->db->select("*")->from("tb_user");
+		$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
+		$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
+		$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
+		$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
+		$this->db->where("tb_user.idAddresKf =", $id);
+		$this->db->where("tb_user.idTypeTenantKf =", null);
+		$this->db->where("tb_user.idProfileKf =", 6);
+
+
+		$quuery = $this->db->order_by("tb_user.fullNameUser", "asc")->get();
+
+
+		if ($quuery->num_rows() > 0) {
+			$rs = $quuery->result_array();
+			foreach ($rs as $key => $item) {
+				$idUser = $item['idUser'];
+				$query2    = null;
+				$query2 = $this->db->select("*")->from("tb_keychain");
+				$query2 = $this->db->where('idUserKf', $idUser);
+				$query2 = $this->db->get();
+				if ($query2->num_rows() === 0) {
+					array_push($atten, $item);
+				}
+			}
+			return $atten;
+		}
+		return null;
+	}
+
+	// VERIFICAMOS SI EL EDIFICIO TIENE UN ENCARGADO TITULAR ASOCIADO //
+	public function chekBuildingTitularAttendant ($id)
+	{
+		$quuery = null;
+		$rs     = null;
+
+
+		$this->db->select("*")->from("tb_user");
+		$this->db->where("tb_user.idTyepeAttendantKf =", 2);
+		$this->db->where("tb_user.idProfileKf =", 6);
+        $quuery = $this->db->where("tb_user.idAddresKf =", $id)->get();
+
+		if ($quuery->num_rows() > 0) {
+			return true;
+		}
+		return null;
+
+	}
+
     /* LISTADO DE FILTROS */
     public function getListOfUsers ()
     {
@@ -1278,7 +1335,27 @@ class User_model extends CI_Model
 
         return $lists;
     }
+	public function getUsersByCompanyClientId ($id){
+        $users 	= null;
+        /* LISTADO DE USUARIOS */
+        $this->db->select("*")->from("tb_user");
+        $this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
+        $this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
+        $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
+		$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_user.idDepartmentKf', 'left');
+		$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
+		$this->db->join('tb_typetenant', 'tb_typetenant.idTypeTenant = tb_user.idTypeTenantKf', 'left');
+        $this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
+		$this->db->where("tb_user.idCompanyKf =", $id);
+        $query = $this->db->order_by("tb_user.dateCreated", "DESC")->get();
+		if ($query->num_rows() > 0) {
+			$users = $query->result_array();
+		}else{
+			$users 	= null;
+		}
 
+        return $users;
+	}
 
 }
 

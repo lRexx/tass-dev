@@ -300,7 +300,7 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                   console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
                   return response;
                 });
-        },
+         },
           /*GET USER LIST BY GROUP*/
           userLists: function() {
               var rsData = {};
@@ -320,18 +320,46 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
           },
           /*GET ATTENDANT LIST BY ADDRESS*/
           attendantList: function(idAddress) {
+              var rsData = {};
+              console.log("[Service][Getting]--->[attendants] by Address "+idAddress);
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"User/attendantByIdDirecction/"+idAddress
+                  }).then(function mySuccess(response) {
+                    return response;
+                  }).catch(function onError(response) {
+                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                      return response;
+                  });
+          },
+          /*GET ATTENDANT LIST ONLY BY ADDRESS*/
+          attendantsOnlyList: function(idAddress) {
+              var rsData = {};
+              console.log("[Service][Getting]--->[attendants] by Address "+idAddress);
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"User/attendantsOnlyByIdDirecction/"+idAddress
+                  }).then(function mySuccess(response) {
+                    return response;
+                  }).catch(function onError(response) {
+                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                      return response;
+                  });
+          },
+          /*CHECK IF THE BUILDING HAVE A TITULAR ATTENDANT ASSOCIATED*/
+          checBuildingTitularAttendant: function(idAddress) {
             var rsData = {};
             console.log("[Service][Getting]--->[attendants] by Address "+idAddress);
             return $http({
                   method : "GET",
-                  url : serverHost+serverBackend+"User/attendantByIdDirecction/"+idAddress
+                  url : serverHost+serverBackend+"User/chekBuildingTitularAttendant/"+idAddress
                 }).then(function mySuccess(response) {
                   return response;
-                },function myError(response, error) { 
+                }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
                     return response;
                 });
-        },
+          },
           /*GET FILTER FORM LIST*/
           filterForm: function() {
             var rsData = {};
@@ -384,6 +412,21 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
                     return response;
                 });
-          },          
+          },
+          /*GET OFFICES BY COMPANY ID*/
+          getUsersByCompanyClientId: function(idCompany) {
+            var rsData = {};
+            console.log("[Service][userList]---> idCompany: "+idCompany);
+            return $http({
+                  method : "GET",
+                  url : serverHost+serverBackend+"User/getUsersByCompanyClientId/"+idCompany
+                }).then(function mySuccess(response) {
+                    return response;
+
+                }).catch(function onError(response) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                    return response;
+                });
+        },
       }
 }]);

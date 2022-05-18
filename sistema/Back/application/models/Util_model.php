@@ -50,6 +50,23 @@ class Util_model extends CI_Model {
         return $rs;
     }
 
+    public function getLocationsZone($idProvinceFk) {
+
+        $query = null;
+        $rs    = null;
+        $where = null;
+        $where = "tb_location.idLocation NOT IN (select tb_zona_location.idLocationKf from tb_zona_location) AND tb_location.idProvinceFK =$idProvinceFk";
+        $query = $this->db->select("*")->from("tb_location")
+            ->where($where)
+            ->order_by("tb_location.location")
+            ->get();
+        if ($query->num_rows() > 0) {
+            $rs = $query->result_array();
+        }
+
+        return $rs;
+    }
+
     public function getAllLocalidades() {
 
         $query = null;

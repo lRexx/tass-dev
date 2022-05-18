@@ -2065,7 +2065,81 @@ class Services_model extends CI_Model {
         }
 
         return true;
-    }  
+    }
+
+    public function addTechService($item) {
+        $this->db->insert('tb_technician_services', [
+                'description' => $item['description'],
+                'isProtected' => $item['isProtected']
+            ]
+        );
+        if ($this->db->affected_rows() === 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public function editTechService($item) {
+        $this->db->set(
+            [
+            'description' => $item['description'],
+            'isProtected' => $item['isProtected']
+            ]
+        )->where("idServiceTechnician", $item['idServiceTechnician'])->update("tb_technician_services");
+
+        if ($this->db->affected_rows() === 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public function deleteTechService($id) {
+        $this->db->set([ 'idStatusKf' => -1 ])->where("idServiceTechnician", $id)->update("tb_technician_services");
+        return true;
+    }
+
+    public function listarTechServices() {
+        $rs = null;
+        $query = $this->db->select("*")->from("tb_technician_services")->get();
+        $rs = $query->result_array();
+         if ($query->num_rows() > 0) {
+            return $rs;
+        }
+        return null;
+    }
+
+    public function getMaintenanceTypeByTechServiceId($id) {
+        $rs = [];
+        $where = null;
+        $where = "t1.idTypeMaintenance NOT IN (select tb_technician_service_cost.idTipoMantenimientoKf from tb_technician_service_cost WHERE tb_technician_service_cost.idServiceTechnicianKf = $id)";
+        $this->db->select("*")->from("tb_type_maintenance AS t1");
+        $this->db->where($where);
+        $query = $this->db->order_by('t1.idTypeMaintenance ASC')->get();
+        $rs = $query->result_array();
+         if ($query->num_rows() > 0) {
+            return $rs;
+        }
+
+        return null;
+    }
+
+    public function checkTechServiceName ($name)
+	{
+		$quuery = null;
+		$rs     = null;
+
+		$this->db->select("*")->from("tb_technician_services");
+		$quuery = $this->db->where("tb_technician_services.description", $name)->get();
+
+		if ($quuery->num_rows() > 0) {
+			return true;
+		}
+		return null;
+
+	}
+
 }
 
 ?>

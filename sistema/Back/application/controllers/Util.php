@@ -48,6 +48,21 @@ class Util extends REST_Controller {
         }
     }
 
+    public function locationsZone_get($idProvinceFk) {
+
+        if (! $idProvinceFk) {
+            $this->response(null, 404);
+        }
+        $user = null;
+        $user = $this->util_model->getLocationsZone($idProvinceFk);
+
+        if (! is_null($user)) {
+            $this->response($user, 200);
+        } else {
+            $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
+        }
+    }
+
     public function localidades_get() {
 
         $user = null;

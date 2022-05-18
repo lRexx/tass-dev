@@ -1,7 +1,7 @@
   /**
    * Menu Controller
    */
-  var menu = angular.module("module.Menu", ["tokenSystem", "angular.filter", "services.Customers", "services.Address", "services.User", "services.Utilities"]);
+  var menu = angular.module("module.Menu", ["tokenSystem", "angular.filter", "services.Customers", "services.Address", "services.Service", "services.Ticket", "services.User", "services.Utilities"]);
   menu.directive('allowTyping', function () {
     return {
       restrict : 'A',
@@ -53,7 +53,7 @@
       }
     };
   });
-  menu.controller('MenuCtrl', function($scope, $location, $routeParams, $document, $interval, blockUI, $timeout, inform, inputService, CustomerServices, userServices, tokenSystem, addressServices, UtilitiesServices, $window, $filter, APP_SYS, APP_REGEX){
+  menu.controller('MenuCtrl', function($scope, $location, $routeParams, $document, $interval, $locale, blockUI, $timeout, inform, ticketServices, serviceServices, inputService, CustomerServices, userServices, tokenSystem, addressServices, UtilitiesServices, $window, $filter, APP_SYS, APP_REGEX){
       //if ($location.path() == "/login"){console.log($location.path());}
       console.log("Bienvenido al sistema de "+APP_SYS.app_name);
       console.log("Version v"+APP_SYS.version);
@@ -67,6 +67,8 @@
       $scope.pattOnlyNumbersX6         = /^[0-9]{1,6}$/;
       $scope.counterInformShow = 0;
       $scope.regexStrongPwd=/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
+      $scope.currencySymbol = '$';
+      $locale.NUMBER_FORMATS.CURRENCY_SYM = '';
       $scope.regexRules = {uperChar:false, lowerChar:false, numberChar:false, specialChar:false, minChar:false } ;
       var regexUperChar    =/^(?=.*[A-Z]).{1,}$/;
       var regexLowerChar   =/^(?=.*[a-z]).{1,}$/;
@@ -74,6 +76,7 @@
       var regexSpecialChar =/^(?=.*\W).{1,}$/;
       var regexMinChar     =/^.{8,}/;
       $scope.chg = {'pwd1': '', 'pwd2':''};
+      $scope.sysModules = {'idMonitor':false, 'idLlaveros':false, 'idEdificios':false, 'idConfiguracion':false, 'idPerfilUsuario':false, 'idCliente':false, 'idServicio':false, 'idProducto': false, 'idUsers': false};
       $('.modal-backdrop').hide();
       $scope.launchLoader = function(){
         $scope.wLoader  = true;
@@ -95,6 +98,7 @@
                   //console.log("User Logged data has been updated");
                   $scope.sysLoggedUser        = tokenSystem.getTokenStorage(2);
                   $scope.sysLoggedUserModules = tokenSystem.getTokenStorage(6);
+                  $scope.sysLoadModules();
               }else if (response.status==404){
                   console.log("Something went wrong");
               }
@@ -103,8 +107,8 @@
       /**
        * LOAD SYSTEM MODULES AND MENU
        */
-        $scope.sysModules = {'idMonitor':false, 'idLlaveros':false, 'idEdificios':false, 'idConfiguracion':false, 'idPerfilUsuario':false, 'idCliente':false, 'idServicio':false, 'idProducto': false, 'idUsers': false};
         $scope.sysLoadModules = function (){
+          $scope.sysModules = {'idMonitor':false, 'idLlaveros':false, 'idEdificios':false, 'idConfiguracion':false, 'idPerfilUsuario':false, 'idCliente':false, 'idServicio':false, 'idProducto': false, 'idUsers': false};
           for (var key in $scope.sysLoggedUserModules){
           switch ($scope.sysLoggedUserModules[key].idModuleFk){
             case "1":
@@ -531,7 +535,17 @@
                 //console.log($scope.rsZonesData);
             });
           };
-
+        /**************************************************
+        *                                                 *
+        *                  GET TECH SERVICES              *
+        *                                                 *
+        **************************************************/
+          $scope.rsTechServicesData = {};
+          $scope.getTechServiceListFn = function(opt){
+            serviceServices.getTechServiceList().then(function(response){
+                $scope.rsTechServicesData = response.data;
+            });
+          };
         /**************************************************
         *                                                 *
         *       GET CATEGORY TYPES OF BUILDING UNITS      *
@@ -586,34 +600,67 @@
         *               REQUEST SELECT LIST               *
         *     (status, profile, typeTenant, company)      *
         **************************************************/
-          $scope.listProfile      = [];
-          $scope.listProfiles     = [];
-          $scope.lisTypeTenant    = [];
-          $scope.listStatus       = [];
-          $scope.listTypeAttendant= [];
-          $scope.CallFilterFormU = function(){
-            userServices.filterForm().then(function(response){
-              if(response.status==200){
-                $scope.listProfile      = response.data.profile;
-                $scope.listProfiles     = response.data.profiles;
-                $scope.lisTypeTenant    = response.data.typeTenant;
-                $scope.listStatus       = response.data.status;
-                $scope.listTypeAttendant= response.data.typeattendant;
-              }else{
-                $scope.listProfile      = [];
-                $scope.listProfiles     = [];
-                $scope.lisTypeTenant    = [];
-                $scope.listStatus       = [];
-                $scope.listTypeAttendant= [];
-              }
-            });
-          };
+            $scope.listProfile      = [];
+            $scope.listProfiles     = [];
+            $scope.lisTypeTenant    = [];
+            $scope.listStatus       = [];
+            $scope.listTypeAttendant= [];
+            $scope.CallFilterFormU = function(){
+              userServices.filterForm().then(function(response){
+                if(response.status==200){
+                  $scope.listProfile      = response.data.profile;
+                  $scope.listProfiles     = response.data.profiles;
+                  $scope.lisTypeTenant    = response.data.typeTenant;
+                  $scope.listStatus       = response.data.status;
+                  $scope.listTypeAttendant= response.data.typeattendant;
+                }else{
+                  $scope.listProfile      = [];
+                  $scope.listProfiles     = [];
+                  $scope.lisTypeTenant    = [];
+                  $scope.listStatus       = [];
+                  $scope.listTypeAttendant= [];
+                }
+              });
+            };
+        /**************************************************
+        *                                                 *
+        *               REQUEST SELECT LIST               *
+        *     (status, profile, typeTenant, company)      *
+        **************************************************/
+            $scope.reason_disabled_item   = [];
+            $scope.typedelivery           = [];
+            $scope.typeservices           = [];
+            $scope.typeouther             = [];
+            $scope.typeticket             = [];
+            $scope.tipeOpcion             = [];
+            $scope.statusticket           = [];
+            $scope.getTicketFilterFn = function(){
+              ticketServices.getTicketFilter().then(function(response){
+                if(response.status==200){
+                  $scope.reason_disabled_item   = response.data.reason_disabled_item;
+                  $scope.typedelivery           = response.data.typedelivery;
+                  $scope.typeservices           = response.data.typeservices;
+                  $scope.typeouther             = response.data.typeouther;
+                  $scope.typeticket             = response.data.typeticket;
+                  $scope.tipeOpcion             = response.data.tipeOpcion;
+                  $scope.statusticket           = response.data.statusticket;
+                }else{
+                  $scope.reason_disabled_item   = [];
+                  $scope.typedelivery           = [];
+                  $scope.typeservices           = [];
+                  $scope.typeouther             = [];
+                  $scope.typeticket             = [];
+                  $scope.tipeOpcion             = [];
+                  $scope.statusticket           = [];
+                }
+              });
+            };
           $scope.fnLoadPhoneMask = function(){
             /**********************************************
             *               INPUT PHONE MASK              *
             **********************************************/
              $('.input--phone-no-format').mask('9999999999999');
-              $('.input--phone').mask('+54 (0##) (15) ####-####',
+             $('.input--phone').mask('+54 (0##) (15) ####-####',
               {
                 reverse: false,
                 translation:{
@@ -675,7 +722,7 @@
                   },
                   placeholder: "__-__-__-__-__-__"}
             );
-            $('.input--decimal').mask('999999,99');
+            $('.input--decimal').mask('999999.99');
             $('.input--tel.input--dni').on('focus', function () {
               //console.log($(this).val());
               if ($(this).val().length === 0) {
@@ -859,13 +906,6 @@
                     }
                   });
               };
-              if (($scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=4 && $scope.sysLoggedUser.idProfileKf!=5 && $scope.sysLoggedUser.idProfileKf!=6) && $scope.sysLoggedUser.idTypeTenantKf!=null){
-                blockUI.start('Cargando...');
-                $scope.globalGetCustomerListFn(null, null); //LOAD CUSTOMER LIST
-                $timeout(function() {
-                  blockUI.stop(); 
-                }, 5500);
-              }
               
               
         /**************************************************
@@ -1019,6 +1059,7 @@
           $scope.typeOfPropertyFn();
           $scope.getInternetTypesFn();
           $scope.CallFilterFormU();
+          $scope.getTicketFilterFn();
           $scope.fnLoadPhoneMask();
           $timeout(function() {
             inform.add('Bienvenido Sr/a '+ $scope.sysLoggedUser.fullNameUser,{

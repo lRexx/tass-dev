@@ -1,0 +1,62 @@
+<div id="editTechService" style="top: 130px;" class="modal fade bd-example-modal-lg" style="top: 110px;" role="dialog">
+    <div class="modal-dialog modal-lg" >
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title"><i class="product-success fas fa-map"></i> MODIFICAR SERVICIO TECNICO</h3>
+          </div>
+        <div class="modal-body"  style="overflow-y: scroll;">
+          <!-- FORM CONTAINER-->
+          <div class="modal-body"  style="overflow-y: scroll;">
+            <!-- FORM CONTAINER-->
+            <form class="form-horizontal" name="fEditTechService" novalidate>
+              <fieldset>
+                <!-- Form Profile Name -->
+                <div class="form-group col-md-12 col-sm-12" ng-class="
+                    {	'has-success': 
+                      technician_services.update.description!='' && fEditTechService.description.$valid,
+                      'has-error':  
+                      (technician_services.update.description=='' || technician_services.update.description==undefined) && fEditTechService.description.$touched,
+                    }">
+                  <label class="clf-size clf-p-left">Descripción o nombre del servicio</label>  
+                    <div class="col-xs-12">
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="far fa-sticky-note"></i></span>
+                        <input  name="description" autofocus="true" placeholder="" class="form-control text-uppercase" ng-blur="checkTechServiceNameFn(technician_services.update.description)" ng-model="technician_services.update.description"  type="text" required autofocus/>
+                      </div>
+                    </div>
+                </div>
+                <!-- SCHEDULE CONTROL -->
+                <div class="form-group col-md-12 col-sm-12">
+                  <div class="well-checkbox">
+                    <table>
+                      <tr>
+                        <td style="width: 200%"><span class="text-muted text-uppercase text-box">Protegido </span></td>
+                            <td>
+                              <label class="switch switch-3x">
+                                  <input type="checkbox" class="success"ng-model="technician_services.update.isProtected" id="isProtected">
+                                  <span class="slider slider-3x flat"></span>
+                              </label>
+                            </td>
+                        </tr>
+                    </table>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+            <div class="clearfix"> </div> 
+          </div>
+          <!-- Actions Button ng-click="newSysProfileFn()"-->
+          <div class="modal-footer">
+              <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                      <button type="submit" ng-click="mainSwitchFn('techServicesCosts','updateTechService', technician_services.update, null)" ng-disabled="fEditTechService.$invalid" class="btn btn-labeled btn-success">
+                          <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Actualizar</button>
+                      <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                          <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                  </div>
+              </div>
+          </div>
+    </div>
+  </div>
+</div>

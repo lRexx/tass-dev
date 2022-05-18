@@ -77,6 +77,18 @@ class Tenant extends REST_Controller {
                 }
      }
 
+     public function allWithoutKeyAssignedByIdDepartament_get($id) {
+        
+        
+        $rs = $this->tenant_model->allWithoutKeyAssignedByIdDepartament($id);
+
+        if (!is_null($rs)) {
+            $this->response($rs, 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+}
+
 
     /* SERVICIO RETORNA EL LISTADO DE DEPARTA,ENTOS DE UN ADMINISTRADOR  */
      public function departamentByIdAdminR_get($id) {

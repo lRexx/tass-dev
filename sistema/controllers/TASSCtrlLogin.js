@@ -301,7 +301,7 @@ login.controller('LoginCtrl', function($scope, $location, $routeParams, blockUI,
   *                   DUPLICATES                    *
   *                                                 *
   **************************************************/
-      $scope.user2LoginList=[];
+      $scope.user2LoginList={};
       $scope.sysCheck4Duplicates = function(){
         var value = $scope.login.email;
         console.log($scope.login.email)

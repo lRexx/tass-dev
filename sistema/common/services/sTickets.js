@@ -232,5 +232,17 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
                       return response;
                   });
           },
+          /* VERIFY TICKET */
+          getTicketFilter: function() {
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"Ticket/filter/"
+                  }).then(function mySuccess(response) {
+                      return response;
+                  }).catch(function onError(response) {
+                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                      return response;
+                  });
+          },
       }
 }]);

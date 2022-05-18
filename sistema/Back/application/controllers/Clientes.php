@@ -298,7 +298,7 @@ class Clientes extends REST_Controller {
         $idClientTypeFk = $this->post('idClientTypeFk');
         $isNotCliente   = $this->post('isNotCliente');
 
-        $client_rs = $this->client_model->getadmin(null, $searchFilter, $idClientTypeFk, $isNotCliente);
+        $client_rs = $this->client_model->getadmin(null, $searchFilter, $idClientTypeFk, $isNotCliente, $limit, $start);
 
         if (! is_null($client_rs)) {
             $this->response($client_rs, 200);
@@ -402,5 +402,26 @@ class Clientes extends REST_Controller {
         }
     }    
 
+	/**/
+	public function keysAssociatedToACustomerService_get($idClient){
+
+		$user = $this->client_model->getKeysAssociatedToACustomerService($idClient);
+		if (! is_null($user)) {
+			$this->response($user, 200);
+		} else {
+			$this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
+		}
+	}
+
+	/**/
+	public function controlAccessDoorsAssociatedToACustomerServices_get($idClient){
+
+		$user = $this->client_model->getControlAccessDoorsAssociatedToACustomerServices($idClient);
+		if (! is_null($user)) {
+			$this->response($user, 200);
+		} else {
+			$this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
+		}
+	}
 
 }

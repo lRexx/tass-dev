@@ -224,7 +224,6 @@ class Tenant_model extends CI_Model
                         
                         $extrawherekey = "tb_keychain.idUserKf=$idUserKf AND tb_keychain.idDepartmenKf=$id";
                         
-                        // Buscamos los perfiles de sistema //
                         $this->db->select("*")->from("tb_keychain");
                         $this->db->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left');
                         $this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left');
@@ -246,7 +245,44 @@ class Tenant_model extends CI_Model
             }
                 return $rs;
     }
-    
+
+    public function allWithoutKeyAssignedByIdDepartament($id) {
+        
+        $tenant = [];
+        $extrawhere = "";
+        $keyfound = null;
+
+        if($id > 0){
+            $extrawhere = " t1.idDepartmentKf in (select tb_client_departament.idClientDepartament from tb_client_departament where idClientDepartament = ".$id.")  or t1.idUser in (select tb_client_departament.idUserKf from  tb_client_departament where idClientDepartament = ".$id." ) ";
+        }else{
+            return null;
+        }
+        $this->db->select("*")->from("tb_user as t1");
+        $this->db->join('tb_profile', 'tb_profile.idProfile = t1.idProfileKf', 'left');
+        $this->db->join('tb_profiles', 'tb_profiles.idProfiles = t1.idSysProfileFk', 'left');
+        $this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = t1.idDepartmentKf', 'left');
+        $this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
+        $this->db->join('tb_typetenant', 'tb_typetenant.idTypeTenant = t1.idTypeTenantKf', 'left');
+        $this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = t1.idTyepeAttendantKf', 'left');
+        $this->db->join('tb_status', 'tb_status.idStatusTenant = t1.idStatusKf', 'left');
+        $quuery = $this->db->where($extrawhere)->get();
+
+        if ($quuery->num_rows() > 0) {
+			$rs = $quuery->result_array();
+			foreach ($rs as $key => $item) {
+				$idUser = $item['idUser'];
+				$query2    = null;
+				$query2 = $this->db->select("*")->from("tb_keychain");
+				$query2 = $this->db->where('idUserKf', $idUser);
+				$query2 = $this->db->get();
+				if ($query2->num_rows() === 0) {
+					array_push($tenant, $item);
+				}
+			}
+			return $tenant;
+		}
+		return null;
+}
 
      /* LISTADO DE FILTROS */
      public function findByEmail($mail) {

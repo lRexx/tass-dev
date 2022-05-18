@@ -6,7 +6,7 @@
   <div ng-show="noRecordsFound && select.buildings.selected!=undefined && sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf==6" class="alert alert-info" role="alert">
     <strong>INFO: </strong>No hay departamentos registrados en la direccion seleccionada.
   </div>
-    <div ng-show="select.admins.selected!=undefined && select.buildings.selected!=undefined && ListDpto.length>0">
+    <div ng-show="(sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4') && select.admins.selected!=undefined && select.buildings.selected!=undefined && ListDpto.length>0">
         <!--*********************DEPARTAMENTOS *******************************--> 
         <div class="row">
             <!-- Filter Department For Admins -->

@@ -1104,49 +1104,12 @@ class Ticket_model extends CI_Model
      /* LISTADO DE FILTROS */
     public function getFilterForm() {
 
-        $user                 = null;
-        $tenant               = null;
-        $attendant            = null;
         $reason_disabled_item = null;
         $typedelivery         = null;
         $typeouther           = null;
         $typeticket           = null;
         $tipeOpcion           = null;
         $statusticket         = null;
-        $typeattendant        = null;
-        /* LISTADO DE USUARIOS */
-            $this->db->select("*")->from("tb_user");
-            $this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
-            $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-//            $this->db->join('tb_company', 'tb_company.idCompany = tb_user.idCompanyKf', 'left');
-            $this->db->join('tb_clients', 'tb_clients.idClient = tb_user.idAddresKf', 'left');
-            $query = $this->db->order_by("tb_user.dateCreated", "DESC")->get();
-        if ($query->num_rows() > 0) {
-            $user = $query->result_array();
-        }
-         /* LISTADO DE INQUILINOS */
-           
-            $this->db->select("*")->from("tb_user");
-            $this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
-            $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-//            $this->db->join('tb_company', 'tb_company.idCompany = tb_user.idCompanyKf', 'left');
-            $this->db->join('tb_clients', 'tb_clients.idClient = tb_user.idAddresKf', 'left');
-            $this->db->where("idProfileKf",3);
-            $this->db->or_where("idProfileKf",5);
-            $query = $this->db->order_by("tb_user.idUser", "DESC")->get();
-        if ($query->num_rows() > 0) {
-            $tenant = $query->result_array();
-        }
-         /* LISTADO DE ENCARGADOS */
-        $this->db->select("*")->from("tb_user");
-        $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-//        $this->db->join('tb_company', 'tb_company.idCompany = tb_user.idCompanyKf', 'left');
-        $this->db->join('tb_clients', 'tb_clients.idClient = tb_user.idAddresKf', 'left');
-        $this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-        $query = $this->db->where("idProfileKf",6)->order_by("tb_user.idUser", "ASC")->get();
-        if ($query->num_rows() > 0) {
-            $attendant = $query->result_array();
-        }
         /* LISTADO  */
         $query = $this->db->select("*")->from("tb_reason_disabled_item")->get();
         if ($query->num_rows() > 0) {
@@ -1195,17 +1158,13 @@ class Ticket_model extends CI_Model
            }
 
         $filter = array(
-            'user'                      => $user,
-            'tenant'                    => $tenant,
-            'attendant'                 => $attendant,
             'reason_disabled_item'      => $reason_disabled_item,
             'typedelivery'              => $typedelivery,
             'typeservices'              => $typeservices,
             'typeouther'                => $typeouther,
             'typeticket'                => $typeticket,
             'tipeOpcion'                => $tipeOpcion,
-            'statusticket'              => $statusticket,
-            'typeattendant'             => $typeattendant
+            'statusticket'              => $statusticket
 
         );
 

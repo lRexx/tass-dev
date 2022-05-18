@@ -53,6 +53,20 @@ class Zonas extends REST_Controller {
         }
     }
 
+    public function checkZonaByLocationAndCustomerId_get($idClient = null, $idLocation = null) {
+        $rs = null;
+        if ($idClient == null || $idLocation == null) {
+            $this->response([ 'error' => 'DEBE PASAR DOS ARGUMENTOS' ], 404);
+        }
+        $rs = $this->zonas_model->checkZonaByLocationAndCustomerId($idClient, $idLocation);
+
+        if (! is_null($rs)) {
+            $this->response($rs, 200);
+        } else {
+            $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
+        }
+    }
+
     public function listar_get() {
 
         $zona = null;
