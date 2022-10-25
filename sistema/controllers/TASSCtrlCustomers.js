@@ -1034,8 +1034,8 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                     }
                   break;
                   default:
-                  $scope.idProvinceFk=null;
-                }
+                  $scope.idProvinceFk=null;         
+                }            
               });
           }
 
@@ -1160,6 +1160,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
             var idProvinceGobARFk= idProvinceFk!=undefined || idProvinceFk!=null?idProvinceFk:null;
             if (twoNumber_patt.test(name)){
               addressServices.getAddressByName(name, idProvinceGobARFk).then(function(data){
+		console.log(data);
                 if(data!=null){
                   switch(opt){
                     case "main":
@@ -1272,12 +1273,12 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       blockUI.message('Complete los campos restantes.');
                       if (opt2=="main"){
                         if ($scope.isNewCustomer){
-                          $scope.customer.new.nameAddress=obj.calle.nombre+" "+obj.altura.valor;
+                          $scope.customer.new.nameAddress=obj.calle.nombre+" "+obj.altura.valor;              
                           $scope.customer.new.address=obj.calle.nombre+" "+obj.altura.valor;
                           $scope.customer.new.addressLat=obj.ubicacion.lat;
                           $scope.customer.new.addressLon=obj.ubicacion.lon;
                         }else{
-                          $scope.customer.update.nameAddress=obj.calle.nombre+" "+obj.altura.valor;
+                          $scope.customer.update.nameAddress=obj.calle.nombre+" "+obj.altura.valor;              
                           $scope.customer.update.address=obj.calle.nombre+" "+obj.altura.valor;
                           $scope.customer.update.addressLat=obj.ubicacion.lat;
                           $scope.customer.update.addressLon=obj.ubicacion.lon;
@@ -1394,7 +1395,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
           }
           $scope.addAuthUserFn = function (obj, opt){
             if (opt=="new"){
-              if ($scope.list_users.length<=0){
+              if ($scope.list_users.length<=0){            
                 $scope.list_client_user.push({'idUserFk':obj.idUser});
                 $scope.list_users.push({'idUserFk':obj.idUser, 'fullNameUser':obj.fullNameUser});
               }else{

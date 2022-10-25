@@ -297,6 +297,8 @@ class Clientes extends REST_Controller {
         $searchFilter   = $this->post('filter');
         $idClientTypeFk = $this->post('idClientTypeFk');
         $isNotCliente   = $this->post('isNotCliente');
+        $limit   = $this->post('limit');
+        $start   = $this->post('start');
 
         $client_rs = $this->client_model->getadmin(null, $searchFilter, $idClientTypeFk, $isNotCliente, $limit, $start);
 

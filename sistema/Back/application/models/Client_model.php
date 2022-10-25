@@ -1672,7 +1672,7 @@ class Client_model extends CI_Model {
 
     }
 
-    public function getadmin($id, $searchFilter, $idClientTypeFk, $isNotCliente, $limit = '', $start = '')
+    public function getadmin($id, $searchFilter, $idClientTypeFk, $isNotCliente, $limit = '', $start = ''){
         $quuery = null;
         $rs     = null;
 
