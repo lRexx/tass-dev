@@ -119,14 +119,14 @@ app.config(['$routeProvider', '$locationProvider',
         // use the HTML5 History API
         $locationProvider.html5Mode(true);
 }]);
-app.constant("serverHost","http://dev-tass.sytes.net/");
+app.constant("serverHost","http://devtass.sytes.net/");
 //app.constant("serverHost","http://dev-tass.com.ar/");
 app.constant("serverBackend","Back/index.php/");
 app.constant("serverHeaders", {'headers':{'Content-Type': 'application/json; charset=utf-8'}});
 app.constant('APP_SYS', {
   'app_name': 'Gestion de Clientes',
   'version' : '1.0',
-  'api_url' : 'http://dev-tass.com.ar/',
+  'api_url' : 'http://devtass.sytes.net/',
   'api_path': 'Back/index.php/',
   'headers' : {'headers':{'Content-Type': 'application/json; charset=utf-8'}}
 });

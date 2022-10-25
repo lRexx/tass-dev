@@ -30,7 +30,7 @@
 192.168.0.53 lnx1.strix lnx2
 192.168.0.54 lnx2.strix lnx2
 192.168.0.55 lnx3.strix lnx3
-181.170.204.244 tass.sytes.net
-181.170.204.244 api.tass.sytes.net
-192.168.0.214 dev-tass.com.ar
-192.168.0.214 api-tass.com.ar
+181.170.204.244 devtass.sytes.net
+181.170.204.244 apidev.sytes.net
+192.168.0.214 devtass.sytes.net
+192.168.0.214 apidev.sytes.net
