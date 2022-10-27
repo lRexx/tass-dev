@@ -297,7 +297,16 @@ class Ticket extends REST_Controller {
                 }
 			}
 
-
+             /* GET TYPE OF DELIVERY */
+             public function typedelivery_get() {
+                $rs = null;
+                $rs = $this->ticket_model->getTypeDelivery();
+                if (!is_null($rs)) {
+                    $this->response($rs, 200);
+                } else {
+                    $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+                }
+            }
 
 }
 ?>

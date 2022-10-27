@@ -38,192 +38,192 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
         /**
         * Modal Confirmation function 
         **/
-            $scope.modalConfirmation = function(opt, confirm, obj, obj2){
-                $scope.swMenu = opt;
-                $scope.vConfirm = confirm;
-                var tmpOpt=$scope.div2Open;
-                //console.log(tmpOpt);
-                $scope.mess2show="";
-                switch ($scope.swMenu){
-                    case "closeWindow":
-                        if (confirm==0){
-                            if ($scope.isNewTenant==true || $scope.isNewAttendant==true){
-                                $scope.mess2show="Se perderan todos los datos cargados para el registro actual, esta seguro que desea cancelar?";
-                            }else{
-                                $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
-                            }    
-                            $("#confirmRequestModal").modal('show');
-                        }else if (confirm==1){
-                            if ($scope.idDeptoKf!=undefined){
-                                $timeout(function() {
-                                    $scope.tableRowExpanded = false;
-                                    $scope.tableRowIndexCurrExpanded = "";
-                                    $scope.selectTableRow($scope.vIndex, $scope.selectedDepto, "depto");
-                                    //$scope.dayDataCollapse[$scope.vIndex] = false;
-                                }, 200);
-                            }
-                            $("#confirmRequestModal").modal('hide');
-                            $("#RegisterTenant").modal('hide');
-                            $("#UpdateTenant").modal('hide');
-                            $("#RegisterAttendant").modal('hide');
-                            $("#UpdateAttendant").modal('hide');
-                            //$scope.switchCustomersFn('dashboard','', 'registered');
-                        }
-                    break;
-                    case "tdown":
+        $scope.modalConfirmation = function(opt, confirm, obj, obj2){
+            $scope.swMenu = opt;
+            $scope.vConfirm = confirm;
+            var tmpOpt=$scope.div2Open;
+            //console.log(tmpOpt);
+            $scope.mess2show="";
+            switch ($scope.swMenu){
+                case "closeWindow":
                     if (confirm==0){
-                    console.log(confirm);
-                    $scope.mess2show="Desea Solicitar una nueva llave?";
-                    $('#confirmRequestModal').modal('toggle');
-                    }else if (confirm==1){
-                    $('.jumbotron [id^="m_"]').removeClass('active');
-                    $('#m_pedidos').addClass('active');
-                    $('#SubM_Pedidos').show();
-                    $scope.fnShowHide('rukeyup', 'open');
-                    $('#confirmRequestModal').modal('hide');
-                    }
-                    $('#confirmRequestModal').on('hide.bs.modal', function (e) {
-                    $scope.dhboard();
-                    $scope.fnShowHide('home','open');
-                    });
-                break;
-                    case "checkAddr":
-                    if (confirm==0 && $scope.addrNoFound==1){
-                    if (tmpOpt!="home"){
-                        $scope.mess2show="No posee departamento autorizados, Desea registrar un departamento?";
-                    }else{
-                        $scope.mess2show="No registra tickets actualmente, Desea verificar si tiene un departmanto asociado?";
-                    }
-                    $('#confirmRequestModal').modal('toggle');
-                    }else if(confirm==0 && $scope.addrNoFound==0 && $scope.sysLoggedUser.idProfileKf!=0){ 
-                        if(tmpOpt=="rukeyup"){
-                        if ($scope.sysLoggedUser.idProfileKf==5 ||($scope.sysLoggedUser.idProfileKf==6 && $scope.sessionidTypeTenant==2)){
-                            $scope.sysCheckAddrIsInDebt($scope.ListTenantAddress);
-                            $scope.refresSession($scope.sessionMail);
-                            $scope.idAddressAtt=$scope.sessionNameAdress;
-                            $scope.namesTenant=$scope.sessionNames;
-                            if($scope.sessionidAddress){
-                            $scope.getKeyChains($scope.sessionidAddress); 
-                            $scope.getServicesValues($scope.sessionidAddress);
-                            }else{
-                            $scope.idAddressAtt="Consorcio no asignado";
-                            }
-                            if($scope.sessionidAddress && (!$scope.sessionisDepartmentApproved || $scope.sessionisDepartmentApproved>=0)){
-                            $scope.deptoTenant   =($scope.sessionidAddress && !$scope.sessionisDepartmentApproved) || ($scope.sessionidAddress && $scope.sessionisDepartmentApproved==0)?$scope.getDeptoName($scope.sessionIdDeparmentKf)+" (No aprobado)":$scope.getDeptoName($scope.sessionIdDeparmentKf)+" (Aprobado)";
-                            }else{
-                            $scope.deptoTenant = "Departamento no ha sido asignado."
-                            }
+                        if ($scope.isNewTenant==true || $scope.isNewAttendant==true){
+                            $scope.mess2show="Se perderan todos los datos cargados para el registro actual, esta seguro que desea cancelar?";
                         }else{
-                            $scope.rukeyup = true;
-                        }
-                        }else 
-                        if(tmpOpt=="rukeydown"){
-                        if ($scope.sysLoggedUser.idProfileKf==5 ||($scope.sysLoggedUser.idProfileKf==6 && $scope.sessionidTypeTenant==2)){
-                            $scope.sysCheckAddrIsInDebt($scope.ListTenantAddress);
-                            $scope.refresSession($scope.sessionMail);
-                            $scope.idAddressAtt=$scope.sessionNameAdress;
-                            $scope.namesTenant=$scope.sessionNames;
-                            if($scope.sessionidAddress){
-                            $scope.getKeyChains($scope.sessionidAddress); 
-                            $scope.getServicesValues($scope.sessionidAddress);
-                            }else{
-                            $scope.idAddressAtt="Consorcio no asignado";
-                            }
-                            if($scope.sessionidAddress && (!$scope.sessionisDepartmentApproved || $scope.sessionisDepartmentApproved>=0)){
-                            $scope.deptoTenant   =($scope.sessionidAddress && !$scope.sessionisDepartmentApproved) || ($scope.sessionidAddress && $scope.sessionisDepartmentApproved==0)?$scope.getDeptoName($scope.sessionIdDeparmentKf)+" (No aprobado)":$scope.getDeptoName($scope.sessionIdDeparmentKf)+" (Aprobado)";
-                            }else{
-                            $scope.deptoTenant = "Departamento no ha sido asignado."
-                            }
-                        }else{
-                            $scope.rukeydown = true;
-                        }
-                        }else 
-                        if(tmpOpt=="home"){
-                        $scope.home = true;
-                        }else 
-                        if(tmpOpt=="rucost"){
-                        $scope.rucost=true;
-                        }else
-                        if(tmpOpt=="ruother"){
-                        $scope.ruother=true;
-                        }
-                    }else if (confirm==1){
-                    $('.jumbotron [id^="m_"]').removeClass('active');
-                    $('#m_depto').addClass('active');
-                    $('#SubM_Pedidos').hide();
-                    $scope.fnShowHide('managedepto', 'open');
-                    $('#confirmRequestModal').modal('hide');
-                    }
-                break;
-               
-                    if (confirm==0){
-                        if ($scope.sysLoggedUser.idProfileKf==1 && obj.idProduct!=0){
-                        $scope.idProducto = obj.idProduct;
-                        $scope.mess2show="El Producto "+obj.descriptionProduct+" sera Eliminado.     Confirmar?";
-                            console.log('Producto a eliminar ID: '+obj.idProduct+' DESCRIPCION: '+obj.descriptionProduct);
-                            console.log("============================================================================")
-                            console.log(obj);
-                        }      
-                    $('#confirmRequestModal').modal('toggle');
-                    }else if (confirm==1){
-                        $scope.deleteProductFn($scope.idProducto);
-                    $('#confirmRequestModal').modal('hide');
-                    }
-                break;
-                    case "closeCustomerWindow":
-                    if (confirm==0){
-                        if ($scope.isNewCustomer==true){
-                        $scope.mess2show="Se perderan todos los datos cargados para el registro del cliente, esta seguro que desea cancelar?";
-                        }else{
-                        $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
+                            $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
                         }    
-                        $('#confirmRequestModal').modal('show');
+                        $("#confirmRequestModal").modal('show');
                     }else if (confirm==1){
-                        $('#confirmRequestModal').modal('hide');
-                        $('#customerParticularAddress').modal('hide');
-                        $('#BuildingUnit').modal('hide');
-                        $('#functionalUnit').modal('hide');
-                        $("#AddressLatLon").modal('hide');
-                        $('#RegisterModalCustomer').modal('hide');
-                        $('#UpdateModalCustomer').modal('hide');
-                        $('#changeModalAdmin').modal('hide');
-                        $scope.switchCustomersFn('dashboard','', 'registered');
+                        if ($scope.idDeptoKf!=undefined){
+                            $timeout(function() {
+                                $scope.tableRowExpanded = false;
+                                $scope.tableRowIndexCurrExpanded = "";
+                                $scope.selectTableRow($scope.vIndex, $scope.selectedDepto, "depto");
+                                //$scope.dayDataCollapse[$scope.vIndex] = false;
+                            }, 200);
+                        }
+                        $("#confirmRequestModal").modal('hide');
+                        $("#RegisterTenant").modal('hide');
+                        $("#UpdateTenant").modal('hide');
+                        $("#RegisterAttendant").modal('hide');
+                        $("#UpdateAttendant").modal('hide');
+                        //$scope.switchCustomersFn('dashboard','', 'registered');
                     }
                 break;
-                    case "closeServiceWindow":
-                    if (confirm==0){
-                        if ($scope.isNewCustomerService==true){
-                        $scope.serviceNew=obj;
-                        console.log($scope.serviceNew);
-                        $scope.mess2show="Se perderan todos los datos cargados para el registro del servicio, esta seguro que desea cancelar?";
-                        $scope.getListContractServicesFn($scope.serviceNew.idContratoFk, null);
-                        }else{
-                        $scope.serviceUpdate=obj;
-                        $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
-                        $scope.getListContractServicesFn($scope.serviceUpdate.idContratoFk, null);
-                        }    
-                        $('#confirmRequestModal').modal('show');
-                    }else if (confirm==1){
-                        $('#confirmRequestModal').modal('hide');
-                        $('#RegisterCtrlAccessService').modal('hide');
-                        $('#RegisterInternetService').modal('hide');
-                        $('#RegisterTotemService').modal('hide');
-                        $('#RegisterCamerasService').modal('hide');
-                        $('#RegisterAlarmService').modal('hide');
-                        $('#RegisterAppMonitorService').modal('hide');
-                        $('#updateCtrlAccessService').modal('hide');
-                        $('#updateInternetService').modal('hide');
-                        $('#updateTotemService').modal('hide');
-                        $('#updateCamerasService').modal('hide');
-                        $('#updateAlarmService').modal('hide');
-                        $('#updateAppMonitorService').modal('hide');   
-                        
-                        //$scope.loadPagination($scope.rsCustomerListData, "idClient", "10");
-                    }              
-                break;
-                    default:
+                case "tdown":
+                if (confirm==0){
+                console.log(confirm);
+                $scope.mess2show="Desea Solicitar una nueva llave?";
+                $('#confirmRequestModal').modal('toggle');
+                }else if (confirm==1){
+                $('.jumbotron [id^="m_"]').removeClass('active');
+                $('#m_pedidos').addClass('active');
+                $('#SubM_Pedidos').show();
+                $scope.fnShowHide('rukeyup', 'open');
+                $('#confirmRequestModal').modal('hide');
                 }
+                $('#confirmRequestModal').on('hide.bs.modal', function (e) {
+                $scope.dhboard();
+                $scope.fnShowHide('home','open');
+                });
+            break;
+                case "checkAddr":
+                if (confirm==0 && $scope.addrNoFound==1){
+                if (tmpOpt!="home"){
+                    $scope.mess2show="No posee departamento autorizados, Desea registrar un departamento?";
+                }else{
+                    $scope.mess2show="No registra tickets actualmente, Desea verificar si tiene un departmanto asociado?";
+                }
+                $('#confirmRequestModal').modal('toggle');
+                }else if(confirm==0 && $scope.addrNoFound==0 && $scope.sysLoggedUser.idProfileKf!=0){ 
+                    if(tmpOpt=="rukeyup"){
+                    if ($scope.sysLoggedUser.idProfileKf==5 ||($scope.sysLoggedUser.idProfileKf==6 && $scope.sessionidTypeTenant==2)){
+                        $scope.sysCheckAddrIsInDebt($scope.ListTenantAddress);
+                        $scope.refresSession($scope.sessionMail);
+                        $scope.idAddressAtt=$scope.sessionNameAdress;
+                        $scope.namesTenant=$scope.sessionNames;
+                        if($scope.sessionidAddress){
+                        $scope.getKeyChains($scope.sessionidAddress); 
+                        $scope.getServicesValues($scope.sessionidAddress);
+                        }else{
+                        $scope.idAddressAtt="Consorcio no asignado";
+                        }
+                        if($scope.sessionidAddress && (!$scope.sessionisDepartmentApproved || $scope.sessionisDepartmentApproved>=0)){
+                        $scope.deptoTenant   =($scope.sessionidAddress && !$scope.sessionisDepartmentApproved) || ($scope.sessionidAddress && $scope.sessionisDepartmentApproved==0)?$scope.getDeptoName($scope.sessionIdDeparmentKf)+" (No aprobado)":$scope.getDeptoName($scope.sessionIdDeparmentKf)+" (Aprobado)";
+                        }else{
+                        $scope.deptoTenant = "Departamento no ha sido asignado."
+                        }
+                    }else{
+                        $scope.rukeyup = true;
+                    }
+                    }else 
+                    if(tmpOpt=="rukeydown"){
+                    if ($scope.sysLoggedUser.idProfileKf==5 ||($scope.sysLoggedUser.idProfileKf==6 && $scope.sessionidTypeTenant==2)){
+                        $scope.sysCheckAddrIsInDebt($scope.ListTenantAddress);
+                        $scope.refresSession($scope.sessionMail);
+                        $scope.idAddressAtt=$scope.sessionNameAdress;
+                        $scope.namesTenant=$scope.sessionNames;
+                        if($scope.sessionidAddress){
+                        $scope.getKeyChains($scope.sessionidAddress); 
+                        $scope.getServicesValues($scope.sessionidAddress);
+                        }else{
+                        $scope.idAddressAtt="Consorcio no asignado";
+                        }
+                        if($scope.sessionidAddress && (!$scope.sessionisDepartmentApproved || $scope.sessionisDepartmentApproved>=0)){
+                        $scope.deptoTenant   =($scope.sessionidAddress && !$scope.sessionisDepartmentApproved) || ($scope.sessionidAddress && $scope.sessionisDepartmentApproved==0)?$scope.getDeptoName($scope.sessionIdDeparmentKf)+" (No aprobado)":$scope.getDeptoName($scope.sessionIdDeparmentKf)+" (Aprobado)";
+                        }else{
+                        $scope.deptoTenant = "Departamento no ha sido asignado."
+                        }
+                    }else{
+                        $scope.rukeydown = true;
+                    }
+                    }else 
+                    if(tmpOpt=="home"){
+                    $scope.home = true;
+                    }else 
+                    if(tmpOpt=="rucost"){
+                    $scope.rucost=true;
+                    }else
+                    if(tmpOpt=="ruother"){
+                    $scope.ruother=true;
+                    }
+                }else if (confirm==1){
+                $('.jumbotron [id^="m_"]').removeClass('active');
+                $('#m_depto').addClass('active');
+                $('#SubM_Pedidos').hide();
+                $scope.fnShowHide('managedepto', 'open');
+                $('#confirmRequestModal').modal('hide');
+                }
+            break;
+            
+                if (confirm==0){
+                    if ($scope.sysLoggedUser.idProfileKf==1 && obj.idProduct!=0){
+                    $scope.idProducto = obj.idProduct;
+                    $scope.mess2show="El Producto "+obj.descriptionProduct+" sera Eliminado.     Confirmar?";
+                        console.log('Producto a eliminar ID: '+obj.idProduct+' DESCRIPCION: '+obj.descriptionProduct);
+                        console.log("============================================================================")
+                        console.log(obj);
+                    }      
+                $('#confirmRequestModal').modal('toggle');
+                }else if (confirm==1){
+                    $scope.deleteProductFn($scope.idProducto);
+                $('#confirmRequestModal').modal('hide');
+                }
+            break;
+                case "closeCustomerWindow":
+                if (confirm==0){
+                    if ($scope.isNewCustomer==true){
+                    $scope.mess2show="Se perderan todos los datos cargados para el registro del cliente, esta seguro que desea cancelar?";
+                    }else{
+                    $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
+                    }    
+                    $('#confirmRequestModal').modal('show');
+                }else if (confirm==1){
+                    $('#confirmRequestModal').modal('hide');
+                    $('#customerParticularAddress').modal('hide');
+                    $('#BuildingUnit').modal('hide');
+                    $('#functionalUnit').modal('hide');
+                    $("#AddressLatLon").modal('hide');
+                    $('#RegisterModalCustomer').modal('hide');
+                    $('#UpdateModalCustomer').modal('hide');
+                    $('#changeModalAdmin').modal('hide');
+                    $scope.switchCustomersFn('dashboard','', 'registered');
+                }
+            break;
+                case "closeServiceWindow":
+                if (confirm==0){
+                    if ($scope.isNewCustomerService==true){
+                    $scope.serviceNew=obj;
+                    console.log($scope.serviceNew);
+                    $scope.mess2show="Se perderan todos los datos cargados para el registro del servicio, esta seguro que desea cancelar?";
+                    $scope.getListContractServicesFn($scope.serviceNew.idContratoFk, null);
+                    }else{
+                    $scope.serviceUpdate=obj;
+                    $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
+                    $scope.getListContractServicesFn($scope.serviceUpdate.idContratoFk, null);
+                    }    
+                    $('#confirmRequestModal').modal('show');
+                }else if (confirm==1){
+                    $('#confirmRequestModal').modal('hide');
+                    $('#RegisterCtrlAccessService').modal('hide');
+                    $('#RegisterInternetService').modal('hide');
+                    $('#RegisterTotemService').modal('hide');
+                    $('#RegisterCamerasService').modal('hide');
+                    $('#RegisterAlarmService').modal('hide');
+                    $('#RegisterAppMonitorService').modal('hide');
+                    $('#updateCtrlAccessService').modal('hide');
+                    $('#updateInternetService').modal('hide');
+                    $('#updateTotemService').modal('hide');
+                    $('#updateCamerasService').modal('hide');
+                    $('#updateAlarmService').modal('hide');
+                    $('#updateAppMonitorService').modal('hide');   
+                    
+                    //$scope.loadPagination($scope.rsCustomerListData, "idClient", "10");
+                }              
+            break;
+                default:
             }
+        }
         /**************************************************
         *                                                 *
         *         NG-SWITCH STEP FORM FUNCTIONS           *
@@ -608,6 +608,30 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     }
                 });
              };
+        /**************************************************
+        *                                                 *
+        *                GET DELIVERY TYPES               *
+        *                                                 *
+        **************************************************/
+         $scope.typedelivery = [];
+         $scope.getDeliveryTypesFn = function(obj){
+             $scope.typedelivery = [];
+             ticketServices.typedelivery().then(function(response){
+                 if(response.status==200){
+                     $scope.typedelivery = response.data;
+                 }else if (response.status==404){
+                     $scope.typedelivery = [];
+                     inform.add('No hay tipos de deliverys registrados, contacte al area de soporte de TASS.',{
+                     ttl:5000, type: 'warning'
+                     });
+                 }else if (response.status==500){
+                     $scope.typedelivery = [];
+                     inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                     ttl:5000, type: 'danger'
+                     });
+                 }
+             });
+          };
         /**************************************************
         *                                                 *
         * DEPARTMENT LIST BY SELECTED ADDRESS AND TENANT  *
@@ -1599,6 +1623,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.getCostByCustomer={'rate':{'idCustomer':null, 'idServiceType':null, 'idServiceTechnician':null}};
                         $scope.getCostByCustomer.rate.idServiceType="1";
                         $scope.getCostByCustomer.rate.idServiceTechnician="1";
+                        $scope.getDeliveryTypesFn();
                         $scope.ticket.requestDate = new Date();
                         $("#selectType").modal('hide');
                         $scope.btnShow=true;

@@ -535,7 +535,7 @@ class Ticket_model extends CI_Model
             $this->db->join('tb_type_attendant auxTypeA', 'auxTypeA.idTyepeAttendant = f.idTyepeAttendantKf', 'left');
             $this->db->join('tb_type_attendant auxTypeB', 'auxTypeB.idTyepeAttendant = e.idTyepeAttendantKf', 'left');
             $this->db->join('tb_user h', 'h.idUser = tb_tickets.idUserAttendantKfDelivery', 'left');
-//            $this->db->join('tb_company', 'tb_company.idCompany = tb_tickets.idCompanyKf', 'left');
+            //$this->db->join('tb_company', 'tb_company.idCompany = tb_tickets.idCompanyKf', 'left');
             //$this->db->join('tb_profile prof', 'prof.idProfile = tb_tickets.idProfileKf', 'left');
             $this->db->join('tb_profile aProf', 'aProf.idProfile = a.idProfileKf', 'left');
             $this->db->join('tb_profile bProf', 'bProf.idProfile = b.idProfileKf', 'left');
@@ -794,7 +794,7 @@ class Ticket_model extends CI_Model
             $this->db->join('tb_type_attendant auxTypeA', 'auxTypeA.idTyepeAttendant = f.idTyepeAttendantKf', 'left');
             $this->db->join('tb_type_attendant auxTypeB', 'auxTypeB.idTyepeAttendant = e.idTyepeAttendantKf', 'left');
             $this->db->join('tb_client_departament tid', 'tid.idClientDepartament = tb_tickets.idDepartmentKf', 'left');
-//            $this->db->join('tb_company', 'tb_company.idCompany = tb_tickets.idCompanyKf', 'left');
+        //$this->db->join('tb_company', 'tb_company.idCompany = tb_tickets.idCompanyKf', 'left');
             //$this->db->join('tb_profile prof', 'prof.idProfile = tb_tickets.idProfileKf', 'left');
             $this->db->join('tb_profile aProf', 'aProf.idProfile = a.idProfileKf', 'left');
             $this->db->join('tb_profile cProf', 'cProf.idProfile = c.idProfileKf', 'left');
@@ -1084,7 +1084,7 @@ class Ticket_model extends CI_Model
             $this->db->join('tb_clients        RQA   ', 'RQA.idClient = TK.idAdressKf', 'left');
             $this->db->join('tb_client_departament    RQD   ', 'RQD.idClientDepartament = TK.idDepartmentKf', 'left');
             $this->db->join('tb_user          UON   ', 'UON.idUser  = RQD.idUserKf', 'left');
-//            $this->db->join('tb_company       RQC   ', 'RQC.idCompany = TK.idCompanyKf', 'left');
+        //$this->db->join('tb_company       RQC   ', 'RQC.idCompany = TK.idCompanyKf', 'left');
             $this->db->join('tb_profile       SYSP  ', 'SYSU.idProfileKf = SYSP.idProfile', 'left');
             $this->db->join('tb_profile       PUO   ', 'UO.idProfileKf = PUO.idProfile', 'left');
             $this->db->join('tb_profile       PUT   ', 'UT.idProfileKf = PUT.idProfile', 'left');
@@ -1279,5 +1279,16 @@ class Ticket_model extends CI_Model
         }
     }
 
+    public function getTypeDelivery() {
+        $quuery = null;
+        $rs = null;
+
+        $quuery =  $this->db->select("*")->from("tb_type_delivery")->get();
+        if ($quuery->num_rows() > 0) {
+            $rs = $quuery->result_array();
+            return $rs;
+        }
+            return null;
+     }
 }
 ?>

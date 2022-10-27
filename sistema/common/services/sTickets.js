@@ -244,5 +244,18 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
                       return response;
                   });
           },
+          typedelivery: function() {
+            //console.log("[Utilities Services]: Get Internet Company List");
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"Ticket/typedelivery"
+                  }).then(function mySuccess(response) {
+                    rsJson=response;
+                    return rsJson;
+                  }).catch(function onError(response) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                    return response;
+            });   
+          },
       }
 }]);
