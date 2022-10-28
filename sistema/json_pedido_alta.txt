@@ -1,0 +1,88 @@
+//ANTERIOR JSON DE DATOS DE PEDIDO DE ALTA DE LLAVE
+ticket:
+{
+    idTypeTicketKf    : $scope.tk.idTicket,
+    idUserEnterpriceKf: $scope.tk.idUserEnterpriceKf,
+    idUserTenantKf    : $scope.tk.idTenantKf,
+    idUserAdminKf     : $scope.tk.idUserAdminKf,
+    idOWnerKf         : $scope.tk.idOWnerKf,
+    idProfileKf       : $scope.tk.idProfileKf,
+    numberItemes      : $scope.tk.numberItemes,
+    idTypeDeliveryKf  : $scope.tk.idTypeDeliveryKf,
+    description       : $scope.tk.description,
+    idUserAttendantKf : $scope.tk.idAttendantKf,
+    totalGestion      : $scope.tk.totalGestion,
+    totalLlave        : $scope.tk.totalLlave,
+    totalEnvio        : $scope.tk.totalEnvio,
+    totalService      : $scope.tk.totalService,
+    idAdressKf        : $scope.tk.idAddresKf,
+    idOtherKf         : $scope.tk.idOtherKf,
+    idDepartmentKf    : $scope.tk.idDepartmentKf,
+    idCompanyKf       : $scope.tk.idCompanyKf,
+    idTypeOfOptionKf  : $scope.tk.idTypeOfOptionKf,
+    thirdPersonNames  : $scope.tk.thirdNames,
+    thirdPersonPhone  : $scope.tk.thirdPhone,
+    thirdPersonId     : $scope.tk.thirdId,
+    idWhoPickUp       : $scope.tk.idWhoPickUp,
+    idTypeOfKeysKf    : $scope.tk.idTypeOfKeysKf,
+    idUserAttKfDelive : $scope.tk.idUserAttDelivery,
+    sendNotify        : $scope.tk.sendNotify,
+    urlToken          : $scope.tk.tkToken,
+    isNew             : $scope.tk.isNew
+
+}
+//NUEVO JSON DE DATOS DE PEDIDO DE ALTA DE LLAVE //(R)equerido //(O)pcional
+ticket:
+{
+    idTypeTicketKf          : 1,
+    idTypeRequestFor        : $scope.tk.idTypeRequestFor        //(R)//tb_category_keychain
+    idUserMadeBy            : $scope.tk.idUserMadeBy,           //(R)//sera un id de usuario en tb_user
+    idUserRequestBy         : $scope.tk.idUserRequestBy,        //(R)//sera un id de usuario en tb_user o id de cliente en tb_clients
+    idBuildingKf            : $scope.tk.idBuildingKf,           //(R)//id de cliente de tb_clients
+    idDepartmentKf          : $scope.tk.idDepartmentKf,         //(O)//id de departamento en tb_client_departament
+    keys                    : [                                 //(R)
+        {
+            idProductKf     : object.keys.idProduct,            //id de producto en tb_products
+            idCategoryKf    : object.keys.idProduct,            //id de categoria de llave en tb_category_keychain
+            idUserKf        : object.keys.idUser,               //sera un id de usuario en tb_user
+            idDepartmenKf   : object.keys.idDepartmenKf,        //id de departamento en tb_client_departament
+            isKeyTenantOnly : object.keys.isKeyTenantOnly,      
+            idClientKf      : object.keys.idClientKf,           //id de cliente de tb_clients
+            idClientAdminKf : object.keys.idClientAdminKf,      //id de cliente de tb_clients
+        }
+    ],
+    idTypeDeliveryKf        : $scope.tk.idTypeDeliveryKf,       //(R)//id de tipo de envio/entrega de tb_type_delivery
+    idWhoPickUp             : $scope.tk.idWhoPickUp,            //(R)//id del tipo de quien retira/recibe tb_pick_receive
+    idUserDelivery          : $scope.tk.idUserDelivery,         //(O)//sera un id de usuario de tb_user
+    idDeliveryTo            : $scope.tk.idDeliveryTo,           //(O)//Requiere tabla para asociar// Entregar en    : 1 - Asociado :: Se entrega en domicilio asociado / 2 - Otro :: Se entrega en otro domicilio que sea especificado.
+    idDeliveryAddress       : $scope.tk.idDeliveryAddress,      //(O)//id de cliente de tb_clients
+    otherDeliveryAddress    : {                                 //(O)
+        address         : $scope.tk.otherAddress.address,
+        number          : $scope.tk.otherAddress.number,
+        floor           : $scope.tk.otherAddress.floor,
+        idProvinceFk    : $scope.tk.otherAddress.idProvince,    //id de provincia en tb_province
+        idLocationFk    : $scope.tk.otherAddress.idLocation,    //id de localidad en tb_location
+
+    },
+    thirdPersonDelivery     : {                                 //(O)
+        fullName        : $scope.tk.thirdPerson.fullName,
+        dni             : $scope.tk.thirdPerson.dni,
+        movilPhone      : $scope.tk.thirdPerson.movilPhone,
+        address         : $scope.tk.thirdPerson.address,
+        number          : $scope.tk.thirdPerson.number,
+        floor           : $scope.tk.thirdPerson.floor,
+        idProvinceFk    : $scope.tk.thirdPerson.idProvince,     //id de provincia en tb_province
+        idLocationFk    : $scope.tk.thirdPerson.idLocation,     //id de localidad en tb_location
+    },
+    idTypePaymentKf         : $scope.tk.idTypePaymentKf         //(R)//Requiere tabla para asociar// Metodo de pago : 1 - Abono en expensas/pago en Abono    /   2 - Pago por Mercado Pago  /  3 - Sin costo
+    sendNotify              : $scope.tk.sendNotify,             //(O)
+    description             : $scope.tk.description,            //(O)
+    costService             : $scope.tk.costService,            //(R)
+    costKeys                : $scope.tk.costKeys,               //(R)
+    costDelivery            : $scope.tk.costDelivery,           //(R)
+    total                   : $scope.tk.total,                  //(R)
+    urlToken                : $scope.tk.urlToken,               //(R)
+    autoApproved            : $scope.tk.autoApproved,           //(R)
+    isNew                   : $scope.tk.isNew,                  //(R)
+
+}

@@ -1,0 +1,50 @@
+//ANTERIOR JSON DE DATOS DE PEDIDO DE BAJA DE LLAVE
+
+ticket:
+{
+    idTypeTicketKf        : $scope.tk.idTicket,
+    idUserEnterpriceKf    : $scope.tk.idUserEnterpriceKf,
+    idUserTenantKf        : $scope.tk.idTenantKf,
+    idUserAdminKf         : $scope.tk.idUserAdminKf,
+    idOWnerKf             : $scope.tk.idOWnerKf,
+    idProfileKf           : $scope.tk.idProfileKf,
+    numberItemes          : $scope.tk.numberItemes,
+    idDepartmentKf        : $scope.tk.idDepartmentKf,
+    description           : $scope.tk.description,
+    idAttendantKf         : $scope.tk.idAttendantKf,
+    idOpcionLowTicketKf   : $scope.tk.idOpcionLowTicketKf,
+    idReasonDisabledItemKf: $scope.tk.idReasonDisabledItemKf,
+    itemToDisabled        : $scope.tk.itemToDisabled,
+    idAdressKf            : $scope.tk.idAddresKf,
+    idCompanyKf           : $scope.tk.idCompanyKf,
+    idTypeOfOptionKf      : $scope.tk.idTypeOfOptionKf,
+    sendNotify            : $scope.tk.sendNotify,
+    isNew                 : $scope.tk.isNew
+}
+
+
+//NUEVO JSON DE DATOS DE PEDIDO DE BAJA DE LLAVE //(R)equerido //(O)pcional
+ticket:
+{
+    idTypeTicketKf          : 2,
+    idTypeRequestFor        : $scope.tk.idTypeRequestFor        //(R)//tb_category_keychain
+    idUserMadeBy            : $scope.tk.idUserMadeBy,           //(R)//sera un id de usuario en tb_user
+    idUserRequestBy         : $scope.tk.idUserRequestBy,        //(R)//sera un id de usuario en tb_user o id de cliente en tb_clients
+    idBuildingKf            : $scope.tk.idBuildingKf,           //(R)//id de cliente de tb_clients
+    idDepartmentKf          : $scope.tk.idDepartmentKf,         //(O)//id de departamento en tb_client_departament
+    keys                    : [                                 //(R)
+        {
+            idKeychain      : object.keys.idKeychain,           //id de la llave de tb_keychain
+        }
+    ],
+    idTypePaymentKf         : $scope.tk.idTypePaymentKf         //(R)//Requiere tabla para asociar// Metodo de pago : 1 - Abono en expensas/pago en Abono    /   2 - Pago por Mercado Pago  /  3 - Sin costo
+    sendNotify              : $scope.tk.sendNotify,             //(O)
+    description             : $scope.tk.description,            //(O)
+    costService             : $scope.tk.costService,            //(R)
+    costKeys                : $scope.tk.costKeys,               //(R)
+    costDelivery            : $scope.tk.costDelivery,           //(R)
+    total                   : $scope.tk.total,                  //(R)
+    urlToken                : $scope.tk.urlToken,               //(R)
+    autoApproved            : $scope.tk.autoApproved,           //(R)
+    isNew                   : $scope.tk.isNew,                  //(R)
+}

@@ -785,7 +785,7 @@
 				<div class="modal-footer">
 					<div class="row">
 						<div class="col-xs-6 col-sm-6 col-md-6 pull-right">
-							<button type="submit" ng-click="newTicket('up');" ng-show="!hasNextStep()" ng-disabled="fkeyup.$invalid" class="btn btn-labeled btn-success">
+							<button type="submit" ng-click="mainSwitchFn('up', ticket);" ng-show="!hasNextStep()" ng-disabled="fkeyup.$invalid" class="btn btn-labeled btn-success">
 								Completar Pedido<span class="btn-label-right"><i class="glyphicon glyphicon-send"></i> </span></button>
 
 							<button ng-click="incrementStep(); enabledNextBtn();" ng-disabled="formValidated!=true" ng-show="btnShow" class="btn btn-labeled btn-primary">
