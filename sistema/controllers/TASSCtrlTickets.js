@@ -1393,13 +1393,18 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
             }
         /**************************************************
         *                                                 *
-        *   ASSIGN DEPARTMENT TO THE CURRENT OWNER USER   *
+        *   GET COST OF SERVICES BY CUSTOMER ID           *
         *                                                 *
         **************************************************/
             $scope.getServiceCostByCustomerFn = function(data){
                 serviceServices.getServiceCostByCustomer(data).then(function(response) {
                     if(response.status==200){
                         $scope.ticket.cost.service = Number(response.data[0].cost);
+                    }else if (response.status==404){
+                        inform.add('El consorcio no presenta costos de servicios asociados, contacte al area de soporte de TASS.',{
+                            ttl:3000, type: 'warning'
+                        });
+                        $scope.ticket.cost.service = 0;
                     }else if (response.status==500){
                         inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
                         ttl:3000, type: 'danger'
@@ -1410,13 +1415,18 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
             }
         /**************************************************
         *                                                 *
-        *   ASSIGN DEPARTMENT TO THE CURRENT OWNER USER   *
+        *   GET ADMIN USERS OF AN ADMIN CUSTOMER BY ID    *
         *                                                 *
         **************************************************/
             $scope.getUsersByCompanyClientIdFn = function(data){
                 userServices.getUsersByCompanyClientId(data).then(function(response) {
                     if(response.status==200){
                         $scope.ticket.companyUserList = response.data;
+                    }else if (response.status==404){
+                        inform.add('No hay Administradores asociados a la administración, contacte al area de soporte de TASS.',{
+                            ttl:3000, type: 'warning'
+                        });
+                        $scope.ticket.companyUserList = null;
                     }else if (response.status==500){
                         inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
                         ttl:3000, type: 'danger'
@@ -1430,15 +1440,32 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
         *              GET CUSTOMER BY ID                 *
         *                                                 *
         **************************************************/
-            $scope.getCustomerByIdFn = function(id){
+            $scope.getCustomerByIdFn = function(id, type){
                 CustomerServices.getCustomersById(id).then(function(response){
                 if(response.status==200){
-                     $scope.ticket.building = response.data;
+                    if (type=="admin"){
+                        $scope.ticket.administration = response.data;
+                    }else{
+                        $scope.ticket.building = response.data;
+                    }
+                }else if (response.status==404){
+                    inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                        ttl:3000, type: 'danger'
+                    });
+                    if (type=="admin"){
+                        $scope.ticket.administration = undefined;
+                    }else{
+                        $scope.ticket.building = undefined;
+                    }
                 }else if (response.status==500){
                     inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
                     ttl:3000, type: 'danger'
                     });
-                     $scope.ticket.building = undefined;
+                        if (type=="admin"){
+                        $scope.ticket.administration = undefined;
+                    }else{
+                        $scope.ticket.building = undefined;
+                    }
                 }
                 });
             };
@@ -1572,7 +1599,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             }, 1000);
                         }else if (obj!=undefined && $scope.sysLoggedUser.idProfileKf!="1"){
                             $timeout(function() {
-                                $scope.getCustomerByIdFn(obj.idClient);
+                                $scope.getCustomerByIdFn(obj.idClient, "building");
                                 $scope.getKeysAssociatedToACustomerFn(obj.idClient);
                                 $scope.getControlAccessDoorsAssociatedToACustomerFn(obj.idClient);
                                 $scope.getAttendantListFn(obj.idClient);
@@ -1675,10 +1702,13 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         console.log(obj);
                         $scope.ticket.optionTypeSelected.name="department";
                         $scope.ticket.idClientDepartament = obj;
-                        $scope.mainSwitchFn('loadBuildingData', obj, null);
-                        inform.add('Departamento seleccionado: '+obj.Depto+' haga clic en siguiente para continuar.',{
-                            ttl:5000, type: 'success'
-                        }); 
+                        $timeout(function() {
+                            $scope.getCustomerByIdFn(obj.idClientAdminFk, "admin");
+                            $scope.mainSwitchFn('loadBuildingData', obj, null);
+                            inform.add('Departamento seleccionado: '+obj.Depto+' haga clic en siguiente para continuar.',{
+                                ttl:5000, type: 'success'
+                            }); 
+                        }, 1000);
                     break;
                     case "administration":
                         inform.add('Debe seleccionar un consorcio para continuar.',{
@@ -2564,43 +2594,75 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         console.log("---------------------------------------");
                         console.log("[New Ticket]");
                         console.log(obj);
-                            $scope.new.ticket.idTypeTicketKf    = 1;
+                            $scope.new.ticket.idTypeTicketKf     = 1;
                             $scope.new.ticket.idBuildingKf      = obj.building.idClient;
                             $scope.new.ticket.idUserMadeBy      = $scope.sysLoggedUser.idUser;
-                        if ($scope.sysLoggedUser.idProfileKf=="3" && obj.optionTypeSelected.name=="department" && obj.radioButtonDepartment=="1"){
-                            console.log("[New Ticket] => Propietario haciendo pedido.");
-                            $scope.new.ticket.idTypeRequestFor  = 1;
-                            $scope.new.ticket.idDepartmentKf    = obj.idClientDepartament.idClientDepartament;
-                            $scope.new.ticket.idUserRequestBy   = obj.userRequestBy.idUser;
-                        }else if ($scope.sysLoggedUser.idProfileKf=="3" && obj.optionTypeSelected.name=="department" && obj.radioButtonDepartment=="2"){
-                            console.log("[New Ticket] => Propietario haciendo pedido a inquilino");
-                            $scope.new.ticket.idTypeRequestFor  = 1;
-                            $scope.new.ticket.idDepartmentKf    = obj.idClientDepartament.idClientDepartament;
-                            $scope.new.ticket.idUserRequestBy   = obj.userRequestBy.idUser;
-                        }
-                        if (obj.optionTypeSelected.name=="building" && obj.radioButtonBuilding=="1"){
-                            $scope.new.ticket.idTypeRequestFor = 6;
-                        }else if (obj.optionTypeSelected.name=="building" && obj.radioButtonBuilding=="2"){
-                            $scope.new.ticket.idTypeRequestFor = 6;
-                        }else if (obj.optionTypeSelected.name=="building" && obj.radioButtonBuilding=="3"){
-                            $scope.new.ticket.idTypeRequestFor = 3;
-                        }else if (obj.optionTypeSelected.name=="building" && obj.radioButtonBuilding=="4"){
-                            $scope.new.ticket.idTypeRequestFor = 2;
-                        }else if (obj.optionTypeSelected.name=="building" && obj.radioButtonBuilding=="5"){
-                            $scope.new.ticket.idTypeRequestFor = 4;
-                        }
-                        if($scope.sysLoggedUser.idProfileKf==3 && obj.userRequestBy.idProfileKf==3){
-                            console.log("[New Ticket] => Propietario haciendo pedido.");
-                        }else if($scope.sysLoggedUser.idProfileKf==3 && obj.userRequestBy.idProfileKf==5){
-                            console.log("[New Ticket] => Propietario haciendo pedido a inquilino");
-                        }else if($scope.sysLoggedUser.idProfileKf==4 && obj.userRequestBy.idProfileKf==4 && obj.userRequestBy.idTypeTenantKf==1){
-                            console.log("[New Ticket] => Administrador de Consorcio de tipo Propietario haciendo pedido.");
-                        }else if($scope.sysLoggedUser.idProfileKf==6 && $scope.sysLoggedUser.idTypeTenantKf==1){
-                            console.log("[New Ticket] => Encargado de Consorcio de tipo Propietario haciendo pedido.");
-                        }else if($scope.sysLoggedUser.idProfileKf==1 && ((obj.userRequestBy.idProfileKf==3 || obj.userRequestBy.idProfileKf==4 || obj.userRequestBy.idProfileKf==6) && obj.userRequestBy.idTypeTenantKf==1)){
-                            console.log("[New Ticket] => TASS haciendo pedido a Propietario");
-                        }else if($scope.sysLoggedUser.idProfileKf==1 && ((obj.userRequestBy.idProfileKf==4 || obj.userRequestBy.idProfileKf==5 || obj.userRequestBy.idProfileKf==6) && obj.userRequestBy.idTypeTenantKf==2)){
-                            console.log("[New Ticket] => TASS haciendo pedido a inquilino");
+                        switch (obj.optionTypeSelected.name){
+                            case "department":
+                                $scope.new.ticket.idTypeRequestFor  = 1;
+                                switch (obj.radioButtonDepartment){
+                                    case "1":
+                                        if ($scope.sysLoggedUser.idProfileKf=="3"){
+                                            console.log("[New Ticket] => Propietario haciendo pedido.");
+                                            $scope.new.ticket.idDepartmentKf    = obj.idClientDepartament.idClientDepartament;
+                                            $scope.new.ticket.idUserRequestBy   = $scope.sysLoggedUser.idUser;
+                                        }else if ($scope.sysLoggedUser.idProfileKf=="5"){
+                                            console.log("[New Ticket] => Inquilino haciendo pedido.");
+                                            $scope.new.ticket.idDepartmentKf    = obj.idClientDepartament.idClientDepartament;
+                                            $scope.new.ticket.idUserRequestBy   = $scope.sysLoggedUser.idUser;
+                                        }else if ($scope.sysLoggedUser.idProfileKf=="1"){
+                                            console.log("[New Ticket] => TASS haciendo pedido a Propietario.");
+                                            $scope.new.ticket.idDepartmentKf    = obj.idClientDepartament.idClientDepartament;
+                                            $scope.new.ticket.idUserRequestBy   = obj.userRequestBy.idUser;
+                                        }else if ($scope.sysLoggedUser.idProfileKf=="4" && $scope.sysLoggedUser.idProfileKf!=obj.userRequestBy.idProfileKf && ($scope.sysLoggedUser.idTypeTenantKf==null || $scope.sysLoggedUser.idTypeTenantKf!=null) && (!$scope.isHomeSelected || $scope.isHomeSelected)){
+                                            console.log("[New Ticket] => Admin consorcio haciendo pedido a Propietario.");
+                                            $scope.new.ticket.idDepartmentKf    = obj.idClientDepartament.idClientDepartament;
+                                            $scope.new.ticket.idUserRequestBy   = obj.userRequestBy.idUser;
+                                        }else if ($scope.sysLoggedUser.idProfileKf=="4" && $scope.sysLoggedUser.idTypeTenantKf=="1" && $scope.isHomeSelected){
+                                            console.log("[New Ticket] => Admin consorcio haciendo pedido para su usuario.");
+                                            $scope.new.ticket.idDepartmentKf    = obj.idClientDepartament.idClientDepartament;
+                                            $scope.new.ticket.idUserRequestBy   = $scope.sysLoggedUser.idUser;
+                                        }
+                                    break;
+                                    case "2":
+                                        if ($scope.sysLoggedUser.idProfileKf=="3"){
+                                            console.log("[New Ticket] => Propietario haciendo pedido a inquilino.");
+                                            $scope.new.ticket.idDepartmentKf    = obj.idClientDepartament.idClientDepartament;
+                                            $scope.new.ticket.idUserRequestBy   = obj.userRequestBy.idUser;
+                                        }else if ($scope.sysLoggedUser.idProfileKf=="5"){
+                                            console.log("[New Ticket] => Inquilino haciendo pedido a otro inquilino.");
+                                            $scope.new.ticket.idDepartmentKf    = obj.idClientDepartament.idClientDepartament;
+                                            $scope.new.ticket.idUserRequestBy   = obj.userRequestBy.idUser;
+                                        }else if ($scope.sysLoggedUser.idProfileKf=="1"){
+                                            console.log("[New Ticket] => TASS haciendo pedido a inquilino.");
+                                            $scope.new.ticket.idDepartmentKf    = obj.idClientDepartament.idClientDepartament;
+                                            $scope.new.ticket.idUserRequestBy   = obj.userRequestBy.idUser;
+                                        }else if ($scope.sysLoggedUser.idProfileKf=="4" && $scope.sysLoggedUser.idProfileKf!=obj.userRequestBy.idProfileKf && ($scope.sysLoggedUser.idTypeTenantKf==null || $scope.sysLoggedUser.idTypeTenantKf!=null) && (!$scope.isHomeSelected || $scope.isHomeSelected)){
+                                            console.log("[New Ticket] => Admin consorcio haciendo pedido a inquilino.");
+                                            $scope.new.ticket.idDepartmentKf    = obj.idClientDepartament.idClientDepartament;
+                                            $scope.new.ticket.idUserRequestBy   = obj.userRequestBy.idUser;
+                                        }else if ($scope.sysLoggedUser.idProfileKf=="4" && $scope.sysLoggedUser.idTypeTenantKf=="1" && $scope.isHomeSelected){
+                                            console.log("[New Ticket] => Admin consorcio haciendo pedido para su usuario.");
+                                            $scope.new.ticket.idDepartmentKf    = obj.idClientDepartament.idClientDepartament;
+                                            $scope.new.ticket.idUserRequestBy   = $scope.sysLoggedUser.idUser;
+                                        }
+                                    break;
+                                }
+                            break;
+                            case "building":
+                                switch (obj.radioButtonBuilding){
+                                    case "1":$scope.new.ticket.idTypeRequestFor = 6;
+                                    break;
+                                    case "2":$scope.new.ticket.idTypeRequestFor = 6;
+                                    break;
+                                    case "3":$scope.new.ticket.idTypeRequestFor = 3;
+                                    break;
+                                    case "4":$scope.new.ticket.idTypeRequestFor = 2;
+                                    break;
+                                    case "5":$scope.new.ticket.idTypeRequestFor = 4;
+                                    break;
+                                }
+                            break;
                         }
                        // if(($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==6) &&  $scope.typeTenant == 1){
                        //     console.log("[New Ticket] => Propietario haciendo pedido.");
