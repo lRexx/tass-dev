@@ -56,7 +56,7 @@ class Zonas extends REST_Controller {
     public function checkZonaByLocationAndCustomerId_get($idClient = null, $idLocation = null) {
         $rs = null;
         if ($idClient == null || $idLocation == null) {
-            $this->response([ 'error' => 'DEBE PASAR DOS ARGUMENTOS' ], 404);
+            $this->response([ 'error' => 'DEBE PASAR UNO DE LOS ARGUMENTOS' ], 404);
         }
         $rs = $this->zonas_model->checkZonaByLocationAndCustomerId($idClient, $idLocation);
 

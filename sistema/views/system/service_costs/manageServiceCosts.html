@@ -92,7 +92,7 @@
                             <tr class="animate-repeat" style="align-content: center;" ng-repeat="item in rsTechServiceCostData">
                                 <td style="vertical-align: middle;text-align: center;" ng-trim="true">{{item.idServiceTechnicianCost}}</td>
                                 <td style="vertical-align: middle;text-align: center;" ng-trim="true">{{item.typeMaintenance}}</td>
-                                <td style="vertical-align: middle;text-align: center;" ng-trim="true">{{currencySymbol}} {{item.cost | currency}}</td>
+                                <td style="vertical-align: middle;text-align: center;" ng-trim="true">{{currencySymbol}} {{item.cost | number: 2}}</td>
                                 <td style="vertical-align: middle;text-align: center;" ng-trim="true">{{item.costCreateDate | dateToISO | date:'dd-MM-yyyy / HH:mm'}}</td>
                                 <td style="vertical-align: middle;text-align: center;">
                                     <label ng-if="item.idStatusKf==1" class="label label-success">{{item.status_cost}}

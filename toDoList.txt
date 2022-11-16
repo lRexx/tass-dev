@@ -115,3 +115,13 @@ ENTREGABLES DE LAS TARJETAS
 8 - Listar direcciones asociadas de un particular 						[PENDING]
 9 - Separar listado de edificio en un pantalla sola 					[DONE]
 10 - Tipo de inmueble sumarselo a todos los clientes excepto Edificio 	[DONE]
+
+
+
+
+
+
+15/11/2022
+
+- Consultar sobre los el calculo del costo segun la cantidad del monto de las llaves solicitadas.
+- Consultar sobre el calculo del costo del servicio segun el costo del servicio tecnico.

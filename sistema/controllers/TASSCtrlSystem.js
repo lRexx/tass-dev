@@ -26,378 +26,339 @@ system.controller('SystemCtrl', function($scope, $location, $routeParams, blockU
     }    
     //Variables Initialization
     $scope.select={'admins':{'selected':undefined}, 'buildings':{'selected':undefined}, 'province':{'selected':undefined}, 'location':{'selected':undefined}, 'depto':undefined,'floor':undefined, 'product':{'selected':undefined}};
-    $scope.tenant = {'namesTenant':null, 'addressTenant':null, 'movilPhoneTenant':null, 'localPhoneTenant':null, 'emailTenant':null}
-    $scope.ticket = {'idClientDepartament':undefined, 'radioButtonDepartment':'', 'radioButtonDepartment':'', 'optionTypeSelected': {}, 'keys':[], 'delivery': {}};
-    $scope.attendantFound  = false;
-    $scope.list_doors = [];
-    $scope.list_doors_ticket = [];
-    $scope.list_keys = [];
-    $scope.list_locations = [];
-    $scope.tenant={
-        'new':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf':'','depto':''},
-        'update':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf2':'','depto':''},
-        'tmp':{'dni':'','mail':''}};
-    $scope.attendant={
-        'new':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf':'','depto':''},
-        'update':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf2':'','depto':''},
-        'tmp':{'dni':'','mail':''}};
-    $scope.depto={'department':{'idDepartment':null, 'idUserKf':null}};
-    $scope.remove = {'info':{'idUser':null, 'idDepartmentKf2':null, 'idTypeTenant': null}}
-    $scope.att= {'ownerOption':undefined}
-    $scope.update={'user':{'fullNameUser':null, 'emailUser': null, 'phoneNumberUser': null, 'phoneLocalNumberUser': null, 'idAddresKf': null, 'idProfileKf': null, 'idTypeTenantKf': null, 'idCompanyKf': null, 'idTyepeAttendantKf': null, 'descOther': null, 'idDepartmentKf':null, 'isEdit': null, 'requireAuthentication': null, 'dni': null, 'idSysProfileFk': null, 'isCreateByAdmin': null, 'typeTenantChange':false}};
-    $scope.thirdPerson = {};
     $scope.zone={'new':{}, 'update':{}};
     $scope.rsNewZonesData ={};
     $scope.zones={'new':{'zona':{}}, 'update':{'zona':{}}};
     $scope.technician={'new':{'service':{}, 'rate':{}}, 'update':{'service':{}, 'rate':{}}};
     $scope.technician_services={'new':{}, 'update':{}, 'temp':undefined};
+    $scope.rsTechServicesData = null;
         /**
         * Modal Confirmation function 
         **/
-            $scope.modalConfirmation = function(opt, confirm, obj, obj2){
-                $scope.swMenu = opt;
-                $scope.vConfirm = confirm;
-                var tmpOpt=$scope.div2Open;
-                //console.log(tmpOpt);
-                $scope.mess2show="";
-                switch ($scope.swMenu){
-                    case "closeWindow":
-                        if (confirm==0){
-                            if ($scope.isNewTenant==true || $scope.isNewAttendant==true){
-                                $scope.mess2show="Se perderan todos los datos cargados para el registro actual, esta seguro que desea cancelar?";
-                            }else{
-                                $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
-                            }    
-                            $("#confirmRequestModal").modal('show');
-                        }else if (confirm==1){
-                            if ($scope.idDeptoKf!=undefined){
-                                $timeout(function() {
-                                    $scope.tableRowExpanded = false;
-                                    $scope.tableRowIndexCurrExpanded = "";
-                                    $scope.selectTableRow($scope.vIndex, $scope.selectedDepto, "depto");
-                                    //$scope.dayDataCollapse[$scope.vIndex] = false;
-                                }, 200);
-                            }
-                            $("#confirmRequestModal").modal('hide');
-                            $("#RegisterTenant").modal('hide');
-                            $("#UpdateTenant").modal('hide');
-                            $("#RegisterAttendant").modal('hide');
-                            $("#UpdateAttendant").modal('hide');
-                            //$scope.switchCustomersFn('dashboard','', 'registered');
-                        }
-                    break;
-                    case "tdown":
-                        if (confirm==0){
-                        console.log(confirm);
-                        $scope.mess2show="Desea Solicitar una nueva llave?";
-                        $('#confirmRequestModal').modal('toggle');
-                        }else if (confirm==1){
-                        $('.jumbotron [id^="m_"]').removeClass('active');
-                        $('#m_pedidos').addClass('active');
-                        $('#SubM_Pedidos').show();
-                        $scope.fnShowHide('rukeyup', 'open');
-                        $('#confirmRequestModal').modal('hide');
-                        }
-                        $('#confirmRequestModal').on('hide.bs.modal', function (e) {
-                        $scope.dhboard();
-                        $scope.fnShowHide('home','open');
-                        });
-                    break;
-                    case "checkAddr":
-                        if (confirm==0 && $scope.addrNoFound==1){
-                        if (tmpOpt!="home"){
-                            $scope.mess2show="No posee departamento autorizados, Desea registrar un departamento?";
-                        }else{
-                            $scope.mess2show="No registra tickets actualmente, Desea verificar si tiene un departmanto asociado?";
-                        }
-                        $('#confirmRequestModal').modal('toggle');
-                        }else if(confirm==0 && $scope.addrNoFound==0 && $scope.sysLoggedUser.idProfileKf!=0){ 
-                            if(tmpOpt=="rukeyup"){
-                            if ($scope.sysLoggedUser.idProfileKf==5 ||($scope.sysLoggedUser.idProfileKf==6 && $scope.sessionidTypeTenant==2)){
-                                $scope.sysCheckAddrIsInDebt($scope.ListTenantAddress);
-                                $scope.refresSession($scope.sessionMail);
-                                $scope.idAddressAtt=$scope.sessionNameAdress;
-                                $scope.namesTenant=$scope.sessionNames;
-                                if($scope.sessionidAddress){
-                                $scope.getKeyChains($scope.sessionidAddress); 
-                                $scope.getServicesValues($scope.sessionidAddress);
-                                }else{
-                                $scope.idAddressAtt="Consorcio no asignado";
-                                }
-                                if($scope.sessionidAddress && (!$scope.sessionisDepartmentApproved || $scope.sessionisDepartmentApproved>=0)){
-                                $scope.deptoTenant   =($scope.sessionidAddress && !$scope.sessionisDepartmentApproved) || ($scope.sessionidAddress && $scope.sessionisDepartmentApproved==0)?$scope.getDeptoName($scope.sessionIdDeparmentKf)+" (No aprobado)":$scope.getDeptoName($scope.sessionIdDeparmentKf)+" (Aprobado)";
-                                }else{
-                                $scope.deptoTenant = "Departamento no ha sido asignado."
-                                }
-                            }else{
-                                $scope.rukeyup = true;
-                            }
-                            }else 
-                            if(tmpOpt=="rukeydown"){
-                            if ($scope.sysLoggedUser.idProfileKf==5 ||($scope.sysLoggedUser.idProfileKf==6 && $scope.sessionidTypeTenant==2)){
-                                $scope.sysCheckAddrIsInDebt($scope.ListTenantAddress);
-                                $scope.refresSession($scope.sessionMail);
-                                $scope.idAddressAtt=$scope.sessionNameAdress;
-                                $scope.namesTenant=$scope.sessionNames;
-                                if($scope.sessionidAddress){
-                                $scope.getKeyChains($scope.sessionidAddress); 
-                                $scope.getServicesValues($scope.sessionidAddress);
-                                }else{
-                                $scope.idAddressAtt="Consorcio no asignado";
-                                }
-                                if($scope.sessionidAddress && (!$scope.sessionisDepartmentApproved || $scope.sessionisDepartmentApproved>=0)){
-                                $scope.deptoTenant   =($scope.sessionidAddress && !$scope.sessionisDepartmentApproved) || ($scope.sessionidAddress && $scope.sessionisDepartmentApproved==0)?$scope.getDeptoName($scope.sessionIdDeparmentKf)+" (No aprobado)":$scope.getDeptoName($scope.sessionIdDeparmentKf)+" (Aprobado)";
-                                }else{
-                                $scope.deptoTenant = "Departamento no ha sido asignado."
-                                }
-                            }else{
-                                $scope.rukeydown = true;
-                            }
-                            }else 
-                            if(tmpOpt=="home"){
-                            $scope.home = true;
-                            }else 
-                            if(tmpOpt=="rucost"){
-                            $scope.rucost=true;
-                            }else
-                            if(tmpOpt=="ruother"){
-                            $scope.ruother=true;
-                            }
-                        }else if (confirm==1){
-                        $('.jumbotron [id^="m_"]').removeClass('active');
-                        $('#m_depto').addClass('active');
-                        $('#SubM_Pedidos').hide();
-                        $scope.fnShowHide('managedepto', 'open');
-                        $('#confirmRequestModal').modal('hide');
-                        }
-                    break;
-                
+        $scope.modalConfirmation = function(opt, confirm, obj, obj2){
+            $scope.swMenu = opt;
+            $scope.vConfirm = confirm;
+            var tmpOpt=$scope.div2Open;
+            //console.log(tmpOpt);
+            $scope.mess2show="";
+            switch ($scope.swMenu){
+                case "closeWindow":
                     if (confirm==0){
-                        if ($scope.sysLoggedUser.idProfileKf==1 && obj.idProduct!=0){
-                        $scope.idProducto = obj.idProduct;
-                        $scope.mess2show="El Producto "+obj.descriptionProduct+" sera Eliminado.     Confirmar?";
-                            console.log('Producto a eliminar ID: '+obj.idProduct+' DESCRIPCION: '+obj.descriptionProduct);
-                            console.log("============================================================================")
-                            console.log(obj);
-                        }      
+                        if ($scope.isNewTenant==true || $scope.isNewAttendant==true){
+                            $scope.mess2show="Se perderan todos los datos cargados para el registro actual, esta seguro que desea cancelar?";
+                        }else{
+                            $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
+                        }    
+                        $("#confirmRequestModal").modal('show');
+                    }else if (confirm==1){
+                        if ($scope.idDeptoKf!=undefined){
+                            $timeout(function() {
+                                $scope.tableRowExpanded = false;
+                                $scope.tableRowIndexCurrExpanded = "";
+                                $scope.selectTableRow($scope.vIndex, $scope.selectedDepto, "depto");
+                                //$scope.dayDataCollapse[$scope.vIndex] = false;
+                            }, 200);
+                        }
+                        $("#confirmRequestModal").modal('hide');
+                        $("#RegisterTenant").modal('hide');
+                        $("#UpdateTenant").modal('hide');
+                        $("#RegisterAttendant").modal('hide');
+                        $("#UpdateAttendant").modal('hide');
+                        //$scope.switchCustomersFn('dashboard','', 'registered');
+                    }
+                break;
+                case "tdown":
+                    if (confirm==0){
+                    console.log(confirm);
+                    $scope.mess2show="Desea Solicitar una nueva llave?";
                     $('#confirmRequestModal').modal('toggle');
                     }else if (confirm==1){
-                        $scope.deleteProductFn($scope.idProducto);
+                    $('.jumbotron [id^="m_"]').removeClass('active');
+                    $('#m_pedidos').addClass('active');
+                    $('#SubM_Pedidos').show();
+                    $scope.fnShowHide('rukeyup', 'open');
+                    $('#confirmRequestModal').modal('hide');
+                    }
+                    $('#confirmRequestModal').on('hide.bs.modal', function (e) {
+                    $scope.dhboard();
+                    $scope.fnShowHide('home','open');
+                    });
+                break;
+                case "checkAddr":
+                    if (confirm==0 && $scope.addrNoFound==1){
+                    if (tmpOpt!="home"){
+                        $scope.mess2show="No posee departamento autorizados, Desea registrar un departamento?";
+                    }else{
+                        $scope.mess2show="No registra tickets actualmente, Desea verificar si tiene un departmanto asociado?";
+                    }
+                    $('#confirmRequestModal').modal('toggle');
+                    }else if(confirm==0 && $scope.addrNoFound==0 && $scope.sysLoggedUser.idProfileKf!=0){ 
+                        if(tmpOpt=="rukeyup"){
+                        if ($scope.sysLoggedUser.idProfileKf==5 ||($scope.sysLoggedUser.idProfileKf==6 && $scope.sessionidTypeTenant==2)){
+                            $scope.sysCheckAddrIsInDebt($scope.ListTenantAddress);
+                            $scope.refresSession($scope.sessionMail);
+                            $scope.idAddressAtt=$scope.sessionNameAdress;
+                            $scope.namesTenant=$scope.sessionNames;
+                            if($scope.sessionidAddress){
+                            $scope.getKeyChains($scope.sessionidAddress); 
+                            $scope.getServicesValues($scope.sessionidAddress);
+                            }else{
+                            $scope.idAddressAtt="Consorcio no asignado";
+                            }
+                            if($scope.sessionidAddress && (!$scope.sessionisDepartmentApproved || $scope.sessionisDepartmentApproved>=0)){
+                            $scope.deptoTenant   =($scope.sessionidAddress && !$scope.sessionisDepartmentApproved) || ($scope.sessionidAddress && $scope.sessionisDepartmentApproved==0)?$scope.getDeptoName($scope.sessionIdDeparmentKf)+" (No aprobado)":$scope.getDeptoName($scope.sessionIdDeparmentKf)+" (Aprobado)";
+                            }else{
+                            $scope.deptoTenant = "Departamento no ha sido asignado."
+                            }
+                        }else{
+                            $scope.rukeyup = true;
+                        }
+                        }else 
+                        if(tmpOpt=="rukeydown"){
+                        if ($scope.sysLoggedUser.idProfileKf==5 ||($scope.sysLoggedUser.idProfileKf==6 && $scope.sessionidTypeTenant==2)){
+                            $scope.sysCheckAddrIsInDebt($scope.ListTenantAddress);
+                            $scope.refresSession($scope.sessionMail);
+                            $scope.idAddressAtt=$scope.sessionNameAdress;
+                            $scope.namesTenant=$scope.sessionNames;
+                            if($scope.sessionidAddress){
+                            $scope.getKeyChains($scope.sessionidAddress); 
+                            $scope.getServicesValues($scope.sessionidAddress);
+                            }else{
+                            $scope.idAddressAtt="Consorcio no asignado";
+                            }
+                            if($scope.sessionidAddress && (!$scope.sessionisDepartmentApproved || $scope.sessionisDepartmentApproved>=0)){
+                            $scope.deptoTenant   =($scope.sessionidAddress && !$scope.sessionisDepartmentApproved) || ($scope.sessionidAddress && $scope.sessionisDepartmentApproved==0)?$scope.getDeptoName($scope.sessionIdDeparmentKf)+" (No aprobado)":$scope.getDeptoName($scope.sessionIdDeparmentKf)+" (Aprobado)";
+                            }else{
+                            $scope.deptoTenant = "Departamento no ha sido asignado."
+                            }
+                        }else{
+                            $scope.rukeydown = true;
+                        }
+                        }else 
+                        if(tmpOpt=="home"){
+                        $scope.home = true;
+                        }else 
+                        if(tmpOpt=="rucost"){
+                        $scope.rucost=true;
+                        }else
+                        if(tmpOpt=="ruother"){
+                        $scope.ruother=true;
+                        }
+                    }else if (confirm==1){
+                    $('.jumbotron [id^="m_"]').removeClass('active');
+                    $('#m_depto').addClass('active');
+                    $('#SubM_Pedidos').hide();
+                    $scope.fnShowHide('managedepto', 'open');
                     $('#confirmRequestModal').modal('hide');
                     }
                 break;
-                    case "closeCustomerWindow":
-                        if (confirm==0){
-                            if ($scope.isNewCustomer==true){
-                            $scope.mess2show="Se perderan todos los datos cargados para el registro del cliente, esta seguro que desea cancelar?";
-                            }else{
-                            $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
-                            }    
-                            $('#confirmRequestModal').modal('show');
-                        }else if (confirm==1){
-                            $('#confirmRequestModal').modal('hide');
-                            $('#customerParticularAddress').modal('hide');
-                            $('#BuildingUnit').modal('hide');
-                            $('#functionalUnit').modal('hide');
-                            $("#AddressLatLon").modal('hide');
-                            $('#RegisterModalCustomer').modal('hide');
-                            $('#UpdateModalCustomer').modal('hide');
-                            $('#changeModalAdmin').modal('hide');
-                            $scope.switchCustomersFn('dashboard','', 'registered');
-                        }
-                    break;
-                    case "closeServiceWindow":
-                        if (confirm==0){
-                            if ($scope.isNewCustomerService==true){
-                            $scope.serviceNew=obj;
-                            console.log($scope.serviceNew);
-                            $scope.mess2show="Se perderan todos los datos cargados para el registro del servicio, esta seguro que desea cancelar?";
-                            $scope.getListContractServicesFn($scope.serviceNew.idContratoFk, null);
-                            }else{
-                            $scope.serviceUpdate=obj;
-                            $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
-                            $scope.getListContractServicesFn($scope.serviceUpdate.idContratoFk, null);
-                            }    
-                            $('#confirmRequestModal').modal('show');
-                        }else if (confirm==1){
-                            $('#confirmRequestModal').modal('hide');
-                            $('#RegisterCtrlAccessService').modal('hide');
-                            $('#RegisterInternetService').modal('hide');
-                            $('#RegisterTotemService').modal('hide');
-                            $('#RegisterCamerasService').modal('hide');
-                            $('#RegisterAlarmService').modal('hide');
-                            $('#RegisterAppMonitorService').modal('hide');
-                            $('#updateCtrlAccessService').modal('hide');
-                            $('#updateInternetService').modal('hide');
-                            $('#updateTotemService').modal('hide');
-                            $('#updateCamerasService').modal('hide');
-                            $('#updateAlarmService').modal('hide');
-                            $('#updateAppMonitorService').modal('hide');   
-                            
-                            //$scope.loadPagination($scope.rsCustomerListData, "idClient", "10");
-                        }
-                    break;
-                    case "removeZone":
-                        if (confirm==0){
-                            $scope.removeZone=obj;
-                                console.log(obj)
-                                $scope.mess2show="La zona ("+obj.n_zona+") "+obj.descripcion+" sera eliminada.     Confirmar?";
-                                console.log("============================================================================");
-                                console.log("Datos de la Zona a Eliminar");
-                                console.log("============================================================================");
-                                console.log("ID de la Zona :  "+obj.n_zona);
-                                console.log("Descripción   :  "+obj.descripcion);
-                                console.log("============================================================================");
-                                //console.log(obj);
-                            $('#confirmRequestModal').modal('toggle');
-                        }else if (confirm==1){
-                            $scope.mainSwitchFn("zones", "deleteZone", $scope.removeZone)
-                            $('#confirmRequestModal').modal('hide');
-                        }
-                    break;
-                    default:
+            
+                if (confirm==0){
+                    if ($scope.sysLoggedUser.idProfileKf==1 && obj.idProduct!=0){
+                    $scope.idProducto = obj.idProduct;
+                    $scope.mess2show="El Producto "+obj.descriptionProduct+" sera Eliminado.     Confirmar?";
+                        console.log('Producto a eliminar ID: '+obj.idProduct+' DESCRIPCION: '+obj.descriptionProduct);
+                        console.log("============================================================================")
+                        console.log(obj);
+                    }      
+                $('#confirmRequestModal').modal('toggle');
+                }else if (confirm==1){
+                    $scope.deleteProductFn($scope.idProducto);
+                $('#confirmRequestModal').modal('hide');
                 }
+            break;
+                case "closeCustomerWindow":
+                    if (confirm==0){
+                        if ($scope.isNewCustomer==true){
+                        $scope.mess2show="Se perderan todos los datos cargados para el registro del cliente, esta seguro que desea cancelar?";
+                        }else{
+                        $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
+                        }    
+                        $('#confirmRequestModal').modal('show');
+                    }else if (confirm==1){
+                        $('#confirmRequestModal').modal('hide');
+                        $('#customerParticularAddress').modal('hide');
+                        $('#BuildingUnit').modal('hide');
+                        $('#functionalUnit').modal('hide');
+                        $("#AddressLatLon").modal('hide');
+                        $('#RegisterModalCustomer').modal('hide');
+                        $('#UpdateModalCustomer').modal('hide');
+                        $('#changeModalAdmin').modal('hide');
+                        $scope.switchCustomersFn('dashboard','', 'registered');
+                    }
+                break;
+                case "closeServiceWindow":
+                    if (confirm==0){
+                        if ($scope.isNewCustomerService==true){
+                        $scope.serviceNew=obj;
+                        console.log($scope.serviceNew);
+                        $scope.mess2show="Se perderan todos los datos cargados para el registro del servicio, esta seguro que desea cancelar?";
+                        $scope.getListContractServicesFn($scope.serviceNew.idContratoFk, null);
+                        }else{
+                        $scope.serviceUpdate=obj;
+                        $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
+                        $scope.getListContractServicesFn($scope.serviceUpdate.idContratoFk, null);
+                        }    
+                        $('#confirmRequestModal').modal('show');
+                    }else if (confirm==1){
+                        $('#confirmRequestModal').modal('hide');
+                        $('#RegisterCtrlAccessService').modal('hide');
+                        $('#RegisterInternetService').modal('hide');
+                        $('#RegisterTotemService').modal('hide');
+                        $('#RegisterCamerasService').modal('hide');
+                        $('#RegisterAlarmService').modal('hide');
+                        $('#RegisterAppMonitorService').modal('hide');
+                        $('#updateCtrlAccessService').modal('hide');
+                        $('#updateInternetService').modal('hide');
+                        $('#updateTotemService').modal('hide');
+                        $('#updateCamerasService').modal('hide');
+                        $('#updateAlarmService').modal('hide');
+                        $('#updateAppMonitorService').modal('hide');   
+                        
+                        //$scope.loadPagination($scope.rsCustomerListData, "idClient", "10");
+                    }
+                break;
+                case "removeZone":
+                    if (confirm==0){
+                        $scope.removeZone=obj;
+                            console.log(obj)
+                            $scope.mess2show="La zona ("+obj.n_zona+") "+obj.descripcion+" sera eliminada.     Confirmar?";
+                            console.log("============================================================================");
+                            console.log("Datos de la Zona a Eliminar");
+                            console.log("============================================================================");
+                            console.log("ID de la Zona :  "+obj.n_zona);
+                            console.log("Descripción   :  "+obj.descripcion);
+                            console.log("============================================================================");
+                            //console.log(obj);
+                        $('#confirmRequestModal').modal('toggle');
+                    }else if (confirm==1){
+                        $scope.mainSwitchFn("zones", "deleteZone", $scope.removeZone)
+                        $('#confirmRequestModal').modal('hide');
+                    }
+                break;
+                default:
             }
+        }
 
         /**
         * Pagination Functions
         **/
+        $scope.pagedItems    = [];
+        $scope.itemPerPage=0;
+        $scope.loadPagination = function(item, orderBy, itemsByPage){
+            //console.log("[loadPagination]");
+            var rowList=[];
+            var rowId=null;
+            for (var key in item){
+                if (item[key].idServiceTechnician!=undefined && typeof item[key].idServiceTechnician === 'string'){
+                    rowId=Number(item[key].idServiceTechnician);
+                    item[key].idServiceTechnician=rowId;
+                    rowList.push(item[key]);
+                }else{
+                    rowList.push(item[key]);
+                }
+            }
+            //console.log(item);
+            var sortingOrder     = orderBy;
+            var itemsPerPage     = itemsByPage;
+            $scope.sortingOrder  = sortingOrder;
+            $scope.reverse       = false;
+            $scope.filteredItems = [];
+            $scope.groupedItems  = [];
+            $scope.itemsPerPage  = itemsPerPage;
             $scope.pagedItems    = [];
-            $scope.itemPerPage=0;
-            $scope.loadPagination = function(item, orderBy, itemsByPage){
-                //console.log("[loadPagination]");
-                var rowList=[];
-                var rowId=null;
-                for (var key in item){
-                    if (item[key].idClient!=undefined && typeof item[key].idClient === 'string'){
-                        rowId=Number(item[key].idClient);
-                        item[key].idClient=rowId;
-                        rowList.push(item[key]);
-                    }else if (item[key].idServiceTechnician!=undefined && typeof item[key].idServiceTechnician === 'string'){
-                        rowId=Number(item[key].idServiceTechnician);
-                        item[key].idServiceTechnician=rowId;
-                        rowList.push(item[key]);
-                    }else if (item[key].idUser!=undefined && typeof item[key].idUser === 'string'){
-                        rowId=Number(item[key].idUser);
-                        item[key].idUser=rowId;
-                        rowList.push(item[key]);
-                    }else if (item[key].idUserFk!=undefined && typeof item[key].idUserFk === 'string'){
-                        rowId=Number(item[key].idUserFk);
-                        item[key].idUserFk=rowId;
-                        rowList.push(item[key]);
-                    }else if (item[key].idProduct!=undefined && typeof item[key].idProduct === 'string'){
-                        rowId=Number(item[key].idProduct);
-                        item[key].idProduct=rowId;
-                        rowList.push(item[key]);
-                    }else if (item[key].idDepartmentFk!=undefined && typeof item[key].idProduct === 'string'){
-                        rowId=Number(item[key].idDepartmentFk);
-                        item[key].idDepartmentFk=rowId;
-                        rowList.push(item[key]);
-                    }else{
-                        rowList.push(item[key]);
-                    }
-                }
-                //console.log(item);
-                var sortingOrder     = orderBy;
-                var itemsPerPage     = itemsByPage;
-                $scope.sortingOrder  = sortingOrder;
-                $scope.reverse       = false;
-                $scope.filteredItems = [];
-                $scope.groupedItems  = [];
-                $scope.itemsPerPage  = itemsPerPage;
-                $scope.pagedItems    = [];
-                $scope.currentPage   = 0;
-                $scope.items         = [];
-                $scope.items         = rowList;
-                $scope.itemPerPage   = $scope.itemsPerPage;
-                $scope.search();
-            }
-            // init the filtered items
-            $scope.search = function (qv1, qv2, qv3, qv4, vStrict) {
-                    var qvalue1 = qv1==""?undefined:qv1;
-                    var qvalue2 = qv2==""?undefined:qv2;
-                    var qvalue3 = qv3==""?undefined:qv3;
-                    var qvalue4 = qv4==""?undefined:qv4;
-                    console.log("[search]-->qvalue1: "+qvalue1);
-                    console.log("[search]-->qvalue2: "+qvalue2);
-                    console.log("[search]-->qvalue3: "+qvalue3);
-                    console.log("[search]-->qvalue4: "+qvalue4);
-                    //console.log("[search]-->qvalue5: "+qvalue5);
-                    //console.log("[search]-->qvalue6: "+qvalue6);
-                    //console.log("[search]-->vStrict: "+vStrict);
-                    $scope.filteredItems = $filter("filter")($scope.items, qvalue1, vStrict);
-                    if (qvalue2!=undefined && qvalue2!='' && qvalue2!=null){$scope.filteredItems = $filter("filter")($scope.filteredItems, qvalue2, vStrict);}
-                    if (qvalue3!=undefined && qvalue3!='' && qvalue3!=null){$scope.filteredItems = $filter("filter")($scope.filteredItems, qvalue3, vStrict);}
-                    if (qvalue4!=undefined && qvalue4!='' && qvalue4!=null){$scope.filteredItems = $filter("filter")($scope.filteredItems, qvalue4, vStrict);}
+            $scope.currentPage   = 0;
+            $scope.items         = [];
+            $scope.items         = rowList;
+            $scope.itemPerPage   = $scope.itemsPerPage;
+            $scope.search();
+        }
+        // init the filtered items
+        $scope.search = function (qv1, qv2, qv3, qv4, vStrict) {
+                var qvalue1 = qv1==""?undefined:qv1;
+                var qvalue2 = qv2==""?undefined:qv2;
+                var qvalue3 = qv3==""?undefined:qv3;
+                var qvalue4 = qv4==""?undefined:qv4;
+                console.log("[search]-->qvalue1: "+qvalue1);
+                console.log("[search]-->qvalue2: "+qvalue2);
+                console.log("[search]-->qvalue3: "+qvalue3);
+                console.log("[search]-->qvalue4: "+qvalue4);
+                //console.log("[search]-->qvalue5: "+qvalue5);
+                //console.log("[search]-->qvalue6: "+qvalue6);
+                //console.log("[search]-->vStrict: "+vStrict);
+                $scope.filteredItems = $filter("filter")($scope.items, qvalue1, vStrict);
+                if (qvalue2!=undefined && qvalue2!='' && qvalue2!=null){$scope.filteredItems = $filter("filter")($scope.filteredItems, qvalue2, vStrict);}
+                if (qvalue3!=undefined && qvalue3!='' && qvalue3!=null){$scope.filteredItems = $filter("filter")($scope.filteredItems, qvalue3, vStrict);}
+                if (qvalue4!=undefined && qvalue4!='' && qvalue4!=null){$scope.filteredItems = $filter("filter")($scope.filteredItems, qvalue4, vStrict);}
+            //console.log($scope.filteredItems);
+            // take care of the sorting order
+            if ($scope.sortingOrder !== '') {
+                $scope.filteredItems = $filter("orderBy")($scope.filteredItems, $scope.sortingOrder, $scope.reverse);
                 //console.log($scope.filteredItems);
-                // take care of the sorting order
-                if ($scope.sortingOrder !== '') {
-                    $scope.filteredItems = $filter("orderBy")($scope.filteredItems, $scope.sortingOrder, $scope.reverse);
-                    //console.log($scope.filteredItems);
-                }
-                $scope.currentPage = 0;
-                // now group by pages
-                $scope.groupToPages();
-            };
-            // Group Items By Pages
-            $scope.groupToPages = function (itemPerPage) {
-                var itemsPerPage = itemPerPage==undefined || itemPerPage==null?$scope.itemsPerPage:itemPerPage;
-                $scope.pagedItems = [];
-                for (var i = 0; i < $scope.filteredItems.length; i++) {
-                    if (i % itemsPerPage === 0) {
-                        //console.log("entro al if");
-                        $scope.pagedItems[Math.floor(i / itemsPerPage)] = [ $scope.filteredItems[i] ];
-                    } else {
-                        //console.log("entro al else");
-                        $scope.pagedItems[Math.floor(i / itemsPerPage)].push($scope.filteredItems[i]);
-                    } 
-                    //console.log($scope.pagedItems[Math.floor(i / itemsPerPage)]);
-                }
-                //console.log($scope.pagedItems.length);
-                //console.log("PAGINATION LOADED");
-            };
-            //Previous Page
-            $scope.prevPage = function () {
-                if ($scope.currentPage > 0) {
-                    $scope.currentPage--;
-                }
-            };
-            //Next Page
-            $scope.nextPage = function () {
-                if ($scope.currentPage < $scope.pagedItems.length - 1) {
-                    $scope.currentPage++;
-                }
-            };
-            //Last Page
-            $scope.lastPage = function(){          
-                $scope.currentPage=($scope.pagedItems.length-1);
             }
-            //First Page
-            $scope.firstPage = function () {
-                $scope.currentPage=($scope.pagedItems.length-$scope.pagedItems.length);
-            };
-        
-            // change sorting order
-            $scope.sort_by = function(newSortingOrder) {
-                if ($scope.sortingOrder == newSortingOrder)
-                    $scope.reverse = !$scope.reverse;
-        
-                $scope.sortingOrder = newSortingOrder;
-        
-                // icon setup
-                //$('th i').each(function(){
-                //    // icon reset
-                //    $(this).removeClass().addClass('icon-sort');
-                //});
-                if ($scope.reverse)
-                    $('th.'+newSortingOrder+' i').removeClass().addClass('icon-chevron-up');
-                else
-                    $('th.'+newSortingOrder+' i').removeClass().addClass('icon-chevron-down');
-            };
-            $scope.sort = function(keyname){
-                $scope.sortKey = keyname;   //set the sortKey to the param passed
-                $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+            $scope.currentPage = 0;
+            // now group by pages
+            $scope.groupToPages();
+        };
+        // Group Items By Pages
+        $scope.groupToPages = function (itemPerPage) {
+            var itemsPerPage = itemPerPage==undefined || itemPerPage==null?$scope.itemsPerPage:itemPerPage;
+            $scope.pagedItems = [];
+            for (var i = 0; i < $scope.filteredItems.length; i++) {
+                if (i % itemsPerPage === 0) {
+                    //console.log("entro al if");
+                    $scope.pagedItems[Math.floor(i / itemsPerPage)] = [ $scope.filteredItems[i] ];
+                } else {
+                    //console.log("entro al else");
+                    $scope.pagedItems[Math.floor(i / itemsPerPage)].push($scope.filteredItems[i]);
+                } 
+                //console.log($scope.pagedItems[Math.floor(i / itemsPerPage)]);
             }
+            //console.log($scope.pagedItems.length);
+            //console.log("PAGINATION LOADED");
+        };
+        //Previous Page
+        $scope.prevPage = function () {
+            if ($scope.currentPage > 0) {
+                $scope.currentPage--;
+            }
+        };
+        //Next Page
+        $scope.nextPage = function () {
+            if ($scope.currentPage < $scope.pagedItems.length - 1) {
+                $scope.currentPage++;
+            }
+        };
+        //Last Page
+        $scope.lastPage = function(){          
+            $scope.currentPage=($scope.pagedItems.length-1);
+        }
+        //First Page
+        $scope.firstPage = function () {
+            $scope.currentPage=($scope.pagedItems.length-$scope.pagedItems.length);
+        };
+    
+        // change sorting order
+        $scope.sort_by = function(newSortingOrder) {
+            if ($scope.sortingOrder == newSortingOrder)
+                $scope.reverse = !$scope.reverse;
+    
+            $scope.sortingOrder = newSortingOrder;
+    
+            // icon setup
+            //$('th i').each(function(){
+            //    // icon reset
+            //    $(this).removeClass().addClass('icon-sort');
+            //});
+            if ($scope.reverse)
+                $('th.'+newSortingOrder+' i').removeClass().addClass('icon-chevron-up');
+            else
+                $('th.'+newSortingOrder+' i').removeClass().addClass('icon-chevron-down');
+        };
+        $scope.sort = function(keyname){
+            $scope.sortKey = keyname;   //set the sortKey to the param passed
+            $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+        }
                 /**************************************************
                 *                                                 *
                 *          COLLAPSE / EXPAND TABLE ROWS           *
@@ -470,399 +431,6 @@ system.controller('SystemCtrl', function($scope, $location, $routeParams, blockU
                          } 
                      }
                  };
-        /**************************************************
-        *                                                 *
-        *            GET ADMINISTRATION LIST              *
-        *                                                 *
-        **************************************************/
-            $scope.getAdminListFn = function(){
-                $scope.administrationList = [];
-                $scope.administrationList = $scope.globalCustomers.administrations;
-            };
-        /**************************************************
-        *                                                 *
-        *                GET BUILDING LIST                *
-        *                                                 *
-        **************************************************/
-            $scope.buildingList = [];
-            $scope.getBuildingListFn = function(idAdmin){
-                $scope.buildingList = [];
-                CustomerServices.getCustomersListByCustomerId(idAdmin).then(function(response){
-                    if(response.status==200){
-                        $scope.buildingList = response.data;
-                    }else if (response.status==404){
-                        $scope.buildingList = [];
-                        inform.add('No hay consorcios asociados a la administracion seleccionada, contacte al area de soporte de TASS.',{
-                        ttl:5000, type: 'warning'
-                        });
-                    }else if (response.status==500){
-                        $scope.buildingList = [];
-                        inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
-                        ttl:5000, type: 'danger'
-                        });
-                    }
-                });
-            };
-        /**************************************************
-        *                                                 *
-        * DEPARTMENT LIST BY SELECTED ADDRESS AND TENANT  *
-        *                                                 *
-        **************************************************/
-            $scope.ListDpto=[];
-            $scope.dptoNotFound = true;
-            $scope.getDeptoListByAddress = function (idAddress){
-                if(idAddress!=undefined){
-                    $scope.ListDpto=[];
-                    var idStatusFk='-1';
-                    DepartmentsServices.byIdDireccion(idAddress, idStatusFk).then(function(response) {
-                        if(response.status==200){
-                        $scope.dptoNotFound = false;
-                        $scope.ListDpto = response.data;
-                            //console.log($scope.ListDpto);
-                        }else if (response.status==404){
-                            $scope.ListDpto=[];
-                            $scope.dptoNotFound = true;
-                            inform.add('No hay departamentos en esta direccion para ser asociados, contacte al area de soporte de TASS.',{
-                            ttl:5000, type: 'danger'
-                            });
-                        }
-                    });
-                }
-            };
-        /**************************************************
-        *                                                 *
-        *         LIST OF ATTENDANTS BY ID ADDRESS        *
-        *                                                 *
-        **************************************************/
-            $scope.attendantListByAddress = [];
-            $scope.getAttendantListFn = function(idAddress){
-                $scope.attendantListByAddress = [];
-                userServices.attendantsOnlyList(idAddress).then(function(response) {
-                    if(response.status==200){
-                        $scope.attendantListByAddress = response.data;
-                        $scope.attendantFound=true;
-                    }else if (response.status==404){
-                        $scope.attendantFound=false;
-                        $scope.attendantListByAddress = [];
-                        inform.add('No se encontraron Encargados asociados al consorcio seleccionado. ',{
-                            ttl:5000, type: 'info'
-                        });
-                    }else if (response.status==500){
-                        $scope.attendantFound=false;
-                        inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
-                            ttl:5000, type: 'danger'
-                        });
-                    }
-                });
-                
-            }
-        /**************************************************
-        *                                                 *
-        *                 LIST PRODUCTS                   *
-        *                                                 *
-        **************************************************/
-            $scope.rsKeyProductsData = [];
-            $scope.getKeysAssociatedToACustomerFn = function(idAddress){
-                CustomerServices.getKeysAssociatedToACustomerService(idAddress).then(function(response){
-                    if(response.status==200){
-                        $scope.rsKeyProductsData = response.data;
-                    }else if (response.status==404){
-                        $scope.rsKeyProductsData = [];
-                    }else if (response.status==500){
-                        $scope.rsKeyProductsData = [];
-                        inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
-                            ttl:5000, type: 'danger'
-                        });
-                    }
-                });
-                
-            }
-        /**************************************************
-        *                                                 *
-        *                 LIST PRODUCTS                   *
-        *                                                 *
-        **************************************************/
-            $scope.rsCustomerAccessControlDoors = [];
-            $scope.getControlAccessDoorsAssociatedToACustomerFn = function(idAddress){
-                CustomerServices.getControlAccessDoorsAssociatedToACustomerServices(idAddress).then(function(response){
-                    if(response.status==200){
-                        $scope.rsCustomerAccessControlDoors = response.data;
-                    }else if (response.status==404){
-                        $scope.rsCustomerAccessControlDoors = [];
-                    }else if (response.status==500){
-                        inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
-                            ttl:5000, type: 'danger'
-                        });
-                    }
-                });
-                
-            }
-        /**************************************************
-        *                                                 *
-        *     SELECCIONA DATA DE TENANT SELECCIONADO      *
-        *                 DE LA LISTA                     *
-        **************************************************/
-            $scope.listTenant =[];
-            $scope.lisTenantByType = function(idDepto, idTypeTenant){
-                var typeTenant=idTypeTenant==null?-1:idTypeTenant;
-                if (($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==5 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf!=null){
-                    DepartmentsServices.listTenant2AssignedDeptoByIdDeptoByTypeTenant(idDepto, typeTenant).then(function(response) {
-                        console.log('typeTenant = '+ typeTenant + ' / Profile = '+$scope.sysLoggedUser.idProfileKf);
-                        if(response.status==200){
-                            console.log(response);
-                            $scope.listTenant = response.data.tenant;
-                        }else if (response.status==404){
-                            $scope.listTenant =[];
-                        }else if (response.status==500){
-                            $scope.listTenant =[];
-                        }
-                    });
-                }else{
-                    DepartmentsServices.listTenantsWithoutKeyAssignedByIdDepto(idDepto).then(function(response) {
-                        console.log('typeTenant = '+ typeTenant + ' / Profile = '+$scope.sysLoggedUser.idProfileKf);
-                        if(response.status==200){
-                            console.log(response.data);
-                            $scope.listTenant = response.data;
-                            $scope.tenantNotFound=false; 
-                        }else if (response.status==404){
-                            $scope.tenantNotFound=true;
-                            $scope.listTenant =[];
-                            $scope.messageInform1 = " Propietario registrado.";
-                            $scope.messageInform2 = " inquilinos registrados.";
-                            $scope.messageInform  = typeTenant == 1 ? $scope.messageInform1 : $scope.messageInform2;
-                            inform.add('El departamento no presenta'+$scope.messageInform+'.',{
-                                ttl:3000, type: 'warning'
-                            });
-                        }else if (response.status==500){
-                            $scope.tenantNotFound=true;
-                            $scope.listTenant =[];
-                            inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
-                                ttl:3000, type: 'danger'
-                            });
-                        }
-                    });
-                }
-            }
-        /**************************************************
-        *                                                 *
-        *   FUNCTION TO CONCATENATE NAMES ATT IN SELECT   *
-        *                                                 *
-        **************************************************/
-            $scope.combined_products = function(product){
-                return product.descriptionProduct+ " Precio:" + product.priceFabric;
-            }
-        /**************************************************
-        *                                                 *
-        *   FUNCTION TO CONCATENATE NAMES ATT IN SELECT   *
-        *                                                 *
-        **************************************************/
-            $scope.combined_att = function(att){
-                if(att.idTyepeAttendantKf == '1'){
-                    return att.fullNameUser+ " (" + att.nameTypeAttendant + ") Funcion: "+att.descOther;
-                }
-                else {
-                    return att.fullNameUser + " (" + att.nameTypeAttendant + ")";
-                }
-            }
-            $scope.addDoorOpenList = function(item){
-                if (item.selected){
-                    $scope.list_doors.push(item);
-                }else{
-                    for (var key in  $scope.list_doors){
-                        if ( $scope.list_doors[key].idAccessControlDoor==item.idAccessControlDoor){
-                            $scope.list_doors.splice(key,1);
-                        }
-                    }
-                }
-                console.log($scope.list_doors);
-            }
-        /**************************************************
-        *                                                 *
-        *                CHECK MAIL OR DNI                *
-        *                   DUPLICATES                    *
-        *                                                 *|
-        **************************************************/
-            $scope.sysCheck4Duplicates = function(value, opt){
-                if(value){
-                    //console.log($scope.users.update.mail);
-                    //console.log(value);
-                    //console.log(opt);
-                    if (((($scope.tenant.new!=undefined && $scope.tenant.new.dni!="" && opt=="dni") || ($scope.tenant.new!=undefined && $scope.tenant.new.mail!="" && opt=="mail")) || 
-                        (($scope.tenant.update!=undefined && $scope.tenant.tmp.dni!=value && opt=="dni") || ($scope.tenant.update!=undefined && $scope.tenant.tmp.mail!=value && opt=="mail"))) ||
-                        ((($scope.attendant.new!=undefined && $scope.attendant.tmp.dni!=value && opt=="dni") || ($scope.attendant.new!=undefined && $scope.attendant.tmp.mail!=value && opt=="mail")) ||
-                        (($scope.attendant.update!=undefined && $scope.attendant.tmp.dni!=value && opt=="dni") || ($scope.attendant.update!=undefined && $scope.attendant.tmp.mail!=value && opt=="mail")))
-                        ){
-                        userServices.findUserByEmail(value).then(function(response) {
-                            console.log(response);
-                            if(response.status==200){
-                                if(APP_REGEX.checkDNI.test(value)){
-                                    $scope.sysDNIRegistered=true;
-                                    //console.log(response.data[0].fullNameUser);
-                                    if ($scope.isNewTenant){
-                                        $scope.tenant.new.dni=undefined;
-                                    }
-                                    $scope.attendant.new.dni=undefined;
-                                }
-                                if(APP_REGEX.checkEmail.test(value)){
-                                    $scope.sysEmailRegistered=true;
-                                }
-                            }else if (response.status==404){
-                                if(APP_REGEX.checkDNI.test(value)){
-                                    $scope.sysDNIRegistered=false;
-                                }
-                                if(APP_REGEX.checkEmail.test(value)){
-                                    $scope.sysEmailRegistered=false;
-                                }
-                            }
-                        });
-                    }
-                }
-            }
-        /**************************************************
-        *                                                 *
-        *           CHECK IF A DEPTO HAS OWNER            *
-        *                                                 *
-        **************************************************/
-            $scope.ownerFound=false;
-            $scope.checkDeptoOwner = function(idDepartment){
-                $scope.ownerFound=false;
-                var idDepartmentKf = idDepartment;
-                console.log(idDepartmentKf);
-                if (($scope.isNewTenant && $scope.tenant.new.idTypeTenantKf!=undefined && $scope.tenant.new.idTypeTenantKf==1) || ($scope.isUpdateTenant && $scope.tenant.update.idTypeTenantKf!=undefined && $scope.tenant.update.idTypeTenantKf==1)){
-                    if ($scope.isNewTenant){
-                        $scope.tenant.new.idProfileKf = 3;
-                    }
-                    if ($scope.isUpdateTenant){
-                        $scope.tenant.update.idProfileKf = 3;
-                    }
-                }else{
-                    if ($scope.isNewTenant){
-                        $scope.tenant.new.idProfileKf = 5;
-                    }
-                    if ($scope.isUpdateTenant){
-                        $scope.tenant.update.idProfileKf = 5;
-                    }
-                }
-                //console.log(idDepartment);
-                if(((($scope.tenant.new!=undefined && $scope.tenant.new.idProfileKf=="3") || ($scope.tenant.update!=undefined && $scope.tenant.update.idProfileKf=="3"))) || ((($scope.attendant.new!=undefined && $scope.attendant.new.idProfileKf=="6") || ($scope.attendant.update!=undefined && $scope.attendant.update.idProfileKf=="6")) && $scope.att.ownerOption==1)){
-                    DepartmentsServices.chekDepartamenteOwner(idDepartmentKf).then(function(response){
-                        console.log(response);
-                        if(response.status==200){
-                            if (response.data==true){
-                                $scope.ownerFound=true;
-                                if ($scope.isNewTenant){
-                                    $scope.tenant.new.idTypeTenantKf=undefined;
-                                }
-                                if ($scope.isUpdateTenant){
-                                    $scope.tenant.update.idTypeTenantKf=undefined;
-                                }
-                                $scope.att.ownerOption=undefined;
-                                console.log("EL DEPTO                        : "+idDepartmentKf+" Ya tiene un propietario Asignado");
-                                //console.log("$scope.ownerFound               : "+$scope.ownerFound);
-                                //console.log("$scope.attendant.new.idProfileKf: "+$scope.attendant.new.idProfileKf);
-                                //console.log("$scope.att.ownerOption          : "+$scope.att.ownerOption);
-                            }else if(response.data==false){
-                                $scope.ownerFound=false;
-                                console.log("EL DEPTO                        : "+idDepartmentKf+" No tiene un propietario Asignado");
-                            }
-                        }
-                    });
-                }
-            }
-        /**************************************************
-        *                                                 *
-        *           CHECK IF A DEPTO HAS OWNER            *
-        *                                                 *
-        **************************************************/
-            $scope.titularAttendantFound=false;
-            $scope.checBuildingTitularAttendant = function(idAddress){
-                $scope.titularAttendantFound=false;
-                //console.log(idDepartment);
-                userServices.checBuildingTitularAttendant(idAddress).then(function(response){
-                    if(response.status==200){
-                        $scope.titularAttendantFound=true;
-                        console.log("EL CONSORCIO   : "+idAddress+" Ya tiene un Encargado Titular Asociado");
-                    }else if(response.data==false){
-                        $scope.titularAttendantFound=false;
-                        console.log("EL CONSORCIO   : "+idAddress+" No tiene un Encargado Titular Asociado");
-                    }
-                });
-            }
-            $scope.filterTitularAttendantOption = function(item){
-                if ($scope.titularAttendantFound){
-                    if (item.idTyepeAttendant!='2'){
-                        return item;
-                    }
-                }else{
-                    return item;
-                }
-            };
-        /**************************************************
-        *                                                 *
-        *   ASSIGN DEPARTMENT TO THE CURRENT OWNER USER   *
-        *                                                 *
-        **************************************************/
-            $scope.fnAssignDepto = function(userData){
-                DepartmentsServices.assignDepto(userData).then(function(response) {
-                    if(response.status==200){
-                        inform.add('Departamento Asignado y pendiente por aprobacion por la administracion.',{
-                        ttl:3000, type: 'success'
-                        });
-                    }else if (response.status==404){
-                        inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
-                        ttl:3000, type: 'danger'
-                        });
-                    }
-                });
-            }
-        /**************************************************
-        *                                                 *
-        *  APPROVE DEPARTMENT TO AN OWNER OR TENANT USER  *
-        *                                                 *
-        **************************************************/
-            $scope.approveDepto = function (type, id, idStatus) {
-                switch (type){
-                    case 1:
-                    case "1"://OWNER
-                        console .log("Depto: "+id)
-                        DepartmentsServices.approveOwnerDepto(id).then(function(response) {
-                            if(response.status==200){
-                                inform.add('Departamento del propietario autorizado satisfactoriamente.',{
-                                ttl:5000, type: 'success'
-                                });
-                                $timeout(function() {
-                                    blockUI.stop();
-                                }, 1500);
-                                //$scope.lisTenantByType($scope.idDeptoKf, null);
-                            }else if (response.status==404){
-                                inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
-                                ttl:5000, type: 'warning'
-                                });
-                            }
-                        });
-                    break;
-                    case 2: 
-                    case "2"://TENANT
-                    console .log("User: "+id)
-                    DepartmentsServices.approveTenantDepto(id, idStatus).then(function(response) {
-                        if(response.status==200){
-                            inform.add('Departamento del Habitante autorizado satisfactoriamente.',{
-                            ttl:5000, type: 'success'
-                            });
-                            $timeout(function() {
-                                blockUI.stop();
-                            }, 1500);
-                            //$scope.lisTenantByType($scope.idDeptoKf, null);
-                        }else if (response.status==404){
-                            inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
-                            ttl:5000, type: 'warning'
-                            });
-                        }
-                    });
-                break;
-                }
-            };
-
         /**************************************************
         *                                                 *
         *         ADD OWNER / TENANT / ATTENDANT          *
@@ -1348,6 +916,28 @@ system.controller('SystemCtrl', function($scope, $location, $routeParams, blockU
         *              ADD TECH SERVICE                   *
         *                                                 *
         **************************************************/
+            $scope.getTechServiceListFn = function(obj){
+                serviceServices.getTechServiceList().then(function(response){
+                    if(response.status==200){
+                        $scope.rsTechServicesData = response.data
+                    }else if(response.status==404){
+                        inform.add('Error[404]: no se pudo obtener la lista de servicios tecnicos, Contacta al area de soporte. ',{
+                            ttl:5000, type: 'warning'
+                        });
+                        $scope.rsTechServicesData = null;
+                    }else if(response.status==500){
+                        inform.add('Error[500] Contacta al area de soporte. ',{
+                            ttl:5000, type: 'danger'
+                        });
+                        $scope.rsTechServicesData = null;
+                    }
+                });
+            };
+        /**************************************************
+        *                                                 *
+        *              ADD TECH SERVICE                   *
+        *                                                 *
+        **************************************************/
             $scope.addNewTechServiceFn = function(obj){
                 serviceServices.addTechService(obj).then(function(response){
                     if(response.status==200){
@@ -1562,21 +1152,21 @@ system.controller('SystemCtrl', function($scope, $location, $routeParams, blockU
         **************************************************/
             $scope.rsTechServiceCostData = {};
             $scope.getTechServiceCostByTypeServiceIdFn = function(id){
-            serviceServices.getTechServiceCostByTypeServiceIdList(id).then(function(response){
-                if(response.status==200){
-                    $scope.rsTechServiceCostData = response.data;
-                }else if (response.status==404){
-                    $scope.rsTechServiceCostData = [];
-                    inform.add('No hay resultados, por favor contacte al area de soporte de TASS.',{
-                    ttl:5000, type: 'warning'
-                    });
-                }else if (response.status==500){
-                    $scope.rsTechServiceCostData = [];
-                    inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
-                    ttl:5000, type: 'danger'
-                    });
-                }
-            });
+                serviceServices.getTechServiceCostByTypeServiceIdList(id).then(function(response){
+                    if(response.status==200){
+                        $scope.rsTechServiceCostData = response.data;
+                    }else if (response.status==404){
+                        $scope.rsTechServiceCostData = [];
+                        inform.add('No hay resultados, por favor contacte al area de soporte de TASS.',{
+                        ttl:5000, type: 'warning'
+                        });
+                    }else if (response.status==500){
+                        $scope.rsTechServiceCostData = [];
+                        inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                        ttl:5000, type: 'danger'
+                        });
+                    }
+                });
             };
         /**************************************************
         *                                                 *
@@ -1598,19 +1188,6 @@ system.controller('SystemCtrl', function($scope, $location, $routeParams, blockU
                         inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
                         ttl:5000, type: 'danger'
                         });
-                    }
-                });
-            };
-        /**************************************************
-        *                                                 *
-        *           GET TYPE OF TypeMaintenance           *
-        *                                                 *
-        **************************************************/
-            $scope.rsTypeOfMaintenanceList = [];
-            $scope.getTypeOfMaintenanceFn = function(){
-                UtilitiesServices.typeOfMaintenance().then(function(response){
-                    if(response.status==200){
-                        $scope.rsTypeOfMaintenanceList = response.data;
                     }
                 });
             };
@@ -1720,19 +1297,6 @@ system.controller('SystemCtrl', function($scope, $location, $routeParams, blockU
                         $scope.sysParam.value = $scope.sys.email;
                         console.log($scope.sys.email);  
                         $scope.updateSysParam($http, $scope);
-                      }
-                    break;
-                    case "services":
-                      if(fnAction=="open"){
-                        $scope.select.idCompanyKf="";
-                        $scope.select.idAddressAtt="";
-                        $('#ModalServiceCost').modal('show');
-                      }
-                      if(fnAction=="save"){
-                        var i = 3;
-                        for (i=3; i<6; i++){
-                          $scope.updateServiceCost($http, $scope, i)
-                        }
                       }
                     break;
                     case "zones":
@@ -1865,6 +1429,7 @@ system.controller('SystemCtrl', function($scope, $location, $routeParams, blockU
                             break;
                             case "addTechService":
                                 //console.log(obj);
+                                $scope.getTypeOfMaintenanceFn();
                                 var description = obj.description;
                                 $scope.technician.new.service.description = description.toUpperCase();
                                 $scope.technician.new.service.isProtected = obj.isProtected;
@@ -1964,23 +1529,6 @@ system.controller('SystemCtrl', function($scope, $location, $routeParams, blockU
                                 }
                             break;
                             default:
-                        }
-                    break;
-                    case "products":
-                        switch (opt2){
-                          case "listProducts":
-                            $scope.sysContent = "";
-                            $scope.getProductsFn("",1);
-                            $scope.sysContent = 'products';
-                          break;
-                          case "newProduct":
-                            $scope.newProduct={product:{}};
-                              $scope.list_id_divice=[];
-                              $scope.list_divices=[];
-                              $scope.isDeviceExist=null;
-                            $('#newProduct').modal('show');
-                          break;
-                          default:
                         }
                     break;
                     default:

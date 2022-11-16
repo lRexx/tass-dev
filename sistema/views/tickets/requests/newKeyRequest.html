@@ -4,7 +4,7 @@
 		<h3 class="panel-title"><i class="product-success fas fa-file-upload">&nbsp</i>ALTA DE LLAVE - {{mySwitch}}</h3>
 	</div>
 	<div class="panel-body">
-		<div ng-if="sysLoggedUser.idProfileKf!=5">
+		<div ng-if="sysLoggedUser.idProfileKf!=0">
 			<form class="form-horizontal" name="fkeyup" novalidate>
 				<div ng-switch on="mySwitch">
 					<fieldset class="animate-switch" ng-switch-when="PASO 1: DIRECCIÓN">
@@ -312,6 +312,7 @@
 								<div ng-if="rsCustomerAccessControlDoors.length==0 " class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay Puertas disponibles</h5></div>
 							</div>
 						</div>
+						<!--LLAVES A SOLICITAR-->
 						<div class="col-md-6 col-xs-12 form-group">
 							<legend style="text-align: center;">Llaves a solicitar</legend>
 							<div class="form-group">
@@ -324,7 +325,7 @@
 											<th class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-dollar-sign"> </i> Precio</th>
 											<th ng-if="ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Categoria</th>
 											<th ng-if="ticket.optionTypeSelected.name=='department' || ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Asignado</th>
-											<th ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="glyphicon glyphicon-user"></i> Usuario </th>
+											<!--<th ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="glyphicon glyphicon-user"></i> Usuario </th>-->
 											<th class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-door-open"></i> Puertas</th>
 											<th class="dpto-th-head " style="text-align: center;"><i class="fas fa-ellipsis-h"></i></th>
 										</tr>
@@ -357,14 +358,14 @@
 													<span class="label label-default">{{ticket.idClientDepartament.Depto}}</span>
 												</span>
 											</td>
-											<td ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" style="vertical-align: middle;text-align: center;"> 
+											<!--<td ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" style="vertical-align: middle;text-align: center;"> 
 												<span ng-if="tckt.user!=undefined && tckt.user!=null" data-toggle="tooltip" data-placement="right" title="Asignado" class="font-size-18px" style="color: #5cb85c">
 													<i class="text-success fas fa-check-circle"></i>
 												</span>
 												<span ng-if="tckt.user==undefined || tckt.user==null" data-toggle="tooltip" data-placement="right" title="No asignado" class="text-danger media-middle text-center font-size-18px">
 													<i class="fas fa-times-circle"></i>
 												</span>
-											</td>
+											</td>-->
 											<td style="vertical-align: middle;text-align: center;">
 												<span ng-if="tckt.doors.length>0" data-toggle="tooltip" data-placement="bottom" title="Puertas a Habilitar" class="label label-success">
 													{{tckt.doors.length}}
@@ -429,7 +430,7 @@
 							</div>-->
 
 							<!-- SHOW THE OWNER WHOM PICKUP OR RECEIVED THE KEY -->
-							<div ng-if="(sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=6) && ticket.delivery.idTypeDeliveryKf!=undefined && 
+							<div ng-if="ticket.delivery.idTypeDeliveryKf!=undefined && 
 							(((ticket.delivery.whoPickUp.id!=undefined && ticket.delivery.whoPickUp.id==2 && selectedDeliveryAttendant!=undefined) || (ticket.delivery.whoPickUp.id!=undefined && ticket.delivery.whoPickUp.id==3 && selectedDeliveryAttendant==undefined)) || ticket.delivery.whoPickUp.idUser!=undefined)"  class="form-group col-md-12">
 									<div class="col-md-12">
 										<div class="alert alert-success" style="border: 3px solid;border-radius: 15px;" role="alert">
@@ -661,7 +662,7 @@
 														<th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-dollar-sign"> </i> Precio</th>
 														<th ng-if="ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Categoria</th>
 														<th ng-if="ticket.optionTypeSelected.name=='department' || ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Asignado</th>
-														<th ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="glyphicon glyphicon-user"></i> Usuario </th>
+														<!--<th ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="glyphicon glyphicon-user"></i> Usuario </th>-->
 														<th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-door-open"></i> Puertas</th>
 													</tr>
 												</thead>
@@ -693,7 +694,7 @@
 																<span class="label label-default">{{ticket.idClientDepartament.Depto}}</span>
 															</span>
 														</td>
-														<td ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" style="vertical-align: middle;text-align: center;"> 
+														<!--<td ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" style="vertical-align: middle;text-align: center;"> 
 															<span ng-if="tckt.user!=undefined && tckt.user!=null" data-toggle="tooltip" data-placement="right" title="Asignado" class="font-size-18px" style="color: #5cb85c">
 																<i class="text-success fas fa-check-circle"></i>
 															</span>
@@ -701,7 +702,7 @@
 															<span ng-if="tckt.user==undefined || tckt.user==null" data-toggle="tooltip" data-placement="right" title="No asignado" class="text-danger media-middle text-center font-size-18px">
 																<i class="fas fa-times-circle"></i>
 															</span>
-														</td>
+														</td>-->
 														<td style="vertical-align: middle;text-align: center;">
 															<span ng-if="tckt.doors.length>0" data-toggle="tooltip" data-placement="bottom" title="Puertas a Habilitar" class="label label-success">
 																{{tckt.doors.length}}
@@ -767,10 +768,10 @@
 											<table class="table table-bordered table-condensed table-list table-responsive" style="margin-bottom: 0px !important;">
 												<tbody style="text-align: right;">
 													<tr>
-														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Gestión</td><td>$ {{ticket.cost.service | currency}}</td>
-														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Llaves</td><td>$ {{ticket.cost.keys | currency}}</td>
-														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Envío</td><td>$ {{ticket.cost.delivery | currency}}</td>
-														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Total</td><td>$ {{ticket.cost.total | currency}}</td>
+														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Gestión</td><td>$ {{ticket.cost.service | number : 2 }}</td>
+														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Llaves</td><td>$ {{ticket.cost.keys | number : 2 }}</td>
+														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Envío</td><td>$ {{ticket.cost.delivery | number : 2 }}</td>
+														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Total</td><td>$ {{ticket.cost.total | number : 2 }}</td>
 													</tr>
 												</tbody>
 											</table>
