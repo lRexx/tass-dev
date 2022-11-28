@@ -20,10 +20,11 @@
     </thead>
     <tbody>
       <!-- Show if there is customer registered -->
-      <tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
+      <!--<tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">-->
+        <tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in rsCustomerListData">
         <!--<tr class="animate-repeat" style="align-content: center; cursor: pointer;"  dir-paginate="item in rsCustomerListData|orderBy:idClient:reverse|filter:searchboxfilter|itemsPerPage:10">-->
         <td class="media-middle text-center" ng-click="switchCustomersFn('details_customer', item, 'show');">
-        	{{item.idClientIndex}}
+        	{{item.idClient}}
               <!--<span ng-if="
               ((item.idProfileKf==5 || (item.idProfileKf==6 && item.idTypeTenantKf==2)) && (!item.idAddresKf && !item.idAdress) && !item.idDepartmentKf)" class="badge badge-notify">
                 <i data-toggle="tooltip" data-placement="right" title="Direccion y Depto incompletos" class="fas fa-map-marked-alt"> <i class="fas fa-home"></i></i>
@@ -130,7 +131,8 @@
     </thead>
     <tbody>
       <!-- Show if there is customer registered -->
-      <tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
+      <!--<tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse"> -->
+      <tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in rsCustomerListData">
         <td>
           {{item.idClient}}
               <!--<span ng-if="

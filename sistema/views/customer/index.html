@@ -60,7 +60,7 @@
                               <div class="col-md-12 col-sm-12 col-xs-12 ">
                                 <label style="padding-left: 15px;">Busquéda de cliente:</label>
                               	<div class="input-group search-box-rule col-md-12 col-sm-12 col-xs-12">
-                                		<input type="text" class="form-control" ng-disabled="rsCustomerListData.status==404" ng-change="search(null, searchboxfilter, true)"  ng-model="searchboxfilter" placeholder="Buscar..." style="border-radius: 4px;">
+                                		<input type="text" class="form-control text-uppercase" ng-disabled="rsCustomerListData.status==404 || rsCustomerListData.length==0" ng-keyup="select.filterTypeOfClient==undefined?getCustomersByNameFn(searchboxfilter, customerSearch.strict):offlineSearch(rsCustomerListData,searchboxfilter,null,customerSearch.strict)"  ng-model="searchboxfilter" placeholder="Buscar..." style="border-radius: 4px;">
                               	</div>
                               </div>
                         </div>
@@ -68,7 +68,7 @@
                               <div class="col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r">
                                 <div class="col-md-2 col-xs-2 n-padding-r">
                                   <label class="switch switch-2x" for="strict-search">
-                                      <input type="checkbox" class="success" ng-click="search(null, searchboxfilter, true)" ng-model="customerSearch.strict" id="strict-search">
+                                      <input type="checkbox" class="success" ng-disabled="rsCustomerListData.status==404 || rsCustomerListData.length==0" ng-click="select.filterTypeOfClient==undefined?getCustomersByNameFn(searchboxfilter, customerSearch.strict):offlineSearch(rsCustomerListData,searchboxfilter,null,customerSearch.strict)" ng-model="customerSearch.strict" id="strict-search">
                                       <span class="slider slider-2x flat"></span>
                                   </label>
                                 </div>
@@ -87,7 +87,7 @@
                                   <div class="input-group">
                                       <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
                                       <select  name="filterTypeOfClient" 
-                                               ng-change="getCustomersListByTypeFn(select.filterTypeOfClient.idClientType); select.filterCustomerIdFk.selected=undefined; onSelectCallback();" 
+                                               ng-change="getCustomersListByTypeFn(select.filterTypeOfClient.idClientType); select.filterCustomerIdFk.selected=undefined;" 
                                                ng-options="(item.ClientType | uppercase) for item in rsCustomerTypeFilterData" 
                                                ng-disabled="rsCustomerListData.status==404"  
                                                class="form-control" 
@@ -147,13 +147,13 @@
                       <!-- TABLE LIST WHERE IS DISPLAYED THE CUSTOMER -->
                       <div ng-include="'views/customer/list/listCustomers.html'" style="margin-top: 0.4% !important;"></div>
                       <!-- PAGINATION -->
-                        <div ng-if="rsCustomerListData.length>=10" style="text-align: center;">
+                        <div ng-if="rsCustomerListData.length>0" style="text-align: center;">
                               <!--<dir-pagination-controls
                                 max-size="10"
                                 direction-links="true"
                                 boundary-links="true" >
                             </dir-pagination-controls>-->
-                            <div ng-if="rsCustomerListData.length>10" style="text-align: center;" ng-include="'views/pagination/pager-tpl-v2.html'"></div>
+                            <div style="text-align: center;" ng-include="'views/pagination/pager-tpl-v3.html'"></div>
                               <!-- Filter Type of Tenant For Admins ng-if="sysContent=='customer'"-->
                               <!--<div class="col-md-3 col-sm-3">
                                   <div class="input-group">
@@ -201,10 +201,10 @@
                       </div>
                       <div class="clear-fix"></div>
                       <!-- TABLE LIST WHERE IS DISPLAYED THE CUSTOMER -->
-                      <div ng-include="'views/customer/list/listCustomers.html'"></div>
+                      <div ng-include="'views/customer/list/listCustomers.html'" style="margin-top: 0.4% !important;"></div>
                       <!-- PAGINATION -->
-                        <div ng-if="rsCustomerListData.length>=10" style="text-align: center;">
-                          <div ng-if="rsCustomerListData.length>10" style="text-align: center;" ng-include="'views/pagination/pager-tpl-v2.html'"></div>  
+                        <div ng-if="rsCustomerListData.length>0" style="text-align: center;">
+                          <div style="text-align: center;" ng-include="'views/pagination/pager-tpl-v3.html'"></div>
                               <!--<dir-pagination-controls
                                 max-size="10"
                                 direction-links="true"

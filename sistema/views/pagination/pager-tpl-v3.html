@@ -1,21 +1,17 @@
 <!-- pager -->
-<ul ng-if="pages.length" class="pagination">
-  <li ng-class="{disabled:pagination.current == 1}">
-    <!-- First Page -->
-    <a ng-click="setCurrent(1)" aria-label="First" style="cursor: pointer;"><span aria-hidden="true"><i class="fas fa-angle-double-left"></i> Primera</span></a>
-  </li>  
-  <!-- Previous Page -->
-  <li ng-class="{disabled:pagination.current == 1}">
-    <a ng-click="setCurrent(pagination.current - 1)" aria-label="Previous" style="cursor: pointer;"><span aria-hidden="true"><i class="fas fa-chevron-left"></i> Anterior</span></a>
-  </li>
-  <li><span style="background-color: #28a745;color: #fff;">{{pagination.current}} / {{pages.length}}</span></li>
-  <!-- Next Page -->
-  <li ng-class="{disabled:currentPage == pagedItems.length - 1}">
-    <a ng-click="setCurrent(pagination.current + 1)" aria-label="Next" style="cursor: pointer;">
-      <span aria-hidden="true">Siguiente <i class="fas fa-chevron-right"></i></span></a>
-  </li>
-  <li ng-class="{disabled:currentPage == pagedItems.length - 1}">
-    <a ng-click="setCurrent(pagination.last)" aria-label="Last" style="cursor: pointer;">
-      <span aria-hidden="true">Ultima <i class="fas fa-angle-double-right"></i></span></a>
-  </li>
-</ul>
+<pagination 
+  total-items="pagination.totalCount" 
+  ng-change="pageChanged()" 
+  items-per-page="pagination.pageSizeSelected" 
+  direction-links="true" 
+  ng-model="pagination.pageIndex" 
+  max-size="pagination.maxSize" 
+  class="pagination" 
+  boundary-links="true" 
+  rotate="false" 
+  previous-text="‹ Anterior" 
+  next-text="Siguiente ›" 
+  first-text="« Primera" 
+  last-text="Ultima »"
+  num-pages="pagination.numPages">
+</pagination>

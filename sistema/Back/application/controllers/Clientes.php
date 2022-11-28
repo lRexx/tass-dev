@@ -266,13 +266,13 @@ class Clientes extends REST_Controller {
     }
 
 
-    public function findadmin_get($id) {
-        if (! $id) {
+    public function findadmin_get($idClient) {
+        if (!isset($idClient) || is_null($idClient)) {
             $this->response(null, 404);
         }
 
         $user = null;
-        $user = $this->client_model->getadmin($id, null, null, null);
+        $user = $this->client_model->getadmin($idClient, null, null, null, null, null);
 
         if (! is_null($user)) {
             $this->response($user, 200);
@@ -293,14 +293,14 @@ class Clientes extends REST_Controller {
 	}
 
     public function search_post() {
-
-        $searchFilter   = $this->post('filter');
+        $searchFilter   = $this->post('searchFilter');
         $idClientTypeFk = $this->post('idClientTypeFk');
         $isNotCliente   = $this->post('isNotCliente');
         $limit   = $this->post('limit');
         $start   = $this->post('start');
+        $strict   = $this->post('strict');
 
-        $client_rs = $this->client_model->getadmin(null, $searchFilter, $idClientTypeFk, $isNotCliente, $limit, $start);
+        $client_rs = $this->client_model->getadmin(null, $searchFilter, $idClientTypeFk, $isNotCliente, $limit, $start, $strict);
 
         if (! is_null($client_rs)) {
             $this->response($client_rs, 200);
@@ -339,7 +339,7 @@ class Clientes extends REST_Controller {
         }
     }
     public function listCustomersById_get($idClient) {
-        if (! $idClient) {
+        if (!isset($idClient) || is_null($idClient)) {
             $this->response(null, 404);
         }
 

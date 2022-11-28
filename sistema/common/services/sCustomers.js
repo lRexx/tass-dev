@@ -109,6 +109,18 @@ moduleCustomerServices.service("CustomerServices", ['$http', '$q', 'tokenSystem'
                   return response;
                 })  
           },
+          getCustomerListLimit: function(searchFilter) {
+            var sFilter=searchFilter;
+            var sMsg=searchFilter==null||searchFilter==undefined?"All":searchFilter;
+            //console.log("[Customer Services] => criterio de busqueda: "+sMsg);
+              return $http.post(serverHost+serverBackend+"Clientes/search",sFilter,serverHeaders)
+                .then(function mySucess(response, status) {
+                  return response;
+                },function myError(response) { 
+                  console.log("Error: "+response.data.error); 
+                  return response;
+                })  
+          },
           getCustomersById: function(id) {
             //console.log("[Customer Services] => get customer by id: "+sMsg);
               return $http({

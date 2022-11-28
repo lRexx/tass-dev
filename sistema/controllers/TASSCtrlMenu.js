@@ -612,7 +612,7 @@
             /**********************************************
             *               INPUT PHONE MASK              *
             **********************************************/
-             $('.input--phone-no-format').mask('9999999999999');
+              $('.input--phone-no-format').mask('9999999999999');
               $('.input--phone').mask('+54 (0##) (15) ####-####',
               {
                 reverse: false,
@@ -628,74 +628,73 @@
                 },
                 placeholder: "+54 (0__) (15) ____ ____"
               });
-            $('.input--time').mask('00:00');
-            $('.input--date').mask('00r00r0000', {
-              translation: {
-                'r': {
-                  pattern: /[\/]/,
-                  fallback: '/'
-                },
-                placeholder: "__/__/____"
-              }
-            })
+              $('.input--time').mask('00:00');
+              $('.input--date').mask('00r00r0000', {
+                  translation: {
+                    'r': {
+                      pattern: /[\/]/,
+                      fallback: '/'
+                    },
+                    placeholder: "__/__/____"
+                  }
+                })
             /**********************************************
             *               INPUT DNI MASK                *
             **********************************************/
               $('.input--dni').mask('99999999');
-            $('.input--dni').mask('99999999');
-            $('.input--number--2').mask('99');
-            $('.input--number').mask('999');
-            $('.input--depto').mask('ZZZ',
-                {
-                  translation:{
-                    'Z':{
-                      pattern: /[a-zA-Z0-9]/
+              $('.input--dni').mask('99999999');
+              $('.input--number--2').mask('99');
+              $('.input--number').mask('999');
+              $('.input--depto').mask('ZZZ',
+                  {
+                    translation:{
+                      'Z':{
+                        pattern: /[a-zA-Z0-9]/
+                      }
                     }
                   }
+              );          
+              $('.input--floor').mask('XX',
+                  {
+                    translation:{
+                      'X':{
+                        pattern: /[a-zA-Z0-9]/
+                      }
+                    }
+                  }
+              );
+              $('.input--date-number').mask('999999');
+              $('.input--date').mask('00/00/0000', {placeholder: "__/__/____"});
+              $('.input-ipaddr').mask('099.099.099.099', {placeholder: "___.___.___.___"});
+              $('.input-macaddr').mask('ZZ-ZZ-ZZ-ZZ-ZZ-ZZ', 
+                  {
+                    translation:{
+                      'Z':{
+                        pattern: /[a-zA-Z0-9]/
+                      }
+                    },
+                    placeholder: "__-__-__-__-__-__"}
+              );
+              $('.input--decimal').mask('999999,99');
+              $('.input--tel.input--dni').on('focus', function () {
+                //console.log($(this).val());
+                if ($(this).val().length === 0) {
+                  $(this).val();
                 }
-            );          
-            $('.input--floor').mask('XX',
-                {
-                  translation:{
-                    'X':{
-                      pattern: /[a-zA-Z0-9]/
+              });
+              $('.input--tel.input--dni').keydown(function (e) {
+                    if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+                        (e.keyCode == 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                        (e.keyCode == 67 && (e.ctrlKey === true || e.metaKey === true)) ||
+                        (e.keyCode == 88 && (e.ctrlKey === true || e.metaKey === true)) ||
+                        (e.keyCode >= 35 && e.keyCode <= 39)) {
+                            return;
                     }
-                  }
-                }
-            );
-            $('.input--date-number').mask('999999');
-            $('.input--date').mask('00/00/0000', {placeholder: "__/__/____"});
-            $('.input-ipaddr').mask('099.099.099.099', {placeholder: "___.___.___.___"});
-            $('.input-macaddr').mask('ZZ-ZZ-ZZ-ZZ-ZZ-ZZ', 
-                {
-                  translation:{
-                    'Z':{
-                      pattern: /[a-zA-Z0-9]/
+    
+                    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                        e.preventDefault();
                     }
-                  },
-                  placeholder: "__-__-__-__-__-__"}
-            );
-            $('.input--decimal').mask('999999,99');
-            $('.input--tel.input--dni').on('focus', function () {
-              //console.log($(this).val());
-              if ($(this).val().length === 0) {
-                $(this).val();
-              }
-            });
-            
-            $('.input--tel.input--dni').keydown(function (e) {
-                  if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-                      (e.keyCode == 65 && (e.ctrlKey === true || e.metaKey === true)) ||
-                      (e.keyCode == 67 && (e.ctrlKey === true || e.metaKey === true)) ||
-                      (e.keyCode == 88 && (e.ctrlKey === true || e.metaKey === true)) ||
-                      (e.keyCode >= 35 && e.keyCode <= 39)) {
-                          return;
-                  }
-  
-                  if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-                      e.preventDefault();
-                  }
-              });      
+                });      
           };
         /**************************************************
         *                                                 *
@@ -1024,10 +1023,10 @@
           }, 30000);
           if (($scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=4 && $scope.sysLoggedUser.idProfileKf!=5 && $scope.sysLoggedUser.idProfileKf!=6) && $scope.sysLoggedUser.idTypeTenantKf==null){
             blockUI.start('Cargando...');
-            $scope.globalGetCustomerListFn(null, null); //LOAD CUSTOMER LIST
+            //$scope.globalGetCustomerListFn(null, null); //LOAD CUSTOMER LIST
             $timeout(function() {
               blockUI.stop(); 
-            }, 5500);
+            }, 500);
           }
           
         }

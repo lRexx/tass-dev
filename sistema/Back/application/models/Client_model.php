@@ -1621,6 +1621,8 @@ class Client_model extends CI_Model {
             }
 
             return null;
+        }else{
+            return null;
         }
 
 
@@ -1672,12 +1674,15 @@ class Client_model extends CI_Model {
 
     }
 
-    public function getadmin($id, $searchFilter, $idClientTypeFk, $isNotCliente, $limit = '', $start = ''){
+    public function getadmin($id, $searchFilter, $idClientTypeFk, $isNotCliente, $limit = '', $start = '', $strict = null){
         $quuery = null;
+        $query_total= null;
         $rs     = null;
 
+        //echo isset($limit)."\n";
+        //echo isset($start);
+        
         if (! is_null($id)) {
-
 
             $this->db->select("*")->from("tb_clients");
             $this->db->join('tb_client_type', 'tb_client_type.idClientType = tb_clients.idClientTypeFk', 'left');
@@ -1685,7 +1690,6 @@ class Client_model extends CI_Model {
             $this->db->join('tb_location', 'tb_location.idLocation = tb_clients.idLocationFk', 'left');
             $this->db->join('tb_province', 'tb_province.idProvince = tb_clients.idProvinceFk', 'left');
             $quuery = $this->db->where("tb_clients.idClient =", $id)->get();
-
 
             if ($quuery->num_rows() === 1) {
                 $rs = $quuery->row_array();
@@ -1759,27 +1763,52 @@ class Client_model extends CI_Model {
 
 
             /* Busqueda por filtro */
+            if (is_null($searchFilter)){
+                if (! is_null($idClientTypeFk)) {
+                    $this->db->where('tb_clients.idClientTypeFk', $idClientTypeFk);
+                }
+                if (isset($limit) && isset($start)) {
+                    $this->db->limit($limit, $start);
+                }
+                if (! is_null($isNotCliente)) {
+                    $this->db->where('tb_clients.isNotCliente', $isNotCliente);
+                }
+            }else{
+                if (! is_null($isNotCliente)) {
+                    $this->db->where('tb_clients.isNotCliente', $isNotCliente);
+                }
+                if (is_null($strict) || !$strict){
+                    $this->db->like('tb_clients.name', $searchFilter);
+                }else{
+                    $this->db->where('tb_clients.name', $searchFilter);
+                }
+                
 
-            if (! is_null($idClientTypeFk)) {
-                $this->db->where('tb_clients.idClientTypeFk', $idClientTypeFk);
-            }
-            if (! is_null($isNotCliente)) {
-                $this->db->where('tb_clients.isNotCliente', $isNotCliente);
-            }
-            if (! is_null($searchFilter)) {
-                $this->db->like('tb_clients.name', $searchFilter);
             }
 
-            if ($limit != '' && $start != '') {
-				$this->db->limit($limit, $start);
-			}
-
-            $quuery = $this->db->order_by("tb_clients.idClient", "DESC")->get();
+            $quuery = $this->db->order_by("tb_clients.idClient", "ASC")->get();
 
 
             if ($quuery->num_rows() > 0) {
-
-                $rs = $quuery->result_array();
+                
+                if (is_null($searchFilter)){
+                    if (! is_null($idClientTypeFk)) {
+                        $this->db->where('tb_clients.idClientTypeFk', $idClientTypeFk);
+                    }
+                    if (! is_null($isNotCliente)) {
+                        $this->db->where('tb_clients.isNotCliente', $isNotCliente);
+                    }
+                }else{
+                    if (! is_null($isNotCliente)) {
+                        $this->db->where('tb_clients.isNotCliente', $isNotCliente);
+                    }
+                    $this->db->like('tb_clients.name', $searchFilter);
+                }
+                $query_total =  $this->db->select("*")->from("tb_clients")->get();
+                if ($query_total->num_rows() > 0) {
+                    $rs['totalCount'] = $query_total->num_rows();
+                }
+                $rs['customers'] = $quuery->result_array();
 
 
                 $i = 0;
@@ -1790,14 +1819,14 @@ class Client_model extends CI_Model {
                     $quuery = $this->db->where("tb_client_schedule_atention.idClienteFk =", $row->idClient)->get();
 
                     $rs1                              = $quuery->result_array();
-                    $rs[$i]['list_schedule_atention'] = $rs1;
+                    $rs['customers'][$i]['list_schedule_atention'] = $rs1;
 
 
                     $this->db->select("*")->from("tb_client_phone_contact");
                     $quuery = $this->db->where("tb_client_phone_contact.idClientFk =", $row->idClient)->get();
 
                     $rs2                          = $quuery->result_array();
-                    $rs[$i]['list_phone_contact'] = $rs2;
+                    $rs['customers'][$i]['list_phone_contact'] = $rs2;
 
 
                     $this->db->select("*")->from("tb_client_users");
@@ -1805,14 +1834,14 @@ class Client_model extends CI_Model {
                     $quuery = $this->db->where("tb_client_users.idClientFk =", $row->idClient)->get();
 
                     $rs3                        = $quuery->result_array();
-                    $rs[$i]['list_client_user'] = $rs3;
+                    $rs['customers'][$i]['list_client_user'] = $rs3;
 
 
                     $this->db->select("*")->from("tb_client_mails");
                     $quuery = $this->db->where("tb_client_mails.idClientFk =", $row->idClient)->get();
 
                     $rs4                   = $quuery->result_array();
-                    $rs[$i]['list_emails'] = $rs4;
+                    $rs['customers'][$i]['list_emails'] = $rs4;
 
 
                     // DATOS DE FACTURCION
@@ -1823,28 +1852,28 @@ class Client_model extends CI_Model {
                     $quuery = $this->db->where("tb_client_billing_information.idClientFk =", $row->idClient)->get();
 
                     $rs5                          = $quuery->result_array();
-                    $rs[$i]['billing_information'] = $rs5;
+                    $rs['customers'][$i]['billing_information'] = $rs5;
 
                     //DEPARTAMENTOS
                     $this->db->select("*")->from("tb_client_departament");
                     $this->db->where("tb_client_departament.idClientFk =", $row->idClient);
                     $quuery = $this->db->where("tb_client_departament.idStatusFk =", 1)->get();
                     $rs6                        = $quuery->result_array();
-                    $rs[$i]['list_departament'] = $rs6;
+                    $rs['customers'][$i]['list_departament'] = $rs6;
 
                     //DIRECCIONES PARTICULAR
                     $this->db->select("*")->from("tb_client_address_particular");
                     $quuery = $this->db->where("tb_client_address_particular.idClientFk =", $row->idClient)->get();
 
                     $rs7                        = $quuery->result_array();
-                    $rs[$i]['list_address_particular'] = $rs7;
+                    $rs['customers'][$i]['list_address_particular'] = $rs7;
 
                     // ARCHIVOS SUBIDOS
                     $this->db->select("*")->from("tb_client_files_list");
                     $quuery = $this->db->where("tb_client_files_list.idClientfK =", $row->idClient)->get();
 
                     $rs8                       = $quuery->result_array();
-                    $rs[$i]['files_uploaded']      = $rs8;
+                    $rs['customers'][$i]['files_uploaded']      = $rs8;
 
                     $i++;
                 }

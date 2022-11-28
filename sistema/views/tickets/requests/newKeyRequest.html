@@ -315,6 +315,14 @@
 						<!--LLAVES A SOLICITAR-->
 						<div class="col-md-6 col-xs-12 form-group">
 							<legend style="text-align: center;">Llaves a solicitar</legend>
+							<div class="col-md-6" ng-if="deliveryCostFree==1">
+								<div class="alert alert-success" style="border: 3px solid;border-radius: 15px;" role="alert">
+									<span style="text-align: center; padding-right: 5px;" class="">
+										<span><i class="fas fa-award"></i></span>
+										<span> El pedido ya cuenta con <i class="fas fa-truck"></i> envío Gratis!!</span>
+									</span>
+								</div>
+							</div>
 							<div class="form-group">
 								<table ng-if="list_keys.length>0" class="table table-striped table-bordered table-list table-responsive table-hover fade in">
 									<thead class="dpto-t-head">

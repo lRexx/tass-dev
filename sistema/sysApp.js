@@ -27,7 +27,7 @@ var app = angular.module('systemApp', ["ngRoute",
                                                "ngAnimate",
                                             "ui.bootstrap",
                                              "ngclipboard",
-                   "angularUtils.directives.dirPagination",
+                   //"angularUtils.directives.dirPagination",
                                           "angular.filter",
                                              "angularCSS"]);
 app.config(function(blockUIConfig) {
@@ -35,9 +35,9 @@ app.config(function(blockUIConfig) {
       blockUIConfig.autoInjectBodyBlock = true;  
       blockUIConfig.autoBlock = true;
 });
-app.config(function(paginationTemplateProvider) {
-    paginationTemplateProvider.setPath('views/pagination/dirPagination-tpl.html');
-});
+//app.config(function(paginationTemplateProvider) {
+//    paginationTemplateProvider.setPath('views/pagination/dirPagination-tpl.html');
+//});
 
 app.config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {

@@ -1,13 +1,23 @@
 /**
 * Customers Controller
 **/
-var customer = angular.module("module.Customers", ["tokenSystem", "angular.filter", "services.Customers","services.Address", "services.User", "ui.select", "services.Utilities", "bootstrapLightbox"]);
+var customer = angular.module("module.Customers", ["tokenSystem", "angular.filter", "services.Customers","services.Address", "services.User", "ngAnimate", "ngSanitize", "ui.bootstrap", "ui.select", "services.Utilities", "bootstrapLightbox"]);
 
 customer.controller('CustomersCtrl', function($scope, $location, $routeParams, blockUI, Lightbox, $timeout, inform, CustomerServices, addressServices, userServices, tokenSystem, $window, serverHost, UtilitiesServices, $filter, APP_SYS){
     console.log(APP_SYS.app_name+" Modulo Clientes");
     if (!$scope.sysToken || !$scope.sysLoggedUser ){
         $location.path("/login");
     }
+    $scope.pagination = {
+      'maxSize': 5,     // Limit number for pagination display number.  
+      'totalCount': 0,  // Total number of items in all pages. initialize as a zero  
+      'pageIndex': 1,   // Current page number. First page is 1.-->  
+      'pageSizeSelected': 10, // Maximum number of items per page. 
+      'totalCount':0
+   } 
+  
+
+
     /**************************************************
     *                                                 *
     *         NG-SWITCH STEP FORM FUNCTIONS           *
@@ -680,13 +690,160 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
             if(opt==1){$scope.loadPagination($scope.rsCustomerListData, "idClient", "10");}
             if(opt==2){$scope.rsFrmCustomerListData = $scope.customersRawData;}
         };
+
+        $scope.customersSearch={
+          "searchFilter":null,
+          "isNotCliente":"0",
+          "idClientTypeFk":null,
+          "start":"1",
+          "limit":"10",
+          "strict": null
+        };
+        $scope.getCustomersListRs = {'customerList':null, 'totalNumberOfCustomer':0}
+        $scope.setCustomersListRs = {}
+        $scope.getCustomerLisServiceFn = function(searchFilter, isNotCliente, idClientTypeFk, start, limit, strict){
+          var searchFilter    = searchFilter!=undefined && searchFilter!=null?searchFilter:null;
+          var isNotCliente    = isNotCliente!=undefined && isNotCliente!=null?isNotCliente:"0";
+          var idClientTypeFk  = idClientTypeFk!=undefined && idClientTypeFk!=null?idClientTypeFk:null;
+          var start           = start!=undefined && start!=null?start:"";
+          var limit           = limit!=undefined && limit!=null?limit:"";
+          var strict          = strict!=undefined && strict!=null?strict:null;
+          $scope.getCustomersListRs = {'customerList':null, 'totalNumberOfCustomer':0}
+          $scope.customersSearch={
+            "searchFilter":searchFilter,
+            "isNotCliente":isNotCliente,
+            "idClientTypeFk":idClientTypeFk,
+            "start":start,
+            "limit":limit,
+            "strict":strict
+          };
+          return CustomerServices.getCustomerListLimit($scope.customersSearch).then(function(response){
+            console.info(response);
+            if(response.status==200){
+              return response.data;
+            }else if(response.status==404){
+              return response;
+            }
+          });
+        }
+        $scope.pageChanged = function(){
+          console.info($scope.pagination.pageIndex);
+          var pagIndex = ($scope.pagination.pageIndex-1)*($scope.pagination.pageSizeSelected);
+          $scope.getCustomersListFn(null, $scope.customersSearch.isNotCliente, $scope.customersSearch.idClientTypeFk, pagIndex, $scope.pagination.pageSizeSelected);
+        }
+
+        $scope.getCustomersListFn = function(search, isNotCliente, idClientTypeFk, start, limit) {
+          $scope.getCustomerLisServiceFn(search, isNotCliente, idClientTypeFk, start, limit, null).then(function(data) {
+            //console.info(data.customers);
+            $scope.rsCustomerListData     = data.customers;
+            $scope.pagination.totalCount  = data.totalCount;
+          }, function(err) {
+            //error
+          });
+        }
       /**************************************************
       *                                                 *
       *             LIST CUSTOMER BY TYPE               *
       *                                                 *
       **************************************************/
-      
-        $scope.getCustomersListByTypeFn = function(type){
+        $scope.getCustomersListByTypeFn = function(idClientTypeFk) {
+          if (idClientTypeFk!=undefined && idClientTypeFk!='' && idClientTypeFk!=null){
+            $scope.getCustomerLisServiceFn(null, $scope.customersSearch.isNotCliente, idClientTypeFk, "", "", null).then(function(data) {
+              //console.info(data.customers);
+              $scope.rsCustomerListByTypeData = data.customers;
+            }, function(err) {
+              //error
+            });
+          }else{
+            $scope.customersSearch.idClientTypeFk = null;
+            $scope.pageChanged();
+          }
+        }
+      /**************************************************
+      *                                                 *
+      *              GET CUSTOMER BY NAME               *
+      *                                                 *
+      **************************************************/
+       $scope.getCustomersByNameFn = function(clientName, strict) {
+        if(clientName.length>=2){
+          if (clientName!=undefined && clientName!='' && clientName!=null){
+            $scope.getCustomerLisServiceFn(clientName, "0", $scope.customersSearch.idClientTypeFk, "", "", strict).then(function(response) {
+              console.info(response);
+              if(response.status==undefined){
+                $scope.rsCustomerListData = response.customers;
+              $scope.pagination.totalCount = response.customers.length;
+              }else if(response.status==404){
+                $scope.rsCustomerListData = [];
+                $scope.pagination.totalCount  = 0;
+              } 
+            }, function(err) {
+              $scope.rsCustomerListData = [];
+              $scope.pagination.totalCount  = 0;
+            });
+          }else{
+            $scope.rsCustomerListData = [];
+            $scope.pagination.totalCount  = 0;
+            $scope.customersSearch.idClientTypeFk = null;
+            $scope.pageChanged();
+          }
+        }else{
+          $scope.customersSearch.idClientTypeFk = null;
+          $scope.pageChanged();
+        }
+      }
+      $scope.realItemList = null;
+      $scope.offlineSearch = function (sourceList, qvalue1, qvalue2, vStrict) {
+        console.log("[search]-->qvalue1: "+qvalue1);
+        console.log("[search]-->qvalue2: "+qvalue2);
+        console.log("[search]-->vStrict: "+vStrict);
+        $scope.realItemList = $scope.realItemList == null?sourceList:$scope.realItemList;
+        $scope.items = $scope.realItemList;
+        console.log($scope.items);
+        var output=[];
+        if (qvalue1!=undefined && qvalue1!='' && qvalue1!=null){
+          angular.forEach($scope.items,function(customer){
+            var customerName=customer.name;
+            var customerAddress=customer.address;
+            var customerId=customer.idClient;
+            var customerType=customer.idClientType;
+            var customerNumber=customer.idClientAssociated_SE;
+            var customerBusinessName=customer.companyBusinessName==null || customer.companyBusinessName==undefined?null:customer.companyBusinessName;
+            var customerbusinessNameBilling=customer.billing_information==null || customer.billing_information==undefined || customer.billing_information.length==0?null:customer.billing_information[0].businessNameBilling;
+            console.log("customerAddress: "+customerAddress);
+            console.log("customerName: "+customerName);
+                if (!vStrict){
+                    if(customerId.indexOf(qvalue1.toLowerCase())>=0 || (customerName!=null && customerName.indexOf(qvalue1.toUpperCase())>=0) || (customerAddress!=null && customerAddress.indexOf(qvalue1.toUpperCase())>=0) || (customerBusinessName!=null && customerBusinessName.indexOf(qvalue1.toUpperCase())>=0) || (customerbusinessNameBilling!=null && customerbusinessNameBilling.indexOf(qvalue1.toUpperCase())>=0)){
+                        output.push(customer);
+                        //console.log(output);
+                    }
+                }else{
+                    if(customerId===qvalue1 || customerName===qvalue1.toUpperCase() || customerAddress===qvalue1.toUpperCase() || (customerBusinessName!=null && customerBusinessName===qvalue1.toUpperCase()) || (customerbusinessNameBilling!=null && customerbusinessNameBilling===qvalue1.toUpperCase())){
+                        output.push(customer);
+                        //console.log(output);
+                    }
+                }
+          });
+          //console.log(output);
+          if (output.length>0){
+            $scope.rsCustomerListData = output;
+          }
+        }else{
+          $scope.getLisOfCustomersByIdFn($scope.select.filterCustomerIdFk.selected.idClient, true);
+        }
+      };
+      /**************************************************
+      *                                                 *
+      *         LIST ADMINISTRATION CUSTOMERS           *
+      *                                                 *
+      **************************************************/
+        $scope.getAdminCustomersListFn = function() {
+          $scope.getCustomerLisServiceFn(null, "0", 1, "", "", null).then(function(data) {
+            $scope.rsCustomerAdminListData = data.customers;
+          }, function(err) {
+            $scope.customersSearch.idClientTypeFk = null;
+          });
+        };$scope.getAdminCustomersListFn();
+        $scope.getCustomersListByTypeFn_old = function(type){
            console.log("getCustomerListByTypeFn => type:"+type);
               $scope.rsCustomerListByTypeData=[];
               //console.log($scope.rsCustomerSelectData);
@@ -699,7 +856,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                   }
                 }
               }else{
-                 $scope.getCustomerListFn("registered",1);
+                $scope.pageChanged();
               }
           //console.log($scope.rsCustomerListByTypeData);
         };
@@ -753,10 +910,11 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
             //console.log(response);
             if(response.status==200){
               $scope.rsCustomerListData = response.data;
+              $scope.pagination.totalCount = response.data.length;
             }else{
               $scope.rsCustomerListData = [];
             }
-            $scope.loadPagination($scope.rsCustomerListData, "idClientIndex", "10");
+            //$scope.loadPagination($scope.rsCustomerListData, "idClientIndex", "10");
             //console.log($scope.rsCustomerListData);
           });
         };
@@ -3129,25 +3287,26 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       $scope.defArrForCustomersFn();
                       $scope.getBuildingsFn();
                       $scope.sysContent                         = "";
-                      $scope.getCustomerListFn("registered",1);
+                      $scope.pagination.pageIndex               = 1;
+                      $scope.getCustomersListFn(null, "0", null, ($scope.pagination.pageIndex-1), $scope.pagination.pageSizeSelected, null);
                       $scope.select.filterTypeOfClient          = undefined;
                       $scope.select.filterCustomerIdFk.selected = undefined;
                       $scope.isNewCustomer                      = false;
                       $scope.isUpdateCustomer                   = false;
                       //$scope.customerPaginationFn($scope.rsCustomerListData, 10);
-                      $scope.loadPagination($scope.rsCustomerListData, "idClientIndex", "10");
+                      //$scope.loadPagination($scope.rsCustomerListData, "idClientIndex", "10");
                       $scope.sysContent                         = 'registeredCustomers';
                     break;
                     case "unregistered":
                       $scope.defArrForCustomersFn();
                       $scope.getBuildingsFn();
                       $scope.sysContent                         = "";
-                      $scope.getCustomerListFn("notregistered",1);
+                      $scope.pagination.pageIndex               = 1;
                       $scope.select.filterTypeOfClient          = undefined;
                       $scope.select.filterCustomerIdFk.selected = undefined;
                       $scope.isNewCustomer                      = false;
                       $scope.isUpdateCustomer                   = false;
-                      $scope.loadPagination($scope.rsCustomerListData, "idClientIndex", "10");
+                      $scope.getCustomersListFn(null, "1", null, ($scope.pagination.pageIndex-1), $scope.pagination.pageSizeSelected, null);
                       $scope.sysContent                         = 'registeredNotCustomers';
                     break;
                   }
