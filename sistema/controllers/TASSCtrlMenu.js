@@ -814,47 +814,36 @@
           *                                                 *
           **************************************************/
               $scope.buildingCustomerRegistered={
-                "searchFilter":"",
-                "isNotCliente":"",
-                "idClientTypeFk":"",
-              };
+                "searchFilter":null,
+                "isNotCliente":"0",
+                "idClientTypeFk":null,
+                "start":"1",
+                "limit":"10",
+                "strict": null
+              }
               $scope.globalCustomers = {'status':0, 'all':[], 'registered':[],'notRegistered':[],'administrations':[], 'buildings':[], 'branches':[], 'companies':[], 'particulars':[]}
-              $scope.globalGetCustomerListFn = function(isClient, idClientType){
+              $scope.globalGetCustomerListFn = function(searchFilter, isNotCliente, idClientTypeFk, start, limit, strict){
                 console.log("getting Customers List from Database");
-                $scope.globalCustomers = {'status':0, 'all':[], 'registered':[],'notRegistered':[],'administrations':[], 'buildings':[], 'branches':[], 'companies':[], 'particulars':[]}
-                $scope.buildingCustomerRegistered.isNotCliente=isClient;
-                $scope.buildingCustomerRegistered.idClientTypeFk=idClientType;
-                  CustomerServices.getCustomerList($scope.buildingCustomerRegistered).then(function(response){
+                var searchFilter    = searchFilter!=undefined && searchFilter!=null?searchFilter:null;
+                var isNotCliente    = isNotCliente!=undefined && isNotCliente!=null?isNotCliente:"0";
+                var idClientTypeFk  = idClientTypeFk!=undefined && idClientTypeFk!=null?idClientTypeFk:null;
+                var start           = start!=undefined && start!=null?start:"";
+                var limit           = limit!=undefined && limit!=null?limit:"";
+                var strict          = strict!=undefined && strict!=null?strict:null;
+                $scope.getCustomersListRs = {'customerList':null, 'totalNumberOfCustomer':0}
+                $scope.buildingCustomerRegistered={
+                  "searchFilter":searchFilter,
+                  "isNotCliente":isNotCliente,
+                  "idClientTypeFk":idClientTypeFk,
+                  "start":start,
+                  "limit":limit,
+                  "strict":strict
+                };
+                  return CustomerServices.getCustomerListLimit($scope.buildingCustomerRegistered).then(function(response){
                     if(response.status==200){
-                      $scope.globalCustomers.all=response.data;
-                      $scope.globalCustomers.status=1;
-                      for (var key in response.data){
-                        if (response.data[key].isNotCliente == "0"){
-                          $scope.globalCustomers.registered.push(response.data[key]);
-                          switch (response.data[key].idClientType){
-                            case "1":
-                              $scope.globalCustomers.administrations.push(response.data[key]);
-                            break;
-                            case "2":
-                              $scope.globalCustomers.buildings.push(response.data[key]);
-                            break;
-                            case "3":
-                              $scope.globalCustomers.companies.push(response.data[key]);
-                            break;
-                            case "4":
-                              $scope.globalCustomers.branches.push(response.data[key]);
-                            break;
-                            case "5":
-                              $scope.globalCustomers.particulars.push(response.data[key]);
-                            break;
-                          }
-                        }else if (response.data[key].isNotCliente == "1"){
-                          $scope.globalCustomers.notRegistered.push(response.data[key]);
-                        }
-                      }
-                      //console.log($scope.globalCustomers)
-                    }else{
-                      $scope.globalCustomers = {'status':2,'registered':[],'notRegistered':[],'administrations':[], 'buildings':[], 'branches':[], 'companies':[], 'particulars':[]}
+                      return response.data;
+                    }else if(response.status==404){
+                      return response;
                     }
                   });
               };

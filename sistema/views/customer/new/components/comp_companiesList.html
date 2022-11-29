@@ -19,13 +19,13 @@
 	        		ng-required="(customer.new.idClientTypeFk==2 || customer.new.idClientTypeFk==4) && !customer.new.isNotCliente" 
 	        		autofocus>
 	            <ui-select-match placeholder="Seleccione una opci&#243n">{{$select.selected.businessName | uppercase}}</ui-select-match>
-	            <ui-select-choices group-by="'ClientType'" repeat="item in rsFrmCustomerListData | filter:filterCustomerByType | filter: $select.search">
+	            <ui-select-choices group-by="'ClientType'" repeat="item in rsCustomerSelectData | filter:filterCustomerByType | filter: $select.search">
 	              <div ng-bind-html="item.businessName | highlight: $select.search"></div>
 	              <small>Tipo de Cliente: </small><small class="label label-default" ng-bind-html="item.ClientType | highlight: $select.search"></small>
 	              <!--<small>Costo de Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>-->
 	            </ui-select-choices>
 	            <ui-select-no-choice>
-	             	<span ng-if="rsFrmCustomerListData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay clientes registrados</span>
+	             	<span ng-if="rsCustomerSelectData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay clientes registrados</span>
 	              	<span ng-if="rsCustomerListData.status==404"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay clientes registrados</span>
 			  	</ui-select-no-choice>
 	        </ui-select>
