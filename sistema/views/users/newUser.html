@@ -23,7 +23,7 @@
                         <div class="col-xs-12 selectContainer">
                             <div class="input-group">
                                     <span class="input-group-addon"><i class="fas fa-address-card"></i></span>
-                                    <select name="profile" class="form-control" ng-change="users.new.idTypeAttKf=null; idSysProfileFk=null; select.companies.selected=Undefined; select.addressAttendant.selected=Undefined; checkDepartmentListFn(users.new);"
+                                    <select name="profile" class="form-control" ng-change="users.new.idTypeAttKf=null; idSysProfileFk=null; select.companies.selected=Undefined; select.addressAttendant.selected=Undefined; getCustomersListByTypeFn(users.new.idProfileKf.idProfile); getCustomersBuildingListFn(users.new.idProfileKf.idProfile, att.ownerOption); checkDepartmentListFn(users.new);"
                                     ng-options="item as item.nameProfile for item in listProfile" ng-model="users.new.idProfileKf" required autofocus >
                                         <option value="">Seleccione una opcion</option>
                                     </select>
@@ -117,13 +117,13 @@
                         <div class="col-md-9">
                             <div class="">
                                 <label style="cursor: pointer;" class="col-md-3">
-                                    <input style="cursor: pointer;" type="radio" name="ownerOption" ng-click="users.new.idDepartmentKf=null; checkDepartmentListFn(users.new);" value="1" ng-model="att.ownerOption" ng-required="users.new.idProfileKf.idProfile==6 && users.new.idTypeAttKf!=1" autofocus>
+                                    <input style="cursor: pointer;" type="radio" name="ownerOption" ng-click="users.new.idDepartmentKf=null; checkDepartmentListFn(users.new);getCustomersBuildingListFn(users.new.idProfileKf.idProfile, att.ownerOption);" value="1" ng-model="att.ownerOption" ng-required="users.new.idProfileKf.idProfile==6 && users.new.idTypeAttKf!=1" autofocus>
                                         <code >Propietario</code>
                                 </label>
                             </div>
                             <div class="">
                                 <label style="cursor: pointer;" class="col-md-3">
-                                    <input style="cursor: pointer;" type="radio" name="ownerOption" ng-click="users.new.idDepartmentKf=null; checkDepartmentListFn(users.new);" value="2" ng-model="att.ownerOption" ng-required="users.new.idProfileKf.idProfile==6 && users.new.idTypeAttKf!=1" autofocus>
+                                    <input style="cursor: pointer;" type="radio" name="ownerOption" ng-click="users.new.idDepartmentKf=null; checkDepartmentListFn(users.new);getCustomersBuildingListFn(users.new.idProfileKf.idProfile, att.ownerOption);" value="2" ng-model="att.ownerOption" ng-required="users.new.idProfileKf.idProfile==6 && users.new.idTypeAttKf!=1" autofocus>
                                         <code>Inquilino</code>
                                 </label>
                             </div>

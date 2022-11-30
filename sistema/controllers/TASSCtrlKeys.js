@@ -185,91 +185,91 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
         * Modal Confirmation function 
         **/
         $scope.modalConfirmation = function(opt, confirm, obj){
-        $scope.swMenu = opt;
-        $scope.vConfirm = confirm;
-        var tmpOpt=$scope.div2Open;
-        //console.log(tmpOpt);
-        $scope.mess2show="";
-        switch ($scope.swMenu){
-            case "closeWindow":
-                if (confirm==0){
-                    if ($scope.isNewKey==true){
-                    $scope.mess2show="Se perderan todos los datos cargados para el registro del Llaveros, esta seguro que desea cancelar?";
-                    }else{
-                    $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
-                    }    
-                    $("#confirmRequestModal").modal('show');
-                }else if (confirm==1){
-                    $("#confirmRequestModal").modal('hide');
-                    $("#newKeysFile").modal('hide');
-                    $("#attachKeyFile").modal('hide');
-                    $("#newSingleKey").modal('hide');
-                    $("#editSingleKey").modal('hide');
-                    //$scope.switchCustomersFn('dashboard','', 'registered');
-                }
-            break;
-            case "downloadFile":
-                if (confirm==0){
-                    $scope.keyList=obj;
-                        console.log(obj)
-                        $scope.mess2show="El listado de llaveros generados sera descargado a su computadora a continuación.     Confirmar?";
-                    
-                        console.log("Descargar Archivo  execel");
-                        console.log("============================================================================");
-                        //console.log(obj);
-                $('#confirmRequestModal').modal('toggle');
-                }else if (confirm==1){
-                    $scope.switchKeysFn("downloadKeyFile", $scope.keyList);
-                $('#confirmRequestModal').modal('hide');
-                }
-            break;
-            case "uploadFile":
-                if (confirm==0){
-                    $scope.keyList=obj;
-                        console.log(obj)
-                        $scope.mess2show="Las llaves indicadas en el archivo "+obj.name+" seran registradas.     Confirmar?";
-                    
-                        console.log("Subir Archivo  execel  : "+obj.name);
-                        console.log("============================================================================");
-                        //console.log(obj);
-                $('#confirmRequestModal').modal('toggle');
-                }else if (confirm==1){
-                    $scope.switchKeysFn("uploadKeyFile", $scope.filesUploadList[0]);
-                $('#confirmRequestModal').modal('hide');
-                }
-            break;
-            case "addKey":
-                if (confirm==0){
-                    $scope.keyObj=obj;
-                        console.log(obj)
-                        $scope.mess2show="La llave con el codigo: "+obj.codigo+" sera registrada en el sistema,     Confirmar?";
-                    
-                        console.log("Llave a registrar  : "+obj.codigo);
-                        console.log("============================================================================");
-                        //console.log(obj);
-                $('#confirmRequestModal').modal('toggle');
-                }else if (confirm==1){
-                    $scope.switchKeysFn("addKey", $scope.keyObj);
-                $('#confirmRequestModal').modal('hide');
-                }
-            break;
-            case "updateKey":
-                if (confirm==0){
-                    $scope.keyObj=obj;
-                        console.log(obj)
-                        $scope.mess2show="Se actualizaran los datos de la llave ID: "+obj.idKeychain+", Codigo: "+obj.codigo+" por favor,     Confirmar?";
-                    
-                        console.log("Llave a actualizar  : "+obj.idKeychain);
-                        console.log("============================================================================");
-                        //console.log(obj);
-                $('#confirmRequestModal').modal('toggle');
-                }else if (confirm==1){
-                    $scope.switchKeysFn("updateKey", $scope.keyObj);
-                $('#confirmRequestModal').modal('hide');
-                }
-            break;
-            default:
-        }
+            $scope.swMenu = opt;
+            $scope.vConfirm = confirm;
+            var tmpOpt=$scope.div2Open;
+            //console.log(tmpOpt);
+            $scope.mess2show="";
+            switch ($scope.swMenu){
+                case "closeWindow":
+                    if (confirm==0){
+                        if ($scope.isNewKey==true){
+                        $scope.mess2show="Se perderan todos los datos cargados para el registro del Llaveros, esta seguro que desea cancelar?";
+                        }else{
+                        $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
+                        }    
+                        $("#confirmRequestModal").modal('show');
+                    }else if (confirm==1){
+                        $("#confirmRequestModal").modal('hide');
+                        $("#newKeysFile").modal('hide');
+                        $("#attachKeyFile").modal('hide');
+                        $("#newSingleKey").modal('hide');
+                        $("#editSingleKey").modal('hide');
+                        //$scope.switchCustomersFn('dashboard','', 'registered');
+                    }
+                break;
+                case "downloadFile":
+                    if (confirm==0){
+                        $scope.keyList=obj;
+                            console.log(obj)
+                            $scope.mess2show="El listado de llaveros generados sera descargado a su computadora a continuación.     Confirmar?";
+                        
+                            console.log("Descargar Archivo  execel");
+                            console.log("============================================================================");
+                            //console.log(obj);
+                    $('#confirmRequestModal').modal('toggle');
+                    }else if (confirm==1){
+                        $scope.switchKeysFn("downloadKeyFile", $scope.keyList);
+                    $('#confirmRequestModal').modal('hide');
+                    }
+                break;
+                case "uploadFile":
+                    if (confirm==0){
+                        $scope.keyList=obj;
+                            console.log(obj)
+                            $scope.mess2show="Las llaves indicadas en el archivo "+obj.name+" seran registradas.     Confirmar?";
+                        
+                            console.log("Subir Archivo  execel  : "+obj.name);
+                            console.log("============================================================================");
+                            //console.log(obj);
+                    $('#confirmRequestModal').modal('toggle');
+                    }else if (confirm==1){
+                        $scope.switchKeysFn("uploadKeyFile", $scope.filesUploadList[0]);
+                    $('#confirmRequestModal').modal('hide');
+                    }
+                break;
+                case "addKey":
+                    if (confirm==0){
+                        $scope.keyObj=obj;
+                            console.log(obj)
+                            $scope.mess2show="La llave con el codigo: "+obj.codigo+" sera registrada en el sistema,     Confirmar?";
+                        
+                            console.log("Llave a registrar  : "+obj.codigo);
+                            console.log("============================================================================");
+                            //console.log(obj);
+                    $('#confirmRequestModal').modal('toggle');
+                    }else if (confirm==1){
+                        $scope.switchKeysFn("addKey", $scope.keyObj);
+                    $('#confirmRequestModal').modal('hide');
+                    }
+                break;
+                case "updateKey":
+                    if (confirm==0){
+                        $scope.keyObj=obj;
+                            console.log(obj)
+                            $scope.mess2show="Se actualizaran los datos de la llave ID: "+obj.idKeychain+", Codigo: "+obj.codigo+" por favor,     Confirmar?";
+                        
+                            console.log("Llave a actualizar  : "+obj.idKeychain);
+                            console.log("============================================================================");
+                            //console.log(obj);
+                    $('#confirmRequestModal').modal('toggle');
+                    }else if (confirm==1){
+                        $scope.switchKeysFn("updateKey", $scope.keyObj);
+                    $('#confirmRequestModal').modal('hide');
+                    }
+                break;
+                default:
+            }
         }
     /********************************************************************************************************************************************
     *                                                                                                                                           *
@@ -619,16 +619,14 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                 *                 GET CUSTOMER LIST               *
                 *                                                 *
                 **************************************************/
-                    $scope.buildingCustomerRegistered={
-                        "searchFilter":"",
-                        "isNotCliente":"0",
-                        "idClientTypeFk":"2",
-                    };
-                    $scope.getCustomerListFn = function(){
+                    $scope.getCustomerListFn = function() {
                         $scope.buildingCustomerList = [];
-                        $scope.buildingCustomerList = $scope.globalCustomers.buildings;
-
-                    };$scope.getCustomerListFn(); //LOAD CUSTOMER LIST
+                        $scope.globalGetCustomerListFn(null,"0",2,"","",null).then(function(data) {
+                          $scope.buildingCustomerList = data.customers;
+                        }, function(err) {
+                          $scope.buildingCustomerList = null;
+                        });
+                      };$scope.getCustomerListFn(); //LOAD CUSTOMER LIST
                 /**************************************************
                 *                                                 *
                 * DEPARTMENT LIST BY SELECTED ADDRESS AND TENANT  *

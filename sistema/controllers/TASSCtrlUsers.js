@@ -338,56 +338,55 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
           $scope.rsCustomerListSelectData = [];
           $scope.rsCustomerListByTypeData = [];
           $scope.rsCustomerSelectData = [];
-          $scope.jsonCustomerRegistered={
-                "searchFilter":"",
-                "isNotCliente":"0"
-          };
-          $scope.jsonCustomerNotRegistered={
-                "searchFilter":"",
-                "idClientTypeFk":"2",
-                "isNotCliente":"1"
-          };
-          $scope.getCustomerListFn = function(){
-            $scope.rsCustomerListByTypeData = [];
-            $scope.rsCustomerListData = [];
-            $scope.rsCustomerSelectData = [];
-            $scope.rsCustomerListData = $scope.globalCustomers.registered;
-            $scope.rsCustomerSelectData = $scope.globalCustomers.registered;
-            $scope.rsCustomerListByTypeData = $scope.globalCustomers.registered;
-            $scope.rsCustomerListSelectData = $scope.globalCustomers.registered;
-
-          };$scope.getCustomerListFn();
         /**************************************************
         *                                                 *
         *             LIST CUSTOMER BY TYPE               *
         *                                                 *
         **************************************************/
-            $scope.getCustomersListByTypeFn = function(type){
+            $scope.getCustomersListByTypeFn = function(type) {
               console.log("getCustomerListByTypeFn => type:"+type);
                 $scope.rsCustomerListByTypeData=[];
                 //console.log($scope.rsCustomerSelectData);
                   if (type!=undefined && type!='' && type!=null){
-                    var clientType="";
+                    var idClientTypeFk="";
                     if (type=="2"){
-                      clientType="3";
+                      idClientTypeFk="3";
                     }else if (type=="4"){
-                      clientType="1";
+                      idClientTypeFk="1";
                     }else if (type=="3" || type=="5" || type=="6"){
-                      clientType="2";
+                      idClientTypeFk="2";
                     }
                     if (type!="1"){
-                      for (var item in $scope.rsCustomerListData){
-                        if ($scope.rsCustomerListData[item].idClientTypeFk==clientType){
-                          //console.log($scope.rsCustomerListData[item]);
-                          //console.log(clientType);
-                          $scope.rsCustomerListByTypeData.push($scope.rsCustomerListData[item]);
-                          //console.log($scope.rsCustomerListByTypeData);
-                        }
-                      }
-                      //console.log($scope.rsCustomerListByTypeData);
+                      $scope.globalGetCustomerListFn(null, "0", idClientTypeFk, "", "", null).then(function(data) {
+                        //console.info(data.customers);
+                        $scope.rsCustomerListByTypeData = data.customers;
+                      }, function(err) {
+                        $scope.rsCustomerListByTypeData=[];
+                      });
                     }
                   }
-            };
+            }
+          /**************************************************
+          *                                                 *
+          *             LIST CUSTOMER BY TYPE               *
+          *                                                 *
+          **************************************************/
+            $scope.rsCustomerListSelectData=[];
+            $scope.getCustomersBuildingListFn = function(idProfileKf, ownerOption) {
+              if ($scope.rsCustomerListSelectData.length==0){
+                console.log("getCustomersBuildingListFn");
+                console.log("=> idProfileKf:"+idProfileKf);
+                console.log("=> ownerOption:"+ownerOption);
+                  if (idProfileKf=="3" || idProfileKf=="5" || ((idProfileKf=="4" || idProfileKf=="6") && ownerOption!=undefined && ownerOption!="3")){
+                    $scope.globalGetCustomerListFn(null, "0", "2", "", "", null).then(function(data) {
+                      //console.info(data.customers);
+                      $scope.rsCustomerListSelectData = data.customers;
+                    }, function(err) {
+                      $scope.rsCustomerListSelectData=[];
+                    });
+                  }
+                }
+            }
         /**************************************************
         *                                                 *
         *      SHOW ONLY CUSTOMER BY TYPE OF PROFILE      *
@@ -588,13 +587,13 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
               }
             }
             
-            
             $scope.users.update.idTypeTenantKf        = obj.idTypeTenantKf;
             switch (switchOption) {
               case "1": //SYS USER
               break;
               case "2": //COMPANY USER
                 $scope.select.companies.selected      = {'idClient': obj.company[0].idClient, 'name': obj.company[0].name};
+                $scope.getCustomersListByTypeFn($scope.users.update.idProfileKf);
               break;
               case "3": //OWNER USER
                 $scope.register.user.idDeparment_Tmp  = obj.idClientDepartament;
@@ -609,6 +608,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 }else if (obj.idTypeTenantKf==null){
                   $scope.att.ownerOption              = "3";
                 }
+                $scope.getCustomersListByTypeFn($scope.users.update.idProfileKf);
               break;
               case "5": //TENANT USER
                 $scope.rsCustomerListSelectData       = $scope.rsCustomerSelectData;
@@ -634,8 +634,10 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 //$scope.getLisOfCustomersByIdFn(obj.company[0].idClient, true)
                 $scope.users.update.typeOtherAtt      = obj.descOther;
                 $scope.users.update.idTypeAttKf       = obj.idTyepeAttendantKf;
+                $scope.getCustomersListByTypeFn($scope.users.update.idProfileKf);
               break;
             }
+            $scope.getCustomersBuildingListFn($scope.users.update.idProfileKf, $scope.att.ownerOption);
             console.log($scope.users.update);
            
           };
@@ -1654,48 +1656,48 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
         * DEPARTMENT LIST BY SELECTED ADDRESS AND TENANT  *
         *                                                 *
         **************************************************/
-         $scope.ListDpto=[];
-          $scope.getDeptoListByAddress = function (idAddress){
             $scope.ListDpto=[];
-            var idProfileFk = $scope.users.new.idProfileKf!=undefined?$scope.users.new.idProfileKf.idProfile:$scope.users.update.idProfileKf;
-            var idTypeAttFk = $scope.users.new.idTypeAttKf!=undefined?$scope.users.new.idTypeAttKf:$scope.users.update.idTypeAttKf;
-            if((((idProfileFk=='3' || idProfileFk=='4' || idProfileFk=='5') && !idTypeAttFk) || (idProfileFk=='6' && idTypeAttFk!='1')) || (((idProfileFk=='3' || idProfileFk=='4' || idProfileFk=='5') && !idTypeAttFk) || (idProfileFk=='6' && idTypeAttFk!='1'))){
-              var idAddressTmp=idAddress;
-              console.log("idAddressTmp  : "+idAddressTmp);
-              console.log("idProfileFk   : "+idProfileFk);
-              console.log("ownerOption   : "+$scope.att.ownerOption);
-              var idStatusFk=null;
-                if((idProfileFk=='3') || (idProfileFk=='4' && $scope.att.ownerOption!='3') || (idProfileFk=='6' && idTypeAttFk!='1' && $scope.att.ownerOption!='3')){
-                  idStatusFk='0';
-                }else{
-                  idStatusFk='-1';
-                }
-                DepartmentsServices.byIdDireccion(idAddress, idStatusFk).then(function(response) {
-                  if(response.status==200){
-                    $scope.ListDpto = response.data;
-                    console.log($scope.ListDpto);
-                  }else if (response.status==404){
-                    $scope.ListDpto=[];
-                    inform.add('No hay departamentos en esta direccion para ser asociados, contacte al area de soporte de TASS.',{
-                      ttl:5000, type: 'danger'
-                    });
+            $scope.getDeptoListByAddress = function (idAddress){
+              $scope.ListDpto=[];
+              var idProfileFk = $scope.users.new.idProfileKf!=undefined?$scope.users.new.idProfileKf.idProfile:$scope.users.update.idProfileKf;
+              var idTypeAttFk = $scope.users.new.idTypeAttKf!=undefined?$scope.users.new.idTypeAttKf:$scope.users.update.idTypeAttKf;
+              if((((idProfileFk=='3' || idProfileFk=='4' || idProfileFk=='5') && !idTypeAttFk) || (idProfileFk=='6' && idTypeAttFk!='1')) || (((idProfileFk=='3' || idProfileFk=='4' || idProfileFk=='5') && !idTypeAttFk) || (idProfileFk=='6' && idTypeAttFk!='1'))){
+                var idAddressTmp=idAddress;
+                console.log("idAddressTmp  : "+idAddressTmp);
+                console.log("idProfileFk   : "+idProfileFk);
+                console.log("ownerOption   : "+$scope.att.ownerOption);
+                var idStatusFk=null;
+                  if((idProfileFk=='3') || (idProfileFk=='4' && $scope.att.ownerOption!='3') || (idProfileFk=='6' && idTypeAttFk!='1' && $scope.att.ownerOption!='3')){
+                    idStatusFk='0';
+                  }else{
+                    idStatusFk='-1';
                   }
-                });
+                  DepartmentsServices.byIdDireccion(idAddress, idStatusFk).then(function(response) {
+                    if(response.status==200){
+                      $scope.ListDpto = response.data;
+                      console.log($scope.ListDpto);
+                    }else if (response.status==404){
+                      $scope.ListDpto=[];
+                      inform.add('No hay departamentos en esta direccion para ser asociados, contacte al area de soporte de TASS.',{
+                        ttl:5000, type: 'danger'
+                      });
+                    }
+                  });
 
-            }
-          };
+              }
+            };
         /**************************************************/
-          $scope.hideDeptoByProfile = function(item){
-          console.log(item);
-          return function(item){
-            if(($scope.users.new.idProfileKf.idProfile==3 || $scope.users.new.idProfileKf.idProfile==5) && (item.idUserKf!=null || item.idUserKf==null)  && (item.floor=="pb" || item.floor=="ba" || item.floor=="co" || item.floor=="lo")){
-            
-              //$scope.ownerFound=true;
-              //console.log("ownerFound1: "+$scope.ownerFound+"item.idUserKf: "+item.idUserKf)
-              return false;
-            }
-          }
-          };
+            $scope.hideDeptoByProfile = function(item){
+              console.log(item);
+              return function(item){
+                if(($scope.users.new.idProfileKf.idProfile==3 || $scope.users.new.idProfileKf.idProfile==5) && (item.idUserKf!=null || item.idUserKf==null)  && (item.floor=="pb" || item.floor=="ba" || item.floor=="co" || item.floor=="lo")){
+                
+                  //$scope.ownerFound=true;
+                  //console.log("ownerFound1: "+$scope.ownerFound+"item.idUserKf: "+item.idUserKf)
+                  return false;
+                }
+              }
+            };
 /*******************************************************************
 *                                                                  *
 *                  USERS PROFILES ROLES FUNCTIONS                  *

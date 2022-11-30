@@ -59,7 +59,7 @@
 								<label style="padding-left: 15px;">Perfil</label>
 									<div class="input-group">
 										<span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
-										<select  name="userProfile" ng-change="search(filters.userProfile.nameProfile, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, true); getCustomersListByTypeFn(filters.userProfile.idProfile)" ng-options="item.nameProfile for item in listProfile | filter:filterProfile" class="form-control" ng-model="filters.userProfile" >
+										<select  name="userProfile" ng-change="search(filters.userProfile.nameProfile, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, true); getCustomersListByTypeFn(filters.userProfile.idProfile); filters.companies.selected=undefined" ng-options="item.nameProfile for item in listProfile | filter:filterProfile" class="form-control" ng-model="filters.userProfile" >
 											<option value="" >Todos</option>
 										</select>
 									</div>

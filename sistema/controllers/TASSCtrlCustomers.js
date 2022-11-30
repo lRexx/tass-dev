@@ -575,7 +575,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
           });
         }
         $scope.pageChanged = function(){
-          console.info($scope.pagination.pageIndex);
+          //console.info($scope.pagination.pageIndex);
           var pagIndex = ($scope.pagination.pageIndex-1)*($scope.pagination.pageSizeSelected);
           $scope.getCustomersListFn(null, $scope.customersSearch.isNotCliente, $scope.customersSearch.idClientTypeFk, pagIndex, $scope.pagination.pageSizeSelected);
         }

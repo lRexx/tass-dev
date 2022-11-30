@@ -491,10 +491,14 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
         *            GET ADMINISTRATION LIST              *
         *                                                 *
         **************************************************/
-            $scope.getAdminListFn = function(){
+            $scope.getAdminListFn = function() {
                 $scope.administrationList = [];
-                $scope.administrationList = $scope.globalCustomers.administrations;
-            };
+                $scope.globalGetCustomerListFn(null,"0",1,"","",null).then(function(data) {
+                  $scope.administrationList = data.customers;
+                }, function(err) {
+                    $scope.administrationList = [];
+                });
+              };
         /**************************************************
         *                                                 *
         *                GET BUILDING LIST                *

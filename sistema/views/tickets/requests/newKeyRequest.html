@@ -17,7 +17,7 @@
 									<span class="input-group-addon"><i class="icon-suitcase"></i></span>
 										<ui-select 
 											name="admins"
-											ng-change="select.buildings.selected=undefined;getBuildingListFn(select.admins.selected); enabledNextBtn();"
+											ng-change="ticket.optionTypeSelected.name=undefined;select.buildings.selected=undefined;getBuildingListFn(select.admins.selected); enabledNextBtn();"
 											ng-disabled="sysLoggedUser.idProfileKf!='1'"
 											ng-model="select.admins.selected" 
 											on-select="onSelectCallback()" >
