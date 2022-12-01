@@ -161,7 +161,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
-                        <button ng-if="( !sysDNIRegistered || sysDNIRegistered ) && isNewTenant && tenant.new.idTypeTenantKf!='1'" type="submit" ng-click="mainSwitchFn('addTenant', tenant.new, null)" ng-disabled="fNewTenant.$invalid || ownerFound || sysDNIRegistered" class="btn btn-labeled btn-success">
+                        <button ng-if="( !sysDNIRegistered || sysDNIRegistered ) && isNewTenant && tenant.new.idTypeTenantKf.idProfile!='1'" type="submit" ng-click="mainSwitchFn('addTenant', tenant.new, null)" ng-disabled="fNewTenant.$invalid || ownerFound || sysDNIRegistered" class="btn btn-labeled btn-success">
                             <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Registrar</button>
                         <button ng-if="( sysDNIRegistered ) && isNewTenant && tenant.new.idTypeTenantKf=='1'" type="submit" ng-click="mainSwitchFn('associateTenant', tenant.new, null)" ng-disabled="fNewTenant.$invalid || (sysDNIRegistered && tenant.new.idTypeTenantKf!='1')" class="btn btn-labeled btn-success">
                                 <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Asociar</button>

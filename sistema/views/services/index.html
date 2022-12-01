@@ -10,7 +10,7 @@
             <div class="col-md-2 col-xs-2" ><label class="clf-size">Buscar Cliente</label></div>
             <div class="col-md-1 col-xs-2">
               <label class="switch switch-2x" for="strict-search">
-                  <input type="checkbox" class="success" ng-click="findCustomerFn(customerSearch.name)" ng-model="customerSearch.strict" id="strict-search">
+                  <input type="checkbox" class="success" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" ng-model="customerSearch.strict" id="strict-search">
                   <span class="slider slider-2x flat"></span>
               </label>
             </div>
@@ -22,37 +22,37 @@
           <div class="row n-margin-l n-margin-r">  
             <div ng-class="col-md-12">
               <div class="col-md-2 col-xs-5">
-                  <input id="typeClientAll" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name)" ng-checked="true" name="typeClient" value="all" ng-model="customerSearch.typeClient" required autofocus>
+                  <input id="typeClientAll" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" ng-checked="true" name="typeClient" value="null" ng-model="customerSearch.typeClient" required autofocus>
                   <label for="typeClientAll" class="radio-2x-label">
                     <span>Todos</span>
                   </label>
                 </div>
                 <div class="col-md-2 col-xs-5">
-                  <input id="typeClient1" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name)" name="typeClient" value="1" ng-model="customerSearch.typeClient" required autofocus>
+                  <input id="typeClient1" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="1" ng-model="customerSearch.typeClient" required autofocus>
                   <label for="typeClient1" class="radio-2x-label">
                     <span>Administracion</span>
                   </label>
                 </div>
                 <div class="col-md-2 col-xs-5">
-                  <input id="typeClient2" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name)" name="typeClient" value="2" ng-model="customerSearch.typeClient" required autofocus>
+                  <input id="typeClient2" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="2" ng-model="customerSearch.typeClient" required autofocus>
                   <label for="typeClient2" class="radio-2x-label">
                     <span>Edificio</span>
                   </label> 
                 </div>
                 <div class="col-md-2 col-xs-5">
-                  <input id="typeClient3" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name)" name="typeClient" value="3" ng-model="customerSearch.typeClient" required autofocus>
+                  <input id="typeClient3" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="3" ng-model="customerSearch.typeClient" required autofocus>
                   <label for="typeClient3" class="radio-2x-label">
                     <span>Empresa</span>
                   </label> 
                 </div>
                 <div class="col-md-2 col-xs-5">
-                  <input id="typeClient4" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name)" name="typeClient" value="4" ng-model="customerSearch.typeClient" required autofocus>
+                  <input id="typeClient4" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="4" ng-model="customerSearch.typeClient" required autofocus>
                   <label for="typeClient4" class="radio-2x-label">
                     <span>Sucursal</span>
                   </label> 
                 </div>
                 <div class="col-md-2 col-xs-5">
-                  <input id="typeClient5" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name)" name="typeClient" value="5" ng-model="customerSearch.typeClient" required autofocus>
+                  <input id="typeClient5" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="5" ng-model="customerSearch.typeClient" required autofocus>
                   <label for="typeClient5" class="radio-2x-label">
                     <span>Particular</span>
                   </label> 
@@ -64,13 +64,13 @@
             <input type="text" name="customerSearch" 
                 id="customerSearch" 
                 ng-model="customerSearch.name" 
-                ng-keyup="findCustomerFn(customerSearch.name)" 
+                ng-keyup="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" 
                 class="form-control input-lg input-font-size text-uppercase input-search"
                 move-to-list input-selector="'.input-search'"
                 list-items-selector="'.list-group li'"
                 required="true" />
             <ul id="customerList" class="list-group" ng-show="listCustomerFound.length>0" style="height: 0px;" >
-              <li tabindex="0" id="customerList-{{$index}}" class="list-group-item" ng-repeat="item in listCustomerFound" navigate-list-items ng-class="{'padding-t-38': $index==0}" ng-click="switchCustomersFn('loadCustomerFields', item.customer);" input-selector="'.input-search'" list-items-selector="'.list-group li'" ng-keydown="$event.keyCode === 13 && switchCustomersFn('loadCustomerFields', item.customer)" > {{item.customer.idClient}} - {{item.customer.name}} <span class="label label-default">{{item.customer.ClientType | uppercase}}</span></li>
+              <li tabindex="0" id="customerList-{{$index}}" class="list-group-item" ng-repeat="item in listCustomerFound" navigate-list-items ng-class="{'padding-t-38': $index==0}" ng-click="switchCustomersFn('loadCustomerFields', item);" input-selector="'.input-search'" list-items-selector="'.list-group li'" ng-keydown="$event.keyCode === 13 && switchCustomersFn('loadCustomerFields', item)" > {{item.idClient}} - {{item.name}} <span class="label label-default">{{item.ClientType | uppercase}}</span></li>
             </ul>
           </div>
         </div>

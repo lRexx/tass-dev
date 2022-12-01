@@ -619,11 +619,11 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
         $scope.getCustomersByNameFn = function(clientName, strict) {
           if(clientName.length>=2){
             if (clientName!=undefined && clientName!='' && clientName!=null){
-              $scope.getCustomerLisServiceFn(clientName, "0", $scope.customersSearch.idClientTypeFk, "", "", strict).then(function(response) {
+              $scope.getCustomerLisServiceFn(clientName, $scope.customersSearch.isNotCliente, $scope.customersSearch.idClientTypeFk, "", "", strict).then(function(response) {
                 console.info(response);
                 if(response.status==undefined){
                   $scope.rsCustomerListData = response.customers;
-                $scope.pagination.totalCount = response.customers.length;
+                  $scope.pagination.totalCount = response.customers.length;
                 }else if(response.status==404){
                   $scope.rsCustomerListData = [];
                   $scope.pagination.totalCount  = 0;
@@ -3140,6 +3140,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       $scope.getBuildingsFn();
                       $scope.sysContent                         = "";
                       $scope.pagination.pageIndex               = 1;
+                      $scope.customersSearch.isNotCliente       = "0";
                       $scope.getCustomersListFn(null, "0", null, ($scope.pagination.pageIndex-1), $scope.pagination.pageSizeSelected, null);
                       $scope.select.filterTypeOfClient          = undefined;
                       $scope.select.filterCustomerIdFk.selected = undefined;
@@ -3154,6 +3155,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       $scope.getBuildingsFn();
                       $scope.sysContent                         = "";
                       $scope.pagination.pageIndex               = 1;
+                      $scope.customersSearch.isNotCliente       = "1";
                       $scope.select.filterTypeOfClient          = undefined;
                       $scope.select.filterCustomerIdFk.selected = undefined;
                       $scope.isNewCustomer                      = false;

@@ -134,7 +134,7 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
         'select':{'main':{},'date':{}, 'codes':{}}
     };
     $scope.select = {'filterTypeOfClient': {}, 'filterCustomerIdFk':{'selected':undefined}};
-    $scope.customerSearch={'name':'', 'typeClient':'all'};
+    $scope.customerSearch={'name':'', 'typeClient':null};
     $timeout(function() {
         $scope.getCustomerListFn("registered", ""); //LOAD CUSTOMER LIST
     }, 500);
@@ -1141,7 +1141,7 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
             *                                                 *
             **************************************************/
                 $scope.searchCustomerFound=false;
-                $scope.findCustomerFn=function(string){
+                $scope.findCustomerFn=function(string, typeClient, strict){
                 
                     if(event.keyCode === 40 || event.which === 40){
                         console.log(event.which);
@@ -1149,48 +1149,22 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                     var output=[];
                     var i=0;
                     if (string!=undefined && string!=""){
-                        if ($scope.rsCustomerListData.length==0){
-                            $scope.getCustomerListFn("registered", "");
-                        }
-                            //console.log($scope.rsCustomerListData);
-                            angular.forEach($scope.rsCustomerListData,function(customer){
-                                var customerName=customer.name;
-                                var customerAddress=customer.address;
-                                var customerId=customer.idClient;
-                                var customerType=customer.idClientType;
-                                var customerNumber=customer.idClientAssociated_SE;
-                                var customerBusinessName=customer.companyBusinessName==null || customer.companyBusinessName==undefined?null:customer.companyBusinessName;
-                                //console.log("customerNumber: "+customerNumber);
-                                if($scope.customerSearch.typeClient!="all"){
-                                    if (!$scope.customerSearch.strict){
-                                        if(customerType==$scope.customerSearch.typeClient && (customerId.indexOf(string.toLowerCase())>=0 || customerName.toLowerCase().indexOf(string.toLowerCase())>=0 )){
-                                            output.push({customer});
-                                        }
-                                    }else{
-                                        if(customerType===$scope.customerSearch.typeClient && (customerId===string || customerName===string.toUpperCase() || customerAddress===string.toUpperCase() )){
-                                            output.push({customer});
-                                        }
-                                    }
-                                }else{
-                                    if (!$scope.customerSearch.strict){
-                                        //console.log(customer);
-                                        if(customerId.toLowerCase().indexOf(string.toLowerCase())>=0 || customerName.toLowerCase().indexOf(string.toLowerCase())>=0){
-                                            output.push({customer});
-                                        }
-                                    }else{
-                                        if(customerId===string || customerName===string.toUpperCase() || customerAddress===string.toUpperCase()){
-                                            output.push({customer});
-                                        }
-                                    }
-                                }
-                            });
-                            console.log(output);
-                    }else{
-                            $scope.listCustomerFound=null;
-                            $scope.searchCustomerFound=false;
+                        $scope.globalGetCustomerListFn(string, "0", typeClient, "", "", strict).then(function(response) {
+                            
+                            if(response.status==undefined){
+                              $scope.listCustomerFound = response.customers;
+                              //$scope.pagination.totalCount = response.customers.length;
+                              console.info($scope.listCustomerFound);
+                            }else if(response.status==404){
+                              $scope.listCustomerFound = [];
+                              //$scope.pagination.totalCount  = 0;
+                            } 
+                          }, function(err) {
+                            $scope.listCustomerFound = [];
+                            //$scope.pagination.totalCount  = 0;
+                          });
                     }
-                    $scope.listCustomerFound=output;
-                //console.info($scope.listCustomerFound);
+                console.info($scope.listCustomerFound);
                 }
                 $scope.customerFound={};
                 $scope.loadCustomerFieldsFn=function(obj){
@@ -1428,7 +1402,7 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                     $scope.customerFound={};
                     $('#customerSearch').focus();
                     $scope.getCustomerListFn("registered", "");
-                    $scope.customerSearch.typeClient="all"
+                    $scope.customerSearch.typeClient=null;
                 }
                 
                 $scope.removeServiceItemFn = function(obj, item){

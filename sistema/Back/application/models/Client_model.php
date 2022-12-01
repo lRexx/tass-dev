@@ -1678,6 +1678,7 @@ class Client_model extends CI_Model {
         $quuery = null;
         $query_total= null;
         $rs     = null;
+        $where=null;
 
         //echo isset($limit)."\n";
         //echo isset($start);
@@ -1774,13 +1775,18 @@ class Client_model extends CI_Model {
                     $this->db->where('tb_clients.isNotCliente', $isNotCliente);
                 }
             }else{
+                if (! is_null($idClientTypeFk)) {
+                    $this->db->where('tb_clients.idClientTypeFk', $idClientTypeFk);
+                }
                 if (! is_null($isNotCliente)) {
                     $this->db->where('tb_clients.isNotCliente', $isNotCliente);
                 }
                 if (is_null($strict) || !$strict){
-                    $this->db->like('tb_clients.name', $searchFilter);
+                    $where="(tb_clients.name LIKE '%".$searchFilter."%' OR tb_clients.idClient LIKE '%".$searchFilter."%')";
+                    $this->db->where($where);
                 }else{
-                    $this->db->where('tb_clients.name', $searchFilter);
+                    $where="(tb_clients.name = '".$searchFilter."' OR tb_clients.idClient = '".$searchFilter."')";
+                    $this->db->where($where);
                 }
                 
 
@@ -1799,10 +1805,19 @@ class Client_model extends CI_Model {
                         $this->db->where('tb_clients.isNotCliente', $isNotCliente);
                     }
                 }else{
+                    if (! is_null($idClientTypeFk)) {
+                        $this->db->where('tb_clients.idClientTypeFk', $idClientTypeFk);
+                    }
                     if (! is_null($isNotCliente)) {
                         $this->db->where('tb_clients.isNotCliente', $isNotCliente);
                     }
-                    $this->db->like('tb_clients.name', $searchFilter);
+                    if (is_null($strict) || !$strict){
+                        $where="(tb_clients.name LIKE '%".$searchFilter."%' OR tb_clients.idClient LIKE '%".$searchFilter."%')";
+                        $this->db->where($where);
+                    }else{
+                        $where="(tb_clients.name = '".$searchFilter."' OR tb_clients.idClient = '".$searchFilter."')";
+                        $this->db->where($where);
+                    }
                 }
                 $query_total =  $this->db->select("*")->from("tb_clients")->get();
                 if ($query_total->num_rows() > 0) {
