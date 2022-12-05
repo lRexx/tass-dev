@@ -762,7 +762,7 @@
 										<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;vertical-align: middle;">Método</td>
 										<td  colspan="7" ng-if="ticket.cost.idTypePaymentKf==null"><img data-type="image" itemprop="image" style="width: 100px;height: 34px;" src="https://static.wixstatic.com/media/b2c01b_142b5431aa03446eb145220aeee6a0e8~mv2.png/v1/fill/w_179,h_75,al_c,q_85,usm_0.66_1.00_0.01/LogoTassHorizontal.webp"></td>
 										<td  colspan="7" ng-if="ticket.cost.idTypePaymentKf=='1' && ticket.optionTypeSelected.name=='department'">Abono por expensas</td>
-										<td  colspan="7" ng-if="ticket.cost.idTypePaymentKf=='1' && ticket.radioButtonBuilding=='1' || ticket.radioButtonBuilding=='2' || ticket.radioButtonBuilding=='3'">Pago en Abono</td>
+										<td  colspan="7" ng-if="ticket.cost.idTypePaymentKf=='1' && (ticket.radioButtonBuilding=='1' || ticket.radioButtonBuilding=='2' || ticket.radioButtonBuilding=='3')">Pago en Abono</td>
 										<td  colspan="7" ng-if="ticket.cost.idTypePaymentKf=='2'"><img data-type="image" itemprop="image" src="images/mp_logo.png" style="width: 100px;"></td>
 									</tr>
 								</tbody>

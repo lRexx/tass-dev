@@ -39,11 +39,6 @@ class Ticket_model extends CI_Model
 			));
 			$idThirdPersonDelivery = $this->db->insert_id();
 		}
-		if ($ticket['autoApproved']==1){
-			$status = 3; //aprobado
-		} else {
-			$status = 2; //pendiente de autotizacion
-		}
 
 		/* BUSCVAMOS UN CODIGO PARA ASIGNARLO */
 		$codTicket  = "";
@@ -91,20 +86,22 @@ class Ticket_model extends CI_Model
 			'urlToken' => @$ticket['urlToken'] ,
 			'autoApproved' => @$ticket['autoApproved'] ,
 			'isNew' => @$ticket['isNew'] ,
-			'idStatusTicketKf' => $status
+			'idStatusTicketKf' => @$ticket['status'] ,
 
 		));
 		if ($this->db->affected_rows()===1){
 			$idTicketKf = $this->db->insert_id();
 			$now        = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
 			if (count(@$ticket['history']) > 0){
-				$this->db->insert('tb_ticket_changes_history' , array(
-					"idUserKf" => @$ticket['history']['idUserKf'] ,
-					"idTicketKf" => $idTicketKf ,
-					"created_at" => $now->format('Y-m-d H:i:s') ,
-					"descripcion" => @$ticket['history']['descripcion'] ,
-					"idCambiosTicketKf" => @$ticket['history']['idCambiosTicketKf'] ,
-				));
+				foreach ($ticket['history'] as $key) {
+					$this->db->insert('tb_ticket_changes_history' , array(
+						"idUserKf" => @$key['history']['idUserKf'] ,
+						"idTicketKf" => $idTicketKf ,
+						"created_at" => $now->format('Y-m-d H:i:s') ,
+						"descripcion" => @$key['history']['descripcion'] ,
+						"idCambiosTicketKf" => @$key['history']['idCambiosTicketKf'] ,
+					));
+				}
 			}
 			if (count(@$ticket['keys']) > 0)/* CREAMOS la llave */{
 
@@ -330,20 +327,20 @@ class Ticket_model extends CI_Model
 	{
 
 
-		$this->db->select(" *,DATEDIFF(ifnull(tb_tickets . dateRecibedAdmin , now()) , tb_tickets . dateCreated) as dayDif ,tb_tickets . dateCreated as dateCratedTicket")->from("tb_tickets");
-		$this->db->join('tb_user tenant' , 'tenant.idUser = tb_tickets.idUserTenantKf' , 'left');
-		$this->db->join('tb_typeticket' , 'tb_typeticket.idTypeTicket = tb_tickets.idTypeTicketKf' , 'left');
-		$this->db->join('tb_statusticket' , 'tb_statusticket.idTypeTicketKf = tb_tickets.idStatusTicketKf' , 'left');
-		$this->db->join('tb_type_delivery' , 'tb_type_delivery.idTypeDelivery = tb_tickets.idTypeDeliveryKf' , 'left');
-		$this->db->join('tb_reason_disabled_item' , 'tb_reason_disabled_item.idReasonDisabledItem = tb_tickets.idReasonDisabledItemKf' , 'left');
-		$this->db->join('tb_user a' , 'a.idUser = tb_tickets.idUserCompany' , 'left');
-		$this->db->join('tb_user b' , 'b.idUser = tb_tickets.idOWnerKf' , 'left');
-		$this->db->join('tb_user c' , 'c.idUser = tb_tickets.idUserEnterpriceKf' , 'left');
-		$this->db->join('tb_user d' , 'd.idUser = tb_tickets.idUserAdminKf' , 'left');
-		$this->db->join('tb_type_services' , 'tb_type_services.idTypeServices = tb_tickets.idTypeServicesKf' , 'left');
-		$this->db->join('tb_clients' , 'tb_clients.idClient = tb_tickets.idAdressKf' , 'left');
+		$this->db->select(" *,DATEDIFF(ifnull(tb_tickets_2  . dateRecibedAdmin , now()) , tb_tickets_2  . dateCreated) as dayDif ,tb_tickets_2  . dateCreated as dateCratedTicket")->from("tb_tickets_2 ");
+		$this->db->join('tb_user tenant' , 'tenant.idUser = tb_tickets_2 .idUserTenantKf' , 'left');
+		$this->db->join('tb_typeticket' , 'tb_typeticket.idTypeTicket = tb_tickets_2 .idTypeTicketKf' , 'left');
+		$this->db->join('tb_statusticket' , 'tb_statusticket.idTypeTicketKf = tb_tickets_2 .idStatusTicketKf' , 'left');
+		$this->db->join('tb_type_delivery' , 'tb_type_delivery.idTypeDelivery = tb_tickets_2 .idTypeDeliveryKf' , 'left');
+		$this->db->join('tb_reason_disabled_item' , 'tb_reason_disabled_item.idReasonDisabledItem = tb_tickets_2 .idReasonDisabledItemKf' , 'left');
+		$this->db->join('tb_user a' , 'a.idUser = tb_tickets_2 .idUserCompany' , 'left');
+		$this->db->join('tb_user b' , 'b.idUser = tb_tickets_2 .idOWnerKf' , 'left');
+		$this->db->join('tb_user c' , 'c.idUser = tb_tickets_2 .idUserEnterpriceKf' , 'left');
+		$this->db->join('tb_user d' , 'd.idUser = tb_tickets_2 .idUserAdminKf' , 'left');
+		$this->db->join('tb_type_services' , 'tb_type_services.idTypeServices = tb_tickets_2 .idTypeServicesKf' , 'left');
+		$this->db->join('tb_clients' , 'tb_clients.idClient = tb_tickets_2 .idAdressKf' , 'left');
 		$this->db->join('tb_department' , 'tb_department.idUserTenantKf = tb_user.idUser' , 'left');
-		$query = $this->db->where("tb_tickets . idTicket = " , @$id)->get();
+		$query = $this->db->where("tb_tickets_2  . idTicket = " , @$id)->get();
 
 
 		if ($query->num_rows()==1){
@@ -486,7 +483,7 @@ class Ticket_model extends CI_Model
 				'totalEnvio' => $ticket['totalEnvio'] ,
 				'isChangeDeliverylRequested' => null
 			)
-		)->where("idTicket" , $ticket['idTicket'])->update("tb_tickets");
+		)->where("idTicket" , $ticket['idTicket'])->update("tb_tickets_2");
 
 		if ($this->db->affected_rows()===1){
 			return true;
@@ -1601,7 +1598,7 @@ class Ticket_model extends CI_Model
                          RQC . nameCompany     AS rq_company,
                          RQC . mail_request    AS rq_mailRequest,
                          RQC . mail_services   AS rq_mailService,
-                         RQC . mail_admin      AS rq_mailAdmin")->from("tb_tickets TK");
+                         RQC . mail_admin      AS rq_mailAdmin")->from("tb_tickets_2 TK");
 		$this->db->join('tb_statusticket  STK   ' , 'STK.idStatus = TK.idStatusTicketKf' , 'left');
 		$this->db->join('tb_typeticket    TTK   ' , 'TTK.idTypeTicket = TK.idTypeTicketKf ' , 'left');
 		$this->db->join('tb_type_delivery TYD   ' , 'TYD.idTypeDelivery = TK.idTypeDeliveryKf ' , 'left');
@@ -1711,7 +1708,7 @@ class Ticket_model extends CI_Model
 	{
 		$tickets_all = null;
 		/* LISTADO DE DATOS TEMPORALES DE ENVIO O CANCELACION */
-		$this->db->select(" * ")->from("tb_tickets as ticket");
+		$this->db->select(" * ")->from("tb_tickets_2 as ticket");
 		$this->db->join('tb_tmp_delivery_data as tmp' , 'tmp.tmp_idTicketKf = ticket.idTicket' , 'left');
 		$query = $this->db->where("ticket . idTicket = tmp . tmp_idTicketKf AND tmp . tmp_isChOrCancelApplied is null AND ((ticket . isCancelRequested = 1 AND ticket . idUserCancelTicket is null AND tmp . tmp_isCancelApproved = " . $id . ") OR (ticket . isChangeDeliverylRequested = 1 AND ticket . idUserHasChangeTicket is null AND tmp . tmp_isChApproved = " . $id . "))" , NULL , FALSE)->get();
 		if ($query->num_rows() > 0){
@@ -1768,8 +1765,8 @@ class Ticket_model extends CI_Model
 
 		$rs = null;
 
-		$where = "NOT(tb_tickets . idStatusTicketKf = '-1' OR tb_tickets . idStatusTicketKf = '1' OR tb_tickets . idStatusTicketKf = '6') AND (tb_tickets . idUserTenantKf = $id OR tb_tickets . idOWnerKf = $id)";
-		$query = $this->db->select(" * ")->from("tb_tickets")
+		$where = "NOT(idStatusTicketKf = '-1' OR idStatusTicketKf = '1' OR idStatusTicketKf = '6')";
+		$query = $this->db->select(" * ")->from("tb_tickets_2")
 			->where($where)->get();
 		if ($query->num_rows() > 0){
 			$rs = $query->num_rows();
@@ -1786,7 +1783,7 @@ class Ticket_model extends CI_Model
 		$rs = null;
 
 		$where = "(SA_NRO_ORDER is null OR SA_NRO_ORDER = '') AND idStatusTicketKf <= '3' AND idTicket = $id";
-		$query = $this->db->select(" * ")->from("tb_tickets")
+		$query = $this->db->select(" * ")->from("tb_tickets_2")
 			->where($where)->get();
 		if ($query->num_rows() > 0){
 			$rs = $query->num_rows();
