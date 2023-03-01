@@ -210,7 +210,7 @@
 							</div>
 						</div>
                         <div class="row">
-                            <div class="container-fluid justify-content-md-center">
+                            <div ng-if="rsKeyProductsData.length>0" class="container-fluid justify-content-md-center">
 								<legend style="text-align: center;">Llaves disponibles</legend>
                                 <!-- List Open Devices Products For RESERVA-->
                                 <div  class="form-group col-md-6 n-padding-r"  ng-class="
@@ -241,8 +241,8 @@
                                         </div>
                                     </div>
                                 </div>
-                               <!-- Input Amount of keys that will be added to the request Apply Only for TASS -->
-							   <div ng-if="(ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && ticket.radioButtonBuilding!='3'))" class="form-group col-md-2 n-padding-l"  ng-class="
+                               	<!-- Input Amount of keys that will be added to the request Apply Only for TASS -->
+							   	<div ng-if="(ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && ticket.radioButtonBuilding!='3'))" class="form-group col-md-2 n-padding-l"  ng-class="
 							   {	'has-success': 
 							   		ticket.keyQtty!=undefined && ticket.keyQtty!=0 && fkeyup.ticket_keyQtty.$valid,
 								   'has-error':  
@@ -262,7 +262,7 @@
 									   ng-required="(ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && ticket.radioButtonBuilding!='3'))" />
 								   </div>
 							   </div>
-						   </div>
+						   		</div>
 								<button ng-show="temporary-disabled" ng-if="((ticket.radioButtonDepartment==1 || ticket.radioButtonDepartment==2) && (selectedRequestKeyOwnerUser!=undefined && selectedRequestKeyOwnerUser!=null))" style="margin-top:2em;" data-toggle="tooltip" data-placement="top" title="Asignar usuario"  ng-click="mainSwitchFn('list_depto_tenant', null)" type="button" 
 									class="btn btn-labeled btn-sm " ng-class="{'btn-info':selectedUser==undefined, 'btn-warning':selectedUser!=undefined}">
 									<span ng-if="selectedUser==undefined" class="btn-label"><i class="fas fa-user-tag"></i> </span>
@@ -290,6 +290,12 @@
 								ng-click="mainSwitchFn('setKeysToList', select.products.selected, rsCustomerAccessControlDoors)" type="button" class="btn btn-labeled btn-sm btn-success">
 									<span class="btn-label"><i class="fas fa-plus"></i> </span>Agregar</button>
 							</div>
+							<div ng-if="rsKeyProductsData.length==0" class="container-fluid justify-content-md-center">
+								<legend style="text-align: center;">Llaves disponibles</legend>
+								<div class="col-md-12 col-xs-12 form-group n-padding-l n-padding-r">
+									<div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay Llaves disponibles</h5></div>
+								</div>
+							</div>
 						</div>
 						<div class="col-md-6 col-xs-12 form-group n-padding-l n-padding-r">
 							<legend style="text-align: center;">Puertas disponibles</legend>
@@ -315,7 +321,7 @@
 						<!--LLAVES A SOLICITAR-->
 						<div class="col-md-6 col-xs-12 form-group">
 							<legend style="text-align: center;">Llaves a solicitar</legend>
-							<div class="col-md-6" ng-if="deliveryCostFree==1">
+							<div class="col-md-12" ng-if="deliveryCostFree==1">
 								<div class="alert alert-success" style="border: 3px solid;border-radius: 15px;" role="alert">
 									<span style="text-align: center; padding-right: 5px;" class="">
 										<span><i class="fas fa-award"></i></span>
@@ -399,7 +405,7 @@
 										<div class="form-check form-check-inline">
 											<div class="col-md-12 n-padding-l n-padding-r">
 												<div ng-repeat="item in typedelivery" class="col-md-4 col-xs-4 col-xs-offset-2">
-													<input id="idTypeDeliveryKf-{{item.idTypeDelivery}}" class="radio-custom" type="radio" ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery.whoPickUp, null); enabledNextBtn();" name="idTypeDeliveryKf" value="{{item.idTypeDelivery}}" ng-model="ticket.delivery.idTypeDeliveryKf" required autofocus>
+													<input id="idTypeDeliveryKf-{{item.idTypeDelivery}}" class="radio-custom" type="radio" ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery, null); enabledNextBtn();" name="idTypeDeliveryKf" value="{{item.idTypeDelivery}}" ng-model="ticket.delivery.idTypeDeliveryKf" required autofocus>
 													<label for="idTypeDeliveryKf-{{item.idTypeDelivery}}" class="radio-custom-label">
 														<span>{{item.typeDelivery}}</span>
 													</label>
@@ -418,7 +424,7 @@
 								<div class="col-md-10 col-md-offset-1 col-xs-12 input-group">
 									<div class="input-group">
 										<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-										<select name="whoPickUp" class="form-control" required ng-change="mainSwitchFn('checkWhoPickUp', ticket.delivery.whoPickUp, null); enabledNextBtn();" ng-options="item as item.fullNameUser group by item.type for item in whoPickUpList" ng-model="ticket.delivery.whoPickUp" autofocus >
+										<select name="whoPickUp" class="form-control" required ng-change="mainSwitchFn('checkWhoPickUp', ticket.delivery, null); enabledNextBtn();" ng-options="item as item.fullNameUser group by item.type for item in whoPickUpList" ng-model="ticket.delivery.whoPickUp" autofocus >
 											<option value=""></option>
 										</select>
 									</div>
@@ -468,8 +474,9 @@
 																<span ng-if="ticket.delivery.whoPickUp.id==undefined || ticket.delivery.whoPickUp.id==2" class="badge badge-warning"> {{ticket.delivery.deliveryTo.nameProfile}}</span>
 																<span ng-if="ticket.delivery.whoPickUp.id==3" class="badge badge-warning"> Tercera Persona</span>
 															</td>
-															<td ng-if="ticket.delivery.whoPickUp.id==3"><span class="font-size-16px"><button ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery.whoPickUp, null);" data-toggle="tooltip" data-placement="right" title="Editar" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i class="fas fa-edit"></i> </span><span class="sr-only">Editar</span></button></span></td>
-															<td ng-if="ticket.delivery.whoPickUp.id==2"><span class="font-size-16px"><button ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery.whoPickUp, null);" data-toggle="tooltip" data-placement="right" title="Seleccionar otro" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button></span></td>
+															<td ng-if="(ticket.delivery.whoPickUp.id==undefined && ticket.delivery.idDeliveryTo==2)"><span class="font-size-16px"><button ng-click="mainSwitchFn('deliveryToOtherAddress', ticket.delivery, 2);" data-toggle="tooltip" data-placement="right" title="Editar" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i class="fas fa-edit"></i> </span><span class="sr-only">Editar</span></button></span></td>
+															<td ng-if="(ticket.delivery.whoPickUp.id==3)"><span class="font-size-16px"><button ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery, null);" data-toggle="tooltip" data-placement="right" title="Editar" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i class="fas fa-edit"></i> </span><span class="sr-only">Editar</span></button></span></td>
+															<td ng-if="ticket.delivery.whoPickUp.id==2"><span class="font-size-16px"><button ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery, null);" data-toggle="tooltip" data-placement="right" title="Seleccionar otro" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button></span></td>
 														</tr>
 													</tbody>
 												</table>
@@ -794,7 +801,7 @@
 				<div class="modal-footer">
 					<div class="row">
 						<div class="col-xs-6 col-sm-6 col-md-6 pull-right">
-							<button type="submit" ng-click="mainSwitchFn('up', ticket);" ng-show="!hasNextStep()" ng-disabled="fkeyup.$invalid" class="btn btn-labeled btn-success">
+							<button type="submit" ng-click="modalConfirmation('tup', 0, ticket);" ng-show="!hasNextStep()" ng-disabled="fkeyup.$invalid" class="btn btn-labeled btn-success">
 								Completar Pedido<span class="btn-label-right"><i class="glyphicon glyphicon-send"></i> </span></button>
 
 							<button ng-click="incrementStep(); enabledNextBtn();" ng-disabled="formValidated!=true" ng-show="btnShow" class="btn btn-labeled btn-primary">
@@ -814,3 +821,5 @@
 <div ng-include="'views/tickets/delivery/deliveryAddressType.html'"></div>
 <div ng-include="'views/tickets/list/deliveryAttendantList.html'"></div>
 <div ng-include="'views/tickets/delivery/thirdPerson.html'"></div>
+<div ng-include="'views/utilities/modalConfirmation.html'"></div>
+<div ng-include="'views/utilities/showModalRequestStatus.html'"></div>

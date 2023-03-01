@@ -109,7 +109,6 @@ class Direccion_model extends CI_Model
 		$rs     = null;
 		$this->db->select("*")->from("tb_clients");
 		$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_clients.idClient', 'inner');
-		$this->db->join('tb_company', 'tb_company.idCompany = tb_clients.idCompanyKf', 'left');
 		if ($idDpto) {
 			$this->db->join('tb_user', 'tb_user.idDepartmentKf = tb_client_departament.idClientDepartament', 'left'); //falta
 		}
@@ -133,6 +132,50 @@ class Direccion_model extends CI_Model
 
 		if ($quuery->num_rows() > 0) {
 			$rs = $quuery->result_array();
+			return $rs;
+		}
+		return null;
+	}
+	public function addressByidTenant ($id, $idTypeTenant, $idStatus)
+	{
+		$quuery = null;
+		$rs     = null;
+		$this->db->select("B.*")->from("tb_clients AS B");
+		$this->db->join('tb_clients AS A', 'A.idClient = B.idClientAdminFk', 'left');
+		$this->db->join('tb_client_type', 'tb_client_type.idClientType = B.idClientTypeFk', 'left');
+		$this->db->join('tb_client_departament', 'tb_client_departament.idClientFk = B.idClient', 'left');
+		if ($idTypeTenant == 1){
+			if ($idStatus == 1) { // si le mandas 1 te retorna los APROBADOS
+				$this->db->where("tb_client_departament.isAprobatedAdmin =", 1);
+			} else if ($idStatus == 0) {// SI LE MANDAS 0 LOS NO APROBADOS
+				$this->db->where("tb_client_departament.isAprobatedAdmin =", 0);
+			}
+			$this->db->group_by('B.idClient');
+			$quuery = $this->db->where("tb_client_departament.idUserKf =", $id)->get();
+		}else{
+			$this->db->join('tb_user', 'tb_user.idDepartmentKf = tb_client_departament.idClientDepartament', 'left');
+			if ($idStatus == 1) { // si le mandas 1 te retorna los APROBADOS
+				$this->db->where("tb_user.isDepartmentApproved =", 1);
+			} else if ($idStatus == 0) {// SI LE MANDAS 0 LOS NO APROBADOS
+				$this->db->where("tb_user.isDepartmentApproved =", 0);
+			}
+			$this->db->group_by('B.idClient');
+			$quuery = $this->db->where("tb_user.idUser=" . $id . " and tb_user.idDepartmentKf=" . $idDpto)->get();
+		}
+		if ($quuery->num_rows() > 0) {
+			$rs = $quuery->result_array();
+			$i = 0;
+			foreach ($quuery->result() as &$row) {
+
+				$this->db->select("*")->from("tb_clients");
+				$quuery = $this->db->where("tb_clients.idClient =", $row->idClientAdminFk)->get();
+
+				$rs1                              = $quuery->result_array();
+				$rs[$i]['administration'] = $rs1[0];
+				
+				$i++;
+			}
+
 			return $rs;
 		}
 		return null;

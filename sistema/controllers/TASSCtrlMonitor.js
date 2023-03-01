@@ -1,18 +1,8 @@
 /**
 * Monitor Controller
 **/
-var monitor = angular.module("module.Monitor", ["tokenSystem", "services.Ticket", "angular.filter"]);
-/**************************************************
-*                                                 *
-*          DATE FILTER FOR MYSQL TIMESTAMP        *
-*                                                 *
-**************************************************/
-  monitor.filter('dateToISO', function() {
-  return function(input) {
-    input = new Date(input).toISOString();
-    return input;
-  }
-});
+var monitor = angular.module("module.Monitor", ["tokenSystem", "services.Ticket", "services.Address",  "services.Customers", "angular.filter"]);
+
 /*************************************************/
 monitor.filter('commaToDecimal', function(){
     return function(value) {
@@ -28,7 +18,7 @@ monitor.filter('startFrom', function () {
     return [];
   };
 });
-monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParams, blockUI, $timeout, inform, ticketServices, tokenSystem, $window, $filter, serverHost, serverBackend, serverHeaders, APP_SYS){
+monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParams, $q, blockUI, $timeout, inform, ticketServices, addressServices, CustomerServices, tokenSystem, $window, $filter, serverHost, serverBackend, serverHeaders, APP_SYS){
   console.log(APP_SYS.app_name+" Modulo monitor pedidos");
     //console.log($scope.sysLoggedUser)
     //console.log($scope.sysToken)
@@ -40,6 +30,134 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
       $scope.listTickt = 0;
       $scope.filters={typeTicket: '', topDH: '', searchFilter:'', idCompany: '', idAddress: '', ticketStatus: ''};
       $scope.dh = {'filterAddress': '', 'filterSearch': '', 'filterTop': '', 'filterProfile':'', 'filterTenantKf':''};
+
+
+
+
+
+    /*******************************************
+    *    UPDATE PAYMENT DETAILS NEW REQUEST    *
+    ********************************************/
+     $scope.updatePaymentFn = function(payment){
+      $scope.updatePaymentDetails = null;
+      ticketServices.updatePayment(payment).then(function(response){
+          console.log(response);
+          if(response.status==200){
+              console.log("Actualización de pago realizado satisfactoriamente");
+              inform.add('Pago actualizado Satisfactoriamente. ',{
+                    ttl:5000, type: 'success'
+              });
+              $scope.updatePaymentDetails = response.data.response[0];
+              console.log($scope.updatePaymentDetails);
+          }else if(response.status==500){
+              $scope.updatePaymentDetails = null;
+              console.log("Payment updating failed, contact administrator");
+              inform.add('Error: [500] Contacta al area de soporte. ',{
+                    ttl:5000, type: 'danger'
+              });
+          }
+      });
+    };
+
+    /************************************************************
+    *                                                           *
+    *   PARAMETER TO RECEIVED THE PAYMENT FROM MERCADO PAGO     *
+    *                                                           *
+    ************************************************************/
+     //PARAMETERS SENT BY MERCADO PAGO AFTER THE PAYMENT
+     //collection_id=1312069211
+     //collection_status=approved
+     //payment_id=1312069211
+     //status=approved
+     //external_reference=5600713224_6698484756
+     //payment_type=credit_card
+     //merchant_order_id=7425566493
+     //preference_id=1177407195-2d407fa5-b370-48a3-88fa-83a870321138
+     //site_id=MLA
+     //processing_mode=aggregator
+     //merchant_account_id=null
+    /* USAGE: /login/auth/ticket/id/tokenId/token/secureToken */
+    $scope.mp={"payment":{"data":{
+    "collection_status": null,
+    "payment_id":null,
+    "payment_type":null,
+    "merchant_order_id": null,
+    "site_id": null,
+    "processing_mode":null,
+    "merchant_account_id": null,
+    "preference_id": null,
+    "external_reference":null,
+    "status":null
+    }}};
+    if($routeParams.preference_id && $routeParams.payment_id){
+      var ext_ref = $routeParams.external_reference;
+      var idTicket = ext_ref.split("_");
+      $scope.mp.payment.data.collection_status    = $routeParams.collection_status;
+      $scope.mp.payment.data.payment_id           = $routeParams.payment_id;
+      $scope.mp.payment.data.payment_type         = $routeParams.payment_type;
+      $scope.mp.payment.data.merchant_order_id    = $routeParams.merchant_order_id;
+      $scope.mp.payment.data.site_id              = $routeParams.site_id;
+      $scope.mp.payment.data.processing_mode      = $routeParams.processing_mode;
+      $scope.mp.payment.data.merchant_account_id  = $routeParams.merchant_account_id;
+      $scope.mp.payment.data.preference_id        = $routeParams.preference_id;
+      $scope.mp.payment.data.external_reference   = $routeParams.external_reference;
+      $scope.mp.payment.data.idTicket             = idTicket[0];
+      $scope.mp.payment.data.status               = $routeParams.status;
+      console.log(" Payment Details:");
+      console.log($scope.mp.payment.data);
+      if ($scope.mp.payment.data.status=="approved"){
+        inform.add('El pago recibido con el numero de Id:  '+$scope.mp.payment.data.payment_id,{
+          ttl:5000, type: 'info'
+        });
+        $timeout(function() {
+          $scope.updatePaymentFn($scope.mp.payment);
+        }, 1000);
+      }
+    }
+    /**************************************************
+    *                                                 *
+    *              GET STATUS TICKET LIST             *
+    *                                                 *
+    **************************************************/
+      $scope.getTicketStatusTypeListFn = function(){
+        ticketServices.getTicketStatusTypeList().then(function(response){
+          if(response.status==200){
+                  $scope.listStatusTicket = response.data;
+          }else if (response.status==404){
+              inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                  ttl:3000, type: 'danger'
+              });
+                  $scope.listStatusTicket = undefined;
+          }else if (response.status==500){
+              inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+              ttl:3000, type: 'danger'
+              });
+              $scope.listStatusTicket = undefined;
+          }
+        });
+      };$scope.getTicketStatusTypeListFn();
+    /**************************************************
+    *                                                 *
+    *              GET TICKET TYPES LIST              *
+    *                                                 *
+    **************************************************/
+     $scope.getTypeTicketListFn = function(){
+      ticketServices.getTypeTicketList().then(function(response){
+        if(response.status==200){
+                $scope.listTypeTicket = response.data;
+        }else if (response.status==404){
+            inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                ttl:3000, type: 'danger'
+            });
+                $scope.listTypeTicket = undefined;
+        }else if (response.status==500){
+            inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+            ttl:3000, type: 'danger'
+            });
+            $scope.listTypeTicket = undefined;
+        }
+      });
+    };$scope.getTypeTicketListFn();
     /**************************************************
     *                                                 *
     *                  OPEN A TICKET                  *
@@ -51,12 +169,12 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
      $scope.openTicketFn = function(obj, option){
        $scope.tkupdate  = obj;
        $scope.tktmporal = obj;
-       ticketServices.ticketByToken(obj.urlToken);
+       //ticketServices.ticketByToken(obj.urlToken);
        //console.log(obj);
        $scope.editComment=false;
        ticketServices.ticketById($scope.tkupdate.idTicket).then(function(data){
            $scope.rsData.ticket = (data[0]);
-             //console.log($scope.rsData);
+             console.log($scope.rsData);
        });
        switch(option){
          case 0:
@@ -603,85 +721,337 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
 
       }
     }
+    /**************************************************
+    *                                                 *
+    *                 Address By Owner id             *
+    *                                                 *
+    **************************************************/
+      $scope.ListTenantAddress = [];
+      $scope.getAddressByidTenantFn = function(idUser, idTypeTenant, idStatus){
+        addressServices.getAddressByidTenant(idUser,idTypeTenant,idStatus).then(function(response){
+              if(response.status==200){
+                  $scope.ListTenantAddress = response.data;
+              }else if (response.status==404){
+                  $scope.ListTenantAddress = [];
+              }else if (response.status==500){
+                  $scope.ListTenantAddress = [];
+                  inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                      ttl:5000, type: 'danger'
+                  });
+              }
+          });
+      }
+      /**************************************************
+      *                                                 *
+      *                GET DELIVERY TYPES               *
+      *                                                 *
+      **************************************************/
+        $scope.typedelivery = [];
+        $scope.getDeliveryTypesFn = function(){
+            $scope.typedelivery = [];
+            ticketServices.typeDelivery().then(function(response){
+                if(response.status==200){
+                    $scope.typedelivery = response.data;
+                }else if (response.status==404){
+                    $scope.typedelivery = [];
+                    inform.add('No hay tipos de deliverys registrados, contacte al area de soporte de TASS.',{
+                    ttl:5000, type: 'warning'
+                    });
+                }else if (response.status==500){
+                    $scope.typedelivery = [];
+                    inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                    ttl:5000, type: 'danger'
+                    });
+                }
+            });
+        };
+      /**************************************************
+      *                                                 *
+      *                GET PAYMENTS TYPES               *
+      *                                                 *
+      **************************************************/
+       $scope.paymentsType = [];
+       $scope.getPaymentsTypeFn = function(){
+           $scope.paymentsType = [];
+           ticketServices.paymentsType().then(function(response){
+               if(response.status==200){
+                   $scope.paymentsType = response.data;
+               }else if (response.status==404){
+                   $scope.paymentsType = [];
+                   inform.add('No hay tipos de Pagos registrados, contacte al area de soporte de TASS.',{
+                   ttl:5000, type: 'warning'
+                   });
+               }else if (response.status==500){
+                   $scope.paymentsType = [];
+                   inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                   ttl:5000, type: 'danger'
+                   });
+               }
+           });
+       };
+      /**************************************************
+      *                                                 *
+      *            GET ADMINISTRATION LIST              *
+      *                                                 *
+      **************************************************/
+        $scope.getAdminListFn = function() {
+          $scope.administrationList = [];
+          $scope.globalGetCustomerListFn(null,"0",1,"","",null).then(function(data) {
+            $scope.administrationList = data.customers;
+          }, function(err) {
+              $scope.administrationList = [];
+          });
+      };
+      /**************************************************
+      *                                                 *
+      *            GET ADMINISTRATION LIST              *
+      *                                                 *
+      **************************************************/
+       $scope.getCompaniesListFn = function() {
+        $scope.companiesList = [];
+        $scope.globalGetCustomerListFn(null,"0",3,"","",null).then(function(data) {
+          $scope.companiesList = data.customers;
+        }, function(err) {
+            $scope.companiesList = [];
+        });
+      };
 
-    $scope.dhboard = function(){
-    /**********CHECK IF THERE ARE TMP DELIVERY OR CANCEL DATA APPROVED TO APPLY TO THE TICKETS ***********/
-    $scope.sysChkChangeOrCancel(0);
-    $scope.sysChkChangeOrCancel(1);        
-    /******************************
-    *                             *
-    *       FILTER VARIABLES      *
-    *                             *
-    ******************************/
-    //$scope.filters.idTypeTicketKf= !$scope.filters.idTypeTicketKf ? 0 : $scope.filters.idTypeTicketKf;
-    //$scope.dh.filterAddress = 0;
-    
-    $scope.filters.idAddress   = ($scope.sysLoggedUser.idProfileKf==1 && (!$scope.filterCompanyKf.selected || !$scope.filterAddressKf.selected)) || (($scope.sysLoggedUser.idProfileKf!=1)  && !$scope.filterAddressKf.selected) ? "" : $scope.filterAddressKf.selected.idAdress;
-    $scope.dh.filterAddress    = $scope.filters.idAddress;
-    $scope.dh.filterSearch     = $scope.filters.searchFilter;
-    $scope.dh.filterTop        = $scope.filters.topDH;
-    $scope.dh.filterProfile    = $scope.sysLoggedUser.idProfileKf;
-    $scope.dh.filterTenantKf   = $scope.sysLoggedUser.idProfileKf==5 || ($scope.sysLoggedUser.idProfileKf==6 && $scope.sysLoggedUser.idTypeTenantKf==2) ? $scope.sessionIdUser :'';
-    if(($scope.sysLoggedUser.idProfileKf!=2  && $scope.sysLoggedUser.idProfileKf!=5) || ($scope.sysLoggedUser.idTypeTenantKf==6 && $scope.sysLoggedUser.idTypeTenantKf==1)){
-        $scope.filters.idCompany   = !$scope.filterCompanyKf.selected? "" : $scope.filterCompanyKf.selected.idCompany;
-    }
-    $scope.dh.filterCompany    = $scope.sysLoggedUser.idProfileKf == 2 || $scope.sysLoggedUser.idProfileKf == 4 ? $scope.sessionidCompany : $scope.filters.idCompany;
-    $scope.dh.filterTypeTicket = !$scope.filters.typeTicket?"":$scope.filters.typeTicket.idTypeTicket;
-    $scope.dh.filterStatus     = !$scope.filters.ticketStatus?"":$scope.filters.ticketStatus.idStatus;
-    $scope.dh.filterOwnerKf    = $scope.sysLoggedUser.idProfileKf==3?$scope.sessionIdUser:'';
-    $scope.dh.filterIdUser     = $scope.sysLoggedUser.idProfileKf!=1 && $scope.sysLoggedUser.idProfileKf!=2 && $scope.sysLoggedUser.idProfileKf!=4?$scope.sessionIdUser:'';
-    $scope.dh.filterIdAtt      = ($scope.sysLoggedUser.idProfileKf==6 && $scope.sysLoggedUser.idTypeTenantKf==1) || ($scope.sysLoggedUser.idProfileKf==6 && $scope.sysLoggedUser.idTypeTenantKf==2)?$scope.sessionIdUser:'';
-    //console.log($scope.dh);
-        $searchFilter= 
-        {
-            idUser            : $scope.dh.filterIdUser,
-            idOWnerKf           : $scope.dh.filterOwnerKf,
-            searchFilter        : $scope.dh.filterSearch,
-            topFilter           : $scope.dh.filterTop, 
-            idProfileKf         : $scope.dh.filterProfile,
-            idUserTenantKf      : $scope.dh.filterTenantKf,
-            idUserAttendantKf   : $scope.dh.filterIdAtt, 
-            idCompanyKf         : $scope.dh.filterCompany,
-            idTypeTicketKf      : $scope.dh.filterTypeTicket,
-            idAdress            : $scope.dh.filterAddress,
-            idStatusTicketKf    : $scope.dh.filterStatus
-        }
-        //console.log($scope.sessionIdUser);   
-        // N° de pedido EASY : 5420689
-        //console.log($searchFilter);
-        //ticketServices.checkTicketBeforeCancel(ticketID).then(function(data){});
-        $http.post(serverHost+serverBackend+"Ticket/all", $searchFilter,serverHeaders)
-        .then(function (sucess, data) {
-                $scope.listTickt =  sucess.data.response;
-                $scope.totalTickets = $scope.listTickt.length;
-        },function (error, data,status) {
-            if(error.status == 203 || error.status == 404){
-                console.log("Error Codigo["+error.status+"] - "+error.data.error);
-                $scope.listTickt =  "";
-                $scope.totalTickets = 0;
-            }else if(error.status==500){
-                console.log("505: Internal Server Error")
-                //console.log(error.data.error);
-                $scope.listTickt =  "";
-                $scope.totalTickets = 0;
-            }
-            if($scope.counterInformShow==1){
-                inform.add('['+error.status+']: '+error.data.error,{
-                        ttl:5000, type: 'warning'
+      /**************************************************
+      *                                                 *
+      *       GET LIST OF CUSTOMER BY CUSTOMER ID       *
+      *                                                 *
+      **************************************************/
+        $scope.listOffices=[];
+        $scope.getLisOfCustomersByIdFn = function(obj){
+          //console.log("getLisOfCustomersByIdFn: "+obj.idClient);
+          $scope.listOffices=[];
+          CustomerServices.getCustomersListByCustomerId(obj.idClient).then(function(response){
+            //console.log(response);
+            if(response.status==200){
+              $scope.listOffices = response.data;
+            }else{
+              $scope.listOffices = [];
+              inform.add('No hay Consorcios o Sucursales asociadas a la ('+obj.ClientType+') - '+obj.name+' , contacte al area de soporte de TASS.',{
+                ttl:5000, type: 'info'
                 });
             }
-            $scope.counterInformShow=1;
-        });
-    }
+          });
+        };
+    /**************************************************
+    *                                                 *
+    *            TICKETS MONITOR FUNCTION             *
+    *                                                 *
+    **************************************************/
+      $scope.monitor={'filters':{},'update':{},'edit':{}};
+      $scope.monitor.filter={'idUserRequestBy':'', 'idUserMadeBy':'', 'idBuildingKf':'', 'idClientAdminFk':'', 'idClientCompaniFk':'', 'idClientBranchFk':'', 'topfilter':'', 'idTypeTicketKf':'', 'idStatusTicketKf':'', 'codTicket':'', 'idTypePaymentKf':'', 'idTypeDeliveryKf':''};
+      $scope.mainSwitchFn = function(opt, obj){
+        switch (opt){
+            case "dashboard":
+              $scope.getDeliveryTypesFn();
+              $scope.getPaymentsTypeFn();
+              switch ($scope.sysLoggedUser.idProfileKf){
+                case "1":
+                    $scope.listCompany=[];
+                    var listCompany=[];
+                    //GET ADMIN CUSTOMERS
+                    $scope.globalGetCustomerListFn(null,"0",1,"","",null).then(function(data) {
+                      angular.forEach(data.customers,function(admins){
+                        var deferredAdmins = $q.defer();
+                        listCompany.push(admins);
+                        deferredAdmins.resolve();
+                      });
+                    });
+                    $q.all(listCompany).then(function () {
+                      //console.log(listCompany);
+                    });
+                    //GET COMPANY CUSTOMERS
+                    $scope.globalGetCustomerListFn(null,"0",3,"","",null).then(function(data) {
+                      angular.forEach(data.customers,function(company){
+                        var deferredCompany = $q.defer();
+                        listCompany.push(company);
+                        deferredCompany.resolve();
+                      });
+                    });
+                    $q.all(listCompany).then(function () {
+                      $scope.listCompany = listCompany;
+                      //console.log($scope.listCompany);
+                    });
+                  $scope.filters.topDH="10";
+                  $scope.monitor.filter.topfilter              = $scope.filters.topDH;
+                  $scope.listTickets($scope.monitor.filter);
+                break;
+                case "4":
+                  $scope.isHomeSelected=false;
+                  $scope.getLisOfCustomersByIdFn($scope.sysLoggedUser.company[0]);
+                  $scope.filters.topDH="10";
+                  $scope.monitor.filter.idClientAdminFk   = $scope.sysLoggedUser.company[0].idClient;
+                  $scope.monitor.filter.topfilter           = $scope.filters.topDH;
+                  $scope.listTickets($scope.monitor.filter);
+                break;
+                case "3":
+                case "5":
+                case "6":
+                  switch ($scope.sysLoggedUser.idTypeTenantKf){
+                    case "1":
+                      $scope.filters.topDH="10";
+                      $scope.getAddressByidTenantFn($scope.sysLoggedUser.idUser, $scope.sysLoggedUser.idTypeTenantKf, -1);
+                      $scope.monitor.filter.idUserRequestBy        = $scope.sysLoggedUser.idUser;
+                      $scope.monitor.filter.topfilter              = $scope.filters.topDH;
+                      $scope.listTickets($scope.monitor.filter);
+                    break;
+                    case "2":
+                      $scope.filters.topDH="10";
+                      $scope.getAddressByidTenantFn($scope.sysLoggedUser.idUser, $scope.sysLoggedUser.idTypeTenantKf, -1);
+
+                      $scope.monitor.filter.idUserRequestBy        = $scope.sysLoggedUser.idUser;
+                      $scope.monitor.filter.topfilter              = $scope.filters.topDH;
+                      $scope.listTickets($scope.monitor.filter);
+                    break;
+                  }
+                break;
+              }
+            break;
+            case "search":
+              switch ($scope.sysLoggedUser.idProfileKf){
+                case "1":
+                  $scope.monitor.filter.idClientAdminFk        = $scope.filterCompanyKf.selected!=undefined && $scope.filterCompanyKf.selected.idClientTypeFk=="1"?$scope.filterCompanyKf.selected.idClient:"";
+                  $scope.monitor.filter.idClientCompaniFk      = $scope.filterCompanyKf.selected!=undefined && $scope.filterCompanyKf.selected.idClientTypeFk=="3"?$scope.filterCompanyKf.selected.idClient:"";
+                  $scope.monitor.filter.idBuildingKf           = $scope.filterAddressKf.selected!=undefined?$scope.filterAddressKf.selected.idClient:"";
+                  $scope.monitor.filter.topfilter              = $scope.filters.topDH;
+                  $scope.monitor.filter.idTypeTicketKf         = !$scope.filters.typeTicket?"":$scope.filters.typeTicket.idTypeTicket;
+                  $scope.monitor.filter.idStatusTicketKf       = !$scope.filters.ticketStatus?"":$scope.filters.ticketStatus.idStatus;
+                  $scope.monitor.filter.idTypeDeliveryKf       = !$scope.filters.typDelivery?"":$scope.filters.typDelivery.idTypeDelivery;
+                  $scope.monitor.filter.idTypePaymentKf        = !$scope.filters.paymentsType?"":$scope.filters.paymentsType.id;
+                  console.log($scope.monitor.filter);
+                  console.log($scope.filters);
+                  $scope.listTickets($scope.monitor.filter);
+                break;
+                case "4":
+                  $scope.monitor.filter.idBuildingKf           = $scope.filterAddressKf.selected!=undefined?$scope.filterAddressKf.selected.idClient:"";
+                  $scope.monitor.filter.idClientAdminFk      = $scope.sysLoggedUser.company[0].idClient;
+                  $scope.monitor.filter.topfilter              = $scope.filters.topDH;
+                  $scope.monitor.filter.idTypeTicketKf         = !$scope.filters.typeTicket?"":$scope.filters.typeTicket.idTypeTicket;
+                  $scope.monitor.filter.idStatusTicketKf       = !$scope.filters.ticketStatus?"":$scope.filters.ticketStatus.idStatus;
+                  $scope.monitor.filter.idTypeDeliveryKf       = !$scope.filters.typDelivery?"":$scope.filters.typDelivery.idTypeDelivery;
+                  $scope.monitor.filter.idTypePaymentKf        = !$scope.filters.paymentsType?"":$scope.filters.paymentsType.id;
+                  console.log($scope.monitor.filter);
+                  console.log($scope.filters);
+                  $scope.listTickets($scope.monitor.filter);
+                break;
+                case "3":
+                case "5":
+                case "6":
+                  switch ($scope.sysLoggedUser.idTypeTenantKf){
+                    case "1":
+                      $scope.monitor.filter.idUserRequestBy        = $scope.sysLoggedUser.idUser;
+                      $scope.monitor.filter.idBuildingKf           = $scope.filterAddressKf.selected!=undefined?$scope.filterAddressKf.selected.idClient:"";
+                      $scope.monitor.filter.topfilter              = $scope.filters.topDH;
+                      $scope.monitor.filter.idTypeTicketKf         = !$scope.filters.typeTicket?"":$scope.filters.typeTicket.idTypeTicket;
+                      $scope.monitor.filter.idStatusTicketKf       = !$scope.filters.ticketStatus?"":$scope.filters.ticketStatus.idStatus;
+                      $scope.monitor.filter.idTypeDeliveryKf       = !$scope.filters.typDelivery?"":$scope.filters.typDelivery.idTypeDelivery;
+                      $scope.monitor.filter.idTypePaymentKf        = !$scope.filters.paymentsType?"":$scope.filters.paymentsType.id;
+                      console.log($scope.monitor.filter);
+                      console.log($scope.filters);
+                      $scope.listTickets($scope.monitor.filter);
+                    break;
+                    case "2":
+                      $scope.monitor.filter.idUserRequestBy        = $scope.sysLoggedUser.idUser;
+                      $scope.monitor.filter.topfilter              = $scope.filters.topDH;
+                      $scope.monitor.filter.idTypeTicketKf         = !$scope.filters.typeTicket?"":$scope.filters.typeTicket.idTypeTicket;
+                      $scope.monitor.filter.idStatusTicketKf       = !$scope.filters.ticketStatus?"":$scope.filters.ticketStatus.idStatus;
+                      $scope.monitor.filter.idTypeDeliveryKf       = !$scope.filters.typDelivery?"":$scope.filters.typDelivery.idTypeDelivery;
+                      $scope.monitor.filter.idTypePaymentKf        = !$scope.filters.paymentsType?"":$scope.filters.paymentsType.id;
+                      console.log($scope.monitor.filter);
+                      console.log($scope.filters);
+                      $scope.listTickets($scope.monitor.filter);
+                    break;
+                  }
+                break;
+              }
+            break;
+        }
+      }
+    $scope.listTickets = function(filter){
+      console.info("List Tickets");
+      /**********CHECK IF THERE ARE TMP DELIVERY OR CANCEL DATA APPROVED TO APPLY TO THE TICKETS ***********/
+      //$scope.sysChkChangeOrCancel(0);
+      //$scope.sysChkChangeOrCancel(1);
+      /******************************
+      *                             *
+      *       FILTER VARIABLES      *
+      *                             *
+      ******************************/
+      //$scope.filters.idTypeTicketKf= !$scope.filters.idTypeTicketKf ? 0 : $scope.filters.idTypeTicketKf;
+      //$scope.dh.filterAddress = 0;
+      
+      //$scope.filters.idAddress   = ($scope.sessionidProfile==1 && (!$scope.filterCompanyKf.selected || !$scope.filterAddressKf.selected)) || (($scope.sessionidProfile!=1)  && !$scope.filterAddressKf.selected) ? "" : $scope.filterAddressKf.selected.idAdress;
+      //$scope.dh.filterAddress    = $scope.filters.idAddress;
+      //$scope.dh.filterSearch     = $scope.filters.searchFilter;
+      //$scope.dh.filterTop        = $scope.filters.topDH;
+      //$scope.dh.filterProfile    = $scope.sessionidProfile;
+      //$scope.dh.filterTenantKf   = $scope.sessionidProfile==5 || ($scope.sessionidProfile==6 && $scope.sessionidTypeTenant==2) ? $scope.sessionIdUser :'';
+      //if(($scope.sessionidProfile!=2  && $scope.sessionidProfile!=5) || ($scope.sessionidTypeTenant==6 && $scope.sessionidTypeTenant==1)){
+      //  $scope.filters.idCompany   = !$scope.filterCompanyKf.selected? "" : $scope.filterCompanyKf.selected.idCompany;
+      //}
+      //$scope.dh.filterCompany    = $scope.sessionidProfile == 2 || $scope.sessionidProfile == 4 ? $scope.sessionidCompany : $scope.filters.idCompany;
+      //$scope.dh.filterTypeTicket = !$scope.filters.typeTicket?"":$scope.filters.typeTicket.idTypeTicket;
+      //$scope.dh.filterStatus     = !$scope.filters.ticketStatus?"":$scope.filters.ticketStatus.idStatus;
+      //$scope.dh.filterOwnerKf    = $scope.sessionidProfile==3?$scope.sessionIdUser:'';
+      //$scope.dh.filterIdUser     = $scope.sessionidProfile!=1 && $scope.sessionidProfile!=2 && $scope.sessionidProfile!=4?$scope.sessionIdUser:'';
+      //$scope.dh.filterIdAtt      = ($scope.sessionidProfile==6 && $scope.sessionidTypeTenant==1) || ($scope.sessionidProfile==6 && $scope.sessionidTypeTenant==2)?$scope.sessionIdUser:'';
+      ////console.log($scope.dh);
+      //  $searchFilter= 
+      //  {
+      //       idUserRequestBy     : $scope.dh.idUserRequestBy,
+      //       idUserMadeBy        : $scope.dh.idUserMadeBy,
+      //       idBuildingKf        : $scope.dh.filterAddress,
+      //       idClientCompaniFk   : $scope.dh.filterCompany,
+      //       idClientBranchFk    : $scope.dh.filterStatus,
+      //       topFilter           : $scope.dh.filterTop, 
+      //       idTypeTicketKf      : $scope.dh.filterTypeTicket,
+      //       idStatusTicketKf    : $scope.dh.filterStatus,
+      //       codTicket           : $scope.dh.filterStatus,
+      //       idTypePaymentKf     : $scope.dh.filterStatus,
+      //       idTypeDeliveryKf    : $scope.dh.idTypeDeliveryKf,
+      //       
+      //  }
+        //console.log($scope.sessionIdUser);   
+        //console.log($searchFilter);
+        ticketServices.all(filter).then(function(response){
+          if(response.status==200){
+              $scope.listTickt    =  response.data.response;
+              $scope.totalTickets = $scope.listTickt.length;
+          }else if (response.status==404){
+              inform.add('No se encontraron resultados verifique el filtro seleccionado o contacte al soporte de TASS.',{
+                  ttl:3000, type: 'info'
+              });
+              $scope.listTickt =  "";
+              $scope.totalTickets = 0;
+          }else if (response.status==500){
+              inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+              ttl:3000, type: 'danger'
+              });
+              $scope.listTickt =  "";
+              $scope.totalTickets = 0;
+          }
+          });
+  }
 
     $scope.greaterThan = function(prop, val){
         return function(item){
-        if (item[prop] > val) return true;
+          if (item[prop] > val) return true;
         }
     }
-    $scope.differentThan = function(prop, val){
-        return function(item){
-        if (item[prop] != val) return true;
-        }
-    }
+    $scope.differentThan = function(item){
+      //console.info(item);
+      switch ($scope.sysLoggedUser.idTypeTenantKf){
+        case "1":
+          return (item.idTypeTicket != "3" && item.idTypeTicket != "4");
+        break;
+        case "2":
+          return (item.idTypeTicket != "3" && item.idTypeTicket != "4");
+        break;
+      }
+      
+  }
 });

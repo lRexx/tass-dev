@@ -40,6 +40,11 @@ tkSysService.service("tokenSystem",function(){
               localStorage.setItem("sysLoggedUser", JSON.stringify(tkLoggedUser));
               localStorage.setItem("sysLoggedUserModules", JSON.stringify(tkModulesUser));
           },
+          setTokenStorageToNull: function() {
+            localStorage.setItem("sysToken", null);
+            localStorage.setItem("sysLoggedUser", null);
+            localStorage.setItem("sysLoggedUserModules", null);
+        },
           setLoggedUserStorage: function(tkLoggedUser) {
               localStorage.setItem("sysLoggedUser", JSON.stringify(tkLoggedUser));
           },
@@ -111,6 +116,7 @@ tkSysService.service("tokenSystem",function(){
           destroyTokenStorage: function(value) {
             switch (value){
               case 1:
+                console.log("Destroying the local storage for sysToken, sysLoggedUser, sysLoggedUserModules");
                 localStorage.removeItem("sysToken");
                 localStorage.removeItem("sysLoggedUser");
                 localStorage.removeItem("sysLoggedUserModules");

@@ -8,37 +8,37 @@ class Mail_model extends CI_Model
 		parent::__construct();
 	}
 
-        public function	sendMail($title,$to,$body)
+        public function	sendMail($title,$to,$body, $subject)
         {
           $param = $this->getMailSmtp();
-    			 //coferba
+    			 //TASS
     			$config = array(
-              'protocol' => 'smtp',
-              'smtp_host' => 'coferba.com.ar',
-              'smtp_user' => $param['0']['value'], 
-              'smtp_pass' => $param['1']['value'], 
-              'smtp_port' => '465',
-              'mailtype' => 'html',
-              'wordwrap' => TRUE,
-              'charset' => 'utf-8',
-              'smtp_timeout' => 30,
-              'smtp_crypto'  => 'ssl'
+                    'protocol' => 'smtp',
+                    'smtp_host' => 'coferba.com.ar',
+                    'smtp_user' => $param['0']['value'], 
+                    'smtp_pass' => $param['1']['value'], 
+                    'smtp_port' => '465',
+                    'mailtype' => 'html',
+                    'wordwrap' => TRUE,
+                    'charset' => 'utf-8',
+                    'smtp_timeout' => 30,
+                    'smtp_crypto'  => 'ssl'
     			);
     			 //LOCAL
-    			/*$config = array(
-    				'protocol'  => 'smtp',
-    				'smtp_host' => 'ssl://smtp.googlemail.com',
-    				'smtp_port' => 465,
-    				'smtp_user' => 'jorguti58@gmail.com',
-    				'smtp_pass' => 'AdMg1210',
-    				'mailtype'  => 'html',
-    				'charset'   => 'utf-8'
-    			);*/
+    			#$config = array(
+    			#	'protocol'  => 'smtp',
+    			#	'smtp_host' => 'ssl://smtp.googlemail.com',
+    			#	'smtp_port' => 465,
+    			#	'smtp_user' => 'rexx84@gmail.com',
+    			#	'smtp_pass' => 'Sofia.1407',
+    			#	'mailtype'  => 'html',
+    			#	'charset'   => 'utf-8'
+    			#);
 
             $this->load->library('email', $config);
             $this->email->set_newline("\r\n");
             $this->email->from($param['0']['value']);
-            $this->email->subject($title);
+            $this->email->subject($subject);
 
 
             $body = "

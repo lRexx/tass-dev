@@ -24,7 +24,31 @@ class Ticket extends REST_Controller {
                 }
                
     }
-    
+    	/* SERVICIO QUE CREA UN TICKET Nuevo */
+	public function index2_post()
+	{
+
+		$rs = $this->ticket_model->add2($this->post('ticket'));
+		if (!is_null($rs)){
+			$this->response(array('response' => $rs) , 200);
+		} else {
+			$this->response(array('error' => "ERROR INESPERADO") , 500);
+		}
+
+	}
+
+	/*Dar de baja*/
+	public function index3_post()
+	{
+
+		$rs = $this->ticket_model->add3($this->post('ticket'));
+		if (!is_null($rs)){
+			$this->response(array('response' => $rs) , 200);
+		} else {
+			$this->response(array('error' => "ERROR INESPERADO") , 500);
+		}
+
+	}
     /* SERVICIO QUE CANCELA UN TICKET */
     public function cancel_get($id, $idU, $reasonForCancelTicket) {
         if (!$id) {
@@ -160,6 +184,18 @@ class Ticket extends REST_Controller {
                 }
             }
 
+            	/* SERVICIO GET QUE OBTIENE TODO LOS TIKECT REGISTRADOS */
+            public function allnew_post()
+            {
+                $filter = $this->post();
+                //$this->response($filter , 200);
+                $rs = $this->ticket_model->get_new($filter);
+                if (!is_null($rs)){
+                    $this->response(array('response' => $rs) , 200);
+                } else {
+                    $this->response(array('error' => 'NO HAY RESULTADOS') , 404);
+                }
+            }
 
             /* SERVICIO GET QUE OBTIENE TODO LOS USUARIOS REGISTRADOS */
             public function filter_get() {
@@ -301,6 +337,36 @@ class Ticket extends REST_Controller {
              public function typedelivery_get() {
                 $rs = null;
                 $rs = $this->ticket_model->getTypeDelivery();
+                if (!is_null($rs)) {
+                    $this->response($rs, 200);
+                } else {
+                    $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+                }
+            }
+            /* GET TYPE OF STATUS */
+            public function ticketStatusType_get() {
+                $rs = null;
+                $rs = $this->ticket_model->getStatusTicket();
+                if (!is_null($rs)) {
+                    $this->response($rs, 200);
+                } else {
+                    $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+                }
+            }
+            /* GET TYPE TYPES */
+            public function typeTickets_get() {
+                $rs = null;
+                $rs = $this->ticket_model->getTypeTickets();
+                if (!is_null($rs)) {
+                    $this->response($rs, 200);
+                } else {
+                    $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+                }
+            }
+            /* GET PAYMENT TYPE */
+            public function paymentsType_get() {
+                $rs = null;
+                $rs = $this->ticket_model->getPyamentsType();
                 if (!is_null($rs)) {
                     $this->response($rs, 200);
                 } else {

@@ -1,4 +1,4 @@
-var login = angular.module("module.Login", ["tokenSystem", "services.User"]);
+var login = angular.module("module.Login", ["tokenSystem", "ngCookies", "services.User"]);
 
 /**************************************************************************
 *                                                                         *
@@ -44,7 +44,7 @@ login.directive('passwordConfirm', ['$parse', function ($parse) {
      }
    };
  }]);
-login.controller('LoginCtrl', function($scope, $location, $routeParams, blockUI, $timeout, inform, inputService, userServices, tokenSystem, serverHost, serverBackend, $window, APP_SYS){
+login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams, blockUI, $timeout, inform, inputService, userServices, tokenSystem, serverHost, serverBackend, $window, APP_SYS){
   console.log(APP_SYS.app_name+" Modulo Login User");
   $scope.launchLoader = function(){
     $scope.wLoader  = true;
@@ -57,23 +57,24 @@ login.controller('LoginCtrl', function($scope, $location, $routeParams, blockUI,
    $('#loginEmail').focus();
   $scope.login={"email":'', "passwd":'',"user":{"fullNameUser":'',"passwordUser":''}};
   $scope.login.selected_user={"user":{"fullNameUser":'',"passwordUser":''}};
-  $scope.signup              = {email:''};
-  $scope.signupUser          = false;
-  $scope.loginUser           = true;
-  $scope.mailCheckResult     = 0;
-  $scope.loginResult         = 0;
-  $scope.mailCheckCount      = 0;
-  $scope.redirect2NewPwd     = false;
-  $scope.redirect2RestorePwd = false;
-  $scope.redirect2Register   = false;
-  $scope.redirect2MainApp    = false;
-  $scope.swOption            = "";
+  $scope.signup               = {email:''};
+  $scope.signupUser           = false;
+  $scope.loginUser            = true;
+  $scope.mailCheckResult      = 0;
+  $scope.loginResult          = 0;
+  $scope.mailCheckCount       = 0;
+  $scope.redirect2NewPwd      = false;
+  $scope.redirect2RestorePwd  = false;
+  $scope.redirect2Register    = false;
+  $scope.redirect2MainApp     = false;
+  $scope.swOption             = "";
   tokenSystem.destroyTokenStorage(4);
   $scope.redirect ="/";
-  $scope.sysToken      = tokenSystem.getTokenStorage(1);
-  $scope.sysLoggedUser = tokenSystem.getTokenStorage(2);
-  if ($scope.sysToken && $scope.sysLoggedUser!=undefined){
-      $location.path($scope.redirect);
+  console.log("$scope.sysToken:"+$scope.sysToken);  
+  console.log("$scope.sysLoggedUser:"+$scope.sysLoggedUser);  
+  if (($scope.sysToken) && ($scope.sysLoggedUser!=false || $scope.sysLoggedUser!=undefined)){
+    console.log("Redirecting to menu page....");  
+    $location.path($scope.redirect);
   }
 
   /**************************************************
@@ -197,58 +198,70 @@ login.controller('LoginCtrl', function($scope, $location, $routeParams, blockUI,
   *                LOGIN DE USUARIO                 *
   *                                                 *
   **************************************************/
+
       $scope.sysLoginUser = function(value){
-        $scope.checkEmailLogin    = 0;
-        $scope.checkPasswdLogin = 0;
+        $scope.loggedSession        = null;
+        $scope.checkEmailLogin      = 0;
+        $scope.checkPasswdLogin     = 0;
+        $scope.sysToken             = null;
+        $scope.sysLoggedUser        = null;
+        $scope.sysLoggedUserModules = null;
         if($scope.mailCheckResult){
           userServices.letLogin(value).then(function(data){
-          $scope.loginResult = data;
-          console.log("Value returned by the LoginService: "+$scope.loginResult);
-          switch ($scope.loginResult){
-            case 1:
-              $window.location.reload();
-            break;
-            case 2:
-              $location.path("/newpwd");
-            break;
-            case 3:
-              //$scope.redirect2ResendEmail = true;
-              //$location.path("#/resendemail");
-              var rsTmpUser = tokenSystem.getTokenStorage(3);
-              $scope.msg1="Disculpa, "+rsTmpUser.fullNameUser+", para continuar debe confirmar su correo electronico.";
-              $scope.msg2="Verifica tu casilla de correo."
-              $('#notificationModal').modal('show');
-            break;
-            case 4:
-              var rsTmpUser = tokenSystem.getTokenStorage(3);
+            $scope.loggedSession = data;
+            $scope.loginResult = data.loginResult;
+            console.log("Value returned by the LoginService: "+$scope.loginResult);
+            switch ($scope.loginResult){
+              case 1:
+                $scope.sysToken             = tokenSystem.getTokenStorage(1);
+                $scope.sysLoggedUser        = tokenSystem.getTokenStorage(2);
+                $scope.sysLoggedUserModules = tokenSystem.getTokenStorage(6);
+                $cookies.put('sysToken', true);
+                $cookies.putObject('sysLoggedUser', $scope.loggedSession);
+                $cookies.putObject('sysLoggedUserModules', $scope.loggedSession.modules);
+                $window.location.reload();
+              break;
+              case 2:
+                $location.path("/newpwd");
+              break;
+              case 3:
+                //$scope.redirect2ResendEmail = true;
+                //$location.path("#/resendemail");
+                var rsTmpUser = tokenSystem.getTokenStorage(3);
+                $scope.msg1="Disculpa, "+rsTmpUser.fullNameUser+", para continuar debe confirmar su correo electronico.";
+                $scope.msg2="Verifica tu casilla de correo."
+                $('#notificationModal').modal('show');
+              break;
+              case 4:
+                var rsTmpUser = tokenSystem.getTokenStorage(3);
 
-              $scope.msg1="Disculpa "+rsTmpUser.fullNameUser+" la cuenta esta inactiva.";
-              $scope.msg2="Comunicate con el area de soporte o la administración."
-              $('#notificationModal').modal('show');
-                /*$timeout(function() {
-                  $('#notificationModal').modal('hide');
-                }, 3000);*/
-            break;
-            case 5:
-              $scope.sysCheckPasswordLogin();
-            break;
-            case 6:
-              inform.add('Ha ingresado una Contrasena incorrecta, verifique los datos ingresados.',{
-                ttl:4000, type: 'warning'
-              });
-            break;
-            case 10:
-              var rsTmpUser = tokenSystem.getTokenStorage(3);
+                $scope.msg1="Disculpa "+rsTmpUser.fullNameUser+" la cuenta esta inactiva.";
+                $scope.msg2="Comunicate con el area de soporte o la administración."
+                $('#notificationModal').modal('show');
+                  /*$timeout(function() {
+                    $('#notificationModal').modal('hide');
+                  }, 3000);*/
+              break;
+              case 5:
+                $scope.sysCheckPasswordLogin();
+              break;
+              case 6:
+                inform.add('Ha ingresado una Contrasena incorrecta, verifique los datos ingresados.',{
+                  ttl:4000, type: 'warning'
+                });
+              break;
+              case 10:
+                var rsTmpUser = tokenSystem.getTokenStorage(3);
 
-              $scope.msg1="Disculpa "+rsTmpUser.fullNameUser+" no esta habilitado como usuario del sistema .";
-              $scope.msg2="Comunicate con el area de soporte o la administración."
-              $('#notificationModal').modal('show');
-                /*$timeout(function() {
-                  $('#notificationModal').modal('hide');
-                }, 3000);*/
-            break;  
-            default:
-          }
+                $scope.msg1="Disculpa "+rsTmpUser.fullNameUser+" no esta habilitado como usuario del sistema .";
+                $scope.msg2="Comunicate con el area de soporte o la administración."
+                $('#notificationModal').modal('show');
+                  /*$timeout(function() {
+                    $('#notificationModal').modal('hide');
+                  }, 3000);*/
+              break;  
+              default:
+            }
           });
         }else{
           $scope.sysCheckEmailLogin();

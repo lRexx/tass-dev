@@ -221,6 +221,17 @@ class Seeds_model extends CI_Model
         }
             return null;
      }
+     public function getReasonDisabledKey() {
+        $quuery = null;
+        $rs = null;
+
+        $quuery =  $this->db->select("*")->from("tb_reason_disabled_item")->get();
+        if ($quuery->num_rows() > 0) {
+            $rs = $quuery->result_array();
+            return $rs;
+        }
+            return null;
+	 }
 	 
 
     

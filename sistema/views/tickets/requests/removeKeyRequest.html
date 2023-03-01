@@ -9,7 +9,7 @@
 				<div ng-switch on="mySwitch">
 					<fieldset class="animate-switch" ng-switch-when="PASO 1: RAZÓN">
 						<div class="col-md-12 n-padding-r">
-							<div class="col-md-4" ng-repeat="reason in reasonTicketList">
+							<div class="col-md-4" ng-repeat="reason in reasonDisabledKey">
 								<div class="col-md-12 col-xs-12 depto-widget well well-md n-padding-l n-padding-r" data-toggle="tooltip" data-placement="bottom" title="{{reason.reasonDisabledItem}}">
 									<div class="depto-icon">
 										<span>
@@ -27,7 +27,6 @@
 										</div>
 									</div>
 								</div>
-							<!-- // -->
 							</div>
 						</div>
 					</fieldset>
@@ -41,7 +40,7 @@
 									<span class="input-group-addon"><i class="icon-suitcase"></i></span>
 										<ui-select 
 											name="admins"
-											ng-change="select.buildings.selected=undefined;getBuildingListFn(select.admins.selected); enabledNextBtn();"
+											ng-change="ticket.optionTypeSelected.name=undefined;select.buildings.selected=undefined;getBuildingListFn(select.admins.selected); enabledNextBtn();"
 											ng-disabled="sysLoggedUser.idProfileKf!='1'"
 											ng-model="select.admins.selected" 
 											on-select="onSelectCallback()" >
@@ -135,42 +134,48 @@
 								<div class="well well-md" ng-class="{'well-success': ticket.radioButtonBuilding!=undefined && ticket.radioButtonBuilding!='' && ticket.radioButtonBuilding!=null && ticket.radioButtonBuilding!=0}">
 									<div class="panel-body n-padding-l n-padding-r">
 										<!--*********************EDIFICIO *******************************-->
-										<div class="col-md-12 n-padding-l n-padding-r" style="padding-bottom: 15px;">
-											<div class="col-md-4 col-xs-4">
-												<input id="typeOption1" type="radio" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('switchKeyCategory', null, null);" name="typeOption" value="1" ng-model="ticket.radioButtonBuilding" required autofocus>
-												<label for="typeOption1" class="radio-custom-label">
-													<span >Encargado titular / Otros</span>
-												</label> 
+										<div class="form-check form-check-inline">
+												<div class="col-md-12 n-padding-l n-padding-r">
+													<div ng-class="{'col-md-4 col-xs-4 col-md-offset-1': sysLoggedUser.idProfileKf=='4','col-md-3 col-xs-3': sysLoggedUser.idProfileKf=='1'}">
+														<input id="typeOption1" type="radio" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', null, null)" name="typeOption" value="1" ng-model="ticket.radioButtonBuilding" required autofocus>
+														<label for="typeOption1" class="radio-custom-label">
+															<span >Encargado titular / Otros</span>
+														</label> 
+													</div>
+													<div ng-class="{'col-md-4 col-xs-4': sysLoggedUser.idProfileKf=='4','col-md-3 col-xs-3': sysLoggedUser.idProfileKf=='1'}">
+														<input id="typeOption2" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', null, null)" type="radio" name="typeOption" value="2" ng-model="ticket.radioButtonBuilding" required autofocus>
+														<label for="typeOption2" class="radio-custom-label">
+															<span>Administración del consorcio</span>
+														</label>
+													</div>
+													<div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-2 col-xs-2">
+														<input id="typeOption4" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', null, null)" type="radio" name="typeOption" value="4" ng-model="ticket.radioButtonBuilding" required autofocus>
+														<label for="typeOption4" class="radio-custom-label">
+															<span>Stock</span>
+														</label>
+													</div>
+													<div ng-class="{'col-md-3 col-xs-3': sysLoggedUser.idProfileKf=='4','col-md-2 col-xs-2': sysLoggedUser.idProfileKf=='1'}">
+														<input id="typeOption3" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', null, null)" type="radio" name="typeOption" value="3" ng-model="ticket.radioButtonBuilding" required autofocus>
+														<label for="typeOption3" class="radio-custom-label">
+															<span>Reserva</span>
+														</label>
+													</div>
+													<div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-2 col-xs-2">
+														<input id="typeOption5" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', null, null)" type="radio" name="typeOption" value="5" ng-model="ticket.radioButtonBuilding" required autofocus>
+														<label for="typeOption5" class="radio-custom-label">
+															<span>Apertura</span>
+														</label>
+													</div>
+												<!--<label class="col-xs-4">
+													<input ng-click="  enabledNextBtn(3); typeOption=3" type="radio" name="typeOption" value="3" ng-model="typeOption" required autofocus>
+														<code>Otros</code>
+												</label>-->
 											</div>
-											<div class="col-md-4 col-xs-4">
-												<input id="typeOption2" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('switchKeyCategory', null, null)" type="radio" name="typeOption" value="2" ng-model="ticket.radioButtonBuilding" required autofocus>
-												<label for="typeOption2" class="radio-custom-label">
-													<span>Administración del consorcio</span>
-												</label>
-											</div>
-											<!--<div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-2 col-xs-2">
-												<input id="typeOption4" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('switchKeyCategory', null, null)" type="radio" name="typeOption" value="4" ng-model="ticket.radioButtonBuilding" required autofocus>
-												<label for="typeOption4" class="radio-custom-label">
-													<span>Stock</span>
-												</label>
-											</div>-->
-											<div class="col-md-4 col-xs-4">
-												<input id="typeOption3" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('switchKeyCategory', null, null);" type="radio" name="typeOption" value="3" ng-model="ticket.radioButtonBuilding" required autofocus>
-												<label for="typeOption3" class="radio-custom-label">
-													<span>Reserva</span>
-												</label>
-											</div>
-											<!--<div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-2 col-xs-2">
-												<input id="typeOption5" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('switchKeyCategory', null, null)" type="radio" name="typeOption" value="5" ng-model="ticket.radioButtonBuilding" required autofocus>
-												<label for="typeOption5" class="radio-custom-label">
-													<span>Apertura</span>
-												</label>
-											</div>-->
 										</div>
 										<!-- Request made for Building Selected in the First Step-->
 										<div ng-show="ticket.radioButtonBuilding==2 && ticket.radioButtonBuilding!=undefined" class="container-fluid">
 											<div  class="row">
-												<div class="col-md-10 col-md-offset-1">
+												<div class="col-md-8 col-md-offset-2">
 													<div class="alert alert-info" role="alert">
 														<span style="text-align: center;" class="font-size-18px"><i class="fas fa-bell"></i> La solicitud sera asignada a la Administración <span class="font-size-18px" style="font-weight: bold;">{{select.admins.selected.name}}</span></span>
 													</div>
@@ -180,7 +185,7 @@
 										<!-- Request made for Building Selected in the First Step-->
 										<div ng-show="ticket.radioButtonBuilding!=undefined && ticket.radioButtonBuilding!=1 && ticket.radioButtonBuilding!=2" class="container-fluid">
 											<div  class="row">
-												<div class="col-md-10 col-md-offset-1">
+												<div class="col-md-8 col-md-offset-2">
 													<div class="alert alert-info" role="alert">
 														<span style="text-align: center;" class="font-size-18px"><i class="fas fa-bell"></i> La solicitud sera asignada al Consorcio <span class="font-size-18px" style="font-weight: bold;">{{select.buildings.selected.name}}</span></span>
 													</div>
@@ -258,7 +263,7 @@
 											</tr>
 										</thead>
 										<tbody style="overflow: auto;">
-											<tr  style="align-content: center; cursor: pointer;" data-ng-repeat="key in keyList | filter:isKeyTenantOnly">
+											<tr  style="align-content: center; cursor: pointer;" data-ng-repeat="key in keyList">
 												<td style="vertical-align: middle;text-align: center;"><span class="font-size-16px">{{$index+1}}</span></td>
 												<td>{{key.descriptionProduct}} <span class="badge badge-warning">{{key.brand}}</span></td>
 												<td class="font-size-16px" style="vertical-align: middle;text-align: center;">{{key.codigo}}</td>
@@ -611,3 +616,5 @@
 <div ng-include="'views/tickets/delivery/deliveryAddressType.html'"></div>
 <div ng-include="'views/tickets/list/deliveryAttendantList.html'"></div>
 <div ng-include="'views/tickets/delivery/thirdPerson.html'"></div>
+<div ng-include="'views/utilities/modalConfirmation.html'"></div>
+<div ng-include="'views/utilities/showModalRequestStatus.html'"></div>

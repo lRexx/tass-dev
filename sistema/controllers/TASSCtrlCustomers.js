@@ -1170,7 +1170,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
               var idProvinceGobARFk= idProvinceFk!=undefined || idProvinceFk!=null?idProvinceFk:null;
               if (twoNumber_patt.test(name)){
                 addressServices.getAddressByName(name, idProvinceGobARFk).then(function(data){
-      console.log(data);
+                  console.log(data);
                   if(data!=null){
                     switch(opt){
                       case "main":

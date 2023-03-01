@@ -83,8 +83,6 @@ class Tenant_model extends CI_Model
             return null;
         }
     }
-
-
 	
     /* AGREGRA NUEVO USUARIO EMPRESA */
     public function add($tenant) {
@@ -108,7 +106,6 @@ class Tenant_model extends CI_Model
             return null;
         }
     }
-
 
     /* LISTADO DE FILTROS */
     public function getFilterForm() {
@@ -141,109 +138,107 @@ class Tenant_model extends CI_Model
     /* LISTADO DE FILTROS */
     public function getTenanatByIdDepartament($id, $idType) {
         
-                $tenant = null;
+        $tenant = null;
 
-                if (@$idType > 0){
-                    $this->db->select("*")->from("tb_user");
-                    $this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
-                    $this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
-                    $this->db->join('tb_typetenant', 'tb_typetenant.idTypeTenant = tb_user.idTypeTenantKf', 'left');
-                    $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-                    
-                    if (@$id > 0){
-                        $this->db->where("tb_user.idTypeTenantKf =", $idType);
-                        $query = $this->db->where("tb_user.idDepartmentKf =", $id)->get();
-                        
-                    }else{
-                        $query = $this->db->where("tb_user.idTyepeAttendantKf =", $idType)->get();
-                    }
-                   
-                 }
-
-                 if (@$idType < 1){
-                    
-                    if (@$id > 0){
-                        $this->db->select("*")->from("tb_user");
-                        $this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
-                        $this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
-                        $this->db->join('tb_typetenant', 'tb_typetenant.idTypeTenant = tb_user.idTypeTenantKf', 'left');
-                        $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-                        $query = $this->db->where("tb_user.idDepartmentKf =", $id)->get();
-                        
-                    }
-                 }
-                  
-                
-                
+        if (@$idType > 0){
+            $this->db->select("*")->from("tb_user");
+            $this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
+            $this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
+            $this->db->join('tb_typetenant', 'tb_typetenant.idTypeTenant = tb_user.idTypeTenantKf', 'left');
+            $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
             
-                if ($query->num_rows() > 0) {
-                    $tenant = $query->result_array();
-                }
-    
-                $rs = array(
-                    'tenant' => $tenant
-                );
+            if (@$id > 0){
+                $this->db->where("tb_user.idTypeTenantKf =", $idType);
+                $query = $this->db->where("tb_user.idDepartmentKf =", $id)->get();
+                
+            }else{
+                $query = $this->db->where("tb_user.idTyepeAttendantKf =", $idType)->get();
+            }
+            
+            }
+
+            if (@$idType < 1){
+            
+            if (@$id > 0){
+                $this->db->select("*")->from("tb_user");
+                $this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
+                $this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
+                $this->db->join('tb_typetenant', 'tb_typetenant.idTypeTenant = tb_user.idTypeTenantKf', 'left');
+                $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
+                $query = $this->db->where("tb_user.idDepartmentKf =", $id)->get();
+                
+            }
+            }
+            
         
-                return $rs;
+        
+    
+        if ($query->num_rows() > 0) {
+            $tenant = $query->result_array();
+        }
+
+        $rs = array(
+            'tenant' => $tenant
+        );
+
+        return $rs;
     }
-
-
     
     public function allByIdDepartament($id) {
         
-                $tenant = null;
-                $extrawhere = "";
-                $extrawherekey = "";
-                $keyfound = null;
+        $tenant = null;
+        $extrawhere = "";
+        $extrawherekey = "";
+        $keyfound = null;
 
-                if($id > 0){
-                    $extrawhere = " t1.idDepartmentKf in (select tb_client_departament.idClientDepartament from tb_client_departament where idClientDepartament = ".$id.")  or t1.idUser in (select tb_client_departament.idUserKf from  tb_client_departament where idClientDepartament = ".$id." ) ";
-                }else{
-                    return null;
-                }
-                $this->db->select("*")->from("tb_user as t1");
-                $this->db->join('tb_profile', 'tb_profile.idProfile = t1.idProfileKf', 'left');
-                $this->db->join('tb_profiles', 'tb_profiles.idProfiles = t1.idSysProfileFk', 'left');
-                $this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = t1.idDepartmentKf', 'left');
-                $this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
-                $this->db->join('tb_typetenant', 'tb_typetenant.idTypeTenant = t1.idTypeTenantKf', 'left');
-                $this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = t1.idTyepeAttendantKf', 'left');
-                $this->db->join('tb_status', 'tb_status.idStatusTenant = t1.idStatusKf', 'left');
-                $query = $this->db->where($extrawhere)->get();
+        if($id > 0){
+            $extrawhere = " t1.idDepartmentKf in (select tb_client_departament.idClientDepartament from tb_client_departament where idClientDepartament = ".$id.")  or t1.idUser in (select tb_client_departament.idUserKf from  tb_client_departament where idClientDepartament = ".$id." ) ";
+        }else{
+            return null;
+        }
+        $this->db->select("*")->from("tb_user as t1");
+        $this->db->join('tb_profile', 'tb_profile.idProfile = t1.idProfileKf', 'left');
+        $this->db->join('tb_profiles', 'tb_profiles.idProfiles = t1.idSysProfileFk', 'left');
+        $this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = t1.idDepartmentKf', 'left');
+        $this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
+        $this->db->join('tb_typetenant', 'tb_typetenant.idTypeTenant = t1.idTypeTenantKf', 'left');
+        $this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = t1.idTyepeAttendantKf', 'left');
+        $this->db->join('tb_status', 'tb_status.idStatusTenant = t1.idStatusKf', 'left');
+        $query = $this->db->where($extrawhere)->get();
 
 
-    
-            if($query->num_rows() > 0){
-                $tenant = $query->result_array();
+
+    if($query->num_rows() > 0){
+        $tenant = $query->result_array();
+        
+        foreach ($tenant as $key => $item) {
+            $idTypeTenantKf = $item['idTypeTenantKf'];
+            $idUserKf = $item['idUser'];
+            $query2    = null;
+            if (isset($idTypeTenantKf)) {
                 
-                foreach ($tenant as $key => $item) {
-                    $idTypeTenantKf = $item['idTypeTenantKf'];
-                    $idUserKf = $item['idUser'];
-                    $query2    = null;
-                    if (isset($idTypeTenantKf)) {
-                        
-                        $extrawherekey = "tb_keychain.idUserKf=$idUserKf AND tb_keychain.idDepartmenKf=$id";
-                        
-                        $this->db->select("*")->from("tb_keychain");
-                        $this->db->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left');
-                        $this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left');
-                        $query2 = $this->db->where($extrawherekey)->get();
-                        if ($query2->num_rows() === 1) {
-                            $keyfound = $query2->row_array();
-                            $tenant[$key]['myKeys'] = $keyfound;
-                        }else{
-                            $tenant[$key]['myKeys']=null;
-                        }
-                    }
-                    
+                $extrawherekey = "tb_keychain.idUserKf=$idUserKf AND tb_keychain.idDepartmenKf=$id";
+                
+                $this->db->select("*")->from("tb_keychain");
+                $this->db->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left');
+                $this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left');
+                $query2 = $this->db->where($extrawherekey)->get();
+                if ($query2->num_rows() === 1) {
+                    $keyfound = $query2->row_array();
+                    $tenant[$key]['myKeys'] = $keyfound;
+                }else{
+                    $tenant[$key]['myKeys']=null;
                 }
-                $rs = array(
-                    'tenant' => $tenant
-                );
-            }else{
-                $rs = null;
             }
-                return $rs;
+            
+        }
+        $rs = array(
+            'tenant' => $tenant
+        );
+    }else{
+        $rs = null;
+    }
+        return $rs;
     }
 
     public function allWithoutKeyAssignedByIdDepartament($id) {
@@ -282,45 +277,39 @@ class Tenant_model extends CI_Model
 			return $tenant;
 		}
 		return null;
-}
+    }
 
      /* LISTADO DE FILTROS */
      public function findByEmail($mail) {
         
-                $tenant = null;
-        
-                $this->db->select("*")->from("tb_user");
-                $query = $this->db->where("tb_user.emailUser =", $mail)->get();
-                if ($query->num_rows() > 0) {
-                    $tenant = $query->row_array();
-                }
+        $tenant = null;
 
-                return $tenant;
+        $this->db->select("*")->from("tb_user");
+        $query = $this->db->where("tb_user.emailUser =", $mail)->get();
+        if ($query->num_rows() > 0) {
+            $tenant = $query->row_array();
+        }
+
+        return $tenant;
     }
-
-
-
-    
 
      /* LISTADO DE FILTROS */
      public function getDepartamentByIdAdminR($id) {
         
-                $tenant = null;
-        
-                $this->db->select("*")->from("tb_client_departament");
-                $query = $this->db->where("tb_client_departament.idUserAdminRKf =", $id)->get();
-                if ($query->num_rows() > 0) {
-                    $tenant = $query->result_array();
-                }
-    
-                $rs = array(
-                    'tenant' => $tenant
-                );
-        
-                return $rs;
-    }
-        
+        $tenant = null;
 
+        $this->db->select("*")->from("tb_client_departament");
+        $query = $this->db->where("tb_client_departament.idUserAdminRKf =", $id)->get();
+        if ($query->num_rows() > 0) {
+            $tenant = $query->result_array();
+        }
+
+        $rs = array(
+            'tenant' => $tenant
+        );
+
+        return $rs;
+    }
 
      /* EDITAR DATOS DE UN inquilino */
     public function update($tenant) {
@@ -343,7 +332,6 @@ class Tenant_model extends CI_Model
             return false;
         }
     }
-
 
      public function changueStatus($id, $idStatus) {
         $this->db->set(

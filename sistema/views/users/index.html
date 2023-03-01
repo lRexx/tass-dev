@@ -254,3 +254,4 @@
 <div ng-show="isUpdateUser" ng-include="'views/users/updateUser.html'"></div>
 <div ng-show="isNewUser || isUpdateUser" ng-include="'views/users/assingNewDepartment.html'"></div>
 <div ng-include="'views/utilities/modalConfirmation.html'"></div>
+<div ng-if="sysToken" ng-include="'views/utilities/expirationWarningWindows.html'"></div>

@@ -126,6 +126,7 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
               return $http.post(serverHost+serverBackend+"User/auth",jsonLogin, serverHeaders)
                 .then(function mySucess(response, status) {
                   rsJSON=response.data.response;
+                  rsJSON.loginResult = null;
                   if(rsJSON){
                     console.log(rsJSON.fullNameUser);
                     console.log(rsJSON);
@@ -136,33 +137,36 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                         if(rsJSON.idProfileKf==6 && rsJSON.requireAuthentication==0){
                            console.log('is an Attendant without login premission');
                           tokenSystem.temporalStorage(rsJSON);
-                          loginResult = 10;
-                          return loginResult; 
+                           rsJSON.loginResult = 10;
+                          return rsJSON; 
                         }else if(rsJSON.isConfirmatedMail==0){
                           console.log('Confirm Email Required');
                           tokenSystem.temporalStorage(rsJSON);
-                          loginResult = 3;
-                          return loginResult;
+                           rsJSON.loginResult = 3;
+                          return rsJSON;
                         }else if(rsJSON.isConfirmatedMail==1 && rsJSON.idStatusKf==0){ 
                           console.log('Account Inactive, please contact support');
                           tokenSystem.temporalStorage(rsJSON);
-                          loginResult = 4;
-                          return loginResult;
+                           rsJSON.loginResult = 4;
+                          return rsJSON;
                         }else if(rsJSON.isConfirmatedMail==1 && rsJSON.idStatusKf==1 && rsJSON.resetPasword==1){
                           console.log('Change Password Required');
                           tokenSystem.temporalStorage(rsJSON);
-                          loginResult = 2;
-                          return loginResult;
+                           rsJSON.loginResult = 2;
+                          return rsJSON;
                         }else  if(rsJSON.resetPasword==0 && rsJSON.idStatusKf==1){
                         tokenSystem.destroyTokenStorage(4);
+                        //$cookies.put('sysToken', true);
+                        //$cookies.put('sysLoggedUser', rsJSON);
+                        //$cookies.put('sysLoggedUserModules', rsJSON.modules);
                         tokenSystem.setTokenStorage(true, rsJSON, rsJSON.modules);
                         $timeout(function() {
                             var jsonTokenUser = tokenSystem.getTokenStorage(2);
                             console.log('Login Successfully', jsonTokenUser.emailUser);
                             
                         }, 1500);
-                        loginResult = 1;
-                        return loginResult;
+                         rsJSON.loginResult = 1;
+                        return rsJSON;
                       }
                       break;
                       case 203:

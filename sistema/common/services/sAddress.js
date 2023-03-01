@@ -219,6 +219,18 @@ moduleAddressServices.service("addressServices", ['$http', 'tokenSystem', '$time
                     console.log("Error: "+response.data.error); 
                     return response;
             });   
-          },    
+          },
+          getAddressByidTenant: function(idUser, idTypeTenant, idStatus) {
+            //console.log("[Customer Services] => get customer by id: "+sMsg);
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"Direccion/addressByidTenant/"+idUser+"/"+idTypeTenant+"/"+idStatus
+                  }).then(function mySuccess(response) {
+                    return response;
+                  }).catch(function onError(response) {
+                    console.log("Error: "+response.data.error); 
+                    return response;
+              })
+          },
       }
 }]);

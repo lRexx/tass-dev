@@ -115,7 +115,7 @@
                                                     ng-change="getLocationByIdFn(ticket.delivery.thirdPerson.province.selected.idProvince); getCurrentAddrVal(ticket.delivery.thirdPerson.province.selected, ticket.delivery.thirdPerson.location.selected); enabledNextBtn();" 
                                                     required="true" autofocus>
                                             <ui-select-match placeholder="Seleccione una provincia">{{$select.selected.province | uppercase}}</ui-select-match>
-                                            <ui-select-choices repeat="item in rsStatesData | filter: $select.search">
+                                            <ui-select-choices repeat="item in rsStatesData | filter:provincesAllowed  | filter: $select.search">
                                             <div ng-bind-html="item.province | uppercase | highlight: $select.search"></div>
                                                 <!--<small>Costo de Gestion: </small><small ng-bind-html="item.priceManagement | highlight: $select.search"></small>
                                                 <small>Costo de Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>-->

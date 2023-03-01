@@ -3,9 +3,11 @@ require APPPATH . '/libraries/REST_Controller.php';
 
 class User extends REST_Controller {
 
-	public  function __construct()
- 	{
- 		parent::__construct();     
+	public  function __construct(){
+ 		
+        #header('Access-Control-Allow-Origin: *');
+        #header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        parent::__construct();     
  		$this->load->model('user_model');
  	}
  	/* SERVICIO QUE AUTENTIFICA  */
@@ -422,7 +424,9 @@ class User extends REST_Controller {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
-
+    public function findUserByEmail_options() {
+        return $this->response(NULL, REST_Controller::HTTP_OK);
+    }
 /*
 empresa
 */

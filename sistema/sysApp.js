@@ -1,4 +1,4 @@
-var app = angular.module('systemApp', ["ngRoute",
+var app = angular.module('systemApp', ["ngRoute", "ngCookies",
                                              "module.Menu",
                                             "module.Login",
                                      "module.RegisterUser",
@@ -73,6 +73,11 @@ app.config(['$routeProvider', '$locationProvider',
             controller: 'MonitorCtrl',
             css: 'views/mainapp/style.css'
         })
+        .when('/monitor/collection_id/:collection_id/collection_status/:collection_status/payment_id/:payment_id/external_reference/:external_reference/payment_type/:payment_type/merchant_order_id/:merchant_order_id/preference_id/:preference_id/site_id/:site_id/processing_mode/:processing_mode/merchant_account_id/:processing_mode', {
+            templateUrl: 'views/monitor/',
+            controller: 'MonitorCtrl',
+            css: 'views/mainapp/style.css'
+        })
         .when('/customers', {
           templateUrl: 'views/customer/',
           controller: 'CustomersCtrl',
@@ -119,16 +124,16 @@ app.config(['$routeProvider', '$locationProvider',
         // use the HTML5 History API
         $locationProvider.html5Mode(true);
 }]);
-app.constant("serverHost","http://devtass.sytes.net/");
-//app.constant("serverHost","http://dev-tass.com.ar/");
-app.constant("serverBackend","Back/index.php/");
-app.constant("serverHeaders", {'headers':{'Content-Type': 'application/json; charset=utf-8'}});
+//app.constant("serverHost","https://apidev.sytes.net");
+app.constant("serverHost","https://devtass.sytes.net");
+app.constant("serverBackend","/Back/index.php/");
+app.constant("serverHeaders", {'headers':{'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Credentials': true, 'Access-Control-Allow-Origin': '*'}});
 app.constant('APP_SYS', {
   'app_name': 'Gestion de Clientes',
   'version' : '1.0',
-  'api_url' : 'http://devtass.sytes.net/',
+  'api_url' : 'https://devtass.sytes.net/',
   'api_path': 'Back/index.php/',
-  'headers' : {'headers':{'Content-Type': 'application/json; charset=utf-8'}}
+  'headers' : {'headers':{'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Credentials': true, 'Access-Control-Allow-Origin': '*'}}
 });
 app.constant('APP_REGEX',{
     'checkEmail':/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/,

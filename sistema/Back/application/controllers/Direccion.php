@@ -35,6 +35,18 @@ class Direccion extends REST_Controller {
           }
       }
 
+      public function addressByidTenant_get($id, $idTypeTenant, $idStatus) {
+        
+  
+        $rs = null;
+        $rs = $this->direccion_model->addressByidTenant($id, $idTypeTenant, $idStatus);
+
+        if (!is_null($rs)) {
+            $this->response($rs, 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
 
       public function addressListByCompanyid_get($id) {
         

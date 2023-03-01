@@ -188,7 +188,15 @@ class Seeds extends REST_Controller {
 				$this->response(array('error' => 'NO HAY RESULTADOS'), 404);
 			}
 		}
-		
+		public function reasonDisabledKey_get() {
+
+			$response = $this->seeds_model->getReasonDisabledKey();
+			if (!is_null($response)) {
+				$this->response($response, 200);
+			} else {
+				$this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+			}
+		}
 	
 	}
 ?>

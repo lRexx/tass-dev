@@ -330,6 +330,19 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
             });   
-          },           
+          },     
+          /* DISABLED REASON KEY */
+          getDisabledReasonKey: function() {
+            //console.log("[Utilities Services]: Get Disabled Reasons ");
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"seeds/reasonDisabledKey"
+                  }).then(function mySuccess(response) {
+                    return response;
+                  }).catch(function onError(response) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                    return response;
+            });   
+          },      
       }
 }]);

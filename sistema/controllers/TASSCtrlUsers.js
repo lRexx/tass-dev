@@ -1122,8 +1122,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     });
                 }
               });
-              
-              
+              $('#RegisterUser').modal('hide');
           }
         /**************************************************
         *                                                 *
@@ -1289,6 +1288,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 }, 1500);
               }
             });
+            $('#RegisterUser').modal('hide');
           }
         /**************************************************
         *                                                 *

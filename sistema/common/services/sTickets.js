@@ -6,6 +6,30 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
       var rsJsonTicket = {};
       var checkResult =0;
       return {
+          /* LISTA ALL TICKETS */
+          all: function(ticket) {
+            console.log("List all tickets or list by filters selected");
+            //console.log(ticket);
+            return $http.post(serverHost+serverBackend+"Ticket/allnew",ticket, serverHeaders)
+              .then(function mySucess(response) {
+                return response;
+              },function myError(response) { 
+                console.log("Error: "+response.data.error); 
+                return response;
+              })
+          },
+          /* ADD TICKET */
+          addUpRequest: function(ticket) {
+            console.log("List all tickets or list by filters selected");
+            //console.log(ticket);
+            return $http.post(serverHost+serverBackend+"Ticket/index2",ticket, serverHeaders)
+              .then(function mySucess(response) {
+                return response;
+              },function myError(response) { 
+                console.log("Error: "+response.data.error); 
+                return response;
+              })
+          },
           /* APPROVE TICKET */
           approvedTicket: function(ticketID, idUser) {
             var ticket2Approve=ticketID;
@@ -244,7 +268,31 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
                       return response;
                   });
           },
-          typedelivery: function() {
+          /* STATUS TICKET */
+          getTicketStatusTypeList: function() {
+            return $http({
+                  method : "GET",
+                  url : serverHost+serverBackend+"Ticket/ticketStatusType/"
+                }).then(function mySuccess(response) {
+                    return response;
+                }).catch(function onError(response) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                    return response;
+                });
+          },
+          /* TICKET TYPE */
+          getTypeTicketList: function() {
+            return $http({
+                  method : "GET",
+                  url : serverHost+serverBackend+"Ticket/typeTickets/"
+                }).then(function mySuccess(response) {
+                    return response;
+                }).catch(function onError(response) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                    return response;
+                });
+          },
+          typeDelivery: function() {
             //console.log("[Utilities Services]: Get Internet Company List");
               return $http({
                     method : "GET",
@@ -256,6 +304,52 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
             });   
+          },
+          paymentsType: function() {
+            //console.log("[Utilities Services]: Get Internet Company List");
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"Ticket/paymentsType"
+                  }).then(function mySuccess(response) {
+                    rsJson=response;
+                    return rsJson;
+                  }).catch(function onError(response) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                    return response;
+            });   
+          },
+          createMPLink: function(data) {
+            console.log("Create Mercado Pago Link for pay the request");
+            //console.log(ticket);
+            return $http.post(serverHost+serverBackend+"MercadoLibre/crearEnlaceMercadoPago",data, serverHeaders)
+              .then(function mySucess(response) {
+                return response;
+              },function myError(response) { 
+                console.log("Error: "+response.data.error); 
+                return response;
+              })
+          },
+          addPayment: function(data) {
+            console.log("Add payment details");
+            //console.log(ticket);
+            return $http.post(serverHost+serverBackend+"MercadoLibre/addPayment",data, serverHeaders)
+              .then(function mySucess(response) {
+                return response;
+              },function myError(response) { 
+                console.log("Error: "+response.data.error); 
+                return response;
+              })
+          },
+          updatePayment: function(data) {
+            console.log("Update payment details");
+            //console.log(ticket);
+            return $http.post(serverHost+serverBackend+"MercadoLibre/updatePayment",data, serverHeaders)
+              .then(function mySucess(response) {
+                return response;
+              },function myError(response) { 
+                console.log("Error: "+response.data.error); 
+                return response;
+              })
           },
       }
 }]);

@@ -53,14 +53,20 @@
       }
     };
   });
-  menu.controller('MenuCtrl', function($scope, $location, $routeParams, $document, $interval, blockUI, $timeout, inform, inputService, CustomerServices, userServices, tokenSystem, addressServices, UtilitiesServices, $window, $filter, APP_SYS, APP_REGEX){
+  menu.controller('MenuCtrl', function($scope, $cookies, $location, $routeParams, $document, $interval, blockUI, $timeout, inform, inputService, CustomerServices, userServices, tokenSystem, addressServices, UtilitiesServices, $window, $filter, APP_SYS, APP_REGEX){
       //if ($location.path() == "/login"){console.log($location.path());}
       console.log("Bienvenido al sistema de "+APP_SYS.app_name);
       console.log("Version v"+APP_SYS.version);
+      console.log("Loading Menu Controller");
+      //$cookies.put('systemToken', "#$%#%$#%$#&%$&%$&54gdfbg3w44t34tgsdvgsd#$234fvds");
       $scope.sysToken             = tokenSystem.getTokenStorage(1);
       $scope.sysLoggedUser        = tokenSystem.getTokenStorage(2);
       $scope.sysLoggedUserModules = tokenSystem.getTokenStorage(6);
-      //console.log($scope.sysLoggedUser);
+      if ((!$scope.sysToken || $scope.sysToken==null || $scope.sysToken==undefined) && (!$scope.sysLoggedUser || $scope.sysLoggedUser==null || $scope.sysLoggedUser==undefined)){
+        console.log("Redirecting to login page....");
+        $location.path("/login");
+      }
+      console.log($scope.sysLoggedUser);
       $scope.pattOnlyNumbersX2         = /^[0-9]{1,2}$/;
       $scope.pattX2CharactersNumbersX2 = /^(pb|PB)|^[0-9]{1,2}$/;
       $scope.pattX3CharactersNumbersX3 = /^([a-zA-Z]|[\d])|^[0-9]{1,3}$/;
@@ -856,8 +862,11 @@
         **************************************************/
           $scope.logout = function(){
             $scope.rsJSON = "";
-            localStorage.clear();
+            localStorage.removeItem('sysToken');
+            localStorage.removeItem('sysLoggedUser');
+            localStorage.removeItem('sysLoggedUserModules');
             $scope.sysToken = false;
+            $scope.sysLoggedUser = false;
             $location.path("/login");
           };
         /**************************************************
@@ -868,7 +877,7 @@
             // Timeout timer value
             $scope.TimeOutTimeValue   = 900000;//900000; //15 min
             //$scope.TimeOutTimeValue   = 90000000;//900000; //15 min
-            //$scope.TimeOutTimeValue   = 90000;//900000; //15 min
+            //$scope.TimeOutTimeValue   = 190000;//900000; //15 min
             $scope.IntervalTimerValue   = (20/100)*$scope.TimeOutTimeValue;
             $scope.intervalCountDown = 0;
             $scope.timeOutCountDown  = 0;
@@ -884,7 +893,7 @@
                 case "start_timeout":
                   //Start the no activity timeout of the user
                   $scope.timeOutCountDown  = 0;
-                  TimeOut_Thread = $timeout(function(){ timesUp();}, $scope.TimeOutTimeValue);
+                  TimeOut_Thread = $timeout(function(){ $scope.warningTimeOut("close_session");}, $scope.TimeOutTimeValue);
                   $scope.timeOutCountDown  = ($scope.TimeOutTimeValue/1000);
                   $scope.intervalCountDown = ($scope.IntervalTimerValue/1000);
 
@@ -916,7 +925,7 @@
                     $scope.counterTimeDown = d.getUTCHours() + ':' + pad(d.getUTCMinutes()) + ':' + pad(d.getUTCSeconds());
                     $scope.mess2show="La sesión finalizara en "+$scope.counterTimeDown+" minutos.     Desea mantener la sesión activa, Confirmar?";
                     if ($scope.intervalCountDown == 0) {
-                      timesUp();
+                      $scope.warningTimeOut("close_session");
                     }else if($scope.timeOutCountDown == $scope.intervalCountDown){
                       $timeout(function() {
                         console.log("La sesión finalizara en "+$scope.counterTimeDown+" minutos.");
@@ -948,19 +957,24 @@
                   $scope.warningTimeOut("start_timeout");
                 break;
                 case "close_session":
+                  $timeout.cancel(TimeOut_Thread);
+                  $interval.cancel(timeOutCounter);
+                  $interval.cancel(intervalCounter);
+                  localStorage.removeItem('sysToken');
+                  localStorage.removeItem('sysLoggedUser');
+                  localStorage.removeItem('sysLoggedUserModules');
                   $('#sessionExpiredModal').modal('hide');
                   blockUI.start('Cerrando session...');
+                  $scope.rsJSON = "";
+                  $scope.sysToken = false;
                   $timeout(function() {
-                    timesUp();
+                    $location.path("/login");
                     blockUI.stop();
-                  }, 3000);
+                  }, 2000);
                 break;
               }
             }
             //Actions in case of the timeout is up.
-            function timesUp(){
-              $scope.logout();
-            }
             function NoActivityTimeOut_Resetter(e){
                 //console.log(e.type);
                 /// Stop the reset the timeout timer
@@ -1009,7 +1023,7 @@
           }, 620);
           $interval( function(){
             $scope.updateSysUserLoggedSession($scope.sysLoggedUser.idUser);
-          }, 30000);
+          }, 60000);
           if (($scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=4 && $scope.sysLoggedUser.idProfileKf!=5 && $scope.sysLoggedUser.idProfileKf!=6) && $scope.sysLoggedUser.idTypeTenantKf==null){
             blockUI.start('Cargando...');
             //$scope.globalGetCustomerListFn(null, null); //LOAD CUSTOMER LIST
