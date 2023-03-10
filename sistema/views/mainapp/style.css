@@ -1042,6 +1042,11 @@ input.fileUpload{
   border-color: #ffc107 !important;
   background-color: #ffc107 !important;
 }
+.badge-info {
+  color: #fff;
+  background-color: #5bc0de;
+  border-color: #46b8da;
+}
 .badge-danger{
   background-color: #f9f2f4 !important; 
   color: #c9302c !important;
@@ -1061,7 +1066,10 @@ input.fileUpload{
   background-color: #eeeeee; 
   color: #555555;
   border-color: #ccc;
-}*/     
+}*/
+.capitalize {
+  text-transform: capitalize;
+}
 .glyphicon-share-alt{
   -webkit-transform: rotate(-180deg);
   -moz-transform: rotate(-180deg);

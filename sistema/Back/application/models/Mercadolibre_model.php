@@ -7,6 +7,7 @@ class Mercadolibre_model extends CI_Model
 	public function __construct()
 	{
 		parent::__construct();
+		/*TICKET*/ $this->load->model('Ticket_model');
 	}
 
 	public function createMPLink($data)
@@ -63,6 +64,12 @@ class Mercadolibre_model extends CI_Model
 					'data' => $err
 				]);
 			} else {
+					$ticketObj = null;
+					$ticketObj['history']['idUserKf'] 			= "1";
+					$ticketObj['history']['idTicketKf']  		= $data->idTicket;
+					$ticketObj['history']['descripcion'] 		= "";
+					$ticketObj['history']['idCambiosTicketKf'] 	= "5";
+					$this->Ticket_model->addTicketTimeline($ticketObj);
 				return json_encode([
 					'message' => 'Datos registrados exitosamente' ,
 					'status' => 200 ,
@@ -133,41 +140,55 @@ class Mercadolibre_model extends CI_Model
 					$dataObj['data']['processing_mode'] 	 = $response_decode->processing_mode;
 					$dataObj['data']['merchant_account_id']  = $response_decode->merchant_account_id;
 					$dataObj['data']['external_reference']   = $response_decode->external_reference;
-					
+					$idTicketKf = $lastPaymentAddedQuery_decode->idTicketKf;
 					$rsPaymentUpdated = $this->updatePayment($dataObj['data']);
+					$ticketObj = null;
+					$changeStatusRs=null;
+					$ticketObj['history']['idUserKf'] 	 		= "1";
+					$ticketObj['history']['idTicketKf']  		= $idTicketKf;
+					$ticketObj['history']['descripcion'] 		= "Pago del pedido has sido aprobado y acreditado";
+					$ticketObj['history']['idCambiosTicketKf'] 	= "4";
+					$changeStatusRs = $this->Ticket_model->changueStatus($idTicketKf,"8");
+					$this->Ticket_model->addTicketTimeline($ticketObj);
+					if ($changeStatusRs){
+						$ticketObj = null;
+						$ticketObj['history']['idUserKf'] 			= "1";
+						$ticketObj['history']['idTicketKf']  		= $idTicketKf;
+						$ticketObj['history']['descripcion'] 		= "";
+						$ticketObj['history']['idCambiosTicketKf'] 	= "13";
+					}
+					$this->Ticket_model->addTicketTimeline($ticketObj);
 					if($rsPaymentUpdated){
 						$lastPaymentUpdated = null;
 						$lastPaymentUpdated = $this->paymentById($response_decode->external_reference);
-						$paymentUpdated=json_decode(json_encode($lastPaymentUpdated[0]));
+						$paymentUpdated 	= json_decode(json_encode($lastPaymentUpdated[0]));
 					}
 				}else{
 					$paymentUpdated = "El pago ya se encuentra registado en el sistema.";
 				}
-				if ($err){
-					return json_encode([
-						'message' 	=> 'Ha ocurrido un error con la API de Mercado Pago' ,
-						'status' 	=> $httpcode ,
-						'data' 		=> $err
-					]);
-				} else if($httpcode == 200) {
-					return json_encode([
-						'message' 	=> 'Conexion con la API de Mercado Pago Exitosa' ,
-						'status' 	=> $httpcode ,
-						'data' 		=> $paymentUpdated
-					]);
-				}else if($httpcode == 401) {
-					return json_encode([
-						'message' 	=> 'Token invalido para autenticar con la API de Mercado Pago' ,
-						'status' 	=> $httpcode ,
-						'data' 		=> $response_decode->message,
-					]);
-				}else if($httpcode == 404) {
-					return json_encode([
-						'message' 	=> $response_decode->message ,
-						'status' 	=> $httpcode,
-						'data' 		=> $response_decode->error,
-					]);
-				}
+				return json_encode([
+					'message' 	=> 'Conexion con la API de Mercado Pago Exitosa' ,
+					'status' 	=> $httpcode ,
+					'data' 		=> $paymentUpdated
+				]);
+			}else if($httpcode == 200 && ($response_decode->status != "approved" || $response_decode->status_detail != "accredited")) {
+				return json_encode([
+					'message' 	=> 'Pago no se encuentra aprobado o acreditado, verificar en Mercado Pago.' ,
+					'status' 	=> $httpcode ,
+					'data' 		=> $response_decode->message,
+				]);
+			}else if($httpcode == 401) {
+				return json_encode([
+					'message' 	=> 'Token invalido para autenticar con la API de Mercado Pago' ,
+					'status' 	=> $httpcode ,
+					'data' 		=> $response_decode->message,
+				]);
+			}else if($httpcode == 404) {
+				return json_encode([
+					'message' 	=> $response_decode->message ,
+					'status' 	=> $httpcode,
+					'data' 		=> $response_decode->error,
+				]);
 			}
 		} catch (\Exception $e) {
 			return json_encode([

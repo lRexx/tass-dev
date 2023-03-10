@@ -2799,7 +2799,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 if ($scope.deliveryCostFree==0){
                                     var subTotalDelivery = 0;
                                     if ($scope.ticket.delivery.idTypeDeliveryKf!=1){
-                                        if (($scope.ticket.delivery.whoPickUp.id==undefined && $scope.ticket.delivery.idDeliveryTo!=null && $scope.ticket.delivery.idDeliveryTo>=2) || ($scope.ticket.delivery.idDeliveryTo==null && $scope.ticket.delivery.whoPickUp.id==2)){
+                                        if (($scope.ticket.delivery.whoPickUp.id==undefined && $scope.ticket.delivery.idDeliveryTo!=null && $scope.ticket.delivery.idDeliveryTo<=2) || 
+                                            ($scope.ticket.delivery.idDeliveryTo==null && $scope.ticket.delivery.whoPickUp.id==2)){
                                             $scope.ticket.cost.delivery=$scope.ticket.building.valor_envio;
                                             subTotalDelivery = Number($scope.ticket.building.valor_envio);
                                             $scope.costs.delivery.cost=subTotalDelivery.toFixed(2);

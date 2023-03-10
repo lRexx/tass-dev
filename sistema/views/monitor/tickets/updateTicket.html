@@ -8,9 +8,9 @@
                     <i ng-if="tkupdate.idTypeTicket==1" class="fas fa-key"></i>
                     <i ng-if="tkupdate.idTypeTicket==2" class="fas fa-key"></i>
                     <i ng-if="tkupdate.idTypeTicket==3" class="fas fa-wrench"></i>
-                {{tkupdate.codTicket}} ({{tkupdate.TypeTicketName}})</h3>
+                {{tkupdate.codTicket}} <span class="label label-info" >{{tkupdate.typeticket.TypeTicketName}}</span></h3>
             </div>
-            <!-- PARA CONSULTAS tkupdate.TypeTicketName.substr(20,9) -->
+            <!-- PARA CONSULTAS tkupdate.typeticket.TypeTicketName.substr(20,9) -->
             <div class="modal-body"  style="overflow-y: scroll;">
                 <!-- FORM CONTAINER-->
                 <form class="form-horizontal" name="fUpdateTicket" novalidate>
@@ -24,10 +24,10 @@
                             <!-- Ticket Type -->
                             <div class="col-xs-5 col-sm-4"><i class="fas fa-flag"></i> Tipo:</div>
                             <div class="col-xs-6 col-sm-6"> 
-                                <span ng-if="tkupdate.idTypeTicket==1">{{tkupdate.TypeTicketName.substr(0,4)}}</span>
-                                <span ng-if="tkupdate.idTypeTicket==2">{{tkupdate.TypeTicketName.substr(0,4)}}</span>
-                                <span ng-if="tkupdate.idTypeTicket==3">{{tkupdate.TypeTicketName.substr(0,8)}}</span>
-                                <span ng-if="tkupdate.idTypeTicket==4">{{tkupdate.TypeTicketName.substr(20,9)}}</span>
+                                <span ng-if="tkupdate.idTypeTicket==1">{{tkupdate.typeticket.TypeTicketName.substr(0,4)}}</span>
+                                <span ng-if="tkupdate.idTypeTicket==2">{{tkupdate.typeticket.TypeTicketName.substr(0,4)}}</span>
+                                <span ng-if="tkupdate.idTypeTicket==3">{{tkupdate.typeticket.TypeTicketName.substr(0,8)}}</span>
+                                <span ng-if="tkupdate.idTypeTicket==4">{{tkupdate.typeticket.TypeTicketName.substr(20,9)}}</span>
                             </div>
                             <!-- Type of Service -->
                             <div ng-if="tkupdate.idTypeTicket==3" class="col-xs-4 col-sm-4"><i class="fas fa-wrench"></i> Servicio:</div>
@@ -324,10 +324,10 @@
                         <a ng-if="tkupdate.idTypeTicket==1 && tkupdate.idStatusTicketKf!=5 && tkupdate.idStatusTicketKf!=6" type="button" ng-click="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6) || tkupdate.idStatusTicketKf==1 || tkupdate.idUserCancelTicket || tkupdate.isCancelRequested || tkupdate.isChangeDeliverylRequested ? null : openTicketFn(tkupdate, 1);" class="btn btn-labeled btn-warning" ng-disabled="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6)  || tkupdate.idStatusTicketKf==1 || tkupdate.idUserCancelTicket || tkupdate.isCancelRequested || tkupdate.isChangeDeliverylRequested">
                             <span class="btn-label"><i class="fas fa-truck"></i></span>Envio</a>
                     </div>
-                    <div ng-class="tkupdate.idUserApprovedTicket && tkupdate.idTypeTicket==3?'col-xs-6 col-sm-6 col-md-4':'col-xs-6 col-sm-3 col-md-2'">
+                    <!--<div ng-class="tkupdate.idUserApprovedTicket && tkupdate.idTypeTicket==3?'col-xs-6 col-sm-6 col-md-4':'col-xs-6 col-sm-3 col-md-2'">
                         <a ng-if="tkupdate.idStatusTicketKf!=5 && tkupdate.idStatusTicketKf!=6" data-dismiss="modal" type="button" ng-click="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6) || tkupdate.idStatusTicketKf==1 || tkupdate.idUserCancelTicket || tkupdate.isCancelRequested ? null : openTicketFn(tkupdate, 2);"  class="btn btn-labeled btn-danger" ng-disabled="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6) || tkupdate.idStatusTicketKf==1 || tkupdate.idUserCancelTicket || tkupdate.isCancelRequested || tkupdate.isChangeDeliverylRequested">
                             <span class="btn-label" ><i class="fas fa-ban"></i></span>Cancelar</a>
-                    </div>
+                    </div>-->
                     <div ng-class="tkupdate.idUserApprovedTicket && tkupdate.idTypeTicket?'col-xs-6 col-sm-3 col-md-2 col-md-offset-6':'col-xs-6 col-sm-3 col-md-2 col-md-offset-8'">
                         <!--button type="submit" ng-click="sysUpdateFn()" ng-disabled="fUpdateUser.$invalid || ownerFound || emailFound" class="btn btn-labeled btn-success">
                             <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Actualizar</button>-->

@@ -389,6 +389,11 @@
       border-color: #ffc107;
       background-color: #ffc107;
     }
+    .badge-info {
+      color: #fff;
+      background-color: #5bc0de;
+      border-color: #46b8da;
+    }
     .badge-success {
       color: #fff;
       background-color: #28a745;

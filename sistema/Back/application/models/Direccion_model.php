@@ -160,7 +160,7 @@ class Direccion_model extends CI_Model
 				$this->db->where("tb_user.isDepartmentApproved =", 0);
 			}
 			$this->db->group_by('B.idClient');
-			$quuery = $this->db->where("tb_user.idUser=" . $id . " and tb_user.idDepartmentKf=" . $idDpto)->get();
+			$quuery = $this->db->where("tb_user.idUser=" . $id)->get();
 		}
 		if ($quuery->num_rows() > 0) {
 			$rs = $quuery->result_array();

@@ -448,8 +448,8 @@ class User_model extends CI_Model
 				}
 				// ENVIAMOS EL MAIL DE CONFIRMAR REGISTRO //
 				/*MAIL*/
-				$title = "Mail de confirmacion de COFERBA";
-
+				$title = "Mail de confirmacion de TASS Seguridad";
+				$subject = "Registro de usuario exitoso";
 				$currentURL = $this->get_the_current_url(); //for simple URL
 
 				$body = '
@@ -457,7 +457,7 @@ class User_model extends CI_Model
             <BR>' . 'Clave:' . $ramdonPwd . '<br>' . '
             <a href=' . $currentURL . 'validate/' . $tokenMail . '>Pulse aqui para Confirmar mail</a>';
 
-				$this->mail_model->sendMail($title, $user['emailUser'], $body);
+				$this->mail_model->sendMail($title, $user['emailUser'], $body, $subject);
 				//*****************/
 
 				$idUser = $this->db->insert_id();

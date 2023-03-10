@@ -837,6 +837,9 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
             }
           });
         };
+        $scope.onSelectCallback = function(){
+          $scope.mainSwitchFn('search', null);
+        }
     /**************************************************
     *                                                 *
     *            TICKETS MONITOR FUNCTION             *
@@ -877,7 +880,8 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
                       //console.log($scope.listCompany);
                     });
                   $scope.filters.topDH="10";
-                  $scope.monitor.filter.topfilter              = $scope.filters.topDH;
+                  $scope.monitor.filter.idProfileKf       = $scope.sysLoggedUser.idProfileKf;
+                  $scope.monitor.filter.topfilter         = $scope.filters.topDH;
                   $scope.listTickets($scope.monitor.filter);
                 break;
                 case "4":
@@ -885,7 +889,11 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
                   $scope.getLisOfCustomersByIdFn($scope.sysLoggedUser.company[0]);
                   $scope.filters.topDH="10";
                   $scope.monitor.filter.idClientAdminFk   = $scope.sysLoggedUser.company[0].idClient;
-                  $scope.monitor.filter.topfilter           = $scope.filters.topDH;
+                  $scope.monitor.filter.topfilter         = $scope.filters.topDH;
+                  $scope.monitor.filter.idProfileKf       = $scope.sysLoggedUser.idProfileKf;
+                  $scope.monitor.filter.idTypeTenantKf    = $scope.sysLoggedUser.idTypeTenantKf;
+                  $scope.monitor.filter.idDepartmentKf    = $scope.sysLoggedUser.idTypeTenantKf=="2"?$scope.sysLoggedUser.idDepartmentKf:"";
+                  $scope.monitor.filter.isHomeSelected    = $scope.isHomeSelected;
                   $scope.listTickets($scope.monitor.filter);
                 break;
                 case "3":
@@ -897,14 +905,18 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
                       $scope.getAddressByidTenantFn($scope.sysLoggedUser.idUser, $scope.sysLoggedUser.idTypeTenantKf, -1);
                       $scope.monitor.filter.idUserRequestBy        = $scope.sysLoggedUser.idUser;
                       $scope.monitor.filter.topfilter              = $scope.filters.topDH;
+                      $scope.monitor.filter.idProfileKf            = $scope.sysLoggedUser.idProfileKf;
+                      $scope.monitor.filter.idTypeTenantKf         = $scope.sysLoggedUser.idTypeTenantKf;
                       $scope.listTickets($scope.monitor.filter);
                     break;
                     case "2":
                       $scope.filters.topDH="10";
                       $scope.getAddressByidTenantFn($scope.sysLoggedUser.idUser, $scope.sysLoggedUser.idTypeTenantKf, -1);
-
                       $scope.monitor.filter.idUserRequestBy        = $scope.sysLoggedUser.idUser;
                       $scope.monitor.filter.topfilter              = $scope.filters.topDH;
+                      $scope.monitor.filter.idProfileKf            = $scope.sysLoggedUser.idProfileKf;
+                      $scope.monitor.filter.idTypeTenantKf         = $scope.sysLoggedUser.idTypeTenantKf;
+                      $scope.monitor.filter.idDepartmentKf         = $scope.sysLoggedUser.idDepartmentKf;
                       $scope.listTickets($scope.monitor.filter);
                     break;
                   }
@@ -916,24 +928,28 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
                 case "1":
                   $scope.monitor.filter.idClientAdminFk        = $scope.filterCompanyKf.selected!=undefined && $scope.filterCompanyKf.selected.idClientTypeFk=="1"?$scope.filterCompanyKf.selected.idClient:"";
                   $scope.monitor.filter.idClientCompaniFk      = $scope.filterCompanyKf.selected!=undefined && $scope.filterCompanyKf.selected.idClientTypeFk=="3"?$scope.filterCompanyKf.selected.idClient:"";
-                  $scope.monitor.filter.idBuildingKf           = $scope.filterAddressKf.selected!=undefined?$scope.filterAddressKf.selected.idClient:"";
+                  $scope.monitor.filter.idBuildingKf           = $scope.filterAddressKf.selected!=undefined && $scope.filterCompanyKf.selected.idClientTypeFk=="1"?$scope.filterAddressKf.selected.idClient:"";
+                  $scope.monitor.filter.idClientBranchFk       = $scope.filterAddressKf.selected!=undefined && $scope.filterCompanyKf.selected.idClientTypeFk=="3"?$scope.filterAddressKf.selected.idClient:"";
                   $scope.monitor.filter.topfilter              = $scope.filters.topDH;
+                  $scope.monitor.filter.idProfileKf            = $scope.sysLoggedUser.idProfileKf;
                   $scope.monitor.filter.idTypeTicketKf         = !$scope.filters.typeTicket?"":$scope.filters.typeTicket.idTypeTicket;
                   $scope.monitor.filter.idStatusTicketKf       = !$scope.filters.ticketStatus?"":$scope.filters.ticketStatus.idStatus;
                   $scope.monitor.filter.idTypeDeliveryKf       = !$scope.filters.typDelivery?"":$scope.filters.typDelivery.idTypeDelivery;
                   $scope.monitor.filter.idTypePaymentKf        = !$scope.filters.paymentsType?"":$scope.filters.paymentsType.id;
+                  $scope.monitor.filter.codTicket              = $scope.filters.searchFilter;
                   console.log($scope.monitor.filter);
                   console.log($scope.filters);
                   $scope.listTickets($scope.monitor.filter);
                 break;
                 case "4":
                   $scope.monitor.filter.idBuildingKf           = $scope.filterAddressKf.selected!=undefined?$scope.filterAddressKf.selected.idClient:"";
-                  $scope.monitor.filter.idClientAdminFk      = $scope.sysLoggedUser.company[0].idClient;
+                  $scope.monitor.filter.idClientAdminFk        = $scope.sysLoggedUser.company[0].idClient;
                   $scope.monitor.filter.topfilter              = $scope.filters.topDH;
                   $scope.monitor.filter.idTypeTicketKf         = !$scope.filters.typeTicket?"":$scope.filters.typeTicket.idTypeTicket;
                   $scope.monitor.filter.idStatusTicketKf       = !$scope.filters.ticketStatus?"":$scope.filters.ticketStatus.idStatus;
                   $scope.monitor.filter.idTypeDeliveryKf       = !$scope.filters.typDelivery?"":$scope.filters.typDelivery.idTypeDelivery;
                   $scope.monitor.filter.idTypePaymentKf        = !$scope.filters.paymentsType?"":$scope.filters.paymentsType.id;
+                  $scope.monitor.filter.codTicket              = $scope.filters.searchFilter;
                   console.log($scope.monitor.filter);
                   console.log($scope.filters);
                   $scope.listTickets($scope.monitor.filter);
@@ -950,6 +966,7 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
                       $scope.monitor.filter.idStatusTicketKf       = !$scope.filters.ticketStatus?"":$scope.filters.ticketStatus.idStatus;
                       $scope.monitor.filter.idTypeDeliveryKf       = !$scope.filters.typDelivery?"":$scope.filters.typDelivery.idTypeDelivery;
                       $scope.monitor.filter.idTypePaymentKf        = !$scope.filters.paymentsType?"":$scope.filters.paymentsType.id;
+                      $scope.monitor.filter.codTicket              = $scope.filters.searchFilter;
                       console.log($scope.monitor.filter);
                       console.log($scope.filters);
                       $scope.listTickets($scope.monitor.filter);
@@ -961,6 +978,7 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
                       $scope.monitor.filter.idStatusTicketKf       = !$scope.filters.ticketStatus?"":$scope.filters.ticketStatus.idStatus;
                       $scope.monitor.filter.idTypeDeliveryKf       = !$scope.filters.typDelivery?"":$scope.filters.typDelivery.idTypeDelivery;
                       $scope.monitor.filter.idTypePaymentKf        = !$scope.filters.paymentsType?"":$scope.filters.paymentsType.id;
+                      $scope.monitor.filter.codTicket              = $scope.filters.searchFilter;
                       console.log($scope.monitor.filter);
                       console.log($scope.filters);
                       $scope.listTickets($scope.monitor.filter);
@@ -1025,13 +1043,13 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
               inform.add('No se encontraron resultados verifique el filtro seleccionado o contacte al soporte de TASS.',{
                   ttl:3000, type: 'info'
               });
-              $scope.listTickt =  "";
+              $scope.listTickt =  [];
               $scope.totalTickets = 0;
           }else if (response.status==500){
               inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
               ttl:3000, type: 'danger'
               });
-              $scope.listTickt =  "";
+              $scope.listTickt =  [];
               $scope.totalTickets = 0;
           }
           });
