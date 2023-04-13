@@ -60,7 +60,13 @@
                               <div class="col-md-12 col-sm-12 col-xs-12 ">
                                 <label style="padding-left: 15px;">Busquéda de cliente:</label>
                               	<div class="input-group search-box-rule col-md-12 col-sm-12 col-xs-12">
-                                		<input type="text" class="form-control text-uppercase" ng-disabled="select.filterTypeOfClient!=undefined && (rsCustomerListData.status==404 || rsCustomerListData.length==0)" ng-keyup="select.filterTypeOfClient==undefined && (!customerSearch.strict || customerSearch.strict)?getCustomersByNameFn(searchboxfilter, customerSearch.strict):offlineSearch(rsCustomerListData,searchboxfilter,null,customerSearch.strict)"  ng-model="searchboxfilter" placeholder="Buscar..." style="border-radius: 4px;">
+                                		<input 
+                                    type="text" 
+                                    class="form-control text-uppercase" 
+                                    ng-disabled="select.filterTypeOfClient!=undefined && (rsCustomerListData.status==404 || rsCustomerListData.length==0)"
+                                    ng-keydown="$event.keyCode === 13 && select.filterTypeOfClient==undefined && (!customerSearch.strict || customerSearch.strict)?getCustomersByNameFn(searchboxfilter, customerSearch.strict):offlineSearch(rsCustomerListData,searchboxfilter,null,customerSearch.strict)"  
+                                    ng-model="searchboxfilter" 
+                                    placeholder="Presione Enter para buscar..." style="border-radius: 4px;">
                               	</div>
                               </div>
                         </div>
@@ -180,7 +186,14 @@
                               <div class="col-md-12 col-sm-12 col-xs-12 ">
                                 <label style="padding-left: 15px;">Busquéda de cliente:</label>
                               	<div class="input-group search-box-rule col-md-12 col-sm-12 col-xs-12">
-                                  <input type="text" class="form-control text-uppercase" ng-disabled="select.filterTypeOfClient!=undefined && (rsCustomerListData.status==404 || rsCustomerListData.length==0)" ng-keyup="select.filterTypeOfClient==undefined?getCustomersByNameFn(searchboxfilter, customerSearch.strict):offlineSearch(rsCustomerListData,searchboxfilter,null,customerSearch.strict)"  ng-model="searchboxfilter" placeholder="Buscar..." style="border-radius: 4px;">
+                                  <input 
+                                    type="text" 
+                                    class="form-control text-uppercase" 
+                                    ng-disabled="select.filterTypeOfClient!=undefined && (rsCustomerListData.status==404 || rsCustomerListData.length==0)" 
+                                    ng-keydown="$event.keyCode === 13 && select.filterTypeOfClient==undefined?getCustomersByNameFn(searchboxfilter, customerSearch.strict):offlineSearch(rsCustomerListData,searchboxfilter,null,customerSearch.strict)"  
+                                    ng-model="searchboxfilter" 
+                                    placeholder="Presione Enter para buscar..."
+                                    style="border-radius: 4px;">
                               	</div>
                               </div>
                         </div>

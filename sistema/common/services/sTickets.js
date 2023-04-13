@@ -31,40 +31,42 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
               })
           },
           /* APPROVE TICKET */
-          approvedTicket: function(ticketID, idUser) {
-            var ticket2Approve=ticketID;
-            var ticketApprovedBy = idUser;
-            console.log("[Ticket Services] => Ticket a Aprobar: "+ticket2Approve);
-            console.log("[Ticket Services] => Usuario que Aprueba: "+ticketApprovedBy);
-              return $http({
-                    method : "GET",
-                    url : serverHost+serverBackend+"Ticket/aprobated/"+ticket2Approve+"/"+ticketApprovedBy
-                  }).then(function mySuccess(response) {
-                      ticketResult = 1;
-                      return ticketResult;
-                  },function myError(response) { 
-                        if(!ticket2Approve){
-                            checkResult = 0;
-                        }
-                    return checkResult;
+          approvedTicket: function(data) {
+            console.log("APPROVE TICKET");
+            console.log(data);
+            console.log("[Ticket Services] => Ticket Id: "+data.ticket.idTicket);
+            return $http.post(serverHost+serverBackend+"Ticket/approve",data, serverHeaders)
+              .then(function mySucess(response) {
+                    return response;
+            }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                 return response;
             });   
           },
           /* REQUEST CANCEL TICKET */
-          requestCancelTicket: function(ticketID) {
-            var ticket2RequestCancel=ticketID;
-            console.log("CANCELANDO TICKET");
-            console.log("Ticket a Cancelar: "+ticket2RequestCancel);
-              return $http({
-                    method : "GET",
-                    url : serverHost+serverBackend+"Ticket/requestCancel/"+ticket2RequestCancel
-                  }).then(function mySuccess(response) {
-                      ticketResult = 1;
-                      return ticketResult;
-                  },function myError(response) { 
-                        if(!ticket2RequestCancel){
-                            checkResult = 0;
-                        }
-                    return checkResult;
+          requestCancelTicket: function(data) {
+            console.log("REQUEST CANCELLATION TICKET");
+            console.log(data);
+            console.log("[Ticket Services] => Ticket Id: "+data.ticket.idTicket);
+            return $http.post(serverHost+serverBackend+"Ticket/requestCancel",data, serverHeaders)
+              .then(function mySucess(response) {
+                    return response;
+            }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                return response;
+            });   
+          },
+          /* REJECT REQUEST CANCEL TICKET */
+          rejectRequestCancelTicket: function(data) {
+            console.log("REJECT REQUEST CANCELLATION TICKET");
+            console.log(data);
+            console.log("[Ticket Services] => Ticket Id: "+data.ticket.idTicket);
+            return $http.post(serverHost+serverBackend+"Ticket/rejectRequestCancel",data, serverHeaders)
+              .then(function mySucess(response) {
+                    return response;
+            }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                return response;
             });   
           },
           /* CANCEL TICKET */

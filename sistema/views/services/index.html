@@ -63,8 +63,8 @@
           <div class="input-group s-ui-width s-ui-m-left">
             <input type="text" name="customerSearch" 
                 id="customerSearch" 
-                ng-model="customerSearch.name" 
-                ng-keyup="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" 
+                ng-model="customerSearch.name"
+                ng-keydown="$event.keyCode === 13 && findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)"
                 class="form-control input-lg input-font-size text-uppercase input-search"
                 move-to-list input-selector="'.input-search'"
                 list-items-selector="'.list-group li'"

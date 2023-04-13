@@ -10,25 +10,25 @@ tkSysService.service("tokenSystem",function(){
           getTokenStorage: function(value) {
             switch (value){
               case 1:
-                tokenStorageValue = !localStorage.getItem("sysToken") ? false : localStorage.getItem("sysToken");
+                tokenStorageValue = !sessionStorage.getItem("sysToken") ? false : sessionStorage.getItem("sysToken");
               break;
               case 2:
-                tokenStorageValue = !JSON.parse(localStorage.getItem("sysLoggedUser")) ? false : JSON.parse(localStorage.getItem("sysLoggedUser"));
+                tokenStorageValue = !JSON.parse(sessionStorage.getItem("sysLoggedUser")) ? false : JSON.parse(sessionStorage.getItem("sysLoggedUser"));
               break;
               case 3:
-                tokenStorageValue = !JSON.parse(localStorage.getItem("sysTmpUser")) ? false : JSON.parse(localStorage.getItem("sysTmpUser"));
+                tokenStorageValue = !JSON.parse(sessionStorage.getItem("sysTmpUser")) ? false : JSON.parse(sessionStorage.getItem("sysTmpUser"));
               break;
               case 4:
-                tokenStorageValue = JSON.parse(localStorage.getItem("attempsToken"));
+                tokenStorageValue = JSON.parse(sessionStorage.getItem("attempsToken"));
               break;
               case 5:
-                tokenStorageValue = !JSON.parse(localStorage.getItem("sysTmpTicket")) ? false : JSON.parse(localStorage.getItem("sysTmpTicket"));
+                tokenStorageValue = !JSON.parse(sessionStorage.getItem("sysTmpTicket")) ? false : JSON.parse(sessionStorage.getItem("sysTmpTicket"));
               break;
               case 6:
-                tokenStorageValue = !JSON.parse(localStorage.getItem("sysLoggedUserModules")) ? false : JSON.parse(localStorage.getItem("sysLoggedUserModules"));
+                tokenStorageValue = !JSON.parse(sessionStorage.getItem("sysLoggedUserModules")) ? false : JSON.parse(sessionStorage.getItem("sysLoggedUserModules"));
               break;
               case 7:
-                tokenStorageValue = !JSON.parse(localStorage.getItem("tknCustomerData")) ? false : JSON.parse(localStorage.getItem("tknCustomerData"));
+                tokenStorageValue = !JSON.parse(sessionStorage.getItem("tknCustomerData")) ? false : JSON.parse(sessionStorage.getItem("tknCustomerData"));
               break;
               default:
 
@@ -36,41 +36,41 @@ tkSysService.service("tokenSystem",function(){
               return tokenStorageValue;
           },
           setTokenStorage: function(tksSystem, tkLoggedUser, tkModulesUser) {
-              localStorage.setItem("sysToken", tksSystem);
-              localStorage.setItem("sysLoggedUser", JSON.stringify(tkLoggedUser));
-              localStorage.setItem("sysLoggedUserModules", JSON.stringify(tkModulesUser));
+              sessionStorage.setItem("sysToken", tksSystem);
+              sessionStorage.setItem("sysLoggedUser", JSON.stringify(tkLoggedUser));
+              sessionStorage.setItem("sysLoggedUserModules", JSON.stringify(tkModulesUser));
           },
           setTokenStorageToNull: function() {
-            localStorage.setItem("sysToken", null);
-            localStorage.setItem("sysLoggedUser", null);
-            localStorage.setItem("sysLoggedUserModules", null);
+            sessionStorage.setItem("sysToken", null);
+            sessionStorage.setItem("sysLoggedUser", null);
+            sessionStorage.setItem("sysLoggedUserModules", null);
         },
           setLoggedUserStorage: function(tkLoggedUser) {
-              localStorage.setItem("sysLoggedUser", JSON.stringify(tkLoggedUser));
+              sessionStorage.setItem("sysLoggedUser", JSON.stringify(tkLoggedUser));
           },
           setCustomerByTypeDataStorage: function(value, tkCustomers) {
             //console.log(tkCustomers);
             switch (value){
               case 1:
-                localStorage.setItem("tkAdministrationCustomersData", JSON.stringify(tkCustomers));
+                sessionStorage.setItem("tkAdministrationCustomersData", JSON.stringify(tkCustomers));
               break;
               case 2:
-                localStorage.setItem("tkBuildingCustomersData", JSON.stringify(tkCustomers));
+                sessionStorage.setItem("tkBuildingCustomersData", JSON.stringify(tkCustomers));
               break;
               case 3:
-                localStorage.setItem("tkCompanyCustomersData", JSON.stringify(tkCustomers));
+                sessionStorage.setItem("tkCompanyCustomersData", JSON.stringify(tkCustomers));
               break;
               case 4:
-                localStorage.setItem("tkBranchCustomersData", JSON.stringify(tkCustomers));
+                sessionStorage.setItem("tkBranchCustomersData", JSON.stringify(tkCustomers));
               break;
               case 5:
-                localStorage.setItem("tkParticularCustomersData", JSON.stringify(tkCustomers));
+                sessionStorage.setItem("tkParticularCustomersData", JSON.stringify(tkCustomers));
               break;
               case "registered":
-                localStorage.setItem("tkCustomersRegisteredData", JSON.stringify(tkCustomers));
+                sessionStorage.setItem("tkCustomersRegisteredData", JSON.stringify(tkCustomers));
               break;
               case "notregistered":
-                localStorage.setItem("tkCustomersNotRegisteredData", JSON.stringify(tkCustomers));
+                sessionStorage.setItem("tkCustomersNotRegisteredData", JSON.stringify(tkCustomers));
               break;
               default:
 
@@ -80,63 +80,63 @@ tkSysService.service("tokenSystem",function(){
           getCustomerByTypeDataStorage: function(value) {
             switch (value){
               case 1:
-                tkData = !JSON.parse(localStorage.getItem("tkAdministrationCustomersData")) ? false : JSON.parse(localStorage.getItem("tkAdministrationCustomersData"));
+                tkData = !JSON.parse(sessionStorage.getItem("tkAdministrationCustomersData")) ? false : JSON.parse(sessionStorage.getItem("tkAdministrationCustomersData"));
               break;
               case 2:
-                tkData = !JSON.parse(localStorage.getItem("tkBuildingCustomersData")) ? false : JSON.parse(localStorage.getItem("tkBuildingCustomersData"));
+                tkData = !JSON.parse(sessionStorage.getItem("tkBuildingCustomersData")) ? false : JSON.parse(sessionStorage.getItem("tkBuildingCustomersData"));
               break;
               case 3:
-                tkData = !JSON.parse(localStorage.getItem("tkCompanyCustomersData")) ? false : JSON.parse(localStorage.getItem("tkCompanyCustomersData"));
+                tkData = !JSON.parse(sessionStorage.getItem("tkCompanyCustomersData")) ? false : JSON.parse(sessionStorage.getItem("tkCompanyCustomersData"));
               break;
               case 4:
-                tkData = !JSON.parse(localStorage.getItem("tkBranchCustomersData")) ? false : JSON.parse(localStorage.getItem("tkBranchCustomersData"));
+                tkData = !JSON.parse(sessionStorage.getItem("tkBranchCustomersData")) ? false : JSON.parse(sessionStorage.getItem("tkBranchCustomersData"));
               break;
               case 5:
-                tkData = !JSON.parse(localStorage.getItem("tkParticularCustomersData")) ? false : JSON.parse(localStorage.getItem("tkParticularCustomersData"));
+                tkData = !JSON.parse(sessionStorage.getItem("tkParticularCustomersData")) ? false : JSON.parse(sessionStorage.getItem("tkParticularCustomersData"));
               break;
               case "registered":
-                tkData = !JSON.parse(localStorage.getItem("tkCustomersRegisteredData")) ? false : JSON.parse(localStorage.getItem("tkCustomersRegisteredData"));
+                tkData = !JSON.parse(sessionStorage.getItem("tkCustomersRegisteredData")) ? false : JSON.parse(sessionStorage.getItem("tkCustomersRegisteredData"));
               break;
               case "notregistered":
-                tkData = !JSON.parse(localStorage.getItem("tkCustomersNotRegisteredData")) ? false : JSON.parse(localStorage.getItem("tkCustomersNotRegisteredData"));
+                tkData = !JSON.parse(sessionStorage.getItem("tkCustomersNotRegisteredData")) ? false : JSON.parse(sessionStorage.getItem("tkCustomersNotRegisteredData"));
               break;
               default:
             }
               return tkData;
           },
           setSelectedCustomerDataStorage: function(tkCustomerData) {
-            localStorage.setItem("tknCustomerData", JSON.stringify(tkCustomerData));
+            sessionStorage.setItem("tknCustomerData", JSON.stringify(tkCustomerData));
           },
           temporalStorage: function(tkTmpUser) {
-              localStorage.setItem("sysTmpUser", JSON.stringify(tkTmpUser));
+              sessionStorage.setItem("sysTmpUser", JSON.stringify(tkTmpUser));
           },
           tmpTicketlStorage: function(tkTmpTicket) {
-              localStorage.setItem("sysTmpTicket", JSON.stringify(tkTmpTicket));
+              sessionStorage.setItem("sysTmpTicket", JSON.stringify(tkTmpTicket));
           },
           destroyTokenStorage: function(value) {
             switch (value){
               case 1:
                 console.log("Destroying the local storage for sysToken, sysLoggedUser, sysLoggedUserModules");
-                localStorage.removeItem("sysToken");
-                localStorage.removeItem("sysLoggedUser");
-                localStorage.removeItem("sysLoggedUserModules");
+                sessionStorage.removeItem("sysToken");
+                sessionStorage.removeItem("sysLoggedUser");
+                sessionStorage.removeItem("sysLoggedUserModules");
               break;
               case 2:
-                localStorage.removeItem("attempsToken");
+                sessionStorage.removeItem("attempsToken");
               break;
               case 3:
-                localStorage.removeItem("sysTmpUser");
+                sessionStorage.removeItem("sysTmpUser");
               break;
               case 4:
-                localStorage.removeItem("attempsToken");
-                localStorage.removeItem("sysTmpUser");
-                //localStorage.removeItem("sysTmpTicket");
+                sessionStorage.removeItem("attempsToken");
+                sessionStorage.removeItem("sysTmpUser");
+                //sessionStorage.removeItem("sysTmpTicket");
               break;
               case 5:
-                localStorage.removeItem("sysLoggedUser");
+                sessionStorage.removeItem("sysLoggedUser");
               break;
               case 6:
-                localStorage.removeItem("tknCustomerData");
+                sessionStorage.removeItem("tknCustomerData");
               break;
               default:
 

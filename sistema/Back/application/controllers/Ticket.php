@@ -66,7 +66,12 @@ class Ticket extends REST_Controller {
     }
     public function cancelTicket_post() {
 
-        $rs = $this->ticket_model->cancelTicket($this->post('ticket'));
+        if (!$this->post('ticket')){
+			$this->response(null , 404);
+		}
+
+        $rs = null;
+        $rs = $this->ticket_model->cancel($this->post('ticket'));
         if (!is_null($rs)) {
             $this->response("Cancelado", 200);
         } else {
@@ -74,13 +79,30 @@ class Ticket extends REST_Controller {
         }
     }
     /* SERVICIO SOLICITAR LA CANCELACION DE UN TICKET */
-    public function requestCancel_get($id) {
-        if (!$id) {
-            $this->response(NULL, 404);
-        }
+    public function requestCancel_post() {
+
+        if (!$this->post('ticket')){
+			$this->response(null , 404);
+		}
 
         $rs = null;
-        $rs = $this->ticket_model->requestCancel($id);
+        $rs = $this->ticket_model->requestCancel($this->post('ticket'));
+
+        if (!is_null($rs)) {
+            $this->response($rs, 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
+    /* SERVICIO SOLICITAR LA CANCELACION DE UN TICKET */
+    public function rejectRequestCancel_post() {
+
+        if (!$this->post('ticket')){
+			$this->response(null , 404);
+		}
+
+        $rs = null;
+        $rs = $this->ticket_model->rejectedCancelTicket($this->post('ticket'));
 
         if (!is_null($rs)) {
             $this->response($rs, 200);
@@ -120,13 +142,14 @@ class Ticket extends REST_Controller {
     }
 
      /* APRUEBA TICKET */
-     public function aprobated_get($id, $idU) {
-        if (!$id || !$idU) {
-            $this->response(NULL, 404);
-        }
+     public function approve_post() {
+
+        if (!$this->post('ticket')){
+			$this->response(null , 404);
+		}
 
         $rs = null;
-        $rs = $this->ticket_model->aprobated($id, $idU);
+        $rs = $this->ticket_model->approve($this->post('ticket'));
 
         if (!is_null($rs)) {
             $this->response($rs, 200);

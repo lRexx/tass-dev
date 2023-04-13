@@ -33,13 +33,13 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                       return checkResult=response.status;
                     }else{
                       if (typeOfCheck=="login" || typeOfCheck=="forgotPwd"){
-                        var attempsTkn=!JSON.parse(localStorage.getItem("attempsToken"))? false :JSON.parse(localStorage.getItem("attempsToken"));
+                        var attempsTkn=!JSON.parse(sessionStorage.getItem("attempsToken"))? false :JSON.parse(sessionStorage.getItem("attempsToken"));
                           if(attempsTkn==false || attempsTkn==undefined){
                               attempsToken['attempsCount']=0;
                               attempsToken['attempsCount']++;
                               attempsToken['emailAttempted']=userMail;
                           }else if(userMail!==attempsTkn.emailAttempted) {
-                              localStorage.removeItem("attempsToken");
+                              sessionStorage.removeItem("attempsToken");
                               attempsToken['attempsCount']=0;
                               attempsToken['attempsCount']++;
                               attempsToken['emailAttempted']=userMail;
@@ -48,11 +48,11 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                               attempsToken['emailAttempted']=attempsTkn.emailAttempted;
                           }  
                       }else if (typeOfCheck=='register'){
-                              localStorage.removeItem("attempsToken");
+                              sessionStorage.removeItem("attempsToken");
                               attempsToken['attempsCount']=0;
                               attempsToken['emailAttempted']=userMail;
                       }
-                        localStorage.setItem("attempsToken", JSON.stringify(attempsToken));
+                        sessionStorage.setItem("attempsToken", JSON.stringify(attempsToken));
                         checkResult = 0;
                         return checkResult;
                     }
@@ -133,7 +133,7 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                   }
                     switch (response.status){
                       case 200:
-                        localStorage.removeItem("attempsToken");
+                        sessionStorage.removeItem("attempsToken");
                         if(rsJSON.idProfileKf==6 && rsJSON.requireAuthentication==0){
                            console.log('is an Attendant without login premission');
                           tokenSystem.temporalStorage(rsJSON);
@@ -176,13 +176,13 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                         console.log("Error: " + response.data.error);
                           var rsTmpUser = tokenSystem.getTokenStorage(3);
                           if (rsTmpUser.idStatusKf=='1' && rsTmpUser.isConfirmatedMail=='1'){
-                            var attempsTkn=!JSON.parse(localStorage.getItem("attempsToken"))? false :JSON.parse(localStorage.getItem("attempsToken"));
+                            var attempsTkn=!JSON.parse(sessionStorage.getItem("attempsToken"))? false :JSON.parse(sessionStorage.getItem("attempsToken"));
                             if(attempsTkn==false || attempsTkn==undefined){
                                 attempsToken['attempsCount']=0;
                                 attempsToken['attempsCount']++;
                                 attempsToken['emailAttempted']=jsonUser;
                             }else if(jsonUser!==attempsTkn.emailAttempted) {
-                                localStorage.removeItem("attempsToken");
+                                sessionStorage.removeItem("attempsToken");
                                 attempsToken['attempsCount']=0;
                                 attempsToken['attempsCount']++;
                                 attempsToken['emailAttempted']=jsonUser;
@@ -190,7 +190,7 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                                 attempsToken['attempsCount']=attempsTkn.attempsCount+1;
                                 attempsToken['emailAttempted']=attempsTkn.emailAttempted;
                             }  
-                            localStorage.setItem("attempsToken", JSON.stringify(attempsToken));
+                            sessionStorage.setItem("attempsToken", JSON.stringify(attempsToken));
                             loginResult = 5;
                           }else{
                             loginResult = 6;

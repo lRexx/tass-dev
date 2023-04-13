@@ -34,7 +34,7 @@
           <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
               <a href="{{mp.link.url}}" target="_blank" 
-              ng-if="(((ticketRegistered.userMadeBy.idProfileKf=='3' || ((ticketRegistered.userMadeBy.idProfileKf=='4' || ticketRegistered.userMadeBy.idProfileKf=='6') && ticketRegistered.userMadeBy.idTypeTenantKf=='1')) && ticketRegistered.idTypePaymentKf=='2' && ticketRegistered.building.autoApproveOwners=='1') || (ticketRegistered.idTypePaymentKf=='2' && ticketRegistered.building.autoApproveAll=='1'))"  
+              ng-if="(((ticketRegistered.userMadeBy.idProfileKf=='3' || ((ticketRegistered.userMadeBy.idProfileKf=='4' || ticketRegistered.userMadeBy.idProfileKf=='6') && ticketRegistered.userMadeBy.idTypeTenantKf=='1')) && ticketRegistered.idTypePaymentKf=='2' && ticketRegistered.building.autoApproveOwners=='1' && ticketRegistered.idStatusTicketKf=='3') || (ticketRegistered.idTypePaymentKf=='2' && ticketRegistered.building.autoApproveAll=='1' && ticketRegistered.idStatusTicketKf=='3'))"  
               type="button" class="btn btn-labeled btn-primary" style="background:#009ee3; border: 1px solid rgb(0, 158, 227);">
                 <span class="btn-label"><i class="fas fa-credit-card"></i></span>Pagar</a>
                 <a ng-click="modalConfirmation('closeModalRequestStatus',null)" type="button" class="btn btn-labeled btn-danger">

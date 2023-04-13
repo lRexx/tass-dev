@@ -619,7 +619,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
         $scope.getCustomersByNameFn = function(clientName, strict) {
           if(clientName.length>=2){
             if (clientName!=undefined && clientName!='' && clientName!=null){
-              $scope.getCustomerLisServiceFn(clientName, $scope.customersSearch.isNotCliente, $scope.customersSearch.idClientTypeFk, "", "", strict).then(function(response) {
+              $scope.getCustomerLisServiceFn(clientName, $scope.customersSearch.isNotCliente, $scope.customersSearch.idClientTypeFk, "", "10", strict).then(function(response) {
                 console.info(response);
                 if(response.status==undefined){
                   $scope.rsCustomerListData = response.customers;

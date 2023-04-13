@@ -366,7 +366,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }
                     break;
                     case 2: console.log($scope.ticket);
-                        if ($scope.fSwitch=="n" && $scope.sysLoggedUser.idProfileKf!=0){
+                        if ($scope.fSwitch=="n" && $scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=5 && ($scope.sysLoggedUser.idProfileKf!=4 && $scope.sysLoggedUser.idTypeTenantKf==null)){
                             //PASO 3: MÉTODO DE ENVÍO O ENTREGA
                             if ($scope.ticket.delivery.idTypeDeliveryKf==undefined || $scope.ticket.delivery.idTypeDeliveryKf==null){
                                 $scope.formValidated=false;
@@ -400,7 +400,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     }
                                 }
                             }
-                        }else if ($scope.sysLoggedUser.idProfileKf==3 || (($scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf==1)){
+                        }else if ($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==5 || (($scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf==1)){
                             console.info("ENTRO AL CASE 2 : MÉTODO DE ENVÍO O ENTREGA");
                             if ($scope.ticket.delivery.idTypeDeliveryKf==undefined || $scope.ticket.delivery.idTypeDeliveryKf==null){
                                 $scope.formValidated=false;
@@ -804,7 +804,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     $scope.list_doors.push(item);
                 }else{
                     for (var key in  $scope.list_doors){
-                        if ( $scope.list_doors[key].idAccessControlDoor==item.idAccessControlDoor){
+                        if ($scope.list_doors[key].idAccessControlDoor==item.idAccessControlDoor){
                             $scope.list_doors.splice(key,1);
                         }
                     }
@@ -1392,27 +1392,27 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
         *         GET PROVINCE ID BY ADDRESS Name         *
         *                                                 *
         **************************************************/
-         $scope.idProvinceFk=null;
-         $scope.getAddressIdByNameFn = function(addressName, opt){
-             //$scope.idProvinceFk=null;
-             addressServices.getProvinceIdByName(addressName).then(function(data){
-               $scope.idProvinceFk=data;
-               switch(opt){
-                 case 'main':
-                   if (((!$scope.addrrSelected && $scope.customer.new.nameAddress!='') || !$scope.gobApiAddressNotFound) && $scope.customer.new.typeInmueble=='1' && $scope.customer.new.idTipoInmuebleFk=='1') {
-                     $scope.getAddressByNameFn($scope.customer.new.nameAddress,'main');
-                   }
-                 break;
-                 case 'particular':
-                   if (((!$scope.addrrSelected && $scope.list_particular_address.nameAddress!='') || !$scope.gobApiAddressNotFound) && $scope.customer.particular.typeInmueble=='1'){
-                     $scope.getAddressByNameFn($scope.list_particular_address.nameAddress,'particular');
-                   }
-                 break;
-                 default:
-                 $scope.idProvinceFk=null;
-               }
-             });
-         }
+            $scope.idProvinceFk=null;
+            $scope.getAddressIdByNameFn = function(addressName, opt){
+                //$scope.idProvinceFk=null;
+                addressServices.getProvinceIdByName(addressName).then(function(data){
+                $scope.idProvinceFk=data;
+                switch(opt){
+                    case 'main':
+                    if (((!$scope.addrrSelected && $scope.customer.new.nameAddress!='') || !$scope.gobApiAddressNotFound) && $scope.customer.new.typeInmueble=='1' && $scope.customer.new.idTipoInmuebleFk=='1') {
+                        $scope.getAddressByNameFn($scope.customer.new.nameAddress,'main');
+                    }
+                    break;
+                    case 'particular':
+                    if (((!$scope.addrrSelected && $scope.list_particular_address.nameAddress!='') || !$scope.gobApiAddressNotFound) && $scope.customer.particular.typeInmueble=='1'){
+                        $scope.getAddressByNameFn($scope.list_particular_address.nameAddress,'particular');
+                    }
+                    break;
+                    default:
+                    $scope.idProvinceFk=null;
+                }
+                });
+            }
 
        /**************************************************
        *                                                 *
@@ -2598,6 +2598,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.sysRegisterTenantFn();
                     break;
                     case "checkWhoPickUp":
+                        console.log(obj);
                         if(obj.whoPickUp!=undefined){
                             $scope.ticket.delivery.idDeliveryTo = null;
                             if (obj.whoPickUp.id=="3"){
@@ -2776,58 +2777,58 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $scope.ticket.cost.service = subTotalService.toFixed(2);
                         }else{
                             //KEY COSTS
-                            var subTotalKeys = 0;
-                            if (!$scope.costs.keys.manual){
                                 var subTotalKeys = 0;
-                                for (var key in $scope.list_keys){
-                                    var keyCost = $scope.list_keys[key].key.priceFabric
-                                    if (subTotalKeys == 0){
-                                        subTotalKeys = Number(keyCost);
-                                    }else{
-                                        subTotalKeys = Number(subTotalKeys)+Number(keyCost);
-                                    }
-                                }
-                                $scope.ticket.cost.keys = subTotalKeys.toFixed(2);
-                                $scope.costs.keys.cost  = subTotalKeys.toFixed(2);
-                            }else{
-                                subTotalKeys = $scope.costs.keys.cost;
-                                subTotalKeys = $scope.ticket.cost.keys;
-                            }
-                            //DELIVERY COSTS
-                            var subTotalDelivery = 0;
-                            if (!$scope.costs.delivery.manual){
-                                if ($scope.deliveryCostFree==0){
-                                    var subTotalDelivery = 0;
-                                    if ($scope.ticket.delivery.idTypeDeliveryKf!=1){
-                                        if (($scope.ticket.delivery.whoPickUp.id==undefined && $scope.ticket.delivery.idDeliveryTo!=null && $scope.ticket.delivery.idDeliveryTo<=2) || 
-                                            ($scope.ticket.delivery.idDeliveryTo==null && $scope.ticket.delivery.whoPickUp.id==2)){
-                                            $scope.ticket.cost.delivery=$scope.ticket.building.valor_envio;
-                                            subTotalDelivery = Number($scope.ticket.building.valor_envio);
-                                            $scope.costs.delivery.cost=subTotalDelivery.toFixed(2);
+                                if (!$scope.costs.keys.manual){
+                                    var subTotalKeys = 0;
+                                    for (var key in $scope.list_keys){
+                                        var keyCost = $scope.list_keys[key].key.priceFabric
+                                        if (subTotalKeys == 0){
+                                            subTotalKeys = Number(keyCost);
                                         }else{
-                                            $scope.ticket.cost.delivery=$scope.ticket.delivery.zone.valor_envio;
-                                            subTotalDelivery = Number($scope.ticket.delivery.zone.valor_envio);
-                                            $scope.costs.delivery.cost=subTotalDelivery.toFixed(2);
+                                            subTotalKeys = Number(subTotalKeys)+Number(keyCost);
                                         }
-                                    }else{
-                                        $scope.ticket.cost.delivery = subTotalDelivery.toFixed(2);
-                                        $scope.costs.delivery.cost  = subTotalDelivery.toFixed(2);
                                     }
+                                    $scope.ticket.cost.keys = subTotalKeys.toFixed(2);
+                                    $scope.costs.keys.cost  = subTotalKeys.toFixed(2);
+                                }else{
+                                    subTotalKeys = $scope.costs.keys.cost;
+                                    subTotalKeys = $scope.ticket.cost.keys;
                                 }
-                            }else{
-                                subTotalDelivery=$scope.costs.delivery.cost;
-                                subTotalDelivery=$scope.ticket.cost.delivery;
-                            }
+                            //DELIVERY COSTS
+                                var subTotalDelivery = 0;
+                                if (!$scope.costs.delivery.manual){
+                                    if ($scope.deliveryCostFree==0){
+                                        var subTotalDelivery = 0;
+                                        if ($scope.ticket.delivery.idTypeDeliveryKf!=1){
+                                            if (($scope.ticket.delivery.whoPickUp.id==undefined && $scope.ticket.delivery.idDeliveryTo!=null && $scope.ticket.delivery.idDeliveryTo<=2) || 
+                                                ($scope.ticket.delivery.idDeliveryTo==null && $scope.ticket.delivery.whoPickUp.id==2)){
+                                                $scope.ticket.cost.delivery=$scope.ticket.building.valor_envio;
+                                                subTotalDelivery = Number($scope.ticket.building.valor_envio);
+                                                $scope.costs.delivery.cost=subTotalDelivery.toFixed(2);
+                                            }else{
+                                                $scope.ticket.cost.delivery=$scope.ticket.delivery.zone.valor_envio;
+                                                subTotalDelivery = Number($scope.ticket.delivery.zone.valor_envio);
+                                                $scope.costs.delivery.cost=subTotalDelivery.toFixed(2);
+                                            }
+                                        }else{
+                                            $scope.ticket.cost.delivery = subTotalDelivery.toFixed(2);
+                                            $scope.costs.delivery.cost  = subTotalDelivery.toFixed(2);
+                                        }
+                                    }
+                                }else{
+                                    subTotalDelivery=$scope.costs.delivery.cost;
+                                    subTotalDelivery=$scope.ticket.cost.delivery;
+                                }
                             //SERVICE COSTS
-                            var subTotalService = 0;
-                            if (!$scope.costs.service.manual){
                                 var subTotalService = 0;
-                                subTotalService = Number($scope.ticket.cost.service);
-                                $scope.costs.service.cost=subTotalService.toFixed(2);
-                            }else{
-                                subTotalService=$scope.costs.service.cost;
-                                subTotalService=$scope.ticket.cost.service;
-                            }
+                                if (!$scope.costs.service.manual){
+                                    var subTotalService = 0;
+                                    subTotalService = Number($scope.ticket.cost.service);
+                                    $scope.costs.service.cost=subTotalService.toFixed(2);
+                                }else{
+                                    subTotalService=$scope.costs.service.cost;
+                                    subTotalService=$scope.ticket.cost.service;
+                                }
                         }
                         //TOTAL COST
                         var subTotalCosts = 0;
@@ -2894,7 +2895,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.new.ticket.idTypeDeliveryKf  = obj.delivery.idTypeDeliveryKf
                         $scope.new.ticket.keys = [];
                         for (var i = 0; i < $scope.list_keys.length; i++) {
-                            var idUserKf = $scope.list_keys[i].key.userSelected !=undefined?$scope.list_keys[i].key.userSelected.idUser:null;
+                            var idUserKf = $scope.list_keys[i].user!=undefined?$scope.list_keys[i].user.idUser:null;
                             $scope.new.ticket.keys.push({'idProductKf':$scope.list_keys[i].key.idProduct, 'idCategoryKf':$scope.list_keys[i].key.idCategoryKf, 'idUserKf':idUserKf, 'idDepartmenKf':$scope.list_keys[i].key.idDepartmenKf, 'isKeyTenantOnly':$scope.list_keys[i].key.isKeyTenantOnly, 'idClientKf':$scope.list_keys[i].key.idClientKf,'doors':$scope.list_keys[i].doors});
                         }
                         switch (obj.optionTypeSelected.name){
@@ -2998,7 +2999,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     $scope.new.ticket.thirdPersonDelivery   = {'fullName':null, 'movilPhone':null, 'dni':null, 'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
                                 }else{
                                     $scope.new.ticket.idWhoPickUp           = obj.delivery.whoPickUp.id;
-                                    $scope.new.ticket.thirdPersonDelivery   = {'fullName':obj.delivery.thirdPerson.fullNameUser, 'movilPhone':obj.delivery.thirdPerson.movilPhone, 'dni':null, 'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
+                                    $scope.new.ticket.thirdPersonDelivery   = {'fullName':obj.delivery.thirdPerson.fullNameUser, 'movilPhone':obj.delivery.thirdPerson.movilPhone, 'dni':obj.delivery.thirdPerson.dni, 'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
                                 }
                             }else{
                                 $scope.new.ticket.idDeliveryTo              = obj.delivery.idDeliveryTo;
@@ -3035,21 +3036,27 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.new.ticket.history                       = [];
                         $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"1"});
                         if (obj.building.autoApproveAll=="1"){
-                            $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': 'Pedido auto aprobado por el consorcio, automaticamente, para todos los habitantes.', 'idCambiosTicketKf':"2"});
+                            //SET AUTO APPROVED HISTORY ROW FOR ALL
+                            $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido auto aprobado por el consorcio, automaticamente, para todos los habitantes.', 'idCambiosTicketKf':"2"});
                             $scope.new.ticket.status = 3;
                         }else if (obj.building.autoApproveOwners=="1" && ($scope.new.ticket.idUserRequestByProfile == "3" ||$scope.new.ticket.idUserRequestByProfile == "4" || $scope.new.ticket.idUserRequestByProfile == "6") && $scope.new.ticket.idUserRequestByTypeTenant=="1"){
-                            $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': 'Pedido auto aprobado por el consorcio, automaticamente, solo para propietarios.', 'idCambiosTicketKf':"2"});
+                            //SET AUTO APPROVED HISTORY ROW FOR OWNERS ONLY
+                            $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido auto aprobado por el consorcio, automaticamente, solo para propietarios.', 'idCambiosTicketKf':"2"});
                             $scope.new.ticket.status = 3;
                         }else{
-                            //ONLY IF REQUEST ARE NOT ALLOWED
-                            $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"3"});
+                            //SET APPROVAL IS REQUIRED HISTORY
+                            $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
                             $scope.new.ticket.status = 2;
                         }
-                        if ($scope.new.ticket.status == 3 && obj.building.chargeForExpenses=="1" && $scope.new.ticket.idTypePaymentKf=="1"){
-                            $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': 'Pedido sera pagado por expensas, habilitado por el consorcio.', 'idCambiosTicketKf':"4"});
+                        if (($scope.new.ticket.status == 3 && obj.building.autoApproveAll=="1" && obj.building.chargeForExpenses=="1" && $scope.new.ticket.idTypePaymentKf=="1") || ($scope.new.ticket.status == 3 && obj.building.autoApproveOwners=="1" && obj.building.chargeForExpenses=="1" && $scope.new.ticket.idTypePaymentKf=="1")){
+                            //SET PAYMENT APPROVED & ALLOWED BY THE BUILDING
+                            $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido sera pagado por expensas, habilitado por el consorcio.', 'idCambiosTicketKf':"4"});
+                        }else if ($scope.new.ticket.status == 3 && ((obj.building.autoApproveOwners==null || obj.building.autoApproveOwners=="0") && (obj.building.autoApproveAll==null || obj.building.autoApproveAll=="0")) && obj.building.chargeForExpenses=="1" && $scope.new.ticket.idTypePaymentKf=="1"){
+                            $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
+                            $scope.new.ticket.status = 2;
                         }else if ($scope.new.ticket.status == 3 && (obj.building.chargeForExpenses==null || obj.building.chargeForExpenses=="1") && $scope.new.ticket.idTypePaymentKf!="1"){
                             //ONLY IF REQUEST PAYMENT OPTION IS 2
-                            $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"5"});
+                            $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"5"});
                         }
                         console.log($scope.new.ticket);
                         $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
@@ -3098,7 +3105,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     $('.checkmark').toggle();
                     $scope.ticketRegistered = response.data.response[0];
                   }, 2500);
-                  if(response.data.response[0].idTypePaymentKf=="2"){
+                  if(response.data.response[0].idStatusTicketKf=="3" && response.data.response[0].idTypePaymentKf=="2"){
                     $timeout(function() {
                         $scope.mainSwitchFn("linkMP",response.data.response[0],null);
                     }, 2700);
@@ -3182,7 +3189,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         });
                     }
                 });
-                };
+            };
             $scope._getData2DelKey = function () {
 
                 var delKey =

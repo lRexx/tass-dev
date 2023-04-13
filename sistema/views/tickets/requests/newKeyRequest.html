@@ -177,7 +177,7 @@
 					<fieldset class="animate-switch" ng-switch-when="PASO 2: LLAVEROS DE LA SOLICITUD">
 						<div class="row" ng-show="ticket.optionTypeSelected.name=='department'">
 							<div class="container-fluid justify-content-md-center">
-								<legend style="text-align: center;">Habitante Solicitante</legend>
+								<legend style="text-align: center;">Solicitante</legend>
 								<div class="panel-body n-padding-l n-padding-r">
 									<!--*********DEPARTAMENTOS ***********-->
 									<div ng-if="sysLoggedUser.idProfileKf" class="n-padding-l n-padding-r">
@@ -197,7 +197,7 @@
 													<input id="typeTenant2" class="radio-custom" ng-click="mainSwitchFn('list_tenants', null); enabledNextBtn();" type="radio" name="typeTenant" value="2" ng-model="ticket.radioButtonDepartment" required autofocus>
 													<label for="typeTenant2" class="radio-custom-label">
 														<!--<span ng-show="sysLoggedUser.idProfileKf==5 || (sysLoggedUser.idProfileKf==6 && sysLoggedUser.idTypeTenantKf==2)">{{sysLoggedUser.fullNameUser}}</span>-->
-														<span ng-show="sysLoggedUser.idProfileKf!=5 || (sessionidProfil!=6 && sysLoggedUser.idTypeTenantKf!=1)">Inquilino
+														<span ng-show="sysLoggedUser.idProfileKf!=5 || (sessionidProfil!=6 && sysLoggedUser.idTypeTenantKf!=1)">Habitante
 															<span ng-if="ticket.radioButtonDepartment==2 && selectedRequestKeyOwnerUser!=undefined" class="label font-size-16px label-custom-1">{{selectedRequestKeyOwnerUser.fullNameUser}} <button ng-click="mainSwitchFn('list_tenants', null, null);" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button></span>
 															<span ng-if="ticket.radioButtonDepartment==2 && selectedRequestKeyOwnerUser==undefined" class="label font-size-16px label-custom-2">No asignado <button ng-click="mainSwitchFn('list_tenants', null, null);" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button></span>
 														</span>

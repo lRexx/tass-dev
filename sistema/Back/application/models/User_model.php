@@ -516,7 +516,7 @@ class User_model extends CI_Model
 		/*MAIL*/
 		$title = "Mail de Clave de Acceso a Coferba";
 		$body  = "Se Restablecio su clave de acceso!<br> Usuario: " . $user['emailUser'] . "<br> Clave: " . $recoverRamdonPwd . " <br> Le Recomendamos luego de acceder cambie su clave!";
-		$m     = $this->mail_model->sendMail($title, $user['emailUser'], $body);
+		$m     = $this->mail_model->sendMail($title, $user['emailUser'], $body, $title);
 
 
 		if ($this->db->affected_rows() === 1) {

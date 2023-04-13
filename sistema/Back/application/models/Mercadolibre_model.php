@@ -18,20 +18,20 @@ class Mercadolibre_model extends CI_Model
 			$uri = 'https://devtass.sytes.net/mpago/index.php';
 			//$uri   = 'https://www.libreando.com.ar/mpago/index.php'; //solo server
 			$param = [
-				"clienteid" 		=> '8877359900700578' ,
-				"clientesecret" 	=> 'al5TAYSIdZPx2lzzU64DFgSX67SDrhsr' ,
-				#"Authorization" 	=> "Bearer TEST-8877359900700578-012401-cc12a648254efb51f0c30f4b394955f6-1177407195",
-				"currency_id" 		=> "ARG",
-				"unit_price" 		=> $data->monto ,
-				"id" 				=> $data->idTicket ,
-				"title" 			=> $data->ticket_number ,
-				//"uri"         	=> "http://localhost:8000/api/v1/addInfoPagoMercadoLibre",
-				"notification_url" 	=> $data->linkDeNotificacion ,
-				//"uri"           	=> "http://bioonix.com/libreando/libreando/backend/public/api/v1/addInfoPagoMercadoLibre",  //solo server
-				"description" 		=> $data->description,
-				"quantity" 			=> $data->quantity,
+				"clienteid" 		 => '8877359900700578' ,
+				"clientesecret" 	 => 'al5TAYSIdZPx2lzzU64DFgSX67SDrhsr' ,
+				#"Authorization" 	 => "Bearer TEST-8877359900700578-012401-cc12a648254efb51f0c30f4b394955f6-1177407195",
+				"currency_id" 		 => "ARG",
+				"unit_price" 		 => $data->monto ,
+				"id" 				 => $data->idTicket ,
+				"title" 			 => $data->ticket_number ,
+				//"uri"         	 => "http://localhost:8000/api/v1/addInfoPagoMercadoLibre",
+				"notification_url" 	 => $data->linkDeNotificacion ,
+				//"uri"           	 => "http://bioonix.com/libreando/libreando/backend/public/api/v1/addInfoPagoMercadoLibre",  //solo server
+				"description" 		 => $data->description,
+				"quantity" 			 => $data->quantity,
 				"external_reference" => $external_reference ,
-				"back_url" 			=> $data->back_url ,
+				"back_url" 			 => $data->back_url ,
 			];
 			//print_r($param);
 			$post_url;

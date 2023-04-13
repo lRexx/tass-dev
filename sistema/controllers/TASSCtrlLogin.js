@@ -112,7 +112,7 @@ login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams
                   ttl:5000, type: 'danger'
                   });
                 }else{
-                  var attempsToken = JSON.parse(localStorage.getItem("attempsToken"));
+                  var attempsToken = JSON.parse(sessionStorage.getItem("attempsToken"));
                   $scope.mailCheckCount = attempsToken.attempsCount;
 
                   if($scope.mailCheckCount==3){
@@ -161,7 +161,7 @@ login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams
   *                                                 *
   **************************************************/
       $scope.sysCheckPasswordLogin = function(){
-        var attempsToken = JSON.parse(localStorage.getItem("attempsToken"));
+        var attempsToken = JSON.parse(sessionStorage.getItem("attempsToken"));
           $scope.mailCheckCount = attempsToken.attempsCount;
           if($scope.mailCheckCount==3){
             $scope.checkPasswdLogin = 1;

@@ -862,9 +862,9 @@
         **************************************************/
           $scope.logout = function(){
             $scope.rsJSON = "";
-            localStorage.removeItem('sysToken');
-            localStorage.removeItem('sysLoggedUser');
-            localStorage.removeItem('sysLoggedUserModules');
+            sessionStorage.removeItem('sysToken');
+            sessionStorage.removeItem('sysLoggedUser');
+            sessionStorage.removeItem('sysLoggedUserModules');
             $scope.sysToken = false;
             $scope.sysLoggedUser = false;
             $location.path("/login");
@@ -960,9 +960,9 @@
                   $timeout.cancel(TimeOut_Thread);
                   $interval.cancel(timeOutCounter);
                   $interval.cancel(intervalCounter);
-                  localStorage.removeItem('sysToken');
-                  localStorage.removeItem('sysLoggedUser');
-                  localStorage.removeItem('sysLoggedUserModules');
+                  sessionStorage.removeItem('sysToken');
+                  sessionStorage.removeItem('sysLoggedUser');
+                  sessionStorage.removeItem('sysLoggedUserModules');
                   $('#sessionExpiredModal').modal('hide');
                   blockUI.start('Cerrando session...');
                   $scope.rsJSON = "";

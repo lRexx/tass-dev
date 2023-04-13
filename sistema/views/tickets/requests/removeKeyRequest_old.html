@@ -103,7 +103,7 @@
 													  	</button>
 													  <ul class="dropdown-menu" role="menu">
 													    <li ng-if="sessionidProfile!=3 && sessionidProfile!=5"><a ng-click="sysFunctionsTenant('open','add')"><i title="Registrar Propietario" class="fas fa-user"></i>  Propietario</a></li>
-													    <li><a ng-click="sysFunctionsTenant('open', 'add')"><i title="Registrar Inquilino" class="fas fa-user-friends"></i> Inquilino</a></li>
+													    <li><a ng-click="sysFunctionsTenant('open', 'add')"><i title="Registrar Habitante" class="fas fa-user-friends"></i> Habitante</a></li>
 													  </ul>
 													</div>
 								                </li>-->
@@ -126,7 +126,7 @@
 																  		<input id="typeTenant2" class="radio-custom" ng-click="getData(2); saveTenant=false; enabledNextBtn();" type="radio" name="typeTenant" value="2" ng-model="typeTenant" required autofocus>
 																  		<label for="typeTenant2" class="radio-custom-label">
 																	  		<span ng-show="sessionidProfile==5">{{sessionNames}}</span>
-																	  		<span ng-show="sessionidProfile!=5">Inquilino</span>
+																	  		<span ng-show="sessionidProfile!=5">Habitante</span>
 															  			</label> 
 															  		</div>
 															 	</div>

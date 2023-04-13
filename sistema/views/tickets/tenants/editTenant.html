@@ -6,7 +6,7 @@
                 <button type="button" class="close" ng-click="modalConfirmation('closeWindow', 0, null)"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
                 <h3 class="modal-title"><i class="product-success fas fa-user"></i> MODIFICAR 
                     <span class="badge badge-default font-size-18px" ng-if="tenant.update.idTypeTenantKf==1">PROPIETARIO</span>
-                    <span class="badge badge-default font-size-18px" ng-if="tenant.update.idTypeTenantKf==2">INQUILINO</span>
+                    <span class="badge badge-default font-size-18px" ng-if="tenant.update.idTypeTenantKf==2">HABITANTE</span>
                     <span> :: EN EL DEPARTAMENTO: <span class="badge badge-default font-size-18px">{{tenant.update.depto}}</span></span>
                     <span class="badge badge-success" ng-if="tenant.update.idStatusKf=='1'"><i class="fas fa-check-circle"></i> {{tenant.update.statusTenantName}}</span>
                     <span class="badge badge-warning" ng-if="tenant.update.idStatusKf=='0'"><i class="fas fa-exclamation-triangle"></i> {{tenant.update.statusTenantName}}</span>
