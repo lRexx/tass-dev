@@ -20,7 +20,7 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
           },
           /* ADD TICKET */
           addUpRequest: function(ticket) {
-            console.log("List all tickets or list by filters selected");
+            console.log("Adding ticket service :: Triggered");
             //console.log(ticket);
             return $http.post(serverHost+serverBackend+"Ticket/index2",ticket, serverHeaders)
               .then(function mySucess(response) {
@@ -148,18 +148,16 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
             });   
           },
           /* UPDATE TICKET */
-          updateTicket: function(tkUpdateData) {
-              console.log("ACTUALIZANDO TICKET");
+          updateUpRequest: function(ticket) {
+              console.log("Updating ticket service :: Triggered");
               //console.log(tkUpdateData);
-              return $http.post(serverHost+serverBackend+"Ticket/update",tkUpdateData, serverHeaders)
+              return $http.post(serverHost+serverBackend+"Ticket/update",ticket, serverHeaders)
                 .then(function mySucess(response) {
-                  checkResult = 1;
-                  return checkResult;
-              },function myError(response) { 
-                console.log(response.data); 
-                checkResult = 0;
-                return checkResult;
-              });
+                  return response;
+                },function myError(response) { 
+                  console.log("Error: "+response.data.error); 
+                  return response;
+                })
           },
           /* ADD TEMPORAL DELIVERY DATA TICKET */
           tmpDeliveryData: function(ticket) {

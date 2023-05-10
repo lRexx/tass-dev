@@ -283,7 +283,7 @@ class Ticket extends REST_Controller {
 
                 $rs = $this->ticket_model->update($this->post('ticket'));
                 if (!is_null($rs)) {
-                    $this->response("Actualizado", 200);
+                    $this->response(array('response' => $rs) , 200);
                 } else {
                     $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
                 }

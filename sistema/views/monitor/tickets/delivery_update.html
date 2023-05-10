@@ -17,8 +17,13 @@
                                         <div class="form-check form-check-inline">
                                             <div class="col-md-12 n-padding-l n-padding-r">
                                                 <div ng-repeat="item in typedelivery" class="col-md-5 col-xs-5 col-md-offset-1">
-                                                    <input id="idTypeDeliveryKf-{{item.idTypeDelivery}}" class="radio-custom" type="radio" ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery, null); enabledNextBtn();" name="idTypeDeliveryKf" value="{{item.idTypeDelivery}}" ng-model="ticket.delivery.idTypeDeliveryKf" required autofocus>
-                                                    <label for="idTypeDeliveryKf-{{item.idTypeDelivery}}" class="radio-custom-label">
+                                                    <input id="idTypeDeliveryKf-{{item.idTypeDelivery}}" 
+                                                            class="radio-custom" type="radio" 
+                                                            ng-disabled="ticket.selected.idTypeDeliveryKf==item.idTypeDelivery" 
+                                                            ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery, null); enabledNextBtn();" 
+                                                            name="idTypeDeliveryKf" value="{{item.idTypeDelivery}}" 
+                                                            ng-model="ticket.delivery.idTypeDeliveryKf" required autofocus>
+                                                    <label for="idTypeDeliveryKf-{{item.idTypeDelivery}}" ng-class="{'radio-custom-label-disabled':ticket.selected.idTypeDeliveryKf==item.idTypeDelivery}"  class="radio-custom-label">
                                                         <span>{{item.typeDelivery}}</span>
                                                     </label>
                                                 </div>

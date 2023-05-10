@@ -195,10 +195,22 @@ login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams
   /**************************************************/
   /**************************************************
   *                                                 *
+  *                  SYS TOKEN GEN                  *
+  *                                                 *
+  **************************************************/      
+    $scope.sysTokenFn = function(vLength){
+        $scope.charters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_.:';
+        var randomString = '';
+        for (i = 0; i < vLength; i++) {
+            randomString += $scope.charters.charAt(Math.floor(Math.random() * $scope.charters.length));
+        }
+        return randomString;
+    }
+  /**************************************************
+  *                                                 *
   *                LOGIN DE USUARIO                 *
   *                                                 *
   **************************************************/
-
       $scope.sysLoginUser = function(value){
         $scope.loggedSession        = null;
         $scope.checkEmailLogin      = 0;
@@ -216,9 +228,10 @@ login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams
                 $scope.sysToken             = tokenSystem.getTokenStorage(1);
                 $scope.sysLoggedUser        = tokenSystem.getTokenStorage(2);
                 $scope.sysLoggedUserModules = tokenSystem.getTokenStorage(6);
-                $cookies.put('sysToken', true);
-                $cookies.putObject('sysLoggedUser', $scope.loggedSession);
-                $cookies.putObject('sysLoggedUserModules', $scope.loggedSession.modules);
+                $scope.sessionToken = $scope.sysTokenFn(256);
+                $cookies.put('sysToken', $scope.sessionToken);
+                //$cookies.putObject('sysLoggedUser', $scope.loggedSession);
+                //$cookies.putObject('sysLoggedUserModules', $scope.loggedSession.modules);
                 $window.location.reload();
               break;
               case 2:

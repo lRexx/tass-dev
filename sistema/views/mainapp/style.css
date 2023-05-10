@@ -1659,10 +1659,10 @@ input:checked + .slider-3x:before {
 }
 
 .n-padding-t{
-  padding-top: 0px;
+  padding-top: 0px !important;;
 } 
 .n-padding-b{
-  padding-bottom: 0px;
+  padding-bottom: 0px !important;;
 }
 .n-padding-l{
   padding-left: 0px !important;

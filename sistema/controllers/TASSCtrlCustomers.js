@@ -616,7 +616,9 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
       *              GET CUSTOMER BY NAME               *
       *                                                 *
       **************************************************/
+        $scope.searchboxfilterDB=null;
         $scope.getCustomersByNameFn = function(clientName, strict) {
+          console.log(clientName);
           if(clientName.length>=2){
             if (clientName!=undefined && clientName!='' && clientName!=null){
               $scope.getCustomerLisServiceFn(clientName, $scope.customersSearch.isNotCliente, $scope.customersSearch.idClientTypeFk, "", "10", strict).then(function(response) {
@@ -650,6 +652,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
       *                                                 *
       **************************************************/
           $scope.realItemList = null;
+          $scope.searchboxfilterOffline=null;
           $scope.offlineSearch = function (sourceList, qvalue1, qvalue2, vStrict) {
             console.log("[search]-->qvalue1: "+qvalue1);
             console.log("[search]-->qvalue2: "+qvalue2);

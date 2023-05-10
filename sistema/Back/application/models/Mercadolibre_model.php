@@ -14,6 +14,7 @@ class Mercadolibre_model extends CI_Model
 	{	
 		$data               = json_decode(json_encode($data));
 		$external_reference = $data->idTicket."_".(rand() * 8) . "_" . (time() * 4);
+		$paymentFor = $data->metadata->paymentFor;
 		try {
 			$uri = 'https://devtass.sytes.net/mpago/index.php';
 			//$uri   = 'https://www.libreando.com.ar/mpago/index.php'; //solo server
@@ -68,7 +69,7 @@ class Mercadolibre_model extends CI_Model
 					$ticketObj['history']['idUserKf'] 			= "1";
 					$ticketObj['history']['idTicketKf']  		= $data->idTicket;
 					$ticketObj['history']['descripcion'] 		= "";
-					$ticketObj['history']['idCambiosTicketKf'] 	= "5";
+					$ticketObj['history']['idCambiosTicketKf'] 	= $paymentFor==1?"5":"18";
 					$this->Ticket_model->addTicketTimeline($ticketObj);
 				return json_encode([
 					'message' => 'Datos registrados exitosamente' ,
@@ -242,6 +243,9 @@ class Mercadolibre_model extends CI_Model
 
     public function addPayment($data) {
 		$idPaymentKf = null;
+		if (@$data['idPayment']){
+			$this->db->delete('tb_mp_payments' , ['idPayment' => $data['idPayment']]);
+		}
         $this->db->insert('tb_mp_payments', [
                 'mp_preference_id'        => $data['id'],
                 'mp_client_id'   		  => $data['client_id'],
@@ -258,11 +262,19 @@ class Mercadolibre_model extends CI_Model
 
 		if ($this->db->affected_rows() === 1) {
 			$idPaymentKf = $this->db->insert_id();
-			$this->db->set(
-				array(
-					'idPaymentKf' => $idPaymentKf
-				)
-			)->where("idTicket", $data['idTicketKf'])->update("tb_tickets_2");
+			if (! $data['paymentForDelivery']){
+				$this->db->set(
+					array(
+						'idPaymentKf' => $idPaymentKf
+					)
+				)->where("idTicket", $data['idTicketKf'])->update("tb_tickets_2");
+			}else{
+				$this->db->set(
+					array(
+						'idPaymentDeliveryKf' => $idPaymentKf
+					)
+				)->where("idTicket", $data['idTicketKf'])->update("tb_tickets_2");
+			}
 			$lastPaymentAddedQuery = null;
 			$lastPaymentAddedQuery = $this->paymentById($idPaymentKf);
 			return $lastPaymentAddedQuery;

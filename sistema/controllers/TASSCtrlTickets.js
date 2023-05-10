@@ -2974,7 +2974,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 switch (obj.radioButtonBuilding){
                                     case "1":$scope.new.ticket.idTypeRequestFor = 6;
                                     break;
-                                    case "2":$scope.new.ticket.idTypeRequestFor = 6;
+                                    case "2":$scope.new.ticket.idTypeRequestFor = 5;
                                     break;
                                     case "3":$scope.new.ticket.idTypeRequestFor = 3;
                                     break;
@@ -3035,28 +3035,48 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         //HISTORY TICKET CHANGES
                         $scope.new.ticket.history                       = [];
                         $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"1"});
-                        if (obj.building.autoApproveAll=="1"){
-                            //SET AUTO APPROVED HISTORY ROW FOR ALL
-                            $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido auto aprobado por el consorcio, automaticamente, para todos los habitantes.', 'idCambiosTicketKf':"2"});
-                            $scope.new.ticket.status = 3;
-                        }else if (obj.building.autoApproveOwners=="1" && ($scope.new.ticket.idUserRequestByProfile == "3" ||$scope.new.ticket.idUserRequestByProfile == "4" || $scope.new.ticket.idUserRequestByProfile == "6") && $scope.new.ticket.idUserRequestByTypeTenant=="1"){
-                            //SET AUTO APPROVED HISTORY ROW FOR OWNERS ONLY
-                            $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido auto aprobado por el consorcio, automaticamente, solo para propietarios.', 'idCambiosTicketKf':"2"});
-                            $scope.new.ticket.status = 3;
+                        if($scope.new.ticket.idTypeRequestFor==1){
+                            if (obj.building.autoApproveAll=="1"){
+                                //SET AUTO APPROVED HISTORY ROW FOR ALL
+                                $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
+                                $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido auto aprobado por el consorcio, automaticamente, para todos los habitantes.', 'idCambiosTicketKf':"2"});
+                                $scope.new.ticket.status = 3;
+                            }else if (obj.building.autoApproveOwners=="1" && ($scope.new.ticket.idUserRequestByProfile == "3" ||$scope.new.ticket.idUserRequestByProfile == "4" || $scope.new.ticket.idUserRequestByProfile == "6") && $scope.new.ticket.idUserRequestByTypeTenant=="1"){
+                                //SET AUTO APPROVED HISTORY ROW FOR OWNERS ONLY
+                                $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
+                                $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido auto aprobado por el consorcio, automaticamente, solo para propietarios.', 'idCambiosTicketKf':"2"});
+                                $scope.new.ticket.status = 3;
+                            }else{
+                                //SET APPROVAL IS REQUIRED HISTORY
+                                $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
+                                $scope.new.ticket.status = 2;
+                            }
+                            if (($scope.new.ticket.status == 3 && obj.building.autoApproveAll=="1" && obj.building.chargeForExpenses=="1" && $scope.new.ticket.idTypePaymentKf=="1") || ($scope.new.ticket.status == 3 && obj.building.autoApproveOwners=="1" && obj.building.chargeForExpenses=="1" && $scope.new.ticket.idTypePaymentKf=="1")){
+                                //SET PAYMENT APPROVED & ALLOWED BY THE BUILDING
+                                $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido sera pagado por expensas, habilitado por el consorcio.', 'idCambiosTicketKf':"4"});
+                                $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"13"});
+                                $scope.new.ticket.status = 8;
+                            }else if ($scope.new.ticket.status == 3 && ((obj.building.autoApproveOwners==null || obj.building.autoApproveOwners=="0") && (obj.building.autoApproveAll==null || obj.building.autoApproveAll=="0")) && obj.building.chargeForExpenses=="1" && $scope.new.ticket.idTypePaymentKf=="1"){
+                                $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
+                                $scope.new.ticket.status = 2;
+                            }else if ($scope.new.ticket.status == 3 && (obj.building.chargeForExpenses==null || obj.building.chargeForExpenses=="1") && $scope.new.ticket.idTypePaymentKf!="1"){
+                                //ONLY IF REQUEST PAYMENT OPTION IS 2
+                                //$scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"5"});
+                            }
+                        }else if($scope.new.ticket.idTypeRequestFor!=1 && $scope.new.ticket.idTypeRequestFor!=3 && $scope.new.ticket.idTypeRequestFor!=5 && $scope.new.ticket.idTypeRequestFor!=6){
+                            if (($scope.new.ticket.idUserRequestByProfile == "4" && obj.building.chargeForExpenses=="1" && $scope.new.ticket.idTypePaymentKf=="1") || $scope.sysLoggedUser.idProfileKf=="1"){
+                                $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
+                                $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido auto aprobado por la Administración automaticamente.', 'idCambiosTicketKf':"2"});
+                                $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"13"});
+                                $scope.new.ticket.status = 8;
+                            }
                         }else{
-                            //SET APPROVAL IS REQUIRED HISTORY
-                            $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
-                            $scope.new.ticket.status = 2;
-                        }
-                        if (($scope.new.ticket.status == 3 && obj.building.autoApproveAll=="1" && obj.building.chargeForExpenses=="1" && $scope.new.ticket.idTypePaymentKf=="1") || ($scope.new.ticket.status == 3 && obj.building.autoApproveOwners=="1" && obj.building.chargeForExpenses=="1" && $scope.new.ticket.idTypePaymentKf=="1")){
-                            //SET PAYMENT APPROVED & ALLOWED BY THE BUILDING
-                            $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido sera pagado por expensas, habilitado por el consorcio.', 'idCambiosTicketKf':"4"});
-                        }else if ($scope.new.ticket.status == 3 && ((obj.building.autoApproveOwners==null || obj.building.autoApproveOwners=="0") && (obj.building.autoApproveAll==null || obj.building.autoApproveAll=="0")) && obj.building.chargeForExpenses=="1" && $scope.new.ticket.idTypePaymentKf=="1"){
-                            $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
-                            $scope.new.ticket.status = 2;
-                        }else if ($scope.new.ticket.status == 3 && (obj.building.chargeForExpenses==null || obj.building.chargeForExpenses=="1") && $scope.new.ticket.idTypePaymentKf!="1"){
-                            //ONLY IF REQUEST PAYMENT OPTION IS 2
-                            $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"5"});
+                            if (($scope.new.ticket.idUserRequestByProfile == "4" && obj.building.chargeForExpenses=="1" && $scope.new.ticket.idTypePaymentKf=="1") || $scope.sysLoggedUser.idProfileKf=="1"){
+                                $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
+                                $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido auto aprobado por la Administración automaticamente.', 'idCambiosTicketKf':"2"});
+                                $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido sera pagado por expensas, habilitado por el consorcio.', 'idCambiosTicketKf':"4"});
+                                $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"13"});
+                            }
                         }
                         console.log($scope.new.ticket);
                         $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
@@ -3072,14 +3092,15 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         console.log("[New MP Payment Link]");
                         console.log(obj);
                         $scope.mp.link={'new':{'data':{}},'url':null}; //codTicket
-                        $scope.mp.link.new.data={'idPago': null,'monto':  null,'linkDeNotificacion':  null,'back_url':  null};
-                        $scope.mp.link.new.data.idTicket            = obj.idTicket;
-                        $scope.mp.link.new.data.ticket_number       = obj.codTicket;
-                        $scope.mp.link.new.data.monto               = Number(parseInt(obj.total));
-                        $scope.mp.link.new.data.linkDeNotificacion  = "https://devtass.sytes.net/Back/index.php/MercadoLibre/getNotificationOfMP";
-                        $scope.mp.link.new.data.back_url            = "https://devtass.sytes.net/monitor";
-                        $scope.mp.link.new.data.description         = obj.typeticket.TypeTicketName;
-                        $scope.mp.link.new.data.quantity            = obj.keys.length;
+                        $scope.mp.link.new.data={'idPago': null,'monto':  null,'linkDeNotificacion':  null,'back_url':  null,'metadata': {}};
+                        $scope.mp.link.new.data.idTicket              = obj.idTicket;
+                        $scope.mp.link.new.data.ticket_number         = obj.codTicket;
+                        $scope.mp.link.new.data.monto                 = Number(parseInt(obj.total));
+                        $scope.mp.link.new.data.linkDeNotificacion    = "https://devtass.sytes.net/Back/index.php/MercadoLibre/getNotificationOfMP";
+                        $scope.mp.link.new.data.back_url              = "https://devtass.sytes.net/monitor";
+                        $scope.mp.link.new.data.description           = obj.typeticket.TypeTicketName;
+                        $scope.mp.link.new.data.quantity              = obj.keys.length;
+                        $scope.mp.link.new.data.metadata.paymentFor   = 1;
                         console.log($scope.mp.link);
                         $scope.mpCreateLinkFn($scope.mp.link.new);                  
                     break;
