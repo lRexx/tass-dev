@@ -27,14 +27,14 @@
                                     'label-default': 
                                     tkupdate.idStatusTicketKf=='2' || tkupdate.idStatusTicketKf=='8',
                                     'label-success':  
-                                    tkupdate.idStatusTicketKf=='3',
+                                    tkupdate.idStatusTicketKf=='3' || tkupdate.idStatusTicketKf=='5',
                                   }">{{tkupdate.statusTicket.statusName}}</span>
                                 </span>
                                 <span ng-if="tkupdate.isCancelRequested=='1'" class="label label-warning" ng-class="{  
                                   'label-default': 
                                   tkupdate.idStatusTicketKf=='2' || tkupdate.idStatusTicketKf=='8',
                                   'label-success':  
-                                  tkupdate.idStatusTicketKf=='3',
+                                  tkupdate.idStatusTicketKf=='3' || tkupdate.idStatusTicketKf=='5',
                                 }">Cancelación solicitada</span>
                               </span>
                               </div>
@@ -278,5 +278,6 @@
 <div ng-if="sysToken" ng-include="'views/monitor/tickets/user_details.html'"></div>
 <div ng-if="sysToken" ng-include="'views/monitor/tickets/payment_details.html'"></div>
 <div ng-if="sysToken" ng-include="'views/monitor/tickets/delivery_update.html'"></div>
+<div ng-if="sysToken" ng-include="'views/monitor/tickets/statusChange.html'"></div>
 <div ng-include="'views/utilities/modalConfirmation.html'"></div>
 <div ng-include="'views/utilities/showModalRequestStatus.html'"></div>

@@ -594,26 +594,28 @@ class Ticket_model extends CI_Model
 
 	public function update($ticket)
 	{
-		if (@$ticket['idDeliveryTo']==1){
+
+		$idOtherDeliveryAddress = null;
+		$idThirdPersonDelivery  = null;
+		if (@$ticket['idDeliveryTo']==1 && isset($ticket['otherDeliveryAddress']['id'])){
 			$this->db->delete('tb_ticket_other_delivery_address' , ['id' => $ticket['otherDeliveryAddress']['id']]);
 		}
 		if (@$ticket['idDeliveryTo']==2){
-			$this->db->set(
-				array(
+			$this->db->insert('tb_ticket_other_delivery_address' , array(
 					"address" 		=> @$ticket['otherDeliveryAddress']['address'] ,
 					"number" 		=> @$ticket['otherDeliveryAddress']['number'] ,
 					"floor" 		=> @$ticket['otherDeliveryAddress']['floor'] ,
 					"idProvinceFk" 	=> @$ticket['otherDeliveryAddress']['idProvinceFk'] ,
 					"idLocationFk" 	=> @$ticket['otherDeliveryAddress']['idLocationFk']
-				))->where("id" , $ticket['otherDeliveryAddress']['id'])->update("tb_ticket_other_delivery_address");
+				));
+				$idOtherDeliveryAddress = $this->db->insert_id();
 		}
 
-		if (@$ticket['idWhoPickUp']!=3){
+		if (@$ticket['idWhoPickUp']!=3 && isset($ticket['thirdPersonDelivery']['id'])){
 			$this->db->delete('tb_ticket_third_person_delivery' , ['id' => $ticket['thirdPersonDelivery']['id']]);
 		}
 		if (@$ticket['idWhoPickUp']==3){
-			$this->db->set(
-				array(
+			$this->db->insert('tb_ticket_third_person_delivery' , array(
 					"fullName" 		=> @$ticket['thirdPersonDelivery']['fullName'] ,
 					"dni" 			=> @$ticket['thirdPersonDelivery']['dni'] ,
 					"movilPhone" 	=> @$ticket['thirdPersonDelivery']['movilPhone'] ,
@@ -622,33 +624,36 @@ class Ticket_model extends CI_Model
 					"floor" 		=> @$ticket['thirdPersonDelivery']['floor'] ,
 					"idProvinceFk" 	=> @$ticket['thirdPersonDelivery']['idProvinceFk'] ,
 					"idLocationFk" 	=> @$ticket['thirdPersonDelivery']['idLocationFk']
-				))->where("id" , $ticket['thirdPersonDelivery']['id'])->update("tb_ticket_third_person_delivery");
+				));
+				$idThirdPersonDelivery = $this->db->insert_id();
 		}
 
 		$this->db->set(
 			array(
-				'idTypeTicketKf' 		=> @$ticket['idTypeTicketKf'] ,
-				'idTypeRequestFor' 		=> @$ticket['idTypeRequestFor'] ,
-				'idUserMadeBy' 			=> @$ticket['idUserMadeBy'] ,
-				'idUserRequestBy' 		=> @$ticket['idUserRequestBy'] ,
-				'idBuildingKf' 			=> @$ticket['idBuildingKf'] ,
-				'idDepartmentKf' 		=> @$ticket['idDepartmentKf'] ,
-				'idTypeDeliveryKf' 		=> @$ticket['idTypeDeliveryKf'] ,
-				'idWhoPickUp' 			=> @$ticket['idWhoPickUp'] ,
-				'idUserDelivery' 		=> @$ticket['idUserDelivery'] ,
-				'idDeliveryTo' 			=> @$ticket['idDeliveryTo'] ,
-				'idDeliveryAddress'		=> @$ticket['idDeliveryAddress'] ,
-				'idTypePaymentKf' 		=> @$ticket['idTypePaymentKf'] ,
-				'sendNotify' 			=> @$ticket['sendNotify'] ,
-				'description' 			=> @$ticket['description'] ,
-				'costService' 			=> @$ticket['costService'] ,
-				'costKeys' 				=> @$ticket['costKeys'] ,
-				'costDelivery' 			=> @$ticket['costDelivery'] ,
-				'total' 				=> @$ticket['total'] ,
-				'urlToken' 				=> @$ticket['urlToken'] ,
-				'autoApproved' 			=> @$ticket['autoApproved'] ,
-				'isNew' 				=> @$ticket['isNew'],
-				'isDeliveryHasChanged'	=> @$ticket['isDeliveryHasChanged']
+				'idTypeTicketKf' 			=> @$ticket['idTypeTicketKf'] ,
+				'idTypeRequestFor' 			=> @$ticket['idTypeRequestFor'] ,
+				'idUserMadeBy' 				=> @$ticket['idUserMadeBy'] ,
+				'idUserRequestBy' 			=> @$ticket['idUserRequestBy'] ,
+				'idBuildingKf' 				=> @$ticket['idBuildingKf'] ,
+				'idDepartmentKf' 			=> @$ticket['idDepartmentKf'] ,
+				'idTypeDeliveryKf' 			=> @$ticket['idTypeDeliveryKf'] ,
+				'idWhoPickUp' 				=> @$ticket['idWhoPickUp'] ,
+				'idUserDelivery' 			=> @$ticket['idUserDelivery'] ,
+				'idDeliveryTo' 				=> @$ticket['idDeliveryTo'] ,
+				'idDeliveryAddress'			=> @$ticket['idDeliveryAddress'] ,
+				'idTypePaymentKf' 			=> @$ticket['idTypePaymentKf'] ,
+				'sendNotify' 				=> @$ticket['sendNotify'] ,
+				'description' 				=> @$ticket['description'] ,
+				'costService' 				=> @$ticket['costService'] ,
+				'costKeys' 					=> @$ticket['costKeys'] ,
+				'costDelivery' 				=> @$ticket['costDelivery'] ,
+				'total' 					=> @$ticket['total'] ,
+				'urlToken' 					=> @$ticket['urlToken'] ,
+				'autoApproved' 				=> @$ticket['autoApproved'] ,
+				'isNew' 					=> @$ticket['isNew'],
+				'idOtherDeliveryAddressKf' 	=> $idOtherDeliveryAddress ,
+				'idThirdPersonDeliveryKf' 	=> $idThirdPersonDelivery ,
+				'isDeliveryHasChanged'		=> @$ticket['isDeliveryHasChanged']
 			)
 		)->where("idTicket" , $ticket['idTicket'])->update("tb_tickets_2");
 
@@ -674,17 +679,31 @@ class Ticket_model extends CI_Model
 		}
 	}
 
-	public function changueStatus($id, $idStatus)
+	public function changueStatus($ticket)
 	{
-		//$id       = $ticket['id'];
-		//$idStatus = $ticket['idStatus'];
+
 		$this->db->set(
 			array(
-				'idStatusTicketKf' => $idStatus
+				'idStatusTicketKf' 			=> @$ticket['idNewStatusKf']
 			)
-		)->where("idTicket" , $id)->update("tb_tickets_2");
+		)->where("idTicket" , $ticket['idTicket'])->update("tb_tickets_2");
 		if ($this->db->affected_rows()===1){
-			return true;
+			$idTicketKf = $ticket['idTicket'];
+			$now        = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
+			if (count(@$ticket['history']) > 0){
+				foreach ($ticket['history'] as $key) {
+					$this->db->insert('tb_ticket_changes_history' , array(
+						"idUserKf" 			=> @$key['idUserKf'] ,
+						"idTicketKf" 		=> $idTicketKf ,
+						"created_at" 		=> $now->format('Y-m-d H:i:s') ,
+						"descripcion" 		=> @$key['descripcion'] ,
+						"idCambiosTicketKf" => @$key['idCambiosTicketKf'] ,
+					));
+				}
+			}
+				$lastTicketUpdatedQuery = null;
+				$lastTicketUpdatedQuery = $this->ticketById($idTicketKf);
+			return $lastTicketUpdatedQuery;
 		} else {
 			return false;
 		}

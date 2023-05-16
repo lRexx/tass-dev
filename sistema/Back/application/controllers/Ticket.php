@@ -111,13 +111,14 @@ class Ticket extends REST_Controller {
         }
     }
     /* SERVICIO CAMBIAR STATUS DE UN TICKET */
-    public function changueStatus_get($id, $idStatus) {
-        if (!$id) {
-            $this->response(NULL, 404);
-        }
+    public function changueStatus_post() {
+
+        if (!$this->post('ticket')){
+			$this->response(null , 404);
+		}
 
         $rs = null;
-        $rs = $this->ticket_model->changueStatus($id, $idStatus);
+        $rs = $this->ticket_model->changueStatus($this->post('ticket'));
 
         if (!is_null($rs)) {
             $this->response($rs, 200);

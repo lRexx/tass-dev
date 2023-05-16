@@ -132,20 +132,17 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
                     return checkResult;
             });   
           },
-          changueStatus: function(id, value) {
-            console.log("[TicketService]=>[changueStatus]: Asignado el id "+value+" de status al ticket N#: "+id);
-              return $http({
-                    method : "GET",
-                    url : serverHost+serverBackend+"Ticket/changueStatus/"+id+"/"+value
-                  }).then(function mySuccess(response) {
-                      ticketResult = 1;
-                      return ticketResult;
-                  },function myError(response) { 
-                        if(!idTmpDeliveryData){
-                            checkResult = 0;
-                        }
-                    return checkResult;
-            });   
+          /*CHANCE STATUS TICKET */
+          changueStatus: function(ticket) {
+            console.log("Changing status ticket service :: Triggered");
+            //console.log(tkUpdateData);
+            return $http.post(serverHost+serverBackend+"Ticket/changueStatus",ticket, serverHeaders)
+              .then(function mySucess(response) {
+                return response;
+              },function myError(response) { 
+                console.log("Error: "+response.data.error); 
+                return response;
+              })
           },
           /* UPDATE TICKET */
           updateUpRequest: function(ticket) {

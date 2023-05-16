@@ -2,9 +2,10 @@
 <div id="UpdateModalDelivery" style="top: 50px;" class="modal fade modal-dialog-centered" role="dialog">
       <div class="modal-dialog modal-lg" >
         <div class="modal-content">
-              <div class="modal-header">
-                <h3 class="modal-title">Moficaci&#243;n de Envio<a data-dismiss="modal" data-toggle="tooltip" data-placement="top" title="Cerrar" class="close"><i  class="glyphicon glyphicon-remove-sign"> </i></a></h3>
-            </div>
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+                    <h3 class="modal-title"><i class="fas fa-truck"></i> [{{ticket.selected.codTicket}}] - <span class="label label-info" >CAMBIO DE ENVÍO</span></h3>
+                </div>
             <div class="modal-body">
                 <!-- FORM CONTAINER-->
                 <div class="container-fluid">
@@ -12,18 +13,19 @@
                         <div class="row">
                             <div class="container-fluid justify-content-md-center">
                                 <div class="panel-body n-padding-l n-padding-r">
-                                    <!--*********TIPO DE ENTREGA ***********-->
+                                    <!-- *********TIPO DE ENTREGA *********** -->
+                                    <!-- ng-disabled="ticket.selected.idTypeDeliveryKf==item.idTypeDelivery" 
+                                    ng-class="{'radio-custom-label-disabled':ticket.selected.idTypeDeliveryKf==item.idTypeDelivery}"-->
                                     <div class="n-padding-l n-padding-r">
                                         <div class="form-check form-check-inline">
                                             <div class="col-md-12 n-padding-l n-padding-r">
                                                 <div ng-repeat="item in typedelivery" class="col-md-5 col-xs-5 col-md-offset-1">
                                                     <input id="idTypeDeliveryKf-{{item.idTypeDelivery}}" 
                                                             class="radio-custom" type="radio" 
-                                                            ng-disabled="ticket.selected.idTypeDeliveryKf==item.idTypeDelivery" 
-                                                            ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery, null); enabledNextBtn();" 
+                                                            ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery, null);" 
                                                             name="idTypeDeliveryKf" value="{{item.idTypeDelivery}}" 
                                                             ng-model="ticket.delivery.idTypeDeliveryKf" required autofocus>
-                                                    <label for="idTypeDeliveryKf-{{item.idTypeDelivery}}" ng-class="{'radio-custom-label-disabled':ticket.selected.idTypeDeliveryKf==item.idTypeDelivery}"  class="radio-custom-label">
+                                                    <label for="idTypeDeliveryKf-{{item.idTypeDelivery}}"   class="radio-custom-label">
                                                         <span>{{item.typeDelivery}}</span>
                                                     </label>
                                                 </div>

@@ -14,7 +14,7 @@
                         <i ng-if="tk.idStatusTicketKf=='3' && tk.isCancelRequested!='1'" class="i-success fas fa-key"></i>
                         <!--<i ng-if="tk.idStatusTicketKf>='3' &&  tk.idTypeTicketKf<=2" class="i-cancel fas fa-key"></i>-->
                         <i ng-if="tk.idStatusTicketKf=='4' && (tk.idUserApprovedTicket) && !tk.idUserCancelTicket &&  tk.idTypeTicketKf<=2" class="i-success fas fa-clock"></i>
-                        <i ng-if="tk.idStatusTicketKf=='5' && (tk.idUserApprovedTicket) && !tk.idUserCancelTicket &&  tk.idTypeTicketKf<=2" class="i-success fas fa-truck"></i>
+                        <i ng-if="tk.idStatusTicketKf=='5' && tk.idTypeTicketKf<=2 && tk.isCancelRequested!='1'" class="i-success fas fa-truck-moving"></i>
                         <i ng-if="tk.idStatusTicketKf=='2' && tk.idTypeTicketKf==3" class="i-default fas fa-wrench"></i>
                         <i ng-if="tk.idStatusTicketKf=='3' && tk.idTypeTicketKf==3 && tk.isCancelRequested!='1'" class="i-success fas fa-wrench"></i>
                         <i ng-if="tk.idStatusTicketKf=='4' && (tk.idUserApprovedTicket) && !tk.idUserCancelTicket && tk.idTypeTicketKf==3" class="i-cancel fas fa-wrench"></i>
@@ -175,6 +175,10 @@
                         </button>
                         <button ng-if="(sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tk.idTypeTicketKf<2 && tk.isCancelRequested=='1'" ng-click="modalConfirmation('reject_cancel_user',0, tk)" type="button" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="left"  title="Rechazar">
                             <i style="font-size: 1em" class="fas fa-window-close"></i> 
+                        </button>
+                        <!-- CHANGE STATUS -->
+                        <button ng-if="sysLoggedUser.idProfileKf==1 && tk.idTypeTicketKf<=2" ng-click="mainSwitchFn('change_ticket_status', tk, null)"" type="button" class="btn btn-xs btn-primary" data-toggle="tooltip" data-placement="left"  title="Status">
+                            <i style="font-size: 1em" class="fas fa-sync"></i>
                         </button>
                     </div>
                 </div>
