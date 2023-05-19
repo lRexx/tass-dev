@@ -1721,6 +1721,7 @@ input:checked + .slider-3x:before {
 .input-font-size{
   font-size: 24px;
 }
+
 /*CHECKBOX MODULES CSS */
 /*CUSTOM LABEL FONT CLASSESS */
 .clf-size{
@@ -1757,6 +1758,36 @@ input:checked + .slider-3x:before {
   cursor: pointer;
   color: white;
 }
+/* ################################ */
+.counter-ticket {
+  background-color: #ffffff;
+  padding: 2px 0;
+  border-radius: 5px;
+}
+
+.count-ticket-title {
+  /*font-size: 40px;*/
+  font-weight: normal;
+  margin-top: 10px;
+  margin-bottom: 0;
+  text-align: center;
+}
+
+.count-ticket-text {
+  font-size: 18px;
+  font-weight: normal;
+  margin-top: 10px;
+  margin-bottom: 0;
+  text-align: center;
+  color: #ffb960;
+}
+.fa-ticket-2x {
+  margin: 0 auto;
+  float: none;
+  display: table;
+  color: #4ad1e5;
+}
+/* ################################ */
 /*ANIMATION TRANSITION TO USE IN THE NGREPEAT NEW SYS PROFILE*/
 .item.ng-move,
 .item.ng-enter,

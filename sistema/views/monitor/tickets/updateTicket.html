@@ -22,23 +22,24 @@
                                 <span> N° de Ticket: {{tkupdate.codTicket}}</span>
                               </div>
                               <div class="col-md-12"><span>Realizado por: {{tkupdate.userMadeBy.fullNameUser}}</span> <span data-toggle="tooltip" data-placement="top"  title="Perfil" style="font-size: 85%;" class="badge badge-warning">{{tkupdate.userMadeBy.nameProfile}}</span></div>
-                              <div class="col-md-12"><span>Estado: 
+                              <div class="col-md-12"><span>Solicitado por: {{tkupdate.userRequestBy.fullNameUser}}</span> <span data-toggle="tooltip" data-placement="top"  title="Perfil" style="font-size: 85%;" class="badge badge-warning">{{tkupdate.userRequestBy.nameProfile}}</span></div>
+                              <div class="col-md-12">
+                                  <span>Estado: 
                                 <span ng-if="tkupdate.isCancelRequested!='1'" class="label" ng-class="{  
                                     'label-default': 
                                     tkupdate.idStatusTicketKf=='2' || tkupdate.idStatusTicketKf=='8',
                                     'label-success':  
                                     tkupdate.idStatusTicketKf=='3' || tkupdate.idStatusTicketKf=='5',
                                   }">{{tkupdate.statusTicket.statusName}}</span>
-                                </span>
-                                <span ng-if="tkupdate.isCancelRequested=='1'" class="label label-warning" ng-class="{  
-                                  'label-default': 
-                                  tkupdate.idStatusTicketKf=='2' || tkupdate.idStatusTicketKf=='8',
-                                  'label-success':  
-                                  tkupdate.idStatusTicketKf=='3' || tkupdate.idStatusTicketKf=='5',
-                                }">Cancelación solicitada</span>
-                              </span>
+                                  </span>
+                                  <span ng-if="tkupdate.isCancelRequested=='1'" class="label label-warning" ng-class="{  
+                                    'label-default': 
+                                    tkupdate.idStatusTicketKf=='2' || tkupdate.idStatusTicketKf=='8',
+                                    'label-success':  
+                                    tkupdate.idStatusTicketKf=='3' || tkupdate.idStatusTicketKf=='5',
+                                  }">Cancelación solicitada
+                                  </span>
                               </div>
-                              <div class="col-md-12"><span>Creado: </span><span>{{ tkupdate.changes_history[0].created_at | toDate | date:'dd-MM-yyyy HH:mm:ss' }}</span></div>
                             </div>
                             <!-- RIGHT COLUMN -->
                             <div class="col-md-6 n-padding-l n-padding-r">
@@ -48,9 +49,49 @@
                               <div ng-if="tkupdate.building!=null && tkupdate.building!=undefined" class="col-md-12"><span> Consorcio: {{tkupdate.building.name}}</span></div>
                               <div ng-if="tkupdate.idTypeRequestFor=='1' && tkupdate.building!=null && tkupdate.building!=undefined" class="col-md-12"><span> Departamento: </span><span class="label label-default text-uppercase">{{tkupdate.department.floor}}-{{tkupdate.department.departament}}</span></div>
                               <div ng-if="tkupdate.idTypeRequestFor!='1'" class="col-md-12"><span> Tipo: </span><span class="label label-default text-uppercase">{{tkupdate.typeRequestFor.name}}</span></div>
-                              <div class="col-md-12"><span> Costo: </span>
+                              <!--<div class="col-md-12"><span> Costo: </span>
                                 <span style="color:rgb(250, 107, 107);background: #fff;border-radius: 10px;padding-left: 5px; padding-right: 5px; font-size: 18px;" ng-if="tkupdate.total!=null && tkupdate.total!=undefined && tkupdate.total!='NaN'">{{tkupdate.total | number:2}}</span>
                                 <span ng-if="tkupdate.total==null || tkupdate.total==undefined || tkupdate.total=='NaN'" class="label label-default">n/a</span>
+                              </div>-->
+                              <div class="col-md-12"><span>Creado: </span><span>{{ tkupdate.changes_history[0].created_at | toDate | date:'dd-MM-yyyy HH:mm:ss' }}</span></div>
+                            </div>
+                            <div  class="col-md-12">
+                              <legend style="text-align: left;">Costos</legend>
+                              <div class="col-md-3 text-center">
+                                <div class="col">
+                                  <div class="counter-ticket">
+                                    <!-- <i class="fas fa-handshake fa-lg fa-ticket-2x"></i>-->
+                                    <h2 class="timer count-ticket-title count-number" data-to="100" data-speed="1500">{{tkupdate.costService  | number:2}}</h2>
+                                    <p class="count-ticket-text ">Gestion</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-3 text-center">
+                                <div class="col">
+                                  <div class="counter-ticket">
+                                    <!-- <i class="fas fa-key fa-lg fa-ticket-2x"></i>-->
+                                    <h2 class="timer count-ticket-title count-number" data-to="100" data-speed="1500">{{tkupdate.costKeys  | number:2}}</h2>
+                                    <p class="count-ticket-text ">Llaveros</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-3 text-center">
+                                <div class="col">
+                                  <div class="counter-ticket">
+                                    <!-- <i class="fas fa-truck fa-lg fa-ticket-2x"></i>-->
+                                    <h2 class="timer count-ticket-title count-number" data-to="100" data-speed="1500">{{tkupdate.costDelivery  | number:2}}</h2>
+                                    <p class="count-ticket-text ">Envío</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-3 text-center">
+                                <div class="col">
+                                  <div class="counter-ticket">
+                                    <!-- <i class="fas fa-file-invoice-dollar fa-lg fa-ticket-2x"></i>-->
+                                    <h2 class="timer count-ticket-title count-number" data-to="100" data-speed="1500">{{tkupdate.total  | number:2}}</h2>
+                                    <p class="count-ticket-text ">Total</p>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                         </div>
@@ -155,7 +196,7 @@
                         <!-- TEMPORAL DELIVERY DATA REQUESTED -->
                         <br>
                         <div ng-if="tkupdate.idTmpDeliveryData && tkupdate.isChangeDeliverylRequested" class="container-fluid horizontal-line nopadding-containter">
-                        <br>
+                          <br>
                             <div class="col-md-12 col-xs-12 alert alert-warning">
                                 <legend><i class="fas fa-edit"></i> Nuevos datos de envío</legend>
                                 <div class="col-md-12 ">
@@ -192,7 +233,7 @@
                         <!-- TEMPORAL CANCEL DATA REQUESTED -->
                         <br>
                         <div ng-if="tkupdate.idTmpDeliveryData && tkupdate.isCancelRequested" class="container-fluid horizontal-line nopadding-containter">
-                        <br>
+                          <br>
                             <div class="col-md-12 col-xs-12 alert alert-warning">
                                 <legend><i style="color: #d43f3a;" class="fas fa-exclamation-triangle"></i> Solicitud de cancelacion de pedido</legend>
                                 <div class="col-md-12 ">
@@ -219,7 +260,8 @@
                         </div>
                     </fieldset>
                 </form>
-                <div class="col-xs-12 col-sm-12"><div ng-if="sysToken" ng-include="'views/monitor/tickets/timeline_history.html'"></div></div>
+                <!-- TIMELINE TICKET HISTORY -->
+                <div class="col-xs-12 col-sm-12"><div ng-include="'views/monitor/tickets/timeline_history.html'"></div></div>
                 <div class="clearfix"> </div> 
             </div>
             <!-- Actions Button -->

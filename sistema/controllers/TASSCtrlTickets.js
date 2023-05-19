@@ -2021,7 +2021,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         var radioButtonDepartment = $scope.ticket.radioButtonDepartment!=undefined?$scope.ticket.radioButtonDepartment:null;
                         var radioButtonBuilding = $scope.ticket.radioButtonBuilding!=undefined?$scope.ticket.radioButtonBuilding:null;
                         for (var key in obj2){
-                            if ( obj2[key].selected==true){
+                            if ( obj2[key].selected==true ){
+                                console.log(obj2[key]);
                                 $scope.list_doors_ticket.push(obj2[key]);
                             }
                         }
@@ -2173,6 +2174,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }
                         $scope.enabledNextBtn(); 
                         console.log($scope.list_keys);
+                        $scope.ticket.keys=$scope.list_keys;
                         console.log($scope.ticket);
                         $scope.list_doors_ticket = [];
                         $scope.selectedUser = undefined;
@@ -2255,6 +2257,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }
                         $scope.enabledNextBtn(); 
                         console.log($scope.list_keys);
+                        $scope.ticket.keys=$scope.list_keys;
                         console.log($scope.ticket);
                         $scope.list_doors_ticket = [];
                     break;

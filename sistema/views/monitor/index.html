@@ -6,6 +6,10 @@
     <div id="bodyContent"  class="container-fluid show-grid margin-row-1">
         <!-- <div ng-repeat="tk in listTickt | filter: ticketFiltered()" class="row align-items-end row_body row-margin-1">-->
         <div ng-repeat="tk in listTickt" class="row align-items-end row_body row-margin-1">
+            <div class="col-md-1 col-xs-1" style="width: 4%;margin-top: 1.5%;">
+                <input id="ticketSelected-{{tk.idTicket}}" class="radio-custom" type="checkbox" name="isHasLockingScrew" ng-model="tk.selected" ng-click="" autofocus>
+                <label for="ticketSelected-{{tk.idTicket}}" class="radio-custom-label"></label>
+            </div>
             <div ng-click="openTicketFn(tk, 0)">
                 <!--ng-if="differentDays[$index]<=2 && tk.isCancelTicket<=0" -->
                 <div id="iconTypeTicket"  ng-init="compareDaysIn2Dates(tk.dateCratedTicket);" class="col-md-1 col-xs-2 icon_circle">
@@ -150,39 +154,39 @@
                     </ul>
                 </div>
             </div>
-                <!-- COLUMNA  BOTONES -->
-                <div id="labelTag" class="col-md-1 pull-right">
-                    <div class="btn-group-vertical btn_action">
-                        <button ng-if="tk.idStatusTicketKf<3 && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4)" id="aprroveTicket" ng-disabled="tk.isCancelRequested" type="button" ng-click="modalConfirmation('approve',0, tk)" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="left"  title="Aprobar">
-                            <i class="fas fa-check"></i>
-                        </button>
-                        <button type="button" ng-click="openTicketFn(tk, 0)" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="left"  title="Modificar" >
-                            <i class="glyphicon glyphicon-edit"></i>  
-                        </button>
-                        <!-- CANCEL ADMIN AND SYSTEM USERS -->
-                        <button ng-if="sysLoggedUser.idProfileKf=='3' || sysLoggedUser.idProfileKf=='5'" type="button" ng-click="modalConfirmation('cancel_user',0, tk)" class="btn btn-xs btn-danger" ng-disabled="(tk.idStatusTicketKf>=5 && tk.idStatusTicketKf<=6)  || tk.idStatusTicketKf==1 || tk.isCancelRequested" data-toggle="tooltip" data-placement="left"  title="Cancelar">
-                            <i class="fas fa-ban"></i>
-                        </button>
-                        <!-- REQUEST CANCEL FOR OWNERS & TENANTS -->
-                        <button ng-if="sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4'" type="button" ng-click="modalConfirmation('cancel_sys',0, tk)" class="btn btn-xs btn-danger" ng-disabled="(tk.idStatusTicketKf>=5 && tk.idStatusTicketKf<=6)  || tk.idStatusTicketKf==1" data-toggle="tooltip" data-placement="left"  title="Cancelar">
-                            <i class="fas fa-ban"></i>
-                        </button> 
-                        <button ng-if="tk.idTypeTicketKf<2" ng-click="mainSwitchFn('ticket_delivery_change', tk, null)" ng-disabled="(tk.idStatusTicketKf>=5 && tk.idStatusTicketKf<=6) || tk.idStatusTicketKf==1 || tk.isCancelRequested || tk.isChangeDeliverylRequested" type="button" class="btn btn-xs btn-info" data-toggle="tooltip" data-placement="left"  title="Delivery">
-                            <i style="font-size: 1em" class="fas fa-truck"></i> 
-                        </button>
-                        <button ng-if="tk.idTypeTicketKf==4 && sysLoggedUser.idProfileKf==1 || !tk.idUserCancelTicket && tk.idTypeTicketKf==4 && sysLoggedUser.idProfileKf==1" ng-click="resolvedTicketFn(tk, 1)" ng-disabled="(tk.idStatusTicketKf!=3)" type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="left"  title="Finalizar">
-                            <i style="font-size: 1em" class="fas fa-check-double"></i> 
-                        </button>
-                        <button ng-if="(sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tk.idTypeTicketKf<2 && tk.isCancelRequested=='1'" ng-click="modalConfirmation('reject_cancel_user',0, tk)" type="button" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="left"  title="Rechazar">
-                            <i style="font-size: 1em" class="fas fa-window-close"></i> 
-                        </button>
-                        <!-- CHANGE STATUS -->
-                        <button ng-if="sysLoggedUser.idProfileKf==1 && tk.idTypeTicketKf<=2" ng-click="mainSwitchFn('change_ticket_status', tk, null)"" type="button" class="btn btn-xs btn-primary" data-toggle="tooltip" data-placement="left"  title="Status">
-                            <i style="font-size: 1em" class="fas fa-sync"></i>
-                        </button>
-                    </div>
+            <!-- COLUMNA  BOTONES -->
+            <div id="labelTag" class="col-md-1 pull-right">
+                <div class="btn-group-vertical btn_action">
+                    <button ng-if="tk.idStatusTicketKf<3 && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4)" id="aprroveTicket" ng-disabled="tk.isCancelRequested" type="button" ng-click="modalConfirmation('approve',0, tk)" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="left"  title="Aprobar">
+                        <i class="fas fa-check"></i>
+                    </button>
+                    <button type="button" ng-click="openTicketFn(tk, 0)" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="left"  title="Modificar" >
+                        <i class="glyphicon glyphicon-edit"></i>  
+                    </button>
+                    <!-- CANCEL ADMIN AND SYSTEM USERS -->
+                    <button ng-if="sysLoggedUser.idProfileKf=='3' || sysLoggedUser.idProfileKf=='5'" type="button" ng-click="modalConfirmation('cancel_user',0, tk)" class="btn btn-xs btn-danger" ng-disabled="(tk.idStatusTicketKf>=5 && tk.idStatusTicketKf<=6)  || tk.idStatusTicketKf==1 || tk.isCancelRequested" data-toggle="tooltip" data-placement="left"  title="Cancelar">
+                        <i class="fas fa-ban"></i>
+                    </button>
+                    <!-- REQUEST CANCEL FOR OWNERS & TENANTS -->
+                    <button ng-if="sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4'" type="button" ng-click="modalConfirmation('cancel_sys',0, tk)" class="btn btn-xs btn-danger" ng-disabled="(tk.idStatusTicketKf>=5 && tk.idStatusTicketKf<=6)  || tk.idStatusTicketKf==1" data-toggle="tooltip" data-placement="left"  title="Cancelar">
+                        <i class="fas fa-ban"></i>
+                    </button> 
+                    <button ng-if="tk.idTypeTicketKf<2" ng-click="mainSwitchFn('ticket_delivery_change', tk, null)" ng-disabled="(tk.idStatusTicketKf>=5 && tk.idStatusTicketKf<=6) || tk.idStatusTicketKf==1 || tk.isCancelRequested || tk.isChangeDeliverylRequested" type="button" class="btn btn-xs btn-info" data-toggle="tooltip" data-placement="left"  title="Delivery">
+                        <i style="font-size: 1em" class="fas fa-truck"></i> 
+                    </button>
+                    <button ng-if="tk.idTypeTicketKf==4 && sysLoggedUser.idProfileKf==1 || !tk.idUserCancelTicket && tk.idTypeTicketKf==4 && sysLoggedUser.idProfileKf==1" ng-click="resolvedTicketFn(tk, 1)" ng-disabled="(tk.idStatusTicketKf!=3)" type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="left"  title="Finalizar">
+                        <i style="font-size: 1em" class="fas fa-check-double"></i> 
+                    </button>
+                    <button ng-if="(sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tk.idTypeTicketKf<2 && tk.isCancelRequested=='1'" ng-click="modalConfirmation('reject_cancel_user',0, tk)" type="button" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="left"  title="Rechazar">
+                        <i style="font-size: 1em" class="fas fa-window-close"></i> 
+                    </button>
+                    <!-- CHANGE STATUS -->
+                    <button ng-if="sysLoggedUser.idProfileKf==1 && tk.idTypeTicketKf<=2" ng-click="mainSwitchFn('change_ticket_status', tk, null)"" type="button" class="btn btn-xs btn-primary" data-toggle="tooltip" data-placement="left"  title="Status">
+                        <i style="font-size: 1em" class="fas fa-sync"></i>
+                    </button>
                 </div>
-                <!--<span ng-if="(sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4')" data-toggle="tooltip" data-placement="right" title="cancelar solicitud" ng-click="modalConfirmation('approve',0, tk)" class="label label-warning"><i class="fas fa-window-close"></i></span>
+            </div>
+            <!--<span ng-if="(sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4')" data-toggle="tooltip" data-placement="right" title="cancelar solicitud" ng-click="modalConfirmation('approve',0, tk)" class="label label-warning"><i class="fas fa-window-close"></i></span>
                     <div class="col-lg-2 pull-right">
                         <div  class="btn-group">
                         <button ng-show="tk.isCancelTicket<=0" ng-disabled="tk.idStatusTicketKf<=1" type="button" class="btn btn-sm btn-success">{{tk.statusTicket.statusName}}</button>
