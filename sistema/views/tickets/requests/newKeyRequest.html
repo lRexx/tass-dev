@@ -62,7 +62,7 @@
 								</div>
 							</div>
 							<!-- SELECT DE OPTION TYPE TO CONTINUE WITH THE REQUEST-->
-							<div ng-if="select.buildings.selected!=undefined && sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && !isHomeSelected" class="col-md-12 col-xs-12">
+							<div ng-if="select.buildings.selected.IsInDebt!='1' && select.buildings.selected!=undefined && sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && !isHomeSelected" class="col-md-12 col-xs-12">
 								<!-- NEW TICKET -->
 								<div class="col-md-6">
 									<button ng-click="setOptionType($event); mainSwitchFn('autoSelectDoors', null, null);enabledNextBtn();" id="department" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.optionTypeSelected.name=='department', 'btn-primary': ticket.optionTypeSelected.name==undefined || ticket.optionTypeSelected.name!='department'}">

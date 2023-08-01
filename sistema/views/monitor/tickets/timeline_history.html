@@ -5,7 +5,7 @@
             <div style="display:inline-block;width:100%;overflow-y:auto;">
                 <ul class="timeline timeline-horizontal">
                     <li ng-repeat="history in tkupdate.changes_history" class="timeline-item">
-                        <div ng-if="history.idCambiosTicketKf=='1'" class="timeline-badge primary"><i class="fas fa-receipt"></i></div>
+                        <div ng-if="history.idCambiosTicketKf=='1'" class="timeline-badge primary"><i class="fas fa-file-invoice"></i></div>
                         <div ng-if="history.idCambiosTicketKf=='2'" class="timeline-badge success"><i class="far fa-check-circle"></i></div>
                         <div ng-if="history.idCambiosTicketKf=='3'" class="timeline-badge warning"><i class="fas fa-gavel"></i></div>
                         <div ng-if="history.idCambiosTicketKf=='4'" class="timeline-badge success"><i class="fas fa-money-check-alt"></i></div>
@@ -19,6 +19,8 @@
                         <div ng-if="history.idCambiosTicketKf=='16'" class="timeline-badge success"><i class="fas fa-percentage"></i></div>
                         <div ng-if="history.idCambiosTicketKf=='15'" class="timeline-badge success"><i class="fas fa-hand-holding-usd"></i></div>
                         <div ng-if="history.idCambiosTicketKf=='17'" class="timeline-badge warning"><i class="fas fa-money-bill-wave"></i></div>
+                        <div ng-if="history.idCambiosTicketKf=='20'" class="timeline-badge success"><i class="fas fa-receipt"></i></div>
+                        <div ng-if="history.idCambiosTicketKf=='21'" class="timeline-badge danger"><i class="fas fa-times-circle"></i></div>
                         
                         
                         
@@ -40,6 +42,8 @@
                                 <span ng-if="history.idCambiosTicketKf=='15'"><span class="label label-info">{{history.nameProfile}}</span>&nbsp;<span class="label label-success">{{history.descripcion}}</span></span>
                                 <span ng-if="history.idCambiosTicketKf=='16'"><span class="label label-info">{{history.nameProfile}}</span>&nbsp;<span class="label label-success">{{history.descripcion}}</span></span>
                                 <span ng-if="history.idCambiosTicketKf=='17'"><span class="label label-info">{{history.nameProfile}}</span>&nbsp;<span class="label label-warning">{{history.descripcion}}</span></span>
+                                <span ng-if="history.idCambiosTicketKf=='20'"><span class="label label-info">{{history.nameProfile}}</span>&nbsp;<span class="label label-success">{{history.descripcion}}</span></span>
+                                <span ng-if="history.idCambiosTicketKf=='21'"><span class="label label-info">{{history.nameProfile}}</span>&nbsp;<span class="label label-danger">{{history.descripcion}}</span></span>
                                 
                             </div>
                         </div>

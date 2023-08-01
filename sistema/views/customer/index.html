@@ -49,6 +49,7 @@
               <div  class="panel panel-default">
                   <div class="panel-heading">
                     <h3 ng-if="sysContent=='registeredCustomers'" class="panel-title">CLIENTES</h3>
+                    <h3 ng-if="sysContent=='registeredCustomersDisabled'" class="panel-title">CLIENTES INHABILITADOS</h3>
                     <h3 ng-if="sysContent=='registeredNotCustomers'" class="panel-title">NO CLIENTES</h3>
                   </div>
                     <!--REGISTERED CUSTOMER PANEL -->
@@ -57,7 +58,7 @@
                       <div  class="row">
                       	<div ng-if="select.filterTypeOfClient=='' || select.filterTypeOfClient==undefined" class="form-group col-md-6 col-sm-6 col-xs-6 n-padding-l n-padding-r">
                               <!-- Filter Search -->
-                              <!-- Filter Search ng-keydown="$event.keyCode === 13 && select.filterTypeOfClient==undefined && (!customerSearch.strict || customerSearch.strict)?getCustomersByNameFn(searchboxfilter, customerSearch.strict):offlineSearch(rsCustomerListData,searchboxfilter,null,customerSearch.strict)"  -->
+                              <!-- Filter Search ng-keydown="$event.keyCode === 13 && select.filterTypeOfClient==undefined && (!customerSearch.strict || customerSearch.strict)?getCustomersByNameFn(customerSearch.searchFilter, customerSearch.isInDebt, customerSearch.strict):offlineSearch(rsCustomerListData,customerSearch.searchFilter, customerSearch.isInDebt,null,customerSearch.strict)"  -->
                               <div class="col-md-12 col-sm-12 col-xs-12 ">
                                 <label style="padding-left: 15px;">Busquéda de cliente: </label>
                               	<div class="input-group search-box-rule col-md-12 col-sm-12 col-xs-12">
@@ -65,8 +66,8 @@
                                     type="text" 
                                     class="form-control text-uppercase" 
                                     ng-disabled="select.filterTypeOfClient!=undefined && (rsCustomerListData.status==404 || rsCustomerListData.length==0)"
-                                    ng-keydown="$event.keyCode === 13 && getCustomersByNameFn(searchboxfilterDB, customerSearch.strict)"  
-                                    ng-model="searchboxfilterDB" 
+                                    ng-keydown="$event.keyCode === 13 && getCustomersByNameFn(customerSearch.searchFilter, customerSearch.isInDebt, customerSearch.strict)"  
+                                    ng-model="customerSearch.searchFilter" 
                                     placeholder="Presione Enter para buscar..." style="border-radius: 4px;">
                               	</div>
                               </div>
@@ -80,19 +81,19 @@
                                 type="text" 
                                 class="form-control text-uppercase" 
                                 ng-disabled="select.filterTypeOfClient==undefined && (rsCustomerListData.status==404 || rsCustomerListData.length==0)"
-                                ng-keydown="offlineSearch(rsCustomerListData,searchboxfilterOffline,null,false)"
+                                ng-keydown="offlineSearch(rsCustomerListData,searchboxfilterOffline,customerSearch.isInDebt,false)"
                                 ng-model="searchboxfilterOffline" 
                                 placeholder="Presione Enter para buscar..." style="border-radius: 4px;">
                             </div>
                           </div>
-                    </div>
+                        </div>
                       	<div ng-if="select.filterTypeOfClient=='' || select.filterTypeOfClient==undefined" class="form-group col-md-6 col-sm-6 col-xs-6 n-padding-l n-padding-r" style="margin-top: 3.3%;">
                               <div class="col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r">
                                 <div class="col-md-2 col-xs-2 n-padding-r">
                                   <label class="switch switch-2x" for="strict-search">
                                       <input type="checkbox" class="success" 
-                                        ng-disabled="(select.filterTypeOfClient=='' || select.filterTypeOfClient==undefined) && (rsCustomerListData.status==404 || rsCustomerListData.length==0)" 
-                                        ng-click="getCustomersByNameFn($parent.searchboxfilterDB, customerSearch.strict)" 
+                                        ng-disabled="" 
+                                        ng-click="getCustomersByNameFn($parent.customerSearch.searchFilter, customerSearch.isInDebt, customerSearch.strict)" 
                                         ng-model="customerSearch.strict" 
                                         id="strict-search">
                                       <span class="slider slider-2x flat"></span>
@@ -108,7 +109,7 @@
                       <div  class="row">
                         <div class="form-group">
                               <!-- Filter Type of Tenant For Admins ng-if="sysContent=='customer'"-->
-                              <div class="col-md-6 col-sm-6 col-xs-12">
+                              <div class="col-md-4 col-sm-4 col-xs-12">
                                   <label style="padding-left: 15px;">Tipo de Cliente</label>
                                   <div class="input-group">
                                       <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
@@ -123,7 +124,7 @@
                                   </div>
                               </div>
                               <!-- Company Name-->
-                              <div class="col-md-6 col-sm-6 col-xs-12">
+                              <div class="col-md-4 col-sm-4 col-xs-12">
                                   <label class="clf-p-left">
                                     <span ng-if="select.filterTypeOfClient.idClientType==1">Administraciones </span>
                                     <span ng-if="select.filterTypeOfClient.idClientType==2">Cliente Edificio</span>
@@ -159,6 +160,15 @@
                                                  </ui-select-no-choice>
                                             </ui-select>
                                   </div>
+                              </div>
+                              <div ng-if="sysLoggedUser.idProfileKf==1" class="col-md-4 col-xs-6">
+                                <div class="col-md-12 col-xs-12" ><label class="clf-size">Mostrar Inhabilitados</label></div>
+                                <div class="col-md-4 col-xs-2">
+                                  <label class="switch switch-2x" for="isInDebt-search">
+                                      <input type="checkbox" class="success" ng-click="select.filterTypeOfClient!='' && select.filterTypeOfClient!=undefined?offlineSearch(rsCustomerListData,searchboxfilterOffline,customerSearch.isInDebt,false):getCustomersByNameFn($parent.customerSearch.searchFilter, customerSearch.isInDebt, customerSearch.strict)" ng-model="customerSearch.isInDebt" id="isInDebt-search">
+                                      <span class="slider slider-2x flat"></span>
+                                  </label>
+                                </div>
                               </div>
                               <!--<div class="btn-group-mg-top-s n-padding-l col-md-1"><br>
                           		<!-- Search button-->
@@ -198,6 +208,7 @@
                         </div>
                       <!-- //PAGINATION -->
                     </div>
+
                     <!--NOT REGISTERED CUSTOMER PANEL -->
                     <div id="custNotRegistered" ng-if="sysContent=='registeredNotCustomers'" class="panel-body">
                       <div  class="row">
@@ -210,18 +221,33 @@
                                     type="text" 
                                     class="form-control text-uppercase" 
                                     ng-disabled="select.filterTypeOfClient!=undefined && (rsCustomerListData.status==404 || rsCustomerListData.length==0)" 
-                                    ng-keydown="$event.keyCode === 13 && select.filterTypeOfClient==undefined?getCustomersByNameFn(searchboxfilter, customerSearch.strict):offlineSearch(rsCustomerListData,searchboxfilter,null,customerSearch.strict)"  
-                                    ng-model="searchboxfilter" 
+                                    ng-keydown="$event.keyCode === 13 && getCustomersByNameFn(customerSearch.searchFilter, customerSearch.isInDebt, customerSearch.strict)"  
+                                    ng-model="customerSearch.searchFilter" 
                                     placeholder="Presione Enter para buscar..."
                                     style="border-radius: 4px;">
                               	</div>
                               </div>
                         </div>
+                      	<div ng-if="select.filterTypeOfClient!='' && select.filterTypeOfClient!=undefined" class="form-group col-md-6 col-sm-6 col-xs-6 n-padding-l n-padding-r">
+                          <!-- Filter Search -->
+                          <div class="col-md-12 col-sm-12 col-xs-12 ">
+                            <label style="padding-left: 15px;">Busquéda de cliente: </label>
+                            <div class="input-group search-box-rule col-md-12 col-sm-12 col-xs-12">
+                                <input 
+                                type="text" 
+                                class="form-control text-uppercase" 
+                                ng-disabled="select.filterTypeOfClient==undefined && (rsCustomerListData.status==404 || rsCustomerListData.length==0)"
+                                ng-keydown="offlineSearch(rsCustomerListData,searchboxfilterOffline,null,customerSearch.strict)"
+                                ng-model="searchboxfilterOffline" 
+                                placeholder="Presione Enter para buscar..." style="border-radius: 4px;">
+                            </div>
+                          </div>
+                        </div>
                       	<div class="form-group col-md-6 col-sm-6 col-xs-6 n-padding-l n-padding-r" style="margin-top: 3.3%;">
                               <div class="col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r">
                                 <div class="col-md-1 col-xs-1 n-padding-r">
                                   <label class="switch switch-2x" for="strict-search">
-                                      <input type="checkbox" class="success" ng-disabled="select.filterTypeOfClient!=undefined && (rsCustomerListData.status==404 || rsCustomerListData.length==0)" ng-click="select.filterTypeOfClient==undefined?getCustomersByNameFn(searchboxfilter, customerSearch.strict):offlineSearch(rsCustomerListData,searchboxfilter,null,customerSearch.strict)" ng-model="customerSearch.strict" id="strict-search">
+                                      <input type="checkbox" class="success" ng-disabled="select.filterTypeOfClient!=undefined && (rsCustomerListData.status==404 || rsCustomerListData.length==0)" ng-click="select.filterTypeOfClient==undefined?getCustomersByNameFn(customerSearch.searchFilter, customerSearch.isInDebt, customerSearch.strict):offlineSearch(rsCustomerListData,customerSearch.searchFilter,null,customerSearch.strict)" ng-model="customerSearch.strict" id="strict-search">
                                       <span class="slider slider-2x flat"></span>
                                   </label>
                                 </div>

@@ -11,9 +11,10 @@
           <th width="25%" ng-click="sort_by('businessName')"><i class="fas fa-file-signature"> </i> Raz&#243n Social <span class="glyphicon sort-icon" ng-show="sortingOrder=='businessName'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
           </th>
           <!--<th width="20%"><i class="glyphicon glyphicon-envelope"> </i> Emails</th>-->
-          <th width="10%" style="vertical-align: middle;text-align: center;" ng-click="sort_by('ClientType')"><i class="glyphicon glyphicon-user"> </i>Tipo de cliente <span class="glyphicon sort-icon" ng-show="sortingOrder=='ClientType'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          <th width="10%" style="vertical-align: middle;text-align: center;" ng-click="sort_by('ClientType')"><i class="glyphicon glyphicon-user"> </i>Tipo <span class="glyphicon sort-icon" ng-show="sortingOrder=='ClientType'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
           </th>
-          <th width="10%" style="vertical-align: middle;text-align: center;"><i class="glyphicon icon-flag"> </i> Status</th>
+          <th width="10%" style="vertical-align: middle;text-align: center;"><i class="glyphicon icon-flag"> </i> Estatus</th>
+          <th width="10%" style="vertical-align: middle;text-align: center;"><i class="glyphicon icon-flag"> </i> Condición</th>
           <th ><i class="fas fa-ellipsis-h"> </i> Opciones</th>
           <!--<th><i class="glyphicon icon-calendar"> </i> Registrado</th>-->
       </tr>
@@ -23,7 +24,7 @@
       <!--<tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">-->
         <tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in rsCustomerListData">
         <!--<tr class="animate-repeat" style="align-content: center; cursor: pointer;"  dir-paginate="item in rsCustomerListData|orderBy:idClient:reverse|filter:searchboxfilter|itemsPerPage:10">-->
-        <td class="media-middle text-center" ng-click="switchCustomersFn('details_customer', item, 'show');">
+        <td class="media-middle text-center" style="vertical-align: middle;" ng-click="switchCustomersFn('details_customer', item, 'show');">
         	{{item.idClient}}
               <!--<span ng-if="
               ((item.idProfileKf==5 || (item.idProfileKf==6 && item.idTypeTenantKf==2)) && (!item.idAddresKf && !item.idAdress) && !item.idDepartmentKf)" class="badge badge-notify">
@@ -43,12 +44,12 @@
                (!item.idAddresKf && !item.idAdress)|| !item.idDepartmentKf-->
         </td>
         <!--NAME -->
-        <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" ng-if="item.idClientTypeFk!=2 && item.idClientTypeFk!=4">{{item.name}}</td>
+        <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" style="vertical-align: middle;" ng-if="item.idClientTypeFk!=2 && item.idClientTypeFk!=4">{{item.name}}</td>
         <!-- BUSINESS NAME -->
-        <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" ng-if="item.idClientTypeFk!=2 && item.idClientTypeFk!=4 && item.idClientTypeFk!=5">{{item.businessName}}</td>
-        <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" ng-if="item.idClientTypeFk==2 || item.idClientTypeFk==4">{{item.address}}</td>
-        <td ng-if="item.billing_information!=undefined && (item.idClientTypeFk==2 || item.idClientTypeFk==4 || item.idClientTypeFk==5)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true">{{item.billing_information[0].businessNameBilling}}</td>
-        <td ng-if="item.billing_information==undefined && (item.idClientTypeFk==2 || item.idClientTypeFk==4 || item.idClientTypeFk==5)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true"><label class="label label-warning"><i class="fas fa-exclamation-triangle"> </i> No hay datos de facturación
+        <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" style="vertical-align: middle;" ng-if="item.idClientTypeFk!=2 && item.idClientTypeFk!=4 && item.idClientTypeFk!=5">{{item.businessName}}</td>
+        <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" style="vertical-align: middle;" ng-if="item.idClientTypeFk==2 || item.idClientTypeFk==4">{{item.address}}</td>
+        <td ng-if="item.billing_information!=undefined && (item.idClientTypeFk==2 || item.idClientTypeFk==4 || item.idClientTypeFk==5)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" style="vertical-align: middle;">{{item.billing_information[0].businessNameBilling}}</td>
+        <td ng-if="item.billing_information==undefined && (item.idClientTypeFk==2 || item.idClientTypeFk==4 || item.idClientTypeFk==5)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" style="vertical-align: middle;"><label class="label label-warning"><i class="fas fa-exclamation-triangle"> </i> No hay datos de facturación
             </label></td>
         <!--<td>
           <span ng-if="item.mailFronKey" ng-mouseover="showMe=true" ng-mouseleave="showMe=false" class="mailList"><i data-toggle="tooltip" data-placement="top" title="Mail Llaveros" class="fas fa-key"></i> <span ng-if="showMe" data-toggle="tooltip" data-placement="top" title="Click para Copiar" class=" mailListItem" ngclipboard data-clipboard-text="{{item.mailFronKey}}"> {{item.mailFronKey}}</span></span>
@@ -59,12 +60,19 @@
         </td>-->
         <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" style="vertical-align: middle;text-align: center;">{{item.ClientType | uppercase}}</td>
         <td ng-click="switchCustomersFn('details_customer', item, 'show');" style="vertical-align: middle;text-align: center;"> <!-- TD to Admins -->
-            <label ng-if="item.idStatusFk==1" class="label label-success">ACTIVO
-            </label>
-            <label ng-if="item.idStatusFk==0" class="label label-warning">INACTIVO
-            </label>
-            <label ng-if="item.idStatusFk==-1" class="label label-danger"><del>ELIMINADO</del>
-            </label>
+          <label ng-if="item.idStatusFk==1" class="label label-success">ACTIVO
+          </label>
+          <label ng-if="item.idStatusFk==null || item.idStatusFk==0" class="label label-warning">INACTIVO
+          </label>
+          <label ng-if="item.idStatusFk==-1" class="label label-danger"><del>ELIMINADO</del>
+          </label>
+        </td>
+        <td ng-click="switchCustomersFn('details_customer', item, 'show');" style="vertical-align: middle;text-align: center;"> <!-- TD to Admins -->
+          <label ng-if="item.IsInDebt==1" class="label label-warning">INHABILITADO
+          </label>
+          <label ng-if="item.IsInDebt==null || item.IsInDebt==0" class="label label-success">HABILITADO
+          </label>
+          <label ng-if="item.IsInDebt==-1" class="label label-danger"><del>ELIMINADO</del>
         </td>
         <td ng-click="">
         	<div class="btn-group">
@@ -123,8 +131,9 @@
           <th width="4%">ID</th>
           <th width="50%"><i class="glyphicon glyphicon-user"> </i> Nombres</th>
           <!--<th width="20%"><i class="glyphicon glyphicon-envelope"> </i> Emails</th>-->
-          <th width="20%" style="vertical-align: middle;text-align: center;"><i class="glyphicon glyphicon-user"> </i>Tipo de cliente</th>          
-          <th width="10%" style="vertical-align: middle;text-align: center;"><i class="glyphicon icon-flag"> </i> Status</th>
+          <th width="15%" style="vertical-align: middle;text-align: center;"><i class="glyphicon glyphicon-user"> </i>Tipo</th>          
+          <th width="8%" style="vertical-align: middle;text-align: center;"><i class="glyphicon icon-flag"> </i> Estatus</th>
+          <th width="10%" style="vertical-align: middle;text-align: center;"><i class="glyphicon icon-flag"> </i> Condición</th>
           <th ><i class="fas fa-ellipsis-h"> </i> Opciones</th>
           <!--<th><i class="glyphicon icon-calendar"> </i> Registrado</th>-->
       </tr>
@@ -133,7 +142,7 @@
       <!-- Show if there is customer registered -->
       <!--<tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse"> -->
       <tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in rsCustomerListData">
-        <td>
+        <td  style="vertical-align: middle;text-align: center;">
           {{item.idClient}}
               <!--<span ng-if="
               ((item.idProfileKf==5 || (item.idProfileKf==6 && item.idTypeTenantKf==2)) && (!item.idAddresKf && !item.idAdress) && !item.idDepartmentKf)" class="badge badge-notify">
@@ -152,7 +161,7 @@
                (item.idProfileKf==6 && ((!item.idCompanyKf && !item.idCompany) ||
                (!item.idAddresKf && !item.idAdress)|| !item.idDepartmentKf-->
         </td>
-        <td ng-trim="true" ng-if="item.idClientTypeFk==2 || item.idClientTypeFk==4">{{item.address}}</td>
+        <td ng-trim="true" ng-if="item.idClientTypeFk==2 || item.idClientTypeFk==4"  style="vertical-align: middle;">{{item.address}}</td>
         <!--<td>
           <span ng-if="item.mailFronKey" ng-mouseover="showMe=true" ng-mouseleave="showMe=false" class="mailList"><i data-toggle="tooltip" data-placement="top" title="Mail Llaveros" class="fas fa-key"></i> <span ng-if="showMe" data-toggle="tooltip" data-placement="top" title="Click para Copiar" class=" mailListItem" ngclipboard data-clipboard-text="{{item.mailFronKey}}"> {{item.mailFronKey}}</span></span>
 
@@ -164,22 +173,30 @@
           <span style="font-size: 80%" class="label label-danger" ng-if="item.isNotCliente=='1'"><i class="fas fa-user-lock"></i> No efectivo</span>
         </td>
         <td style="vertical-align: middle;text-align: center;"> <!-- TD to Admins -->
-            <label ng-if="item.idStatusFk==1" class="label label-success">ACTIVO
-            </label>
-            <label ng-if="item.idStatusFk==0" class="label label-warning">INACTIVO
-            </label>
-            <label ng-if="item.idStatusFk==-1" class="label label-danger"><del>ELIMINADO</del>
-            </label>
+          <label ng-if="item.idStatusFk==1" class="label label-success">ACTIVO
+          </label>
+          <label ng-if="item.idStatusFk==null || item.idStatusFk==0" class="label label-warning">INACTIVO
+          </label>
+          <label ng-if="item.idStatusFk==-1" class="label label-danger"><del>ELIMINADO</del>
+          </label>
         </td>
+        <td style="vertical-align: middle;text-align: center;"> <!-- TD to Admins -->
+          <label ng-if="item.IsInDebt==1" class="label label-success">HABILITADO
+          </label>
+          <label ng-if="item.IsInDebt==0 || item.IsInDebt==null" class="label label-warning">INHABILITADO
+          </label>
+          <label ng-if="item.IsInDebt==-1" class="label label-danger"><del>ELIMINADO</del>
+          </label>
+      </td>
         <td>
           <button ng-click="switchCustomersFn('departments', item)" class="btn btn-warning  btn-sm btn-sm" data-toggle="tooltip" data-placement="top" title="Ver departamentos"><i class="icon-building"></i></button>
           <button  ng-click="switchCustomersFn('upgrade', item);" class="btn btn-success btn-sm btn-sm" data-toggle="tooltip" data-placement="top" title="Efectivizar consorcio"><i class="fas fa-lock-open"></i></button>
         </td>        
       </tr>
       <!-- Show if there is not customer registered -->
-      <tr ng-if="pagedItems.length==0" >
-          <td colspan="6"><div class="col-md-12 col-md-offset-5"><span style="font-size: 18px; font-weight: 600; color: rgba(255, 188, 87, 1);">No hay clientes registrados</span></div>
-          </td>
+      <tr ng-if="rsCustomerListData.length==0" >
+        <td colspan="6"><div class="col-md-12 col-md-offset-5"><span style="font-size: 18px; font-weight: 600; color: rgba(255, 188, 87, 1);">No hay clientes registrados o asociados.</span></div>
+        </td>
       </tr>
        <!--<tr ng-if="searchboxfilter.length==0" class="animate-repeat" style="align-content: center;">no items found</tr>-->
     </tbody>

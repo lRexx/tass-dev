@@ -24,6 +24,11 @@
                         <span ng-if="(tkupdate.idTypeRequestFor!='1' && (((tkupdate.whoPickUp.idWhoPickUp=='1' || tkupdate.whoPickUp.idWhoPickUp=='2')) || ((tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && tkupdate.whoPickUp.idWhoPickUp=='3')))" class="badge badge-warning">{{tkupdate.userDelivery.nameProfile}}</span>
                     </div>
                     <div class="col-md-12">
+                        <span ng-if="tkupdate.idTypeDeliveryKf!='0'">DNI: </span>
+                        <span ng-if="(tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && (tkupdate.whoPickUp.idWhoPickUp=='1' || tkupdate.whoPickUp.idWhoPickUp=='2')">{{tkupdate.userDelivery.dni}}</span>
+                        <span ng-if="(tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && tkupdate.whoPickUp.idWhoPickUp=='3'">{{tkupdate.thirdPersonDelivery.dni}}</span>
+                    </div>
+                    <div class="col-md-12">
                         <span>
                             <span ng-if="tkupdate.idTypeDeliveryKf=='1'">Retirar en: </span>
                             <span ng-if="tkupdate.idTypeDeliveryKf=='2'">Entrega en: </span>

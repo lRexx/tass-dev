@@ -1,5 +1,5 @@
 <!-- Customers Mails -->
-<div id="customerMailsContact" tabindex="-1" style="top: 130px;" class="modal fade modal-dialog-centered in" style="top: 130px;" role="dialog">
+<div id="customerMailsContact" style="top: 130px;" class="modal fade modal-dialog-centered" style="top: 130px;" role="dialog">
     <div class="modal-dialog modal-md" >
       <div class="modal-content">
             <div class="modal-header">
@@ -21,7 +21,7 @@
           <!-- Mails -->
           <div class=" col-md-12">
             <div class="well-checkbox n-padding-t n-padding-b" style="margin-left: 0px;margin-right: 0px;">
-                <table ng-if="list_mails.length>0">
+                <table ng-if="list_mails.length>0" style="margin-top: 2%; margin-bottom: 2%;">
                   <tr ng-repeat="mail in list_mails" style="font-size: 16px;">
                       <td style="width: 5%">
                         <span class="text-muted text-box">
@@ -41,7 +41,6 @@
                       <td style="width: 60%"><span class="text-muted text-box"><label style="font-size: 80%" class="label label-info">{{mail.mailContact}}</label></span></td>
                         <td style="padding-bottom: 5px;">
                           <button data-toggle="tooltip" data-placement="right" title="Copiar" ngclipboard data-clipboard-text="{{mail.mailContact}}" class="btn btn-sm btn-success" style="cursor: pointer;"><i style="font-size: 14px;" class="fas fa-copy"></i></button>
-
                         </td>
                     </tr>
                 </table>
@@ -109,14 +108,14 @@
           <div class="clearfix"> </div> 
         </div>
       <!-- Actions Button ng-click="newSysProfileFn()"-->
-            <div class="modal-footer">
-                <div class="row">
-                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
-                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
-                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
-                    </div>
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
                 </div>
             </div>
+        </div>
     </div>
   </div>
 </div>

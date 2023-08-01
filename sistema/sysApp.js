@@ -5,6 +5,7 @@ var app = angular.module('systemApp', ["ngRoute", "ngCookies",
                                          "module.Products",
                                           "module.Monitor",
                                         "module.Customers",
+                                           "module.Status",
                                          "module.Services",
                                            "module.NewPwd",
                                         "module.ForgotPwd",
@@ -25,10 +26,12 @@ var app = angular.module('systemApp', ["ngRoute", "ngCookies",
                                                 "showdown",
                                              "tokenSystem",
                                                "ngAnimate",
+                                               "ngTouch",
                                             "ui.bootstrap",
                                              "ngclipboard",
                    //"angularUtils.directives.dirPagination",
                                           "angular.filter",
+                                                "rzSlider",
                                              "angularCSS"]);
 app.config(function(blockUIConfig) {
       // Tell blockUI not to mark the body element as the main block scope.
@@ -38,7 +41,6 @@ app.config(function(blockUIConfig) {
 //app.config(function(paginationTemplateProvider) {
 //    paginationTemplateProvider.setPath('views/pagination/dirPagination-tpl.html');
 //});
-
 app.config(['$routeProvider', '$locationProvider',
   function($routeProvider, $locationProvider) {
 
@@ -82,6 +84,16 @@ app.config(['$routeProvider', '$locationProvider',
           templateUrl: 'views/customer/',
           controller: 'CustomersCtrl',
           css: 'views/mainapp/style.css'
+        })
+        .when('/status', {
+            templateUrl: 'views/status/',
+            controller: 'statusCtrl',
+            css: 'views/mainapp/style.css'
+        })
+        .when('/status/client_id/:client_id', {
+            templateUrl: 'views/status/',
+            controller: 'statusCtrl',
+            css: 'views/mainapp/style.css'
         })
         .when('/services', {
             templateUrl: 'views/services/',

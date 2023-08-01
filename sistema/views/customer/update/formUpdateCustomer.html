@@ -12,6 +12,8 @@
                 <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.update.idClientTypeFk==3">Empresa</span>
                 <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.update.idClientTypeFk==4">Sucursal</span>
                 <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.update.idClientTypeFk==5">Particular</span>]-->
+                <label ng-if="customer.update.IsInDebt==0 || customer.update.IsInDebt==null" class="label label-success">HABILITADO</label>
+                <label ng-if="customer.update.IsInDebt==1 && customer.update.IsInDebt!=null" class="label label-warning">INHABILITADO</label>
               </h3>
           </div>
         <div class="modal-body" style="overflow-y: scroll;padding-left: 0px;padding-right: 0px;">

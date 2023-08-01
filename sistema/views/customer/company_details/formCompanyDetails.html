@@ -11,7 +11,9 @@
                 <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.companyDetails.idClientTypeFk==2">Edificio</span>
                 <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.companyDetails.idClientTypeFk==3">Empresa</span>
                 <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.companyDetails.idClientTypeFk==4">Sucursal</span>
-                <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.companyDetails.idClientTypeFk==5">Particular</span>]
+                <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.companyDetails.idClientTypeFk==5">Particular</span>] 
+                <label ng-if="customer.companyDetails.IsInDebt==0 || customer.companyDetails.IsInDebt==null" class="label label-success">HABILITADO</label>
+                <label ng-if="customer.companyDetails.IsInDebt==1 && customer.companyDetails.IsInDebt!=null" class="label label-warning">INHABILITADO</label>
               </h3>
           </div>
         <div class="modal-body">

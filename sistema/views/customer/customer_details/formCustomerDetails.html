@@ -11,7 +11,9 @@
                 <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.details.idClientTypeFk==2">Edificio</span>
                 <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.details.idClientTypeFk==3">Empresa</span>
                 <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.details.idClientTypeFk==4">Sucursal</span>
-                <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.details.idClientTypeFk==5">Particular</span>]
+                <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.details.idClientTypeFk==5">Particular</span>] 
+                <label ng-if="customer.details.IsInDebt==0 || customer.details.IsInDebt==null" class="label label-success">HABILITADO</label>
+                <label ng-if="customer.details.IsInDebt==1 && customer.details.IsInDebt!=null" class="label label-warning">INHABILITADO</label>
               </h3>
           </div>
         <div class="modal-body">
@@ -57,13 +59,35 @@
                   <span>CUIT: {{customer.details.CUIT}}</span>
                 </div>
                 <div class="col-md-12"><span>IVA: {{customer.details.billing_information[0].typeTax | uppercase}}</span></div>
-                <div class="col-md-12" ng-if="customer.details.idClientType=='2' && (customer.details.idSecurityCode!=undefined && customer.details.idSecurityCode!=null && customer.details.idSecurityCode!='')"><span>Codigo de seguridad: </span><span class="badge badge-default">{{customer.details.idSecurityCode}}</span></div>
+                <div class="col-md-12" ng-if="customer.details.idClientType=='2' && (customer.details.idSecurityCode!=undefined && customer.details.idSecurityCode!=null && customer.details.idSecurityCode!='')"><span>Codigo de seguridad: </span><span class="badge badge-default">{{customer.details.idSecurityCode}}</span><button data-toggle="tooltip" data-placement="right" title="Copiar" type="button" style="margin-left: 0.7%" ngclipboard data-clipboard-text="{{customer.details.idSecurityCode}}" class="btn btn-xs btn-success"><i class="fas fa-copy"></i> Copiar</button></div>
                 <div class="col-md-12" ng-if="customer.details.idClientType=='2' && (customer.details.idSecurityCode==null)"><span>Codigo de seguridad: </span><label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="no asignado" class="badge badge-warning">no asignado</label></div>
+                <div ng-if="sysLoggedUser.idProfileKf==1" class="col-md-12">
+                  <div class="col-md-2 col-xs-2 n-padding-l" >
+                    <span ng-if="!customer.details.IsInDebtTmp">Inhabilitar:</span>
+                    <span ng-if="customer.details.IsInDebtTmp">Habilitar:</span>
+                  </div>
+                  <div class="col-md-2 col-xs-2">
+                    <label class="switch switch-2x" for="isInDebt-set">
+                        <input type="checkbox" class="warning" ng-click="modalConfirmation('isInDebtClient', 0, customer.details)" ng-model="customer.details.IsInDebtTmp" id="isInDebt-set">
+                        <span class="slider slider-2x flat"></span>
+                    </label>
+                  </div>
+                  <div ng-if="customer.details.IsInDebtTmp" class="col-md-8 col-xs-8 n-padding-l n-padding-r" style="padding-top: 0.6%;">
+                    <label style="cursor: pointer;" class="badge badge-warning" >Inhabilitado</label>
+                  </div>
                 </div>
-                <div ng-if="customer.details.idClientType!='5'" class="col-md-12">
-                  <span ng-if="customer.details.zona!=null">Zona: {{customer.details.zona.n_zona}} - {{customer.details.zona.descripcion | uppercase}}</span>
-                  <span ng-if="customer.details.zona==null">Zona: <label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="Zona no asignada" class="label label-default">n/a</label></span>
+                <div  ng-if="sysLoggedUser.idProfileKf==1" class="col-md-12">
+                  <div class="col-md-12 col-xs-12 n-padding-l" >
+                    <span>Estatus URL:</span>
+                    <button data-toggle="tooltip" data-placement="bottom" title="Copiar" type="button" style="margin-left: 20px; margin-top: -0.5em;" ngclipboard data-clipboard-text="{{customer.details.IsInDebtURL}}" class="btn btn-xs btn-success"><i class="fas fa-copy"></i> Copiar</button>
+                    <a data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{customer.details.IsInDebtURL}}" class="btn btn-xs btn-success"><i class="fas fa-link"></i> Abrir</a>
+                  </div>
                 </div>
+              </div>
+              <div ng-if="customer.details.idClientType!='5'" class="col-md-12 ">
+                <span ng-if="customer.details.zona!=null">Zona: {{customer.details.zona.n_zona}} - {{customer.details.zona.descripcion | uppercase}}</span>
+                <span ng-if="customer.details.zona==null">Zona: <label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="Zona no asignada" class="label label-default">n/a</label></span>
+              </div>
             </div>
           </div>
           <div class="col-md-12 col-sm-12 col-xs-12"> 
@@ -237,3 +261,4 @@
 <div ng-if="!isNewCustomer" ng-include="'views/customer/customer_details/components/comp_allowedUserList.html'"></div>
 <div ng-if="!isNewCustomer" ng-include="'views/customer/customer_details/components/comp_paymentInfoDetails.html'"></div>
 <div ng-if="!isNewCustomer" ng-include="'views/customer/customer_details/components/comp_departmentList.html'"></div>
+<div ng-include="'views/utilities/modalConfirmationCustom.html'"></div>
