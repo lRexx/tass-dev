@@ -3,10 +3,9 @@ var moduleUserServices = angular.module("services.User", ["tokenSystem"]);
 moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$timeout', 'serverHost', 'serverBackend', 'serverHeaders', 
   function($http, $q, tokenSystem, $timeout, serverHost, serverBackend, serverHeaders){
       var checkResult=0;
-      var rsJson = {};
       var attempsToken = {emailAttempted:'', attempsCount: 0};
       var loginResult="";
-      var rsJSON;
+      var rsJSON = {};
       var mail2Search = {mail:{ email: ''}};
       var deferred = $q.defer();
       return {
@@ -21,9 +20,10 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                       if(typeOfCheck!="updatesession"){
                         tokenSystem.destroyTokenStorage(3)
                         tokenSystem.temporalStorage(response.data[0]);
-                      }
-                      if(typeOfCheck=="updatesession"){
+                      }else if(typeOfCheck=="updatesession"){
                         tokenSystem.destroyTokenStorage(5);
+                      }else if(typeOfCheck=="forgotPwd"){
+                        tokenSystem.temporalStorage(response.data[0]);
                       }
                       return checkResult;
                       //console.log(response.data)
@@ -52,9 +52,9 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                               attempsToken['attempsCount']=0;
                               attempsToken['emailAttempted']=userMail;
                       }
-                        sessionStorage.setItem("attempsToken", JSON.stringify(attempsToken));
-                        checkResult = 0;
-                        return checkResult;
+                      sessionStorage.setItem("attempsToken", JSON.stringify(attempsToken));
+                      checkResult = 0;
+                      return checkResult;
                     }
             });   
           },
@@ -86,6 +86,7 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
           recoverPwd: function(userPwd2Recover) {
             var rsTmpUser=tokenSystem.getTokenStorage(3);
               console.log("Cuenta a restablecer: "+rsTmpUser.emailUser);
+              console.log(userPwd2Recover);
               return $http.post(serverHost+serverBackend+"User/updatePass",userPwd2Recover, serverHeaders)
                 .then(function mySucess(response, status, data) {
                   return response;
@@ -122,91 +123,100 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
           /* LOGIN SERVICE */
           letLogin: function(jsonLogin) {
             var jsonUser=jsonLogin.user.fullNameUser;
-              console.log(jsonLogin);
+            rsJSON.loginResult = null;
+              //console.log(jsonLogin);
               return $http.post(serverHost+serverBackend+"User/auth",jsonLogin, serverHeaders)
                 .then(function mySucess(response, status) {
-                  rsJSON=response.data.response;
-                  rsJSON.loginResult = null;
-                  if(rsJSON){
-                    console.log(rsJSON.fullNameUser);
-                    console.log(rsJSON);
-                  }
-                    switch (response.status){
-                      case 200:
-                        sessionStorage.removeItem("attempsToken");
-                        if(rsJSON.idProfileKf==6 && rsJSON.requireAuthentication==0){
-                           console.log('is an Attendant without login premission');
-                          tokenSystem.temporalStorage(rsJSON);
-                           rsJSON.loginResult = 10;
-                          return rsJSON; 
-                        }else if(rsJSON.isConfirmatedMail==0){
-                          console.log('Confirm Email Required');
-                          tokenSystem.temporalStorage(rsJSON);
-                           rsJSON.loginResult = 3;
-                          return rsJSON;
-                        }else if(rsJSON.isConfirmatedMail==1 && rsJSON.idStatusKf==0){ 
-                          console.log('Account Inactive, please contact support');
-                          tokenSystem.temporalStorage(rsJSON);
-                           rsJSON.loginResult = 4;
-                          return rsJSON;
-                        }else if(rsJSON.isConfirmatedMail==1 && rsJSON.idStatusKf==1 && rsJSON.resetPasword==1){
-                          console.log('Change Password Required');
-                          tokenSystem.temporalStorage(rsJSON);
-                           rsJSON.loginResult = 2;
-                          return rsJSON;
-                        }else  if(rsJSON.resetPasword==0 && rsJSON.idStatusKf==1){
-                        tokenSystem.destroyTokenStorage(4);
-                        //$cookies.put('sysToken', true);
-                        //$cookies.put('sysLoggedUser', rsJSON);
-                        //$cookies.put('sysLoggedUserModules', rsJSON.modules);
-                        tokenSystem.setTokenStorage(true, rsJSON, rsJSON.modules);
-                        $timeout(function() {
-                            var jsonTokenUser = tokenSystem.getTokenStorage(2);
-                            console.log('Login Successfully', jsonTokenUser.emailUser);
-                            
-                        }, 1500);
-                         rsJSON.loginResult = 1;
+                  console.log(response.status);
+                  //rsJSON=response.data.response;
+                  //rsJSON.loginResult = null;
+                  //if(rsJSON){
+                  //  console.log(rsJSON.fullNameUser);
+                  //  console.log(rsJSON);
+                  //}
+
+                  switch (response.status){
+                    
+                    case 200:
+                      rsJSON=response.data.response;
+                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                      console.log(rsJSON.fullNameUser);
+                      sessionStorage.removeItem("attempsToken");
+                      if(rsJSON.idProfileKf==6 && rsJSON.requireAuthentication==0){
+                          console.log('is an Attendant without login premission');
+                        tokenSystem.temporalStorage(rsJSON);
+                          rsJSON.loginResult = 10;
+                        return rsJSON; 
+                      }else if(rsJSON.isConfirmatedMail==0){
+                        console.log('Confirm Email Required');
+                        tokenSystem.temporalStorage(rsJSON);
+                          rsJSON.loginResult = 3;
                         return rsJSON;
+                      }else if(rsJSON.isConfirmatedMail==1 && rsJSON.idStatusKf==0){ 
+                        console.log('Account Inactive, please contact support');
+                        tokenSystem.temporalStorage(rsJSON);
+                          rsJSON.loginResult = 4;
+                        return rsJSON;
+                      }else if(rsJSON.isConfirmatedMail==1 && rsJSON.idStatusKf==1 && rsJSON.resetPasword==1){
+                        console.log('Change Password Required');
+                        tokenSystem.temporalStorage(rsJSON);
+                          rsJSON.loginResult = 2;
+                        return rsJSON;
+                      }else  if(rsJSON.resetPasword==0 && rsJSON.idStatusKf==1){
+                      tokenSystem.destroyTokenStorage(4);
+                      //$cookies.put('sysToken', true);
+                      //$cookies.put('sysLoggedUser', rsJSON);
+                      //$cookies.put('sysLoggedUserModules', rsJSON.modules);
+                      tokenSystem.setTokenStorage(true, rsJSON, rsJSON.modules);
+                      $timeout(function() {
+                          var jsonTokenUser = tokenSystem.getTokenStorage(2);
+                          console.log('Login Successfully', jsonTokenUser.emailUser);
+                          
+                      }, 1500);
+                        rsJSON.loginResult = 1;
+                      return rsJSON;
                       }
-                      break;
-                      case 203:
-                        //tokenSystem.temporalStorage(rsJSON);
-                        var jsonTokenUser = tokenSystem.getTokenStorage(3);
-                        console.log('<<<Incorrect Password>>>');
-                        console.log("Error: " + response.data.error);
-                          var rsTmpUser = tokenSystem.getTokenStorage(3);
-                          if (rsTmpUser.idStatusKf=='1' && rsTmpUser.isConfirmatedMail=='1'){
-                            var attempsTkn=!JSON.parse(sessionStorage.getItem("attempsToken"))? false :JSON.parse(sessionStorage.getItem("attempsToken"));
-                            if(attempsTkn==false || attempsTkn==undefined){
-                                attempsToken['attempsCount']=0;
-                                attempsToken['attempsCount']++;
-                                attempsToken['emailAttempted']=jsonUser;
-                            }else if(jsonUser!==attempsTkn.emailAttempted) {
-                                sessionStorage.removeItem("attempsToken");
-                                attempsToken['attempsCount']=0;
-                                attempsToken['attempsCount']++;
-                                attempsToken['emailAttempted']=jsonUser;
-                            }else{
-                                attempsToken['attempsCount']=attempsTkn.attempsCount+1;
-                                attempsToken['emailAttempted']=attempsTkn.emailAttempted;
-                            }  
-                            sessionStorage.setItem("attempsToken", JSON.stringify(attempsToken));
-                            loginResult = 5;
+                    break;
+                    case 203:
+                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                      //tokenSystem.temporalStorage(rsJSON);
+                      var jsonTokenUser = tokenSystem.getTokenStorage(3);
+                      
+                      console.log("Error: " + response.data.error);
+                        var rsTmpUser = tokenSystem.getTokenStorage(3);
+                        if (rsTmpUser.idStatusKf=='1' && rsTmpUser.isConfirmatedMail=='1'){
+                          var attempsTkn=!JSON.parse(sessionStorage.getItem("attempsToken"))? false :JSON.parse(sessionStorage.getItem("attempsToken"));
+                          if(attempsTkn==false || attempsTkn==undefined){
+                              attempsToken['attempsCount']=0;
+                              attempsToken['attempsCount']++;
+                              attempsToken['emailAttempted']=jsonUser;
+                          }else if(jsonUser!==attempsTkn.emailAttempted) {
+                              sessionStorage.removeItem("attempsToken");
+                              attempsToken['attempsCount']=0;
+                              attempsToken['attempsCount']++;
+                              attempsToken['emailAttempted']=jsonUser;
                           }else{
-                            loginResult = 6;
-                          }
-                        return loginResult;
-                      break;
-                      default:
-                    }
+                              attempsToken['attempsCount']=attempsTkn.attempsCount+1;
+                              attempsToken['emailAttempted']=attempsTkn.emailAttempted;
+                          }  
+                          sessionStorage.setItem("attempsToken", JSON.stringify(attempsToken));
+                          console.log('<<<Incorrect Password 5 >>>');
+                          rsJSON.loginResult = 5;
+                        }else{
+                          console.log('<<<Incorrect Password 6 >>>');
+                          rsJSON.loginResult = 6;
+                        }
+                      return rsJSON;
+                    break;
+                    default:
+                  }
                 },function myError(response) {
                     if(response.status == 404){
                       console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
                       /*inform.add(response.data.error,{
                         ttl:5000, type: 'warning'
                       }); */
-                    }
-                    else{
+                    }else{
                       console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
                       /*inform.add(response.data.error,{
                         ttl:5000, type: 'warning'

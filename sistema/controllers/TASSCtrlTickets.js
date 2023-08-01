@@ -1780,33 +1780,39 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     case "loadBuildingData":
                         $scope.select.products={'selected':undefined}
                         $scope.list_keys=[];
-                        blockUI.start('Cargando datos asociados al consorcio '+obj.name);
-                        if (obj!=undefined && ($scope.sysLoggedUser.idProfileKf=="1" || ($scope.sysLoggedUser.idProfileKf=="4" && $scope.isCompanyAdministrator && !$scope.isHomeSelected))){
-                            $scope.ticket.building = obj;
-                            $timeout(function() {
-                                $scope.checBuildingTitularAttendant(obj.idClient);
-                                $scope.getDeptoListByAddress(obj.idClient);
-                                $scope.getKeysAssociatedToACustomerFn(obj.idClient);
-                                $scope.getControlAccessDoorsAssociatedToACustomerFn(obj.idClient);
-                                $scope.getAttendantListFn(obj.idClient);
-                                $scope.getCostByCustomer.rate.idCustomer=obj.idClient;
-                                $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
-                                blockUI.stop();
-                            }, 1000);
-                        }else if (obj!=undefined && $scope.sysLoggedUser.idProfileKf!="1"){
-                            $timeout(function() {
-                                $scope.getCustomerByIdFn(obj.idClient, "building");
-                                $scope.getKeysAssociatedToACustomerFn(obj.idClient);
-                                $scope.getControlAccessDoorsAssociatedToACustomerFn(obj.idClient);
-                                $scope.getAttendantListFn(obj.idClient);
-                                $scope.getCostByCustomer.rate.idCustomer=obj.idClient;
-                                $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
-                            }, 1000);
-                            $timeout(function() {
-                                $scope.mainSwitchFn('autoSelectDoors', null, null);
-                                blockUI.stop();
-                                $scope.enabledNextBtn();
-                            }, 1500);
+                        if (obj.IsInDebt!="1"){
+                            blockUI.start('Cargando datos asociados al consorcio '+obj.name);
+                            if (obj!=undefined && ($scope.sysLoggedUser.idProfileKf=="1" || ($scope.sysLoggedUser.idProfileKf=="4" && $scope.isCompanyAdministrator && !$scope.isHomeSelected))){
+                                $scope.ticket.building = obj;
+                                $timeout(function() {
+                                    $scope.checBuildingTitularAttendant(obj.idClient);
+                                    $scope.getDeptoListByAddress(obj.idClient);
+                                    $scope.getKeysAssociatedToACustomerFn(obj.idClient);
+                                    $scope.getControlAccessDoorsAssociatedToACustomerFn(obj.idClient);
+                                    $scope.getAttendantListFn(obj.idClient);
+                                    $scope.getCostByCustomer.rate.idCustomer=obj.idClient;
+                                    $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
+                                    blockUI.stop();
+                                }, 1000);
+                            }else if (obj!=undefined && $scope.sysLoggedUser.idProfileKf!="1"){
+                                $timeout(function() {
+                                    $scope.getCustomerByIdFn(obj.idClient, "building");
+                                    $scope.getKeysAssociatedToACustomerFn(obj.idClient);
+                                    $scope.getControlAccessDoorsAssociatedToACustomerFn(obj.idClient);
+                                    $scope.getAttendantListFn(obj.idClient);
+                                    $scope.getCostByCustomer.rate.idCustomer=obj.idClient;
+                                    $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
+                                }, 1000);
+                                $timeout(function() {
+                                    $scope.mainSwitchFn('autoSelectDoors', null, null);
+                                    blockUI.stop();
+                                    $scope.enabledNextBtn();
+                                }, 1500);
+                            }
+                        }else{
+                            inform.add('El cliente '+obj.name+' se encuentra inhabilitado para realizar pedidos, contacte al area de soporte de TASS.',{
+                                ttl:6000, type: 'warning'
+                            });
                         }
                     break;
                     case "home":
@@ -1906,18 +1912,24 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     break;
                     case "selectDepartment":
                         console.log(obj);
-                        $scope.ticket.optionTypeSelected.name="department";
-                        $scope.ticket.idClientDepartament = obj;
-                        $scope.ticket.keys = obj.keys;
-                        $scope.keyList = obj.keys;
-                        $timeout(function() {
-                            $scope.getCustomerByIdFn(obj.idClientAdminFk, "admin");
-                            $scope.mainSwitchFn('loadBuildingData', obj, null);
-                            inform.add('Departamento seleccionado: '+obj.Depto+' haga clic en siguiente para continuar.',{
-                                ttl:5000, type: 'success'
+                        if (obj.IsInDebt!="1"){
+                            $scope.ticket.optionTypeSelected.name="department";
+                            $scope.ticket.idClientDepartament = obj;
+                            $scope.ticket.keys = obj.keys;
+                            $scope.keyList = obj.keys;
+                            $timeout(function() {
+                                $scope.getCustomerByIdFn(obj.idClientAdminFk, "admin");
+                                $scope.mainSwitchFn('loadBuildingData', obj, null);
+                                inform.add('Departamento seleccionado: '+obj.Depto+' haga clic en siguiente para continuar.',{
+                                    ttl:5000, type: 'success'
+                                });
+                                $scope.enabledNextBtn();
+                            }, 1000);
+                        }else{
+                            inform.add('El cliente '+obj.name+' se encuentra inhabilitado para realizar pedidos, contacte al area de soporte de TASS.',{
+                                ttl:6000, type: 'warning'
                             });
-                            $scope.enabledNextBtn();
-                        }, 1000);
+                        }
                     break;
                     case "administration":
                         inform.add('Debe seleccionar un consorcio para continuar.',{
@@ -2899,7 +2911,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.new.ticket.keys = [];
                         for (var i = 0; i < $scope.list_keys.length; i++) {
                             var idUserKf = $scope.list_keys[i].user!=undefined?$scope.list_keys[i].user.idUser:null;
-                            $scope.new.ticket.keys.push({'idProductKf':$scope.list_keys[i].key.idProduct, 'idCategoryKf':$scope.list_keys[i].key.idCategoryKf, 'idUserKf':idUserKf, 'idDepartmenKf':$scope.list_keys[i].key.idDepartmenKf, 'isKeyTenantOnly':$scope.list_keys[i].key.isKeyTenantOnly, 'idClientKf':$scope.list_keys[i].key.idClientKf,'doors':$scope.list_keys[i].doors});
+                            $scope.new.ticket.keys.push({'idProductKf':$scope.list_keys[i].key.idProduct, 'idCategoryKf':$scope.list_keys[i].key.idCategoryKf, 'idUserKf':idUserKf, 'idDepartmenKf':$scope.list_keys[i].key.idDepartmenKf, 'isKeyTenantOnly':$scope.list_keys[i].key.isKeyTenantOnly, 'idClientKf':$scope.list_keys[i].key.idClientKf, 'priceFabric':$scope.list_keys[i].key.priceFabric,'doors':$scope.list_keys[i].doors});
                         }
                         switch (obj.optionTypeSelected.name){
                             case "department":

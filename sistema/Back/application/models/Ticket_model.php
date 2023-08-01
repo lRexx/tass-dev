@@ -10,7 +10,6 @@ class Ticket_model extends CI_Model
 		 /*TICKET*/ $this->load->model('Mercadolibre_model');
     }
 
-
 	/*Dar de alta*/
 	public function add2($ticket)
 	{
@@ -51,7 +50,6 @@ class Ticket_model extends CI_Model
 		$query      = $this->db->select(" * ")->from("tb_sys_code")
 			->where("idCode = " , 1)->get();
 
-
 		if ($query->num_rows() > 0){
 			$getCodeSys = $query->row_array();
 			$codTicket  = $getCodeSys['description']." -".
@@ -63,7 +61,6 @@ class Ticket_model extends CI_Model
 				'code' => $getCodeSys['code'] + 1
 			)
 		)->where("idCode = " , 1)->update("tb_sys_code");
-
 
 		/* CREAMOS UN TICKET */
 		
@@ -124,6 +121,7 @@ class Ticket_model extends CI_Model
 						"isKeyTenantOnly" 	=> @$key['isKeyTenantOnly'] ,
 						"idClientKf" 		=> @$key['idClientKf'] ,
 						"idClientAdminKf" 	=> @$key['idClientAdminKf'] ,
+						"priceFabric" 		=> @$key['priceFabric'] ,
 						"created_at" 		=> $now->format('Y-m-d H:i:s')
 					));
 					if ($this->db->affected_rows()===1){
@@ -682,11 +680,37 @@ class Ticket_model extends CI_Model
 	public function changueStatus($ticket)
 	{
 
-		$this->db->set(
-			array(
-				'idStatusTicketKf' 			=> @$ticket['idNewStatusKf']
-			)
-		)->where("idTicket" , $ticket['idTicket'])->update("tb_tickets_2");
+		if (is_null($ticket['delivered_at']) && is_null($ticket['delivery_schedule_at']) && $ticket['idNewStatusKf']!=5 && $ticket['idNewStatusKf']!=1){
+			$this->db->set(
+				array(
+					'idStatusTicketKf' 			=> @$ticket['idNewStatusKf']
+				)
+			)->where("idTicket" , $ticket['idTicket'])->update("tb_tickets_2");
+		}else if (!is_null($ticket['idTypeDeliveryKf']) && $ticket['idTypeDeliveryKf']=="2" && !is_null($ticket['delivery_schedule_at'])){
+			$this->db->set(
+				array(
+					'idStatusTicketKf' 			=> @$ticket['idNewStatusKf'],
+					'delivery_schedule_at' 		=> @$ticket['delivery_schedule_at']
+				)
+			)->where("idTicket" , $ticket['idTicket'])->update("tb_tickets_2");
+		}else if (!is_null($ticket['idTypeDeliveryKf']) && $ticket['idTypeDeliveryKf']=="2" && !is_null($ticket['delivered_at'])){
+			$this->db->set(
+				array(
+					'idStatusTicketKf' 			=> @$ticket['idNewStatusKf'],
+					'delivered_at' 				=> @$ticket['delivered_at']
+				)
+			)->where("idTicket" , $ticket['idTicket'])->update("tb_tickets_2");
+		}else if (!is_null($ticket['idTypeDeliveryKf']) && $ticket['idTypeDeliveryKf']=="1" && !is_null($ticket['delivered_at'])){
+			$this->db->set(
+				array(
+					'idStatusTicketKf' 			=> @$ticket['idNewStatusKf'],
+					'delivered_at' 				=> @$ticket['delivered_at'],
+					'retiredByDNI' 				=> @$ticket['retiredByDNI'],
+					'retiredByFullName' 		=> @$ticket['retiredByFullName']
+				)
+			)->where("idTicket" , $ticket['idTicket'])->update("tb_tickets_2");
+		}
+
 		if ($this->db->affected_rows()===1){
 			$idTicketKf = $ticket['idTicket'];
 			$now        = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
@@ -1460,7 +1484,28 @@ class Ticket_model extends CI_Model
 				}else if(@$data['idClientCompaniFk']!=''){
 					$this->db->where("idUserRequestBy = " , @$data['idClientCompaniFk']);
 				}
-				
+				//DATE FROM THE TICKET REQUEST WAS DONE
+				if (@$data['dateCreatedFrom']!='' && @$data['dateCreatedTo']==''){
+					$where = "created_at > '".@$data['dateCreatedFrom']."'";
+					$this->db->where($where);
+				}else if (@$data['dateCreatedTo']!='' && @$data['dateCreatedFrom']==''){
+					$where = "created_at < '".@$data['dateCreatedTo']."'";
+					$this->db->where($where);
+				}else if (@$data['dateCreatedFrom']!='' && @$data['dateCreatedTo']!=''){
+					$where = "DATE(created_at) BETWEEN '".@$data['dateCreatedFrom']."' AND '".@$data['dateCreatedTo']."'";
+					$this->db->where($where);
+				}
+				//DATE FROM THE TICKET REQUEST WAS DELIVERED
+				if (@$data['dateDeliveredFrom']!='' && @$data['dateDeliveredTo']==''){
+					$where = "delivered_at > '".@$data['dateDeliveredFrom']."'";
+					$this->db->where($where);
+				}else if (@$data['dateDeliveredTo']!='' && @$data['dateDeliveredFrom']==''){
+					$where = "delivered_at < '".@$data['dateDeliveredTo']."'";
+					$this->db->where($where);
+				}else if (@$data['dateDeliveredFrom']!='' && @$data['dateDeliveredTo']!=''){
+					$where = "DATE(delivered_at) BETWEEN '".@$data['dateDeliveredFrom']."' AND '".@$data['dateDeliveredTo']."'";
+					$this->db->where($where);
+				}
 				//ID USER OF WHO REQUEST THE TICKET
 				if (@$data['idUserRequestBy']!=''){
 					$this->db->where("idUserRequestBy = " , @$data['idUserRequestBy']);
@@ -1597,6 +1642,28 @@ class Ticket_model extends CI_Model
 			if (@$data['idUserRequestBy']!=''){
 				$this->db->where("idUserRequestBy = " , @$data['idUserRequestBy']);
 			}
+			//DATE FROM THE TICKET REQUEST WAS DONE
+			if (@$data['dateCreatedFrom']!='' && @$data['dateCreatedTo']==''){
+				$where = "created_at > '".@$data['dateCreatedFrom']."'";
+				$this->db->where($where);
+			}else if (@$data['dateCreatedTo']!='' && @$data['dateCreatedFrom']==''){
+				$where = "created_at < '".@$data['dateCreatedTo']."'";
+				$this->db->where($where);
+			}else if (@$data['dateCreatedFrom']!='' && @$data['dateCreatedTo']!=''){
+				$where = "DATE(created_at) BETWEEN '".@$data['dateCreatedFrom']."' AND '".@$data['dateCreatedTo']."'";
+				$this->db->where($where);
+			}
+			//DATE FROM THE TICKET REQUEST WAS DELIVERED
+			if (@$data['dateDeliveredFrom']!='' && @$data['dateDeliveredTo']==''){
+				$where = "delivered_at > '".@$data['dateDeliveredFrom']."'";
+				$this->db->where($where);
+			}else if (@$data['dateDeliveredTo']!='' && @$data['dateDeliveredFrom']==''){
+				$where = "delivered_at < '".@$data['dateDeliveredTo']."'";
+				$this->db->where($where);
+			}else if (@$data['dateDeliveredFrom']!='' && @$data['dateDeliveredTo']!=''){
+				$where = "DATE(delivered_at) BETWEEN '".@$data['dateDeliveredFrom']."' AND '".@$data['dateDeliveredTo']."'";
+				$this->db->where($where);
+			}
 			//ID USER OF WHO MADE THE TICKET
 			if (@$data['idUserMadeBy']!=''){
 				$this->db->where("idUserMadeBy = " , @$data['idUserMadeBy']);
@@ -1677,6 +1744,17 @@ class Ticket_model extends CI_Model
 					if (@$data['idTypeTicketKf']!=''){
 						$this->db->where("idTypeTicketKf = " , @$data['idTypeTicketKf']);
 					}
+					//DATE FROM THE TICKET REQUEST WAS DONE
+					if (@$data['dateCreatedFrom']!='' && @$data['dateCreatedTo']==''){
+						$where = "created_at > '".@$data['dateCreatedFrom']."'";
+						$this->db->where($where);
+					}else if (@$data['dateCreatedTo']!='' && @$data['dateCreatedFrom']==''){
+						$where = "created_at < '".@$data['dateCreatedTo']."'";
+						$this->db->where($where);
+					}else if (@$data['dateCreatedFrom']!='' && @$data['dateCreatedTo']!=''){
+						$where = "DATE(created_at) BETWEEN '".@$data['dateCreatedFrom']."' AND '".@$data['dateCreatedTo']."'";
+						$this->db->where($where);
+					}
 					//TICKET STATUS
 					if (@$data['idStatusTicketKf']!=''){
 						if(@$data['idStatusTicketKf']=='10'){
@@ -1729,6 +1807,28 @@ class Ticket_model extends CI_Model
 			if (@$data['idTypeTicketKf']!=''){
 				$this->db->where("idTypeTicketKf = " , @$data['idTypeTicketKf']);
 			}
+			//DATE FROM THE TICKET REQUEST WAS DONE
+			if (@$data['dateCreatedFrom']!='' && @$data['dateCreatedTo']==''){
+				$where = "created_at > '".@$data['dateCreatedFrom']."'";
+				$this->db->where($where);
+			}else if (@$data['dateCreatedTo']!='' && @$data['dateCreatedFrom']==''){
+				$where = "created_at < '".@$data['dateCreatedTo']."'";
+				$this->db->where($where);
+			}else if (@$data['dateCreatedFrom']!='' && @$data['dateCreatedTo']!=''){
+				$where = "DATE(created_at) BETWEEN '".@$data['dateCreatedFrom']."' AND '".@$data['dateCreatedTo']."'";
+				$this->db->where($where);
+			}
+			//DATE FROM THE TICKET REQUEST WAS DELIVERED
+			if (@$data['dateDeliveredFrom']!='' && @$data['dateDeliveredTo']==''){
+				$where = "delivered_at > '".@$data['dateDeliveredFrom']."'";
+				$this->db->where($where);
+			}else if (@$data['dateDeliveredTo']!='' && @$data['dateDeliveredFrom']==''){
+				$where = "delivered_at < '".@$data['dateDeliveredTo']."'";
+				$this->db->where($where);
+			}else if (@$data['dateDeliveredFrom']!='' && @$data['dateDeliveredTo']!=''){
+				$where = "DATE(delivered_at) BETWEEN '".@$data['dateDeliveredFrom']."' AND '".@$data['dateDeliveredTo']."'";
+				$this->db->where($where);
+			}
 			//TICKET STATUS
 			if (@$data['idStatusTicketKf']!=''){
 				if(@$data['idStatusTicketKf']=='10'){
@@ -1745,6 +1845,20 @@ class Ticket_model extends CI_Model
 			if (@$data['idTypePaymentKf']!=''){
 				$this->db->where("idTypePaymentKf = " , @$data['idTypePaymentKf']);
 			}
+			//BILLING INITIATED
+			if (@$data['isBillingInitiated']=='1'){
+				$where = "(ISNULL(isBillingInitiated) OR isBillingInitiated = '".@$data['isBillingInitiated']."')";
+				$this->db->where($where);
+			}else{
+				$where = "(ISNULL(isBillingInitiated) OR isBillingInitiated = '".@$data['isBillingInitiated']."')";
+				$this->db->where($where);
+			}
+			//BILLING UPLOADED
+			if (@$data['isBillingUploaded']=='1'){
+				$where = "(ISNULL(isBillingUploaded) OR isBillingUploaded != '".@$data['isBillingUploaded']."')";
+				$this->db->where($where);
+			}
+
 			if (@$data['codTicket']!=''){
 				//$this->db->where("codTicket = " , @$data['codTicket']);
 				$where = "codTicket LIKE '%".@$data['codTicket']."%'";
@@ -1759,7 +1873,6 @@ class Ticket_model extends CI_Model
 				return $this->buscar_relaciones_ticket($quuery->result_array());
 			}
 		}
-
 	}
 
 	/* GET TICKET BY ID */
@@ -1776,9 +1889,22 @@ class Ticket_model extends CI_Model
 			return $this->buscar_relaciones_ticket($todo);
 		}
 		return null;
-
 	}
+	/* VERIFY IF BILLING RECEIPT TICKET IS UPLOADED ALREADY BY TICKET ID */
+	public function billingUploaded($id)
+	{
+		$quuery = null;
+		$rs     = null;
 
+		$this->db->select("*")->from("tb_ticket_files_list");
+		$quuery = $this->db->where("idTicketKf = " , $id)->get();
+
+		if ($quuery->num_rows() > 0){
+			$todo = $quuery->result_array();
+			return $this->buscar_relaciones_ticket($todo);
+		}
+		return null;
+	}
 	public function buscar_relaciones_ticket($todo)
 	{
 		//var_dump($todo);
@@ -1948,6 +2074,13 @@ class Ticket_model extends CI_Model
 			$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
 			$quuery                        = $this->db->where("idTicketKf = " , $ticket['idTicket'])->get();
 			$todo[$key]['changes_history'] = @$quuery->result_array();
+			if ($ticket['isBillingUploaded']==1){
+				$this->db->select("*")->from("tb_ticket_files_list");
+				$quuery                        = $this->db->where("idTicketKf = " , $ticket['idTicket'])->get();
+				$todo[$key]['billingReceiptDetails'] = @$quuery->result_array();
+			}else{
+				$todo[$key]['billingReceiptDetails'] = null;
+			}
 		}
 
 		return $todo;
@@ -2302,5 +2435,101 @@ class Ticket_model extends CI_Model
 
         return $rs;
     }
+    public function postUploadFiles($ticketId, $file) {
+        $image_path 	= realpath(APPPATH . '../../facturas');
+        $file_name_ext 	= explode(".", $file["file"]["name"])[1];
+        $file_name_tmp 	= explode(".", $file["file"]["name"])[0];
+		$file_name 		= $file["file"]["name"];
+
+        //if ($fileName != ''){
+        //    $file_name  = $ticketId . '_'. $fileName . '_' . date("Ymd") . '.' . $file_name_ext;    
+        //}else{
+        //   $file_name  = $ticketId . '_'. $file_name_tmp . '_' . date("Ymd") . '.' . $file_name_ext;     
+        //}
+        //$file_size  = $file['file']['size'];
+        $file_type  = $file['file']['type'];
+        //$error      = $file['file']['error'];
+        $tempPath   = $file['file']['tmp_name' ];
+        $uploadPath = $image_path. DIRECTORY_SEPARATOR .$file_name;
+        move_uploaded_file($tempPath, $uploadPath);
+        $answer = array('dir' => '/facturas/', 'filename' => $file_name, 'type' => $file_type, "idTicketKf" => $ticketId);
+
+        return $answer;
+    }
+    public function addTicketUploadedFile($ticket) {
+		$now        = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
+        $this->db->insert('tb_ticket_files_list', [
+                'idTicketKf'       => $ticket['idTicketKf'],
+                'title'            => $ticket['name'],
+                'urlFile'          => $ticket['urlFile'],
+                'typeFile'         => $ticket['type'],
+				"upload_at" 	   => $now->format('Y-m-d H:i:s') ,
+                ]
+        );
+		if ($this->db->affected_rows()===1){
+			$idTicketKf = $ticket['idTicketKf'];
+			$now        = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
+			if (count(@$ticket['history']) > 0){
+				foreach ($ticket['history'] as $key) {
+					$this->db->insert('tb_ticket_changes_history' , array(
+						"idUserKf" 			=> @$key['idUserKf'] ,
+						"idTicketKf" 		=> $idTicketKf ,
+						"created_at" 		=> $now->format('Y-m-d H:i:s') ,
+						"descripcion" 		=> @$key['descripcion'] ,
+						"idCambiosTicketKf" => @$key['idCambiosTicketKf'] ,
+					));
+				}
+			}
+				//$lastTicketUpdatedQuery = null;
+				//$lastTicketUpdatedQuery = $this->ticketById($idTicketKf);
+			//return $lastTicketUpdatedQuery;
+			return true;
+		} else {
+			return false;
+		}
+
+    }
+    public function postDeleteFiles($fileName) {
+        $file_path = realpath(APPPATH . '../../facturas');
+        $filePath = $file_path. DIRECTORY_SEPARATOR .$fileName;
+        unlink($filePath);  
+        return true;
+    }      
+    public function deleteTicketUploadedFile($ticket) {
+
+        $this->db->delete('tb_ticket_files_list', array('idTicketFiles' => $ticket['idTicketFiles']));  
+		if ($this->db->affected_rows()===1){
+			$idTicketKf = $ticket['idTicketKf'];
+			$now        = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
+			if (count(@$ticket['history']) > 0){
+				foreach ($ticket['history'] as $key) {
+					$this->db->insert('tb_ticket_changes_history' , array(
+						"idUserKf" 			=> @$key['idUserKf'] ,
+						"idTicketKf" 		=> $idTicketKf ,
+						"created_at" 		=> $now->format('Y-m-d H:i:s') ,
+						"descripcion" 		=> @$key['descripcion'] ,
+						"idCambiosTicketKf" => @$key['idCambiosTicketKf'] ,
+					));
+				}
+			}
+			return true;
+		} else {
+			return false;
+		}
+
+    }
+	public function setIsBillingUploaded ($idTicket, $setValue)
+	{
+		$this->db->set(
+			array(
+				'isBillingUploaded' => $setValue
+			)
+		)->where("idTicket", $idTicket)->update("tb_tickets_2");
+		if ($this->db->affected_rows() === 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
 ?>

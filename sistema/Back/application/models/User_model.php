@@ -6,8 +6,6 @@ class User_model extends CI_Model
 	public function __construct ()
 	{
 		parent::__construct();
-		/*MAIL*/
-		$this->load->model('mail_model');
 	}
 
 	public function auth ($user)
@@ -514,10 +512,10 @@ class User_model extends CI_Model
 		->update("tb_user");
 
 		/*MAIL*/
-		$title = "Mail de Clave de Acceso a Coferba";
-		$body  = "Se Restablecio su clave de acceso!<br> Usuario: " . $user['emailUser'] . "<br> Clave: " . $recoverRamdonPwd . " <br> Le Recomendamos luego de acceder cambie su clave!";
-		$m     = $this->mail_model->sendMail($title, $user['emailUser'], $body, $title);
-
+		$title 	 = "Contraseña de Acceso a TASS Seguridad";
+		$body  	 = "Su clave de acceso, ha sido restablecida!<br> Usuario: " . $user['emailUser'] . "<br> Clave: " . $recoverRamdonPwd . " <br> En el proximo ingreso el sistema solicitara el cambio de su clave!";
+		$subject = "Clave de acceso restablecida";
+		$this->mail_model->sendMail($title, $user['emailUser'], $body, $subject);
 
 		if ($this->db->affected_rows() === 1) {
 

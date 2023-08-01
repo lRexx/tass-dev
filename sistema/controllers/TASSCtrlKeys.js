@@ -847,7 +847,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
         *          SET DEPARTMENT ARRAY FUNCTION          *
         ***************************************************/
             $scope.setBuildingUnitListAsArrayFn = function(obj){
-                //console.log(obj);
+                console.log(obj);
                 var floor           = null;
                 var idDepartmentKf  = null;
                 var idClientKf      = null;
@@ -857,7 +857,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                         for(var i=1; i<=obj[f].deptos[d].qttyKeys; i++){
                             floor = obj[f].nameFloor=="st" || obj[f].nameFloor=="re" || obj[f].nameFloor=="ap" || obj[f].nameFloor=="ad"?obj[f].deptos[d].departament:obj[f].deptos[d].floor;
                             idDepartmentKf = obj[f].nameFloor=="st" || obj[f].nameFloor=="re" || obj[f].nameFloor=="ap" || obj[f].nameFloor=="ad"?'NULL':obj[f].deptos[d].idClientDepartmentKf;
-                            idClientKf = obj[f].nameFloor=="st" || obj[f].nameFloor=="re" || obj[f].nameFloor=="ap" || obj[f].nameFloor=="ad"?obj[f].deptos[d].idClientKf:'NULL';
+                            idClientKf = obj[f].nameFloor=="st" || obj[f].nameFloor=="re" || obj[f].nameFloor=="ap" || obj[f].deptos[d].idCategoryKf=="6" || obj[f].nameFloor=="ad"?obj[f].deptos[d].idClientKf:'NULL';
                             $scope.list_departments.push({
                                 'idDepartmentKf':idDepartmentKf,
                                 'idClientKf':idClientKf, 

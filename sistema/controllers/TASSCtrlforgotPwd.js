@@ -11,7 +11,7 @@ moduleForgotPwd.controller('ForgotPwdCtrl', function($scope, $rootScope, $locati
      }, 1500);
    }
 
-  $scope.newpwd={"user":{"emailUser":'', "dni":''}}
+  $scope.newpwd={'user':{'emailUser':'', 'dni':''}}
   $scope.forgot={email: '', dni:''};
   tokenSystem.destroyTokenStorage(2);
   $scope.sysToken      = tokenSystem.getTokenStorage(1);
@@ -44,64 +44,72 @@ moduleForgotPwd.controller('ForgotPwdCtrl', function($scope, $rootScope, $locati
     tokenSystem.destroyTokenStorage(3);
     $location.path("/");
   } 
-
-  
-  /**************************************************
-  *                                                 *
-  *                LOST PWD USER                    *
-  *                                                 *
-  **************************************************/
-      $scope.sysPwdRequest = function(){
-        if(($scope.sysRsTmpUser.emailUser!=null && APP_REGEX.checkEmail.test($scope.forgot.email) &&  $scope.forgot.email == $scope.sysRsTmpUser.emailUser) && ($scope.sysRsTmpUser.dni!=null && APP_REGEX.checkDNI.test($scope.forgot.dni) &&  $scope.forgot.dni == $scope.sysRsTmpUser.dni)){
-          console.log($scope.forgot);
-          $scope.newpwd.user.dni=$scope.forgot.dni;
-          $scope.newpwd.user.emailUser=$scope.forgot.email;
-          blockUI.start('Restableciendo la clave de usuario.');
-          $timeout(function() {
-            $scope.recoverPwdUser($scope.newpwd);
-          }, 1500); 
-        }else{
-          $scope.sysCheckEmail();
-        }
-
-      }
   /**************************************************
   *                                                 *
   *             REQUEST PWD FUNCTION                *
   *                                                 *
   **************************************************/
-      $scope.recoverPwdUser = function (newpwd){
-        console.log(newpwd);
-          userServices.recoverPwd(newpwd).then(function(response){
-            if(response.status==200){
-              inform.add('La clave ha sido restablecida satisfactoriamente, por favor verifica tu casilla de correo.',{
-                ttl:4000, type: 'warning'
+    $scope.recoverPwdUser = function (newpwd){
+      console.log(newpwd);
+        userServices.recoverPwd(newpwd).then(function(response){
+          if(response.status==200){
+            inform.add('La clave ha sido restablecida satisfactoriamente, por favor verifica tu casilla de correo.',{
+              ttl:4000, type: 'warning'
+            });
+            blockUI.message('Su Nueva Clave fue enviada a su direccion de correo!');
+            $timeout(function() {
+              blockUI.stop();
+              $location.path("/login");
+            }, 1500);
+          }else if(response.status==404){
+            inform.add('[Error]: '+response.status+', Ocurrio error verifique los datos e intenta de nuevo o contacta el area de soporte. ',{
+              ttl:5000, type: 'danger'
               });
-              blockUI.message('Su Nueva Clave fue enviada a su direccion de correo!');
-              $timeout(function() {
-                blockUI.stop();
-                $location.path("/login");
-              }, 1500);
-            }else if(response.status==404){
-              inform.add('[Error]: '+response.status+', Ocurrio error verifique los datos e intenta de nuevo o contacta el area de soporte. ',{
-                ttl:5000, type: 'danger'
-                });
-            }else if(response.status==500){
-              inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con servidor, contacta el area de soporte. ',{
-                ttl:5000, type: 'danger'
-                });
-            }
+          }else if(response.status==500){
+            inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con servidor, contacta el area de soporte. ',{
+              ttl:5000, type: 'danger'
+              });
+          }
 
-          });
+        });
+    }
+    
+  /**************************************************
+  *                                                 *
+  *                LOST PWD USER                    *
+  *                                                 *
+  **************************************************/
+      $scope.sysPwdRequest = function(obj){
+        console.log("obj.email: "+obj.email);
+        console.log("$scope.sysRsTmpUser.emailUser: "+$scope.sysRsTmpUser.emailUser);
+        if(($scope.sysRsTmpUser.emailUser!=null && APP_REGEX.checkEmail.test(obj.email) &&  
+            obj.email == $scope.sysRsTmpUser.emailUser) && 
+            ($scope.sysRsTmpUser.dni!=null && APP_REGEX.checkDNI.test(obj.dni) &&  
+            obj.dni == $scope.sysRsTmpUser.dni)
+          ){
+          blockUI.start('Restableciendo la clave de usuario.');
+          $scope.newpwd.user.dni        = obj.dni;
+          $scope.newpwd.user.emailUser  = obj.email;
+          console.log($scope.newpwd);
+          $scope.recoverPwdUser($scope.newpwd);
+          $timeout(function() {
+
+          }, 1500); 
+        }else{
+          console.log(obj);
+          $scope.sysCheckEmail(obj);
+        }
+
       }
   /**************************************************
   *                                                 *
   *             CHECK PWD FUNCTION                  *
   *                                                 *
   **************************************************/
-      $scope.sysCheckEmail = function(){
-        if($scope.forgot.dni){
-          userServices.checkUserMail($scope.forgot.dni, "forgotPwd").then(function(data) {
+      $scope.sysCheckEmail = function(obj){
+        console.log(obj);
+        if(obj.dni){
+          userServices.checkUserMail(obj.dni, "forgotPwd").then(function(data) {
             $scope.mailCheckResult= data; 
               if(!$scope.mailCheckResult){
                 var attempsToken = JSON.parse(localStorage.getItem("attempsToken"));
@@ -110,13 +118,16 @@ moduleForgotPwd.controller('ForgotPwdCtrl', function($scope, $rootScope, $locati
                   $scope.checkEmailLogin = 1;
                   $('#notificationModal').modal('show');
                 }else{
-                  inform.add('El numero de documento: '+ $scope.forgot.dni + ', no se encuentra registrado, verifique los datos ingresados.',{
+                  inform.add('El numero de documento: '+ obj.dni + ', no se encuentra registrado, verifique los datos ingresados.',{
                     ttl:4000, type: 'warning'
                   });
-                  console.log("Email No registrado / "+ $scope.forgot.dni);
+                  console.log("Email No registrado / "+ obj.dni);
                 }
               }else{
-                $scope.recoverPwdUser();
+                $scope.sysRsTmpUser = tokenSystem.getTokenStorage(3);
+                $scope.newpwd.user.dni        = obj.dni;
+                $scope.newpwd.user.emailUser  = obj.email;
+                $scope.recoverPwdUser($scope.newpwd);
               }
           });
         }

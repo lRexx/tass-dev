@@ -310,6 +310,18 @@ class Ticket extends REST_Controller {
                   $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
                 }
             }
+            public function billingUploaded_get($id) {
+                
+          
+                $rs = null;
+                $rs = $this->ticket_model->billingUploaded($id);
+      
+                if (!is_null($rs)) {
+                    $this->response($rs, 200);
+                } else {
+                  $this->response(array('error' => 'Factura no ha sido subida al server.'), 404);
+                }
+            }
             public function ticketByToken_get($token) {
                 
           
@@ -391,6 +403,73 @@ class Ticket extends REST_Controller {
             public function paymentsType_get() {
                 $rs = null;
                 $rs = $this->ticket_model->getPyamentsType();
+                if (!is_null($rs)) {
+                    $this->response($rs, 200);
+                } else {
+                    $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+                }
+            }
+            public function uploadFile_post() {
+                if ( !empty( $_FILES ) ) {
+                    $ticketId       = $this->post('idTicketKf');
+                    $file           = $_FILES;
+                }else{
+                    $upload=null;
+                }
+                $upload = $this->ticket_model->postUploadFiles($ticketId, $file);
+                if (! is_null($upload)) {
+                    $this->response($upload, 200);
+                } else {
+                    $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
+                }                
+        
+            }
+        
+            public function addUploadedTicketFile_post() {
+        
+                $rs = $this->ticket_model->addTicketUploadedFile($this->post('ticket'));
+                if (! is_null($rs)) {
+                    $this->response([ 'response' => "Registro Exitoso" ], 200);
+                } else {
+                    $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
+                }
+            }
+
+            public function deleteFile_post() {
+                $urlFile  = $this->post('fileName');
+        
+                if (! $urlFile) {
+                    $this->response(array('warning' => 'url of file is missing'), 404);
+                }
+        
+                $rs = $this->ticket_model->postDeleteFiles($urlFile);
+                if (!is_null($rs)) {
+                    $this->response("Archivo eliminado", 200);
+                } else {
+                    $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+                }
+            } 
+
+            public function deleteUploadedTicketFile_post() {
+                if (! $this->post('ticket')) {
+                    $this->response(null, 404);
+                }
+                $rs = $this->ticket_model->deleteTicketUploadedFile($this->post('ticket'));
+                if (!is_null($rs)) {
+                    $this->response("Datos eliminado", 200);
+                } else {
+                    $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+                }
+            } 
+
+            public function setIsBillingUploaded_get($idTicketKf, $setValue) {
+                if (!$idTicketKf) {
+                    $this->response(array('error' => 'Missing, Ticket ID'), 404);
+                }
+        
+                $rs = null;
+                $rs = $this->ticket_model->setIsBillingUploaded($idTicketKf, $setValue);
+        
                 if (!is_null($rs)) {
                     $this->response($rs, 200);
                 } else {

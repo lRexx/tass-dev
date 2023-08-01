@@ -9,6 +9,8 @@ class User extends REST_Controller {
         #header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
         parent::__construct();     
  		$this->load->model('user_model');
+        /*MAIL*/
+		$this->load->model('mail_model');
  	}
  	/* SERVICIO QUE AUTENTIFICA  */
 	public function auth_post()
@@ -235,7 +237,7 @@ class User extends REST_Controller {
     public function updatePass_post() {
         
                 if (!$this->post('user')) {
-                    $this->response(NULL, 404);
+                    $this->response(array('error' => "Post Data is Missing"), 404);
                 }
         
                 $rs = $this->user_model->updatePass($this->post('user'));

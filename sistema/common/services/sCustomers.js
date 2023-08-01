@@ -7,6 +7,7 @@ moduleCustomerServices.service("CustomerServices", ['$http', '$q', 'tokenSystem'
       var rsCustomer={'client':{}};
       var checkResult =0;
       var typeOfCustomer = "";
+      var deferred = $q.defer();
       return {
           /* GET ALL TYPE OF CUSTOMERS */
           getCustomerType: function() {
@@ -212,24 +213,39 @@ moduleCustomerServices.service("CustomerServices", ['$http', '$q', 'tokenSystem'
                   return response;
                 })  
           },
+          checkCustomerIsInDebt: function(id) {
+            //console.log("[Customer Services] => Generando codigo de seguridad del cliente: "+id);
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"Clientes/customerIsInDebt/"+id
+                  }).then(function mySuccess(response) {
+                  return response;
+                },function myError(response) { 
+                  return response;
+                })  
+          },
           chargeForExpenses: function(userData) {
             console.log("[Service][chargeForExpenses]---> Customer Configuration Charge for Expenses: ");
             return $http.post(serverHost+serverBackend+"Clientes/chargeForExpenses",userData, serverHeaders)
               .then(function mySucess(response) {
-                 return response;
+                deferred.resolve(response);
+                return deferred.promise;
             }).catch(function onError(response) {
                 console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
-                 return response;
+                deferred.resolve(response);
+                return deferred.promise;
             });
           },
           autoApproveAll: function(userData) {
             console.log("[Service][autoApproveAll]---> Customer Auto Approve All: ");
             return $http.post(serverHost+serverBackend+"Clientes/aprobarPedidoClient",userData, serverHeaders)
               .then(function mySucess(response) {
-                 return response;
+                deferred.resolve(response);
+                return deferred.promise;
             }).catch(function onError(response) {
                 console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
-                 return response;
+                deferred.resolve(response);
+                return deferred.promise;
             });
           },
           autoApproveOwners: function(userData) {
@@ -241,6 +257,19 @@ moduleCustomerServices.service("CustomerServices", ['$http', '$q', 'tokenSystem'
                 console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
                  return response;
             });
+          },
+          setClientInDebt: function(data) {
+            rsCustomer.client = data;
+            console.log("[Service][setClientInDebt]---> Customer is in debt ");
+            return $http.post(serverHost+serverBackend+"Clientes/IsInDebt",rsCustomer, serverHeaders)
+              .then(function mySucess(response) {
+                deferred.resolve(response);
+                return deferred.promise;
+              }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                deferred.resolve(response);
+                return deferred.promise;
+              });
           },
           getKeysAssociatedToACustomerService: function(id) {
             //console.log("[Customer Services] => get customer by id: "+sMsg);
@@ -260,10 +289,12 @@ moduleCustomerServices.service("CustomerServices", ['$http', '$q', 'tokenSystem'
                     method : "GET",
                     url : serverHost+serverBackend+"Clientes/controlAccessDoorsAssociatedToACustomerServices/"+id
                   }).then(function mySuccess(response) {
-                    return response;
+                    deferred.resolve(response);
+                    return deferred.promise;
                   }).catch(function onError(response) {
                     console.log("Error: "+response.data.error); 
-                    return response;
+                    deferred.resolve(response);
+                    return deferred.promise;
               })
           },
       }

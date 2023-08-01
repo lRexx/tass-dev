@@ -23,13 +23,21 @@ monitor.filter('toDate', function() {
     return new Date(items);
   };
 });
-monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParams, $q, blockUI, $timeout, inform, ticketServices, serviceServices, UtilitiesServices, addressServices, userServices, CustomerServices, tokenSystem, $window, $filter, serverHost, serverBackend, serverHeaders, APP_SYS){
+monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location, $routeParams, $q, blockUI, $timeout, inform, ticketServices, serviceServices, UtilitiesServices, addressServices, userServices, CustomerServices, tokenSystem, $window, $filter, serverHost, serverBackend, serverHeaders, APP_SYS){
   console.log(APP_SYS.app_name+" Modulo monitor pedidos");
     //console.log($scope.sysLoggedUser)
     //console.log($scope.sysToken)
     if (!$scope.sysToken || !$scope.sysLoggedUser ){
       $location.path("/login");
     }
+    const sysDate = new Date();
+    const fullSysDate = sysDate.toLocaleString('es-AR', { day: 'numeric', month: 'numeric', year:'numeric' });
+
+    //currentMoney.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' });
+    const sysYear         = sysDate.toLocaleString('es-AR', { year: 'numeric'});
+    const sysMonth        = sysDate.toLocaleString('es-AR', { month: 'numeric'});
+    const sysMonth2Digit  = String(sysDate.getMonth() + 1).padStart(2, '0');
+    const sysDay          = sysDate.toLocaleString('es-AR', { day: 'numeric'});
     $scope.filterAddressKf = {'selected':undefined};
     $scope.filterCompanyKf = {'selected':undefined};
       $scope.listTickt = 0;
@@ -41,7 +49,80 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
       $scope.keyTotalAllowed=4000;
       $scope.deliveryCostFree=0;
       $scope.update={'ticket':{}};
-
+      /*DATE PICKER*/
+      $scope.formats = ['dd-MM-yyyy', 'dd/MM/yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+      $scope.format = $scope.formats[1];
+      $scope.altInputFormats = ['M!/d!/yyyy'];
+      $scope.open1 = function() {
+        $scope.popup1.opened = true;
+      };
+      $scope.popup1 = {
+        opened: false
+      };
+      $scope.open2 = function() {
+        $scope.popup2.opened = true;
+      };
+      $scope.popup2 = {
+        opened: false
+      };
+      $scope.open3 = function() {
+        $scope.popup3.opened = true;
+      };
+      $scope.popup3 = {
+        opened: false
+      };
+      $scope.open4 = function() {
+        $scope.popup4.opened = true;
+      };
+      $scope.popup4 = {
+        opened: false
+      };
+      $scope.open5 = function() {
+        $scope.popup5.opened = true;
+      };
+      $scope.popup5 = {
+        opened: false
+      };
+      $scope.events =
+        {
+          status: 'full'
+        };
+      $scope.getCreatedDayClass = function(date, mode) {
+        //console.log($scope.listTickt);
+        if (mode === 'day') {
+          var dayToCheck = new Date(date).setHours(0,0,0,0);
+          //console.log(new Date(date));
+          for (var ticket in $scope.listTickt){
+            var currentDay = new Date($scope.listTickt[ticket].created_at).setHours(0,0,0,0);
+            //if ($scope.listTickt[ticket].idTicket=="306"){
+            //  console.log(new Date($scope.listTickt[ticket].created_at));
+            //}
+            if (dayToCheck === currentDay) {
+              //console.log(new Date($scope.listTickt[ticket].created_at));
+              return 'full';
+            }
+          }
+        }
+        return '';
+      }
+      $scope.getDeliveredDayClass = function(date, mode) {
+        //console.log($scope.listTickt);
+        if (mode === 'day') {
+          var dayToCheck = new Date(date).setHours(0,0,0,0);
+          console.log(new Date(date));
+          for (var ticket in $scope.listTickt){
+            var currentDay = new Date($scope.listTickt[ticket].delivered_at).setHours(0,0,0,0);
+            //if ($scope.listTickt[ticket].idTicket=="306"){
+            //  console.log(new Date($scope.listTickt[ticket].delivered_at));
+            //}
+            if (dayToCheck === currentDay) {
+              console.log(new Date($scope.listTickt[ticket].delivered_at));
+              return 'full';
+            }
+          }
+        }
+        return '';
+      }
     /*******************************************
     *    UPDATE PAYMENT DETAILS NEW REQUEST    *
     ********************************************/
@@ -71,56 +152,61 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
     *   PARAMETER TO RECEIVED THE PAYMENT FROM MERCADO PAGO     *
     *                                                           *
     ************************************************************/
-     //PARAMETERS SENT BY MERCADO PAGO AFTER THE PAYMENT
-     //collection_id=1312069211
-     //collection_status=approved
-     //payment_id=1312069211
-     //status=approved
-     //external_reference=5600713224_6698484756
-     //payment_type=credit_card
-     //merchant_order_id=7425566493
-     //preference_id=1177407195-2d407fa5-b370-48a3-88fa-83a870321138
-     //site_id=MLA
-     //processing_mode=aggregator
-     //merchant_account_id=null
-    /* USAGE: /login/auth/ticket/id/tokenId/token/secureToken */
-    $scope.mp={"payment":{"data":{
-    "collection_status": null,
-    "payment_id":null,
-    "payment_type":null,
-    "merchant_order_id": null,
-    "site_id": null,
-    "processing_mode":null,
-    "merchant_account_id": null,
-    "preference_id": null,
-    "external_reference":null,
-    "status":null
-    }}};
-    if($routeParams.preference_id && $routeParams.payment_id){
-      var ext_ref = $routeParams.external_reference;
-      var idTicket = ext_ref.split("_");
-      $scope.mp.payment.data.collection_status    = $routeParams.collection_status;
-      $scope.mp.payment.data.payment_id           = $routeParams.payment_id;
-      $scope.mp.payment.data.payment_type         = $routeParams.payment_type;
-      $scope.mp.payment.data.merchant_order_id    = $routeParams.merchant_order_id;
-      $scope.mp.payment.data.site_id              = $routeParams.site_id;
-      $scope.mp.payment.data.processing_mode      = $routeParams.processing_mode;
-      $scope.mp.payment.data.merchant_account_id  = $routeParams.merchant_account_id;
-      $scope.mp.payment.data.preference_id        = $routeParams.preference_id;
-      $scope.mp.payment.data.external_reference   = $routeParams.external_reference;
-      $scope.mp.payment.data.idTicket             = idTicket[0];
-      $scope.mp.payment.data.status               = $routeParams.status;
-      console.log(" Payment Details:");
-      console.log($scope.mp.payment.data);
-      if ($scope.mp.payment.data.status=="approved"){
-        inform.add('El pago recibido con el numero de Id:  '+$scope.mp.payment.data.payment_id,{
-          ttl:5000, type: 'info'
-        });
-        $timeout(function() {
-          $scope.updatePaymentFn($scope.mp.payment);
-        }, 1000);
-      }
-    }
+        //PARAMETERS SENT BY MERCADO PAGO AFTER THE PAYMENT
+        //collection_id=1312069211
+        //collection_status=approved
+        //payment_id=1312069211
+        //status=approved
+        //external_reference=5600713224_6698484756
+        //payment_type=credit_card
+        //merchant_order_id=7425566493
+        //preference_id=1177407195-2d407fa5-b370-48a3-88fa-83a870321138
+        //site_id=MLA
+        //processing_mode=aggregator
+        //merchant_account_id=null
+        /* USAGE: /login/auth/ticket/id/tokenId/token/secureToken */
+        $scope.mp={"payment":{"data":{
+        "collection_status": null,
+        "payment_id":null,
+        "payment_type":null,
+        "merchant_order_id": null,
+        "site_id": null,
+        "processing_mode":null,
+        "merchant_account_id": null,
+        "preference_id": null,
+        "external_reference":null,
+        "status":null
+        }}};
+        if($routeParams.preference_id && $routeParams.payment_id){
+          var ext_ref = $routeParams.external_reference;
+          var idTicket = ext_ref.split("_");
+          $scope.mp.payment.data.collection_status    = $routeParams.collection_status;
+          $scope.mp.payment.data.payment_id           = $routeParams.payment_id;
+          $scope.mp.payment.data.payment_type         = $routeParams.payment_type;
+          $scope.mp.payment.data.merchant_order_id    = $routeParams.merchant_order_id;
+          $scope.mp.payment.data.site_id              = $routeParams.site_id;
+          $scope.mp.payment.data.processing_mode      = $routeParams.processing_mode;
+          $scope.mp.payment.data.merchant_account_id  = $routeParams.merchant_account_id;
+          $scope.mp.payment.data.preference_id        = $routeParams.preference_id;
+          $scope.mp.payment.data.external_reference   = $routeParams.external_reference;
+          $scope.mp.payment.data.idTicket             = idTicket[0];
+          $scope.mp.payment.data.status               = $routeParams.status;
+          console.log(" Payment Details:");
+          console.log($scope.mp.payment.data);
+          if ($scope.mp.payment.data.status=="approved"){
+            inform.add('El pago recibido con el numero de Id:  '+$scope.mp.payment.data.payment_id,{
+              ttl:5000, type: 'info'
+            });
+            $timeout(function() {
+              $scope.updatePaymentFn($scope.mp.payment);
+            }, 1000);
+          }
+        }
+
+        $scope.importBillingTicketfiles= function() {
+          document.getElementById('uploadBillingTicketfiles').click();
+          //$('#uploadBillingTicketfiles ').trigger('click');
+        };
 
       /**************************************************
       *                                                 *
@@ -258,6 +344,34 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
                     //$scope.sysApproveTicketFn(tk.idTicket, sessionIdUser);
                 }
               break;
+              case "upload_billing_ticket":
+                if (confirm==0){
+                  $scope.mess2show="La factura ["+obj.name+"] sera cargada y asociada al ticket, Esta seguro que desea realizar la carga de la factura, Confirmar?";
+                  $scope.argObj = obj;
+                  console.log('Factura Nombre '+obj.name+' ID: '+obj.idTicket+' Solicitado por el usuario: '+$scope.sysLoggedUser.fullNameUser);
+                  console.log("============================================================================")
+                  console.log($scope.argObj);
+                  $('#confirmRequestModal').modal('toggle');
+              }else if (confirm==1){
+                  $scope.mainSwitchFn('upload_billing_ticket', $scope.argObj);
+                  $('#confirmRequestModal').modal('hide');
+                  //console.log($scope.argObj);
+                  //$scope.sysApproveTicketFn(tk.idTicket, sessionIdUser);
+              }
+              break;
+              case "deleteSingleFile":
+                  if (confirm==0){
+                  $scope.delFile=obj;
+                  $scope.mess2show="El archivo "+obj.title+" sera eliminado.     Confirmar?";
+
+                  console.log('Archivo a eliminar ID: '+obj.idClientFiles+' File: '+obj.title);
+                  console.log("============================================================================")   
+                  $('#confirmRequestModal').modal('toggle');
+                  }else if (confirm==1){
+                      $scope.mainSwitchFn('deleteSingleFile', $scope.delFile);
+                      $('#confirmRequestModal').modal('hide');
+                  }              
+              break;
               case "closeModalRequestStatus":
                 $('.circle-loader').toggleClass('load-complete');
                 $('.checkmark').toggle();
@@ -376,36 +490,25 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
      $scope.tkupdate = {};
      $scope.tktmporal = {};
      $scope.rsData = {};
-     $scope.openTicketFn = function(obj, option){
-       $scope.tkupdate  = obj;
-       $scope.tktmporal = obj;
+     $scope.openTicketFn = function(idTicket){
+       //$scope.tkupdate  = obj;
+       //$scope.tktmporal = obj;
        //ticketServices.ticketByToken(obj.urlToken);
        //console.log(obj);
        $scope.editComment=false;
-       ticketServices.ticketById($scope.tkupdate.idTicket).then(function(data){
-           $scope.rsData.ticket = (data[0]);
-             console.log($scope.rsData);
+       ticketServices.ticketById(idTicket).then(function(response){
+          if(response.status==200){
+            $scope.rsData.ticket = (response.data[0]);
+            $scope.tkupdate = response.data[0];
+            console.log($scope.rsData);
+          }else if (response.status==404){
+              $scope.rsData = {};
+              $scope.tkupdate = {};
+          }else if (response.status==500){
+              $scope.rsData = {};
+              $scope.tkupdate = {};
+          }
        });
-       switch(option){
-         case 0:
-           $('#UpdateModalTicket').modal('show');
-         break;
-         case 1:
-          $scope.getDeliveryTypesFn();
-           /**************************************************
-           *                                                 *
-           *                 DELIVERY TICKET                 *
-           *                                                 *
-           **************************************************/
-           console.log("DELIVERY TICKET OPEN");
-           $scope.delivery={'idTypeDeliveryKf':null};
-           $scope.select={'whoPickUp':null};
-           $('#UpdateModalDelivery').modal('show');
-         break;
-         case 2:
-           $scope.sysCheckTicketBeforeCancelFn($scope.tkupdate.idTicket);
-         break;
-       }
      }
     /**************************************************
     *                                                 *
@@ -461,7 +564,7 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
                 if (ticket.idTypePaymentKf=="2"){
                   $scope.mpCreateLinkFn(ticket);
                 }
-                  $scope.mainSwitchFn('dashboard', null);
+                  $scope.mainSwitchFn('search', null);
               }else if(response.status==500){
                   $scope.ticketRegistered = null;
                 console.log("Ticket Approval has failed, contact administrator");
@@ -491,7 +594,7 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
               inform.add('La solicitud de cancelación del pedido N°: '+ticket.codTicket+' ha sido registrada satisfactoriamente.',{
                 ttl:3000, type: 'success'
               });
-              $scope.mainSwitchFn('dashboard', null);
+              $scope.mainSwitchFn('search', null);
             }else if(response.status==500){
                 $scope.ticketRegistered = null;
               console.log("Ticket Cancellation request has failed, contact administrator");
@@ -520,7 +623,7 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
                   inform.add('La solicitud de cancelación del pedido N°: '+ticket.codTicket+' ha sido rechazada.',{
                     ttl:3000, type: 'success'
                   });
-                  $scope.mainSwitchFn('dashboard', null);
+                  $scope.mainSwitchFn('search', null);
                 }else if(response.status==500){
                     $scope.ticketRegistered = null;
                   console.log("Reject ticket Cancellation request has failed, contact administrator");
@@ -1271,7 +1374,7 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
                           ttl:5000, type: 'success'
                   });
                   $scope.addPaymentDetailsFn = response.data.response[0];
-                  $scope.mainSwitchFn('dashboard', null);
+                  $scope.mainSwitchFn('search', null);
               }else if(response.status==500){
                   $scope.addPaymentDetailsFn = null;
                   console.log("Payment request has failed, contact administrator");
@@ -1281,14 +1384,82 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
               }
           });
         };
+      /**************************************************
+      *                                                 *
+      *  SLIDER RANGE FOR THE AMOUNT OF TICKET TO SHOW  *
+      *                                                 *
+      **************************************************/
+        //https://angular-slider.github.io/angularjs-slider/index.html
+        //https://github.com/angular-slider/angularjs-slider
+        //https://jsfiddle.net/ValentinH/954eve2L/
+        $scope.slider = {
+          value: 10,
+          options: {
+            floor: 10,
+            ceil: 100,
+            step: 10,
+            showTicksValues: true,
+            onChange: function () {
+              $scope.filters.topDH = $scope.slider.value;
+              $scope.mainSwitchFn('search', null);
+            },
+            ticksTooltip: function(v) {
+              return 'Mostrar: ' + v;
+            },
+            customValueToPosition: function(val, minVal, maxVal) {
+              val = Math.sqrt(val);
+              minVal = Math.sqrt(minVal);
+              maxVal = Math.sqrt(maxVal);
+              var range = maxVal - minVal;
+              return (val - minVal) / range;
+            },
+            customPositionToValue: function(percent, minVal, maxVal) {
+              minVal = Math.sqrt(minVal);
+              maxVal = Math.sqrt(maxVal);
+              var value = percent * (maxVal - minVal) + minVal;
+              return Math.pow(value, 2);
+            }
+          }
+        };
+
+      /**************************************************
+      *            HIDE PROFILES FUNCTION               *
+      *         USED IN THE USER REGISTER FORM          *
+      **************************************************/
+        $scope.filterStatusTicket = function(item){
+          //alert($scope.select.idCompanyKf);
+          //console.log(item);
+          var opt = $scope.ticket.idStatusTicketKf;
+          switch (opt){
+            case "8":
+              if ($scope.ticket.idTypeDeliveryKf=="1"){
+                return item.idStatus == 7;
+              }else{
+                return item.idStatus == 4;
+              }
+            break;
+            case "4":
+              return item.idStatus == 5;
+            break;
+            case "5":
+              return item.idStatus == 1;
+            break;
+            case "7":
+              return item.idStatus == 1;
+            break;
+            //return item.idStatus == 4 ||  item.idStatus == 5;
+
+          }
+          
+        };
     /**************************************************
     *                                                 *
     *            TICKETS MONITOR FUNCTION             *
     *                                                 *
     **************************************************/
-     
+      $scope.showCalender = false;
       $scope.monitor={'filters':{},'update':{},'edit':{}};
-      $scope.monitor.filter={'idUserRequestBy':'', 'idUserMadeBy':'', 'idBuildingKf':'', 'idClientAdminFk':'', 'idClientCompaniFk':'', 'idClientBranchFk':'', 'topfilter':'', 'idTypeTicketKf':'', 'idStatusTicketKf':'', 'codTicket':'', 'idTypePaymentKf':'', 'idTypeDeliveryKf':''};
+      $scope.monitor.filter={'idUserRequestBy':'', 'idUserMadeBy':'', 'idBuildingKf':'', 'idClientAdminFk':'', 'idClientCompaniFk':'', 'idClientBranchFk':'', 'topfilter':'', 'idTypeTicketKf':'', 'idStatusTicketKf':'', 'codTicket':'', 'idTypePaymentKf':'', 'idTypeDeliveryKf':'', 'dateCreatedFrom':'', 'dateCreatedTo':'', 'dateDeliveredFrom':'', 'dateDeliveredTo':'', 'isBillingUploaded':null, 'isBillingInitiated':null};
       $scope.mainSwitchFn = function(opt, obj, obj2){
         switch (opt){
             case "dashboard":
@@ -1322,20 +1493,22 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
                       //console.log($scope.listCompany);
                     });
                   $scope.filters.topDH="10";
-                  $scope.monitor.filter.idProfileKf       = $scope.sysLoggedUser.idProfileKf;
-                  $scope.monitor.filter.topfilter         = $scope.filters.topDH;
+                  $scope.monitor.filter.idProfileKf         = $scope.sysLoggedUser.idProfileKf;
+                  $scope.monitor.filter.isBillingInitiated  = 0;
+                  $scope.monitor.filter.topfilter           = $scope.filters.topDH;
                   $scope.listTickets($scope.monitor.filter);
                 break;
                 case "4":
                   $scope.isHomeSelected=false;
                   $scope.getLisOfCustomersByIdFn($scope.sysLoggedUser.company[0]);
                   $scope.filters.topDH="10";
-                  $scope.monitor.filter.idClientAdminFk   = $scope.sysLoggedUser.company[0].idClient;
-                  $scope.monitor.filter.topfilter         = $scope.filters.topDH;
-                  $scope.monitor.filter.idProfileKf       = $scope.sysLoggedUser.idProfileKf;
-                  $scope.monitor.filter.idTypeTenantKf    = $scope.sysLoggedUser.idTypeTenantKf;
-                  $scope.monitor.filter.idDepartmentKf    = $scope.sysLoggedUser.idTypeTenantKf=="2"?$scope.sysLoggedUser.idDepartmentKf:"";
-                  $scope.monitor.filter.isHomeSelected    = $scope.isHomeSelected;
+                  $scope.monitor.filter.idClientAdminFk     = $scope.sysLoggedUser.company[0].idClient;
+                  $scope.monitor.filter.topfilter           = $scope.filters.topDH;
+                  $scope.monitor.filter.idProfileKf         = $scope.sysLoggedUser.idProfileKf;
+                  $scope.monitor.filter.idTypeTenantKf      = $scope.sysLoggedUser.idTypeTenantKf;
+                  $scope.monitor.filter.idDepartmentKf      = $scope.sysLoggedUser.idTypeTenantKf=="2"?$scope.sysLoggedUser.idDepartmentKf:"";
+                  $scope.monitor.filter.isHomeSelected      = $scope.isHomeSelected;
+                  $scope.monitor.filter.isBillingInitiated  = 0;
                   $scope.listTickets($scope.monitor.filter);
                 break;
                 case "3":
@@ -1349,6 +1522,7 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
                       $scope.monitor.filter.topfilter              = $scope.filters.topDH;
                       $scope.monitor.filter.idProfileKf            = $scope.sysLoggedUser.idProfileKf;
                       $scope.monitor.filter.idTypeTenantKf         = $scope.sysLoggedUser.idTypeTenantKf;
+                      $scope.monitor.filter.isBillingInitiated     = 0;
                       $scope.listTickets($scope.monitor.filter);
                     break;
                     case "2":
@@ -1359,6 +1533,7 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
                       $scope.monitor.filter.idProfileKf            = $scope.sysLoggedUser.idProfileKf;
                       $scope.monitor.filter.idTypeTenantKf         = $scope.sysLoggedUser.idTypeTenantKf;
                       $scope.monitor.filter.idDepartmentKf         = $scope.sysLoggedUser.idDepartmentKf;
+                      $scope.monitor.filter.isBillingInitiated     = 0;
                       $scope.listTickets($scope.monitor.filter);
                     break;
                   }
@@ -1378,6 +1553,34 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
                   $scope.monitor.filter.idStatusTicketKf       = !$scope.filters.ticketStatus?"":$scope.filters.ticketStatus.idStatus;
                   $scope.monitor.filter.idTypeDeliveryKf       = !$scope.filters.typDelivery?"":$scope.filters.typDelivery.idTypeDelivery;
                   $scope.monitor.filter.idTypePaymentKf        = !$scope.filters.paymentsType?"":$scope.filters.paymentsType.id;
+                  $scope.monitor.filter.isBillingInitiated     = $scope.filters.isBillingInitiated?1:0;
+                  $scope.monitor.filter.isBillingUploaded       = $scope.filters.isBillingUploaded?1:0;
+                  //CREATED
+                  if ($scope.filters.dateCreatedFrom!=null && $scope.filters.dateCreatedFrom!=undefined){
+                    var FromDate  = new Date($scope.filters.dateCreatedFrom);
+                    $scope.monitor.filter.dateCreatedFrom    = FromDate.getFullYear()+"-"+(FromDate.getMonth()+1)+"-"+FromDate.getDate()+" " +FromDate.getHours() + ":" + FromDate.getMinutes()+ ":" + FromDate.getSeconds();
+                  }else{
+                    $scope.monitor.filter.dateCreatedFrom = "";
+                  }
+                  if ($scope.filters.dateCreatedTo!=null && $scope.filters.dateCreatedTo!=undefined){
+                    var FromDate  = new Date($scope.filters.dateCreatedTo);
+                    $scope.monitor.filter.dateCreatedTo    = FromDate.getFullYear()+"-"+(FromDate.getMonth()+1)+"-"+FromDate.getDate()+" " +"23:59:59";
+                  }else{
+                    $scope.monitor.filter.dateCreatedTo = "";
+                  }
+                  //DELIVERY
+                  if ($scope.filters.dateDeliveredFrom!=null && $scope.filters.dateDeliveredFrom!=undefined){
+                    var FromDate  = new Date($scope.filters.dateDeliveredFrom);
+                    $scope.monitor.filter.dateDeliveredFrom    = FromDate.getFullYear()+"-"+(FromDate.getMonth()+1)+"-"+FromDate.getDate()+" " +FromDate.getHours() + ":" + FromDate.getMinutes()+ ":" + FromDate.getSeconds();
+                  }else{
+                    $scope.monitor.filter.dateDeliveredFrom = "";
+                  }
+                  if ($scope.filters.dateDeliveredTo!=null && $scope.filters.dateDeliveredTo!=undefined){
+                    var FromDate  = new Date($scope.filters.dateDeliveredTo);
+                    $scope.monitor.filter.dateDeliveredTo    = FromDate.getFullYear()+"-"+(FromDate.getMonth()+1)+"-"+FromDate.getDate()+" " +"23:59:59";;
+                  }else{
+                    $scope.monitor.filter.dateDeliveredTo = "";
+                  }
                   $scope.monitor.filter.codTicket              = $scope.filters.searchFilter;
                   console.log($scope.monitor.filter);
                   console.log($scope.filters);
@@ -1391,6 +1594,8 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
                   $scope.monitor.filter.idStatusTicketKf       = !$scope.filters.ticketStatus?"":$scope.filters.ticketStatus.idStatus;
                   $scope.monitor.filter.idTypeDeliveryKf       = !$scope.filters.typDelivery?"":$scope.filters.typDelivery.idTypeDelivery;
                   $scope.monitor.filter.idTypePaymentKf        = !$scope.filters.paymentsType?"":$scope.filters.paymentsType.id;
+                  $scope.monitor.filter.dateCreatedFrom        = $scope.filters.dateCreatedFrom;
+                  $scope.monitor.filter.dateCreatedTo          = $scope.filters.dateCreatedTo;
                   $scope.monitor.filter.codTicket              = $scope.filters.searchFilter;
                   console.log($scope.monitor.filter);
                   console.log($scope.filters);
@@ -1429,6 +1634,10 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
                 break;
               }
             break;
+            case "openTicket":
+              $scope.openTicketFn(obj.idTicket);
+              $('#UpdateModalTicket').modal({backdrop: 'static', keyboard: false});
+            break;
             case "ticket_keyList":
               $scope.showKeyDoors = false;
               $scope.ticketKeyList = null;
@@ -1436,6 +1645,54 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
               $scope.ticketKeyList = obj;
               console.log($scope.ticketKeyList);
               $('#ticketKeysModalDetails').modal('show');
+            break;
+            case "filtersWindow":
+              $('#filterModalWindow').modal('show');
+              $('#filterModalWindow').on('shown.bs.modal', function () {
+                $scope.showCalender = true;
+                $rootScope.$broadcast('rzSliderForceRender');
+            });
+            break;
+            case "importKeyFileWindow":
+                $scope.filesUploadList=[];
+                $scope.fileList=[];
+                $scope.fileListTmp=[];
+                $('#attachKeyFile').modal({backdrop: 'static', keyboard: false});
+                $('#attachKeyFile').on('shown.bs.modal', function () {
+                    $('#uploadKeyFiles').focus();
+                });
+            break;
+            case "keyDetails":
+              $scope.isNewKey=false;
+              $scope.isEditKey=false;
+              //console.log(obj);
+              var address=obj.addressA==null?obj.addressB:obj.addressA;
+              var idClient=obj.idClientA==null?obj.idClientB:obj.idClientA;
+              $scope.keys.details=obj;
+              $scope.keys.details.buildingAddress=address;
+              console.log($scope.keys.details);
+              $('#keyDetails').modal({backdrop: 'static', keyboard: false});
+            break;
+            case "uploadKeyFile":
+                $scope.addMultiKeys(obj);
+            break;
+            case "upload_billing_ticket":
+              console.log(obj);
+              $scope.uploadSingleFile(obj)
+            break;
+            case "deleteSingleFile":
+              console.log(obj);
+              blockUI.start('Eliminando Factura del Pedido '+$scope.tkupdate.codTicket);
+              $timeout(function() {
+                $scope.deleteSingleFile(obj);
+                blockUI.stop();
+              }, 1500);         
+            break;
+            case "exportExcelList":
+              $scope.setRequestDefaultListAsArrayFn(obj);
+            break;
+            case "exportBillingExcelList":
+              $scope.setRequestBillingListAsArrayFn(obj);
             break;
             case "keyList_doors":
               $scope.ticketKeyDoorList = null;
@@ -1717,17 +1974,35 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
               $('#changeModalStatus').modal({backdrop: 'static', keyboard: false});
             break;
             case "apply_change_ticket_status":
-              $scope.update.ticket.idTicket      = obj.idTicket
-              $scope.update.ticket.idNewStatusKf = obj.newTicketStatus.idStatus;
-              $scope.update.ticket.history       = [];
+              $scope.update.ticket.idTicket              = obj.idTicket;
+              $scope.update.ticket.idTypeDeliveryKf      = obj.idTypeDeliveryKf;
+              $scope.update.ticket.retiredByDNI          = obj.newTicketStatus.idStatus=='1' && obj.idTypeDeliveryKf=='1'?obj.dni:null;
+              $scope.update.ticket.retiredByFullName     = obj.newTicketStatus.idStatus=='1' && obj.idTypeDeliveryKf=='1'?obj.fullname:null;
+              $scope.update.ticket.idNewStatusKf         = obj.newTicketStatus.idStatus;
+              $scope.update.ticket.delivery_schedule_at  = obj.newTicketStatus.idStatus=='5' && obj.idTypeDeliveryKf=='2' && obj.deliveryDate!=undefined?obj.deliveryDate:null;
+              $scope.update.ticket.delivered_at          = obj.newTicketStatus.idStatus=='1' && obj.deliveryDate!=undefined?obj.deliveryDate:null;
+              $scope.update.ticket.history               = [];
               $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"9"});
+              console.log($scope.update);
               $('#changeModalStatus').modal('hide');
               $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
               console.log($scope.update);
               $timeout(function() {
                 $scope.changeTicketStatusRequestFn($scope.update);
               }, 2000);
-              
+            break;
+            case "changeStatusMulti":
+              var rowSelected = 0;
+              for (ticket in obj){
+                if (obj[ticket].selected == true){
+                  console.log(obj);
+                  rowSelected++;
+                }
+              }
+
+              inform.add('Han sido seleccionados  ('+rowSelected+') pedidos para el cambio de estatus, Seguridad TASS.',{
+                ttl:6000, type: 'info'
+              });
             break;
             case "setWhoPickUpList":
               $scope.whoPickUpList = []; //
@@ -1810,15 +2085,15 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
                 }
             break;
             case "selectDeliveryAddress":
-            $scope.selectedUserToDelivery = null;
-            $scope.selectedUserToDelivery = obj.whoPickUp;
-            console.log(obj);
-            if ($scope.ticket.delivery.whoPickUp.id==undefined){
-                inform.add('Seleccionar/Indicar la direccion a la cual se hara la entrega del pedido.',{
-                    ttl:5000, type: 'info'
-                }); 
-                $('#selectDeliveryAddress').modal({backdrop: 'static', keyboard: true});
-            }
+              $scope.selectedUserToDelivery = null;
+              $scope.selectedUserToDelivery = obj.whoPickUp;
+              console.log(obj);
+              if ($scope.ticket.delivery.whoPickUp.id==undefined){
+                  inform.add('Seleccionar/Indicar la direccion a la cual se hara la entrega del pedido.',{
+                      ttl:5000, type: 'info'
+                  }); 
+                  $('#selectDeliveryAddress').modal({backdrop: 'static', keyboard: true});
+              }
             break;
             case "setDeliveryAttendant":
               $scope.selectedDeliveryAttendant  = obj!=undefined?obj:undefined;
@@ -2083,7 +2358,7 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
                           $scope.mainSwitchFn("linkMP",response.data.response[0],null);
                       }, 2700);
                     }else{
-                      $scope.mainSwitchFn('dashboard', null);
+                      $scope.mainSwitchFn('search', null);
                     }
                     
                   }else if(response.status==500){
@@ -2092,7 +2367,7 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
                     inform.add('Error: [500] Contacta al area de soporte. ',{
                           ttl:5000, type: 'danger'
                     });
-                    $scope.mainSwitchFn('dashboard', null);
+                    $scope.mainSwitchFn('search', null);
                   }
                   //$('#showModalRequestStatus').modal('hide');
               });
@@ -2120,7 +2395,7 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
                     inform.add('Error: [500] Contacta al area de soporte. ',{
                           ttl:5000, type: 'danger'
                     });
-                    $scope.mainSwitchFn('dashboard', null);
+                    $scope.mainSwitchFn('search', null);
                   }
               });
             };
@@ -2169,39 +2444,43 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
                                 ttl:5000, type: 'danger'
                         });
                     }
-                    $scope.mainSwitchFn('dashboard', null);
+                    $scope.mainSwitchFn('search', null);
                 });
             };
           /******************************
           *       UPDATE  REQUEST       *
           ******************************/
-          $scope.ticketUpdated = null;
-          $scope.changeTicketStatusRequestFn = function(pedido){
-            console.log(pedido);
-            $scope.ticketRegistered = null;
-            ticketServices.changueStatus(pedido).then(function(response){
-                //console.log(response);
-                if(response.status==200){
-                  $timeout(function() {
-                    console.log("Request Successfully processed");
-                    inform.add('Estado del pedido Actualizado Satisfactoriamente. ',{
-                          ttl:5000, type: 'success'
+            $scope.ticketUpdated = null;
+            $scope.changeTicketStatusRequestFn = function(pedido){
+              console.log(pedido);
+              $scope.ticketRegistered = null;
+              ticketServices.changueStatus(pedido).then(function(response){
+                  //console.log(response);
+                  if(response.status==200){
+                    $timeout(function() {
+                      console.log("Request Successfully processed");
+                      inform.add('Estado del pedido Actualizado Satisfactoriamente. ',{
+                            ttl:5000, type: 'success'
+                      });
+                      $('.circle-loader').toggleClass('load-complete');
+                      $('.checkmark').toggle();
+                      $scope.ticketRegistered = response.data[0];
+                      $scope.openTicketFn(pedido.ticket.idTicket);
+                      $scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
+                      $scope.mainSwitchFn('search', null);
+                      
+                    }, 2500);
+                  }else if(response.status==500){
+                      $scope.ticketRegistered = null;
+                    console.log("Status no updated, contact administrator");
+                    inform.add('Error: [500] Contacta al area de soporte. ',{
+                          ttl:5000, type: 'danger'
                     });
-                    $('.circle-loader').toggleClass('load-complete');
-                    $('.checkmark').toggle();
-                    $scope.ticketRegistered = response.data.response[0];
-                  }, 2500);
-                }else if(response.status==500){
-                    $scope.ticketRegistered = null;
-                  console.log("Status no updated, contact administrator");
-                  inform.add('Error: [500] Contacta al area de soporte. ',{
-                        ttl:5000, type: 'danger'
-                  });
-                }
-                $scope.mainSwitchFn('dashboard', null);
-                //$('#showModalRequestStatus').modal('hide');
-            });
-          };
+                  }
+                  $scope.mainSwitchFn('search', null);
+                  //$('#showModalRequestStatus').modal('hide');
+              });
+            };
 
           /****************************
           *        LIST TICKETS       *
@@ -2288,4 +2567,691 @@ monitor.controller('MonitorCtrl', function($scope, $http, $location, $routeParam
               }
               
             }
+        /**************************************************
+        *                                                 *
+        *    EXPORT/IMPORT THE REQUEST FILE (EXCEL)       *
+        *                                                 *
+        **************************************************/
+          /**************************************************
+          *          SET DEFAULT ARRAY LIST FUNCTION        *
+          ***************************************************/
+            $scope.setRequestDefaultListAsArrayFn = function(obj){
+              console.log(obj);
+              $scope.sheetName = "Listado de Pedidos General - "+sysDay+sysMonth2Digit+sysYear
+              $scope.list_requests=[];
+
+              for (var f in obj){ 
+                var depto=obj[f].department.departament;
+                var fullNameUser=obj[f].idUserRequestBy!=null && obj[f].userRequestBy.fullNameUser!=undefined?obj[f].userRequestBy.fullNameUser:"no asignado";
+                $scope.list_requests.push({
+                    //'idTicket':obj[f].idTicket,
+                    'NumeroPedido':obj[f].codTicket, 
+                    'FechaPedido':obj[f].created_at,
+                    'Consorcio':obj[f].building.address,
+                    'Departamento':obj[f].department.floor+" - "+depto.toUpperCase(),
+                    'SolicitadoPor':fullNameUser,
+                    'CantidadLlaveros': obj[f].keys.length, 
+                    'Envio':obj[f].typeDeliver.typeDelivery, 
+                    'Pago':obj[f].typePaymentKf.descripcion,
+                    'Total':obj[f].total,
+                    'Estado':obj[f].statusTicket.statusName
+                });
+              }
+              console.log($scope.list_requests);
+              $scope.buildXLS($scope.list_requests);
+            }
+          /**************************************************
+          *          SET BILLING ARRAY LIST FUNCTION        *
+          ***************************************************/
+            $scope.setRequestBillingListAsArrayFn = function(obj){
+              console.log(obj);
+              $scope.sheetName = "Pedidos a Facturar -"+sysDay+sysMonth2Digit+sysYear
+              $scope.list_requests=[];
+
+              for (var f in obj){ 
+                var floor         = obj[f].idTypeRequestFor=="1"?obj[f].department.floor:"";
+                var depto         = obj[f].idTypeRequestFor=="1"?obj[f].department.departament:obj[f].typeRequestFor.name;
+                var department    = obj[f].idTypeRequestFor=="1"?floor+" - "+depto.toUpperCase():depto.toUpperCase();
+                var codTicket     = obj[f].codTicket;
+                var fileName      = obj[f].idTicket+"_"+codTicket.substr(5)+".pdf";
+                var fullNameUser  = obj[f].idUserRequestBy!=null && obj[f].userRequestBy.fullNameUser!=undefined?obj[f].userRequestBy.fullNameUser:"no asignado";
+                if (obj[f].created_at!=null){
+                    if(obj[f].keys.length>1){
+                      var i = 1;
+                      var costDelivery = null;
+                      var costService  = null;
+                      var CantidadLlaveros = 0;
+                      var CantidadLlaverosTmp = null;
+                      var keyModel = null;
+                      var priceFabric = 0;
+                      for (var key = 0; key < obj[f].keys.length; key++) {
+                        costDelivery = i == 1 ?obj[f].costDelivery:0;
+                        costService  = i == 1 ?obj[f].costService:0;
+                        if (obj[f].keys[key].idDepartmenKf == obj[f].idDepartmentKf && obj[f].keys[key].idTicketKf == obj[f].idTicket){
+
+                        }
+                        console.log("keyModel: " +keyModel);
+                        console.log("i: " +(i)+ " / keys.length: "+obj[f].keys.length);
+                          if (keyModel == null){
+                            keyModel = obj[f].keys[key].model;
+                            CantidadLlaverosTmp = 1;
+                            console.log(CantidadLlaverosTmp);
+                          }else if (keyModel == obj[f].keys[key].model && i < obj[f].keys.length){
+                            CantidadLlaverosTmp++;
+                            console.log(CantidadLlaverosTmp);
+                          }else if (keyModel == obj[f].keys[key].model && i == obj[f].keys.length){
+                            CantidadLlaverosTmp++;
+                            CantidadLlaveros = CantidadLlaverosTmp;
+                            console.log(CantidadLlaveros);
+                          }
+                        if(obj[f].idTypePaymentKf=="1"){
+                            $scope.list_requests.push({
+                              'idTicket':obj[f].idTicket,
+                              'NumeroPedido':obj[f].codTicket, 
+                              'FechaPedido':obj[f].created_at,
+                              'idClient': obj[f].idBuildingKf,
+                              'Consorcio':obj[f].building.address,
+                              'Departamento':department,
+                              'SolicitadoPor':fullNameUser,
+                              'CostoEnvio':costDelivery, 
+                              'CostoGestion':costService,
+                              'CantidadLlaveros': CantidadLlaveros,
+                              'idProducto':obj[f].keys[0].idProduct,
+                              'Producto': obj[f].keys[0].model,
+                              'PrecioUnitario':obj[f].keys[0].priceFabric,
+                            });
+                        }else{
+                            $scope.list_requests.push({
+                              'idTicket':obj[f].idTicket,
+                              'NumeroPedido':obj[f].codTicket, 
+                              'FechaPedido':obj[f].created_at,
+                              'idClient': obj[f].idBuildingKf,
+                              'Consorcio':obj[f].building.address,
+                              'Departamento':department,
+                              'SolicitadoPor':fullNameUser,
+                              'CostoEnvio':costDelivery, 
+                              'CostoGestion':costService,
+                              'CantidadLlaveros': CantidadLlaveros,
+                              'idProducto':obj[f].keys[0].idProduct,
+                              'Producto': obj[f].keys[0].model,
+                              'PrecioUnitario':obj[f].keys[0].priceFabric,
+                              'FacturaNombre':fileName
+                            });
+                        }
+                        i++;
+                      }
+                    }else{
+                      $scope.list_requests.push({
+                        'idTicket':obj[f].idTicket,
+                        'NumeroPedido':obj[f].codTicket, 
+                        'FechaPedido':obj[f].created_at,
+                        'idClient': obj[f].idBuildingKf,
+                        'Consorcio':obj[f].building.address,
+                        'Departamento':department,
+                        'SolicitadoPor':obj[f].userRequestBy.fullNameUser,
+                        'CostoEnvio':obj[f].costDelivery, 
+                        'CostoGestion':obj[f].costService,
+                        'CantidadLlaveros': obj[f].keys.length,
+                        'idProducto':obj[f].keys[0].idProduct,
+                        'Producto': obj[f].keys[0].model,
+                        'PrecioUnitario':obj[f].keys[0].priceFabric,
+                        'FacturaNombre':fileName
+                      });
+                    }
+                }
+              }
+              console.log($scope.list_requests);
+              $scope.buildXLS($scope.list_requests);
+            }
+            function xdw(s) { 
+              var buf = new ArrayBuffer(s.length); //convert s to arrayBuffer
+              var view = new Uint8Array(buf);  //create uint8array as viewer
+              for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF; //convert to octet
+              return buf;
+            }
+          /**************************************************
+          *          SET DEPARTMENT ARRAY FUNCTION          *
+          ***************************************************/
+            var myArrList = null;
+            var sheetName = null;
+            var wb        = null;
+            var workSheet = null;
+            var wout      = null;
+            var wopts     = null;
+            $scope.buildXLS = function(obj) {
+                myArrList = obj;
+                sheetName = $scope.sheetName
+                //console.log(myArrList);
+                wb = XLSX.utils.book_new();
+                wb.Props = {
+                    Title: sheetName,
+                    Subject: "Seguridad TASS",
+                    Author: "Seguridad TASS",
+                    CreatedDate: sysDate
+                };
+                wb.SheetNames.push(sheetName);
+                workSheet = XLSX.utils.json_to_sheet(myArrList);
+                //var ws_data = [['hello' , 'world']];
+                //var ws = XLSX.utils.aoa_to_sheet(ws_data);
+                wb.Sheets[sheetName] = workSheet;
+                //if(!wb.A1.c) wb.A1.c = [];
+                //wb.A1.c.push({a:"SheetJS", t:"This comment is visible"});
+                wopts = { bookType:'xlsx', bookSST:false, type:'binary' };
+                wout = XLSX.write(wb,wopts);
+                //XLSX.utils.book_append_sheet(wb, workSheet, "test");
+                //var wbout = XLSX.writeFile(wb, {bookType:'xlsx',type: "binary"});
+                $scope.downloadXLS(wout);
+            }
+            $scope.downloadXLS = function(wout){
+                saveAs(new Blob([xdw(wout)],{type:"application/octet-stream"}), sheetName+'.xlsx');
+            }
+
+      /**************************************************
+      *                                                 *
+      *                 UPLOAD TICKET FILES             *
+      *                                                 *
+      **************************************************/
+          $scope.filesUploadList=[];
+          $scope.fileList=[];
+          $scope.fileListTmp=[];
+          $scope.fileName=null;
+          $scope.invalidTypeOf=false;
+          $scope.fileTypeOf=null;
+          $scope.isFileExist = null;
+          /**************************************
+          *       LOAD PDF FILES TO UPLOAD      *
+          **************************************/
+            $scope.loadPDFFilesFn = function(e) {
+              $scope.fileListTmp=[];
+              $scope.fileList=[];
+              $scope.filesUploadList = [];
+              console.log(e.files);
+              var list = e;
+              $scope.$applyAsync(function($scope) {
+                  for(var i=0;i<list.files.length;i++){
+                      file = list.files[i];
+                      var fileName=file.name.replace(/ /g,"_");
+                      var type =  '|' + file.type.slice(file.type.lastIndexOf('/') + 1) + '|';
+                      if('|pdf|'.indexOf(type) !== -1){
+                          var codTicket = $scope.tkupdate.codTicket;
+                          var name = $scope.tkupdate.idTicket+"_"+codTicket.substr(5)+"."+file.type.slice(file.type.lastIndexOf('/') + 1);
+                          var cleanFile = new File([file], name, {type: file.type, lastModified: file.lastModified, size: file.size});
+                          //console.log(cleanFile);
+                          $scope.fileListTmp.push(cleanFile);
+                          $scope.setPreviewPDFBeforeUploadFile(cleanFile);
+                      }else{
+                          $scope.fileName=file.name;
+                          $scope.fileTypeOf=file.type.slice(file.type.lastIndexOf('/') + 1)
+                          $scope.invalidTypeOf=true;
+                          inform.add('El archivo: '+file.name+' es de tipo invalido. ',{
+                          ttl:4000, type: 'warning'
+                          });
+                          console.log(file.name + " with type "+file.type+" is not supported");
+                          $("#uploadTicketBillingFile").val(null);
+                      }
+                  }
+              //console.log($scope.fileListTmp); 
+              });
+            }
+          /**************************************
+          *     PREVIEW IMAGE BEFORE UPLOAD     *
+          **************************************/
+            $scope.setPreviewPDFBeforeUploadFile = function (file){
+              //console.info(file);
+              $scope.invalidTypeOf=false;
+              var reader = new FileReader();
+                  reader.onload = function(event) {
+                    var src = event.target.result;
+                    $scope.$applyAsync(function($scope) {
+                      var position = file.name.search(/_/);
+                      if(position !== -1){  
+                        var ticketId = file.name.substr(0,position);
+                        var positionExt = file.name.lastIndexOf('.')
+                        var ticketNumb = file.name.substr((position+1),positionExt).replace(/\.[^/.]+$/, "");
+                        if (Number.isInteger(Number(ticketId))){
+                          console.info("the ticket id is "+ticketId);
+                          ticketServices.ticketById(ticketId).then(function(response){
+                            if(response.status==200){
+                              $scope.rsData.ticket = (response.data[0]);
+                              //console.log($scope.rsData);
+                              ticketServices.billingFileUploaded(ticketId).then(function(response){
+                                if(response.status==404){
+                                  $scope.filesUploadList.push(file);
+                                  $scope.fileList={'name':file.name,'size':file.size,'type':file.type,'src':src,'lastModified':file.lastModified, 'uploadStatus':false, 'fileTitle':'', 'ticketFound':true, 'idTicketKf':$scope.tkupdate.idTicket};
+                                  //$scope.fileList.push({'name':file.name,'size':file.size,'type':file.type,'src':src,'lastModified':file.lastModified, 'uploadStatus':false, 'fileTitle':'', 'ticketFound':true, 'idTicketKf':ticketId});
+                                }else if (response.status==200){
+                                  inform.add('[Info]: La factura del pedido '+ticketNumb+' ya se encuentra cargada, contacta el area de soporte. ',{
+                                    ttl:5000, type: 'info'
+                                    });
+                                }
+                              });
+                            }else if (response.status==404){
+                                inform.add('[Error]: El Numero de pedido '+ticketNumb+' no ha sido encontrado o el archivo no cumple con la nomenclatura esperada, contacta el area de soporte. ',{
+                                  ttl:5000, type: 'danger'
+                                  });
+                              }
+                          });
+                        }else{
+                          console.info("the ticket id is not a number");
+                          inform.add('[Error]: El archivo '+file.name+' no cumple con la nomenclatura esperada intenta de nuevo o contacta el area de soporte. ',{
+                            ttl:5000, type: 'danger'
+                            });
+                        }
+                      }else{
+                        inform.add('[Error]: El archivo '+file.name+' no cumple con la nomenclatura esperada intenta de nuevo o contacta el area de soporte. ',{
+                          ttl:5000, type: 'danger'
+                        });
+                      }
+                    });
+                    //console.log($scope.fileList);
+                    $scope.openPDFModalViewer(event.target.result)
+                  }
+                  reader.readAsDataURL(file);
+                  $("#uploadTicketBillingFile").val(null);
+                  
+            }
+          /**************************************
+          *               PDF VIEWER            *
+          **************************************/
+            $scope.openPDFModalViewer = function (obj) {
+              $('#pdfUploadModal').modal('show');
+              $('#pdfUploadModal').on('shown.bs.modal', function () {
+                PDFObject.embed(obj, "#pdfObjectViewer");
+              });            
+              
+            }
+          /**************************************
+          *             PDF VIEWER  2           *
+          **************************************/
+          $scope.openPDFViewerModal = function (obj) {
+            $('#pdfViewerModal').modal('show');
+            $('#pdfViewerModal').on('shown.bs.modal', function () {
+              PDFObject.embed(obj, "#pdfobject");
+            });            
+            
+          }
+          /**************************************
+          *     LOAD XLS FILES TO UPLOAD        *
+          **************************************/
+            $scope.loadMultipleFilesFn = function(e) {
+              $scope.isUploadSingleFile = false;
+              $scope.fileListTmp=[];
+              $scope.fileList=[];
+              $scope.filesUploadList = [];
+              //console.log(e);
+              //console.log(e.files);
+              //console.log("Amount of Files: "+ e.files.length);
+              var list = e;
+              $scope.$apply(function($scope) {
+              for(var i=0;i<list.files.length;i++){
+                file = list.files[i];
+                var fileName=file.name.replace(/ /g,"_");
+                var type =  '|' + file.type.slice(file.type.lastIndexOf('/') + 1) + '|';
+                if('|pdf|'.indexOf(type) !== -1){                 
+                  var cleanFile = new File([file], fileName, {type: file.type, lastModified: file.lastModified, size: file.size});
+                  //console.log(cleanFile);
+                  $scope.fileListTmp.push(cleanFile);
+                }else{
+                    $scope.fileName=file.name;
+                    $scope.fileTypeOf=file.type.slice(file.type.lastIndexOf('/') + 1)
+                    $scope.invalidTypeOf=true;
+                    inform.add('El archivo: '+file.name+' es de tipo invalido. ',{
+                      ttl:4000, type: 'warning'
+                    });
+                    console.log(file.name + " with type "+file.type+" is not supported");
+                  $("#uploadBillingTicketfiles").val(null);
+                  $("#uploadBillingTicketfiles2").val(null);
+                }
+              }
+              //console.log($scope.fileListTmp);
+              $scope.processFileListFn();
+              });
+            }
+          /**************************************
+          *   PROCESS FILE LIST TO SET PREVIEW  *
+          **************************************/
+            $scope.processFileListFn = function(){
+              for(var i=0;i<$scope.fileListTmp.length;i++){
+                var file = $scope.fileListTmp[i];
+                if ($scope.fileList.length>0){
+                    for (var key in $scope.fileList){
+                      if ($scope.fileList[key].name==file.name && $scope.fileList[key].type==file.type){       
+                          inform.add('El archivo: '+file.name+' ya se encuentra en la lista. ',{
+                            ttl:4000, type: 'warning'
+                          }); 
+                          $scope.isFileExist=true;
+                          $("#uploadBillingTicketfiles").val(null);
+                          $("#uploadBillingTicketfiles2").val(null);
+                        break;
+                      }else{
+                          console.log("File isn't loaded already!!")
+                          $scope.isFileExist=false; 
+                      }
+                    }
+                }else{
+                  $scope.isFileExist=false;
+                }
+                if (!$scope.isFileExist){
+                  $scope.setPreviewBeforeUploadFile(file);
+                  $scope.invalidTypeOf=false;
+                }
+              }            
+            }
+          /**************************************
+          *     PREVIEW FILE BEFORE UPLOAD      *
+          **************************************/
+            $scope.setPreviewBeforeUploadFile = function (file){
+              //console.info(file);
+              $scope.invalidTypeOf=false;
+              var reader = new FileReader();
+                  reader.onload = function(event) {
+                      var src = event.target.result;
+                      $scope.$applyAsync(function($scope) {
+                        var position = file.name.search(/_/);
+                        if(position !== -1){  
+                          var ticketId = file.name.substr(0,position);
+                          var positionExt = file.name.lastIndexOf('.')
+                          var ticketNumb = file.name.substr((position+1),positionExt).replace(/\.[^/.]+$/, "");
+                          if (Number.isInteger(Number(ticketId))){
+                            console.info("the ticket id is "+ticketId);
+                            ticketServices.ticketById(ticketId).then(function(response){
+                              if(response.status==200){
+                                $scope.rsData.ticket = (response.data[0]);
+                                //console.log($scope.rsData);
+                                ticketServices.billingFileUploaded(ticketId).then(function(response){
+                                  if(response.status==404){
+                                    $scope.filesUploadList.push(file);
+                                    $scope.fileList.push({'name':file.name,'size':file.size,'type':file.type,'src':src,'lastModified':file.lastModified, 'uploadStatus':false, 'fileTitle':'', 'ticketFound':true, 'idTicketKf':ticketId});
+                                    $('#attachBillingTicketFiles').modal('show');
+                                    $('#attachBillingTicketFiles').on('shown.bs.modal', function () {
+                                    });
+                                  }else if (response.status==200){
+                                    inform.add('[Info]: La factura del pedido '+ticketNumb+' ya se encuentra cargada, contacta el area de soporte. ',{
+                                      ttl:5000, type: 'info'
+                                      });
+                                  }
+                                });
+                              }else if (response.status==404){
+                                  inform.add('[Error]: El Numero de pedido '+ticketNumb+' no ha sido encontrado o el archivo no cumple con la nomenclatura esperada, contacta el area de soporte. ',{
+                                    ttl:5000, type: 'danger'
+                                    });
+                                }
+                            });
+                          }else{
+                            console.info("the ticket id is not a number");
+                            inform.add('[Error]: El archivo '+file.name+' no cumple con la nomenclatura esperada intenta de nuevo o contacta el area de soporte. ',{
+                              ttl:5000, type: 'danger'
+                              });
+                          }
+                        }else{
+                          inform.add('[Error]: El archivo '+file.name+' no cumple con la nomenclatura esperada intenta de nuevo o contacta el area de soporte. ',{
+                            ttl:5000, type: 'danger'
+                          });
+                        }
+                      });
+                      //console.log($scope.fileList);
+                  }
+                  reader.readAsDataURL(file);
+                  $("#uploadBillingTicketfiles").val(null);
+                  $("#uploadBillingTicketfiles2").val(null);
+ 
+            }
+          /**************************************
+          *       PREVIEW XLS BEFORE UPLOAD     *
+          **************************************/
+            $scope.setPreviewXLSBeforeUploadFile = function (file){
+                  //console.info(file);
+                  $scope.invalidTypeOf=false;
+                  var reader = new FileReader();
+                      reader.onload = function(e) {
+                          var src = event.target.result;
+                          var data = "";
+                          var bytes = new Uint8Array(e.target.result);
+                          for (var i = 0; i < bytes.byteLength; i++) {
+                            data += String.fromCharCode(bytes[i]);
+                          }
+                          $scope.ProcessExcel(data)
+                      }
+                      reader.readAsArrayBuffer(file);
+                      //$("#uploadCustomerfiles").val(null);
+                      
+            }
+
+            $scope.ProcessExcel = function (data) {
+                //Read the Excel File data.
+                var workbook = XLSX.read(data, {
+                    type: 'binary'
+                });
+
+                //Fetch the name of First Sheet.
+                var firstSheet = workbook.SheetNames[0];
+
+                //Read all rows from First Sheet into an JSON array.
+                var excelRows = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[firstSheet]);
+
+                //Display the data from Excel file in Table.
+                $scope.$apply(function () {
+                    $scope.Customers = excelRows;
+                    console.log($scope.Customers);
+                    $scope.IsVisible = true;
+                });
+            };
+          /**************************************
+          *          UPLOAD SINGLE FILE         *
+          **************************************/
+            $scope.uploadSingleFile = function(item){
+              //console.log(item);
+              //console.log($scope.filesUploadList);
+              for (var key in $scope.filesUploadList){
+                console.log("item.name :"+item.name)
+                console.log("item.type :"+item.type)
+                console.log("$scope.filesUploadList[key].name :"+$scope.filesUploadList[key].name)
+                console.log("$scope.filesUploadList[key].type :"+$scope.filesUploadList[key].type)
+                if ($scope.filesUploadList[key].size==item.size && $scope.filesUploadList[key].lastModified==item.lastModified && $scope.filesUploadList[key].type==item.type){
+                  console.log($scope.filesUploadList[key]);
+                  var file      =  $scope.filesUploadList[key];
+                  $scope.uploadFilesFn(file, item.idTicketKf, item);
+                  break;
+                }
+              }
+              //SEND DATA TO THE UPLOAD SERimportTicketfilesVICE
+              
+              //blockUI.start('');
+              //$timeout(function() {
+              //  blockUI.message('Actualizando listado de clientes.');
+              //}, 1000);
+              //$timeout(function() {
+              //  $scope.switchCustomersFn('dashboard','', 'registered')
+              //  blockUI.stop();
+              //}, 1500);
+            }
+          /**************************************
+          *            UPLOAD FILES             *
+          **************************************/
+            $scope.uploadFilesFn = function(file, idTicketKf, item){
+              $scope.uploadTicketData={};
+              //console.log(item);
+              ticketServices.uploadTicketFiles(file, idTicketKf).then(function(rsupload){
+                //console.log(rsupload);
+                if(rsupload.status==200){
+                  $scope.uploadTicketData.idTicketKf = rsupload.data.idTicketKf;
+                  $scope.uploadTicketData.urlFile    = rsupload.data.dir+rsupload.data.filename;
+                  $scope.uploadTicketData.name       = rsupload.data.filename;
+                  $scope.uploadTicketData.type       = rsupload.data.type;
+                  $scope.uploadTicketData.history    = [];
+                  $scope.uploadTicketData.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"20"});
+                  //console.log($scope.uploadTicketData);
+                  ticketServices.addUploadedTicketFile($scope.uploadTicketData).then(function(response){
+                    if(response.status==200){
+                      ticketServices.setIsBillingUploaded($scope.uploadTicketData.idTicketKf, 1).then(function(rsBillingUploaded){
+                        if(rsBillingUploaded.status==200){
+                          var fileName=item.fileTitle==''?item.name:item.fileTitle;
+                          inform.add('Archivo '+fileName+' subido satisfactoriamente. ',{
+                                ttl:2000, type: 'success'
+                          });                    
+                          item.uploadStatus=true;
+                          $('#pdfUploadModal').modal('hide');
+                          $scope.mainSwitchFn('search', null);
+                          $scope.openTicketFn($scope.uploadTicketData.idTicketKf);
+                        }
+                      });
+                    }else if(response.status==404){
+                    console.log("not found, contact administrator");
+                    inform.add('Error: [404] Contacta al area de soporte. ',{
+                          ttl:20000, type: 'danger'
+                    });
+                    //$('#RegisterModalCustomer').modal('hide');
+                    }else if(response.status==500){
+                      console.log("file uploaded not added into the db, contact administrator");
+                      inform.add('Error: [500] Contacta al area de soporte. ',{
+                            ttl:20000, type: 'danger'
+                      });
+                      item.uploadStatus=null;
+                      //$('#RegisterModalCustomer').modal('hide');
+                    }
+                  });
+                }else if(response.status==404){
+                  inform.add('Error: [404] Ocurrio un error al subir el archivo '+fileName+' Contacta al area de soporte. ',{
+                    ttl:20000, type: 'danger'
+                  });
+                }else if(response.status==500){
+                  inform.add('Error: [500][uploadTicketFiles] Ocurrio un error en el servidor, Contacta al area de soporte. ',{
+                    ttl:20000, type: 'danger'
+                  });
+                }
+              });
+            }
+          /**************************************
+          *          UPLOAD ALL FILES           *
+          **************************************/
+            $scope.uploadAllFiles = function(fileList){
+              console.log(fileList);
+              console.log(fileList.length);
+              for (var item in fileList){
+                //console.log(fileList[item]);
+                if (fileList[item].uploadStatus==false){
+                  for (var key in $scope.filesUploadList){
+                    if ($scope.filesUploadList[key].name==fileList[item].name && $scope.filesUploadList[key].type==fileList[item].type){
+                        var file      =  $scope.filesUploadList[key];
+                        //var fileTitle  =  fileList[item].fileTitle==''?'':fileList[item].fileTitle.replace(/ /g,"_");;
+                      //SEND DATA TO THE UPLOAD SERVICE
+                      //console.log("=====================================================");
+                      //console.log(file)
+                      //console.log(fileList[item].idTicketKf)
+                      //console.log(fileList[item])
+                      //console.log("=====================================================");
+                      $scope.uploadFilesFn(file, fileList[item].idTicketKf, fileList[item]);
+                    }
+                  }
+                }
+              }
+              //blockUI.start('');
+              //$timeout(function() {
+              //  blockUI.message('Actualizando listado de pedidos.');
+              //}, 1000);
+              //$timeout(function() {
+              //  //$scope.switchCustomersFn('dashboard','', 'registered')
+              //  blockUI.stop();
+              //}, 1500);
+            }
+          /**************************************
+          *          REMOVE SINGLE FILE         *
+          **************************************/
+            $scope.removeSingleFile = function(index, obj){
+              //console.log(index);
+              $scope.filesUploadList.splice(index, 1);
+              $scope.fileList.splice(index, 1);
+                inform.add("Archivo: "+obj.name+" ha sido removido correctamente.",{
+                  ttl:5000, type: 'success'
+                });            
+            }
+          /**************************************
+          *            REMOVE FILE LIST         *
+          **************************************/
+            $scope.clearFilesQueue = function(opt){
+              $scope.filesUploadList=[];
+              $scope.fileList=[];
+              if(opt==null || opt==undefined){
+                inform.add("Todos los archivos han sido removidos de la lista correctamente.",{
+                  ttl:5000, type: 'success'
+                });
+              }
+            }
+          /**************************************
+          *          DELETE SINGLE FILE         *
+          **************************************/
+            $scope.deleteSingleFile = function(file){
+              var idTicket = $scope.tkupdate.idTicket;
+              //SEND DATA TO THE DELETE FILE SERVICE
+              $scope.deleteFilesFn(file);
+              blockUI.start('');
+              $timeout(function() {
+                blockUI.message('Actualizando listado de pedidos.');
+                blockUI.stop();
+              }, 1000);
+            }          
+          /**************************************
+          *           DELETED FILES             *
+          **************************************/
+            $scope.deleteFilesFn = function(file){
+              $scope.removeTicketData={};
+              //console.log(item);
+              ticketServices.deleteTicketFiles(file.title).then(function(rsdeletedFile){
+                //console.log(rsdeletedFile);
+                if(rsdeletedFile.status==200){
+                  $scope.removeTicketData.idTicketFiles = file.idTicketFiles;
+                  $scope.removeTicketData.idTicketKf    = file.idTicketKf;
+                  $scope.removeTicketData.urlFile       = file.urlFile;
+                  $scope.removeTicketData.name          = file.title;
+                  $scope.removeTicketData.type          = file.typeFile;
+                  $scope.removeTicketData.history       = [];
+                  $scope.removeTicketData.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"21"});
+                  console.log($scope.removeTicketData);
+                  ticketServices.deleteUploadedTicketFile($scope.removeTicketData).then(function(response){
+                    if(response.status==200){
+                      ticketServices.setIsBillingUploaded($scope.removeTicketData.idTicketKf, null).then(function(rsBillingRemoved){
+                        if(rsBillingRemoved.status==200){
+                          inform.add('Archivo '+ $scope.removeTicketData.name+' eliminado satisfactoriamente. ',{
+                                ttl:2000, type: 'success'
+                          });                    
+                          $scope.mainSwitchFn('search', null);
+                          $scope.openTicketFn($scope.removeTicketData.idTicketKf);
+                        }
+                      });
+                    }else if(response.status==404){
+                    console.log("not found, contact administrator");
+                    inform.add('Error: [404] Contacta al area de soporte. ',{
+                          ttl:20000, type: 'danger'
+                    });
+                    //$('#RegisterModalCustomer').modal('hide');
+                    }else if(response.status==500){
+                      console.log("file deleted not removed into the db, contact administrator");
+                      inform.add('Error: [500] Contacta al area de soporte. ',{
+                            ttl:20000, type: 'danger'
+                      });
+                      item.uploadStatus=null;
+                      //$('#RegisterModalCustomer').modal('hide');
+                    }
+                  });
+                }else if(rsdeletedFile.status==404){
+                  inform.add('Error: [404] Ocurrio un error al eliminar el archivo '+fileName+' Contacta al area de soporte. ',{
+                    ttl:20000, type: 'danger'
+                  });
+                }else if(rsdeletedFile.status==500){
+                  inform.add('Error: [500][uploadTicketFiles] Ocurrio un error en el servidor, Contacta al area de soporte. ',{
+                    ttl:20000, type: 'danger'
+                  });
+                }
+              });
+            }
+          /**************************************
+          *             DOWNLOAD FILE           *
+          **************************************/
+            $scope.downloadFile = function (obj) {
+              var a = document.createElement('a');
+              a.href = obj.urlFile;
+              a.download = obj.title;
+              a.click();
+              a.remove();
+            };
 });

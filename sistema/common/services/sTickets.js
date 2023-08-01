@@ -4,6 +4,7 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
   function($http, tokenSystem, $timeout, serverHost, serverBackend, serverHeaders){
       var ticketResult=0;
       var rsJsonTicket = {};
+      var rsTicket={'ticket':{}};
       var checkResult =0;
       return {
           /* LISTA ALL TICKETS */
@@ -37,10 +38,12 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
             console.log("[Ticket Services] => Ticket Id: "+data.ticket.idTicket);
             return $http.post(serverHost+serverBackend+"Ticket/approve",data, serverHeaders)
               .then(function mySucess(response) {
-                    return response;
+                deferred.resolve(response);
+                return deferred.promise;
             }).catch(function onError(response) {
                 console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
-                 return response;
+                deferred.resolve(response);
+                return deferred.promise;
             });   
           },
           /* REQUEST CANCEL TICKET */
@@ -175,19 +178,28 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
             var ticketId=ticketID;
             console.log("[Service] => [ticketById] => Ticket a buscar: "+ticketID);
               return $http({
-                    method : "GET",
-                    url : serverHost+serverBackend+"Ticket/ticketById/"+ticketID
-                  }).then(function mySuccess(response) {
-                      rsJsonTicket = response.data;
-                      console.log("[Service] => [ticketById] => Response data");
-                      console.log(rsJsonTicket);
-                      return rsJsonTicket;
-                  },function myError(response) { 
-                        if(!ticketId){
-                            checkResult = 0;
-                        }
-                    return checkResult;
-            });   
+                method : "GET",
+                url : serverHost+serverBackend+"Ticket/ticketById/"+ticketID
+              }).then(function mySuccess(response) {
+                return response;
+              },function myError(response) { 
+                console.log("Error: "+response.data.error); 
+                return response;
+              })   
+          },
+          /* VERIFY IF TICKET HAS BILLING RECEIPT UPLOADED BY TICKET ID*/
+          billingFileUploaded: function(ticketID) {
+            var ticketId=ticketID;
+            console.log("[Service] => [billingFileUploaded] => Ticket a buscar: "+ticketID);
+              return $http({
+                method : "GET",
+                url : serverHost+serverBackend+"Ticket/billingUploaded/"+ticketID
+              }).then(function mySuccess(response) {
+                return response;
+              },function myError(response) { 
+                console.log("Error: "+response.data.error); 
+                return response;
+              })   
           },
           /* GET TICKET BY ID*/
           ticketByToken: function(ticketToken) {
@@ -347,6 +359,69 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
                 console.log("Error: "+response.data.error); 
                 return response;
               })
+          },
+          uploadTicketFiles: function(file, idTicketKf){
+            var fd = new FormData();
+            fd.append('file', file);
+            fd.append('idTicketKf', idTicketKf);
+            console.log("[Ticket Services] => upload file: ");
+            //console.log(file);
+            //console.log(idTicketKf);
+            //console.log(fileName);
+            return $http.post(serverHost+serverBackend+"Ticket/uploadFile", fd, {
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}
+            }).then(function mySuccess(response) {
+              return response;
+            },function myError(response) { 
+              console.log("Error: "+response); 
+              return response;
+            })
+          },
+          addUploadedTicketFile: function(data) {
+            rsTicket.ticket = data;            
+            console.log("[Ticket Services] => add Ticket Uploaded File");
+            return $http.post(serverHost+serverBackend+"Ticket/addUploadedTicketFile",rsTicket,serverHeaders)
+              .then(function mySuccess(response) {
+                return response;
+              }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                return response;
+              });
+          },
+          deleteTicketFiles: function(data){
+            rsTicket.fileName = data; 
+            console.log("[Ticket Services] => Delete Ticket Uploaded File from server ");
+            return $http.post(serverHost+serverBackend+"Ticket/deleteFile",rsTicket,serverHeaders)
+            .then(function mySuccess(response) {
+              return response;                
+            }).catch(function onError(response) {
+              console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+              return response;
+            })
+          },
+          deleteUploadedTicketFile: function(data) {
+            rsTicket.ticket = data;    
+            console.log("[Ticket Services] => Delete Ticket Uploaded File from db");
+            return $http.post(serverHost+serverBackend+"Ticket/deleteUploadedTicketFile",rsTicket,serverHeaders)
+              .then(function mySuccess(response) {
+                return response;
+            }).catch(function onError(response) {
+              console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+              return response;
+            });
+          },
+          /* Set isBillingUploaded field to True */
+          setIsBillingUploaded: function(idTicket, setValue) {
+            return $http({
+              method : "GET",
+              url : serverHost+serverBackend+"Ticket/setIsBillingUploaded/"+idTicket+"/"+setValue
+                  }).then(function mySuccess(response) {
+                    return response;
+                  }).catch(function onError(response) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                    return response;
+                  })
           },
       }
 }]);

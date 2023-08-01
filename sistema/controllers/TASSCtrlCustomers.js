@@ -458,7 +458,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
              //console.log($scope.rsList.tenants);
             }
            });
-        };$scope.getUserLists("","");
+        };//$scope.getUserLists("","");
 
     /**************************************************
     *            SHOW ONLY ADMIN AND COMPANY          *
@@ -538,6 +538,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
           "searchFilter":null,
           "isNotCliente":"0",
           "idClientTypeFk":null,
+          "isInDebt": null,
           "start":"1",
           "limit":"10",
           "strict": null
@@ -549,24 +550,28 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
       **************************************************/
         $scope.getCustomersListRs = {'customerList':null, 'totalNumberOfCustomer':0}
         $scope.setCustomersListRs = {}
-        $scope.getCustomerLisServiceFn = function(searchFilter, isNotCliente, idClientTypeFk, start, limit, strict){
+        $scope.getCustomerLisServiceFn = function(searchFilter, isNotCliente, idClientTypeFk, isInDebt, start, limit, strict){
+          console.log($scope.customerSearch);
           var searchFilter    = searchFilter!=undefined && searchFilter!=null?searchFilter:null;
           var isNotCliente    = isNotCliente!=undefined && isNotCliente!=null?isNotCliente:"0";
           var idClientTypeFk  = idClientTypeFk!=undefined && idClientTypeFk!=null?idClientTypeFk:null;
-          var start           = start!=undefined && start!=null?start:"";
-          var limit           = limit!=undefined && limit!=null?limit:"";
-          var strict          = strict!=undefined && strict!=null?strict:null;
+          var isInDebt        = isInDebt!=false && isInDebt!=undefined && isInDebt!=null?1:null;
+          var start           = start!=undefined && start!=null && (!isInDebt && !strict)?start:"";
+          var limit           = limit!=undefined && limit!=null && (!isInDebt && !strict)?limit:"";
+          var strict          = strict!=false && strict!=undefined && strict!=null?strict:null;
           $scope.getCustomersListRs = {'customerList':null, 'totalNumberOfCustomer':0}
           $scope.customersSearch={
             "searchFilter":searchFilter,
             "isNotCliente":isNotCliente,
             "idClientTypeFk":idClientTypeFk,
+            "isInDebt":isInDebt,
             "start":start,
             "limit":limit,
             "strict":strict
           };
+          //console.log($scope.customersSearch);
           return CustomerServices.getCustomerListLimit($scope.customersSearch).then(function(response){
-            console.info(response);
+            //console.info(response);
             if(response.status==200){
               return response.data;
             }else if(response.status==404){
@@ -577,15 +582,15 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
         $scope.pageChanged = function(){
           //console.info($scope.pagination.pageIndex);
           var pagIndex = ($scope.pagination.pageIndex-1)*($scope.pagination.pageSizeSelected);
-          $scope.getCustomersListFn(null, $scope.customersSearch.isNotCliente, $scope.customersSearch.idClientTypeFk, pagIndex, $scope.pagination.pageSizeSelected);
+          $scope.getCustomersListFn(null, $scope.customersSearch.isNotCliente, $scope.customersSearch.idClientTypeFk, $scope.customerSearch.isInDebt, pagIndex, $scope.pagination.pageSizeSelected);
         }
       /**************************************************
       *                                                 *
       *           GET CUSTOMER LIST FUNCTION            *
       *                                                 *
       **************************************************/
-          $scope.getCustomersListFn = function(search, isNotCliente, idClientTypeFk, start, limit) {
-            $scope.getCustomerLisServiceFn(search, isNotCliente, idClientTypeFk, start, limit, null).then(function(data) {
+          $scope.getCustomersListFn = function(search, isNotCliente, idClientTypeFk, isInDebt, start, limit) {
+            $scope.getCustomerLisServiceFn(search, isNotCliente, idClientTypeFk, isInDebt, start, limit, null).then(function(data) {
               //console.info(data.customers);
               $scope.rsCustomerListData     = data.customers;
               $scope.pagination.totalCount  = data.totalCount;
@@ -600,7 +605,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
       **************************************************/
           $scope.getCustomersListByTypeFn = function(idClientTypeFk) {
             if (idClientTypeFk!=undefined && idClientTypeFk!='' && idClientTypeFk!=null){
-              $scope.getCustomerLisServiceFn(null, $scope.customersSearch.isNotCliente, idClientTypeFk, "", "", null).then(function(data) {
+              $scope.getCustomerLisServiceFn(null, $scope.customersSearch.isNotCliente, idClientTypeFk, null, "", "", null).then(function(data) {
                 //console.info(data.customers);
                 $scope.rsCustomerListByTypeData = data.customers;
               }, function(err) {
@@ -617,11 +622,11 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
       *                                                 *
       **************************************************/
         $scope.searchboxfilterDB=null;
-        $scope.getCustomersByNameFn = function(clientName, strict) {
-          console.log(clientName);
-          if(clientName.length>=2){
+        $scope.getCustomersByNameFn = function(clientName, isInDebt, strict) {
+          console.log($scope.customerSearch);
+          if(clientName!=undefined && clientName.length>=2){
             if (clientName!=undefined && clientName!='' && clientName!=null){
-              $scope.getCustomerLisServiceFn(clientName, $scope.customersSearch.isNotCliente, $scope.customersSearch.idClientTypeFk, "", "10", strict).then(function(response) {
+              $scope.getCustomerLisServiceFn(clientName, $scope.customersSearch.isNotCliente, $scope.customersSearch.idClientTypeFk, $scope.customerSearch.isInDebt, "", "10", $scope.customerSearch.strict).then(function(response) {
                 console.info(response);
                 if(response.status==undefined){
                   $scope.rsCustomerListData = response.customers;
@@ -657,36 +662,46 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
             console.log("[search]-->qvalue1: "+qvalue1);
             console.log("[search]-->qvalue2: "+qvalue2);
             console.log("[search]-->vStrict: "+vStrict);
-            $scope.realItemList = $scope.realItemList == null?sourceList:$scope.realItemList;
-            $scope.items = $scope.realItemList;
+            $scope.items = sourceList;
             console.log($scope.items);
             var output=[];
-            if (qvalue1!=undefined && qvalue1!='' && qvalue1!=null){
+            if ((qvalue1!=undefined && qvalue1!='' && qvalue1!=null) || (qvalue2!=undefined && qvalue2!='' && qvalue2!=null)){
               angular.forEach($scope.items,function(customer){
                 var customerName=customer.name;
                 var customerAddress=customer.address;
                 var customerId=customer.idClient;
                 var customerType=customer.idClientType;
                 var customerNumber=customer.idClientAssociated_SE;
+                var customerIsInDebt=customer.IsInDebt;
+                var idClientAdminFk = customer.idClientAdminFk;
+                var idClientCompaniFk = customer.idClientCompaniFk;
                 var customerBusinessName=customer.companyBusinessName==null || customer.companyBusinessName==undefined?null:customer.companyBusinessName;
                 var customerbusinessNameBilling=customer.billing_information==null || customer.billing_information==undefined || customer.billing_information.length==0?null:customer.billing_information[0].businessNameBilling;
-                console.log("customerAddress: "+customerAddress);
-                console.log("customerName: "+customerName);
-                    if (!vStrict){
+                //console.log("customerIsInDebt: "+customerIsInDebt);
+                    if ((qvalue1!=undefined && qvalue1!='' && qvalue1!=null) && !vStrict){
                         if(customerId.indexOf(qvalue1.toLowerCase())>=0 || (customerName!=null && customerName.indexOf(qvalue1.toUpperCase())>=0) || (customerAddress!=null && customerAddress.indexOf(qvalue1.toUpperCase())>=0) || (customerBusinessName!=null && customerBusinessName.indexOf(qvalue1.toUpperCase())>=0) || (customerbusinessNameBilling!=null && customerbusinessNameBilling.indexOf(qvalue1.toUpperCase())>=0)){
                             output.push(customer);
                             //console.log(output);
                         }
-                    }else{
+                    }else if ((qvalue1!=undefined && qvalue1!='' && qvalue1!=null) && vStrict){
                         if(customerId===qvalue1 || customerName===qvalue1.toUpperCase() || customerAddress===qvalue1.toUpperCase() || (customerBusinessName!=null && customerBusinessName===qvalue1.toUpperCase()) || (customerbusinessNameBilling!=null && customerbusinessNameBilling===qvalue1.toUpperCase())){
                             output.push(customer);
                             //console.log(output);
                         }
                     }
+                    if (qvalue2){
+                      if(customerIsInDebt==1 && (idClientAdminFk == $scope.select.filterCustomerIdFk.selected.idClient || idClientCompaniFk == $scope.select.filterCustomerIdFk.selected.idClient)){
+                          console.log("customerName: "+customerName+" [customerIsInDebt]["+customerIsInDebt+"]");
+                          output.push(customer);
+                          //console.log(output);
+                      }
+                    }
               });
               //console.log(output);
               if (output.length>0){
                 $scope.rsCustomerListData = output;
+              }else{
+                $scope.rsCustomerListData = [];
               }
             }else{
               $scope.getLisOfCustomersByIdFn($scope.select.filterCustomerIdFk.selected.idClient, true);
@@ -698,7 +713,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
       *                                                 *
       **************************************************/
           $scope.getAdminCustomersListFn = function() {
-            $scope.getCustomerLisServiceFn(null,"0",1,"","",null).then(function(data) {
+            $scope.getCustomerLisServiceFn(null,"0",1, null, "","",null).then(function(data) {
               $scope.rsCustomerAdminListData = data.customers;
             }, function(err) {
               $scope.customersSearch.idClientTypeFk = null;
@@ -710,7 +725,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
       *                                                 *
       **************************************************/
         $scope.getCompaniesCustomersListFn = function() {
-          $scope.getCustomerLisServiceFn(null,"0",3,"","",null).then(function(data) {
+          $scope.getCustomerLisServiceFn(null,"0",3, null, "","",null).then(function(data) {
             $scope.rsCustomerCompaniesListData = data.customers;
           }, function(err) {
             $scope.customersSearch.idClientTypeFk = null;
@@ -743,10 +758,10 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
           $scope.getCustomerByIdFn = function(id){
             CustomerServices.getCustomersById(id).then(function(response){
               if(response.status==200){
-                $scope.customer.files = response.data;
+                $scope.customer.files   = response.data;
                 if ($scope.customer.files.files_uploaded.length==0){
                   $('#listCustomerFiles').modal('hide');
-                  $scope.customer.files={};
+                  $scope.customer.files = {};
                 }            
               }
             });
@@ -762,12 +777,20 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
             console.log("getLisOfCustomersByIdFn: "+id);
             $scope.rsCustomerListData=[];
             CustomerServices.getCustomersListByCustomerId(id).then(function(response){
-              //console.log(response);
+              console.log(response);
               if(response.status==200){
-                $scope.rsCustomerListData = response.data;
-                $scope.pagination.totalCount = response.data.length;
+                $scope.rsCustomerListData     = response.data;
+                $scope.pagination.totalCount  = response.data.length;
+
+                if($scope.select.filterTypeOfClient!='' && $scope.elect.filterCustomerIdFk.selected!=undefined){
+                  console.log("select.filterTypeOfClient: ");
+                  console.log($scope.select.filterTypeOfClient);
+                  console.log("select.filterCustomerIdFk: ");
+                  console.log($scope.select.filterCustomerIdFk.selected);
+                  $scope.offlineSearch($scope.rsCustomerListData,$scope.searchboxfilterOffline,$scope.customerSearch.isInDebt,false);
+                }
               }else{
-                $scope.rsCustomerListData = [];
+                $scope.rsCustomerListData     = [];
               }
               //$scope.loadPagination($scope.rsCustomerListData, "idClientIndex", "10");
               //console.log($scope.rsCustomerListData);
@@ -930,6 +953,45 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                   $('#confirmRequestModal').modal('hide');
                 }
               break;
+              case "isInDebtClient":
+                  if (confirm==0){
+                    $scope.customerDetail=obj;
+                    if($scope.customer.details.IsInDebtTmp){
+                      $scope.mess2show="El Cliente "+obj.name+" ["+obj.ClientType+"] sera deshabilitado.     Confirmar?";
+                      console.log("============================================================================");
+                      console.log("Deshabilitar al cliente por mora.");
+                      console.log("============================================================================");
+                      console.log("ID del Cliente             : "+obj.idClient);
+                      console.log("Dirección del consorcio    : "+obj.address);
+                      console.log("============================================================================");
+                    }else{
+                      $scope.mess2show="El Cliente "+obj.name+" ["+obj.ClientType+"] sera habilitado.     Confirmar?";
+                        console.log("============================================================================");
+                        console.log("Habilitar el cliente, ya no se encuentra en mora.");
+                        console.log("============================================================================");
+                        console.log("ID del Cliente             : "+obj.idClient);
+                        console.log("Dirección del consorcio    : "+obj.address);
+                        console.log("============================================================================");
+                    }   
+                    $('#confirmRequestModalCustom').modal('toggle');
+                  }else if (confirm==1){
+                      if($scope.customer.details.IsInDebtTmp){
+                          $scope.customerDetail.IsInDebt=1;
+                      }else{
+                          $scope.customerDetail.IsInDebt=0;
+                      }
+                      console.log($scope.customerDetail);
+                      $scope.switchCustomersFn('isInDebtClient', $scope.customerDetail);
+                  $('#confirmRequestModalCustom').modal('hide');
+                  }else if (confirm<0){
+                      if ($scope.customer.details.IsInDebt==0 || $scope.customer.details.IsInDebt==null){
+                          $scope.customer.details.IsInDebtTmp=false
+                      }else{
+                          $scope.customer.details.IsInDebtTmp=true
+                      }
+                      
+                  }              
+              break;
               default:
               }
             }
@@ -947,6 +1009,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                 CustomerServices.getCustomersById(idClient).then(function(response){
                   if(response.status==200){
                     $scope.rsCustomerData = response.data;
+                    console.log($scope.rsCustomerData);
                     $scope.switchCustomersFn(opt, $scope.rsCustomerData, opt2);
                   }
                 });
@@ -2993,7 +3056,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
         $scope.isListCustomerService=false;
         $scope.isInfoCustomer=false;
         $scope.confirmAdminDataChange=false;
-        $scope.customerSearch={'typeClient':'','strict':false};
+        $scope.customerSearch={'searchFilter':'', 'typeClient':'', 'isInDebt':false, 'strict':false};
         $scope.defArrForCustomersFn = function(){
           $scope.mySwitch = $scope.pasos[0];
           $scope.btnShow=true;
@@ -3144,9 +3207,11 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       $scope.sysContent                         = "";
                       $scope.pagination.pageIndex               = 1;
                       $scope.customersSearch.isNotCliente       = "0";
-                      $scope.getCustomersListFn(null, "0", null, ($scope.pagination.pageIndex-1), $scope.pagination.pageSizeSelected, null);
+                      $scope.customersSearch.isInDebt           = false;
+                      $scope.getCustomersListFn(null, "0", null, null, ($scope.pagination.pageIndex-1), $scope.pagination.pageSizeSelected, null);
                       $scope.select.filterTypeOfClient          = undefined;
                       $scope.select.filterCustomerIdFk.selected = undefined;
+                      $scope.customerSearch={'searchFilter':'', 'typeClient':'', 'isInDebt':false, 'strict':false};
                       $scope.isNewCustomer                      = false;
                       $scope.isUpdateCustomer                   = false;
                       //$scope.customerPaginationFn($scope.rsCustomerListData, 10);
@@ -3159,11 +3224,13 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       $scope.sysContent                         = "";
                       $scope.pagination.pageIndex               = 1;
                       $scope.customersSearch.isNotCliente       = "1";
+                      $scope.customersSearch.isInDebt           = false;
                       $scope.select.filterTypeOfClient          = undefined;
                       $scope.select.filterCustomerIdFk.selected = undefined;
+                      $scope.customerSearch={'searchFilter':'', 'typeClient':'', 'isInDebt':false, 'strict':false};
                       $scope.isNewCustomer                      = false;
                       $scope.isUpdateCustomer                   = false;
-                      $scope.getCustomersListFn(null, "1", null, ($scope.pagination.pageIndex-1), $scope.pagination.pageSizeSelected, null);
+                      $scope.getCustomersListFn(null, "1", null, null, ($scope.pagination.pageIndex-1), $scope.pagination.pageSizeSelected, null);
                       $scope.sysContent                         = 'registeredNotCustomers';
                     break;
                   }
@@ -3417,6 +3484,10 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                   $scope.customer.info.isNotCliente=false;
                   console.log(cObj)
                   $scope.customerDataFn(cObj,'info'); 
+                break;
+                case "isInDebtClient":
+                  console.log(cObj);
+                  $scope.setClientInDebtFn(cObj);
                 break;
               default:
             }
@@ -4480,6 +4551,8 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       $scope.tmpVars.list_schedule_atention=obj.list_schedule_atention;
                       $scope.customer.details=obj;
                       $scope.customer.details.billing_information_details=obj.billing_information[0];
+                      $scope.customer.details.IsInDebtTmp=obj.IsInDebt==1?true:false;
+                      $scope.customer.details.IsInDebtURL = serverHost+"/status/client_id/"+$scope.customer.details.idClient;
                       switch (subOption){
                         case "1": //ADMINISTRATION CUSTOMER
                           arrProvince = $scope.getCustomerProvinceNameFromIdFn($scope.customer.details.idProvinceFk);
@@ -5166,7 +5239,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
           /******************************
           *     UPDATE THE CUSTOMER     *
           ******************************/
-           $scope.generateSecurityCodeFn = function(client){
+            $scope.generateSecurityCodeFn = function(client){
             CustomerServices.generateCustomerSecurityCode(client.idClient).then(function(data){
                 $scope.rsJsonData = data;
                 //console.log($scope.rsJsonData);
@@ -5195,7 +5268,45 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                   blockUI.stop();
                 }, 1500);
             });
-          };
+            };
+          /**************************************************
+          *                                                 *
+          *                SET CLIENT IN DEBT               *
+          *                                                 *
+          **************************************************/
+            $scope.setClientInDebtFn = function(obj){
+              //console.log(obj);
+              if (obj.IsInDebt==1){
+                blockUI.start('Inhabilitando cliente: '+obj.name);
+              }else{
+                blockUI.start('Habilitando cliente: '+obj.name);
+              }
+              CustomerServices.setClientInDebt(obj).then(function(response){
+                  console.log(response);
+                  if(response.status==200){
+                      if (obj.IsInDebtTmp){
+                        inform.add('Cliente inhabilitado satisfactoriamente.',{
+                            ttl:5000, type: 'warning'
+                        });
+                      }else{
+                        inform.add('Cliente habilitado satisfactoriamente.',{
+                            ttl:5000, type: 'success'
+                        });
+                      }
+                      $timeout(function() {
+                        blockUI.message('Actualizando datos del cliente: '+obj.name);
+                      }, 1500);
+                      $timeout(function() {
+                        $scope.getCustomersByNameFn($scope.customerSearch.searchFilter, $scope.customerSearch.isInDebt, $scope.customerSearch.strict);
+                      }, 2500);
+                      $timeout(function() {
+                        $scope.getCustomersByIdFn('details_customer', obj.idClient, 'show');
+                        blockUI.stop();
+                      }, 3500);
+                      
+                  }
+              });
+            }
       /**************************************************
       *                                                 *
       *                UPLOAD CUSTOMER FILES            *

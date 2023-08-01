@@ -760,6 +760,18 @@ class Client_model extends CI_Model {
 		return $code;
 
 	}
+
+    public function customerIsInDebt ($idClient)
+	{
+		$query = $this->db->select("tb_clients.IsInDebt")->from("tb_clients")->where('idClient', $idClient)->get();
+		if ($query->num_rows() == 1) {
+			$client = $query->row_array();
+            return $client;
+		} else {
+			return null;
+		}
+
+	}
     // ****************  //
 
 
@@ -1674,11 +1686,11 @@ class Client_model extends CI_Model {
 
     }
 
-    public function getadmin($id, $searchFilter, $idClientTypeFk, $isNotCliente, $limit = '', $start = '', $strict = null){
-        $quuery = null;
-        $query_total= null;
-        $rs     = null;
-        $where=null;
+    public function getadmin($id, $searchFilter, $idClientTypeFk, $isInDebt, $isNotCliente, $limit = '', $start = '', $strict = null){
+        $quuery         = null;
+        $query_total    = null;
+        $rs             = null;
+        $where          = null;
 
         //echo isset($limit)."\n";
         //echo isset($start);
@@ -1774,6 +1786,9 @@ class Client_model extends CI_Model {
                 if (! is_null($isNotCliente)) {
                     $this->db->where('tb_clients.isNotCliente', $isNotCliente);
                 }
+                if (! is_null($isInDebt) && $isInDebt!="") {
+                    $this->db->where('tb_clients.IsInDebt', $isInDebt);
+                }
             }else{
                 if (! is_null($idClientTypeFk)) {
                     $this->db->where('tb_clients.idClientTypeFk', $idClientTypeFk);
@@ -1781,7 +1796,10 @@ class Client_model extends CI_Model {
                 if (! is_null($isNotCliente)) {
                     $this->db->where('tb_clients.isNotCliente', $isNotCliente);
                 }
-                if (is_null($strict) || !$strict){
+                if (! is_null($isInDebt) && $isInDebt!="") {
+                    $this->db->where('tb_clients.IsInDebt', $isInDebt);
+                }
+                if (is_null($strict)){
                     $where="(tb_clients.name LIKE '%".$searchFilter."%' OR tb_clients.idClient LIKE '%".$searchFilter."%')";
                     $this->db->where($where);
                 }else{

@@ -105,16 +105,17 @@ login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams
         if(login.user.fullNameUser){
           userServices.checkUserMail(login.user.fullNameUser, "login").then(function(data) {
             $scope.mailCheckResult= data;
-            //console.log("[sysCheckEmailLogin] --> mailCheckResult: "+$scope.mailCheckResult); 
+            console.log("[sysCheckEmailLogin] --> mailCheckResult: "+$scope.mailCheckResult); 
               if(!$scope.mailCheckResult || $scope.mailCheckResult==500 || $scope.mailCheckResult==503){
                 if($scope.mailCheckResult==500 || $scope.mailCheckResult==503){
                   inform.add('[Error]: '+$scope.mailCheckResult+', Ha ocurrido un error en la comunicacion con servidor, contacta el area de soporte. ',{
                   ttl:5000, type: 'danger'
                   });
                 }else{
+                  console.log("[sysCheckEmailLogin] --> mailCheckResult: "+$scope.mailCheckResult); 
                   var attempsToken = JSON.parse(sessionStorage.getItem("attempsToken"));
                   $scope.mailCheckCount = attempsToken.attempsCount;
-
+                  console.log("[sysCheckEmailLogin] --> mailCheckCount: "+$scope.mailCheckCount); 
                   if($scope.mailCheckCount==3){
                     $scope.checkEmailLogin = 1;
                     console.log($scope.mailCheckCount);
@@ -139,7 +140,8 @@ login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams
                     }); 
                     $("#loginEmail").popover('show');
                   }else{
-                    console.log($scope.mailCheckResult);
+                    console.log("[sysCheckEmailLogin] --> mailCheckResult: "+$scope.mailCheckResult);
+                    console.log("[sysCheckEmailLogin] --> mailCheckCount: "+$scope.mailCheckCount); 
                     inform.add('El Correo: '+ login.user.fullNameUser + ', no se encuentra registrado, verifique los datos ingresados.',{
                       ttl:4000, type: 'warning'
                     });
@@ -330,10 +332,10 @@ login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams
       $scope.user2LoginList={};
       $scope.sysCheck4Duplicates = function(){
         var value = $scope.login.email;
-        console.log($scope.login.email)
+        //console.log($scope.login.email)
         if(value){
           userServices.findUserByEmail(value).then(function(response) {
-            console.log(response);
+            //console.log(response);
             if(response.status==200){
               if (response.data.length>1){
                 $scope.user2LoginList=response.data;

@@ -105,19 +105,17 @@ class Clientes extends REST_Controller {
 	public function IsInDebt_post()
 	{
 
-		$pofile = null;
+		$rs = null;
 		if (!$this->post('client')) {
 			$this->response(null, 404);
 		}
 
-		$pofile = $this->client_model->IsInDebt($this->post('client'));
+		$rs = $this->client_model->IsInDebt($this->post('client'));
 //		$this->response($pofile);
-		if ($pofile == 1) {
-			$this->response(['response' => "Registro exitoso"], 200);
-		} elseif ($pofile == 0) {
-			$this->response(['error' => "Sin Resultados"], 500);
-		} elseif ($pofile == 2) {
-			$this->response(['response' => "Cliente ya se encuentra registrado"], 203);
+		if ($rs == 1) {
+            $this->response("Registro exitoso", 200);
+		} elseif ($rs == 0) {
+			$this->response(array('error' => 'NO HAY RESULTADOS'), 500);
 		}
 	}
 
@@ -291,16 +289,26 @@ class Clientes extends REST_Controller {
 			$this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
 		}
 	}
-
+	/*Solicitud para saber si el cliente se encuentra en mora*/
+	public function customerIsInDebt_get($idClient){
+        $rs = null;
+		$rs = $this->client_model->customerIsInDebt($idClient);
+		if (! is_null($rs)) {
+			$this->response($rs, 200);
+		} else {
+			$this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
+		}
+	}
     public function search_post() {
         $searchFilter   = $this->post('searchFilter');
         $idClientTypeFk = $this->post('idClientTypeFk');
         $isNotCliente   = $this->post('isNotCliente');
-        $limit   = $this->post('limit');
-        $start   = $this->post('start');
-        $strict   = $this->post('strict');
+        $IsInDebt       = $this->post('isInDebt');
+        $limit          = $this->post('limit');
+        $start          = $this->post('start');
+        $strict         = $this->post('strict');
 
-        $client_rs = $this->client_model->getadmin(null, $searchFilter, $idClientTypeFk, $isNotCliente, $limit, $start, $strict);
+        $client_rs = $this->client_model->getadmin(null, $searchFilter, $idClientTypeFk, $IsInDebt, $isNotCliente, $limit, $start, $strict);
 
         if (! is_null($client_rs)) {
             $this->response($client_rs, 200);
@@ -311,7 +319,7 @@ class Clientes extends REST_Controller {
 
     public function searchAddress_post() {
 
-        $address = $this->post('address');
+        $address    = $this->post('address');
         $idProvince = $this->post('idProvinceFk');
         $idLocation = $this->post('idLocationFk');
         //$idClientTypeFk = $this->post('idClientTypeFk');
@@ -325,8 +333,8 @@ class Clientes extends REST_Controller {
     }
     public function getDepartmentId_post() {
 
-        $clientId = $this->post('clientId');
-        $floor = $this->post('floor');
+        $clientId   = $this->post('clientId');
+        $floor      = $this->post('floor');
         $department = $this->post('department');
 
         //$idClientTypeFk = $this->post('idClientTypeFk');

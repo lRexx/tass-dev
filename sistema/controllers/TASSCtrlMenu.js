@@ -58,14 +58,15 @@
       console.log("Bienvenido al sistema de "+APP_SYS.app_name);
       console.log("Version v"+APP_SYS.version);
       console.log("Loading Menu Controller");
+      //console.log($location.path());
       //$cookies.put('systemToken', "#$%#%$#%$#&%$&%$&54gdfbg3w44t34tgsdvgsd#$234fvds");
       $scope.sysToken             = tokenSystem.getTokenStorage(1);
       $scope.sysLoggedUser        = tokenSystem.getTokenStorage(2);
       $scope.sysLoggedUserModules = tokenSystem.getTokenStorage(6);
-      if ((!$scope.sysToken || $scope.sysToken==null || $scope.sysToken==undefined) && (!$scope.sysLoggedUser || $scope.sysLoggedUser==null || $scope.sysLoggedUser==undefined)){
-        console.log("Redirecting to login page....");
-        $location.path("/login");
-      }
+      //if ((!$scope.sysToken || $scope.sysToken==null || $scope.sysToken==undefined) && (!$scope.sysLoggedUser || $scope.sysLoggedUser==null || $scope.sysLoggedUser==undefined)){
+      //  console.log("Redirecting to login page....");
+      //  $location.path("/login");
+      //}
       console.log($scope.sysLoggedUser);
       $scope.pattOnlyNumbersX2         = /^[0-9]{1,2}$/;
       $scope.pattX2CharactersNumbersX2 = /^(pb|PB)|^[0-9]{1,2}$/;
@@ -828,11 +829,12 @@
                 "strict": null
               }
               $scope.globalCustomers = {'status':0, 'all':[], 'registered':[],'notRegistered':[],'administrations':[], 'buildings':[], 'branches':[], 'companies':[], 'particulars':[]}
-              $scope.globalGetCustomerListFn = function(searchFilter, isNotCliente, idClientTypeFk, start, limit, strict){
+              $scope.globalGetCustomerListFn = function(searchFilter, isNotCliente, idClientTypeFk, isInDebt, start, limit, strict){
                 console.log("getting Customers List from Database");
                 var searchFilter    = searchFilter!=undefined && searchFilter!=null?searchFilter:null;
                 var isNotCliente    = isNotCliente!=undefined && isNotCliente!=null?isNotCliente:"0";
                 var idClientTypeFk  = idClientTypeFk!=undefined && idClientTypeFk!=null?idClientTypeFk:null;
+                var isInDebt        = isInDebt!=undefined && isInDebt!=null?isInDebt:null;
                 var start           = start!=undefined && start!=null?start:"";
                 var limit           = limit!=undefined && limit!=null?limit:"";
                 var strict          = strict!=undefined && strict!=null?strict:null;
@@ -841,6 +843,7 @@
                   "searchFilter":searchFilter,
                   "isNotCliente":isNotCliente,
                   "idClientTypeFk":idClientTypeFk,
+                  "isInDebt":isInDebt,
                   "start":start,
                   "limit":limit,
                   "strict":strict
@@ -996,10 +999,14 @@
                   });
               }
             };
-
-      if ($location.path() != "/register" && $location.path() != "/forgotpwd" && $location.path() != "/newpwd"){
+            var statusPath = /(status\/)+([A-z_]{4,15})+\/\d/;
+            var currentUrl = $location.path();
+      if ($location.path() != "/register" && $location.path() != "/forgotpwd" && $location.path() != "/newpwd" && !currentUrl.match(statusPath)){
+        //console.log($location.path());
         if (!$scope.sysToken || $scope.sysLoggedUser==undefined || $scope.sysLoggedUserModules==undefined){
+          $timeout(function() {  
             $location.path("/login");
+          }, 2000);
         }else{
           //$scope.sysLoadLStorage();
           $scope.sysLoadModules();
@@ -1035,6 +1042,7 @@
         }
       }
       $scope.getRoute = function(route){
+        //console.log(route);
         return route === $location.path();
       }
   });
