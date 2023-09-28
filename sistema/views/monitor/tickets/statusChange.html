@@ -4,7 +4,8 @@
       <div class="modal-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
-              <h3 class="modal-title"><i class="fas fa-sync"></i> [{{ticket.codTicket}}] - <span class="label label-info" >CAMBIO DE ESTADO</span></h3>
+              <h3 ng-if="changeStatusTicketSingle" class="modal-title"><i class="fas fa-sync"></i> [{{ticket.codTicket}}] - <span class="label label-info" >CAMBIO DE ESTADO</span></h3>
+              <h3 ng-if="changeStatusTicketMulti" class="modal-title"><i class="fas fa-sync"></i> Ticket Seleccionados - <span class="label label-info" >CAMBIO DE ESTADO</span></h3>
           </div>
         <div class="modal-body">
             <div  class="col-md-12 n-padding-l n-padding-r">
@@ -59,6 +60,23 @@
                             </div>
                         </div>
                     </div>
+                    <!-- DELIVERY COMPANY -->
+                    <div ng-if="sysLoggedUser.idProfileKf!=0 && ticket.idTypeDeliveryKf=='2' && ticket.newTicketStatus.idStatus=='5'" class="form-group col-md-12 col-xs-12 padding-input-left-2 padding-input-both-2" ng-class="
+                    {	'has-success': 
+                        ticket.idDeliveryCompanyKf!='' && fChStatusTicket.idDeliveryCompanyKf.$valid,
+                        'has-error':  
+                        (ticket.idDeliveryCompanyKf=='' || ticket.idDeliveryCompanyKf==undefined) && fChStatusTicket.idDeliveryCompanyKf.$touched,
+                    }">
+                        <label>Empresa de Envío</label>
+                        <div class="col-xl-12 selectContainer">
+                        <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+                                <select name="idDeliveryCompanyKf" class="form-control text-uppercase" ng-required="true" required ng-options="deliveryCompany.idDeliveryCompany as deliveryCompany.deliveryCompanyName for deliveryCompany in listDeliveryCompanies " ng-model="ticket.idDeliveryCompanyKf" >
+                                <option value="">Seleccione una empresa de envío</option>
+                                </select>
+                        </div>
+                    </div>
+                    </div>
                     <!-- Text DNI-->
                     <div ng-if="sysLoggedUser.idProfileKf!=0 && ticket.newTicketStatus.idStatus=='1' && ticket.idTypeDeliveryKf=='1'" class="form-group col-md-12" ng-class="
                     {	'has-success': 
@@ -96,7 +114,9 @@
         <div class="modal-footer">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
-                    <button type="submit" ng-click="modalConfirmation('change_ticket_status',0, ticket)" ng-disabled="fChStatusTicket.$invalid" class="btn btn-labeled btn-success">
+                    <button ng-if="changeStatusTicketSingle" type="submit" ng-click="modalConfirmation('change_ticket_status_single',0, ticket)" ng-disabled="fChStatusTicket.$invalid" class="btn btn-labeled btn-success">
+                        <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
+                    <button ng-if="changeStatusTicketMulti" type="submit" ng-click="modalConfirmation('change_ticket_status_multi',0, selectedTicketList)" ng-disabled="fChStatusTicket.$invalid" class="btn btn-labeled btn-success">
                         <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
                     <a id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
                         <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>

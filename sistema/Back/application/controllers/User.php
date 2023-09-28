@@ -334,6 +334,26 @@ class User extends REST_Controller {
         }
     }
 
+
+    /* SERVICIO SENDMAIL TEST */
+    public function sednmail_post() {
+        //print_r($this->post('mail'));
+        $to = array("emailUser"=>null);
+        $to['emailUser']=$this->post('mail')['to'];
+        $title=$this->post('mail')['title'];
+        $subject=$this->post('mail')['subject'];
+        $body=$this->post('mail')['body'];
+        //print_r($to['emailUser']);
+        $user = null;
+        $user = $this->mail_model->sendMail($title, $to, $body, $subject);
+
+        if (!is_null($user)) {
+            $this->response($user, 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
+
     /* SERVICIO INACTIVA  UN USUARIOS POR ID */
     public function delete_delete($id) {
         if (!$id) {

@@ -1,4 +1,4 @@
-var login = angular.module("module.Login", ["tokenSystem", "ngCookies", "services.User"]);
+var login = angular.module("module.Login", ["tokenSystem", "ngCookies", "services.User", "services.Ticket", "services.Departments"]);
 
 /**************************************************************************
 *                                                                         *
@@ -44,7 +44,7 @@ login.directive('passwordConfirm', ['$parse', function ($parse) {
      }
    };
  }]);
-login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams, blockUI, $timeout, inform, inputService, userServices, tokenSystem, serverHost, serverBackend, $window, APP_SYS){
+login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams, blockUI, $timeout, DepartmentsServices, inform, inputService, ticketServices, userServices, tokenSystem, serverHost, serverBackend, $window, APP_SYS){
   console.log(APP_SYS.app_name+" Modulo Login User");
   $scope.launchLoader = function(){
     $scope.wLoader  = true;
@@ -68,13 +68,32 @@ login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams
   $scope.redirect2Register    = false;
   $scope.redirect2MainApp     = false;
   $scope.swOption             = "";
+  $scope.sysRouteParams       = {};
+  $scope.departmentSelected   = {};
   tokenSystem.destroyTokenStorage(4);
+  console.log($routeParams);
+  if ($routeParams.Type!=undefined){
+    tokenSystem.setRouteParamsStorage($routeParams);
+  }
   $scope.redirect ="/";
-  console.log("$scope.sysToken:"+$scope.sysToken);  
-  console.log("$scope.sysLoggedUser:"+$scope.sysLoggedUser);  
-  if (($scope.sysToken) && ($scope.sysLoggedUser!=false || $scope.sysLoggedUser!=undefined)){
+  $scope.sysRouteParams = tokenSystem.getTokenStorage(8);
+  console.log("$scope.sysToken: "+$scope.sysToken);  
+  console.log("$scope.sysLoggedUser: "+$scope.sysLoggedUser);
+  console.log("$scope.sysRouteParams:"); 
+  console.log($scope.sysRouteParams); 
+  if (($scope.sysToken) && $scope.sysRouteParams.Type==undefined && ($scope.sysLoggedUser!=false || $scope.sysLoggedUser!=undefined)){
     console.log("Redirecting to menu page....");  
     $location.path($scope.redirect);
+  }else if(($scope.sysToken) && $scope.sysRouteParams.Type!=undefined && ($scope.sysLoggedUser!=false || $scope.sysLoggedUser!=undefined)){
+    switch ($scope.sysRouteParams.Type){
+      case "depto":
+        $location.path("/buildings");
+      break;
+      case "ticket":
+        $location.path("/monitor");
+      break;
+      default:
+    }
   }
 
   /**************************************************
@@ -82,17 +101,68 @@ login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams
   *         PARAMETER TO AUTHORIZE A TICKET         *
   *                                                 *
   **************************************************/
-
+  //https://devtass.sytes.net/login/approve/ticket/up/token/PIYBkhNSG2WdXkBZzQi7
+  //https://devtass.sytes.net/login/approve/ticket/up/NDE3Onl5dU5SN2dUMFNjU3pzdEc3OTdE
   /* USAGE: /login/auth/ticket/id/tokenId/token/secureToken */
-  if($routeParams.ticketId && $routeParams.secureToken){
-    $scope.ticketId = $routeParams.ticketId;
-    $scope.secureToken = $routeParams.secureToken;
-    console.log("$scope.ticketId :" +$scope.ticketId+"$scope.secureToken: "+$scope.secureToken);
-    inform.add('Inicia la sesion para autorizar el ticket:  '+$scope.ticketId,{
-    ttl:5000, type: 'info'
-    });
+  if($routeParams.secureToken){
+    console.log("$scope.secureToken: "+$routeParams.secureToken);
+    var decodeToken = atob($routeParams.secureToken);
+    var idTicket = decodeToken.split(":", 1);
+    ticketServices.ticketById(idTicket).then(function(response){
+      if(response.status==200){
+        inform.add('Inicia sesion para autorizar el ticket:  '+response.data[0].codTicket,{
+          ttl:5000, type: 'info'
+          });
+        console.log($scope.ticketSelected);
+      }else if (response.status==404){
+        inform.add('Ticket No encontrado, contacta con el area de soporte.',{
+          ttl:5000, type: 'warning'
+          });
+      }else if (response.status==500){
+        inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+          ttl:5000, type: 'danger'
+          });
+      }
+   });
+
   }
-    
+  /**************************************************
+  *                                                 *
+  *         PARAMETER TO AUTHORIZE A DEPTO          *
+  *                                                 *
+  **************************************************/
+
+  /* USAGE: /login/approve/depto/id/deptoid/user/userid 
+  https://devtass.sytes.net/login/approve/depto/up/depto/14116/user/192
+  https://devtass.sytes.net/login/approve/depto/down/depto/14124/user/187*/
+  //console.log($routeParams);
+  if($routeParams.deptoId && $routeParams.userId){
+    DepartmentsServices.getDeptoById($scope.sysRouteParams.deptoId).then(function(response){
+      if(response.status==200){
+        $scope.departmentSelected = response.data;
+        switch($routeParams.action){
+          case "up":
+            console.log("$scope.sysRouteParams.deptoId: " +$scope.sysRouteParams.deptoId+"$scope.sysRouteParams.userId: "+$scope.sysRouteParams.userId);
+            inform.add('Inicia para autorizar alta del Departamento:  '+$scope.departmentSelected.Depto,{
+            ttl:5000, type: 'info'
+            });
+          break;
+          case "down":
+            console.log("$scope.sysRouteParams.deptoId: " +$scope.sysRouteParams.deptoId+"$scope.sysRouteParams.userId: "+$scope.sysRouteParams.userId);
+            inform.add('Inicia para autorizar baja del Departamento:  '+$scope.departmentSelected.Depto,{
+            ttl:5000, type: 'info'
+            });
+          break;
+        }
+      }else if (response.status==404){
+        console.log("$scope.sysRouteParams.deptoId: " +$scope.sysRouteParams.deptoId+"$scope.sysRouteParams.userId: "+$scope.sysRouteParams.userId);
+        inform.add('Ocurrío un error procesando la solicitud, contacta con el soporte tecnico. ',{
+        ttl:5000, type: 'errpr'
+        });
+      }
+    });
+
+  }
 
     
 

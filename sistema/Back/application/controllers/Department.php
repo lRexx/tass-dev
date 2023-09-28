@@ -7,6 +7,8 @@ class Department extends REST_Controller {
  	{
  		parent::__construct();
  		$this->load->model('department_model');
+        /*MAIL*/
+		$this->load->model('mail_model');
  	}
 
 
@@ -188,6 +190,20 @@ class Department extends REST_Controller {
             $this->response($department, 200);
         } else {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
+    public function approveTenantDepartment_post() {
+
+        if (!$this->post('user')) {
+            $this->response(NULL, 404);
+        }
+
+        $rs = $this->department_model->approveTenantDepartment($this->post('user'));
+
+        if (!is_null($rs)) {
+            $this->response($rs, 200);
+        } else {
+            $this->response(array('error' => "ERROR INESPERADO"), 500);
         }
     }
     /* SERVICIO APRUEBA INQUILINO A UN DEPARTAMENTO */

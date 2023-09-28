@@ -1,6 +1,9 @@
 body{
-  background: url(../images/tass_bg.jpg) no-repeat 0px center fixed;
-  background-color: rgb(255,188,87,0.2);
+  background: url(../images/bg_dark.jpg);
+  background-color: rgb(15,42,55,0.2);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
   font-family: 'sans-serif', sans-serif;
 }
 
@@ -10,7 +13,11 @@ body{
     left: 0;
     width: 100%;
     height: 100%;
-    background: url(../images/tass_bg.jpg) no-repeat 0px center fixed;
+    background: url(../images/bg_dark.jpg);
+    background-color: rgb(15,42,55,0.2);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+  b ackground-position: center;
     z-index: 99999;
 }
 #loader {
@@ -36,7 +43,7 @@ body{
     bottom: 5px;
     border-radius: 50%;
     border: 3px solid transparent;
-    border-top-color: rgb(255,188,87);
+    border-top-color: #0F2A37;
     -webkit-animation: spin 3s linear infinite;
     animation: spin 3s linear infinite;
 }
@@ -49,7 +56,7 @@ body{
     bottom: 15px;
     border-radius: 50%;
     border: 3px solid transparent;
-    border-top-color: #fff;
+    border-top-color: #427A9D;
     -webkit-animation: spin 1.5s linear infinite;
     animation: spin 1.5s linear infinite;
 }

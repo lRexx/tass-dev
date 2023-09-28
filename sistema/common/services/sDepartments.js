@@ -7,6 +7,21 @@ moduleDepartmentsServices.service("DepartmentsServices", ['$http', '$q', 'tokenS
       var checkResult =0;
       var deferred = $q.defer();
       return {
+        getDeptoById: function(idDepto) {
+          //console.log(serverHeaders);
+            console.log("[Service][approveOwnerDepto]---> idDepto: "+idDepto);
+            return $http({
+                  method : "GET",
+                  url : serverHost+serverBackend+"Department/find/"+idDepto
+                }).then(function onSuccess(response) {
+                    deferred.resolve(response);
+                    return deferred.promise;
+                }).catch(function onError(response) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                    deferred.resolve(response);
+                    return deferred.promise;
+                });
+        },
         byIdDireccion: function(idClient, idStatus) {
             //console.log(serverHeaders);
               console.log("[Service][byIdDireccion] idClient---> "+idClient+" | idStatus---> "+idStatus);
@@ -79,6 +94,16 @@ moduleDepartmentsServices.service("DepartmentsServices", ['$http', '$q', 'tokenS
                     return response;
                 });
         },
+        approveTenantDepartment: function(data) {
+          console.log("[Service][approveTenantDepto]---> Department to Approve: "+data.user.idDepartmentKf);
+          return $http.post(serverHost+serverBackend+"Department/approveTenantDepartment",data, serverHeaders)
+            .then(function mySucess(response) {
+               return response;
+          }).catch(function onError(response) {
+              console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+               return response;
+          });
+      },
         assignDepto: function(userData2Assign) {
             console.log("[Service][assignDepto]---> Department to Assign: "+userData2Assign.department.idDepartment);
             return $http.post(serverHost+serverBackend+"Department/update",userData2Assign, serverHeaders)

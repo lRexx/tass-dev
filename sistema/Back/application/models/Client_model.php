@@ -1952,7 +1952,6 @@ class Client_model extends CI_Model {
         }else{
             return null;
         }
-
     }
     public function postDeleteFiles($fileName) {
         $image_path = realpath(APPPATH . '../../files');
@@ -1961,10 +1960,8 @@ class Client_model extends CI_Model {
         return true;
     }      
     public function deleteCustomerUploadedFile($idClientFile) {
-
         $this->db->delete('tb_client_files_list', array('idClientFiles' => $idClientFile));  
         return true;
-
     }
     public function getKeysAssociatedToACustomerService($idClient = null) {
         $quuery      = null;

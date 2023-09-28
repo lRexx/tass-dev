@@ -6,6 +6,7 @@ var app = angular.module('systemApp', ["ngRoute", "ngCookies",
                                           "module.Monitor",
                                         "module.Customers",
                                            "module.Status",
+                                         "module.Approval",
                                          "module.Services",
                                            "module.NewPwd",
                                         "module.ForgotPwd",
@@ -50,8 +51,13 @@ app.config(['$routeProvider', '$locationProvider',
             controller: 'LoginCtrl',
             css: 'views/login/style-login.css'
         })
-        .when('/login/auth/:Type/id/:ticketId/token/:secureToken', {
-            templateUrl: 'views/login/login.html',
+        .when('/login/approve/:Type/:action/depto/:deptoId/user/:userId', {
+            templateUrl: 'views/login/',
+            controller: 'LoginCtrl',
+            css: 'views/login/style-login.css'
+        })
+        .when('/login/approve/:Type/:action/token/:secureToken', {
+            templateUrl: 'views/login/',
             controller: 'LoginCtrl',
             css: 'views/login/style-login.css'
         })

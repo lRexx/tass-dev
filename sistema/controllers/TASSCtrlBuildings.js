@@ -7,8 +7,6 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
     if (!$scope.sysToken || !$scope.sysLoggedUser ){
         $location.path("/login");
     }
-
-
     const sysDate = new Date();
     const fullSysDate = sysDate.toLocaleString('es-AR', { day: 'numeric', month: 'numeric', year:'numeric' });
 
@@ -409,7 +407,8 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                 case "approveDepto":
                     if (confirm==0){
                         $scope.tenantObj=obj;
-                            console.log(obj)
+                            console.log(obj);
+                            console.log($scope.departmentSelected);
                             if (obj.idTypeTenantKf=="1"){
                                 $scope.mess2show="El Propietario: "+$scope.tenantObj.fullNameUser+" sera asociado al departamento: "+$scope.departmentSelected.Depto+",     Confirmar y Aprobar?";
                             }else{
@@ -604,93 +603,95 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                             //console.log(obj);
                         $('#confirmRequestModal').modal('toggle');
                     }else if (confirm==1){
-                        $scope.fnUnAssignDepto($scope.depto);
+                        $scope.unAssignDeptoFn($scope.depto);
                         $('#confirmRequestModal').modal('hide');
                     }
                 break;
                 case "removet":
-                if (confirm==0){
-                    $scope.tenantObj    = obj;
-                    $scope.buildingObj  = obj2;
-                    $scope.isHasTicket  = true;
-                    $scope.isHasKeys    = true;
-                    console.log($scope.tenantObj);
-                    if (($scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=4 && $scope.sysLoggedUser.idProfileKf!=5 && $scope.sysLoggedUser.idProfileKf!=6 && $scope.tenantObj.idTypeTenantKf!=0) || 
-                        ($scope.sysLoggedUser.idProfileKf==3 && $scope.tenantObj.idTypeTenantKf==2) || 
-                        ($scope.sysLoggedUser.idProfileKf==4 && $scope.sysLoggedUser.idUser!=$scope.tenantObj.idUser && $scope.sysLoggedUser.idTypeTenantKf!=null && $scope.tenantObj.idTypeTenantKf==2) || 
-                        ($scope.sysLoggedUser.idProfileKf==6 && $scope.tenantObj.idTypeTenantKf==2)){
-                        $scope.mess2show="Esta seguro que desea dar de baja al Habitante "+$scope.tenantObj.fullNameUser+" ?";
-                    }else if ((($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==5 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf==1) ||
-                        (($scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==5 ||  $scope.sysLoggedUser.idProfileKf==6 && $scope.sysLoggedUser.idTypeTenantKf==2))){
-                        $scope.mess2show="Esta seguro que desea darse de baja?";
-                    }
-                    if(($scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=4 && $scope.sysLoggedUser.idProfileKf!=5 && $scope.tenantObj.idTypeTenantKf!=0) || 
-                        ($scope.sysLoggedUser.idProfileKf==3 && $scope.sysLoggedUser.idTypeTenantKf==1 && ($scope.tenantObj.idTypeTenantKf==1 || $scope.tenantObj.idTypeTenantKf==2)) || 
-                        ($scope.sysLoggedUser.idProfileKf==4 && $scope.sysLoggedUser.idTypeTenantKf==1 && ($scope.tenantObj.idTypeTenantKf==1 || $scope.tenantObj.idTypeTenantKf==2)) || 
-                        ($scope.sysLoggedUser.idProfileKf==6 && $scope.sysLoggedUser.idTypeTenantKf==1 && ($scope.tenantObj.idTypeTenantKf==1 || $scope.tenantObj.idTypeTenantKf==2))){
-                            $scope.remove.info.idUser           = $scope.tenantObj.idUser;
-                            if ($scope.sysContent=='administration'){
-                                $scope.remove.info.idDepartmentKf   = $scope.idDeptoKf;
-                            }else if ($scope.sysContent=='home' && $scope.buildingObj==null){
-                                $scope.remove.info.idDepartmentKf   = $scope.departmentSelected.idClientDepartament;
-                            }else{
-                                console.log(":::ENTRO ACA::")
-                                $scope.remove.info.idDepartmentKf   = $scope.buildingObj.idClientDepartament;
-                            }
-                            $scope.remove.info.idTypeTenant     = $scope.tenantObj.idTypeTenantKf;
-                            $scope.remove.info.idProfileKf      = $scope.tenantObj.idProfileKf;
-                            console.log('ID: '+$scope.tenantObj.idUser+' ID DPTO: '+$scope.remove.info.idDepartmentKf+' ID TIPO TENANT: '+$scope.tenantObj.idTypeTenantKf);
-                            console.log("DATOS DEL INQUILINO O PROPIETARIO A DAR DE BAJA");
-                            console.log($scope.remove.info);
-                            blockUI.start('Verificando si el habitante posee un pedido activo asociado.');
-                            $scope.checkTicketTenant($scope.remove.info.idUser);
-                            blockUI.start('Verificando si el habitante posee llaves asociada.');
-                            $scope.checkKeyTenant($scope.remove.info.idDepartmentKf, $scope.remove.info.idUser);
-                    }else if($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==5 || $scope.sysLoggedUser.idProfileKf==6){
-                            console.log("::::::: REMOVE AN DEPTO OWNER/TENANT :::::::");
-                            $scope.remove.info.idUser           = $scope.tenantObj.idUser;
-                            if ($scope.sysContent=='administration'){
-                                $scope.remove.info.idDepartmentKf   = $scope.idDeptoKf;
-                            }else if ($scope.sysContent=='home' && $scope.buildingObj==null){
-                                $scope.remove.info.idDepartmentKf   = $scope.departmentSelected.idClientDepartament;
-                            }else{
-                                console.log(":::ENTRO ACA::")
-                                $scope.remove.info.idDepartmentKf   = $scope.buildingObj.idClientDepartament;
-                            }
-                            $scope.remove.info.idTypeTenant     = $scope.tenantObj.idTypeTenantKf;
-                            $scope.remove.info.idProfileKf      = $scope.tenantObj.idProfileKf;
-
-                            console.log('ID: '+$scope.tenantObj.idUser+' ID DPTO: '+$scope.remove.info.idDepartmentKf+' ID TIPO TENANT: '+$scope.tenantObj.idTypeTenantKf);
-                            console.log("DATOS DEL INQUILINO O PROPIETARIO A DAR DE BAJA");
-                            console.log($scope.remove.info);
-                            console.log($scope.buildingObj);
-                            blockUI.start('Verificando si posee un pedido activo asociado.');
-                            $scope.checkTicketTenant($scope.remove.info.idUser);
-                            blockUI.start('Verificando si el posee llaves asociada.');
-                            $scope.checkKeyTenant($scope.remove.info.idDepartmentKf, $scope.remove.info.idUser);
-                    }
-                    $timeout(function() {
-                        console.log("$scope.isHasTicket : "+$scope.isHasTicket );
-                        console.log("$scope.isHasKeys : "+$scope.isHasKeys );
-                        if (!$scope.isHasTicket && !$scope.isHasKeys){
-                            $('#confirmRequestModal').modal('toggle');
+                    if (confirm==0){
+                        $scope.tenantObj    = obj;
+                        $scope.buildingObj  = obj2;
+                        $scope.isHasTicket  = true;
+                        $scope.isHasKeys    = true;
+                        console.log($scope.tenantObj);
+                        if (($scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=4 && $scope.sysLoggedUser.idProfileKf!=5 && $scope.sysLoggedUser.idProfileKf!=6 && $scope.tenantObj.idTypeTenantKf!=0) || 
+                            ($scope.sysLoggedUser.idProfileKf==3 && $scope.tenantObj.idTypeTenantKf==2) || 
+                            ($scope.sysLoggedUser.idProfileKf==4 && $scope.sysLoggedUser.idUser!=$scope.tenantObj.idUser && $scope.sysLoggedUser.idTypeTenantKf!=null && $scope.tenantObj.idTypeTenantKf==2) || 
+                            ($scope.sysLoggedUser.idProfileKf==6 && $scope.tenantObj.idTypeTenantKf==2)){
+                            $scope.mess2show="Esta seguro que desea dar de baja al Habitante "+$scope.tenantObj.fullNameUser+" ?";
+                        }else if ((($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==5 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf==1) ||
+                            (($scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==5 ||  $scope.sysLoggedUser.idProfileKf==6 && $scope.sysLoggedUser.idTypeTenantKf==2))){
+                            $scope.mess2show="Esta seguro que desea darse de baja?";
                         }
-                        blockUI.stop();
-                    }, 1500);
-                }else if (confirm==1){
-                    $scope.IsFnRemove=true;
-                    if(($scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=4 && $scope.sysLoggedUser.idProfileKf!=5 && $scope.tenantObj.idTypeTenantKf!=0) || 
-                    ($scope.sysLoggedUser.idProfileKf==3 && $scope.sysLoggedUser.idTypeTenantKf==1 && $scope.tenantObj.idTypeTenantKf==2) || 
-                    ($scope.sysLoggedUser.idProfileKf==4 && $scope.sysLoggedUser.idTypeTenantKf==1 && $scope.tenantObj.idTypeTenantKf==2) || 
-                    ($scope.sysLoggedUser.idProfileKf==6 && $scope.sysLoggedUser.idTypeTenantKf==1 && $scope.tenantObj.idTypeTenantKf==2)){
-                        $scope.removeTenantFn($scope.remove);
-                    }else if(($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf==1){
-                        $scope.switchBuildingFn("unSubsDeptoOwner", $scope.buildingObj);
-                    }else if(($scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==5 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf==2){
-                        $scope.switchBuildingFn("unSubsDeptoTenant", $scope.tenantObj);
+                        if(($scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=4 && $scope.sysLoggedUser.idProfileKf!=5 && $scope.tenantObj.idTypeTenantKf!=0) || 
+                            ($scope.sysLoggedUser.idProfileKf==3 && $scope.sysLoggedUser.idTypeTenantKf==1 && ($scope.tenantObj.idTypeTenantKf==1 || $scope.tenantObj.idTypeTenantKf==2)) || 
+                            ($scope.sysLoggedUser.idProfileKf==4 && $scope.sysLoggedUser.idTypeTenantKf==1 && ($scope.tenantObj.idTypeTenantKf==1 || $scope.tenantObj.idTypeTenantKf==2)) || 
+                            ($scope.sysLoggedUser.idProfileKf==6 && $scope.sysLoggedUser.idTypeTenantKf==1 && ($scope.tenantObj.idTypeTenantKf==1 || $scope.tenantObj.idTypeTenantKf==2))){
+                                $scope.remove.info.idUser           = $scope.tenantObj.idUser;
+                                if ($scope.sysContent=='administration'){
+                                    $scope.remove.info.idDepartmentKf   = $scope.idDeptoKf;
+                                }else if ($scope.sysContent=='home' && $scope.buildingObj==null){
+                                    $scope.remove.info.idDepartmentKf   = $scope.departmentSelected.idClientDepartament;
+                                }else{
+                                    console.log(":::ENTRO ACA::")
+                                    $scope.remove.info.idDepartmentKf   = $scope.buildingObj.idClientDepartament;
+                                }
+                                $scope.remove.info.idTypeTenant     = $scope.tenantObj.idTypeTenantKf;
+                                $scope.remove.info.idProfileKf      = $scope.tenantObj.idProfileKf;
+                                console.log('ID: '+$scope.tenantObj.idUser+' ID DPTO: '+$scope.remove.info.idDepartmentKf+' ID TIPO TENANT: '+$scope.tenantObj.idTypeTenantKf);
+                                console.log("DATOS DEL INQUILINO O PROPIETARIO A DAR DE BAJA");
+                                console.log($scope.remove.info);
+                                blockUI.start('Verificando si el habitante posee un pedido activo asociado.');
+                                $scope.checkTicketTenant($scope.remove.info.idUser);
+                                blockUI.start('Verificando si el habitante posee llaves asociada.');
+                                $scope.checkKeyTenant($scope.remove.info.idDepartmentKf, $scope.remove.info.idUser);
+                        }else if($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==5 || $scope.sysLoggedUser.idProfileKf==6){
+                                console.log("::::::: REMOVE AN DEPTO OWNER/TENANT :::::::");
+                                $scope.remove.info.idUser           = $scope.tenantObj.idUser;
+                                if ($scope.sysContent=='administration'){
+                                    $scope.remove.info.idDepartmentKf   = $scope.idDeptoKf;
+                                }else if ($scope.sysContent=='home' && $scope.buildingObj==null){
+                                    $scope.remove.info.idDepartmentKf   = $scope.departmentSelected.idClientDepartament;
+                                }else{
+                                    console.log(":::ENTRO ACA::")
+                                    $scope.remove.info.idDepartmentKf   = $scope.buildingObj.idClientDepartament;
+                                }
+                                $scope.remove.info.idTypeTenant     = $scope.tenantObj.idTypeTenantKf;
+                                $scope.remove.info.idProfileKf      = $scope.tenantObj.idProfileKf;
+
+                                console.log('ID: '+$scope.tenantObj.idUser+' ID DPTO: '+$scope.remove.info.idDepartmentKf+' ID TIPO TENANT: '+$scope.tenantObj.idTypeTenantKf);
+                                console.log("DATOS DEL INQUILINO O PROPIETARIO A DAR DE BAJA");
+                                console.log($scope.remove.info);
+                                console.log($scope.buildingObj);
+                                blockUI.start('Verificando si posee un pedido activo asociado.');
+                                $scope.checkTicketTenant($scope.remove.info.idUser);
+                                blockUI.start('Verificando si el posee llaves asociada.');
+                                $scope.checkKeyTenant($scope.remove.info.idDepartmentKf, $scope.remove.info.idUser);
+                        }
+                        $timeout(function() {
+                            console.log("$scope.isHasTicket : "+$scope.isHasTicket );
+                            console.log("$scope.isHasKeys : "+$scope.isHasKeys );
+                            if (!$scope.isHasTicket && !$scope.isHasKeys){
+                                $('#confirmRequestModal').modal('toggle');
+                            }
+                            blockUI.stop();
+                        }, 1500);
+                    }else if (confirm==1){
+                        $scope.IsFnRemove=true;
+                        if(($scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=4 && $scope.sysLoggedUser.idProfileKf!=5 && $scope.tenantObj.idTypeTenantKf!=0) || 
+                        ($scope.sysLoggedUser.idProfileKf==3 && $scope.sysLoggedUser.idTypeTenantKf==1 && $scope.tenantObj.idTypeTenantKf==2) || 
+                        ($scope.sysLoggedUser.idProfileKf==4 && $scope.sysLoggedUser.idTypeTenantKf==1 && $scope.tenantObj.idTypeTenantKf==2) || 
+                        ($scope.sysLoggedUser.idProfileKf==6 && $scope.sysLoggedUser.idTypeTenantKf==1 && $scope.tenantObj.idTypeTenantKf==2)){
+                            $scope.removeTenantFn($scope.remove);
+                        }else if(($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf==1){
+                            //$scope.switchBuildingFn("unSubsDeptoOwner", $scope.buildingObj);
+                            $scope.removeTenantFn($scope.remove);
+                        }else if(($scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==5 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf==2){
+                            //$scope.switchBuildingFn("unSubsDeptoTenant", $scope.tenantObj);
+                            $scope.removeTenantFn($scope.remove);
+                        }
+                        $('#confirmRequestModal').modal('hide');
                     }
-                    $('#confirmRequestModal').modal('hide');
-                }
                 break;
                 default:
             }
@@ -1493,32 +1494,51 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
             **************************************************/
                 $scope.removeTenantFn = function(obj){
                     console.log(obj);
-                    blockUI.start('Dando de baja al habitante del departamento seleccionado.');
+                    $scope.idDeptoKf = $scope.idDeptoKf==undefined?obj.info.idDepartmentKf:$scope.idDeptoKf;
+                    console.log($scope.idDeptoKf);
+                    blockUI.start('Iniciando baja del departamento seleccionado.');
                     DepartmentsServices.removeTenantDepto(obj).then(function(response){
                         //console.log(response);
                         if(response.status==200){
-                            if (($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==6) && obj.idTypeTenantKf==1){
-                                inform.add('Se ha dado de baja satisfactoriamente.',{
+                            if (($scope.sysLoggedUser.idProfileKf=='3' || $scope.sysLoggedUser.idProfileKf=='4' || $scope.sysLoggedUser.idProfileKf=='6') && obj.info.idTypeTenant=='1'){
+                                inform.add('Baja realizada satisfactoriamente.',{
                                     ttl:3000, type: 'success'
                                 });
+                                $timeout(function() {
+                                    $scope.switchBuildingFn('myDepartmentsQuiet', null);
+                                }, 1500);
                                 $timeout(function() {
                                     $scope.lisTenantByType($scope.idDeptoKf, null);
                                     $scope.remove = {'info':{'idUser':null, 'idDepartmentKf2':null, 'idTypeTenant': null}}
                                     blockUI.stop();
                                 }, 2000);
-                            }else if ((($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==6) && obj.idTypeTenantKf==2) || ($scope.sysLoggedUser.idProfileKf!=3 && obj.idTypeTenantKf!=0)){
-                                inform.add('El Habitante ha sido dado de baja satisfactoriamente.',{
+
+                            }else if ((($scope.sysLoggedUser.idProfileKf=='3' || $scope.sysLoggedUser.idProfileKf=='4' || $scope.sysLoggedUser.idProfileKf=='6') && obj.info.idTypeTenant=='2') || ($scope.sysLoggedUser.idProfileKf!=3 && obj.info.idTypeTenant!=0)){
+                                inform.add('Baja realizada satisfactoriamente.',{
                                     ttl:3000, type: 'success'
                                 });
-                                if($scope.sysContent=="administration" || $scope.update.user.typeTenantChange==undefined || $scope.update.user.typeTenantChange==false){
+                                if($scope.sysRouteParams!=undefined){
                                     $timeout(function() {
-                                        $scope.getBuildingFn($scope.select.buildings.selected);
+                                        $scope.sysRouteParams = null;
+                                        tokenSystem.destroyTokenStorage(7);
+                                        $scope.idDeptoKf = null;
+                                        $scope.switchBuildingFn("administration", null);
                                         blockUI.stop();
-                                    }, 1500);
+                                    }, 3500);
                                 }else{
-                                    $timeout(function() {
-                                        blockUI.stop();
-                                    }, 1500);
+                                    if($scope.sysContent=="administration" && ($scope.update.user.typeTenantChange==undefined || $scope.update.user.typeTenantChange==false)){
+                                        $timeout(function() {
+                                            $scope.getBuildingFn($scope.select.buildings.selected);
+                                            blockUI.stop();
+                                        }, 1500);
+                                    }else{
+                                        $timeout(function() {
+                                            if ($scope.sysSubContent=="myDepartments"){
+                                                    $scope.switchBuildingFn('myDepartmentsQuiet', null);
+                                            }
+                                            blockUI.stop();
+                                        }, 1500);
+                                    }
                                 }
                             }
                         }
@@ -1611,7 +1631,7 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
             *   ASSIGN DEPARTMENT TO THE CURRENT OWNER USER   *
             *                                                 *
             **************************************************/
-                $scope.fnAssignDepto = function(userData){
+                $scope.assignDeptoFn = function(userData){
                     DepartmentsServices.assignDepto(userData).then(function(response) {
                         if(response.status==200){
                             inform.add('Departamento Asignado y pendiente por aprobacion por la administracion.',{
@@ -1629,7 +1649,7 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
             *   ASSIGN DEPARTMENT TO THE CURRENT TENANT USER  *
             *                                                 *
             **************************************************/
-                $scope.fnAssignTenantDepto = function(){
+                $scope.assignTenantDeptoFn = function(){
                     userServices.updateUser($scope.update).then(function(response){
                         if(response.status==200){
                             inform.add('Departamento Asignado y pendiente por aprobacion por la administracion.',{
@@ -1647,13 +1667,20 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
             *   CANCEL DEPARTMENT REQUEST TO AN OWNER USER    *
             *                                                 *
             **************************************************/
-                $scope.fnUnAssignDepto = function(userData){
+                $scope.unAssignDeptoFn = function(userData){
                     DepartmentsServices.unAssignDepto(userData).then(function(response) {
                         if(response.status==200){
                             inform.add('Solicitud ha sido cancelada satisfactoriamente.',{
                             ttl:5000, type: 'success'
                             });
-                            $scope.getDeptoListByAddress($scope.select.buildings.selected.idClient);
+                            if($scope.sysRouteParams!=undefined){
+                                $scope.sysRouteParams = null;
+                                tokenSystem.destroyTokenStorage(7);
+                                $scope.switchBuildingFn("administration", null);
+                            }else{
+                                $scope.getDeptoListByAddress($scope.select.buildings.selected.idClient);
+                            }
+                            
                         }else if (response.status==404){
                             inform.add('La solicitud no ha sido cancelada por favor, contacte al area de soporte de TASS.',{
                             ttl:5000, type: 'warning'
@@ -1712,7 +1739,29 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                     break;
                     }
                 };
-
+            /**************************************************
+            *                                                 *
+            *  APPROVE DEPARTMENT TO AN OWNER OR TENANT USER  *
+            *                                                 *
+            **************************************************/
+                $scope.approveTenantDeptoFn = function (data) {
+                    console.log(data);
+                    DepartmentsServices.approveTenantDepartment(data).then(function(response) {
+                        if(response.status==200){
+                            inform.add('Departamento del Habitante autorizado satisfactoriamente.',{
+                            ttl:5000, type: 'success'
+                            });
+                            $timeout(function() {
+                                blockUI.stop();
+                            }, 1500);
+                            //$scope.lisTenantByType($scope.idDeptoKf, null);
+                        }else if (response.status==404){
+                            inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                            ttl:5000, type: 'warning'
+                            });
+                        }
+                    });
+                }
             /**************************************************
             *                                                 *
             *      DISALLOW DEPARTMENT TO AN OWNER USER       *
@@ -1828,9 +1877,11 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
             *         ADD OWNER / TENANT / ATTENDANT          *
             *                                                 *
             **************************************************/
+                $scope.department={'user':{}};
                 $scope.sysRegisterTenantFn = function(){
                     console.log($scope.register);
                     $scope.depto={'department':{'idDepartment':null, 'idUserKf':null}};
+                    $scope.department={'user':{}};
                     userServices.addUser($scope.register).then(function(response_tenantRegister){
                         if(response_tenantRegister.status==200){
                             console.log("REGISTERED SUCCESSFULLY");
@@ -1846,12 +1897,14 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                                             $timeout(function() {
                                                 $scope.depto.department.idUserKf=response_tenantFound.data[0].idUser;
                                                 $scope.depto.department.idDepartment=$scope.register.user.idDeparment_Tmp;
+                                                $scope.depto.department.isApprovalRequired = $scope.sysLoggedUser.idProfileKf==1 || $scope.sysLoggedUser.idProfileKf==4?false:true;
+                                                
                                             }, 1500); 
                                             //console.log(response_tenantFound);
                                             //OWNER
                                             $timeout(function() {
                                                 blockUI.message('Asignando departamento al usuario.');
-                                                $scope.fnAssignDepto($scope.depto);
+                                                $scope.assignDeptoFn($scope.depto);
                                             }, 2000);
                                             $timeout(function() {
                                                 blockUI.message('Aprobando departamento del usuario.');
@@ -1864,12 +1917,12 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                                         }else if(($scope.register.user.idProfileKf==4 || $scope.register.user.idProfileKf==5 || $scope.register.user.idProfileKf==6) && $scope.register.user.idTypeTenantKf==2 && $scope.register.user.idDepartmentKf){
                                             blockUI.start('Aprobando departamento del usuario.');
                                             $timeout(function() {
-                                                $scope.depto.department.idUserKf        = response_tenantFound.data[0].idUser;
-                                                $scope.depto.department.idDepartment    = $scope.register.user.idDepartmentKf;
+                                                $scope.department.user  = response_tenantFound.data[0];
+                                                $scope.department.user.registerBy = $scope.register.user.loggedUser;
                                             }, 1500);
                                             $timeout(function() {
                                                 //TENANT
-                                                $scope.approveDepto($scope.register.user.idTypeTenantKf, $scope.depto.department.idUserKf, 1);
+                                                $scope.approveTenantDeptoFn($scope.department);
                                                 blockUI.stop();
                                             }, 2000);
                                             
@@ -2010,12 +2063,13 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                                     $timeout(function() {
                                         $scope.depto.department.idUserKf=$scope.update.user.idUser;
                                         $scope.depto.department.idDepartment=$scope.update.user.idDeparment_Tmp;
+                                        $scope.depto.department.isApprovalRequired = $scope.sysLoggedUser.idProfileKf==1 || $scope.sysLoggedUser.idProfileKf==4?false:true;
                                     }, 1500); 
                                     //console.log(response_tenantFound);
                                     //OWNER
                                     $timeout(function() {
                                         blockUI.message('Asignando departamento del usuario.');
-                                        $scope.fnAssignDepto($scope.depto);
+                                        $scope.assignDeptoFn($scope.depto);
                                     }, 2000);
                                     $timeout(function() {
                                         blockUI.message('Aprobando departamento del usuario.');
@@ -2123,12 +2177,12 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                                 }else if(($scope.update.user.idProfileKf==4 || $scope.update.user.idProfileKf==5 || $scope.update.user.idProfileKf==6) && $scope.update.user.idTypeTenantKf==2 && $scope.update.user.idDepartmentKf){
                                     blockUI.start('Aprobando departamento del usuario.');
                                     $timeout(function() {
-                                        $scope.depto.department.idUserKf        = $scope.update.user.idUser;
-                                        $scope.depto.department.idDepartment    = $scope.update.user.idDepartmentKf;
+                                        $scope.department.user  = response_tenantFound.data[0];
+                                        $scope.department.user.registerBy = $scope.update.user.loggedUser;
                                     }, 1500);
                                     $timeout(function() {
                                         //TENANT
-                                        $scope.approveDepto($scope.update.user.idTypeTenantKf, $scope.depto.department.idUserKf, 1);
+                                        $scope.approveTenantDeptoFn($scope.department);
                                         blockUI.stop();
                                     }, 2000);
                                     if ($scope.sysSubContent=="myDepartments"){
@@ -2229,7 +2283,7 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                                             $scope.lisTenantByType($scope.idDeptoKf, null);
                                         }, 2500);
                                     }
-                            }
+                                }
                             }else{
                                 $timeout(function() {
                                     console.log("Usuario: "+$scope.update.user.fullNameUser+" Successfully updated");
@@ -2479,6 +2533,39 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                         $scope.switchBuildingFn('myDepartmentsQuiet', null);
                     }
                 }, 30000);
+            /*************************************************************
+            *                                                            *
+            *                   GET DEPARTMENT BY ID                     *
+            *                                                            *
+            *************************************************************/
+                $scope.getDeptoByIdFn = function(idDepto){
+                    var msg1, msg2;
+                    DepartmentsServices.getDeptoById(idDepto).then(function(response){
+                        if(response.status==200){
+                            $scope.approval.department = response.data
+                            $scope.departmentSelected = response.data
+                        }else if (response.status==404){
+                            $scope.approval.department = null;
+                            $scope.departmentSelected = [];
+                        }
+                    });
+                }
+            /*************************************************************
+            *                                                            *
+            *                    GET USER BY ID                          *
+            *                                                            *
+            *************************************************************/
+                $scope.getUserIdFn = function(idUser){
+                    var msg1, msg2;
+                    userServices.findUserById(idUser).then(function(response){
+                        if(response.status==200){
+                            $scope.approval.user = response.data
+                        }else if (response.status==404){
+                            $scope.approval.user = null;
+                        }
+                    });
+                }//modalConfirmation('removet', 0, tenant)
+
             /**************************************************
             *                                                 *
             *            BUILDING MENU FUNCTION                *
@@ -2524,11 +2611,13 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                             $scope.register.user.phoneLocalNumberUser   = obj.phonelocalNumberUser;
                             $scope.register.user.idTyepeAttendantKf     = obj.idProfileKf==6?obj.idTyepeAttendantKf:null;
                             $scope.register.user.dni                    = obj.dni;
-                            $scope.register.user.isCreateByAdmin        = $scope.sysLoggedUser.idProfileKf==1 || $scope.sysLoggedUser.idProfileKf==4?1:null;
+                            $scope.register.user.isCreateByAdmin        = $scope.sysLoggedUser.idProfileKf==1 || $scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==4?1:null;
                             $scope.register.user.idAddresKf             = ($scope.register.user.idProfileKf==4 || $scope.register.user.idProfileKf==5) && ($scope.register.user.idTypeTenantKf!=null || $scope.register.user.idTypeTenantKf!=0)?obj.idAddresKf:null;
                             $scope.register.user.idTypeTenantKf         = obj.idTypeTenantKf;
                             $scope.register.user.idDepartmentKf         = (obj.idProfileKf==5 || obj.idProfileKf==6) && obj.idTypeTenantKf==2?obj.idDepartmentKf:null;
                             $scope.register.user.idDeparment_Tmp        = (obj.idProfileKf==3 || obj.idProfileKf==6) && obj.idTypeTenantKf==1?obj.idDepartmentKf:null;
+                            $scope.register.user.isApprovalRequired     = false;
+                            $scope.register.user.loggedUser             = $scope.sysLoggedUser;
                             console.log($scope.register.user);
                             $scope.sysRegisterTenantFn();
                         break;
@@ -2639,6 +2728,7 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                                     $scope.update.user.phoneLocalNumberUser        = obj.phonelocalNumberUser;
                                     $scope.update.user.phoneNumberUser             = obj.phoneMovilNumberUser;
                                     $scope.update.user.isEdit                      = 1;
+                                    $scope.update.user.loggedUser                  = $scope.sysLoggedUser;
                                     $scope.update.user.idAddresKf                  = ($scope.update.user.idProfileKf==4 || $scope.update.user.idProfileKf==5) && ($scope.update.user.idTypeTenantKf!=null || $scope.update.user.idTypeTenantKf!=0)?obj.idAddresKf:null;
                                     $scope.update.user.idDepartmentKf              = $scope.update.user.idProfileKf==5 && $scope.update.user.idTypeTenantKf==2?$scope.idDeptoKf:null;
                                     $scope.update.user.idDeparment_Tmp             = $scope.update.user.idProfileKf==3 && $scope.update.user.idTypeTenantKf==1?$scope.idDeptoKf:null;
@@ -2718,30 +2808,57 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                                 }, 1500); 
                                 $timeout(function() {
                                     blockUI.message('Asignando departamento del usuario.');
-                                    $scope.fnAssignDepto($scope.depto);
+                                    $scope.assignDeptoFn($scope.depto);
                                 }, 2000);
                                 $timeout(function() {
                                     blockUI.message('Aprobando departamento del usuario.');
                                     $scope.approveDepto(obj.idTypeTenantKf, $scope.depto.department.idDepartment, 1);
                                 }, 2500);
-                                $timeout(function() {
-                                    $scope.getDeptoListByAddress($scope.select.buildings.selected.idClient);
-                                    blockUI.stop();
-                                }, 3000);
-                                $("#ListTenants2Assign").modal('hide');
+                                if($scope.sysRouteParams==undefined){
+                                    $timeout(function() {
+                                        $scope.getDeptoListByAddress($scope.select.buildings.selected.idClient);
+                                        blockUI.stop();
+                                    }, 3000);
+                                    $("#ListTenants2Assign").modal('hide');
+                                }
+                                if($scope.sysRouteParams!=undefined){
+                                    $timeout(function() {
+                                        $scope.sysRouteParams = null;
+                                        tokenSystem.destroyTokenStorage(7);
+                                        $scope.idDeptoKf = null;
+                                        $scope.switchBuildingFn("administration", null);
+                                        blockUI.stop();
+                                    }, 3000);
+                                }
                             }else if (obj.idTypeTenantKf=="2"){
                                 //TENANTS
                                 $scope.update={'user':{'fullNameUser':null, 'emailUser': null, 'phoneNumberUser': null, 'phoneLocalNumberUser': null, 'idAddresKf': null, 'idProfileKf': null, 'idTypeTenantKf': null, 'idCompanyKf': null, 'idTyepeAttendantKf': null, 'descOther': null, 'idDepartmentKf2':null, 'isEdit': null, 'requireAuthentication': null, 'dni': null, 'idSysProfileFk': null, 'isCreateByAdmin': null, 'typeTenantChange':false}};
                                 $scope.depto={'department':{'idDepartment':null, 'idUserKf':null}};
                                 $scope.update.user                             = obj;
-                                $scope.update.user.idAddresKf                  = $scope.sysContent=="administration"?$scope.select.buildings.selected.idClient:$scope.departmentSelected.idClientFk
-                                $scope.update.user.idDepartmentKf              = $scope.departmentSelected.idClientDepartament;
+                                if ($scope.sysRouteParams!=undefined){
+                                    $scope.update.user.idAddresKf                  = obj.building[0].address;
+                                    $scope.update.user.idDepartmentKf              = obj.idDepartmentKf;
+                                }else{
+                                    $scope.update.user.idAddresKf                  = $scope.sysContent=="administration"?$scope.select.buildings.selected.idClient:$scope.departmentSelected.idClientFk;
+                                    $scope.update.user.idDepartmentKf              = $scope.departmentSelected.idClientDepartament;
+                                }
                                 $scope.update.user.typeTenantChange            = true;
                                 $timeout(function() {
                                     //console.log($scope.update.user);
                                     $scope.sysUpdateTenantFn();
                                 }, 2500);
-                                $("#ListTenants2Assign").modal('hide');
+                                if($scope.sysRouteParams==undefined){
+                                    $("#ListTenants2Assign").modal('hide');
+                                }
+                                if($scope.sysRouteParams!=undefined){
+                                    $timeout(function() {
+                                        $scope.sysRouteParams = null;
+                                        tokenSystem.destroyTokenStorage(7);
+                                        $scope.idDeptoKf = null;
+                                        $scope.switchBuildingFn("administration", null);
+                                    }, 3500);
+                                }
+                                
                             }
                         break;
                         case "approveDeptoTenant":
@@ -2851,29 +2968,33 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                         break;
                         case "assignDepartmentToLoggedUser":
                             $scope.update={'user':{'fullNameUser':null, 'emailUser': null, 'phoneNumberUser': null, 'phoneLocalNumberUser': null, 'idAddresKf': null, 'idProfileKf': null, 'idTypeTenantKf': null, 'idCompanyKf': null, 'idTyepeAttendantKf': null, 'descOther': null, 'idDepartmentKf2':null, 'isEdit': null, 'requireAuthentication': null, 'dni': null, 'idSysProfileFk': null, 'isCreateByAdmin': null, 'typeTenantChange':false}};
-                            $scope.depto={'department':{'idDepartment':null, 'idUserKf':null}};
+                            $scope.depto={'department':{'idDepartment':null, 'idUserKf':null, 'isApprovalRequired':null}};
                             if ($scope.sysLoggedUser.idTypeTenantKf=="1"){
                                 //OWNER
                                 blockUI.start('Creando solicitud del departamento seleccionado.');
                                 $timeout(function() {
-                                    $scope.depto.department.idUserKf     = $scope.sysLoggedUser.idUser;
-                                    $scope.depto.department.idDepartment = $scope.select.depto.idClientDepartament;
+                                    $scope.depto.department.idUserKf            = $scope.sysLoggedUser.idUser;
+                                    $scope.depto.department.idDepartment        = $scope.select.depto.idClientDepartament;
+                                    $scope.depto.department.isApprovalRequired  = true;
                                 }, 1500); 
                                 $timeout(function() {
-                                    $scope.fnAssignDepto($scope.depto);
+                                    $scope.assignDeptoFn($scope.depto);
                                     blockUI.stop();
                                 }, 2000);
                             }else if ($scope.sysLoggedUser.idTypeTenantKf=="2"){
                                 //TENANTS
+                                blockUI.start('Creando solicitud del departamento seleccionado.');
                                 $scope.update.user                             = $scope.sysLoggedUser;
                                 if($scope.sysLoggedUser.idProfileKf!="6"){
                                     $scope.update.user.idAddresKf              = $scope.select.buildings.selected.idClient;
                                 }
                                 $scope.update.user.idDepartmentKf              = $scope.select.depto.idClientDepartament;
                                 $scope.update.user.isDepartmentApproved        = null;
+                                $scope.update.user.isApprovalRequired          = true;
+                                $scope.update.user.isDepartmentAssigment       = true;
                                 $timeout(function() {
                                     console.log($scope.update.user);
-                                    $scope.fnAssignTenantDepto();
+                                    $scope.assignTenantDeptoFn();
                                     blockUI.stop();
                                 }, 2500);
                             }
@@ -2974,6 +3095,28 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                                         $('#checkCode').focus();
                                     }
                                 });
+                            }
+                        break;
+                        case "getDepartment":                            
+                            $scope.getDeptoByIdFn(obj.deptoId);
+                            $scope.idDeptoKf = obj.deptoId;
+                        break;
+                        case "getUser":                            
+                            $scope.getUserIdFn(obj.userId);
+                        break;
+                        case "closeApproval":                            
+                            if($scope.sysRouteParams!=undefined){
+                                blockUI.start('Cerrando aprobación de Departamento/Habitante.');
+                                $timeout(function() {
+                                    $scope.sysRouteParams = null;
+                                    tokenSystem.destroyTokenStorage(7);
+                                    $scope.idDeptoKf = null;
+                                }, 1500);
+                                $timeout(function() {
+                                    $scope.switchBuildingFn("administration", null);
+                                    $location.path("/buildings");
+                                    blockUI.stop();
+                                }, 2500);
                             }
                         break;
                         case "myDepartments":
@@ -3456,7 +3599,7 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                         break;
                         case "departmentTenants":
                             console.log(obj);
-                            if(($scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==5 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf==1 && (obj.isAprobatedAdmin==null || obj.isAprobatedAdmin=='0')){
+                            if($scope.sysLoggedUser.idProfileKf==1 || ($scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==5 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf==1 && (obj.isAprobatedAdmin==null || obj.isAprobatedAdmin=='0')){
                                 inform.add('No se pueden efectuar operaciones.',{
                                     ttl:5000, type: 'danger'
                                 });
@@ -3492,7 +3635,8 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                             $scope.keyListByBuildingId                = [];
                             $scope.select.buildings.selected          = undefined;
                             $scope.sysContent                         = 'administration';
-                            if ($scope.sysLoggedUser.idProfileKf==1){
+                            console.log($scope.sysLoggedUser);
+                            if ($scope.sysLoggedUser.idProfileKf=='1'){
                                 $scope.getAdminListFn(); //LOAD ADMINISTRATION LIST
                             }else{
                                 $scope.select.admins.selected = {'idClient': $scope.sysLoggedUser.company[0].idClient, 'name': $scope.sysLoggedUser.company[0].name};
@@ -4078,7 +4222,7 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                 });
             }
         /***********************************
-        *         ADD SINGLE KEY        *
+        *         ADD SINGLE KEY           *
         ************************************/
             $scope.addKeyFn = function(llavero){
                 KeysServices.addKey(llavero).then(function(response){
@@ -4103,5 +4247,31 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                 });
             };
 
+        /**************************************************
+        *                                                 *
+        *     ROUTE PARAMETERS FOR APPROVAL DEPTO USER    *
+        *                                                 *
+        **************************************************/
+            $scope.sysRouteParams = undefined;
+            $scope.sysRouteParams = tokenSystem.getTokenStorage(8);
+            if ($scope.sysRouteParams && $scope.sysRouteParams!=undefined){
+                console.log("===========================================");
+                console.log("    Parameters for Approval received       ");
+                console.log("===========================================");
+                console.log($scope.sysRouteParams);
+                $scope.approval = {'department':'', 'user':''};
+                $scope.switchBuildingFn("getDepartment", $scope.sysRouteParams);
+                $scope.switchBuildingFn("getUser", $scope.sysRouteParams);
+                $timeout(function() {
+                    if (($scope.approval.user.idTypeTenantKf=='2' && $scope.approval.user.idDepartmenKf!=$scope.approval.department.idClientDepartament) || 
+                        ($scope.approval.user.idTypeTenantKf=='1' && $scope.approval.user.idUser!=$scope.approval.department.idUserKf)){
+                        $scope.approval = undefined;
+                    }
+                    $scope.sysContent                         = 'approval';
+                }, 1500);
 
+                
+            }else{
+                $scope.sysRouteParams = undefined;
+            }
 });

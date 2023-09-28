@@ -67,6 +67,11 @@
       //  console.log("Redirecting to login page....");
       //  $location.path("/login");
       //}
+      /**************************************************
+      *                                                 *
+      *         PARAMETER TO AUTHORIZE A DEPTO          *
+      *                                                 *
+      **************************************************/
       console.log($scope.sysLoggedUser);
       $scope.pattOnlyNumbersX2         = /^[0-9]{1,2}$/;
       $scope.pattX2CharactersNumbersX2 = /^(pb|PB)|^[0-9]{1,2}$/;
@@ -89,7 +94,6 @@
            $('#wLoader').delay(350).fadeOut('slow'); 
            $scope.wLoader  = false;
          }, 1500);
-         
        }
       /*************************************************************
       *                                                            *
@@ -786,7 +790,7 @@
             $scope.rsUser       = {'user':{}}
             $scope.rsUser.user  = $scope.sysLoggedUser;
             if ($scope.chg.pwd1 == $scope.chg.pwd2){
-              $scope.rsUser.user.isEditUser='true';
+              $scope.rsUser.user.isPwdChange='true';
               $scope.rsUser.user.passwordUser=$scope.chg.pwd2;
               console.log($scope.rsUser);
               userServices.updateUser($scope.rsUser).then(function(response){
@@ -1004,7 +1008,8 @@
       if ($location.path() != "/register" && $location.path() != "/forgotpwd" && $location.path() != "/newpwd" && !currentUrl.match(statusPath)){
         //console.log($location.path());
         if (!$scope.sysToken || $scope.sysLoggedUser==undefined || $scope.sysLoggedUserModules==undefined){
-          $timeout(function() {  
+          $timeout(function() {
+            console.log("Entro nuevamente aca");
             $location.path("/login");
           }, 2000);
         }else{
@@ -1024,7 +1029,7 @@
           $scope.fnLoadPhoneMask();
           $timeout(function() {
             inform.add('Bienvenido Sr/a '+ $scope.sysLoggedUser.fullNameUser,{
-                ttl:3000, type: 'success'
+                ttl:3000, type: 'info'
             });
             $scope.timeOutFn();
           }, 620);

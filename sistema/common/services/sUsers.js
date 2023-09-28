@@ -139,7 +139,7 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                     
                     case 200:
                       rsJSON=response.data.response;
-                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                      console.log("Method: "+response.config.method+" - msg code["+response.status+"]");
                       console.log(rsJSON.fullNameUser);
                       sessionStorage.removeItem("attempsToken");
                       if(rsJSON.idProfileKf==6 && rsJSON.requireAuthentication==0){

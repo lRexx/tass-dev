@@ -9,7 +9,87 @@ class Mercadolibre_model extends CI_Model
 		parent::__construct();
 		/*TICKET*/ $this->load->model('Ticket_model');
 	}
+	public function notifyMail($data){
+		//MAIL
+		$user = null;
+		$building = null;
+		$title = null;
+		$subject = null;
+		$body = null;
+		$to = null;
+		//DEPARTMENT, BUILDING & ADMINISTRATION DETAILS
+		$this->db->select("*,b.idClient as idBuilding, b.name, tb_client_type.ClientType, UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto")->from("tb_client_departament");
+		$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
+		$this->db->join('tb_clients AS b', 'b.idClient = tb_client_departament.idClientFk', 'left');
+		$this->db->join('tb_client_type', 'tb_client_type.idClientType = b.idClientTypeFk', 'left');
+		$queryBuilding = $this->db->where("tb_client_departament.idClientDepartament = ", $department['idDepartment'])->get();
+		if ($queryBuilding->num_rows() > 0) {
+			$building = $queryBuilding->row_array();
+			
+			if ($building['idUserKf'] != null) {
+				//GET USER
+				$this->db->select("*")->from("tb_user");
+				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
+				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
+				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
+				$queryUser = $this->db->where("idUser =", $department['idUserKf'])->get();
+				if ($queryUser->num_rows() > 0) {
+					$user = $queryUser->row_array();
+					#MAIL TO USER
+					$rs = null;
+					$to = $user['emailUser'];
+					$title = "Alta de Departamento";
+					$subject="Alta Departamento :: ".$building['Depto'];
+					$body='<tr width="100%" bgcolor="#ffffff">';
+					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>,</td>'; 
+					$body.='</tr>';	
+					$body.='<tr width="100%" bgcolor="#ffffff">';
+					$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha solicitado el Alta en el Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">'.$building['Depto'].'</span> del '.$building['ClientType'].'<b> '.$building['name'].'</b></td>';
+					$body.='</tr>';
+					$body.='<tr width="100%" bgcolor="#ffffff">';
+					$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Estado: <span style="background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">Pendiente de aprobación</span></td>';
+					$body.='</tr>';	
+					$body.='<tr width="100%" bgcolor="#ffffff">';
+					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #ffffff;">Entrar</a></span></td>';
+					$body.='</tr>';
+					$rs = $this->mail_model->sendMail($title, $to, $body, $subject);
+					if ($rs == "Enviado" && $department['isApprovalRequired']){
+						$this->db->select("tb_client_mails.mailContact")->from("tb_client_mails");
+						$this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
+						$where="tb_client_mails.idTipoDeMailFk = 1 AND tb_client_mails.idClientFk = ".$building['idBuilding'];
+						$quuery = $this->db->where($where)->get();
+						if ($queryUser->num_rows() > 0) {
+							$buildingAdminMail = $quuery->row_array();
+							$title = null;
+							$subject = null;
+							$body = null;
+							$to = null;
+							#MAIL TO THE BUILDING OR ADMINISTRATION
+							$approval_url="https://devtass.sytes.net/login/approve/depto/up/depto/".$department['idDepartment']."/user/".$department['idUserKf'];
+							$to = $buildingAdminMail['mailContact'];
+							$title = "Alta de Departamento";
+							$subject="Alta de Departamento :: ".$building['Depto'];
+							$body='<tr width="100%" bgcolor="#ffffff">';
+							$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">El usuario, <b>'.$user['fullNameUser'].'</b>,</td>'; 
+							$body.='</tr>';	
+							$body.='<tr width="100%" bgcolor="#ffffff">';
+							$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha solicitado el Alta en el Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">'.$building['Depto'].'</span> del '.$building['ClientType'].'<b> '.$building['name'].'</b></td>';
+							$body.='</tr>';	
+							$body.='<tr width="100%" bgcolor="#ffffff">';
+							$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Estado: <span style="background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">Pendiente de aprobación</span></td>';
+							$body.='</tr>';	
+							$body.='<tr width="100%" bgcolor="#ffffff">';
+							$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="'.$approval_url.'" target="_blank" title="Aprobar" style="text-decoration: none; color: #ffffff;">Aprobar</a></span></td>';
+							$body.='</tr>';	
+							//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
+							$this->mail_model->sendMail($title, $to, $body, $subject);
+						}
+					}
+				}
+			}
+		}
 
+	}
 	public function createMPLink($data)
 	{	
 		$data               = json_decode(json_encode($data));
@@ -71,6 +151,7 @@ class Mercadolibre_model extends CI_Model
 					$ticketObj['history']['descripcion'] 		= "";
 					$ticketObj['history']['idCambiosTicketKf'] 	= $paymentFor==1?"5":"18";
 					$this->Ticket_model->addTicketTimeline($ticketObj);
+
 				return json_encode([
 					'message' => 'Datos registrados exitosamente' ,
 					'status' => 200 ,
@@ -149,7 +230,7 @@ class Mercadolibre_model extends CI_Model
 					$ticketObj['history']['idTicketKf']  		= $idTicketKf;
 					$ticketObj['history']['descripcion'] 		= "Pago del pedido has sido aprobado y acreditado";
 					$ticketObj['history']['idCambiosTicketKf'] 	= "4";
-					$changeStatusRs = $this->Ticket_model->changueStatus($idTicketKf,"8");
+					$changeStatusRs = $this->Ticket_model->quickChangueStatus($idTicketKf,"8");
 					$this->Ticket_model->addTicketTimeline($ticketObj);
 					if ($changeStatusRs){
 						$ticketObj = null;
@@ -165,7 +246,7 @@ class Mercadolibre_model extends CI_Model
 						$paymentUpdated 	= json_decode(json_encode($lastPaymentUpdated[0]));
 					}
 				}else{
-					$paymentUpdated = "El pago ya se encuentra registado en el sistema.";
+					$paymentUpdated = "El pago ya se encuentra registrado en el sistema.";
 				}
 				return json_encode([
 					'message' 	=> 'Conexion con la API de Mercado Pago Exitosa' ,
@@ -180,7 +261,7 @@ class Mercadolibre_model extends CI_Model
 				]);
 			}else if($httpcode == 401) {
 				return json_encode([
-					'message' 	=> 'Token invalido para autenticar con la API de Mercado Pago' ,
+					'message' 	=> 'Token invalido para autenticar en la API de Mercado Pago' ,
 					'status' 	=> $httpcode ,
 					'data' 		=> $response_decode->message,
 				]);
@@ -275,6 +356,50 @@ class Mercadolibre_model extends CI_Model
 					)
 				)->where("idTicket", $data['idTicketKf'])->update("tb_tickets_2");
 			}
+			$lastTicketUpdatedQuery = null;
+			$lastTicketUpdatedQuery = $this->Ticket_model->ticketById($data['idTicketKf']);
+				//MAIL
+				$user = null;
+				$building = null;
+				$title = null;
+				$subject = null;
+				$body = null;
+				$to = null;
+				$title = "Link de Pago Generado";
+				if ($lastTicketUpdatedQuery[0]['idTypeRequestFor']==1 && ($lastTicketUpdatedQuery[0]['sendNotify']==1 || $lastTicketUpdatedQuery[0]['sendNotify']==null)){
+					//DEPARTMENT, BUILDING & ADMINISTRATION DETAILS
+					$this->db->select("*,b.idClient as idBuilding, b.name, tb_client_type.ClientType, UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto")->from("tb_client_departament");
+					$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
+					$this->db->join('tb_clients AS b', 'b.idClient = tb_client_departament.idClientFk', 'left');
+					$this->db->join('tb_client_type', 'tb_client_type.idClientType = b.idClientTypeFk', 'left');
+					$queryBuilding = $this->db->where("tb_client_departament.idClientDepartament = ", $lastTicketUpdatedQuery[0]['idDepartmentKf'])->get();
+					if ($queryBuilding->num_rows() > 0) {
+						$building = $queryBuilding->row_array();
+					}
+					$subject="Pedido Alta Llavero :: ".$building['Depto']." :: Link de Pago";
+					//GET USER
+					$this->db->select("*")->from("tb_user");
+					$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
+					$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
+					$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
+					$queryUser = $this->db->where("idUser =", $lastTicketUpdatedQuery[0]['idUserRequestBy'])->get();
+					if ($queryUser->num_rows() > 0) {
+						$user = $queryUser->row_array();
+						#MAIL TO USER
+						$rs = null;
+						$to = $user['emailUser'];
+						$body.='<tr width="100%" bgcolor="#ffffff">';
+						$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hola <b>'.$user['fullNameUser'].'</b>,</td>';
+						$body.='</tr>';
+						$body.='<tr width="100%" bgcolor="#ffffff">';
+						$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Se ha generado el siguiente link de MercadoPago para pagar el Pedido N°: <b>'.$lastTicketUpdatedQuery[0]['codTicket'].'</b></td>';
+						$body.='</tr>';
+						$body.='<tr width="100%" bgcolor="#ffffff">';
+						$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Puede efectuar el pago haciendo click en <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #fff !important; border-radius: 10px; padding: 3px 7px;"><a href="'.$lastTicketUpdatedQuery[0]['paymentDetails']['mp_dev_init_point'].'" target="_blank" style="text-decoration: none; color: #ffffff;">PAGAR</a></span> </td>';
+						$body.='</tr>';
+						$this->mail_model->sendMail($title, $to, $body, $subject);
+					}
+				}
 			$lastPaymentAddedQuery = null;
 			$lastPaymentAddedQuery = $this->paymentById($idPaymentKf);
 			return $lastPaymentAddedQuery;

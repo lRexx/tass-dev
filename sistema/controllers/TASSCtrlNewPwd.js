@@ -57,14 +57,14 @@ moduleNewPwd.controller('NewPwdCtrl', function($scope, $rootScope, $location, $h
   **************************************************/
     $scope.sysRequestInit = function(){
       if (!$scope.new.pwd1 && !$scope.new.pwd2){
-        console.log("Modo cambio de clave activado: "+data2update.user.isEditUser);
+        console.log("Modo cambio de clave activado: "+data2update.user.isPwdChange);
         inform.add('Estimado '+data2update.user.fullNameUser + ', ha iniciado el proceso de cambio de clave.',{
                   ttl:4000, type: 'warning'
         });
       }
     }
     if (!$scope.sysToken && !$scope.sysLoggedUser && $scope.sysRsTmpUser){
-      data2update.user.isEditUser='true';
+      data2update.user.isPwdChange='true';
       $scope.sysRequestInit();
     }else{
       tokenSystem.destroyTokenStorage(2);

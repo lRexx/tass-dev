@@ -73,62 +73,26 @@
                         <span style="font-size: 75%;"ng-if="(tkupdate.deliveryTo.id=='2' && (tkupdate.otherDeliveryAddress.floor==undefined || tkupdate.otherDeliveryAddress.floor==null))||(tkupdate.deliveryTo==null && tkupdate.whoPickUp.idWhoPickUp=='3' && (tkupdate.thirdPersonDelivery.floor==undefined || tkupdate.thirdPersonDelivery.floor==null))" class="label label-warning text-uppercase">No especificado</span>
                     </div>
                     <div ng-if="((tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && tkupdate.whoPickUp.idWhoPickUp=='3')" class="col-md-12">
-                        <span> DNI:</span>
-                        <span ng-if="tkupdate.thirdPersonDelivery.dni!=null || tkupdate.thirdPersonDelivery.dni!=undefined">{{tkupdate.thirdPersonDelivery.dni}}</span>
-                        <span style="font-size: 75%;" ng-if="tkupdate.thirdPersonDelivery.dni==null || tkupdate.thirdPersonDelivery.dni==undefined" class="label label-warning text-uppercase">No especificado</span>
-                    </div>
-                    <div ng-if="((tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && tkupdate.whoPickUp.idWhoPickUp=='3')" class="col-md-12">
                         <span> Telefono:</span>
                         <span ng-if="tkupdate.thirdPersonDelivery.movilPhone!=null || tkupdate.thirdPersonDelivery.movilPhone!=undefined">{{tkupdate.thirdPersonDelivery.movilPhone}}</span>
                         <span style="font-size: 75%;" ng-if="tkupdate.thirdPersonDelivery.movilPhone==null || tkupdate.thirdPersonDelivery.movilPhone==undefined" class="label label-warning text-uppercase">No especificado</span>
                     </div>
                 </div>
-                  <!--<div ng-if="customer.details.idClientType!='5'" class="col-md-12">
-                    <span ng-if="customer.details.zona!=null">Zona: {{customer.details.zona.n_zona}} - {{customer.details.zona.descripcion | uppercase}}</span>
-                    <span ng-if="customer.details.zona==null">Zona: <label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="Zona no asignada" class="label label-default">n/a</label></span>
-                  </div>-->
             </div>
-            <div ng-if="tkupdate.idPaymentDeliveryKf!=null && tkupdate.idPaymentDeliveryKf!=undefined" class="col-md-12 well-checkbox n-margin-l customer-frame">
+            <div ng-if="tkupdate.idStatusTicketKf=='5' && (tkupdate.delivery_schedule_at!=undefined || tkupdate.delivery_schedule_at!=null)" class="col-md-12 well-checkbox n-margin-l customer-frame">
+                <legend style="text-align: left;">Detalles de la entrega</legend>
                 <div ng-if="tkupdate.typePaymentKf!=null && tkupdate.typePaymentKf!=undefined && tkupdate.idTypePaymentKf=='2'" class="col-md-6 n-padding-l n-padding-r">
                     <div class="col-md-12 col-xs-12">
-                        <span> Metodo: </span>
+                        <span> Entrega relizada por: </span>
                         <!-- <span>{{tkupdate.typePaymentKf.descripcion}}</span>-->
-                        <span><img id="comp-k1xl6bdlimgimage" class="mp-logo" data-type="image" itemprop="image" src="images/mp_logo.png" style="
-                            width: 25%;
-                            height: 100%;
-                        "></span>
-                    </div>
-                    <div class="col-md-12">
-                        <span>Estado: </span>
-                        <span style="font-size: 85%;" ng-if="(tkupdate.paymentDeliveryDetails!=undefined && tkupdate.paymentDeliveryDetails!=null) && tkupdate.paymentDeliveryDetails.mp_collection_status=='approved' && tkupdate.paymentDeliveryDetails.mp_status_detail=='accredited'" class="label label-success">Aprobado</span>
-                        <span style="font-size: 85%;" ng-if="(tkupdate.paymentDeliveryDetails!=undefined && tkupdate.paymentDeliveryDetails!=null) && tkupdate.paymentDeliveryDetails.mp_collection_status==null && tkupdate.paymentDeliveryDetails.mp_status_detail==null" class="label label-warning">Pendiente por pago</span>
-                    </div>
-                    <div ng-if="tkupdate.paymentDeliveryDetails!=undefined && tkupdate.paymentDeliveryDetails!=null && tkupdate.paymentDeliveryDetails.mp_payment_id!=null && tkupdate.paymentDeliveryDetails.mp_payment_id!=0" class="col-md-12">
-                        <span>Id de Pago: </span>
-                        <span class="badge badge-warning">{{tkupdate.paymentDeliveryDetails.mp_payment_id}}</span>
+                        <span class="label label-default">{{tkupdate.deliveryCompanyDetails.deliveryCompanyName}}</span>
                     </div>
                 </div>
                 <!-- RIGHT COLUMN -->
                 <div ng-if="tkupdate.typePaymentKf!=null && tkupdate.typePaymentKf!=undefined && tkupdate.idTypePaymentKf=='2'" class="col-md-6 n-padding-l n-padding-r">
-                    <div ng-if="tkupdate.paymentDeliveryDetails!=undefined && tkupdate.paymentDeliveryDetails!=null && tkupdate.paymentDeliveryDetails.mp_payment_id!=null && tkupdate.paymentDeliveryDetails.mp_payment_id!=0" class="col-md-12"><span> Pago realizado con: </span>
-                        <span ng-if="tkupdate.paymentDeliveryDetails.mp_payment_type=='account_money'" class="badge badge-default">Dinero en cuenta</span>
-                        <span ng-if="tkupdate.paymentDeliveryDetails.mp_payment_type=='credit_card'" class="badge badge-default">Tarjeta de credito</span>
-                        <span ng-if="tkupdate.paymentDeliveryDetails.mp_payment_type=='debit_card'" class="badge badge-default">Tarjeta de debito</span>
-                    </div>
-                    <div class="col-md-12"><span> Link de Pago creado: </span>
-                        <span ng-if="tkupdate.paymentDeliveryDetails!=undefined && tkupdate.paymentDeliveryDetails!=null">{{tkupdate.paymentDeliveryDetails.mp_date_created}}</span>
-                    </div>
-                    <div ng-if="tkupdate.paymentDeliveryDetails!=undefined && tkupdate.paymentDeliveryDetails!=null && tkupdate.paymentDeliveryDetails.mp_payment_id!=null && tkupdate.paymentDeliveryDetails.mp_payment_id!=0" class="col-md-12">
-                        <span> Pago aprobado:</span>
-                        <span>{{tkupdate.paymentDeliveryDetails.sys_date_updated}}</span>
-                    </div>
-                    <div ng-if="tkupdate.paymentDeliveryDetails!=undefined && tkupdate.paymentDeliveryDetails!=null && (tkupdate.paymentDeliveryDetails.mp_payment_id==null || tkupdate.paymentDeliveryDetails.mp_payment_id==0)" class="col-md-12">
-                        <span> Link de pago:</span>
-                        <span class="label label-success"><i class="fas fa-money-check-alt"></i>
-                            <a href="{{tkupdate.paymentDeliveryDetails.mp_dev_init_point}}" target="_blank" type="button" style="text-decoration: none;color: white;" >
-                            ir a pagar
-                            </a>
-                        </span>
+                    <div class="col-md-12 col-xs-12">
+                        <span>Fecha estimada de entrega: </span>
+                        <span class="label label-default">{{tkupdate.delivery_schedule_at | toDate | date:'dd-MM-yyyy' }}</span>
                     </div>
                 </div>
             </div>

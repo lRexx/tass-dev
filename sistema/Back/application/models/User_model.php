@@ -7,7 +7,15 @@ class User_model extends CI_Model
 	{
 		parent::__construct();
 	}
-
+	function encode($x) { 
+		return strtr(base64_encode(substr($_SESSION['Cksum'],rand(0,28),4) . $x), '+/=', '-_~');
+	} 
+	
+	function decode($x) { 
+		$y = base64_decode(strtr($x, '-_~', '+/='));
+		if (strpos($_SESSION['Cksum'],substr($y,0,4)) === false) return false; 
+		return substr($y,4-strlen($y)); 
+	}
 	public function auth ($user)
 	{
 		//se inicia sesion por mail o por dni
@@ -393,14 +401,14 @@ class User_model extends CI_Model
 
 		if ($this->findUserByEmail($user['dni']) == null) {
 			$tokenMail            = $this->generateRandomString();
-			$ramdonPwd            = $this->get_random_password();
+			$ramdonPwd            = $this->get_random_password($chars_min=12);
 			$isDepartmentApproved = null;
 			$idStatusKfByAdmin    = null;
-			if (@$user['idTypeTenantKf'] != 1 && @$user['idDepartmentKf'] && (@$user['isCreateByAdmin'] || @$user['isCreateByOwner'])) {
+			/*if (@$user['idTypeTenantKf'] != 1 && @$user['idDepartmentKf'] && (@$user['isCreateByAdmin'] || @$user['isCreateByOwner'])) {
 				$isDepartmentApproved = 1;
 			} else {
 				$isDepartmentApproved = null;
-			}
+			}*/
 			if (@$user['idTyepeAttendantKf'] != 0 && @$user['isCreateByAdmin']) {
 				$idStatusKfByAdmin = 1;
 			} else {
@@ -444,23 +452,53 @@ class User_model extends CI_Model
 						)
 					)->where("idUser", $idUser)->update("tb_user");
 				}
-				// ENVIAMOS EL MAIL DE CONFIRMAR REGISTRO //
-				/*MAIL*/
-				$title = "Mail de confirmacion de TASS Seguridad";
-				$subject = "Registro de usuario exitoso";
+				$userRs = null;
+                $building = null;
+                $title = null;
+                $subject = null;
+                $body = null;
+				$to = null;
 				$currentURL = $this->get_the_current_url(); //for simple URL
+				$this->db->select("*")->from("tb_user");
+				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
+				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
+				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
+				$query = $this->db->where("tb_user.idUser = ", $idUser)->get();
 
-				$body = '
-            Usuario:' . $user['emailUser'] . '
-            <BR>' . 'Clave:' . $ramdonPwd . '<br>' . '
-            <a href=' . $currentURL . 'validate/' . $tokenMail . '>Pulse aqui para Confirmar mail</a>';
+				if ($query->num_rows() > 0) {
+					$userRs = $query->row_array();
+					#MAIL
+					$to = $userRs['emailUser'];
+					$title = "Nuevo Usuario";
+					$subject="Registro de usuario";
+					$body='<tr width="100%" bgcolor="#ffffff">';
+					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>'.$userRs['fullNameUser'].'</b>,</td>'; 
+					$body.='</tr>';	
+					$body.='<tr width="100%" bgcolor="#ffffff">';
+					$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Su cuenta ha sido creada satisfactoriamente.</td>';
+					$body.='</tr>';
+					if ($userRs['isConfirmatedMail'] == null || $userRs['isConfirmatedMail'] == 0){
+						$body.='<tr width="100%" bgcolor="#ffffff">';
+						$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:2%;padding-bottom:2%;">Antes de ingresar debe confirmar su dirección de correo a través del siguiente link: <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="'. $currentURL . 'validate/'. $tokenMail . '" target="_blank" title="Confirmar correo" style="text-decoration: none; color: #fff;">Confirmar</a></span></td>';
+						$body.='</tr>';	
+					}else if ($userRs['isConfirmatedMail'] == 1 && $userRs['idStatusKf'] == 1){
+						$body.='<tr width="100%" bgcolor="#ffffff">';
+						$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:2%;padding-bottom:2%;">Su cuenta de usuario se encuentra <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$userRs['statusTenantName']. '</span></td>';
+						$body.='</tr>';	
+					}
+					$body.='<tr width="100%" bgcolor="#ffffff">';
+					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:2%;padding-bottom:2%;">Contraseña: <b>' . $ramdonPwd .'</b></td>';
+					$body.='</tr>';	
+					$body.='<tr width="100%" bgcolor="#ffffff">';
+					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%">En el proximo inicio de sesión el sistema solicitara el cambio de su contraseña &nbsp;</td>';
+					$body.='</tr>';	
+					$body.='<tr width="100%" bgcolor="#ffffff">';
+					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+					$body.='</tr>';	
+					//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
+					$this->mail_model->sendMail($title, $to, $body, $subject);
 
-				$this->mail_model->sendMail($title, $user['emailUser'], $body, $subject);
-				//*****************/
-
-				$idUser = $this->db->insert_id();
-
-
+				}
 				// Validamos que es de tipo coferba //
 				if ($user['idProfileKf'] == 1) {
 
@@ -476,7 +514,7 @@ class User_model extends CI_Model
 		}
 	}
 
-	public function get_random_password ($chars_min = 6, $chars_max = 8, $use_upper_case = false, $include_numbers = 'yes', $include_special_chars = false)
+	public function get_random_password ($chars_min = 6, $chars_max = 15, $use_upper_case = false, $include_numbers = 'yes', $include_special_chars = false)
 	{
 		$length    = rand($chars_min, $chars_max);
 		$selection = 'aeuoyibcdfghjklmnpqrstvwxz';
@@ -501,7 +539,7 @@ class User_model extends CI_Model
 	public function updatePass ($user)
 	{
 		$recoverRamdonPwd = null;
-		$recoverRamdonPwd = $this->get_random_password();
+		$recoverRamdonPwd = $this->get_random_password($chars_min=12);
 		$this->db->set(
 			array(
 				'passwordUser' => sha1(md5($recoverRamdonPwd)),
@@ -510,22 +548,48 @@ class User_model extends CI_Model
 		)->where("emailUser", $user['emailUser'])
 		->where("dni", $user['dni'])
 		->update("tb_user");
-
-		/*MAIL*/
-		$title 	 = "Contraseña de Acceso a TASS Seguridad";
-		$body  	 = "Su clave de acceso, ha sido restablecida!<br> Usuario: " . $user['emailUser'] . "<br> Clave: " . $recoverRamdonPwd . " <br> En el proximo ingreso el sistema solicitara el cambio de su clave!";
-		$subject = "Clave de acceso restablecida";
-		$this->mail_model->sendMail($title, $user['emailUser'], $body, $subject);
-
 		if ($this->db->affected_rows() === 1) {
-
+			$this->db->select("*")->from("tb_user");
+			$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
+			$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
+			$query = $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left')->where("emailUser", $user['emailUser'])
+			->where("dni", $user['dni'])
+			->get();
+			if ($query->num_rows() > 0) {
+				$title = null;
+				$subject = null;
+				$body = null;
+				$to = null;
+				$user = $query->row_array();
+				#MAIL
+				$to = $user['emailUser'];
+				$title = "Cuenta de Usuario";
+				$subject="Constraseña de acceso restablecida";
+				$body='<tr width="100%" bgcolor="#ffffff">';
+				$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>,</td>'; 
+				$body.='</tr>';	
+				$body.='<tr width="100%" bgcolor="#ffffff">';
+				$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Su contraseña de acceso ha sido restablecida satisfactoriamente.</td>';
+				$body.='</tr>';	
+				$body.='<tr width="100%" bgcolor="#ffffff">';
+				$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:2%;padding-bottom:2%;">Contraseña: <b>' . $recoverRamdonPwd .'</b></td>';
+				$body.='</tr>';	
+				$body.='<tr width="100%" bgcolor="#ffffff">';
+				$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%">En el proximo inicio de sesión el sistema solicitara el cambio de su contraseña &nbsp;</td>';
+				$body.='</tr>';	
+				$body.='<tr width="100%" bgcolor="#ffffff">';
+				$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+				$body.='</tr>';	
+				//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
+				$this->mail_model->sendMail($title, $to, $body, $subject);
+			}
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	function generateRandomString ($length = 10)
+	function generateRandomString ($length = 128)
 	{
 		$characters       = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		$charactersLength = strlen($characters);
@@ -600,7 +664,7 @@ class User_model extends CI_Model
 
 		if ($this->db->affected_rows() >= 0) {
 
-			if (@$user['isEditUser']) {
+			if (@$user['isPwdChange']) {
 
 				$this->db->set(
 					array(
@@ -608,6 +672,114 @@ class User_model extends CI_Model
 						'resetPasword' => 0
 					)
 				)->where("idUser", $user['idUser'])->update("tb_user");
+				if ($this->db->affected_rows() === 1) {
+					$title = null;
+					$subject = null;
+					$body = null;
+					$to = null;
+					#MAIL
+					$to = $user['emailUser'];
+					$title = "Cuenta de Usuario";
+					$subject="Nueva Constraseña de acceso establecida";
+					$body='<tr width="100%" bgcolor="#ffffff">';
+					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>,</td>'; 
+					$body.='</tr>';	
+					$body.='<tr width="100%" bgcolor="#ffffff">';
+					$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha asignado una nueva contraseña de acceso satisfactoriamente.</td>';
+					$body.='</tr>';	
+					$body.='<tr width="100%" bgcolor="#ffffff">';
+					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+					$body.='</tr>';	
+					//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
+					$this->mail_model->sendMail($title, $to, $body, $subject);
+				}
+			}
+			if (@$user['isDepartmentAssigment']) {
+				$userRs = null;
+				$building = null;
+				$title = null;
+				$subject = null;
+				$body = null;
+				$to = null;
+				$currentURL = $this->get_the_current_url(); //for simple URL
+				//GET USER
+				$this->db->select("*")->from("tb_user");
+				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
+				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
+				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
+				$queryUser = $this->db->where("idUser =", $user['idUser'])->get();
+				if ($queryUser->num_rows() > 0) {
+					$userRs = $queryUser->row_array();
+						if ($userRs['isDepartmentApproved']==null || $user['isDepartmentApproved']!=null ) {
+							//DEPARTMENT, BUILDING & ADMINISTRATION DETAILS
+							$this->db->select("*,b.idClient as idBuilding, b.name, tb_client_type.ClientType, UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto")->from("tb_client_departament");
+							$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
+							$this->db->join('tb_clients AS b', 'b.idClient = tb_client_departament.idClientFk', 'left');
+							$this->db->join('tb_client_type', 'tb_client_type.idClientType = b.idClientTypeFk', 'left');
+							$queryBuilding = $this->db->where("tb_client_departament.idClientDepartament = ", $user['idDepartmentKf'])->get();
+							if ($queryBuilding->num_rows() > 0) {
+								$building = $queryBuilding->row_array();
+									#MAIL TO USER
+									$rs = null;
+									$to = $userRs['emailUser'];
+									$title = "Alta de Departamento";
+									$subject="Alta Departamento :: ".$building['Depto'];
+									$body='<tr width="100%" bgcolor="#ffffff">';
+									$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>'.$userRs['fullNameUser'].'</b>,</td>'; 
+									$body.='</tr>';	
+									$body.='<tr width="100%" bgcolor="#ffffff">';
+									$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha solicitado el Alta en el Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">'.$building['Depto'].'</span> del '.$building['ClientType'].'<b> '.$building['name'].'</b></td>';
+									$body.='</tr>';
+									if ($userRs['isDepartmentApproved'] == null || $user['isApprovalRequired']){
+										$body.='<tr width="100%" bgcolor="#ffffff">';
+										$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Estado: <span style="background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">Pendiente de aprobación</span></td>';
+										$body.='</tr>';	
+									}else if ($userRs['isDepartmentApproved'] != null && !$user['isApprovalRequired']){
+										$body.='<tr width="100%" bgcolor="#ffffff">';
+										$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Estado: <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">Aprobado</span></td>';
+										$body.='</tr>';	
+									}
+									$body.='<tr width="100%" bgcolor="#ffffff">';
+									$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #ffffff;">Entrar</a></span></td>';
+									$body.='</tr>';	
+									//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
+									$rs = $this->mail_model->sendMail($title, $to, $body, $subject);
+								if ($rs == "Enviado" && $user['isApprovalRequired']){
+									$this->db->select("tb_client_mails.mailContact")->from("tb_client_mails");
+									$this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
+									$where="tb_client_mails.idTipoDeMailFk = 1 AND tb_client_mails.idClientFk = ".$building['idBuilding'];
+									$quuery = $this->db->where($where)->get();
+									if ($queryUser->num_rows() > 0) {
+										$buildingAdminMail = $quuery->row_array();
+										$title = null;
+										$subject = null;
+										$body = null;
+										$to = null;
+										#MAIL TO THE BUILDING OR ADMINISTRATION
+										$approval_url="https://devtass.sytes.net/login/approve/depto/up/depto/".$building['idClientDepartament']."/user/".$userRs['idUser'];
+										$to = $buildingAdminMail['mailContact'];
+										$title = "Alta de Departamento";
+										$subject="Alta de Departamento :: ".$building['Depto'];
+										$body='<tr width="100%" bgcolor="#ffffff">';
+										$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">El usuario, <b>'.$userRs['fullNameUser'].'</b>,</td>'; 
+										$body.='</tr>';	
+										$body.='<tr width="100%" bgcolor="#ffffff">';
+										$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha solicitado el Alta en el Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">'.$building['Depto'].'</span> del '.$building['ClientType'].'<b> '.$building['name'].'</b></td>';
+										$body.='</tr>';	
+										$body.='<tr width="100%" bgcolor="#ffffff">';
+										$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Estado: <span style="background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">Pendiente de aprobación</span></td>';
+										$body.='</tr>';	
+										$body.='<tr width="100%" bgcolor="#ffffff">';
+										$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="'.$approval_url.'" target="_blank" title="Aprobar" style="text-decoration: none; color: #ffffff;">Aprobar</a></span></td>';
+										$body.='</tr>';	
+										//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
+										$this->mail_model->sendMail($title, $to, $body, $subject);
+									}
+								}
+							}
+					}
+					
+				}
 			}
 
 			return true;
@@ -893,6 +1065,30 @@ class User_model extends CI_Model
 
 
 		if ($this->db->affected_rows() === 1) {
+			$this->db->select("*")->from("tb_user");
+			$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
+			$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
+			$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
+			$query = $this->db->where("tokenMail", $tokenMail)->get();
+			if ($query->num_rows() > 0) {
+				$user = null;
+				$building = null;
+				$title = null;
+				$subject = null;
+				$body = null;
+				$to = null;
+				$user = $query->row_array();
+				#MAIL
+				$to    = $user['emailUser'];
+				$title = "Cuenta de Usuario";
+				if ($user['isConfirmatedMail'] == 1 && $user['idStatusKf'] == 1){
+					$subject="Correo confirmado";
+					$body='<tr width="100%" bgcolor="#ffffff">';
+					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>, <br><br> Su cuenta de usuario se encuentra <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+					$body.='</tr>';	
+				}
+				$this->mail_model->sendMail($title, $to, $body, $subject);
+			}
 			return true;
 		} else {
 			return false;
@@ -907,24 +1103,38 @@ class User_model extends CI_Model
 				'idStatusKf' => $idStatus
 			)
 		)->where("idUser", $id)->update("tb_user");
-
-
-		/*if ($idStatus == 1) {
-
-			$query = $this->db->select("*")->from("tb_user")
-				->where("idUser =", $id)->get();
-			if ($query->num_rows() > 0) {
-				$to = $query->row_array();
-
-				/*MAIL
-				$title = "Nuevo Acceso a Coferba";
-				$body  = "Ya Puede Disfrutar de Nuestros servicios!";
-				$this->mail_model->sendMail($title, $to['emailUser'], $body);
-			}
-
-
-		}*/
 		if ($this->db->affected_rows() === 1) {
+			 
+			$this->db->select("*")->from("tb_user");
+			$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
+			$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
+			$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
+			$query = $this->db->where("tb_user.idUser = ", $id)->get();
+			if ($query->num_rows() > 0) {
+				$user = null;
+				$building = null;
+				$title = null;
+				$subject = null;
+				$body = null;
+				$to = null;
+				$user = $query->row_array();
+				#MAIL
+				$to    = $user['emailUser'];
+				$title = "Estado de Usuario";
+				if ($user['idStatusKf'] == 1){
+					$subject="Usuario Activo";
+					$body='<tr width="100%" bgcolor="#ffffff">';
+					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>, <br><br> Su cuenta de usuario se encuentra <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+					$body.='</tr>';	
+				}else{
+					$subject="Usuario Inactivo";
+					$body='<tr width="100%" bgcolor="#ffffff">';
+					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>, <br><br> Su cuenta de usuario se encuentra <span style="background-color:#d9534f;border-color: #d9534f !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"> '.$user['statusTenantName']. '</span><br><br> Comuniquese con nuestro equipo de atención al cliente! </td>';
+					$body.='</tr>';
+				}
+				
+				$this->mail_model->sendMail($title, $to, $body, $subject);
+			}
 			return true;
 		} else {
 			return false;

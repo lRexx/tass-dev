@@ -30,6 +30,9 @@ tkSysService.service("tokenSystem",function(){
               case 7:
                 tokenStorageValue = !JSON.parse(sessionStorage.getItem("tknCustomerData")) ? false : JSON.parse(sessionStorage.getItem("tknCustomerData"));
               break;
+              case 8:
+                tokenStorageValue = !JSON.parse(sessionStorage.getItem("sysRouteParams")) ? false : JSON.parse(sessionStorage.getItem("sysRouteParams"));
+              break;
               default:
 
             }
@@ -44,9 +47,12 @@ tkSysService.service("tokenSystem",function(){
             sessionStorage.setItem("sysToken", null);
             sessionStorage.setItem("sysLoggedUser", null);
             sessionStorage.setItem("sysLoggedUserModules", null);
-        },
+          },
           setLoggedUserStorage: function(tkLoggedUser) {
               sessionStorage.setItem("sysLoggedUser", JSON.stringify(tkLoggedUser));
+          },
+          setRouteParamsStorage: function(routeParams) {
+            sessionStorage.setItem("sysRouteParams", JSON.stringify(routeParams));
           },
           setCustomerByTypeDataStorage: function(value, tkCustomers) {
             //console.log(tkCustomers);
@@ -120,6 +126,7 @@ tkSysService.service("tokenSystem",function(){
                 sessionStorage.removeItem("sysToken");
                 sessionStorage.removeItem("sysLoggedUser");
                 sessionStorage.removeItem("sysLoggedUserModules");
+                sessionStorage.removeItem("sysRouteParams");
               break;
               case 2:
                 sessionStorage.removeItem("attempsToken");
@@ -137,6 +144,9 @@ tkSysService.service("tokenSystem",function(){
               break;
               case 6:
                 sessionStorage.removeItem("tknCustomerData");
+              break;
+              case 7:
+                sessionStorage.removeItem("sysRouteParams");
               break;
               default:
 

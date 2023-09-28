@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html ng-app="systemApp" lang="es">
 <head>
-<title>Seguridad TASS</title>
+<title>BSS Seguridad</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta charset="utf-8">    
 <base href="/">
-<link rel="shortcut icon" href="https://static.wixstatic.com/media/b2c01b_ba93e730eae342f69254bac4b15af656%7Emv2.jpg/v1/fill/w_32%2Ch_32%2Clg_1%2Cusm_0.66_1.00_0.01/b2c01b_ba93e730eae342f69254bac4b15af656%7Emv2.jpg" type="image/jpeg">
+<link rel="icon" sizes="192x192" href="images/web_icon.png">
+<link rel="shortcut icon" href="images/web_icon.png" type="image/jpeg"/>
+<link rel="apple-touch-icon" href="images/web_icon.png" type="image/jpeg"/>
+<link rel="icon" href="images/web_icon.png" type="image/jpeg"/>
 <!-- Default Style Sheets -->
 
 
@@ -54,19 +57,19 @@
 				<div class="container-fluid">
 					<div>
 						<div class="nav navbar-nav navbar-left">
-							<img id="comp-k1xl6bdlimgimage" class="sys-logo" data-type="image" itemprop="image" src="https://static.wixstatic.com/media/b2c01b_142b5431aa03446eb145220aeee6a0e8~mv2.png/v1/fill/w_179,h_75,al_c,q_85,usm_0.66_1.00_0.01/LogoTassHorizontal.webp">
+							<img id="comp-k1xl6bdlimgimage" class="sys-logo" data-type="image" itemprop="image" src="images/logo_3.png">
 						</div>
 						<ul class="nav navbar-nav navbar-right nav-prof nav-role">
-							<li class="dropdown gray">
+							<li class="dropdown gray" style="color: #fff;">
 								<h3><i class="fas fa-id-card-alt"></i> <span data-toggle="tooltip" data-placement="bottom" title="Perfil de usuario" >{{sysLoggedUser.nameProfile}}</span> <span data-toggle="tooltip" data-placement="bottom" title="Role Asignado">[{{sysLoggedUser.name}}] </span></h3>
 							</li>
 							<!-- USER PROFILE MENU -->
-							<li class="dropdown gray">
-								<a class="dropdown-toggle margin-a-left nav-user" style="color: rgba(0, 0, 0, 1);" data-toggle="dropdown" >
+							<li class="dropdown gray" style="color: #fff;">
+								<a class="dropdown-toggle margin-a-left nav-user" data-toggle="dropdown" style="color: #fff;">
 									<i class="fas fa-user-circle fa-2x"></i> {{sysLoggedUser.fullNameUser | uppercase}} <i class="icon-caret-down"></i>
 								</a>
 								<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" ng-if="sysModules.idPerfilUsuario">
-								<li role="presentation">
+									<li role="presentation">
 										<a style="cursor: pointer;" class="clear-lazy-cache" ng-click="profileUserOpen(sysLoggedUser);" tabindex="-1" role="menuitem"><i class="fas fa-address-card"></i> Perfil</a>
 									</li>
 									<li ng-if="sysLoggedUser.idProfileKf==2 || sysLoggedUser.idProfileKf==4" role="presentation">
@@ -285,11 +288,11 @@
 <!-- ----------------------->
 
 
-<script src="lib/jquery/mainAppJs/coferbaJsMainApp.js"></script>  <!-- Seguridad TASS Jquery  -->
+<script src="lib/jquery/mainAppJs/coferbaJsMainApp.js"></script>  <!-- BSS Seguridad Jquery  -->
 <!--ANGULAR MODULES -->
 
 
-<script src="sysApp.js"></script> <!-- Seguridad TASS Angular App -->
+<script src="sysApp.js"></script> <!-- BSS Seguridad Angular App -->
 
 <script src="common/services/tokenSystem.js"></script>
 <script src="common/services/sUsers.js"></script>
@@ -313,6 +316,7 @@
 <script src="controllers/TASSCtrlKeys.js"></script>
 <script src="controllers/TASSCtrlCustomers.js"></script>
 <script src="controllers/TASSCtrlStatus.js"></script>
+<script src="controllers/TASSCtrlApprovals.js"></script>
 <script src="controllers/TASSCtrlServices.js"></script>
 <script src="controllers/TASSCtrlUsers.js"></script>
 <script src="controllers/TASSCtrlBuildings.js"></script>

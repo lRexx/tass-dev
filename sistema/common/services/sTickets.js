@@ -33,24 +33,31 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
           },
           /* APPROVE TICKET */
           approvedTicket: function(data) {
-            console.log("APPROVE TICKET");
+            console.log("[Ticket Services] => Approve Ticket Id: "+data.ticket.idTicket);
             console.log(data);
-            console.log("[Ticket Services] => Ticket Id: "+data.ticket.idTicket);
             return $http.post(serverHost+serverBackend+"Ticket/approve",data, serverHeaders)
               .then(function mySucess(response) {
-                deferred.resolve(response);
-                return deferred.promise;
+                return response;
             }).catch(function onError(response) {
                 console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
-                deferred.resolve(response);
-                return deferred.promise;
+                return response;
+            });   
+          },
+          /* SET BILLING INITIATE TICKET */
+          seBillingInitiate: function(data) {
+            console.log("[Ticket Services] => Set Billing Initiate: ");
+            return $http.post(serverHost+serverBackend+"Ticket/billingInitiate",data, serverHeaders)
+              .then(function mySucess(response) {
+                return response;
+            }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                return response;
             });   
           },
           /* REQUEST CANCEL TICKET */
           requestCancelTicket: function(data) {
-            console.log("REQUEST CANCELLATION TICKET");
+            console.log("[Ticket Services] => Request Cancel of Ticket Id: "+data.ticket.idTicket);
             console.log(data);
-            console.log("[Ticket Services] => Ticket Id: "+data.ticket.idTicket);
             return $http.post(serverHost+serverBackend+"Ticket/requestCancel",data, serverHeaders)
               .then(function mySucess(response) {
                     return response;
@@ -61,9 +68,8 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
           },
           /* REJECT REQUEST CANCEL TICKET */
           rejectRequestCancelTicket: function(data) {
-            console.log("REJECT REQUEST CANCELLATION TICKET");
+            console.log("[Ticket Services] => Reject Cancel Request of Ticket Id: "+data.ticket.idTicket);
             console.log(data);
-            console.log("[Ticket Services] => Ticket Id: "+data.ticket.idTicket);
             return $http.post(serverHost+serverBackend+"Ticket/rejectRequestCancel",data, serverHeaders)
               .then(function mySucess(response) {
                     return response;
@@ -73,18 +79,16 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
             });   
           },
           /* CANCEL TICKET */
-          cancelTicket: function(ticket) {
-              console.log("CANCELING TICKET");
-              //console.log(ticket);
-              return $http.post(serverHost+serverBackend+"Ticket/cancelTicket",ticket, serverHeaders)
-                .then(function mySuccess(response) {
-                      ticketResult = 1;
-                      return ticketResult;
-                  },function myError(response) { 
-                      console.log(response.data); 
-                      checkResult = 0;
-                    return checkResult;
-                  });   
+          cancelTicket: function(data) {
+            console.log("[Ticket Services] => Cancel Ticket Id: "+data.ticket.idTicket);
+            console.log(data);
+              return $http.post(serverHost+serverBackend+"Ticket/cancelTicket",data, serverHeaders)
+                .then(function mySucess(response) {
+                  return response;
+                }).catch(function onError(response) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                    return response;
+                });
           },
           /* UPDATE TMP DELIVERY DATA APPROVE TO TICKET */
           updateTmpTicket: function(ticket) {
@@ -266,6 +270,19 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
                   });
           },
           /* VERIFY TICKET */
+          verifyTicketsByIdUserDepto: function(idUser, idDepto) {
+            console.log("[Ticket Services] => verificar si un usuario y depto tiene un pedido asociado: "+idUser);
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"Ticket/verificateTicketByidUserDepto/"+idUser+"/"+idDepto
+                  }).then(function mySuccess(response) {
+                      return response;
+                  },function myError(response, error) { 
+                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                      return response;
+                  });
+          },
+          /* VERIFY TICKET */
           getTicketFilter: function() {
               return $http({
                     method : "GET",
@@ -306,6 +323,19 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
               return $http({
                     method : "GET",
                     url : serverHost+serverBackend+"Ticket/typedelivery"
+                  }).then(function mySuccess(response) {
+                    rsJson=response;
+                    return rsJson;
+                  }).catch(function onError(response) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                    return response;
+            });   
+          },
+          deliveryCompanies: function() {
+            //console.log("[Utilities Services]: Get Delivery Company List");
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"Ticket/deliveryCompanies"
                   }).then(function mySuccess(response) {
                     rsJson=response;
                     return rsJson;

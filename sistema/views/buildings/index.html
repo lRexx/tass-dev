@@ -1,5 +1,5 @@
 <!-- MANAGE KEYS-->
-<div class="col-md-12 n-padding-l n-padding-r">
+<div ng-if="sysRouteParams==undefined" class="col-md-12 n-padding-l n-padding-r">
     <div class="panel panel-default padding-panel">
       <div class="panel-heading">
         <h3 ng-if="sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4'" class="panel-title">GESTION DE ADMINISTRACIÓN </h3>
@@ -14,7 +14,7 @@
                     <span><i class="product-success fas fa-home"></i></span>
               </div>
               <div class="text">
-                  <h4 class="text-muted"><span class="badge badge-light" ng-class="sysContent=='home'? 'text-warning' : ''"> HOME </span></h4>
+                  <h4 class="text-muted"><span class="badge badge-light" ng-class="sysContent=='home'? 'text-bss' : ''"> HOME </span></h4>
               </div>
             </div>
           </div>
@@ -26,7 +26,7 @@
                     <span><i class="product-success fas fa-building"></i></span>
               </div>
               <div class="text">
-                  <h4 class="text-muted"><span class="badge badge-light" ng-class="sysContent=='administration'? 'text-warning' : ''"> ADMNINISTRACIÓN </span></h4>
+                  <h4 class="text-muted"><span class="badge badge-light" ng-class="sysContent=='administration'? 'text-bss' : ''"> ADMNINISTRACIÓN </span></h4>
               </div>
             </div>
           </div>
@@ -44,15 +44,21 @@
         </div>
       </div>
     </div>
-  </div>
-  <div ng-include="'views/buildings/tenants/newTenant.html'"></div>
-  <div ng-include="'views/buildings/tenants/editTenant.html'"></div>
-  <div ng-include="'views/buildings/attendants/newAttendant.html'"></div>
-  <div ng-include="'views/buildings/attendants/editAttendant.html'"></div>
-  <div ng-include="'views/buildings/membersType.html'"></div>
-  <div ng-include="'views/buildings/list/listTenantsToAssign.html'"></div>
-  <div ng-include="'views/buildings/list/listAttendantsToAssign.html'"></div>
-  <div ng-include="'views/utilities/modalConfirmation.html'"></div>
-  <div ng-include="'views/utilities/modalCodeConfirmation.html'"></div>
-  <div ng-include="'views/utilities/modalConfirmationCustom.html'"></div>
-  <div ng-if="sysToken" ng-include="'views/utilities/expirationWarningWindows.html'"></div>
+</div>
+<!-- APPROVAL DEPTO -->
+<div ng-if="sysRouteParams!=undefined && sysContent=='approval'" class="col-md-10 col-md-offset-1 col-xs-8">
+    <div class="col-md-12">
+      <div ng-include="'views/buildings/depto_approval.html'"></div>
+    </div>
+</div>
+<div ng-include="'views/buildings/tenants/newTenant.html'"></div>
+<div ng-include="'views/buildings/tenants/editTenant.html'"></div>
+<div ng-include="'views/buildings/attendants/newAttendant.html'"></div>
+<div ng-include="'views/buildings/attendants/editAttendant.html'"></div>
+<div ng-include="'views/buildings/membersType.html'"></div>
+<div ng-include="'views/buildings/list/listTenantsToAssign.html'"></div>
+<div ng-include="'views/buildings/list/listAttendantsToAssign.html'"></div>
+<div ng-include="'views/utilities/modalConfirmation.html'"></div>
+<div ng-include="'views/utilities/modalCodeConfirmation.html'"></div>
+<div ng-include="'views/utilities/modalConfirmationCustom.html'"></div>
+<div ng-if="sysToken" ng-include="'views/utilities/expirationWarningWindows.html'"></div>

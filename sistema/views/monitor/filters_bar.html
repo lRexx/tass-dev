@@ -33,20 +33,24 @@
                     <span ng-if="sysLoggedUser.idProfileKf && filterAddressKf.selected" class="label_tags label label-success">{{filterAddressKf.selected.address}} 
                     <a ng-click="removeFilterFn(2); mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="bottom" title="quitar">
                     <i class="fas fa-times-circle"></i></a></span>
-                    <span ng-if="sysLoggedUser.idProfileKf && filters.typeTicket" class="label_tags label label-success">
+                    <span ng-if="sysLoggedUser.idProfileKf && filters.typeTicket" style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="{{filters.typeTicket.TypeTicketName}}" class="label_tags label label-success">
                     {{filters.typeTicket.TypeTicketName}}
                     <a ng-click="filters.typeTicket=null; mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="bottom" title="quitar">
                     <i class="fas fa-times-circle"></i></a></span>
-                    <span ng-if="sysLoggedUser.idProfileKf && filters.ticketStatus.statusName" class="label_tags label label-success">{{filters.ticketStatus.statusName}}
+                    <span ng-if="sysLoggedUser.idProfileKf && filters.ticketStatus.statusName" style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="{{filters.ticketStatus.statusName}}" class="label_tags label label-success">{{filters.ticketStatus.statusName}}
                     <a ng-click="filters.ticketStatus=null; mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="bottom" title="quitar">
                     <i class="fas fa-times-circle"></i></a></span>
-                    <span ng-if="sysLoggedUser.idProfileKf && filters.typDelivery.typeDelivery" class="label_tags label label-success">{{filters.typDelivery.typeDelivery}}
+                    <span ng-if="sysLoggedUser.idProfileKf && filters.typDelivery.typeDelivery" style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="{{filters.typDelivery.typeDelivery}}" class="label_tags label label-success">{{filters.typDelivery.typeDelivery}}
                     <a ng-click="filters.typDelivery=null; mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="bottom" title="quitar">
                     <i class="fas fa-times-circle"></i></a></span>
-                    <span ng-if="sysLoggedUser.idProfileKf && filters.paymentsType.descripcion" class="label_tags label label-success">{{filters.paymentsType.descripcion}}
+                    <span ng-if="sysLoggedUser.idProfileKf && filters.paymentsType.descripcion" style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="{{filters.paymentsType.descripcion}}" class="label_tags label label-success">{{filters.paymentsType.descripcion}}
                         <a ng-click="filters.paymentsType=null; mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="bottom" title="quitar">
                         <i class="fas fa-times-circle"></i></a></span>
-                    <span ng-if="sysLoggedUser.idProfileKf && filters.topDH" class="label_tags label label-success">Top: {{filters.topDH}}
+                    <span ng-if="sysLoggedUser.idProfileKf=='1' && filters.deliveryCompanyKf" style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="{{filters.deliveryCompanyKf.deliveryCompanyName}}" class="label_tags label label-success">
+                        {{filters.deliveryCompanyKf.deliveryCompanyName | limitTo: 7 }}{{filters.deliveryCompanyKf.deliveryCompanyName.length >= 17 ? '...' : ''}}
+                        <a ng-click="filters.deliveryCompanyKf=null; mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="bottom" title="quitar">
+                        <i class="fas fa-times-circle"></i></a></span>
+                    <span ng-if="sysLoggedUser.idProfileKf && filters.topDH" style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="Cantidad" class="label_tags label label-success">Top: {{filters.topDH}}
                     <a ng-click="filters.topDH=''; mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="bottom" title="quitar">
                     <i class="fas fa-times-circle"></i></a></span>
                 </div>  

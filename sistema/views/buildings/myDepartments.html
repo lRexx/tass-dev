@@ -12,9 +12,9 @@
                 <div ng-repeat="item in myDepartamentlist"  class="col-md-3">
                     <div class="widget-head-color-box lazur-bg p-lg text-center card-customer lazur-bg" style="background-color: #23c5c84b !important;">
                         <div class="m-b-md">
-                        <h2 class="font-bold no-margins text-uppercase" style="color: #555555">
+                            <h2 class="font-bold no-margins text-uppercase" style="color: #555555">
                             {{item.floor}}-{{item.departament}}
-                        </h2>
+                            </h2>
                             <span ng-if="(sysLoggedUser.idTypeTenantKf=='1' && item.isAprobatedAdmin=='1' && item.isRequesLowByProp!='1') || (sysLoggedUser.idTypeTenantKf=='2' && sysLoggedUser.isDepartmentApproved=='1' && (sysLoggedUser.isRequesLowByTenant!='1'))" style="font-size: 10px" class="label label-success"><i class="fas fa-check-circle"></i> Activo</span>
                             <span ng-if="(sysLoggedUser.idTypeTenantKf=='1' && item.isAprobatedAdmin!='1' && item.isRequesLowByProp!='1') || (sysLoggedUser.idTypeTenantKf=='2' && (sysLoggedUser.isDepartmentApproved==null || sysLoggedUser.isDepartmentApproved=='0') && (sysLoggedUser.isRequesLowByTenant==null || sysLoggedUser.isRequesLowByTenant=='0'))" style="font-size: 10px" class="label label-warning"><i class="fas fa-exclamation-triangle"></i> Aprobación Pendiente </span>
                             <span ng-if="(sysLoggedUser.idTypeTenantKf=='1' && item.isRequesLowByProp=='1') || (sysLoggedUser.idTypeTenantKf=='2' && sysLoggedUser.isRequesLowByTenant=='1')" style="font-size: 10px" class="label label-warning"><i class="fas fa-exclamation-triangle"></i> Baja Solicitada </span>

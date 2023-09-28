@@ -62,7 +62,7 @@
 								</div>
 							</div>
 							<!-- SELECT DE OPTION TYPE TO CONTINUE WITH THE REQUEST-->
-							<div ng-if="select.buildings.selected.IsInDebt!='1' && select.buildings.selected!=undefined && sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && !isHomeSelected" class="col-md-12 col-xs-12">
+							<div ng-if="(sysLoggedUser.idProfileKf==1 && select.buildings.selected!=undefined)||(select.buildings.selected.IsInDebt!='1' && select.buildings.selected!=undefined && sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && !isHomeSelected)" class="col-md-12 col-xs-12">
 								<!-- NEW TICKET -->
 								<div class="col-md-6">
 									<button ng-click="setOptionType($event); mainSwitchFn('autoSelectDoors', null, null);enabledNextBtn();" id="department" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.optionTypeSelected.name=='department', 'btn-primary': ticket.optionTypeSelected.name==undefined || ticket.optionTypeSelected.name!='department'}">
@@ -540,13 +540,13 @@
 								  <div class="panel-body">
 									  <div class="form-check form-check-inline">
 										<div class="col-md-3 col-md-offset-3 col-xs-3 col-xs-offset-3">
-											  <input id="sendnotify1" class="radio-custom" ng-model="ticket.userNotify" ng-click="getNotify(1)" type="radio" value="1" required autofocus>
+											  <input id="sendnotify1" class="radio-custom" ng-model="ticket.userNotify" ng-click="mainSwitchFn('sendNotification', ticket.userNotify, null)" type="radio" value="1" required autofocus>
 											  <label for="sendnotify1" class="radio-custom-label">
 												  <span>SI</span>
 											  </label>
 										  </div>
 										  <div class="col-md-3 col-xs-3">
-											  <input id="sendnotify2" class="radio-custom" ng-model="ticket.userNotify" ng-click="getNotify(0)" type="radio" value="0" required autofocus>
+											  <input id="sendnotify2" class="radio-custom" ng-model="ticket.userNotify" ng-click="mainSwitchFn('sendNotification', ticket.userNotify, null)" type="radio" value="0" required autofocus>
 											  <label for="sendnotify2" class="radio-custom-label">
 												  <span>NO</span>
 											  </label> 
@@ -572,51 +572,30 @@
 									<div class="col-md-3 col-xs-3">
 										<div class="input-group pull-right">
 											<span class="input-group-addon">Gestión</span>
-											<input ng-disabled="sysLoggedUser.idProfileKf!='1'" id="inputService" title="Gestion Sin Costo" ng-blur="mainSwitchFn('recalculateCosts', costs.service.cost, 'service');" data-placement="bottom" data-content="El costo esta incluido en el Abono del Mantenimiento." style="text-align: right;"  name="costs.service" placeholder="$0,00" class="form-control input--decimal" ng-keydown="fnLoadPhoneMask()" ng-model="costs.service.cost" value="{{costs.service.cost  | currency }}"  type="text" required autofocus />
+											<input ng-disabled="sysLoggedUser.idProfileKf!='1'" id="inputService" title="Gestion Sin Costo" ng-blur="mainSwitchFn('recalculateCosts', costs.service.cost, 'service');" data-placement="bottom" data-content="El costo esta incluido en el Abono del Mantenimiento." style="text-align: right;"  name="costs.service.cost" placeholder="$0,00" class="form-control input--decimal" ng-keydown="fnLoadPhoneMask()" ng-model="costs.service.cost" value="{{costs.service.cost  | currency }}"  type="text" required autofocus />
 										</div>
 									</div>
 									<div class="col-md-3 col-xs-3">
 										<div class="input-group pull-right">
 											<span class="input-group-addon">Llaves</span>
-											<input ng-disabled="sysLoggedUser.idProfileKf!='1'"  style="text-align: right;" name="costs.keys" ng-blur="mainSwitchFn('recalculateCosts', costs.keys.cost, 'keys');" autofocus="true" placeholder="$0,00" class="form-control input--decimal" ng-keydown="fnLoadPhoneMask()" ng-model="costs.keys.cost" value="{{costs.keys.cost  | currency }}"  type="text" required autofocus/>
+											<input ng-disabled="sysLoggedUser.idProfileKf!='1'"  style="text-align: right;" name="costs.keys" ng-blur="mainSwitchFn('recalculateCosts', costs.keys.cost, 'keys');" autofocus="true" placeholder="$0,00" class="form-control input--decimal" ng-keydown="fnLoadPhoneMask()" ng-model="costs.keys.cost" value="{{costs.keys.cost  | currency }}"  type="text" required autofocus />
 										</div>
 									</div>
 									<div class="col-md-3 col-xs-3">
 										<div class="input-group pull-right">
 											<span class="input-group-addon">Envío</span>
-											<input ng-disabled="sysLoggedUser.idProfileKf!='1'" id="inputDelivery" title="Envio sin Costo" style="text-align: right;" name="costs.delivery" ng-blur="mainSwitchFn('recalculateCosts', costs.delivery.cost, 'delivery');" placeholder="$0,00" class="form-control input--decimal" ng-keydown="fnLoadPhoneMask()" ng-model="costs.delivery.cost" value="{{costs.delivery.cost  | currency }}"type="text" required autofocus/>
+											<input ng-disabled="sysLoggedUser.idProfileKf!='1'" id="inputDelivery" title="Envio sin Costo" style="text-align: right;" name="costs.delivery" ng-blur="mainSwitchFn('recalculateCosts', costs.delivery.cost, 'delivery');" placeholder="$0,00" class="form-control input--decimal" ng-keydown="fnLoadPhoneMask()" ng-model="costs.delivery.cost" value="{{costs.delivery.cost  | currency }}" type="text" required autofocus />
 										</div>
 									</div>
 									<div class="col-md-3 col-xs-3"> 
 										<div class="input-group pull-right">
 											<span class="input-group-addon">Total</span>
-											<input disabled style="text-align: right"; name="costs.total"placeholder="$0,00" class="form-control input--decimal" ng-keydown="fnLoadPhoneMask()"  ng-model="costs.total" value="{{costs.total  | number:2 }}"  type="text" required autofocus/>
+											<input disabled style="text-align: right"; name="costs.total" placeholder="$0,00" class="form-control input--decimal" ng-keydown="fnLoadPhoneMask()"  ng-model="costs.total" value="{{costs.total  | currency }}"  type="text" required autofocus />
 										</div>
 									</div>
 							</div>
 						</div>
 						<br><br>
-						<div ng-if="sysLoggedUser.idProfileKf==1 && delivery.idTypeDeliveryKf && select.whoPickUp" class="container-fluid justify-content-md-center col-md-offset-3 col-md-6">
-							<div class="panel panel-warning">
-								<div class="panel-heading"><span class="blink">Notificar al usuario</span></div>
-								<div class="panel-body">
-									<div class="form-check form-check-inline">
-										<div class="col-md-3 col-md-offset-4 col-xs-3 col-xs-offset-3">
-											<input id="sendnotify1" class="radio-custom" ng-model="userNotify" ng-click="getNotify(1)" type="radio" value="1" required autofocus>
-											<label for="sendnotify1" class="radio-custom-label">
-												<span>SI</span>
-											</label>
-										</div>
-										<div class="col-md-3 col-xs-3">
-											<input id="sendnotify2" class="radio-custom" ng-model="userNotify" ng-click="getNotify(0)" type="radio" value="0" required autofocus>
-											<label for="sendnotify2" class="radio-custom-label">
-												<span>NO</span>
-											</label> 
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
 					</fieldset>
 					<fieldset ng-init="mainSwitchFn('setCosts', null, null)" class="animate-switch" ng-switch-when="VERIFICAR Y CONFIRMAR">
 						<div class="col-md-12 col-xs-12 n-padding-l n-padding-r">
@@ -767,7 +746,7 @@
                                     </tr>
                                     <tr>
 										<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;vertical-align: middle;">Método</td>
-										<td  colspan="7" ng-if="ticket.cost.idTypePaymentKf==null"><img data-type="image" itemprop="image" style="width: 100px;height: 34px;" src="https://static.wixstatic.com/media/b2c01b_142b5431aa03446eb145220aeee6a0e8~mv2.png/v1/fill/w_179,h_75,al_c,q_85,usm_0.66_1.00_0.01/LogoTassHorizontal.webp"></td>
+										<td  colspan="7" ng-if="ticket.cost.idTypePaymentKf==null"><img data-type="image" itemprop="image" style="width: 100px;height: 34px;" src="https://devtass.sytes.net/images/logo_2.png"></td>
 										<td  colspan="7" ng-if="ticket.cost.idTypePaymentKf=='1' && ticket.optionTypeSelected.name=='department'">Abono por expensas</td>
 										<td  colspan="7" ng-if="ticket.cost.idTypePaymentKf=='1' && (ticket.radioButtonBuilding=='1' || ticket.radioButtonBuilding=='2' || ticket.radioButtonBuilding=='3')">Pago en Abono</td>
 										<td  colspan="7" ng-if="ticket.cost.idTypePaymentKf=='2'"><img data-type="image" itemprop="image" src="images/mp_logo.png" style="width: 100px;"></td>
@@ -801,14 +780,14 @@
 				<div class="modal-footer">
 					<div class="row">
 						<div class="col-xs-6 col-sm-6 col-md-6 pull-right">
-							<button type="submit" ng-click="modalConfirmation('tup', 0, ticket);" ng-show="!hasNextStep()" ng-disabled="fkeyup.$invalid" class="btn btn-labeled btn-success">
+							<button type="submit" ng-click="modalConfirmation('tup', 0, ticket);" ng-show="!hasNextStep() || (ticketRegistered!=undefined && ticketRegistered!=null)" ng-disabled="fkeyup.$invalid" class="btn btn-labeled btn-success">
 								Completar Pedido<span class="btn-label-right"><i class="glyphicon glyphicon-send"></i> </span></button>
 
 							<button ng-click="incrementStep(); enabledNextBtn();" ng-disabled="formValidated!=true" ng-show="btnShow" class="btn btn-labeled btn-primary">
 								Siguiente<span class="btn-label-right"><i class="fas fa-arrow-circle-right"></i></span></button>
 						</div>
 						<div class="col-xs-1 col-sm-1 col-md-1 pull-left">
-								<button type="button" ng-click="decrementStep();" ng-show="btnBack" class="btn btn-labeled btn-primary">
+								<button type="button" ng-click="decrementStep();" ng-show="btnBack || (ticketRegistered!=undefined && ticketRegistered!=null)" class="btn btn-labeled btn-primary">
 								<span class="btn-label"><i class="fas fa-arrow-circle-left"></i></span>Atras</button>
 						</div>
 					</div>

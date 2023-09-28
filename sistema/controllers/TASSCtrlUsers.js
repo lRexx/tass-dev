@@ -111,7 +111,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 console.log(obj);
                 var deptoSelected = obj.floor+"-"+obj.departament;
                   if (($scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=5 && $scope.sysLoggedUser.idProfileKf!=6 && $scope.tenantObj.idTypeTenantKf!=0) || ($scope.sysLoggedUser.idProfileKf==3 && $scope.tenantObj.idTypeTenantKf==2) || ($scope.sysLoggedUser.idProfileKf==6 && $scope.tenantObj.idTypeTenantKf==2)){
-                    $scope.mess2show="Dar de baja al Habitante de la unidad:"+deptoSelected.toUpperCase()+", Por favor confirmar para continuar ?";
+                    $scope.mess2show="Dar de baja al Habitante de la unidad: "+deptoSelected.toUpperCase()+", Por favor confirmar para continuar ?";
                   }else if ($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==5 || ($scope.sysLoggedUser.idProfileKf==6 && $scope.sysLoggedUser.idTypeTenantKf==2)){
                     $scope.mess2show="Esta seguro que desea darse de baja?";
                   }
@@ -124,7 +124,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                         console.log("DATOS DEL DEPARTAMENTO A DAR DE BAJA");
                         console.log($scope.deptoObj);
                         blockUI.start('Verificando si el habitante posee un pedido activo asociado.');
-                        $scope.checkTicketTenant($scope.remove.info.idUser);
+                        $scope.checkTicketTenantDeptoFn($scope.remove.info.idUser, $scope.remove.info.idDepartmentKf);
                   }else if($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==6 || $scope.sysLoggedUser.idProfileKf==5){
                         console.log("::::::: REMOVE AN DEPTO OWNER :::::::");
                         $scope.remove.info.idUser           = $scope.tenantObj.idUser;
@@ -135,7 +135,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                         console.log("DATOS DEL DEPARTAMENTO O PROPIETARIO A DAR DE BAJA");
                         console.log($scope.deptoObj);
                         blockUI.start('Dando de baja al habitante del departamento seleccionado.');
-                        $scope.checkTicketTenant($scope.remove.info.idUser);
+                        $scope.checkTicketTenantDeptoFn($scope.remove.info.idUser, $scope.remove.info.idDepartmentKf);
                   }
               }else if (confirm==1){
                 $scope.IsFnRemove=true;
@@ -366,34 +366,34 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     }
                   }
             }
-          /**************************************************
-          *                                                 *
-          *             LIST CUSTOMER BY TYPE               *
-          *                                                 *
-          **************************************************/
-            $scope.rsCustomerListSelectData=[];
-            $scope.getCustomersBuildingListFn = function(idProfileKf, ownerOption) {
-              if ($scope.rsCustomerListSelectData.length==0){
-                console.log("getCustomersBuildingListFn");
-                console.log("=> idProfileKf:"+idProfileKf);
-                console.log("=> ownerOption:"+ownerOption);
-                  if (idProfileKf=="3" || idProfileKf=="5" || ((idProfileKf=="4" || idProfileKf=="6") && ownerOption!=undefined && ownerOption!="3")){
-                    $scope.globalGetCustomerListFn(null, "0", "2", "", "", null).then(function(data) {
-                      //console.info(data.customers);
-                      $scope.rsCustomerListSelectData = data.customers;
-                    }, function(err) {
-                      $scope.rsCustomerListSelectData=[];
-                    });
-                  }
+        /**************************************************
+        *                                                 *
+        *             LIST CUSTOMER BY TYPE               *
+        *                                                 *
+        **************************************************/
+          $scope.rsCustomerListSelectData=[];
+          $scope.getCustomersBuildingListFn = function(idProfileKf, ownerOption) {
+            if ($scope.rsCustomerListSelectData.length==0){
+              console.log("getCustomersBuildingListFn");
+              console.log("=> idProfileKf:"+idProfileKf);
+              console.log("=> ownerOption:"+ownerOption);
+                if (idProfileKf=="3" || idProfileKf=="5" || ((idProfileKf=="4" || idProfileKf=="6") && ownerOption!=undefined && ownerOption!="3")){
+                  $scope.globalGetCustomerListFn(null, "0", "2", "", "", null).then(function(data) {
+                    //console.info(data.customers);
+                    $scope.rsCustomerListSelectData = data.customers;
+                  }, function(err) {
+                    $scope.rsCustomerListSelectData=[];
+                  });
                 }
-            }
+              }
+          }
         /**************************************************
         *                                                 *
         *      SHOW ONLY CUSTOMER BY TYPE OF PROFILE      *
         *                                                 *
         **************************************************/
           $scope.filterCustomerByType = function(item){
-            var objOpt = $scope.isNewUser==true?$scope.users.new.idProfileKf.idProfile:$scope.users.update.idProfileKf;
+            var objOpt = $scope.isNewUser==true && ($scope.users.new.idProfileKf!=undefined && $scope.users.new.idProfileKf!='')?$scope.users.new.idProfileKf.idProfile:$scope.users.update.idProfileKf;
             switch(objOpt){
               case "2":
                 return item.idClientTypeFk == "3";
@@ -413,7 +413,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
             }
           };
           $scope.filterCustomerByType2 = function(item){
-            var objOpt = $scope.isNewUser==true?$scope.users.new.idProfileKf.idProfile:$scope.users.update.idProfileKf;
+            var objOpt = $scope.isNewUser==true && ($scope.users.new.idProfileKf!=undefined && $scope.users.new.idProfileKf!='')?$scope.users.new.idProfileKf.idProfile:$scope.users.update.idProfileKf;
             switch(objOpt){
               case "2":
                 return item.idClientTypeFk == "3";
@@ -435,7 +435,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
         **************************************************/
           $scope.filterRolesByType = function(obj){
             //console.log(item);
-            var objOpt = $scope.isNewUser==true?$scope.users.new.idProfileKf.idProfile:$scope.users.update.idProfileKf;
+            var objOpt = $scope.isNewUser==true && ($scope.users.new.idProfileKf!=undefined && $scope.users.new.idProfileKf!='')?$scope.users.new.idProfileKf.idProfile:$scope.users.update.idProfileKf;
             switch(objOpt){
               case "1":
                 return obj.idProfiles;
@@ -757,8 +757,13 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
             }
           }
           $scope.checkDepartmentListFn = function (objUser){
-            if (((((objUser.idProfileKf!=undefined && objUser.idProfileKf!=undefined && objUser.idProfileKf.idProfile == 5) || objUser.idProfileKf == 5) || (((objUser.idProfileKf.idProfile == 4 || objUser.idProfileKf == 4) || (objUser.idProfileKf.idProfile == 6 || objUser.idProfileKf == 6)) && $scope.att.ownerOption==2)) && $scope.userDepartamentList.length>1) || (((objUser.idProfileKf.idProfile == 4 || objUser.idProfileKf == 4) || (objUser.idProfileKf.idProfile == 6 || objUser.idProfileKf == 6)) && $scope.att.ownerOption==3)){
-              $scope.userDepartamentList = [];
+            console.log(objUser);
+            if (objUser.idProfileKf!=undefined){
+              if (((((objUser.idProfileKf.idProfile == 5) || objUser.idProfileKf == 5) || 
+                  (((objUser.idProfileKf.idProfile == 4 || objUser.idProfileKf == 4) || (objUser.idProfileKf.idProfile == 6 || objUser.idProfileKf == 6)) && $scope.att.ownerOption==2)) && $scope.userDepartamentList.length>1) || 
+                  (((objUser.idProfileKf.idProfile == 4 || objUser.idProfileKf == 4) || (objUser.idProfileKf.idProfile == 6 || objUser.idProfileKf == 6)) && $scope.att.ownerOption==3)){
+                $scope.userDepartamentList = [];
+              }
             }
           }
         /**************************************************
@@ -781,6 +786,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 $scope.register.user.phoneNumberUser         = obj.phoneMovilNumberUser;
                 $scope.register.user.isEdit                  = 1;
                 $scope.register.user.isCreateByAdmin         = 1;
+                $scope.register.user.loggedUser              = $scope.sysLoggedUser;
                 switch (switchOption) {
                   case "1": //SYS USER
                   break;
@@ -870,6 +876,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   $scope.update.user.phoneNumberUser             = obj.phoneMovilNumberUser;
                   $scope.update.user.isEdit                      = 1;
                   $scope.update.user.isCreateByAdmin             = 1;
+                  $scope.update.user.loggedUser                  = $scope.sysLoggedUser;
                   switch (switchOption) {
                     case "1": //SYS USER
                     break;
@@ -961,281 +968,302 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
         *                   ADD USER                      *
         *                                                 *
         **************************************************/
-          $scope.sysRegisterFn = function(){
-            //console.log($scope.register);
-              userServices.addUser($scope.register).then(function(response_userRegister){
-                if(response_userRegister.status==200){
-                    if($scope.register.user.idProfileKf!=1 && $scope.register.user.idProfileKf!=2){
-                      userServices.findUserByEmail($scope.register.user.dni).then(function(response_userFound) {
-                        if(response_userFound.status==200){
-                          if(($scope.register.user.idProfileKf==3 || $scope.register.user.idProfileKf==4 || $scope.register.user.idProfileKf==6) && $scope.register.user.idTypeTenantKf==1){
-                            //OWNER
-                            if ($scope.userDepartamentList!=undefined && $scope.userDepartamentList.length>0){
-                                var assignPromises = [];
-                                angular.forEach($scope.userDepartamentList,function(depto){
-                                  var deferred = $q.defer();
-                                  assignPromises.push(deferred.promise);
-                                  blockUI.start('Asignando el departamento '+depto.floor+'-'+depto.departament+' seleccionado.');
-                                  //ASSIGN DEPARTMENT SERVICE
-                                  $timeout(function() {
-                                      deferred.resolve();
-                                      $scope.depto.department = {};
-                                      $scope.depto.department.idUserKf      = response_userFound.data[0].idUser;
-                                      $scope.depto.department.idDepartment  = depto.idClientDepartament;
-                                      console.log($scope.depto.department);
-                                      DepartmentsServices.assignDepto($scope.depto).then(function(response_assign) {
-                                        if(response_assign.status==200){
-                                          //inform.add('Departamento Asignado y en proceso de aprobacion automatica.',{
-                                          //  ttl:5000, type: 'success'
-                                          //});
-                                          console.log("[Service][assignDepto]---> Department N°: "+depto.idDepartment+" (Successfully Assigned)");
-                                        }else if (response_assign.status==404){
-                                          inform.add('Departamento del propietario no ha sido asignado, contacte al area de soporte.',{
-                                            ttl:5000, type: 'warning'
-                                            });
-                                        }else if (response_assign.status==500){
-                                          inform.add('[Error]: '+response_assign.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
-                                            ttl:3000, type: 'danger'
-                                          });
-                                        }
-                                      });
-                                    }, 2000);
+            $scope.department={'user':{}};
+            $scope.sysRegisterFn = function(){
+              //console.log($scope.register);
+                userServices.addUser($scope.register).then(function(response_userRegister){
+                  if(response_userRegister.status==200){
+                      if($scope.register.user.idProfileKf!=1 && $scope.register.user.idProfileKf!=2){
+                        userServices.findUserByEmail($scope.register.user.dni).then(function(response_userFound) {
+                          if(response_userFound.status==200){
+                            if(($scope.register.user.idProfileKf==3 || $scope.register.user.idProfileKf==4 || $scope.register.user.idProfileKf==6) && $scope.register.user.idTypeTenantKf==1){
+                              //OWNER
+                              if ($scope.userDepartamentList!=undefined && $scope.userDepartamentList.length>0){
+                                  var assignPromises = [];
+                                  angular.forEach($scope.userDepartamentList,function(depto){
+                                    var deferred = $q.defer();
+                                    assignPromises.push(deferred.promise);
+                                    blockUI.start('Asignando el departamento '+depto.floor+'-'+depto.departament+' seleccionado.');
+                                    //ASSIGN DEPARTMENT SERVICE
                                     $timeout(function() {
-                                      blockUI.stop();
-                                    }, 3000);
-                                });
-                                $q.all(assignPromises).then(function () {
-                                    inform.add('Departamentos Asignados y en proceso de aprobacion automatica.',{
+                                        deferred.resolve();
+                                        $scope.depto.department = {};
+                                        $scope.depto.department.idUserKf      = response_userFound.data[0].idUser;
+                                        $scope.depto.department.idDepartment  = depto.idClientDepartament;
+                                        $scope.depto.department.isApprovalRequired = $scope.sysLoggedUser.idProfileKf==1 || $scope.sysLoggedUser.idProfileKf==4?false:true;
+                                        console.log($scope.depto.department);
+                                        DepartmentsServices.assignDepto($scope.depto).then(function(response_assign) {
+                                          if(response_assign.status==200){
+                                            //inform.add('Departamento Asignado y en proceso de aprobacion automatica.',{
+                                            //  ttl:5000, type: 'success'
+                                            //});
+                                            console.log("[Service][assignDepto]---> Department N°: "+depto.idDepartment+" (Successfully Assigned)");
+                                          }else if (response_assign.status==404){
+                                            inform.add('Departamento del propietario no ha sido asignado, contacte al area de soporte.',{
+                                              ttl:5000, type: 'warning'
+                                              });
+                                          }else if (response_assign.status==500){
+                                            inform.add('[Error]: '+response_assign.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                                              ttl:3000, type: 'danger'
+                                            });
+                                          }
+                                        });
+                                      }, 2000);
+                                      $timeout(function() {
+                                        blockUI.stop();
+                                      }, 3000);
+                                  });
+                                  $q.all(assignPromises).then(function () {
+                                      inform.add('Departamentos Asignados y en proceso de aprobacion automatica.',{
+                                        ttl:5000, type: 'success'
+                                      });
+                                  });	
+                                  var approvePromises = [];
+                                  angular.forEach($scope.userDepartamentList,function(depto){
+                                      var deferred = $q.defer();
+                                      approvePromises.push(deferred.promise);
+                                      blockUI.start('Aprobando el departamento '+depto.floor+'-'+depto.departament+' seleccionado.');
+                                      console.log(depto.idClientDepartament);
+                                      //APPROVE DEPARTMENT SERVICE
+                                      $timeout(function() {
+                                        deferred.resolve();
+                                        DepartmentsServices.approveOwnerDepto(depto.idClientDepartament).then(function(response_approve) {
+                                          if(response_approve.status==200){
+                                            //inform.add('Departamento del propietario autorizado satisfactoriamente.',{
+                                            //  ttl:5000, type: 'success'
+                                            //});
+                                            console.log("[Service][approveOwnerDepto]---> idDepto: "+depto.idClientDepartament+" (Successfully Approved)");
+                                          }else if (response_approve.status==404){
+                                            inform.add('Departamento del propietario no ha sido aprobado, contacte al area de soporte.',{
+                                              ttl:5000, type: 'warning'
+                                              });
+                                          }else if (response_approve.status==500){
+                                            inform.add('[Error]: '+response_approve.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                                              ttl:3000, type: 'danger'
+                                            });
+                                          }
+                                        });
+                                      }, 2000);
+                                      $timeout(function() {
+                                        blockUI.stop();
+                                      }, 3000);
+                                  });
+                                  $q.all(approvePromises).then(function () {
+                                    console.log("REGISTERED SUCCESSFULLY");
+                                    inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
                                       ttl:5000, type: 'success'
                                     });
-                                });	
-                                var approvePromises = [];
-                                angular.forEach($scope.userDepartamentList,function(depto){
-                                    var deferred = $q.defer();
-                                    approvePromises.push(deferred.promise);
-                                    blockUI.start('Aprobando el departamento '+depto.floor+'-'+depto.departament+' seleccionado.');
-                                    console.log(depto.idClientDepartament);
-                                    //APPROVE DEPARTMENT SERVICE
+                                    inform.add('Departamentos Aprobados Satisfactoriamente.',{
+                                      ttl:5000, type: 'success'
+                                    });
                                     $timeout(function() {
-                                      deferred.resolve();
-                                      DepartmentsServices.approveOwnerDepto(depto.idClientDepartament).then(function(response_approve) {
-                                        if(response_approve.status==200){
-                                          //inform.add('Departamento del propietario autorizado satisfactoriamente.',{
-                                          //  ttl:5000, type: 'success'
-                                          //});
-                                          console.log("[Service][approveOwnerDepto]---> idDepto: "+depto.idClientDepartament+" (Successfully Approved)");
-                                        }else if (response_approve.status==404){
-                                          inform.add('Departamento del propietario no ha sido aprobado, contacte al area de soporte.',{
-                                            ttl:5000, type: 'warning'
-                                            });
-                                        }else if (response_approve.status==500){
-                                          inform.add('[Error]: '+response_approve.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
-                                            ttl:3000, type: 'danger'
-                                          });
-                                        }
-                                      });
-                                    }, 2000);
-                                    $timeout(function() {
+                                      $scope.refreshList();
                                       blockUI.stop();
-                                    }, 3000);
-                                });
-                                $q.all(approvePromises).then(function () {
+                                    }, 1500);
+                                  });
+                              }else{
+                                $timeout(function() {
                                   console.log("REGISTERED SUCCESSFULLY");
                                   inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
                                     ttl:5000, type: 'success'
                                   });
-                                  inform.add('Departamentos Aprobados Satisfactoriamente.',{
+                                  $scope.refreshList();
+                                  blockUI.stop();
+                                }, 3000);
+                              }
+                              $('#RegisterUser').modal('hide');
+                            }else if(($scope.register.user.idProfileKf==4 || $scope.register.user.idProfileKf==5 || $scope.register.user.idProfileKf==6) && $scope.register.user.idTypeTenantKf==2 && ($scope.register.user.idDepartmentKf || $scope.register.user.idDepartmentKf==null)){
+                              if ($scope.register.user.idDepartmentKf!=null){
+                                blockUI.start('Aprobando departamento del usuario.');
+                                $timeout(function() {
+                                  $scope.department.user  = response_userFound.data[0];
+                                  $scope.department.user.registerBy = $scope.register.user.loggedUser;
+                              }, 1500);
+                                $timeout(function() {
+                                    //TENANT
+                                    $scope.approveTenantDeptoFn($scope.department);
+                                  $('#RegisterUser').modal('hide');
+                                  console.log("REGISTERED SUCCESSFULLY");
+                                  inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
                                     ttl:5000, type: 'success'
                                   });
-                                  $timeout(function() {
-                                    $scope.refreshList();
-                                    blockUI.stop();
-                                  }, 1500);
-                                });
-                            }else{
-                              $timeout(function() {
-                                console.log("REGISTERED SUCCESSFULLY");
-                                inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
-                                  ttl:5000, type: 'success'
-                                });
-                                $scope.refreshList();
-                                blockUI.stop();
-                              }, 3000);
-                            }
-                            $('#RegisterUser').modal('hide');
-                          }else if(($scope.register.user.idProfileKf==4 || $scope.register.user.idProfileKf==5 || $scope.register.user.idProfileKf==6) && $scope.register.user.idTypeTenantKf==2 && ($scope.register.user.idDepartmentKf || $scope.register.user.idDepartmentKf==null)){
-                            if ($scope.register.user.idDepartmentKf!=null){
-                              blockUI.start('Aprobando departamento del usuario.');
-                              $timeout(function() {
+                                  $scope.refreshList();
+                                  blockUI.stop();
+                                }, 2500);
+                              }else{
+                                $timeout(function() {
                                   //TENANT
-                                  $scope.approveDepto($scope.register.user.idTypeTenantKf, $scope.register.user.idDepartmentKf, 1);
-                                $('#RegisterUser').modal('hide');
-                                console.log("REGISTERED SUCCESSFULLY");
-                                inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
-                                  ttl:5000, type: 'success'
-                                });
-                                $scope.refreshList();
-                                blockUI.stop();
-                              }, 2500);
-                            }else{
-                              $timeout(function() {
-                                //TENANT
-                                $('#RegisterUser').modal('hide');
-                                console.log("REGISTERED SUCCESSFULLY");
-                                inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
-                                  ttl:5000, type: 'success'
-                                });
-                                $scope.refreshList();
-                                blockUI.stop();
-                              }, 2500); 
+                                  $('#RegisterUser').modal('hide');
+                                  console.log("REGISTERED SUCCESSFULLY");
+                                  inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
+                                    ttl:5000, type: 'success'
+                                  });
+                                  $scope.refreshList();
+                                  blockUI.stop();
+                                }, 2500); 
+                              }
                             }
+                          }else if (response_userFound.status==404){
+                            inform.add('No encontrado el Usuario: '+$scope.register.user.fullNameUser+' por favor contacte al area de soporte.',{
+                              ttl:5000, type: 'danger'
+                            });
+                          }else if (response_userFound.status==500){
+                            inform.add('[Error]: '+response_userFound.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                              ttl:3000, type: 'danger'
+                            });
                           }
-                        }else if (response_userFound.status==404){
-                          inform.add('No encontrado el Usuario: '+$scope.register.user.fullNameUser+' por favor contacte al area de soporte.',{
-                            ttl:5000, type: 'danger'
-                          });
-                        }else if (response_userFound.status==500){
-                          inform.add('[Error]: '+response_userFound.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
-                            ttl:3000, type: 'danger'
-                          });
-                        }
-                      });
-                    }else{
-                      $timeout(function() {
-                        //USERS DEFAULT
-                        $('#UpdateUser').modal('hide');
-                        console.log("REGISTERED SUCCESSFULLY");
-                        inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
-                          ttl:5000, type: 'success'
                         });
-                        $scope.refreshList();
-                        blockUI.stop();
-                      }, 2500); 
-                    }
-                }else if (response_userRegister.status==404){
-                  inform.add('[Error]: '+response_userRegister.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
-                    ttl:5000, type: 'warning'
-                    });
-                }else if(response_userRegister.status==500){
-                  inform.add('[Error]: '+response_userRegister.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
-                    ttl:5000, type: 'danger'
-                    });
-                }
-              });
-              $('#RegisterUser').modal('hide');
-          }
+                      }else{
+                        $timeout(function() {
+                          //USERS DEFAULT
+                          $('#UpdateUser').modal('hide');
+                          console.log("REGISTERED SUCCESSFULLY");
+                          inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
+                            ttl:5000, type: 'success'
+                          });
+                          $scope.refreshList();
+                          blockUI.stop();
+                        }, 2500); 
+                      }
+                  }else if (response_userRegister.status==404){
+                    inform.add('[Error]: '+response_userRegister.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                      ttl:5000, type: 'warning'
+                      });
+                  }else if(response_userRegister.status==500){
+                    inform.add('[Error]: '+response_userRegister.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                      ttl:5000, type: 'danger'
+                      });
+                  }
+                });
+                $('#RegisterUser').modal('hide');
+            }
         /**************************************************
         *                                                 *
         *                   UPDATE USER                   *
         *                                                 *
         **************************************************/
-          $scope.sysUpdateFn = function(){
-            //console.log($scope.update.user);
-            var nameProfile       = $scope.filters.userProfile==undefined?null:$scope.filters.userProfile.nameProfile;
-            var statusTenantName  = $scope.filters.userStatus==undefined?null:$scope.filters.userStatus.statusTenantName;
-            var customerName      = $scope.filters.companies.selected==undefined?null:$scope.filters.companies.selected.name;
-            var buildings         = $scope.filters.buildings.selected==undefined?null:$scope.filters.buildings.selected.address;
-            var nameTypeAttendant = $scope.filters.attProfile.nameTypeAttendant==undefined?null:$scope.filters.attProfile.nameTypeAttendant;
-            var searchboxfilter   = $scope.searchboxfilter==undefined?null:$scope.searchboxfilter;
-            userServices.updateUser($scope.update).then(function(response){
-              if(response.status==200){
-                if($scope.update.user.idProfileKf!=1 && $scope.update.user.idProfileKf!=2){
-                  if(($scope.update.user.idProfileKf==3 || $scope.update.user.idProfileKf==4 || $scope.update.user.idProfileKf==6) && $scope.update.user.idTypeTenantKf==1){
-                    //OWNER
-                    var assignPromises = [];
-                    angular.forEach($scope.userDepartamentList,function(depto){
-                      var deferred = $q.defer();
-                      assignPromises.push(deferred.promise);
-                      if (depto.isNew){
-                          blockUI.start('Asignando el departamento '+depto.floor+'-'+depto.departament+' seleccionado.');
-                          //ASSIGN DEPARTMENT SERVICE
-                          $timeout(function() {
-                              deferred.resolve();
-                              $scope.depto.department = {};
-                              $scope.depto.department.idUserKf      = $scope.update.user.idUser;
-                              $scope.depto.department.idDepartment  = depto.idClientDepartament;
-                              console.log($scope.depto.department);
-                              DepartmentsServices.assignDepto($scope.depto).then(function(response_assign) {
-                                if(response_assign.status==200){
-                                  //inform.add('Departamento Asignado y en proceso de aprobacion automatica.',{
-                                  //  ttl:5000, type: 'success'
-                                  //});
-                                  console.log("[Service][assignDepto]---> Department N°: "+depto.idDepartment+" (Successfully Assigned)");
-                                }else if (response_assign.status==404){
-                                  inform.add('Departamento del propietario no ha sido asignado, contacte al area de soporte.',{
-                                    ttl:5000, type: 'warning'
-                                    });
-                                }else if (response_assign.status==500){
-                                  inform.add('[Error]: '+response_assign.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
-                                    ttl:3000, type: 'danger'
-                                  });
-                                }
-                              });
-                            }, 2000);
+            $scope.sysUpdateFn = function(){
+              //console.log($scope.update.user);
+              var nameProfile       = $scope.filters.userProfile==undefined?null:$scope.filters.userProfile.nameProfile;
+              var statusTenantName  = $scope.filters.userStatus==undefined?null:$scope.filters.userStatus.statusTenantName;
+              var customerName      = $scope.filters.companies.selected==undefined?null:$scope.filters.companies.selected.name;
+              var buildings         = $scope.filters.buildings.selected==undefined?null:$scope.filters.buildings.selected.address;
+              var nameTypeAttendant = $scope.filters.attProfile.nameTypeAttendant==undefined?null:$scope.filters.attProfile.nameTypeAttendant;
+              var searchboxfilter   = $scope.searchboxfilter==undefined?null:$scope.searchboxfilter;
+              userServices.updateUser($scope.update).then(function(response){
+                if(response.status==200){
+                  if($scope.update.user.idProfileKf!=1 && $scope.update.user.idProfileKf!=2){
+                    if(($scope.update.user.idProfileKf==3 || $scope.update.user.idProfileKf==4 || $scope.update.user.idProfileKf==6) && $scope.update.user.idTypeTenantKf==1){
+                      //OWNER
+                      var assignPromises = [];
+                      angular.forEach($scope.userDepartamentList,function(depto){
+                        var deferred = $q.defer();
+                        assignPromises.push(deferred.promise);
+                        if (depto.isNew){
+                            blockUI.start('Asignando el departamento '+depto.floor+'-'+depto.departament+' seleccionado.');
+                            //ASSIGN DEPARTMENT SERVICE
                             $timeout(function() {
-                              blockUI.stop();
-                            }, 3000);
-                      }
-                    });
-                    $q.all(assignPromises).then(function () {
-                        inform.add('Departamentos Asignados y en proceso de aprobacion automatica.',{
+                                deferred.resolve();
+                                $scope.depto.department = {};
+                                $scope.depto.department.idUserKf      = $scope.update.user.idUser;
+                                $scope.depto.department.idDepartment  = depto.idClientDepartament;
+                                console.log($scope.depto.department);
+                                DepartmentsServices.assignDepto($scope.depto).then(function(response_assign) {
+                                  if(response_assign.status==200){
+                                    //inform.add('Departamento Asignado y en proceso de aprobacion automatica.',{
+                                    //  ttl:5000, type: 'success'
+                                    //});
+                                    console.log("[Service][assignDepto]---> Department N°: "+depto.idDepartment+" (Successfully Assigned)");
+                                  }else if (response_assign.status==404){
+                                    inform.add('Departamento del propietario no ha sido asignado, contacte al area de soporte.',{
+                                      ttl:5000, type: 'warning'
+                                      });
+                                  }else if (response_assign.status==500){
+                                    inform.add('[Error]: '+response_assign.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                                      ttl:3000, type: 'danger'
+                                    });
+                                  }
+                                });
+                              }, 2000);
+                              $timeout(function() {
+                                blockUI.stop();
+                              }, 2500);
+                        }
+                      });
+                      $q.all(assignPromises).then(function () {
+                          inform.add('Departamentos Asignados y en proceso de aprobacion automatica.',{
+                            ttl:5000, type: 'success'
+                          });
+                      });	
+                      var approvePromises = [];
+                      angular.forEach($scope.userDepartamentList,function(depto){
+                          var deferred = $q.defer();
+                          approvePromises.push(deferred.promise);
+                          if (depto.isNew){
+                              blockUI.start('Aprobando el departamento '+depto.floor+'-'+depto.departament+' seleccionado.');
+                              console.log(depto.idClientDepartament);
+                              //APPROVE DEPARTMENT SERVICE
+                              $timeout(function() {
+                                deferred.resolve();
+                                DepartmentsServices.approveOwnerDepto(depto.idClientDepartament).then(function(response_approve) {
+                                  if(response_approve.status==200){
+                                    //inform.add('Departamento del propietario autorizado satisfactoriamente.',{
+                                    //  ttl:5000, type: 'success'
+                                    //});
+                                    console.log("[Service][approveOwnerDepto]---> idDepto: "+depto.idClientDepartament+" (Successfully Approved)");
+                                  }else if (response_approve.status==404){
+                                    inform.add('Departamento del propietario no ha sido aprobado, contacte al area de soporte.',{
+                                      ttl:5000, type: 'warning'
+                                      });
+                                  }else if (response_approve.status==500){
+                                    inform.add('[Error]: '+response_approve.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                                      ttl:3000, type: 'danger'
+                                    });
+                                  }
+                                });
+                              }, 3000);
+                              $timeout(function() {
+                                blockUI.stop();
+                              }, 3500);
+                          }
+                      });
+                      $q.all(approvePromises).then(function () {
+                        console.log("Usuario: "+$scope.update.user.fullNameUser+" Successfully updated");
+                        inform.add('El Usuario: '+$scope.update.user.fullNameUser+' ha sido actualizado con exito. ',{
+                              ttl:3000, type: 'success'
+                        });
+                        $timeout(function() {
+                        }, 1500);
+                        inform.add('Departamentos Aprobados Satisfactoriamente.',{
                           ttl:5000, type: 'success'
                         });
-                    });	
-                    var approvePromises = [];
-                    angular.forEach($scope.userDepartamentList,function(depto){
-                        var deferred = $q.defer();
-                        approvePromises.push(deferred.promise);
-                        if (depto.isNew){
-                            blockUI.start('Aprobando el departamento '+depto.floor+'-'+depto.departament+' seleccionado.');
-                            console.log(depto.idClientDepartament);
-                            //APPROVE DEPARTMENT SERVICE
-                            $timeout(function() {
-                              deferred.resolve();
-                              DepartmentsServices.approveOwnerDepto(depto.idClientDepartament).then(function(response_approve) {
-                                if(response_approve.status==200){
-                                  //inform.add('Departamento del propietario autorizado satisfactoriamente.',{
-                                  //  ttl:5000, type: 'success'
-                                  //});
-                                  console.log("[Service][approveOwnerDepto]---> idDepto: "+depto.idClientDepartament+" (Successfully Approved)");
-                                }else if (response_approve.status==404){
-                                  inform.add('Departamento del propietario no ha sido aprobado, contacte al area de soporte.',{
-                                    ttl:5000, type: 'warning'
-                                    });
-                                }else if (response_approve.status==500){
-                                  inform.add('[Error]: '+response_approve.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
-                                    ttl:3000, type: 'danger'
-                                  });
-                                }
-                              });
-                            }, 2000);
-                            $timeout(function() {
-                              blockUI.stop();
-                            }, 3000);
-                        }
-                    });
-                    $q.all(approvePromises).then(function () {
-                      console.log("Usuario: "+$scope.update.user.fullNameUser+" Successfully updated");
-                      inform.add('El Usuario: '+$scope.update.user.fullNameUser+' ha sido actualizado con exito. ',{
-                            ttl:3000, type: 'success'
-                      });
+                      });	
                       $timeout(function() {
+                        $scope.refreshList();
+                        blockUI.stop();
+                      }, 3000);
+                      $('#UpdateUser').modal('hide');
+                    }else if(($scope.update.user.idProfileKf==4 || $scope.update.user.idProfileKf==5 || $scope.update.user.idProfileKf==6) && $scope.update.user.idTypeTenantKf==2 && ($scope.update.user.idDepartmentKf || $scope.update.user.idDepartmentKf==null)){
+                      if($scope.update.user.departmentIsNew && $scope.update.user.idDepartmentKf!=null){
+                        blockUI.message('Aprobando departamento del usuario.');
+                        $timeout(function() {
+                          $scope.department.user  = $scope.update.user;
+                          $scope.department.user.registerBy = $scope.update.user.loggedUser;
                       }, 1500);
-                      inform.add('Departamentos Aprobados Satisfactoriamente.',{
-                        ttl:5000, type: 'success'
-                      });
-                    });	
-                    $timeout(function() {
-                      $scope.refreshList();
-                      blockUI.stop();
-                    }, 3000);
-                    $('#UpdateUser').modal('hide');
-                  }else if(($scope.update.user.idProfileKf==4 || $scope.update.user.idProfileKf==5 || $scope.update.user.idProfileKf==6) && $scope.update.user.idTypeTenantKf==2 && ($scope.update.user.idDepartmentKf || $scope.update.user.idDepartmentKf==null)){
-                    if($scope.update.user.departmentIsNew && $scope.update.user.idDepartmentKf!=null){
-                      blockUI.message('Aprobando departamento del usuario.');
-                      $timeout(function() {
+                        $timeout(function() {
+                            //TENANT
+                            $scope.approveTenantDeptoFn($scope.department);
+                            $('#UpdateUser').modal('hide');
+                            console.log("Usuario: "+$scope.update.user.fullNameUser+" Successfully updated");
+                            inform.add('El Usuario: '+$scope.update.user.fullNameUser+' ha sido actualizado con exito. ',{
+                                  ttl:3000, type: 'success'
+                            });
+                            $scope.refreshList();
+                            blockUI.stop();
+                        }, 2500); 
+                      }else{
+                        $timeout(function() {
                           //TENANT
-                          $scope.approveDepto($scope.update.user.idTypeTenantKf, $scope.update.user.idUser, 1);
                           $('#UpdateUser').modal('hide');
                           console.log("Usuario: "+$scope.update.user.fullNameUser+" Successfully updated");
                           inform.add('El Usuario: '+$scope.update.user.fullNameUser+' ha sido actualizado con exito. ',{
@@ -1243,53 +1271,42 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                           });
                           $scope.refreshList();
                           blockUI.stop();
-                      }, 2500); 
-                    }else{
-                      $timeout(function() {
-                        //TENANT
-                        $('#UpdateUser').modal('hide');
-                        console.log("Usuario: "+$scope.update.user.fullNameUser+" Successfully updated");
-                        inform.add('El Usuario: '+$scope.update.user.fullNameUser+' ha sido actualizado con exito. ',{
-                              ttl:3000, type: 'success'
-                        });
-                        $scope.refreshList();
-                        blockUI.stop();
-                      }, 2500); 
+                        }, 2500); 
+                      }
                     }
+                  }else{
+                    $timeout(function() {
+                      blockUI.message('Usuario: '+$scope.update.user.fullNameUser+' actualizado con exito');
+                    }, 1500);
+                    $timeout(function() {
+                      //USERS DEFAULT
+                      $('#UpdateUser').modal('hide');
+                      console.log("REGISTERED SUCCESSFULLY");
+                      inform.add('Usuario '+$scope.update.user.fullNameUser+' actualizado satisfactoriamente.',{
+                        ttl:5000, type: 'success'
+                      });
+                      $scope.refreshList();
+                      blockUI.stop();
+                    }, 2500); 
                   }
-                }else{
+                }else if (response.status==404){
                   $timeout(function() {
-                    blockUI.message('Usuario: '+$scope.update.user.fullNameUser+' actualizado con exito');
-                  }, 1500);
+                    inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                      ttl:5000, type: 'warning'
+                      });
+                      blockUI.message('Usuario: '+$scope.update.user.fullNameUser+' no sido actualizado.');
+                    }, 1500);
+                }else if($scope.rsJsonData.status==500){
                   $timeout(function() {
-                    //USERS DEFAULT
-                    $('#UpdateUser').modal('hide');
-                    console.log("REGISTERED SUCCESSFULLY");
-                    inform.add('Usuario '+$scope.update.user.fullNameUser+' actualizado satisfactoriamente.',{
-                      ttl:5000, type: 'success'
+                    inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                    ttl:5000, type: 'danger'
                     });
-                    $scope.refreshList();
-                    blockUI.stop();
-                  }, 2500); 
+                    blockUI.message('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor.');
+                  }, 1500);
                 }
-              }else if (response.status==404){
-                $timeout(function() {
-                  inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
-                    ttl:5000, type: 'warning'
-                    });
-                    blockUI.message('Usuario: '+$scope.update.user.fullNameUser+' no sido actualizado.');
-                  }, 1500);
-              }else if($scope.rsJsonData.status==500){
-                $timeout(function() {
-                  inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
-                  ttl:5000, type: 'danger'
-                  });
-                  blockUI.message('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor.');
-                }, 1500);
-              }
-            });
-            $('#RegisterUser').modal('hide');
-          }
+              });
+              $('#RegisterUser').modal('hide');
+            }
         /**************************************************
         *                                                 *
         *   ASSIGN DEPARTMENT TO THE CURRENT OWNER USER   *
@@ -1355,6 +1372,29 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 break;
               }
           };
+        /**************************************************
+        *                                                 *
+        *  APPROVE DEPARTMENT TO AN OWNER OR TENANT USER  *
+        *                                                 *
+        **************************************************/
+          $scope.approveTenantDeptoFn = function (data) {
+            console.log(data);
+            DepartmentsServices.approveTenantDepartment(data).then(function(response) {
+                if(response.status==200){
+                    inform.add('Departamento del Habitante autorizado satisfactoriamente.',{
+                    ttl:5000, type: 'success'
+                    });
+                    $timeout(function() {
+                        blockUI.stop();
+                    }, 1500);
+                    //$scope.lisTenantByType($scope.idDeptoKf, null);
+                }else if (response.status==404){
+                    inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                    ttl:5000, type: 'warning'
+                    });
+                }
+            });
+          }
         /*************************************************************
         *                                                            *
         *    VERIFICAR SI UN INQUILINO TIENE UN TICKET ACTIVO        *
@@ -1391,6 +1431,42 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 }
             });
           }
+        /*************************************************************
+        *                                                            *
+        *    VERIFICAR SI UN INQUILINO TIENE UN TICKET ACTIVO        *
+        *                                                            *
+        *************************************************************/
+          $scope.checkTicketTenantDeptoFn = function(idUser, idDepto){
+            var msg1, msg2;
+            ticketServices.verifyTicketsByIdUserDepto(idUser, idDepto).then(function(response){
+                if(response.status==200){
+                    $timeout(function() {
+                        blockUI.message('El Departamento y el habitante posee pedidos activos asociados.');
+                        $scope.isHasTicket = true;
+                        console.log("POSEE TICKETS")
+                    }, 1500);
+                    $timeout(function() {
+                        msg1="Tenes solicitudes pendientes, debes esperar a que finalice o cancelar para darte de baja.";
+                        msg2="El Habitante presenta solicitudes pendientes, se deben finalizar o cancelar para poder dar de baja.";
+                        $scope.messageInform = $scope.sysLoggedUser.idProfileKf!=1 && $scope.sysLoggedUser.idProfileKf!=4 ? msg1 : msg2;
+                        inform.add($scope.messageInform,{
+                            ttl:5000, type: 'warning'
+                        });
+                    blockUI.stop();
+                    }, 3000);
+                }else if (response.status==404){
+                    $timeout(function() {
+                        blockUI.message('El Departamento y el habitante no posee pedidos activos asociados.');
+                        $scope.isHasTicket = true;
+                        console.log("NO POSEE TICKETS --> SE PROCEDE A SOLICITAR LA CONFIRMACION PARA LA BAJA.");
+                    }, 1500);
+                    $timeout(function() {
+                        $('#confirmRequestModal').modal('toggle');
+                    blockUI.stop();
+                    }, 3000);
+                }
+            });
+          }
         /**************************************************
         *                                                 *
         *        REMOVER TENANT DE UN DEPARTAMENTO        *
@@ -1417,6 +1493,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                         });
                     }
                 }
+                blockUI.stop();
             });
           } 
         /**************************************************
