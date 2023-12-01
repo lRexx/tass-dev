@@ -278,6 +278,16 @@ class Clientes extends REST_Controller {
             $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
         }
     }
+	/*Solicitud para generar código de seguridad para cliente*/
+	public function listAdminCompanies_get(){
+        $rs = null;
+		$rs = $this->client_model->list_admin_companies();
+		if (! is_null($rs)) {
+			$this->response($rs, 200);
+		} else {
+			$this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
+		}
+	}
 
 	/*Solicitud para generar código de seguridad para cliente*/
 	public function segurityCodeCliente_get($idClient){

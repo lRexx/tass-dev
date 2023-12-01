@@ -106,7 +106,7 @@
 								  				(service.modem.selected==undefined) && fCustomerUpdateService.service_modem.$touched,
 								  			}">
 						  	<div class="col-md-6"><label style="padding-left: 15px;">MODEM </label> </div>
-						  	<div class="pull-right col-md-4"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.modem.selected==undefined" ng-click="compServiceProductDetailsFn(service.modem.selected, productListType.MODEM)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+						  	<div class="pull-right col-md-4 n-padding-r"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.modem.selected==undefined" ng-click="compServiceProductDetailsFn(service.modem.selected, productListType.MODEM)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 						  	<button ng-if="service.modem.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeProductDetailsFn(service.modem.selected, productListType.MODEM, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div> 
 						    <div class="col-xs-12 selectContainer">
 							    <div class="input-group">
@@ -209,7 +209,7 @@
 								  			}">
 						  <div class="col-md-6">
 						  	<label style="padding-left: 15px;">Router conectado </label></div>
-						  <div class="pull-right col-md-4"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.router.selected==undefined" ng-click="compServiceProductDetailsFn(service.router.selected, productListType.ROUTER)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+						  <div class="pull-right col-md-4 n-padding-r"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.router.selected==undefined" ng-click="compServiceProductDetailsFn(service.router.selected, productListType.ROUTER)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 						  	<button ng-if="service.router.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeProductDetailsFn(service.router.selected, productListType.ROUTER, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
 						    <div class="col-xs-12 selectContainer">							   
 							    <div class="input-group">
@@ -281,9 +281,9 @@
 								</div>							
 							</div>
 							<div ng-if="service.update.idTypeInternetFk!=undefined && service.update.idTypeInternetFk=='1'" class="well-checkbox form-group col-md-6 n-padding-l n-padding-r">
-								<div class="form-group col-md-6 text-badge"> <h4>Wifi TASS</h4></div>
+								<div class="form-group col-md-6 text-badge"> <h4>Wifi BSS</h4></div>
 								<div class="form-group col-md-12">
-								  <label style="padding-left: 15px;">Usuario TASS</label>  
+								  <label style="padding-left: 15px;">Usuario BSS</label>  
 									  <div class="col-xs-12">
 										<div class="input-group">
 											<span class="input-group-addon"><i class="fas fa-user"></i></span>
@@ -292,7 +292,7 @@
 									</div>
 								</div>
 								<div class="form-group col-md-12">
-								  <label style="padding-left: 15px;">Clave TASS</label>  
+								  <label style="padding-left: 15px;">Clave BSS</label>  
 									  <div class="col-xs-12">
 										<div class="input-group">
 											<span class="input-group-addon"><i class="fas fa-key"></i></span>

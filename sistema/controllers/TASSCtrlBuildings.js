@@ -801,7 +801,7 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                                     name: 'hoja_acceso_usuario'+user.name+'.pdf',
                                     title: 'HOJA DE DATOS DE ACCESO',
                                     subject: 'PROGRAMAS DE VISUALIZACIÓN',
-                                    author: 'SEGURIDAD TASS',
+                                    author: 'BSS SEGURIDAD',
                                     keywords: 'security, tass, service, web',
                                     creator: 'MEEE'
                                 });            
@@ -2565,7 +2565,65 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                         }
                     });
                 }//modalConfirmation('removet', 0, tenant)
-
+        /**************************************************
+        *                                                 *
+        *           GET SELECTED COMPANY BY ID            *
+        *                                                 *
+        **************************************************/
+            $scope.rsCustomerDataLastest={};
+            $scope.getCustomersByIdFn = function(idClient){
+                //console.log(obj);
+                if (idClient!=undefined){
+                    CustomerServices.getCustomersById(idClient).then(function(response){
+                        if(response.status==200){
+                            $scope.rsCustomerDataLastest = response.data;
+                        }
+                    });
+                }else{
+                    console.log("idClient no recibido");
+                }
+            }
+                /******************************
+                 *     UPDATE THE CUSTOMER     *
+                 ******************************/
+                    $scope.generateSecurityCodeFn = function(client){
+                        CustomerServices.generateCustomerSecurityCode(client.idClient).then(function(data){
+                            $scope.rsJsonData = data;
+                            //console.log($scope.rsJsonData);
+                            if($scope.rsJsonData.status==200){
+                                console.log("Customer Security Code Successfully Generated");
+                                inform.add('Codigo de Seguridad ha sido generado con exito. ',{
+                                    ttl:2000, type: 'success'
+                                });
+                            }else if($scope.rsJsonData.status==404){
+                                console.log("error, contact administrator");
+                                inform.add('Error: [404] Contacta al area de soporte. ',{
+                                    ttl:2000, type: 'danger'
+                                });
+                            }else if($scope.rsJsonData.status==500){
+                                console.log("Customer not Created, contact administrator");
+                                inform.add('Error: [500] Contacta al area de soporte. ',{
+                                    ttl:2000, type: 'danger'
+                                });
+                            }
+                            blockUI.start('');
+                            $timeout(function() {
+                                blockUI.message('Actualizando');
+                            }, 1000);
+                            $timeout(function() {
+                                $scope.getCustomersByIdFn($scope.select.buildings.selected.idClient);
+                            }, 1500);
+                            $timeout(function() {
+                                //$scope.getBuildingFn($scope.select.buildings.selected);
+                                $scope.sysSubContent                      = "";
+                                $scope.sysSubContent                      = 'departments';
+                                $scope.ListDpto = [];
+                                $scope.keyListByBuildingId = [];
+                                $scope.getBuildingFn($scope.rsCustomerDataLastest);
+                                blockUI.stop();
+                            }, 3000);
+                        });
+                    };
             /**************************************************
             *                                                 *
             *            BUILDING MENU FUNCTION                *
@@ -2803,8 +2861,9 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                                 //OWNER
                                 blockUI.start('Asociando usuario al departamento seleccionado.');
                                 $timeout(function() {
-                                    $scope.depto.department.idUserKf     = obj.idUser;
-                                    $scope.depto.department.idDepartment = $scope.departmentSelected.idClientDepartament;
+                                    $scope.depto.department.idUserKf           = obj.idUser;
+                                    $scope.depto.department.idDepartment       = $scope.departmentSelected.idClientDepartament;
+                                    $scope.depto.department.isApprovalRequired = $scope.sysLoggedUser.idProfileKf==1 || $scope.sysLoggedUser.idProfileKf==4?false:true;
                                 }, 1500); 
                                 $timeout(function() {
                                     blockUI.message('Asignando departamento del usuario.');
@@ -3061,6 +3120,18 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                             $('#divCodeFrm').removeClass('has-error');
                             })
                             $('#confirmCodeModal').modal('show');
+                        break;
+                        case "securityCode":
+                            console.log(obj);
+                            $scope.sysSubContent                         = "";
+                            $scope.ListDpto = [];
+                            $scope.keyListByBuildingId = [];
+                            $scope.myDepartamentlist=[];
+                            blockUI.start('Generando Codigo de Seguridad');
+                            $timeout(function() {
+                                $scope.generateSecurityCodeFn(obj);
+                                blockUI.stop();
+                            }, 1500);
                         break;
                         case "associateNewDepartment":
                             $scope.sysSubContent                         = "";
@@ -4028,8 +4099,8 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                 wb = XLSX.utils.book_new();
                 wb.Props = {
                     Title: sheetName,
-                    Subject: "Seguridad TASS",
-                    Author: "Seguridad TASS",
+                    Subject: "BSS Seguridad",
+                    Author: "BSS Seguridad",
                     CreatedDate: sysDate
                 };
                 wb.SheetNames.push(sheetName);

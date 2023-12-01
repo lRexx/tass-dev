@@ -43,6 +43,7 @@
 <!-- User Style Sheets -->
 <link href="css/style-init.css" type="text/css" rel="stylesheet" media="all">
 <link href="views/mainapp/style.css" type="text/css" rel="stylesheet" media="all">
+<link href="views/status/style.css" type="text/css" rel="stylesheet" media="all">
 <link href="css/timeline_history.css" type="text/css" rel="stylesheet" media="all">
 <link href="css/form-controls.css" type="text/css" rel="stylesheet" media="all">
 <link href="views/mainapp/sys_sidebar.css" type="text/css" rel="stylesheet" media="all">
@@ -174,6 +175,12 @@
 								<a  href="/users"> 
 								<i style="margin-left: -0.7em" class="fas fa-users icon-4x"></i>
 								<br>Usuarios
+								</a>
+							</li>
+							<li id="m_tech" class="icon-m" ng-class="{ active: getRoute('/tech')}" ng-if="sysModules.idTechnician">
+								<a  href="/tech">
+								<i style="margin-left: -0.6em" class="fas fa-toolbox icon-4x"></i>
+								<br>Tecnicos
 								</a>
 							</li>
 							<li id="m_config" class="icon-m" ng-class="{ active: getRoute('/system')}" ng-if="sysModules.idConfiguracion">
@@ -314,6 +321,7 @@
 <script src="controllers/TASSCtrlMonitor.js"></script>
 <script src="controllers/TASSCtrlProducts.js"></script>
 <script src="controllers/TASSCtrlKeys.js"></script>
+<script src="controllers/TASSCtrlTech.js"></script>
 <script src="controllers/TASSCtrlCustomers.js"></script>
 <script src="controllers/TASSCtrlStatus.js"></script>
 <script src="controllers/TASSCtrlApprovals.js"></script>

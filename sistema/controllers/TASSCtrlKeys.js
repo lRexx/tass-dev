@@ -376,8 +376,8 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                                     name: 'hoja_acceso_usuario'+user.name+'.pdf',
                                     title: 'HOJA DE DATOS DE ACCESO',
                                     subject: 'PROGRAMAS DE VISUALIZACIÓN',
-                                    author: 'SEGURIDAD TASS',
-                                    keywords: 'security, tass, service, web',
+                                    author: 'BSS SEGURIDAD',
+                                    keywords: 'security, bss, service, web',
                                     creator: 'MEEE'
                                 });            
                                 doc.setLineWidth(0.1);
@@ -895,8 +895,8 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                 wb = XLSX.utils.book_new();
                 wb.Props = {
                     Title: sheetName,
-                    Subject: "Seguridad TASS",
-                    Author: "Seguridad TASS",
+                    Subject: "BSS Seguridad",
+                    Author: "BSS Seguridad",
                     CreatedDate: sysDate
                 };
                 wb.SheetNames.push(sheetName);

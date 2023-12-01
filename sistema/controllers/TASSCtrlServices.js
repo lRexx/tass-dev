@@ -133,8 +133,23 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
         'info':{}, 
         'select':{'main':{},'date':{}, 'codes':{}}
     };
+    $scope.contractSelected={};
+    $scope.open1 = function() {
+        $scope.popup1.opened = true;
+    };
+    $scope.popup1 = {
+        opened: false
+    };
+    $scope.events =
+    {
+      status: 'full'
+    };
     $scope.select = {'filterTypeOfClient': {}, 'filterCustomerIdFk':{'selected':undefined}};
     $scope.customerSearch={'name':'', 'typeClient':null};
+    /*DATE PICKER*/
+    $scope.formats = ['dd-MM-yyyy', 'dd/MM/yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+    $scope.format = $scope.formats[1];
+    $scope.altInputFormats = ['M!/d!/yyyy'];
     $timeout(function() {
         $scope.getCustomerListFn("registered", ""); //LOAD CUSTOMER LIST
     }, 500);
@@ -152,95 +167,113 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
             case "contract":
                 switch (opt2){
                     case "new_contract_windows":
-                //$scope.defArrForCustomersFn();
-                $('#RegisterCustomerContract').modal({backdrop: 'static', keyboard: false});
-                $scope.preLoadServicesArrFn();
-                $scope.contract.new.dateOfSign=fullSysDate;
-                $scope.contract.new.dateCodeDigits=sysDay+sysMonth+sysYear;
-                $scope.contract.new.idClientFk=cObj.idClient;
-              break;
+                        //$scope.defArrForCustomersFn();
+                        $('#RegisterCustomerContract').modal({backdrop: 'static', keyboard: false});
+                        $scope.preLoadServicesArrFn();
+                        $scope.contract.new.dateOfSign=fullSysDate;
+                        $scope.contract.new.dateCodeDigits=sysDay+sysMonth+sysYear;
+                        $scope.contract.new.idClientFk=cObj.idClient;
+                    break;
                     case "assign_contract_new_service":
-                $('#newServiceUnit').modal({backdrop: 'static', keyboard: false});
-                $scope.service.new.serviceItems={};
-                $scope.service.new.serviceType="";
-              break;
+                        $('#newServiceUnit').modal({backdrop: 'static', keyboard: false});
+                        $scope.service.new.serviceItems={};
+                        $scope.service.new.serviceType="";
+                    break;
                     case "assign_contract_update_service":
-                $('#updateServiceUnit').modal({backdrop: 'static', keyboard: false});
-                $scope.service.update={'serviceItems':{},'serviceType':""};
-              break;
+                        $('#updateServiceUnit').modal({backdrop: 'static', keyboard: false});
+                        $scope.service.update={'serviceItems':{},'serviceType':""};
+                    break;
                     case "add":
-                
-                  $scope.customerContractFn(null, 'create');
-              break;
+                        $scope.customerContractFn(null, 'create');
+                    break;
                     case "edit":
-                  $scope.customerContractFn(cObj, 'edit');
-              break;
+                        $scope.customerContractFn(cObj, 'edit');
+                    break;
                     case "update":
-                  console.log("Updating Contract")
-                  $scope.customerContractFn(null, 'update');
-              break;
+                        console.log("Updating Contract")
+                        $scope.customerContractFn(null, 'update');
+                    break;
                     case "info":
-                  $scope.customerContractFn(cObj, 'info');
-              break;
+                        $scope.customerContractFn(cObj, 'info');
+                    break;
                     case "approveContractWindow":
-                $scope.contract.activateDate={}
-                $scope.contract.activateDate=cObj;
-                if ($scope.contract.activateDate.fechaFirmaActivacion!='' && $scope.contract.activateDate.fechaFirmaActivacion!=null && $scope.contract.activateDate.fechaFirmaActivacion!=undefined){
-                  $scope.modalConfirmation('contract_enable', 0, cObj)
-                }else{
-                  $('#activationDateContractWindows').modal('show');
-                  $scope.contract.tmpFechaFirmaActivacion=fullSysDate;
-                }
-              break;
+                        $scope.contract.activateDate={}
+                        $scope.contract.activateDate=cObj;
+                        if ($scope.contract.activateDate.fechaFirmaActivacion!='' && $scope.contract.activateDate.fechaFirmaActivacion!=null && 
+                        $scope.contract.activateDate.fechaFirmaActivacion!=undefined){
+                            $scope.modalConfirmation('contract_enable', 0, cObj)
+                        }else{
+                            $('#activationDateContractWindows').modal('show');
+                            $scope.contract.tmpFechaFirmaActivacion=fullSysDate;
+                        }
+                    break;
                     case "activateDate":
-                
-                  $scope.customerContractFn(cObj, 'activateDate');
-              break;            
+                        $scope.customerContractFn(cObj, 'activateDate');
+                    break;            
                     case "enable":
-                
-                  $scope.customerContractFn(cObj, 'enable');
-              break;
+                        $scope.customerContractFn(cObj, 'enable');
+                    break;
                     case "disable":
-                
-                  $scope.customerContractFn(cObj, 'disable');
-              break;
+                        $scope.customerContractFn(cObj, 'disable');
+                    break;
+                    case "disable":
+                        $scope.customerContractFn(cObj, 'disable');
+                    break;
+                    case "init_termination":
+                        console.log(cObj);
+                        $scope.contractSelected = {'idContrato':'','idStatusFk':'','idClientFk':'','numeroContrato':'','services':[], 'maintenanceType':''};
+                        $scope.contractSelected.idContrato      = cObj.idContrato;
+                        $scope.contractSelected.idStatusFk      = cObj.idStatusFk;
+                        $scope.contractSelected.idClientFk      = cObj.idClientFk;
+                        $scope.contractSelected.numeroContrato  = cObj.numeroContrato;
+                        $scope.contractSelected.services        = cObj.services;
+                        $scope.contractSelected.maintenanceType = cObj.maintenanceType;
+                        $scope.contractSelected.terminateDate   = "";
+                        $scope.contractSelected.description     = "";
+                        console.log($scope.contractSelected);
+                        $('#terminateContract').modal({backdrop: 'static', keyboard: false});
+                    break;
+                    case "apply_termination":
+                        console.log(cObj);
+                        //$scope.customerContractFn(cObj, 'remove');
+                    break;
+
                     /******************************
                     *   CONTRACTS UNDERLOCK SYS   *
                     ******************************/ 
                     case "underLock-assign":
-                    $scope.contract.sysUnderLock     = {};
-                    $('#underLockSystem').modal('show');
-                    $scope.contract.sysUnderLock.idContrato      = cObj.idContrato;
-                    $scope.contract.sysUnderLock.idClientFk      = cObj.idClientFk
-                    $scope.contract.sysUnderLock.numeroContrato  = cObj.numeroContrato;
-                    $scope.contract.sysUnderLock.new = true;
-                    //console.log($scope.contract.sysUnderLock);
-                break;
+                        $scope.contract.sysUnderLock     = {};
+                        $('#underLockSystem').modal('show');
+                        $scope.contract.sysUnderLock.idContrato      = cObj.idContrato;
+                        $scope.contract.sysUnderLock.idClientFk      = cObj.idClientFk
+                        $scope.contract.sysUnderLock.numeroContrato  = cObj.numeroContrato;
+                        $scope.contract.sysUnderLock.new = true;
+                        //console.log($scope.contract.sysUnderLock);
+                    break;
                     case "underLock-add":
-                    $scope.customerContractFn(cObj, 'underLock-add');
-                break; 
+                        $scope.customerContractFn(cObj, 'underLock-add');
+                    break; 
                     case "underLock-edit":
-                    $scope.contract.sysUnderLock = {};
-                    $scope.contract.sysUnderLock.idSystemUnderLock        = cObj.idSystemUnderLock;
-                    $scope.contract.sysUnderLock.isSystemUnderLock        = cObj.isSystemUnderLock;
-                    $scope.contract.sysUnderLock.idContrato               = cObj.idContrato;
-                    $scope.contract.sysUnderLock.idClientFk               = cObj.idClientFk;
-                    $scope.contract.sysUnderLock.numeroContrato           = cObj.numeroContrato;                    
-                    $scope.contract.sysUnderLock.companyHasKeys           = cObj.companyHasKeys==1?true:false;
-                    $scope.contract.sysUnderLock.customerHasKeys          = cObj.customerHasKeys==1?true:false;
-                    $scope.contract.sysUnderLock.comment_systemUnderLock  = cObj.comment_systemUnderLock;
-                    $('#underLockSystem').modal('show');
-                    $scope.contract.sysUnderLock.new    = false;
-                    $scope.contract.sysUnderLock.update = true;
-                    console.log($scope.contract.sysUnderLock);
-                break;
+                        $scope.contract.sysUnderLock = {};
+                        $scope.contract.sysUnderLock.idSystemUnderLock        = cObj.idSystemUnderLock;
+                        $scope.contract.sysUnderLock.isSystemUnderLock        = cObj.isSystemUnderLock;
+                        $scope.contract.sysUnderLock.idContrato               = cObj.idContrato;
+                        $scope.contract.sysUnderLock.idClientFk               = cObj.idClientFk;
+                        $scope.contract.sysUnderLock.numeroContrato           = cObj.numeroContrato;                    
+                        $scope.contract.sysUnderLock.companyHasKeys           = cObj.companyHasKeys==1?true:false;
+                        $scope.contract.sysUnderLock.customerHasKeys          = cObj.customerHasKeys==1?true:false;
+                        $scope.contract.sysUnderLock.comment_systemUnderLock  = cObj.comment_systemUnderLock;
+                        $('#underLockSystem').modal('show');
+                        $scope.contract.sysUnderLock.new    = false;
+                        $scope.contract.sysUnderLock.update = true;
+                        console.log($scope.contract.sysUnderLock);
+                    break;
                     case "underLock-update":
-                    $scope.customerContractFn(cObj, 'underLock-update');
-                break;                 
+                        $scope.customerContractFn(cObj, 'underLock-update');
+                    break;                 
                     case "underLock-show":
-                  
-                    //$scope.customerContractFn(cObj, 'disable');
-                break;                             
+                        //$scope.customerContractFn(cObj, 'disable');
+                    break;                             
                 }
             break;
         /******************************
@@ -929,7 +962,7 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                             break;            
                             case "contract_disable":
                                 if (confirm==0){
-                                $scope.mess2show="El contrato "+obj.numeroContrato+" sera desactivado.     Confirmar?";
+                                $scope.mess2show="El contrato "+obj.numeroContrato+" sera desactivado. por favor confirmar, Confirmar?";
                                 $scope.argObj={};
                                 $scope.argObj = obj;
                                 console.log('Contrato a desahibilitar ID: '+obj.idContrato+' Contrato: '+obj.numeroContrato);
@@ -938,6 +971,20 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                                 $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.switchCustomersFn('contract', $scope.argObj, 'disable');
+                                    $('#confirmRequestModal').modal('hide');
+                                }            
+                            break;
+                            case "contract_remove":
+                                if (confirm==0){
+                                $scope.mess2show="Se procedera a la Baja del contrato "+obj.numeroContrato+" por favor confirmar, Confirmar?";
+                                $scope.argObj={};
+                                $scope.argObj = obj;
+                                console.log('Contrato a dar de baja ID: '+obj.idContrato+' Contrato: '+obj.numeroContrato);
+                                console.log("============================================================================")
+                                console.log($scope.argObj);   
+                                $('#confirmRequestModal').modal('toggle');
+                                }else if (confirm==1){
+                                    $scope.switchCustomersFn('contract', $scope.argObj, 'init_termination');
                                     $('#confirmRequestModal').modal('hide');
                                 }            
                             break;
@@ -1536,6 +1583,11 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                         break;              
                         case "disable": //DISABLE CUSTOMER CONRACT
                             contract.idStatusFk=0
+                            //console.log(contract);
+                            $scope.changeStatusCustomerContractFn(contract);
+                        break;
+                        case "remove": //DISABLE CUSTOMER CONRACT
+                            contract.idStatusFk=-1
                             //console.log(contract);
                             $scope.changeStatusCustomerContractFn(contract);
                         break;
@@ -2209,12 +2261,12 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                                     $scope.addNewService.idModemInternetFk        = $scope.service.modem.selected.idProduct;
                                     $scope.addNewService.macAddress               = service.idTypeInternetFk<="2"?service.macAddr:null;
                                     $scope.addNewService.port                     = service.idTypeInternetFk<="2"?service.port:null;
-                                    $scope.addNewService.userWifi                 = service.idTypeInternetFk<="2"?service.userTass:null;
-                                    $scope.addNewService.passWifi                 = service.idTypeInternetFk<="2"?service.passTass:null;
-                                    $scope.addNewService.userAdmin                = service.idTypeInternetFk<="2"?service.userTass:null;
-                                    $scope.addNewService.passAdmin                = service.idTypeInternetFk<="2"?service.passTass:null;
-                                    $scope.addNewService.numberLine               = service.idTypeInternetFk<="2"?null:service.numLine;
-                                    $scope.addNewService.numberChip               = service.idTypeInternetFk<="2"?null:service.numChip;
+                                    $scope.addNewService.userWifi                 = service.idTypeInternetFk<="2"?service.userWifi:null;
+                                    $scope.addNewService.passWifi                 = service.idTypeInternetFk<="2"?service.passWifi:null;
+                                    $scope.addNewService.userAdmin                = service.idTypeInternetFk<="2"?service.userAdmin:null;
+                                    $scope.addNewService.passAdmin                = service.idTypeInternetFk<="2"?service.passAdmin:null;
+                                    $scope.addNewService.numberLine               = service.idTypeInternetFk<="2"?null:service.numberLine;
+                                    $scope.addNewService.numberChip               = service.idTypeInternetFk<="2"?null:service.numberChip;
                                     $scope.addNewService.dateDown                 = null;
                                     $scope.addNewService.isDown                   = null;
                                     $timeout(function() {
@@ -2363,6 +2415,8 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                      *    LOAD DATA FOR UPDATE SERVICE  *
                      ************************************/
                         case "edit":
+                            obj=service;
+                            console.log(obj);
                             $scope.service.update=service;
                             switch(service.idTipeServiceFk){
                                 case "1": //LOAD CONTROL ACCESS
@@ -2447,7 +2501,7 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                                         $scope.service.update.idContratoFk        = service.idContracAssociated_SE;
                                         $scope.service.update.numeroContrato      = service.idContracAssociated_SE_array[0].numeroContrato;
                                         $scope.service.modem.selected             = service.idModemInternetFk_array[0];
-                                        $scope.service.router.selected            = service.idTypeInternetFk<="2"?service.idRouterInternetFk_array[0]:null;
+                                        $scope.service.router.selected            = service.idTypeInternetFk<="2" && service.idRouterInternetFk_array!=undefined && service.idRouterInternetFk_array.length==1?service.idRouterInternetFk_array[0]:null;
                                         $scope.service.update.idInternetCompanyFk = service.idInternetCompanyFk_array[0].idInternetCompany;
                                         $scope.service.update.idServiceFk         = service.idServiceFk_array[0].idTypeInternet;
                                         $scope.list_productsDetails = [];
@@ -2902,6 +2956,18 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                             case "2": //UPDATE INTERNET
                                 $timeout(function() {
                                     var productIdNumber=0;
+                                    blockUI.message('Guardando Servicio '+service.clientTypeServices);
+                                    service.idContracAssociated_SE   = service.idContratoFk;
+                                    service.idRouterInternetFk = service.idTypeInternetFk<="2"?$scope.service.router.selected.idProduct:null;
+                                    service.idModemInternetFk  = $scope.service.modem.selected.idProduct;
+                                    service.macAddress         = service.idTypeInternetFk<="2"?service.macAddr:null;
+                                    service.port               = service.idTypeInternetFk<="2"?service.port:null;
+                                    service.userWifi           = service.idTypeInternetFk<="2"?service.userWifi:null;
+                                    service.passWifi           = service.idTypeInternetFk<="2"?service.passWifi:null;
+                                    service.userAdmin          = service.idTypeInternetFk<="2"?service.userAdmin:null;
+                                    service.passAdmin          = service.idTypeInternetFk<="2"?service.passAdmin:null;
+                                    service.numberLine         = service.idTypeInternetFk<="2"?null:service.numberLine;
+                                    service.numberChip         = service.idTypeInternetFk<="2"?null:service.numberChip;
                                     service.adicional=[];
                                     service.adicional=$scope.list_productsDetails;
                                     blockUI.message('Guardando Servicio '+service.clientTypeServices);
@@ -3254,7 +3320,7 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                         //console.log($scope.rsJsonData);
                         if($scope.rsJsonData.status==200){
                             $scope.rsServicesListByCustomerIdData=$scope.rsJsonData.data;
-                            if(opt=="assign"){$scope.customerFound.contratos=$scope.rsServicesListByCustomerIdData;}
+                            console.log($scope.rsServicesListByCustomerIdData);
                         }else{
                             $scope.rsServicesListByCustomerIdData=[];
                             if($scope.rsContractNotFound==false){
@@ -3699,78 +3765,78 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
             *        GET PRODUCT LIST BY CLASSIFICATION       *
             *                                                 *
             **************************************************/
-                $scope.productListByType={
-                'CONTROL_DE_ACCESOS':[], 
-                'CERRADURA':[],
-                'LECTOR':[],
-                'FUENTE':[], 
-                'BATERIA':[], 
-                'PULSADOR_EMERG':[], 
-                'TECLA_APAG':[], 'DVR':[], 'NVR':[], 'UPS':[], 
-                'CAMARA':[], 'PANEL_ALARM':[], 'TECLADO_ALARM':[], 
-                'SENSOR_ALARM':[], 'MODULO_IP_ALARM':[],'MODULO_GPRS_ALARM':[], 'ROUTER':[], 'MODEM':[], 'DISP_APERTURA':[], 'BACKUP_ENERGIA':[], 'PULSADOR_SALIDA':[], 'PRODUCT_EXIT':[], 'RECORD_DEVICE':[]
-                };
-                $scope.rsProductsList4ServiceData = [];
-                $scope.getProductsList4ServiceFn = function(){
-                    ProductsServices.listProducts4Service().then(function(data){
-                        $scope.rsProductsList4ServiceData = data;
-                        if ($scope.rsProductsList4ServiceData.status==200){
-                            $scope.productListByType.CONTROL_DE_ACCESOS = $scope.rsProductsList4ServiceData.data[0].products;
-                            $scope.productListByType.CERRADURA          = $scope.rsProductsList4ServiceData.data[1].products;
-                            $scope.productListByType.LECTOR             = $scope.rsProductsList4ServiceData.data[2].products;
-                            $scope.productListByType.FUENTE             = $scope.rsProductsList4ServiceData.data[3].products;
-                            $scope.productListByType.BATERIA            = $scope.rsProductsList4ServiceData.data[4].products;
-                            $scope.productListByType.PULSADOR_EMERG     = $scope.rsProductsList4ServiceData.data[5].products;
-                            $scope.productListByType.TECLA_APAG         = $scope.rsProductsList4ServiceData.data[6].products;
-                            $scope.productListByType.DVR                = $scope.rsProductsList4ServiceData.data[7].products;
-                            $scope.productListByType.NVR                = $scope.rsProductsList4ServiceData.data[8].products;
-                            $scope.productListByType.UPS                = $scope.rsProductsList4ServiceData.data[9].products;
-                            $scope.productListByType.CAMARA             = $scope.rsProductsList4ServiceData.data[10].products;
-                            $scope.productListByType.PANEL_ALARM        = $scope.rsProductsList4ServiceData.data[11].products;
-                            $scope.productListByType.TECLADO_ALARM      = $scope.rsProductsList4ServiceData.data[12].products;
-                            $scope.productListByType.SENSOR_ALARM       = $scope.rsProductsList4ServiceData.data[13].products;
-                            $scope.productListByType.MODULO_IP_ALARM    = $scope.rsProductsList4ServiceData.data[14].products;
-                            $scope.productListByType.MODULO_GPRS_ALARM  = $scope.rsProductsList4ServiceData.data[15].products;
-                            $scope.productListByType.ROUTER             = $scope.rsProductsList4ServiceData.data[16].products;
-                            $scope.productListByType.MODEM              = $scope.rsProductsList4ServiceData.data[17].products;
-                            $scope.productListByType.DISP_APERTURA      = $scope.rsProductsList4ServiceData.data[18].products;
-                            $scope.productListByType.PULSADOR_SALIDA    = $scope.rsProductsList4ServiceData.data[19].products;
-                            $scope.productListByType.PRODUCT_EXIT       = $scope.productListByType.LECTOR;
-                            //MERGE THE BATERIAS AND UPS INTO ONE ARRAY TO LIST IN FRONT
-                            $scope.productListByType.BACKUP_ENERGIA=[];
-                            for(var key in $scope.productListByType.BATERIA){
-                                $scope.productListByType.BACKUP_ENERGIA.push($scope.productListByType.BATERIA[key]);
+                    $scope.productListByType={
+                    'CONTROL_DE_ACCESOS':[], 
+                    'CERRADURA':[],
+                    'LECTOR':[],
+                    'FUENTE':[], 
+                    'BATERIA':[], 
+                    'PULSADOR_EMERG':[], 
+                    'TECLA_APAG':[], 'DVR':[], 'NVR':[], 'UPS':[], 
+                    'CAMARA':[], 'PANEL_ALARM':[], 'TECLADO_ALARM':[], 
+                    'SENSOR_ALARM':[], 'MODULO_IP_ALARM':[],'MODULO_GPRS_ALARM':[], 'ROUTER':[], 'MODEM':[], 'DISP_APERTURA':[], 'BACKUP_ENERGIA':[], 'PULSADOR_SALIDA':[], 'PRODUCT_EXIT':[], 'RECORD_DEVICE':[]
+                    };
+                    $scope.rsProductsList4ServiceData = [];
+                    $scope.getProductsList4ServiceFn = function(){
+                        ProductsServices.listProducts4Service().then(function(data){
+                            $scope.rsProductsList4ServiceData = data;
+                            if ($scope.rsProductsList4ServiceData.status==200){
+                                $scope.productListByType.CONTROL_DE_ACCESOS = $scope.rsProductsList4ServiceData.data[0].products;
+                                $scope.productListByType.CERRADURA          = $scope.rsProductsList4ServiceData.data[1].products;
+                                $scope.productListByType.LECTOR             = $scope.rsProductsList4ServiceData.data[2].products;
+                                $scope.productListByType.FUENTE             = $scope.rsProductsList4ServiceData.data[3].products;
+                                $scope.productListByType.BATERIA            = $scope.rsProductsList4ServiceData.data[4].products;
+                                $scope.productListByType.PULSADOR_EMERG     = $scope.rsProductsList4ServiceData.data[5].products;
+                                $scope.productListByType.TECLA_APAG         = $scope.rsProductsList4ServiceData.data[6].products;
+                                $scope.productListByType.DVR                = $scope.rsProductsList4ServiceData.data[7].products;
+                                $scope.productListByType.NVR                = $scope.rsProductsList4ServiceData.data[8].products;
+                                $scope.productListByType.UPS                = $scope.rsProductsList4ServiceData.data[9].products;
+                                $scope.productListByType.CAMARA             = $scope.rsProductsList4ServiceData.data[10].products;
+                                $scope.productListByType.PANEL_ALARM        = $scope.rsProductsList4ServiceData.data[11].products;
+                                $scope.productListByType.TECLADO_ALARM      = $scope.rsProductsList4ServiceData.data[12].products;
+                                $scope.productListByType.SENSOR_ALARM       = $scope.rsProductsList4ServiceData.data[13].products;
+                                $scope.productListByType.MODULO_IP_ALARM    = $scope.rsProductsList4ServiceData.data[14].products;
+                                $scope.productListByType.MODULO_GPRS_ALARM  = $scope.rsProductsList4ServiceData.data[15].products;
+                                $scope.productListByType.ROUTER             = $scope.rsProductsList4ServiceData.data[16].products;
+                                $scope.productListByType.MODEM              = $scope.rsProductsList4ServiceData.data[17].products;
+                                $scope.productListByType.DISP_APERTURA      = $scope.rsProductsList4ServiceData.data[18].products;
+                                $scope.productListByType.PULSADOR_SALIDA    = $scope.rsProductsList4ServiceData.data[19].products;
+                                $scope.productListByType.PRODUCT_EXIT       = $scope.productListByType.LECTOR;
+                                //MERGE THE BATERIAS AND UPS INTO ONE ARRAY TO LIST IN FRONT
+                                $scope.productListByType.BACKUP_ENERGIA=[];
+                                for(var key in $scope.productListByType.BATERIA){
+                                    $scope.productListByType.BACKUP_ENERGIA.push($scope.productListByType.BATERIA[key]);
+                                }
+                                for(var key in $scope.productListByType.UPS){
+                                    $scope.productListByType.BACKUP_ENERGIA.push($scope.productListByType.UPS[key]);
+                                }
+                                //MERGE THE DVR AND NVR INTO ONE ARRAY TO LIST IN FRONT
+                                $scope.productListByType.RECORD_DEVICE=[];
+                                for(var key in $scope.productListByType.DVR){
+                                    $scope.productListByType.RECORD_DEVICE.push($scope.productListByType.DVR[key]);
+                                }
+                                for(var key in $scope.productListByType.NVR){
+                                    $scope.productListByType.RECORD_DEVICE.push($scope.productListByType.NVR[key]);
+                                }                
+                                //$scope.productListByType.BACKUP_ENERGIA.push({})
+                                //console.log($scope.productListByType);
+                            }else{
+                                console.log("Error verificar servicio.")
                             }
-                            for(var key in $scope.productListByType.UPS){
-                                $scope.productListByType.BACKUP_ENERGIA.push($scope.productListByType.UPS[key]);
-                            }
-                            //MERGE THE DVR AND NVR INTO ONE ARRAY TO LIST IN FRONT
-                            $scope.productListByType.RECORD_DEVICE=[];
-                            for(var key in $scope.productListByType.DVR){
-                                $scope.productListByType.RECORD_DEVICE.push($scope.productListByType.DVR[key]);
-                            }
-                            for(var key in $scope.productListByType.NVR){
-                                $scope.productListByType.RECORD_DEVICE.push($scope.productListByType.NVR[key]);
-                            }                
-                            //$scope.productListByType.BACKUP_ENERGIA.push({})
-                            //console.log($scope.productListByType);
-                        }else{
-                            console.log("Error verificar servicio.")
+                            //console.log($scope.productListByType.PULSADOR_EMERG);  
+                        });
+                    };
+                    $scope.switchProducList=function(opt){
+                        //console.log(opt);
+                        switch (opt){
+                            case false:
+                            $scope.productListByType.PRODUCT_EXIT=$scope.productListByType.LECTOR;
+                            break;
+                            case true:
+                            $scope.productListByType.PRODUCT_EXIT=$scope.productListByType.PULSADOR_SALIDA;
+                            break;
                         }
-                        //console.log($scope.productListByType.PULSADOR_EMERG);  
-                    });
-                };
-                $scope.switchProducList=function(opt){
-                    //console.log(opt);
-                    switch (opt){
-                        case false:
-                        $scope.productListByType.PRODUCT_EXIT=$scope.productListByType.LECTOR;
-                        break;
-                        case true:
-                        $scope.productListByType.PRODUCT_EXIT=$scope.productListByType.PULSADOR_SALIDA;
-                        break;
                     }
-                }
             /**************************************************
             *                                                 *
             *              Add item List Product              *
@@ -4575,8 +4641,8 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                                         name: 'hoja_acceso_usuario'+user.name+'.pdf',
                                         title: 'HOJA DE DATOS DE ACCESO',
                                         subject: 'PROGRAMAS DE VISUALIZACIÓN',
-                                        author: 'SEGURIDAD TASS',
-                                        keywords: 'security, tass, service, web',
+                                        author: 'BSS SEGURIDAD',
+                                        keywords: 'security, bss, service, web',
                                         creator: 'MEEE'
                                     });            
                                     doc.setLineWidth(0.1);

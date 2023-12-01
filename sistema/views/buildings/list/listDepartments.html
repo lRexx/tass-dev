@@ -49,7 +49,7 @@
                     <span class="input-group-addon"><i class="glyphicon icon-key"></i></span>
                     <input type="text" data-toggle="tooltip" readonly="true" data-placement="bottom" placeholder="Codigo no generado" title="Codigo de Seguridad" ng-model="building.idSecurityCode"  ng-change="dayDataCollapseFn();" class="form-control">
                     <span ng-if="building.idSecurityCode!=undefined && building.idSecurityCode!=null && building.idSecurityCode!=''" style="cursor: pointer;" class="btn input-group-addon" data-toggle="tooltip" data-placement="right" title="Copiar" type="button" ngclipboard data-clipboard-text="{{building.idSecurityCode}}"><i class="product-success fas fa-copy"></i></span>
-                    <span ng-if="building.idSecurityCode==undefined || building.idSecurityCode==null || building.idSecurityCode==''" style="cursor: pointer;" class="btn input-group-addon" data-toggle="tooltip" data-placement="right" title="Generar" type="button"><i class="product-success fas fa-cogs"></i></span>
+                    <span ng-if="building.idSecurityCode==undefined || building.idSecurityCode==null || building.idSecurityCode==''" ng-click="switchBuildingFn('securityCode', building);" style="cursor: pointer;" class="btn input-group-addon" data-toggle="tooltip" data-placement="right" title="Generar" type="button"><i class="product-success fas fa-cogs"></i></span>
                 </div>
             </div>
         </div>

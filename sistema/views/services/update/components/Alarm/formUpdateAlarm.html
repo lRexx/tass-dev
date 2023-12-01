@@ -127,7 +127,7 @@
 									  				(service.alarmPanel.selected==undefined) && fCustomerUpdateService.service_alarm_panel.$touched,
 									  			}">
 							<div class="col-md-8"><label style="padding-left: 15px;">Panel de alarma</label></div>
-							<div class="pull-right col-md-4"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.alarmPanel.selected==undefined" ng-click="compServiceProductDetailsFn(service.alarmPanel.selected, productListType.PANEL_ALARM)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+							<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.alarmPanel.selected==undefined" ng-click="compServiceProductDetailsFn(service.alarmPanel.selected, productListType.PANEL_ALARM)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 							  	<button ng-if="service.alarmPanel.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeProductDetailsFn(service.alarmPanel.selected, productListType.PANEL_ALARM, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>  
 							    <div class="col-xs-12 selectContainer">							   
 								    <div class="input-group">
@@ -159,7 +159,7 @@
 									  				(service.alarmKeyboard.selected==undefined) && fCustomerUpdateService.service_teclado_alarma.$touched,
 									  			}">
 							<div class="col-md-8"><label style="padding-left: 15px;">Teclado de Alarma</label></div>
-							<div class="pull-right col-md-4"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.alarmKeyboard.selected==undefined" ng-click="compServiceProductDetailsFn(service.alarmKeyboard.selected, productListType.TECLADO_ALARM)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+							<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.alarmKeyboard.selected==undefined" ng-click="compServiceProductDetailsFn(service.alarmKeyboard.selected, productListType.TECLADO_ALARM)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 							  	<button ng-if="service.alarmKeyboard.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeProductDetailsFn(service.alarmKeyboard.selected, productListType.TECLADO_ALARM, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>  
 							    <div class="col-xs-12 selectContainer">							   
 								    <div class="input-group">
@@ -264,7 +264,7 @@
 							<div class="col-md-12">
 								<div class="col-md-8">
 									<label class="clf-p-left">Backups de Energia</label></div>
-								<div class="pull-right col-md-4" style="padding-bottom: 5px;"><button ng-click="loadDetailModalWindow(service.batteries.selected)" ng-disabled="service.batteries.selected==undefined" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</button></div>
+								<div class="pull-right col-md-4 n-padding-r" style="padding-bottom: 5px;"><button ng-click="loadDetailModalWindow(service.batteries.selected)" ng-disabled="service.batteries.selected==undefined" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</button></div>
 							    <div class="selectContainer">							   
 								    <div class="col-md-12 input-group">
 						              	<span class="input-group-addon"><i class="fas fa-car-battery"></i></span>

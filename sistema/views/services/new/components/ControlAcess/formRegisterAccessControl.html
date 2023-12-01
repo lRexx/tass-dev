@@ -133,7 +133,7 @@
 								  				(service.crtlAccess.selected==undefined) && fCustomerNewService.service_crtl_access.$touched,
 								  			}">
 						<div class="col-md-8"><label style="padding-left: 15px;">Control de Acceso</label></div>
-						<div class="pull-right col-md-4"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.crtlAccess.selected==undefined" ng-click="compServiceProductDetailsFn(service.crtlAccess.selected, productListType.CONTROL_DE_ACCESOS)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+						<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.crtlAccess.selected==undefined" ng-click="compServiceProductDetailsFn(service.crtlAccess.selected, productListType.CONTROL_DE_ACCESOS)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 						  	<button ng-if="service.crtlAccess.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeProductDetailsFn(service.crtlAccess.selected, productListType.CONTROL_DE_ACCESOS, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>  
 						    <div class="col-xs-12 selectContainer">							   
 							    <div class="input-group">
@@ -165,7 +165,7 @@
 								  				(service.lockedIt.selected==undefined) && fCustomerNewService.service_locked.$touched,
 								  			}">
 						<div class="col-md-8"><label style="padding-left: 15px;">Cerradura </label></div>
-						<div class="pull-right col-md-4"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.lockedIt.selected, productListType.CERRADURA)" ng-disabled="service.lockedIt.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+						<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.lockedIt.selected, productListType.CERRADURA)" ng-disabled="service.lockedIt.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 						  <button ng-if="service.lockedIt.selected!=undefined" data-toggle="tooltip" data-placement="top" title="Remover" ng-click="removeProductDetailsFn(service.lockedIt.selected, productListType.CERRADURA, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
 						    <div class="col-xs-12 selectContainer">							   
 							    <div class="input-group">
@@ -197,7 +197,7 @@
 								  				(service.entranceReader.selected==undefined) && fCustomerNewService.service_entranceReader.$touched,
 								  			}">
 						<div class="col-md-8"><label style="padding-left: 15px;">Lector de entrada </label></div>
-						<div class="pull-right col-md-4"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.entranceReader.selected, productListType.LECTOR_ENT, 'entrance')" ng-disabled="service.entranceReader.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+						<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.entranceReader.selected, productListType.LECTOR_ENT, 'entrance')" ng-disabled="service.entranceReader.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 						  <button ng-if="service.entranceReader.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeProductDetailsFn(service.entranceReader.selected, productListType.LECTOR_ENT, 'entrance')" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
 						    <div class="col-xs-12 selectContainer">							   
 							    <div class="input-group">
@@ -229,7 +229,7 @@
 								  				(service.powerSupply.selected==undefined) && fCustomerNewService.service_powerSupply.$touched,
 								  			}">
 						<div class="col-md-8"><label style="padding-left: 15px;">Fuente</label></div>
-						<div class="pull-right col-md-4"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.powerSupply.selected, productListType.FUENTE)" ng-disabled="service.powerSupply.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+						<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.powerSupply.selected, productListType.FUENTE)" ng-disabled="service.powerSupply.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 						  	<button ng-if="service.powerSupply.selected!=undefined" data-toggle="tooltip" data-placement="top" title="Remover" ng-click="removeProductDetailsFn(service.powerSupply.selected, productListType.FUENTE, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
 						    <div class="col-xs-12 selectContainer">							   
 							    <div class="input-group">
@@ -276,7 +276,7 @@
 								</label>
 								<label>Pulsador&nbsp;</label>
 							</div>									  			
-							<div class="pull-right col-md-4">  			
+							<div class="pull-right col-md-4 n-padding-r">  			
 								<button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.exitReader.selected, productListType.PRODUCT_EXIT, 'exit')" ng-disabled="service.exitReader.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 								  <button ng-if="service.exitReader.selected!=undefined" data-toggle="tooltip" data-placement="top" title="Remover" ng-click="removeProductDetailsFn(service.exitReader.selected, productListType.PRODUCT_EXIT, 'exit')" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button>
 							</div>					
@@ -321,7 +321,7 @@
 						<div class="form-group col-md-6" style="margin-left: 15px; padding-right: 45px;">
 							<div class="col-md-8">
 								<label class="clf-p-left">Dispositivos de Apertura</label></div>
-							<div class="pull-right col-md-4" style="padding-bottom: 5px;"><button ng-click="loadDetailModalWindow(service.openDevices.selected)" ng-disabled="service.openDevices.selected==undefined" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</button></div>
+							<div class="pull-right col-md-4 n-padding-r" style="padding-bottom: 5px;"><button ng-click="loadDetailModalWindow(service.openDevices.selected)" ng-disabled="service.openDevices.selected==undefined" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</button></div>
 						    <div class="selectContainer">							   
 							    <div class="col-md-12 input-group">
 					              	<span class="input-group-addon"><i class="fas fa-car-battery"></i></span>
@@ -444,7 +444,7 @@
 								  				(service.emergencyButton.selected==undefined) && fCustomerNewService.service_emergencyButton.$touched,
 								  			}">
 						<div class="col-md-8"><label style="padding-left: 15px;">Pulsador de Emergencia</label></div>
-						<div class="pull-right col-md-4"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.emergencyButton.selected, productListType.PULSADOR_EMERG)" ng-disabled="service.emergencyButton.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+						<div class="pull-right col-md-4 n-padding-r"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.emergencyButton.selected, productListType.PULSADOR_EMERG)" ng-disabled="service.emergencyButton.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 					  <button ng-if="service.emergencyButton.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeProductDetailsFn(service.emergencyButton.selected, productListType.PULSADOR_EMERG, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
 					    <div class="col-xs-12 selectContainer">							   
 						    <div class="input-group">
@@ -484,7 +484,7 @@
 								  				(service.TurnOffKey.selected==undefined) && fCustomerNewService.service_TurnOffKey.$touched,
 								  			}">
 					  	<div class="col-md-8"><label style="padding-left: 15px;">Tecla de apagado</label></div>
-						<div class="pull-right col-md-4"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.TurnOffKey.selected, productListType.TECLA_APAG)" ng-disabled="service.TurnOffKey.selected==undefined"  class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+						<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.TurnOffKey.selected, productListType.TECLA_APAG)" ng-disabled="service.TurnOffKey.selected==undefined"  class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 					  <button ng-if="service.TurnOffKey.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeProductDetailsFn(service.TurnOffKey.selected, productListType.TECLA_APAG, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
 					    <div class="col-xs-12 selectContainer">							   
 						    <div class="input-group">

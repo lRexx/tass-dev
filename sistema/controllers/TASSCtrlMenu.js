@@ -63,7 +63,9 @@
       $scope.sysToken             = tokenSystem.getTokenStorage(1);
       $scope.sysLoggedUser        = tokenSystem.getTokenStorage(2);
       $scope.sysLoggedUserModules = tokenSystem.getTokenStorage(6);
-      //if ((!$scope.sysToken || $scope.sysToken==null || $scope.sysToken==undefined) && (!$scope.sysLoggedUser || $scope.sysLoggedUser==null || $scope.sysLoggedUser==undefined)){
+      var statusPath = /(status\/)+([A-z_]{4,15})+\/\d/;
+      var currentUrl = $location.path();
+      //if (!currentUrl.match(statusPath) && (!$scope.sysToken || $scope.sysToken==null || $scope.sysToken==undefined) && (!$scope.sysLoggedUser || $scope.sysLoggedUser==null || $scope.sysLoggedUser==undefined)){
       //  console.log("Redirecting to login page....");
       //  $location.path("/login");
       //}
@@ -72,7 +74,7 @@
       *         PARAMETER TO AUTHORIZE A DEPTO          *
       *                                                 *
       **************************************************/
-      console.log($scope.sysLoggedUser);
+      //console.log($scope.sysLoggedUser);
       $scope.pattOnlyNumbersX2         = /^[0-9]{1,2}$/;
       $scope.pattX2CharactersNumbersX2 = /^(pb|PB)|^[0-9]{1,2}$/;
       $scope.pattX3CharactersNumbersX3 = /^([a-zA-Z]|[\d])|^[0-9]{1,3}$/;
@@ -147,6 +149,9 @@
             break;
             case "10":
               $scope.sysModules.idPedidos=true;
+            break;
+            case "11":
+              $scope.sysModules.idTechnician=true;
             break;
             default:
           }
@@ -1003,8 +1008,8 @@
                   });
               }
             };
-            var statusPath = /(status\/)+([A-z_]{4,15})+\/\d/;
-            var currentUrl = $location.path();
+
+            //console.log(currentUrl);
       if ($location.path() != "/register" && $location.path() != "/forgotpwd" && $location.path() != "/newpwd" && !currentUrl.match(statusPath)){
         //console.log($location.path());
         if (!$scope.sysToken || $scope.sysLoggedUser==undefined || $scope.sysLoggedUserModules==undefined){

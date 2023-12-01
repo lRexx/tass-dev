@@ -211,11 +211,11 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
           //$('#uploadBillingTicketfiles ').trigger('click');
         };
 
-      /**************************************************
-      *                                                 *
-      *                 MODAL CONFIRMATION              *
-      *                                                 *
-      **************************************************/
+    /**************************************************
+    *                                                 *
+    *                 MODAL CONFIRMATION              *
+    *                                                 *
+    **************************************************/
         $scope.argObj=null;
         $scope.modalConfirmation = function(opt, confirm, obj){
           $scope.swMenu = opt;
@@ -487,130 +487,130 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
     *   GET COST OF SERVICES BY CUSTOMER ID           *
     *                                                 *
     **************************************************/
-      $scope.getServiceCostByCustomerFn = function(data){
-        serviceServices.getServiceCostByCustomer(data).then(function(response) {
-            if(response.status==200){
-                $scope.ticket.cost.service = Number(response.data[0].cost);
-                $scope.customerCosts=true;
-            }else if (response.status==404){
-                inform.add('El consorcio no presenta costos de servicios asociados, contacte al area de soporte de TASS.',{
-                    ttl:3000, type: 'warning'
-                });
-                $scope.customerCosts=false;
-                $scope.ticket.cost.service = 0;
-            }else if (response.status==500){
-                inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
-                ttl:3000, type: 'danger'
-                });
-                $scope.ticket.cost.service = 0;
-                $scope.customerCosts=false;
-            }
-        });
-      }
+        $scope.getServiceCostByCustomerFn = function(data){
+          serviceServices.getServiceCostByCustomer(data).then(function(response) {
+              if(response.status==200){
+                  $scope.ticket.cost.service = Number(response.data[0].cost);
+                  $scope.customerCosts=true;
+              }else if (response.status==404){
+                  inform.add('El consorcio no presenta costos de servicios asociados, contacte al area de soporte de BSS.',{
+                      ttl:3000, type: 'warning'
+                  });
+                  $scope.customerCosts=false;
+                  $scope.ticket.cost.service = 0;
+              }else if (response.status==500){
+                  inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
+                  ttl:3000, type: 'danger'
+                  });
+                  $scope.ticket.cost.service = 0;
+                  $scope.customerCosts=false;
+              }
+          });
+        }
     /**************************************************
     *                                                 *
     *         LIST OF ATTENDANTS BY ID ADDRESS        *
     *                                                 *
     **************************************************/
-      $scope.attendantListByAddress = [];
-      $scope.getAttendantListFn = function(idAddress){
-          $scope.attendantListByAddress = [];
-          userServices.attendantsOnlyList(idAddress).then(function(response) {
-              if(response.status==200){
-                  $scope.attendantListByAddress = response.data;
-                  $scope.attendantFound=true;
-              }else if (response.status==404){
-                  $scope.attendantFound=false;
-                  $scope.attendantListByAddress = [];
-                  inform.add('No se encontraron Encargados asociados al consorcio seleccionado. ',{
-                      ttl:5000, type: 'info'
-                  });
-              }else if (response.status==500){
-                  $scope.attendantFound=false;
-                  inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
-                      ttl:5000, type: 'danger'
-                  });
-              }
-          });
-          
-      }
+        $scope.attendantListByAddress = [];
+        $scope.getAttendantListFn = function(idAddress){
+            $scope.attendantListByAddress = [];
+            userServices.attendantsOnlyList(idAddress).then(function(response) {
+                if(response.status==200){
+                    $scope.attendantListByAddress = response.data;
+                    $scope.attendantFound=true;
+                }else if (response.status==404){
+                    $scope.attendantFound=false;
+                    $scope.attendantListByAddress = [];
+                    inform.add('No se encontraron Encargados asociados al consorcio seleccionado. ',{
+                        ttl:5000, type: 'info'
+                    });
+                }else if (response.status==500){
+                    $scope.attendantFound=false;
+                    inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                        ttl:5000, type: 'danger'
+                    });
+                }
+            });
+            
+        }
     /**************************************************
     *                                                 *
     *              GET STATUS TICKET LIST             *
     *                                                 *
     **************************************************/
-      $scope.listStatusTicket=null;
-      $scope.listStatusTicketChange=null;
-      $scope.getTicketStatusTypeListFn = function(){
-        ticketServices.getTicketStatusTypeList().then(function(response){
-          if(response.status==200){
-                  $scope.listStatusTicket       = response.data;
-                  $scope.listStatusTicketChange = response.data;
-          }else if (response.status==404){
-              inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
-                  ttl:3000, type: 'danger'
-              });
-                  $scope.listStatusTicket       = null;
-                  $scope.listStatusTicketChange = null;
-          }else if (response.status==500){
-              inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
-              ttl:3000, type: 'danger'
-              });
-              $scope.listStatusTicket       = null;
-              $scope.listStatusTicketChange = null;
-          }
-        });
-      };$scope.getTicketStatusTypeListFn();
+        $scope.listStatusTicket=null;
+        $scope.listStatusTicketChange=null;
+        $scope.getTicketStatusTypeListFn = function(){
+          ticketServices.getTicketStatusTypeList().then(function(response){
+            if(response.status==200){
+                    $scope.listStatusTicket       = response.data;
+                    $scope.listStatusTicketChange = response.data;
+            }else if (response.status==404){
+                inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
+                    ttl:3000, type: 'danger'
+                });
+                    $scope.listStatusTicket       = null;
+                    $scope.listStatusTicketChange = null;
+            }else if (response.status==500){
+                inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
+                ttl:3000, type: 'danger'
+                });
+                $scope.listStatusTicket       = null;
+                $scope.listStatusTicketChange = null;
+            }
+          });
+        };$scope.getTicketStatusTypeListFn();
     /**************************************************
     *                                                 *
     *              GET TICKET TYPES LIST              *
     *                                                 *
     **************************************************/
-     $scope.getTypeTicketListFn = function(){
-      ticketServices.getTypeTicketList().then(function(response){
-        if(response.status==200){
-                $scope.listTypeTicket = response.data;
-        }else if (response.status==404){
-            inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
-                ttl:3000, type: 'danger'
-            });
-                $scope.listTypeTicket = undefined;
-        }else if (response.status==500){
-            inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
-            ttl:3000, type: 'danger'
-            });
-            $scope.listTypeTicket = undefined;
-        }
-      });
-    };$scope.getTypeTicketListFn();
+      $scope.getTypeTicketListFn = function(){
+        ticketServices.getTypeTicketList().then(function(response){
+          if(response.status==200){
+                  $scope.listTypeTicket = response.data;
+          }else if (response.status==404){
+              inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
+                  ttl:3000, type: 'danger'
+              });
+                  $scope.listTypeTicket = undefined;
+          }else if (response.status==500){
+              inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
+              ttl:3000, type: 'danger'
+              });
+              $scope.listTypeTicket = undefined;
+          }
+        });
+      };$scope.getTypeTicketListFn();
     /**************************************************
     *                                                 *
     *                  OPEN A TICKET                  *
     *                                                 *
     **************************************************/
-     $scope.tkupdate = {};
-     $scope.tktmporal = {};
-     $scope.rsData = {};
-     $scope.openTicketFn = function(idTicket){
-       //$scope.tkupdate  = obj;
-       //$scope.tktmporal = obj;
-       //ticketServices.ticketByToken(obj.urlToken);
-       //console.log(obj);
-       $scope.editComment=false;
-       ticketServices.ticketById(idTicket).then(function(response){
-          if(response.status==200){
-            $scope.rsData.ticket = (response.data[0]);
-            $scope.tkupdate = response.data[0];
-            console.log($scope.rsData);
-          }else if (response.status==404){
-              $scope.rsData = {};
-              $scope.tkupdate = {};
-          }else if (response.status==500){
-              $scope.rsData = {};
-              $scope.tkupdate = {};
-          }
-       });
-     }
+      $scope.tkupdate = {};
+      $scope.tktmporal = {};
+      $scope.rsData = {};
+      $scope.openTicketFn = function(idTicket){
+        //$scope.tkupdate  = obj;
+        //$scope.tktmporal = obj;
+        //ticketServices.ticketByToken(obj.urlToken);
+        //console.log(obj);
+        $scope.editComment=false;
+        ticketServices.ticketById(idTicket).then(function(response){
+            if(response.status==200){
+              $scope.rsData.ticket = (response.data[0]);
+              $scope.tkupdate = response.data[0];
+              console.log($scope.rsData);
+            }else if (response.status==404){
+                $scope.rsData = {};
+                $scope.tkupdate = {};
+            }else if (response.status==500){
+                $scope.rsData = {};
+                $scope.tkupdate = {};
+            }
+        });
+      }
     /**************************************************
     *                                                 *
     *                GET DELIVERY TYPES               *
@@ -625,7 +625,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $scope.typedelivery_filter = response.data;
               }else if (response.status==404){
                   $scope.typedelivery_filter = [];
-                  inform.add('No hay tipos de deliverys registrados, contacte al area de soporte de TASS.',{
+                  inform.add('No hay tipos de deliverys registrados, contacte al area de soporte de BSS.',{
                   ttl:5000, type: 'warning'
                   });
               }else if (response.status==500){
@@ -650,7 +650,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $scope.listDeliveryCompanies_filter = response.data;
               }else if (response.status==404){
                   $scope.listDeliveryCompanies_filter = [];
-                  inform.add('No hay empresas de delivery registrados, contacte al area de soporte de TASS.',{
+                  inform.add('No hay empresas de delivery registrados, contacte al area de soporte de BSS.',{
                   ttl:5000, type: 'warning'
                   });
               }else if (response.status==500){
@@ -661,37 +661,35 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               }
           });
       };
-
-
-    /**************************************************
+     /**************************************************
      *                                                 *
      *           REQUEST CANCELLATION TICKET           *
      *                                                 *
      **************************************************/
-      $scope.sysRequestCancellationTicketFn = function(data){
-        console.log(data);
-          ticketServices.requestCancelTicket(data).then(function(response){
-            console.log(response);
-            if(response.status==200){
-              console.log("CANCELLATION REQUEST CREATED SUCCESSFULLY");
-                inform.add('La solicitud de cancelación del pedido N°: '+data.ticket.codTicket+' ha sido registrada satisfactoriamente.',{
-                  ttl:3000, type: 'success'
-                });
-                $scope.openTicketFn(data.ticket.idTicket);
-                $scope.mainSwitchFn('search', null);
-              }else if(response.status==500){
-                console.log("Ticket Cancellation request has failed, contact administrator");
-                inform.add('Error: [500] Contacta al area de soporte. ',{
-                      ttl:5000, type: 'danger'
-                });
-              }
-          });
-      }
-   /**************************************************
-   *                                                 *
-   *       REJECT REQUEST CANCELLATION TICKET        *
-   *                                                 *
-   **************************************************/
+        $scope.sysRequestCancellationTicketFn = function(data){
+          console.log(data);
+            ticketServices.requestCancelTicket(data).then(function(response){
+              console.log(response);
+              if(response.status==200){
+                console.log("CANCELLATION REQUEST CREATED SUCCESSFULLY");
+                  inform.add('La solicitud de cancelación del pedido N°: '+data.ticket.codTicket+' ha sido registrada satisfactoriamente.',{
+                    ttl:3000, type: 'success'
+                  });
+                  $scope.openTicketFn(data.ticket.idTicket);
+                  $scope.mainSwitchFn('search', null);
+                }else if(response.status==500){
+                  console.log("Ticket Cancellation request has failed, contact administrator");
+                  inform.add('Error: [500] Contacta al area de soporte. ',{
+                        ttl:5000, type: 'danger'
+                  });
+                }
+            });
+        }
+     /**************************************************
+     *                                                 *
+     *       REJECT REQUEST CANCELLATION TICKET        *
+     *                                                 *
+     **************************************************/
         $scope.sysRejectRequestCancellationTicketFn = function(data){
             console.log(data);
             ticketServices.rejectRequestCancelTicket(data).then(function(response){
@@ -712,556 +710,475 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
             });
         }
 
-   /**************************************************
-   *                                                 *
-   *               CANCELAR TICKET                   *
-   *                                                 *
-   **************************************************/
-      $scope.sysCancelTicketFn = function(data){
-        console.log(data);
-        ticketServices.cancelTicket(data).then(function(response){
-          console.log(response);
-          if(response.status==200){
-            console.log("TICKET CANCELED SUCCESSFULLY");
-              inform.add('El pedido N°: '+data.ticket.codTicket+' ha sido cancelado.',{
-                ttl:3000, type: 'success'
-              });
-              $scope.openTicketFn(data.ticket.idTicket);
-              $scope.mainSwitchFn('search', null);
-            }else if(response.status==404){
-              console.log("Ticket cancel process has failed, contact administrator");
-              inform.add('Error: [404] CTicket no ha sido cancelado conctate el area de soporte. ',{
-                    ttl:5000, type: 'danger'
-              });
-            }else if(response.status==500){
-              console.log("Ticket cancel process has failed, contact administrator");
-              inform.add('Error: [500] Contacta al area de soporte. ',{
-                    ttl:5000, type: 'danger'
-              });
-            }
-        });
-      }
-   
-   /**************************************************
-   *                                                 *
-   *       VERIFICAR TICKET ANTES DE CANCELAR        *
-   *                                                 *
-   **************************************************/
-      $scope.cancelOption = 0;
-      $scope.sysCheckTicketBeforeCancelFn = function(ticketID, idUser){
-        console.clear();
-          ticketServices.checkTicketBeforeCancel(ticketID).then(function(data){
-            $scope.ticketResult = data;
-            if($scope.ticketResult==1){
-              inform.add('Se procede a cancelar el Ticket.',{
-                ttl:3000, type: 'success'
-              });
-              $('#CancelNotificationModal').modal('show');
-              $scope.cancelOption = 3;
-            }else{
-              $scope.cancelOption = 2;
-              $('#CancelNotificationModal').modal('show');
-              inform.add('Se inicia la cancelacion que sera enviada para aprobacion.',{
-                ttl:3000, type: 'warning'
-              });
-            }
-          });
-      }
-    
-   /**************************************************
-   *                                                 *
-   *        CANCELACION DE  TICKET RECHAZADA         *
-   *                                                 *
-   **************************************************/
-      $scope.sysRejectedChgOrCancelTicketFn = function(rsData ){
-          console.clear();
-          ticketServices.rejectedChOrCanTicket(rsData.idTicket, rsData.isChgOrCancel).then(function(data){
-            $scope.ticketResult = data;
-            if($scope.ticketResult){
-                if(rsData.isChgOrCancel==1){
-                  console.log("[sysRejectedCancelTicketFn] => TICKET CHANGE REJECTED SUCCESSFULLY");
-                }else if(rsData.isChgOrCancel==0){
-                  console.log("[sysRejectedCancelTicketFn] => TICKET CANCEL REJECTED SUCCESSFULLY");
-                }
-              $scope.dhboard();
-
-            }else{
-              inform.add('Ticket no ha sido cancelado conctate el area de soporte.',{
-                ttl:3000, type: 'warning'
-              });
-            }
-          });
-      }
-     
-    /**************************************************
-    *                                                 *
-    *              CHANGE STATUS TICKET               *
-    *                                                 *
-    **************************************************/
-      $scope.sysChangueStatusFn = function(ticketId, statusId){
-          ticketServices.changueStatus(ticketId, statusId).then(function(data){});
-      }
-    /**************************************************
-    *                                                 *
-    *                   UPDATE TICKET                 *
-    *                                                 *
-    **************************************************/
-      var isTotalHasChange = false;
-      $scope.sysUpdateTicketFn = function(ticketID){
-        console.clear();
-        var updateTotalService = $scope.tkupdate.totalService;
-        console.log("[sysUpdateTicketFn] -> updateTotalService: "+updateTotalService);
-            if ($scope.delivery.idTypeDeliveryKf==1){
-              isTotalHasChange = true;
-              $scope.tkupdate.typeDelivery              ="RETIRO POR OFICINA";
-              $scope.tkupdate.idUserAttendantKfDelivery = null;
-              $scope.tkupdate.nameAttendantDelivery     = "";
-              updateTotalService -=$scope.tkupdate.priceShipping;
-              $scope.tkupdate.totalService = Number(updateTotalService);
-            }else if($scope.delivery.idTypeDeliveryKf==2 && $scope.select.whoPickUp!=3){
-              console.log("[sysUpdateTicketFn] -> $scope.deliveryAtt.fullNameUser: "+$scope.deliveryAtt.fullNameUser);
-              $scope.tkupdate.typeDelivery              ="ENTREGA EN EL EDIFICIO";
-              $scope.tkupdate.totalGestion              = 0;
-              $scope.tkupdate.totalLlave                = 0;
-              $scope.tkupdate.totalEnvio                = 0;
-              $scope.tkupdate.totalService              = (isTotalHasChange==true || isTotalHasChange==false) && $scope.rsData.ticket.idTypeDeliveryKf!=$scope.delivery.idTypeDeliveryKf ? Number(updateTotalService)+Number($scope.tkupdate.priceShipping):updateTotalService;
-              $scope.tkupdate.idUserAttendantKfDelivery = $scope.delivery.nameAtt;
-              $scope.tkupdate.nameAttendantDelivery     = $scope.deliveryAtt.fullNameUser;
-              isTotalHasChange = false;
-            }
-
-            /* THIRD PERSON FIELDS */
-            $scope.tkupdate.idUserAttendantKfDelivery   = $scope.select.whoPickUp!=3?$scope.delivery.nameAtt:null;
-            $scope.tkupdate.thirdPersonNames            = $scope.select.whoPickUp==3?$scope.third.names:null;
-            $scope.tkupdate.thirdPersonPhone            = $scope.select.whoPickUp==3?$scope.third.movilPhone:null;
-            $scope.tkupdate.thirdPersonId               = $scope.select.whoPickUp==3?$scope.third.dni:null;
-            $scope.tkupdate.idTypeDeliveryKf            = $scope.delivery.idTypeDeliveryKf;
-            $scope.tkupdate.idWhoPickUpKf               = $scope.select.whoPickUp;
-
-            //$scope.tkupdate.idAdressKf                = !$scope.tkupdate.idAdressKf ? $scope.tkupdate.idAdress : $scope.tkupdate.idAdressKf;
-            //$scope.tkupdate.idCompanyKf               = !$scope.tkupdate.idCompanyKf ? $scope.tkupdate.idCompany : $scope.tkupdate.idCompanyKf;
-            //$scope.sendTicketData2Update($http, $scope);
-            if (($scope.tkupdate.idStatusTicketKf==2 || $scope.tkupdate.idStatusTicketKf==3) && ($scope.tkupdate.SA_NRO_ORDER<=0 || $scope.tkupdate.SA_NRO_ORDER==null || !$scope.tkupdate.SA_NRO_ORDER)){
-              console.log("UPDATING THE DELIVERY DATA");
-              $scope.sendTicketData2Update($http, $scope);
-            }else{
-              console.log("ADDING TEMP DELIVERY DATA");
-              $scope.sysTempDelivCancelDataFn(1);
-            }
-            
-      }
-
-      $scope.sendTicketData2Update = function($http, $scope){
-            /* ASSIGN THE VALUES TO THE ROWS AFFECTED TO SAVE */
-
-            $scope.rsData.ticket.totalService              = $scope.tkupdate.totalService;
-            $scope.rsData.ticket.idUserAttendantKfDelivery = $scope.tkupdate.idUserAttendantKfDelivery;
-            $scope.rsData.ticket.thirdPersonNames          = $scope.tkupdate.thirdPersonNames ;
-            $scope.rsData.ticket.thirdPersonPhone          = $scope.tkupdate.thirdPersonPhone ;
-            $scope.rsData.ticket.thirdPersonId             = $scope.tkupdate.thirdPersonId    ;
-            $scope.rsData.ticket.idTypeDeliveryKf          = $scope.tkupdate.idTypeDeliveryKf ;
-            $scope.rsData.ticket.idAdressKf                = $scope.tkupdate.idAdressKf       ;
-            $scope.rsData.ticket.idCompanyKf               = $scope.tkupdate.idCompanyKf      ;
-            $scope.rsData.ticket.idWhoPickUpKf             = $scope.tkupdate.idWhoPickUpKf    ;
-            $scope.rsData.ticket.idUserHasChangeTicket     = $scope.sessionIdUser;
-            /* PRINT THE ARRAY BEFORE UPDATE */
-            //console.log($scope.rsData);
-          ticketServices.updateTicket($scope.rsData).then(function(data){
-          $scope.ticketResult = data;
-            if($scope.ticketResult){
-              console.log("TICKET UPDATED SUCCESSFULLY");
-              inform.add('Ticket ha sido actualizado satisfactoriamente.',{
-                ttl:3000, type: 'success'
-              });
-              $('#UpdateModalDelivery').modal('hide');
-              $scope.dhboard();
-            }else{
-              inform.add('Ticket no ha sido actualizado, conctacta a el area de soporte.',{
-                ttl:3000, type: 'warning'
-              });
-            }
-          });
-      }
-
-
-   /**************************************************
-   *                                                 *
-   *          UPDATE TICKET DELIVERY DATA            *
-   *                                                 *
-   **************************************************/
-     $scope.sysUpdateTmpTicketFn = function(data){
-         console.clear();
-         ticketServices.updateTmpTicket(data).then(function(data){
-          $scope.ticketResult = data;
-           if($scope.ticketResult){
-             console.log("TICKET DELIVERY DATA UPDATED SUCCESSFULLY");
-             inform.add('Envio actualizado satisfactoriamente.',{
-               ttl:3000, type: 'success'
-             });
-             $scope.dhboard();
-
-           }else{
-             inform.add('Ticket no ha sido actualizado conctate el area de soporte.',{
-               ttl:3000, type: 'warning'
-             });
-           }
-         });
-     }
-   
-   /**************************************************
-   *                                                 *
-   *          UPDATE TICKET DELIVERY DATA            *
-   *                                                 *
-   **************************************************/
-     $scope.sysTmpChangeAppliedFn = function(id, value){
-         ticketServices.changeApplied(id,value).then(function(data){});
-     }
-   
-   /**************************************************
-   *                                                 *
-   *        TEMPORAL DELIVERY OR CANCEL DATA         *
-   *                                                 *
-   **************************************************/ 
-     $scope.rsTemp = {};
-     $scope.sysTempDelivCancelDataFn = function(option){
-       switch (option){
-         case 1:
-           /* ASSIGN THE VALUES TO THE ROWS AFFECTED TO ADD THE TEMPORAL DATA */
-           $scope.rsTemp.ticket                           = {};
-           $scope.rsTemp.ticket.idTicketKf                = $scope.tkupdate.idTicket;
-           $scope.rsTemp.ticket.idUserRequestChOrCancel   = $scope.sessionIdUser;
-           $scope.rsTemp.ticket.totalGestion              = 0;
-           $scope.rsTemp.ticket.totalLlave                = 0;
-           $scope.rsTemp.ticket.totalEnvio                = 0;
-           $scope.rsTemp.ticket.totalService              = $scope.tkupdate.totalService;
-           $scope.rsTemp.ticket.idUserAttendantKfDelivery = $scope.tkupdate.idUserAttendantKfDelivery;
-           $scope.rsTemp.ticket.thirdPersonNames          = $scope.tkupdate.thirdPersonNames ;
-           $scope.rsTemp.ticket.thirdPersonPhone          = $scope.tkupdate.thirdPersonPhone ;
-           $scope.rsTemp.ticket.thirdPersonId             = $scope.tkupdate.thirdPersonId    ;
-           $scope.rsTemp.ticket.idTypeDeliveryKf          = $scope.tkupdate.idTypeDeliveryKf ;
-           $scope.rsTemp.ticket.idWhoPickUpKf             = $scope.tkupdate.idWhoPickUpKf;
-           $scope.tktmporal.isChangeDeliverylRequested    = 1;
-           console.log($scope.rsTemp);
-           $scope.sysAddDeliveryDataTmpFn($http, $scope, 1);
-         break;
-         case 2:
-           $scope.rsTemp.ticket                           = {};
-           $scope.rsTemp.ticket.idTicketKf                = $scope.tkupdate.idTicket;
-           $scope.rsTemp.ticket.idUserRequestChOrCancel   = $scope.sessionIdUser;
-           $scope.rsTemp.ticket.reasonForCancelTicket     = $scope.tkupdate.reasonForCancelTicket;
-           $scope.tktmporal.isCancelRequested             = 1;
-           console.log($scope.rsTemp);
-           $scope.sysAddDeliveryDataTmpFn($http, $scope, 2); 
-         break;
-         case 3:
-           $scope.rsTemp.ticket                           = {};
-           $scope.rsTemp.ticket.idTicket                  = $scope.tkupdate.idTicket;
-           $scope.rsTemp.ticket.idUserCancelTicket        = $scope.sessionIdUser;
-           $scope.rsTemp.ticket.reasonForCancelTicket     = $scope.tkupdate.reasonForCancelTicket;
-           $scope.rsTemp.ticket.idStatusTicketKfOld       = $scope.tkupdate.idStatusTicketKf;
-           $scope.sysChangueStatusFn($scope.rsTemp.ticket.idTicket, 6);
-           $scope.sysCancelTicketFn($scope.rsTemp);
-         break;
-       }
-     }
-     $scope.sysAddDeliveryDataTmpFn = function($http, $scope, option){
-       /* PRINT THE ARRAY BEFORE UPDATE */
-           console.log($scope.rsTemp);
-         ticketServices.tmpDeliveryData($scope.rsTemp).then(function(data){
-          $scope.ticketResult = data;
-           if($scope.ticketResult){
-             console.log("TEMPORAL DELIVERY DATA ADDED SUCCESSFULLY");
-              if(option==1){
-               $scope.rsData.ticket.isChangeDeliverylRequested = $scope.tktmporal.isChangeDeliverylRequested;
-               $scope.rsData.ticket.idUserHasChangeTicket      = null;
-              }else if(option==2){
-               $scope.rsData.ticket.isCancelRequested = $scope.tktmporal.isCancelRequested;
-               console.log($scope.rsData);
+     /**************************************************
+     *                                                 *
+     *               CANCELAR TICKET                   *
+     *                                                 *
+     **************************************************/
+        $scope.sysCancelTicketFn = function(data){
+          console.log(data);
+          ticketServices.cancelTicket(data).then(function(response){
+            console.log(response);
+            if(response.status==200){
+              console.log("TICKET CANCELED SUCCESSFULLY");
+                inform.add('El pedido N°: '+data.ticket.codTicket+' ha sido cancelado.',{
+                  ttl:3000, type: 'success'
+                });
+                $scope.openTicketFn(data.ticket.idTicket);
+                $scope.mainSwitchFn('search', null);
+              }else if(response.status==404){
+                console.log("Ticket cancel process has failed, contact administrator");
+                inform.add('Error: [404] CTicket no ha sido cancelado conctate el area de soporte. ',{
+                      ttl:5000, type: 'danger'
+                });
+              }else if(response.status==500){
+                console.log("Ticket cancel process has failed, contact administrator");
+                inform.add('Error: [500] Contacta al area de soporte. ',{
+                      ttl:5000, type: 'danger'
+                });
               }
-               ticketServices.updateTicket($scope.rsData).then(function(data){
-                  $scope.ticketResult = data;
-                   if($scope.ticketResult){
-                     if(option==1){
-                       console.log("[isChangeDeliverylRequested] HAS BEEN SET TO 1");
-                       inform.add('Solicitud de modificacion de envio ha sido enviada satisfactoriamente.',{
-                       ttl:3000, type: 'success'
-                       });
-                       $('#UpdateModalDelivery').modal('hide');
-                       $('#UpdateModalTicket').modal('hide');
-                     }else if(option==2){
-                       $('#UpdateModalTicket').modal('hide');
-                       $('#CancelNotificationModal').modal('hide');
-                       inform.add('Solicitud de cancelacion enviada satisfactoriamente.',{
-                       ttl:3000, 
-                       });
-                     }
-                     
-                     $scope.dhboard();
-                   }else{
-                     inform.add('Ticket no ha sido actualizado, conctacta a el area de soporte.',{
-                       ttl:3000, type: 'warning'
-                     });
-                   }
-               });
-           }else{
-             inform.add('Ticket no ha sido actualizado, conctacta a el area de soporte.',{
-               ttl:3000, type: 'warning'
-             });
-           }
-         });
-     }  
-   
-   /**************************************************
-   *                                                 *
-   *                  UPDATE COMMENT                 *
-   *                                                 *
-   **************************************************/ 
-     $scope.sendTicketComment2Update = function(){
-           /* ASSIGN THE VALUES TO THE ROWS AFFECTED TO SAVE */
-           $scope.rsData.ticket.descriptionComment  = $scope.tkupdate.descriptionComment;
-           $scope.rsData.ticket.isCommentOrDesccriptionChange = 1;
-
-           /* PRINT THE ARRAY BEFORE UPDATE */
-           console.log($scope.rsData);
-           ticketServices.updateTicket($scope.rsData).then(function(data){
-            $scope.ticketResult = data;
-             if($scope.ticketResult){
-               console.log("TICKET UPDATED SUCCESSFULLY");
-               inform.add('El comentario sobre el ticket ha sido actualizado satisfactoriamente.',{
-                 ttl:3000, type: 'success'
-               });
-               $scope.editComment = false;
-               $scope.dhboard();
-             }else{
-               inform.add('Ticket no ha sido actualizado, conctacta a el area de soporte.',{
-                 ttl:3000, type: 'warning'
-               });
-             }
-         });
-     }
-   
-   /**************************************************
-   *                                                 *
-   *              UPDATE DESCRIPTION                 *
-   *                                                 *
-   **************************************************/ 
-     $scope.sendTicketDescription2Update = function(){
-           /* ASSIGN THE VALUES TO THE ROWS AFFECTED TO SAVE */
-           $scope.rsData.ticket.descriptionOrder  = $scope.tkupdate.descriptionOrder;
-           $scope.rsData.ticket.isCommentOrDesccriptionChange = 1;
-
-           /* PRINT THE ARRAY BEFORE UPDATE */
-           console.log($scope.rsData);
-           ticketServices.updateTicket($scope.rsData).then(function(data){
-            $scope.ticketResult = data;
-             if($scope.ticketResult){
-               console.log("TICKET UPDATED SUCCESSFULLY");
-               inform.add('La descripción del servicio ha sido actualizado satisfactoriamente.',{
-                 ttl:3000, type: 'success'
-               });
-               $scope.editDescript = false;
-               $scope.dhboard();
-             }else{
-               inform.add('Ticket no ha sido actualizado, conctacta a el area de soporte.',{
-                 ttl:3000, type: 'warning'
-               });
-             }
-         });
-     }
-    /**************************************************
-    *                                                 *
-    *               TICKET FILTER LIST                *
-    *                                                 *
-    **************************************************/
-      $scope.ticketFiltered = function(){
-        return function(item){
-          if($scope.sysLoggedUser.idProfileKf!=1){
-            while(item.sendUserNotification!=0){
-              return true
-            }
-            return false;
-          }else{
-            return true;
-          }
+          });
         }
-      }
+   
+     /**************************************************
+     *                                                 *
+     *       VERIFICAR TICKET ANTES DE CANCELAR        *
+     *                                                 *
+     **************************************************/
+        $scope.cancelOption = 0;
+        $scope.sysCheckTicketBeforeCancelFn = function(ticketID, idUser){
+          console.clear();
+            ticketServices.checkTicketBeforeCancel(ticketID).then(function(data){
+              $scope.ticketResult = data;
+              if($scope.ticketResult==1){
+                inform.add('Se procede a cancelar el Ticket.',{
+                  ttl:3000, type: 'success'
+                });
+                $('#CancelNotificationModal').modal('show');
+                $scope.cancelOption = 3;
+              }else{
+                $scope.cancelOption = 2;
+                $('#CancelNotificationModal').modal('show');
+                inform.add('Se inicia la cancelacion que sera enviada para aprobacion.',{
+                  ttl:3000, type: 'warning'
+                });
+              }
+            });
+        }
+    
+     /**************************************************
+     *                                                 *
+     *        CANCELACION DE  TICKET RECHAZADA         *
+     *                                                 *
+     **************************************************/
+        $scope.sysRejectedChgOrCancelTicketFn = function(rsData ){
+            console.clear();
+            ticketServices.rejectedChOrCanTicket(rsData.idTicket, rsData.isChgOrCancel).then(function(data){
+              $scope.ticketResult = data;
+              if($scope.ticketResult){
+                  if(rsData.isChgOrCancel==1){
+                    console.log("[sysRejectedCancelTicketFn] => TICKET CHANGE REJECTED SUCCESSFULLY");
+                  }else if(rsData.isChgOrCancel==0){
+                    console.log("[sysRejectedCancelTicketFn] => TICKET CANCEL REJECTED SUCCESSFULLY");
+                  }
+                $scope.dhboard();
 
-      $scope.removeFilterFn = function(option){
-          switch(option){
+              }else{
+                inform.add('Ticket no ha sido cancelado conctate el area de soporte.',{
+                  ttl:3000, type: 'warning'
+                });
+              }
+            });
+        }
+     
+      /**************************************************
+      *                                                 *
+      *              CHANGE STATUS TICKET               *
+      *                                                 *
+      **************************************************/
+        $scope.sysChangueStatusFn = function(ticketId, statusId){
+            ticketServices.changueStatus(ticketId, statusId).then(function(data){});
+        }
 
+     /**************************************************
+     *                                                 *
+     *          UPDATE TICKET DELIVERY DATA            *
+     *                                                 *
+     **************************************************/
+        $scope.sysUpdateTmpTicketFn = function(data){
+            console.clear();
+            ticketServices.updateTmpTicket(data).then(function(data){
+              $scope.ticketResult = data;
+              if($scope.ticketResult){
+                console.log("TICKET DELIVERY DATA UPDATED SUCCESSFULLY");
+                inform.add('Envio actualizado satisfactoriamente.',{
+                  ttl:3000, type: 'success'
+                });
+                $scope.dhboard();
+
+              }else{
+                inform.add('Ticket no ha sido actualizado conctate el area de soporte.',{
+                  ttl:3000, type: 'warning'
+                });
+              }
+            });
+        }
+   
+     /**************************************************
+     *                                                 *
+     *          UPDATE TICKET DELIVERY DATA            *
+     *                                                 *
+     **************************************************/
+        $scope.sysTmpChangeAppliedFn = function(id, value){
+            ticketServices.changeApplied(id,value).then(function(data){});
+        }
+   
+     /**************************************************
+     *                                                 *
+     *        TEMPORAL DELIVERY OR CANCEL DATA         *
+     *                                                 *
+     **************************************************/ 
+        $scope.rsTemp = {};
+        $scope.sysTempDelivCancelDataFn = function(option){
+          switch (option){
             case 1:
-              $scope.filterCompanyKf.selected=undefined;
-              if($scope.filterAddressKf.selected){$scope.filterAddressKf.selected=undefined;}
-            break; 
+              /* ASSIGN THE VALUES TO THE ROWS AFFECTED TO ADD THE TEMPORAL DATA */
+              $scope.rsTemp.ticket                           = {};
+              $scope.rsTemp.ticket.idTicketKf                = $scope.tkupdate.idTicket;
+              $scope.rsTemp.ticket.idUserRequestChOrCancel   = $scope.sessionIdUser;
+              $scope.rsTemp.ticket.totalGestion              = 0;
+              $scope.rsTemp.ticket.totalLlave                = 0;
+              $scope.rsTemp.ticket.totalEnvio                = 0;
+              $scope.rsTemp.ticket.totalService              = $scope.tkupdate.totalService;
+              $scope.rsTemp.ticket.idUserAttendantKfDelivery = $scope.tkupdate.idUserAttendantKfDelivery;
+              $scope.rsTemp.ticket.thirdPersonNames          = $scope.tkupdate.thirdPersonNames ;
+              $scope.rsTemp.ticket.thirdPersonPhone          = $scope.tkupdate.thirdPersonPhone ;
+              $scope.rsTemp.ticket.thirdPersonId             = $scope.tkupdate.thirdPersonId    ;
+              $scope.rsTemp.ticket.idTypeDeliveryKf          = $scope.tkupdate.idTypeDeliveryKf ;
+              $scope.rsTemp.ticket.idWhoPickUpKf             = $scope.tkupdate.idWhoPickUpKf;
+              $scope.tktmporal.isChangeDeliverylRequested    = 1;
+              console.log($scope.rsTemp);
+              $scope.sysAddDeliveryDataTmpFn($http, $scope, 1);
+            break;
             case 2:
-              $scope.filterAddressKf.selected=undefined;
+              $scope.rsTemp.ticket                           = {};
+              $scope.rsTemp.ticket.idTicketKf                = $scope.tkupdate.idTicket;
+              $scope.rsTemp.ticket.idUserRequestChOrCancel   = $scope.sessionIdUser;
+              $scope.rsTemp.ticket.reasonForCancelTicket     = $scope.tkupdate.reasonForCancelTicket;
+              $scope.tktmporal.isCancelRequested             = 1;
+              console.log($scope.rsTemp);
+              $scope.sysAddDeliveryDataTmpFn($http, $scope, 2); 
             break;
             case 3:
+              $scope.rsTemp.ticket                           = {};
+              $scope.rsTemp.ticket.idTicket                  = $scope.tkupdate.idTicket;
+              $scope.rsTemp.ticket.idUserCancelTicket        = $scope.sessionIdUser;
+              $scope.rsTemp.ticket.reasonForCancelTicket     = $scope.tkupdate.reasonForCancelTicket;
+              $scope.rsTemp.ticket.idStatusTicketKfOld       = $scope.tkupdate.idStatusTicketKf;
+              $scope.sysChangueStatusFn($scope.rsTemp.ticket.idTicket, 6);
+              $scope.sysCancelTicketFn($scope.rsTemp);
             break;
-            case 4:
-            break; 
-            case 5:
-            break;
-            case 6:
-            break;                  
           }
-          
-      }
-      $scope.systemChgValueFn = function(value, bol){
-        switch(value){
-          case "comment":
-            $scope.editComment=bol;
-            if(bol==true){
-              $scope.tkupdate.descriptionCommentTmp=$scope.tkupdate.descriptionComment;
-              $scope.tkupdate.descriptionComment="";
-            }else{
-              $scope.tkupdate.descriptionComment=$scope.tkupdate.descriptionCommentTmp;
-            }
-          break;
-          case "descript":
-            $scope.editDescript=bol;
-            if(bol==true){
-              $scope.tkupdate.descriptionOrderTmp=$scope.tkupdate.descriptionOrder;
-                  $scope.tkupdate.descriptionOrder="";
-            }else{
-              $scope.tkupdate.descriptionOrder=$scope.tkupdate.descriptionOrderTmp;
-            }
-          break;
         }
-      }
-      $scope.rsTmp = {};
-      $scope.rsJsonData = {};
-      $scope.sysChkChangeOrCancel = function(value){
+        $scope.sysAddDeliveryDataTmpFn = function($http, $scope, option){
+          /* PRINT THE ARRAY BEFORE UPDATE */
+              console.log($scope.rsTemp);
+            ticketServices.tmpDeliveryData($scope.rsTemp).then(function(data){
+              $scope.ticketResult = data;
+              if($scope.ticketResult){
+                console.log("TEMPORAL DELIVERY DATA ADDED SUCCESSFULLY");
+                  if(option==1){
+                  $scope.rsData.ticket.isChangeDeliverylRequested = $scope.tktmporal.isChangeDeliverylRequested;
+                  $scope.rsData.ticket.idUserHasChangeTicket      = null;
+                  }else if(option==2){
+                  $scope.rsData.ticket.isCancelRequested = $scope.tktmporal.isCancelRequested;
+                  console.log($scope.rsData);
+                  }
+                  ticketServices.updateTicket($scope.rsData).then(function(data){
+                      $scope.ticketResult = data;
+                      if($scope.ticketResult){
+                        if(option==1){
+                          console.log("[isChangeDeliverylRequested] HAS BEEN SET TO 1");
+                          inform.add('Solicitud de modificacion de envio ha sido enviada satisfactoriamente.',{
+                          ttl:3000, type: 'success'
+                          });
+                          $('#UpdateModalDelivery').modal('hide');
+                          $('#UpdateModalTicket').modal('hide');
+                        }else if(option==2){
+                          $('#UpdateModalTicket').modal('hide');
+                          $('#CancelNotificationModal').modal('hide');
+                          inform.add('Solicitud de cancelacion enviada satisfactoriamente.',{
+                          ttl:3000, 
+                          });
+                        }
+                        
+                        $scope.dhboard();
+                      }else{
+                        inform.add('Ticket no ha sido actualizado, conctacta a el area de soporte.',{
+                          ttl:3000, type: 'warning'
+                        });
+                      }
+                  });
+              }else{
+                inform.add('Ticket no ha sido actualizado, conctacta a el area de soporte.',{
+                  ttl:3000, type: 'warning'
+                });
+              }
+            });
+        }  
+   
+     /**************************************************
+     *                                                 *
+     *                  UPDATE COMMENT                 *
+     *                                                 *
+     **************************************************/ 
+        $scope.sendTicketComment2Update = function(){
+              /* ASSIGN THE VALUES TO THE ROWS AFFECTED TO SAVE */
+              $scope.rsData.ticket.descriptionComment  = $scope.tkupdate.descriptionComment;
+              $scope.rsData.ticket.isCommentOrDesccriptionChange = 1;
+
+              /* PRINT THE ARRAY BEFORE UPDATE */
+              console.log($scope.rsData);
+              ticketServices.updateTicket($scope.rsData).then(function(data){
+                $scope.ticketResult = data;
+                if($scope.ticketResult){
+                  console.log("TICKET UPDATED SUCCESSFULLY");
+                  inform.add('El comentario sobre el ticket ha sido actualizado satisfactoriamente.',{
+                    ttl:3000, type: 'success'
+                  });
+                  $scope.editComment = false;
+                  $scope.dhboard();
+                }else{
+                  inform.add('Ticket no ha sido actualizado, conctacta a el area de soporte.',{
+                    ttl:3000, type: 'warning'
+                  });
+                }
+            });
+        }
+   
+     /**************************************************
+     *                                                 *
+     *              UPDATE DESCRIPTION                 *
+     *                                                 *
+     **************************************************/ 
+        $scope.sendTicketDescription2Update = function(){
+              /* ASSIGN THE VALUES TO THE ROWS AFFECTED TO SAVE */
+              $scope.rsData.ticket.descriptionOrder  = $scope.tkupdate.descriptionOrder;
+              $scope.rsData.ticket.isCommentOrDesccriptionChange = 1;
+
+              /* PRINT THE ARRAY BEFORE UPDATE */
+              console.log($scope.rsData);
+              ticketServices.updateTicket($scope.rsData).then(function(data){
+                $scope.ticketResult = data;
+                if($scope.ticketResult){
+                  console.log("TICKET UPDATED SUCCESSFULLY");
+                  inform.add('La descripción del servicio ha sido actualizado satisfactoriamente.',{
+                    ttl:3000, type: 'success'
+                  });
+                  $scope.editDescript = false;
+                  $scope.dhboard();
+                }else{
+                  inform.add('Ticket no ha sido actualizado, conctacta a el area de soporte.',{
+                    ttl:3000, type: 'warning'
+                  });
+                }
+            });
+        }
+        
+      /**************************************************
+      *                                                 *
+      *               TICKET FILTER LIST                *
+      *                                                 *
+      **************************************************/
+        $scope.ticketFiltered = function(){
+          return function(item){
+            if($scope.sysLoggedUser.idProfileKf!=1){
+              while(item.sendUserNotification!=0){
+                return true
+              }
+              return false;
+            }else{
+              return true;
+            }
+          }
+        }
+
+        $scope.removeFilterFn = function(option){
+            switch(option){
+
+              case 1:
+                $scope.filterCompanyKf.selected=undefined;
+                if($scope.filterAddressKf.selected){$scope.filterAddressKf.selected=undefined;}
+              break; 
+              case 2:
+                $scope.filterAddressKf.selected=undefined;
+              break;
+              case 3:
+              break;
+              case 4:
+              break; 
+              case 5:
+              break;
+              case 6:
+              break;                  
+            }
+            
+        }
+        $scope.systemChgValueFn = function(value, bol){
+          switch(value){
+            case "comment":
+              $scope.editComment=bol;
+              if(bol==true){
+                $scope.tkupdate.descriptionCommentTmp=$scope.tkupdate.descriptionComment;
+                $scope.tkupdate.descriptionComment="";
+              }else{
+                $scope.tkupdate.descriptionComment=$scope.tkupdate.descriptionCommentTmp;
+              }
+            break;
+            case "descript":
+              $scope.editDescript=bol;
+              if(bol==true){
+                $scope.tkupdate.descriptionOrderTmp=$scope.tkupdate.descriptionOrder;
+                    $scope.tkupdate.descriptionOrder="";
+              }else{
+                $scope.tkupdate.descriptionOrder=$scope.tkupdate.descriptionOrderTmp;
+              }
+            break;
+          }
+        }
+        $scope.rsTmp = {};
         $scope.rsJsonData = {};
-        switch (value){
-          case 0:
-            /*TICKETS RECHAZADOS */
-            ticketServices.getTickets2Check(0).then(function(data){
-              $scope.rsJsonData = (data.tickets_all);
-              //console.log($scope.rsJsonData);
-              if($scope.rsJsonData){
-              console.log("[sysChkChangeOrCancel] => Tickets with change or cancel rejected found"); 
-                var listOfTicketsLength = $scope.rsJsonData.length;
-                for (i = 0; i < listOfTicketsLength; i++) {
-                  //console.log("for i: "+i);
-                    if($scope.rsJsonData[i].isCancelRequested && $scope.rsJsonData[i].tmp_isCancelApproved==0){
-                          $scope.rsTmp = {};
-                          $scope.rsTmp.idTicket                    = $scope.rsJsonData[i].idTicket;
-                          $scope.rsTmp.isChgOrCancel               = 0;
+        $scope.sysChkChangeOrCancel = function(value){
+          $scope.rsJsonData = {};
+          switch (value){
+            case 0:
+              /*TICKETS RECHAZADOS */
+              ticketServices.getTickets2Check(0).then(function(data){
+                $scope.rsJsonData = (data.tickets_all);
+                //console.log($scope.rsJsonData);
+                if($scope.rsJsonData){
+                console.log("[sysChkChangeOrCancel] => Tickets with change or cancel rejected found"); 
+                  var listOfTicketsLength = $scope.rsJsonData.length;
+                  for (i = 0; i < listOfTicketsLength; i++) {
+                    //console.log("for i: "+i);
+                      if($scope.rsJsonData[i].isCancelRequested && $scope.rsJsonData[i].tmp_isCancelApproved==0){
+                            $scope.rsTmp = {};
+                            $scope.rsTmp.idTicket                    = $scope.rsJsonData[i].idTicket;
+                            $scope.rsTmp.isChgOrCancel               = 0;
 
-                          $scope.sysRejectedChgOrCancelTicketFn($scope.rsTmp);
-                          console.log("[sysChkChangeOrCancel] => Cancel TIckets rejected Found => Updating tickets");
-                          $scope.sysTmpChangeAppliedFn($scope.rsJsonData[i].idTmpDeliveryData,0);
-                      
-                    }else if($scope.rsJsonData[i].isChangeDeliverylRequested && $scope.rsJsonData[i].tmp_isChApproved==0){
-                          $scope.rsTmp = {};
-                          $scope.rsTmp.idTicket                    = $scope.rsJsonData[i].idTicket;
-                          $scope.rsTmp.isChgOrCancel               = 1;
-                          
-                          $scope.sysRejectedChgOrCancelTicketFn($scope.rsTmp);
-                          console.log("[sysChkChangeOrCancel] => Change TIckets Approved Found => Updating tickets");
-                          $scope.sysTmpChangeAppliedFn($scope.rsJsonData[i].idTmpDeliveryData,0);
-                    }
-                };
-              }else{
-                console.log("[sysChkChangeOrCancel] => No changes or cancel Tickets rejected Found.");
-              }
-            });
-          break;
-          case 1:
-            /*TICKETS APROBADOS */
-            ticketServices.getTickets2Check(1).then(function(data){
-              $scope.rsJsonData = (data.tickets_all);
-              //console.log($scope.rsJsonData);
-              if($scope.rsJsonData){
-              console.log("[sysChkChangeOrCancel] => Tickets with change or cancel approved found"); 
-                var listOfTicketsLength = $scope.rsJsonData.length;
-                for (i = 0; i < listOfTicketsLength; i++) {
-                  //console.log("for i: "+i);
-                    if($scope.rsJsonData[i].isCancelRequested && $scope.rsJsonData[i].tmp_isCancelApproved==1){
-                          $scope.rsTmp = {};
-                          $scope.rsTmp.ticket                        = $scope.rsJsonData[i];
-                          $scope.rsTmp.ticket.idTicket               = $scope.rsJsonData[i].idTicket;
-                          $scope.rsTmp.ticket.idUserCancelTicket     = $scope.rsJsonData[i].tmp_idUserRequestChOrCancel;
-                          $scope.rsTmp.ticket.reasonForCancelTicket  = $scope.rsJsonData[i].tmp_reasonForCancelTicket;
+                            $scope.sysRejectedChgOrCancelTicketFn($scope.rsTmp);
+                            console.log("[sysChkChangeOrCancel] => Cancel TIckets rejected Found => Updating tickets");
+                            $scope.sysTmpChangeAppliedFn($scope.rsJsonData[i].idTmpDeliveryData,0);
+                        
+                      }else if($scope.rsJsonData[i].isChangeDeliverylRequested && $scope.rsJsonData[i].tmp_isChApproved==0){
+                            $scope.rsTmp = {};
+                            $scope.rsTmp.idTicket                    = $scope.rsJsonData[i].idTicket;
+                            $scope.rsTmp.isChgOrCancel               = 1;
+                            
+                            $scope.sysRejectedChgOrCancelTicketFn($scope.rsTmp);
+                            console.log("[sysChkChangeOrCancel] => Change TIckets Approved Found => Updating tickets");
+                            $scope.sysTmpChangeAppliedFn($scope.rsJsonData[i].idTmpDeliveryData,0);
+                      }
+                  };
+                }else{
+                  console.log("[sysChkChangeOrCancel] => No changes or cancel Tickets rejected Found.");
+                }
+              });
+            break;
+            case 1:
+              /*TICKETS APROBADOS */
+              ticketServices.getTickets2Check(1).then(function(data){
+                $scope.rsJsonData = (data.tickets_all);
+                //console.log($scope.rsJsonData);
+                if($scope.rsJsonData){
+                console.log("[sysChkChangeOrCancel] => Tickets with change or cancel approved found"); 
+                  var listOfTicketsLength = $scope.rsJsonData.length;
+                  for (i = 0; i < listOfTicketsLength; i++) {
+                    //console.log("for i: "+i);
+                      if($scope.rsJsonData[i].isCancelRequested && $scope.rsJsonData[i].tmp_isCancelApproved==1){
+                            $scope.rsTmp = {};
+                            $scope.rsTmp.ticket                        = $scope.rsJsonData[i];
+                            $scope.rsTmp.ticket.idTicket               = $scope.rsJsonData[i].idTicket;
+                            $scope.rsTmp.ticket.idUserCancelTicket     = $scope.rsJsonData[i].tmp_idUserRequestChOrCancel;
+                            $scope.rsTmp.ticket.reasonForCancelTicket  = $scope.rsJsonData[i].tmp_reasonForCancelTicket;
 
-                          $scope.sysCancelTicketFn($scope.rsTmp);
-                          console.log("[sysChkChangeOrCancel] => Cancel TIckets Approved Found => Updating tickets");
-                          console.log($scope.rsTmp);
-                          $scope.sysChangueStatusFn($scope.rsTmp.ticket.idTicket, 6);
-                          $scope.sysTmpChangeAppliedFn($scope.rsJsonData[i].idTmpDeliveryData,1);
-                      
-                    }else if($scope.rsJsonData[i].isChangeDeliverylRequested && $scope.rsJsonData[i].tmp_isChApproved==1){
-                          $scope.rsTmp = {};
-                          $scope.rsTmp.ticket                            = $scope.rsJsonData[i];
-                          $scope.rsTmp.ticket.idTicket                    = $scope.rsJsonData[i].idTicket;
-                          $scope.rsTmp.ticket.idUserHasChangeTicket       = $scope.rsJsonData[i].tmp_idUserRequestChOrCancel;
-                          $scope.rsTmp.ticket.thirdPersonNames            = $scope.rsJsonData[i].tmp_thirdPersonNames;
-                          $scope.rsTmp.ticket.thirdPersonPhone            = $scope.rsJsonData[i].tmp_thirdPersonPhone;
-                          $scope.rsTmp.ticket.thirdPersonId               = $scope.rsJsonData[i].tmp_thirdPersonId;
-                          $scope.rsTmp.ticket.idUserAttendantKfDelivery   = $scope.rsJsonData[i].tmp_idUserAttendantKfDelivery;
-                          $scope.rsTmp.ticket.idTypeDeliveryKf            = $scope.rsJsonData[i].tmp_idTypeDeliveryKf;
-                          $scope.rsTmp.ticket.totalService                = $scope.rsJsonData[i].tmp_totalService;
-                          $scope.rsTmp.ticket.idWhoPickUpKf               = $scope.rsJsonData[i].tmp_idWhoPickUpKf;
-                          
-                          $scope.sysUpdateTmpTicketFn($scope.rsTmp);
-                          console.log("[sysChkChangeOrCancel] => Change TIckets Approved Found => Updating tickets");
-                          console.log($scope.rsTmp);
-                          $scope.sysTmpChangeAppliedFn($scope.rsJsonData[i].idTmpDeliveryData,1);
-                    }
-                };
-              }else{
-                console.log("[sysChkChangeOrCancel] => No changes or cancel Tickets Approved Found.");
-              }
-            });
-          break;
+                            $scope.sysCancelTicketFn($scope.rsTmp);
+                            console.log("[sysChkChangeOrCancel] => Cancel TIckets Approved Found => Updating tickets");
+                            console.log($scope.rsTmp);
+                            $scope.sysChangueStatusFn($scope.rsTmp.ticket.idTicket, 6);
+                            $scope.sysTmpChangeAppliedFn($scope.rsJsonData[i].idTmpDeliveryData,1);
+                        
+                      }else if($scope.rsJsonData[i].isChangeDeliverylRequested && $scope.rsJsonData[i].tmp_isChApproved==1){
+                            $scope.rsTmp = {};
+                            $scope.rsTmp.ticket                            = $scope.rsJsonData[i];
+                            $scope.rsTmp.ticket.idTicket                    = $scope.rsJsonData[i].idTicket;
+                            $scope.rsTmp.ticket.idUserHasChangeTicket       = $scope.rsJsonData[i].tmp_idUserRequestChOrCancel;
+                            $scope.rsTmp.ticket.thirdPersonNames            = $scope.rsJsonData[i].tmp_thirdPersonNames;
+                            $scope.rsTmp.ticket.thirdPersonPhone            = $scope.rsJsonData[i].tmp_thirdPersonPhone;
+                            $scope.rsTmp.ticket.thirdPersonId               = $scope.rsJsonData[i].tmp_thirdPersonId;
+                            $scope.rsTmp.ticket.idUserAttendantKfDelivery   = $scope.rsJsonData[i].tmp_idUserAttendantKfDelivery;
+                            $scope.rsTmp.ticket.idTypeDeliveryKf            = $scope.rsJsonData[i].tmp_idTypeDeliveryKf;
+                            $scope.rsTmp.ticket.totalService                = $scope.rsJsonData[i].tmp_totalService;
+                            $scope.rsTmp.ticket.idWhoPickUpKf               = $scope.rsJsonData[i].tmp_idWhoPickUpKf;
+                            
+                            $scope.sysUpdateTmpTicketFn($scope.rsTmp);
+                            console.log("[sysChkChangeOrCancel] => Change TIckets Approved Found => Updating tickets");
+                            console.log($scope.rsTmp);
+                            $scope.sysTmpChangeAppliedFn($scope.rsJsonData[i].idTmpDeliveryData,1);
+                      }
+                  };
+                }else{
+                  console.log("[sysChkChangeOrCancel] => No changes or cancel Tickets Approved Found.");
+                }
+              });
+            break;
 
+          }
         }
-      }
-    /**************************************************
-    *                                                 *
-    *                 Address By Owner id             *
-    *                                                 *
-    **************************************************/
-      $scope.ListTenantAddress = [];
-      $scope.getAddressByidTenantFn = function(idUser, idTypeTenant, idStatus){
-        addressServices.getAddressByidTenant(idUser,idTypeTenant,idStatus).then(function(response){
-              if(response.status==200){
-                  $scope.ListTenantAddress = response.data;
-              }else if (response.status==404){
-                  $scope.ListTenantAddress = [];
-              }else if (response.status==500){
-                  $scope.ListTenantAddress = [];
-                  inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
-                      ttl:5000, type: 'danger'
-                  });
-              }
-          });
-      }
-    /**************************************************
-    *                                                 *
-    *                GET DELIVERY TYPES               *
-    *                                                 *
-    **************************************************/
-      $scope.typedelivery = [];
-      $scope.getDeliveryTypesFn = function(){
-          $scope.typedelivery = [];
-          ticketServices.typeDelivery().then(function(response){
-              if(response.status==200){
-                  $scope.typedelivery = response.data;
-              }else if (response.status==404){
-                  $scope.typedelivery = [];
-                  inform.add('No hay tipos de deliverys registrados, contacte al area de soporte de TASS.',{
-                  ttl:5000, type: 'warning'
-                  });
-              }else if (response.status==500){
-                  $scope.typedelivery = [];
-                  inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
-                  ttl:5000, type: 'danger'
-                  });
-              }
-          });
-      };
+      /**************************************************
+      *                                                 *
+      *                 Address By Owner id             *
+      *                                                 *
+      **************************************************/
+        $scope.ListTenantAddress = [];
+        $scope.getAddressByidTenantFn = function(idUser, idTypeTenant, idStatus){
+          addressServices.getAddressByidTenant(idUser,idTypeTenant,idStatus).then(function(response){
+                if(response.status==200){
+                    $scope.ListTenantAddress = response.data;
+                }else if (response.status==404){
+                    $scope.ListTenantAddress = [];
+                }else if (response.status==500){
+                    $scope.ListTenantAddress = [];
+                    inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                        ttl:5000, type: 'danger'
+                    });
+                }
+            });
+        }
+      /**************************************************
+      *                                                 *
+      *                GET DELIVERY TYPES               *
+      *                                                 *
+      **************************************************/
+        $scope.typedelivery = [];
+        $scope.getDeliveryTypesFn = function(){
+            $scope.typedelivery = [];
+            ticketServices.typeDelivery().then(function(response){
+                if(response.status==200){
+                    $scope.typedelivery = response.data;
+                }else if (response.status==404){
+                    $scope.typedelivery = [];
+                    inform.add('No hay tipos de deliverys registrados, contacte al area de soporte de BSS.',{
+                    ttl:5000, type: 'warning'
+                    });
+                }else if (response.status==500){
+                    $scope.typedelivery = [];
+                    inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                    ttl:5000, type: 'danger'
+                    });
+                }
+            });
+        };
     /**************************************************
     *                                                 *
     *                GET PAYMENTS TYPES               *
@@ -1275,7 +1192,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $scope.paymentsType = response.data;
               }else if (response.status==404){
                   $scope.paymentsType = [];
-                  inform.add('No hay tipos de Pagos registrados, contacte al area de soporte de TASS.',{
+                  inform.add('No hay tipos de Pagos registrados, contacte al area de soporte de BSS.',{
                   ttl:5000, type: 'warning'
                   });
               }else if (response.status==500){
@@ -1286,30 +1203,30 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               }
           });
       };
-        /**************************************************
-        *                                                 *
-        *   GET COST OF SERVICES BY CUSTOMER ID           *
-        *                                                 *
-        **************************************************/
-        $scope.getServiceCostByCustomerFn = function(data){
-          serviceServices.getServiceCostByCustomer(data).then(function(response) {
-              if(response.status==200){
-                  $scope.ticket.cost.service = Number(response.data[0].cost);
-                  $scope.customerCosts=true;
-              }else if (response.status==404){
-                  inform.add('El consorcio no presenta costos de servicios asociados, contacte al area de soporte de TASS.',{
-                      ttl:3000, type: 'warning'
-                  });
-                  $scope.customerCosts=false;
-                  $scope.ticket.cost.service = 0;
-              }else if (response.status==500){
-                  inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
-                  ttl:3000, type: 'danger'
-                  });
-                  $scope.ticket.cost.service = 0;
-                  $scope.customerCosts=false;
-              }
-          });
+    /**************************************************
+    *                                                 *
+    *   GET COST OF SERVICES BY CUSTOMER ID           *
+    *                                                 *
+    **************************************************/
+      $scope.getServiceCostByCustomerFn = function(data){
+        serviceServices.getServiceCostByCustomer(data).then(function(response) {
+            if(response.status==200){
+                $scope.ticket.cost.service = Number(response.data[0].cost);
+                $scope.customerCosts=true;
+            }else if (response.status==404){
+                inform.add('El consorcio no presenta costos de servicios asociados, contacte al area de soporte de BSS.',{
+                    ttl:3000, type: 'warning'
+                });
+                $scope.customerCosts=false;
+                $scope.ticket.cost.service = 0;
+            }else if (response.status==500){
+                inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
+                ttl:3000, type: 'danger'
+                });
+                $scope.ticket.cost.service = 0;
+                $scope.customerCosts=false;
+            }
+        });
       }
     /**************************************************
     *                                                 *
@@ -1330,12 +1247,12 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
     *                                                 *
     **************************************************/
       $scope.getCompaniesListFn = function() {
-      $scope.companiesList = [];
-      $scope.globalGetCustomerListFn(null,"0",3,"","",null).then(function(data) {
-        $scope.companiesList = data.customers;
-      }, function(err) {
-          $scope.companiesList = [];
-      });
+        $scope.companiesList = [];
+        $scope.globalGetCustomerListFn(null,"0",3,"","",null).then(function(data) {
+          $scope.companiesList = data.customers;
+        }, function(err) {
+            $scope.companiesList = [];
+        });
       };
     /**************************************************
     *                                                 *
@@ -1373,7 +1290,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
             $scope.listOffices = response.data;
           }else{
             $scope.listOffices = [];
-            inform.add('No hay Consorcios o Sucursales asociadas a la ('+obj.ClientType+') - '+obj.name+' , contacte al area de soporte de TASS.',{
+            inform.add('No hay Consorcios o Sucursales asociadas a la ('+obj.ClientType+') - '+obj.name+' , contacte al area de soporte de BSS.',{
               ttl:5000, type: 'info'
               });
           }
@@ -1381,7 +1298,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
       };
       $scope.onSelectCallback = function(){
         $scope.mainSwitchFn('search', null);
-      }
+        }
       /******************************
       *   CREATING MP PAYMENT LINK  *
       ******************************/
@@ -1396,8 +1313,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
           $scope.mp.link.new.data.idTicket            = obj.idTicket;
           $scope.mp.link.new.data.ticket_number       = obj.codTicket;
           $scope.mp.link.new.data.monto               = Number(parseInt(obj.total));
-          $scope.mp.link.new.data.linkDeNotificacion  = "https://devtass.sytes.net/Back/index.php/MercadoLibre/getNotificationOfMP";
-          $scope.mp.link.new.data.back_url            = "https://devtass.sytes.net/monitor";
+          $scope.mp.link.new.data.linkDeNotificacion  = "https://devBss.sytes.net/Back/index.php/MercadoLibre/getNotificationOfMP";
+          $scope.mp.link.new.data.back_url            = "https://devBss.sytes.net/monitor";
           $scope.mp.link.new.data.description         = obj.typeticket.TypeTicketName;
           $scope.mp.link.new.data.quantity            = obj.keys.length;
           console.log($scope.mp.link);
@@ -1622,7 +1539,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                     //ttl:3000, type: 'success'
                     //});
                 }else if (response.status==404){
-                    inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                    inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
                     ttl:3000, type: 'danger'
                     });
                 }
@@ -1823,6 +1740,32 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $scope.monitor.filter.dateCreatedFrom        = $scope.filters.dateCreatedFrom;
                   $scope.monitor.filter.dateCreatedTo          = $scope.filters.dateCreatedTo;
                   $scope.monitor.filter.codTicket              = $scope.filters.searchFilter;
+                  //CREATED
+                  if ($scope.filters.dateCreatedFrom!=null && $scope.filters.dateCreatedFrom!=undefined){
+                    var FromDate  = new Date($scope.filters.dateCreatedFrom);
+                    $scope.monitor.filter.dateCreatedFrom    = FromDate.getFullYear()+"-"+(FromDate.getMonth()+1)+"-"+FromDate.getDate()+" " +FromDate.getHours() + ":" + FromDate.getMinutes()+ ":" + FromDate.getSeconds();
+                  }else{
+                    $scope.monitor.filter.dateCreatedFrom = "";
+                  }
+                  if ($scope.filters.dateCreatedTo!=null && $scope.filters.dateCreatedTo!=undefined){
+                    var FromDate  = new Date($scope.filters.dateCreatedTo);
+                    $scope.monitor.filter.dateCreatedTo    = FromDate.getFullYear()+"-"+(FromDate.getMonth()+1)+"-"+FromDate.getDate()+" " +"23:59:59";
+                  }else{
+                    $scope.monitor.filter.dateCreatedTo = "";
+                  }
+                  //DELIVERY
+                  if ($scope.filters.dateDeliveredFrom!=null && $scope.filters.dateDeliveredFrom!=undefined){
+                    var FromDate  = new Date($scope.filters.dateDeliveredFrom);
+                    $scope.monitor.filter.dateDeliveredFrom    = FromDate.getFullYear()+"-"+(FromDate.getMonth()+1)+"-"+FromDate.getDate()+" " +FromDate.getHours() + ":" + FromDate.getMinutes()+ ":" + FromDate.getSeconds();
+                  }else{
+                    $scope.monitor.filter.dateDeliveredFrom = "";
+                  }
+                  if ($scope.filters.dateDeliveredTo!=null && $scope.filters.dateDeliveredTo!=undefined){
+                    var FromDate  = new Date($scope.filters.dateDeliveredTo);
+                    $scope.monitor.filter.dateDeliveredTo    = FromDate.getFullYear()+"-"+(FromDate.getMonth()+1)+"-"+FromDate.getDate()+" " +"23:59:59";;
+                  }else{
+                    $scope.monitor.filter.dateDeliveredTo = "";
+                  }
                   console.log($scope.monitor.filter);
                   console.log($scope.filters);
                   $scope.listTickets($scope.monitor.filter);
@@ -1842,7 +1785,6 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                       $scope.monitor.filter.codTicket              = $scope.filters.searchFilter;
                       console.log($scope.monitor.filter);
                       console.log($scope.filters);
-                      $scope.listTickets($scope.monitor.filter);
                     break;
                     case "2":
                       $scope.monitor.filter.idUserRequestBy        = $scope.sysLoggedUser.idUser;
@@ -1854,9 +1796,35 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                       $scope.monitor.filter.codTicket              = $scope.filters.searchFilter;
                       console.log($scope.monitor.filter);
                       console.log($scope.filters);
-                      $scope.listTickets($scope.monitor.filter);
                     break;
                   }
+                  //CREATED
+                  if ($scope.filters.dateCreatedFrom!=null && $scope.filters.dateCreatedFrom!=undefined){
+                    var FromDate  = new Date($scope.filters.dateCreatedFrom);
+                    $scope.monitor.filter.dateCreatedFrom    = FromDate.getFullYear()+"-"+(FromDate.getMonth()+1)+"-"+FromDate.getDate()+" " +FromDate.getHours() + ":" + FromDate.getMinutes()+ ":" + FromDate.getSeconds();
+                  }else{
+                    $scope.monitor.filter.dateCreatedFrom = "";
+                  }
+                  if ($scope.filters.dateCreatedTo!=null && $scope.filters.dateCreatedTo!=undefined){
+                    var FromDate  = new Date($scope.filters.dateCreatedTo);
+                    $scope.monitor.filter.dateCreatedTo    = FromDate.getFullYear()+"-"+(FromDate.getMonth()+1)+"-"+FromDate.getDate()+" " +"23:59:59";
+                  }else{
+                    $scope.monitor.filter.dateCreatedTo = "";
+                  }
+                  //DELIVERY
+                  if ($scope.filters.dateDeliveredFrom!=null && $scope.filters.dateDeliveredFrom!=undefined){
+                    var FromDate  = new Date($scope.filters.dateDeliveredFrom);
+                    $scope.monitor.filter.dateDeliveredFrom    = FromDate.getFullYear()+"-"+(FromDate.getMonth()+1)+"-"+FromDate.getDate()+" " +FromDate.getHours() + ":" + FromDate.getMinutes()+ ":" + FromDate.getSeconds();
+                  }else{
+                    $scope.monitor.filter.dateDeliveredFrom = "";
+                  }
+                  if ($scope.filters.dateDeliveredTo!=null && $scope.filters.dateDeliveredTo!=undefined){
+                    var FromDate  = new Date($scope.filters.dateDeliveredTo);
+                    $scope.monitor.filter.dateDeliveredTo    = FromDate.getFullYear()+"-"+(FromDate.getMonth()+1)+"-"+FromDate.getDate()+" " +"23:59:59";;
+                  }else{
+                    $scope.monitor.filter.dateDeliveredTo = "";
+                  }
+                  $scope.listTickets($scope.monitor.filter);
                 break;
               }
             break;
@@ -2023,19 +1991,19 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                       if (obj.selected.idTypeDeliveryKf!=obj.delivery.idTypeDeliveryKf && obj.delivery.idTypeDeliveryKf=="1"){
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
                         $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"16"});
-                        inform.add('Cobro de ($ '+obj.selected.costDelivery+') por envío del pedido '+obj.codTicket+' no sera realizado, Seguridad TASS.',{
+                        inform.add('Cobro de ($ '+obj.selected.costDelivery+') por envío del pedido '+obj.codTicket+' no sera realizado, BSS Seguridad.',{
                           ttl:12000, type: 'info'
                         });
                       }else if (obj.selected.idTypeDeliveryKf!=obj.delivery.idTypeDeliveryKf && obj.delivery.idTypeDeliveryKf=="2"){
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
                         $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"17"});
-                        inform.add('Se adicionaran ($ '+obj.cost.delivery+'), por concepto de envío, al costo total de su pedido, Seguridad TASS.',{
+                        inform.add('Se adicionaran ($ '+obj.cost.delivery+'), por concepto de envío, al costo total de su pedido, BSS Seguridad.',{
                           ttl:6000, type: 'warning'
                         });
                       }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo!=obj.delivery.idDeliveryTo && obj.cost.delivery!=undefined && obj.cost.delivery!=null && ($scope.costDelivery==null || $scope.costDelivery==0) && obj.cost.delivery>0){
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
                         $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"17"});
-                        inform.add('Se adicionaran ($ '+obj.cost.delivery+'), por concepto de envío, al costo total de su pedido, Seguridad TASS.',{
+                        inform.add('Se adicionaran ($ '+obj.cost.delivery+'), por concepto de envío, al costo total de su pedido, BSS Seguridad.',{
                           ttl:6000, type: 'warning'
                         });
                       }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo!=obj.delivery.idDeliveryTo && obj.cost.delivery!=undefined && obj.cost.delivery!=null && $scope.costDelivery!=null && $scope.costDelivery>0 && obj.cost.delivery>0 && obj.cost.delivery>$scope.costDelivery){
@@ -2045,7 +2013,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                         $scope.subTotalDeliveryCharged = 0;
                         $scope.subTotalDeliveryCharged = Number(obj.cost.delivery)-Number($scope.costDelivery);
                         $scope.subTotalDelivery = Number(obj.cost.delivery);
-                        inform.add('Se adicionaran ($ '+$scope.subTotalDeliveryCharged+') de diferencia, por concepto de envío, al costo total de su pedido, Seguridad TASS.',{
+                        inform.add('Se adicionaran ($ '+$scope.subTotalDeliveryCharged+') de diferencia, por concepto de envío, al costo total de su pedido, BSS Seguridad.',{
                           ttl:6000, type: 'warning'
                         });
                       }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo!=obj.delivery.idDeliveryTo && obj.cost.delivery!=undefined && obj.cost.delivery!=null && $scope.costDelivery!=null && $scope.costDelivery>0 && obj.cost.delivery>0 && obj.cost.delivery<$scope.costDelivery){
@@ -2055,17 +2023,17 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                         $scope.subTotalDelivery = 0;
                         $scope.subTotalDelivery = Number(obj.cost.delivery);
                         $scope.subTotalRefunDelivery = Number($scope.costDelivery)-Number(obj.cost.delivery);
-                        inform.add('El pedido '+obj.codTicket+' tendra un descuento de ($ '+$scope.subTotalRefunDelivery+') por envío, Seguridad TASS.',{
+                        inform.add('El pedido '+obj.codTicket+' tendra un descuento de ($ '+$scope.subTotalRefunDelivery+') por envío, BSS Seguridad.',{
                           ttl:12000, type: 'info'
                         });
                       }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo==obj.delivery.idDeliveryTo && obj.cost.delivery==obj.selected.costDelivery){
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
-                        inform.add('No se registran costos adicionales, por concepto de envío, al costo total de su pedido, Seguridad TASS.',{
+                        inform.add('No se registran costos adicionales, por concepto de envío, al costo total de su pedido, BSS Seguridad.',{
                           ttl:6000, type: 'info'
                         });
                       }else{
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
-                        inform.add('El pedido no tendra una recarga extra por envío al nuevo domicilio seleccionado, Seguridad TASS.',{
+                        inform.add('El pedido no tendra una recarga extra por envío al nuevo domicilio seleccionado, BSS Seguridad.',{
                           ttl:6000, type: 'success'
                         });
                       }
@@ -2077,13 +2045,13 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                           $scope.update.ticket.refund.push({'idTicketKf': obj.selected.idTicket, 'idRefundTypeKf':'1',  'description':'',  'refundAmount':obj.selected.costDelivery});
                           $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
                           $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"15"});
-                          inform.add('Se realizara un reintegro de ($ '+obj.selected.costDelivery+'), del costo inicial de su pedido, Seguridad TASS.',{
+                          inform.add('Se realizara un reintegro de ($ '+obj.selected.costDelivery+'), del costo inicial de su pedido, BSS Seguridad.',{
                             ttl:6000, type: 'info'
                           });
                         }else{
                           $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
                           $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"16"});
-                          inform.add('Se descontaran ($ '+obj.selected.costDelivery+'), del costo inicial de su pedido, Seguridad TASS.',{
+                          inform.add('Se descontaran ($ '+obj.selected.costDelivery+'), del costo inicial de su pedido, BSS Seguridad.',{
                             ttl:6000, type: 'info'
                           });
                           if (($scope.costDelivery==null || $scope.costDelivery==0) && obj.cost.delivery==0){
@@ -2099,19 +2067,19 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                           if (obj.cost.delivery!=undefined && obj.cost.delivery!=null && obj.cost.delivery>0){
                             //console.info(obj.cost);
                             $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"17"});
-                            inform.add('Nuevo link de pago por el monto de ($ '+obj.cost.delivery+'), sera generado por concepto de envío de su pedido, Seguridad TASS.',{
+                            inform.add('Nuevo link de pago por el monto de ($ '+obj.cost.delivery+'), sera generado por concepto de envío de su pedido, BSS Seguridad.',{
                               ttl:6000, type: 'warning'
                             });
                             $scope.update.ticket.createNewMPLinkForDelivery = true;
                             $scope.update.ticket.idStatusTicketKf = "3";
                           }else{
-                            inform.add('El pedido no tendra una recarga extra por envío al nuevo domicilio seleccionado, Seguridad TASS.',{
+                            inform.add('El pedido no tendra una recarga extra por envío al nuevo domicilio seleccionado, BSS Seguridad.',{
                               ttl:6000, type: 'success'
                             });
                           }
                         }else {
                             $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"17"});
-                            inform.add('Se adicionara monto de ($ '+obj.cost.delivery+'), por concepto de envío de su pedido, Seguridad TASS.',{
+                            inform.add('Se adicionara monto de ($ '+obj.cost.delivery+'), por concepto de envío de su pedido, BSS Seguridad.',{
                               ttl:6000, type: 'warning'
                             });
                             $scope.update.ticket.createNewMPLink = true;
@@ -2122,7 +2090,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                           //console.info(obj.cost);
                           $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
                           $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"17"});
-                          inform.add('Nuevo link de pago por el monto de ($ '+obj.cost.delivery+'), sera generado por concepto de envío de su pedido, Seguridad TASS.',{
+                          inform.add('Nuevo link de pago por el monto de ($ '+obj.cost.delivery+'), sera generado por concepto de envío de su pedido, BSS Seguridad.',{
                             ttl:6000, type: 'warning'
                           });
                           $scope.update.ticket.createNewMPLinkForDelivery = true;
@@ -2130,7 +2098,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                         }else {
                           $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
                           $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"17"});
-                          inform.add('Se adicionara monto de ($ '+obj.cost.delivery+'), por concepto de envío de su pedido, Seguridad TASS.',{
+                          inform.add('Se adicionara monto de ($ '+obj.cost.delivery+'), por concepto de envío de su pedido, BSS Seguridad.',{
                             ttl:6000, type: 'warning'
                           });
                           $scope.update.ticket.createNewMPLink = true;
@@ -2145,13 +2113,13 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                         if((obj.selected.paymentDetails!=undefined && obj.selected.paymentDetails!=null) && obj.selected.paymentDetails.mp_collection_status=='approved' && obj.selected.paymentDetails.mp_status_detail=='accredited'){
                           console.info(obj.cost);
                           //console.info(obj.cost);
-                          inform.add('Nuevo link de pago por el monto de ($ '+$scope.subTotalDeliveryCharged+'), sera generado por concepto de envío de su pedido, Seguridad TASS.',{
+                          inform.add('Nuevo link de pago por el monto de ($ '+$scope.subTotalDeliveryCharged+'), sera generado por concepto de envío de su pedido, BSS Seguridad.',{
                             ttl:6000, type: 'warning'
                           });
                           $scope.update.ticket.createNewMPLinkForDelivery = true;
                           $scope.update.ticket.idStatusTicketKf = "3";
                         }else {
-                          inform.add('Se adicionara un monto de ($ '+$scope.subTotalDeliveryCharged+'), por concepto de envío de su pedido, Seguridad TASS.',{
+                          inform.add('Se adicionara un monto de ($ '+$scope.subTotalDeliveryCharged+'), por concepto de envío de su pedido, BSS Seguridad.',{
                             ttl:6000, type: 'warning'
                           });
                           $scope.update.ticket.createNewMPLink = true;
@@ -2163,32 +2131,32 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                         $scope.subTotalDelivery = 0;
                         $scope.subTotalDelivery = Number(obj.cost.delivery);
                         $scope.subTotalRefunDelivery = Number($scope.costDelivery)-Number(obj.cost.delivery);
-                        inform.add('El pedido '+obj.codTicket+' tendra un descuento de ($ '+$scope.subTotalRefunDelivery+') por envío, Seguridad TASS.',{
+                        inform.add('El pedido '+obj.codTicket+' tendra un descuento de ($ '+$scope.subTotalRefunDelivery+') por envío, BSS Seguridad.',{
                           ttl:12000, type: 'info'
                         });
                         if((obj.selected.paymentDetails!=undefined && obj.selected.paymentDetails!=null) && obj.selected.paymentDetails.mp_collection_status=='approved' && obj.selected.paymentDetails.mp_status_detail=='accredited'){
                           console.info(obj.cost);
                           //console.info(obj.cost);
                           $scope.update.ticket.refund.push({'idTicketKf': obj.selected.idTicket, 'idRefundTypeKf':'1',  'description':'',  'refundAmount':obj.selected.costDelivery});
-                          inform.add('El pedido '+obj.codTicket+' tendra un descuento de ($ '+$scope.subTotalRefunDelivery+') por envío, Seguridad TASS.',{
+                          inform.add('El pedido '+obj.codTicket+' tendra un descuento de ($ '+$scope.subTotalRefunDelivery+') por envío, BSS Seguridad.',{
                             ttl:12000, type: 'info'
                           });
                           $scope.update.ticket.createNewMPLinkForDelivery = false;
                           $scope.update.ticket.idStatusTicketKf = "3";
                         }else {
-                          inform.add('Se descontara un total de ($ '+$scope.subTotalRefunDelivery+'), por diferencia de envío de su pedido, Seguridad TASS.',{
+                          inform.add('Se descontara un total de ($ '+$scope.subTotalRefunDelivery+'), por diferencia de envío de su pedido, BSS Seguridad.',{
                             ttl:6000, type: 'warning'
                           });
                           $scope.update.ticket.createNewMPLink = true;
                         }
                       }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo==obj.delivery.idDeliveryTo && obj.cost.delivery==obj.selected.costDelivery){
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
-                        inform.add('No se registran costos adicionales, por concepto de envío, al costo total de su pedido, Seguridad TASS.',{
+                        inform.add('No se registran costos adicionales, por concepto de envío, al costo total de su pedido, BSS Seguridad.',{
                           ttl:6000, type: 'info'
                         });
                       }else{
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
-                        inform.add('El pedido no tendra una recarga extra por envío al nuevo domicilio seleccionado, Seguridad TASS.',{
+                        inform.add('El pedido no tendra una recarga extra por envío al nuevo domicilio seleccionado, BSS Seguridad.',{
                           ttl:6000, type: 'success'
                         });
                       }
@@ -2336,7 +2304,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                     $scope.subTotalTotal = 0;
                     $scope.subTotalTotal = Number(obj.total)
                     $scope.update.ticket.removePaymentDelivery = false;
-                    inform.add('Cobro de ($ '+$scope.subTotalTotal+') por pedido '+obj.codTicket+' no sera realizado, Seguridad TASS.',{
+                    inform.add('Cobro de ($ '+$scope.subTotalTotal+') por pedido '+obj.codTicket+' no sera realizado, BSS Seguridad.',{
                       ttl:12000, type: 'info'
                     });
                     //$scope.clientName=obj.name;
@@ -2354,7 +2322,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                         $scope.subTotalTotal = Number(obj.total);
                         $scope.update.ticket.refund.push({'idTicketKf': obj.idTicket, 'idRefundTypeKf':'1', 'description':'', 'refundAmount':$scope.subTotalTotal});
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"24"});
-                        inform.add('Se realizara un reintegro de ($ '+$scope.subTotalTotal+'), del costo total del pedido '+obj.codTicket+', Seguridad TASS.',{
+                        inform.add('Se realizara un reintegro de ($ '+$scope.subTotalTotal+'), del costo total del pedido '+obj.codTicket+', BSS Seguridad.',{
                           ttl:12000, type: 'info'
                         });
                       }else if((obj.paymentDeliveryDetails!=undefined && obj.paymentDeliveryDetails!=null) && obj.isDeliveryHasChanged=="1" && obj.paymentDeliveryDetails.mp_collection_status!='approved' && obj.paymentDeliveryDetails.mp_status_detail!='accredited'){
@@ -2362,7 +2330,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                         $scope.update.ticket.refund.push({'idTicketKf': obj.idTicket, 'idRefundTypeKf':'1', 'description':'', 'refundAmount':$scope.subTotalTotal});
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"24"});
                         $scope.update.ticket.removePaymentDelivery = true;
-                        inform.add('Se realizara un reintegro de ($ '+$scope.subTotalTotal+'), del costo del pedido '+obj.codTicket+', Seguridad TASS.',{
+                        inform.add('Se realizara un reintegro de ($ '+$scope.subTotalTotal+'), del costo del pedido '+obj.codTicket+', BSS Seguridad.',{
                           ttl:12000, type: 'info'
                         });
                       }else{
@@ -2370,14 +2338,14 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                         $scope.update.ticket.refund.push({'idTicketKf': obj.idTicket, 'idRefundTypeKf':'1', 'description':'', 'refundAmount':$scope.subTotalTotal});
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"24"});
                         $scope.update.ticket.removePaymentDelivery = false;
-                        inform.add('Se realizara un reintegro de ($ '+$scope.subTotalTotal+'), del costo del pedido '+obj.codTicket+', Seguridad TASS.',{
+                        inform.add('Se realizara un reintegro de ($ '+$scope.subTotalTotal+'), del costo del pedido '+obj.codTicket+', BSS Seguridad.',{
                           ttl:12000, type: 'info'
                         });
                       }
                     }else{
                       $scope.subTotalTotal = Number(obj.total);
                       $scope.update.ticket.removePaymentDelivery = false;
-                      inform.add('Cobro de ($ '+$scope.subTotalTotal+') por pedido '+obj.codTicket+' no sera realizado, Seguridad TASS.',{
+                      inform.add('Cobro de ($ '+$scope.subTotalTotal+') por pedido '+obj.codTicket+' no sera realizado, BSS Seguridad.',{
                         ttl:12000, type: 'info'
                       });
                     }
@@ -2474,11 +2442,11 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 $scope.changeStatusTicketSingle=false;
                 $scope.changeStatusTicketMulti=true;
                 $('#changeModalStatus').modal({backdrop: 'static', keyboard: false});
-                inform.add('Han sido seleccionados  ('+$scope.selectedTicketList.length+') pedidos para el cambio de estatus, Seguridad TASS.',{
+                inform.add('Han sido seleccionados  ('+$scope.selectedTicketList.length+') pedidos para el cambio de estatus, BSS Seguridad.',{
                   ttl:6000, type: 'info'
                 });
               }else{
-                inform.add('No han sido seleccionados pedidos para el cambio de estatus, Seguridad TASS.',{
+                inform.add('No han sido seleccionados pedidos para el cambio de estatus, BSS Seguridad.',{
                   ttl:6000, type: 'info'
                 });
               }
@@ -2509,7 +2477,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 }, 100)
               });
               $q.all(assignedtickets).then(function () {
-                inform.add('Los pedidos seleccionados ahora se encuentran en '+$scope.ticket.newTicketStatus.statusName+', Seguridad TASS.',{
+                inform.add('Los pedidos seleccionados ahora se encuentran en '+$scope.ticket.newTicketStatus.statusName+', BSS Seguridad.',{
                   ttl:6000, type: 'info'
                 });
                 $scope.mainSwitchFn('search', null);
@@ -2758,7 +2726,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   if(response.status==200){
                       $scope.ticket.delivery.zone = response.data[0]
                   }else if(response.status==404){
-                      inform.add('El envio a la localidad seleccionada tendra un recargo extra, contacta al area de soporte de tass.',{
+                      inform.add('El envio a la localidad seleccionada tendra un recargo extra, contacta al area de soporte de Bss.',{
                       ttl:8000, type: 'info'
                       });
                       $scope.ticket.delivery.zone = null;
@@ -2906,8 +2874,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 $scope.mp.link.new.data.idTicket              = obj.idTicket;
                 $scope.mp.link.new.data.ticket_number         = obj.codTicket;
                 $scope.mp.link.new.data.monto                 = obj.createNewMPLinkForDelivery?Number(parseInt(obj.costDelivery)):Number(parseInt(obj.total));
-                $scope.mp.link.new.data.linkDeNotificacion    = "https://devtass.sytes.net/Back/index.php/MercadoLibre/getNotificationOfMP";
-                $scope.mp.link.new.data.back_url              = "https://devtass.sytes.net/monitor";
+                $scope.mp.link.new.data.linkDeNotificacion    = "https://devBss.sytes.net/Back/index.php/MercadoLibre/getNotificationOfMP";
+                $scope.mp.link.new.data.back_url              = "https://devBss.sytes.net/monitor";
                 $scope.mp.link.new.data.description           = obj.typeticket.TypeTicketName;
                 $scope.mp.link.new.data.quantity              = obj.keys.length;
                 $scope.mp.link.new.data.idPayment             = obj.idPaymentKf!=null || obj.idPaymentKf!=undefined?obj.idPaymentKf:null;
@@ -3139,22 +3107,22 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
           /******************************
           *    BILLING INITIATE TICKET  *
           ******************************/
-          $scope.setBillingInitiateFn = function(ticket){
-            ticketServices.seBillingInitiate(ticket).then(function(response){
-              //console.log(response);
-              if(response.status==404){
-                inform.add('Error: [404] Pedido no encontrado, contacta conc el area de soporte. ',{
-                  ttl:5000, type: 'warning'
-                });
-              }else if(response.status==500){
-                  $scope.ticketRegistered = null;
-                inform.add('Error: [500] Server Error, contacta al area de soporte. ',{
-                      ttl:5000, type: 'danger'
-                });
-              }
-            });
-          }
-          
+            $scope.setBillingInitiateFn = function(ticket){
+              ticketServices.seBillingInitiate(ticket).then(function(response){
+                //console.log(response);
+                if(response.status==404){
+                  inform.add('Error: [404] Pedido no encontrado, contacta conc el area de soporte. ',{
+                    ttl:5000, type: 'warning'
+                  });
+                }else if(response.status==500){
+                    $scope.ticketRegistered = null;
+                  inform.add('Error: [500] Server Error, contacta al area de soporte. ',{
+                        ttl:5000, type: 'danger'
+                  });
+                }
+              });
+            }
+            
           /****************************
           *        LIST TICKETS       *
           ****************************/
@@ -3209,13 +3177,13 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                       $scope.listTickt    =  response.data.response;
                       $scope.totalTickets = $scope.listTickt.length;
                   }else if (response.status==404){
-                      inform.add('No se encontraron resultados verifique el filtro seleccionado o contacte al soporte de TASS.',{
+                      inform.add('No se encontraron resultados verifique el filtro seleccionado o contacte al soporte de BSS.',{
                           ttl:3000, type: 'info'
                       });
                       $scope.listTickt =  [];
                       $scope.totalTickets = 0;
                   }else if (response.status==500){
-                      inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                      inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
                       ttl:3000, type: 'danger'
                       });
                       $scope.listTickt =  [];
@@ -3595,8 +3563,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 wb = XLSX.utils.book_new();
                 wb.Props = {
                     Title: sheetName,
-                    Subject: "Seguridad TASS",
-                    Author: "Seguridad TASS",
+                    Subject: "BSS Seguridad",
+                    Author: "BSS Seguridad",
                     CreatedDate: sysDate
                 };
                 wb.SheetNames.push(sheetName);

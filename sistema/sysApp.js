@@ -17,6 +17,7 @@ var app = angular.module('systemApp', ["ngRoute", "ngCookies",
                                             "module.Users",
                                            "services.Keys",
                                              "module.Keys",
+                                             "module.Tech",
                                         "services.Address",
                                         "module.Buildings",
                                           "module.Tickets",
@@ -94,12 +95,17 @@ app.config(['$routeProvider', '$locationProvider',
         .when('/status', {
             templateUrl: 'views/status/',
             controller: 'statusCtrl',
-            css: 'views/mainapp/style.css'
+            css: 'views/status/style.css'
         })
-        .when('/status/client_id/:client_id', {
+        .when('/status/client/:client', {
             templateUrl: 'views/status/',
             controller: 'statusCtrl',
-            css: 'views/mainapp/style.css'
+            css: 'views/status/style.css'
+        })
+        .when('/status/services/:service', {
+            templateUrl: 'views/status/',
+            controller: 'statusCtrl',
+            css: 'views/status/style.css'
         })
         .when('/services', {
             templateUrl: 'views/services/',
@@ -114,6 +120,11 @@ app.config(['$routeProvider', '$locationProvider',
         .when('/keys', {
             templateUrl: 'views/keys/',
             controller: 'KeysCtrl',
+            css: 'views/mainapp/style.css'
+        })
+        .when('/tech', {
+            templateUrl: 'views/technicians/',
+            controller: 'TechCtrl',
             css: 'views/mainapp/style.css'
         })
         .when('/tickets', {
@@ -137,7 +148,7 @@ app.config(['$routeProvider', '$locationProvider',
             css: 'views/mainapp/style.css'
         })
         .otherwise({
-            redirectTo: '/'
+            redirectTo: '/login'
         });
         // use the HTML5 History API
         $locationProvider.html5Mode(true);

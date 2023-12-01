@@ -17,8 +17,8 @@
               </div>
             <!-- //NEW TICKET -->
             <!-- SERVICES COST -->
-              <div class="col-md-12 col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="VER COSTOS DE SERVICIOS" ng-click="mainSwitchFn('costsss', null)">
-                <div class="ribbon ribbon-top-right"><span>proximamente</span></div>
+              <div class="col-md-12 col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="VER COSTOS DE SERVICIOS" ng-click="mainSwitchFn('costServices', null)">
+                <!-- <div class="ribbon ribbon-top-right"><span>proximamente</span></div>-->
                 <div class="depto-icon">
                       <span><i class="product-success glyphicon icon-dollar"></i></span>
                 </div>
@@ -36,7 +36,7 @@
             <div ng-if="sysContent=='tickets' && sysSubContent=='removeKeyRequest'" class="pull-left col-md-12 col-xs-12 n-padding-l">
               <div ng-include="'views/tickets/requests/removeKeyRequest.html'"></div>
             </div>
-            <div ng-if="sysContent=='costServices'" class="pull-left col-md-12 col-xs-12 n-padding-l">
+            <div ng-if="sysContent=='services' && sysSubContent=='costs'" class="pull-left col-md-12 col-xs-12 n-padding-l">
               <div ng-include="'views/tickets/costServices.html'"></div>
             </div>
           </div>

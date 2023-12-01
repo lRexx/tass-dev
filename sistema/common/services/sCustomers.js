@@ -100,7 +100,6 @@ moduleCustomerServices.service("CustomerServices", ['$http', '$q', 'tokenSystem'
           },            
           getCustomerList: function(searchFilter) {
             var sFilter=searchFilter;
-            var sMsg=searchFilter==null||searchFilter==undefined?"All":searchFilter;
             //console.log("[Customer Services] => criterio de busqueda: "+sMsg);
               return $http.post(serverHost+serverBackend+"Clientes/search",sFilter,serverHeaders)
                 .then(function mySucess(response, status) {
@@ -112,7 +111,6 @@ moduleCustomerServices.service("CustomerServices", ['$http', '$q', 'tokenSystem'
           },
           getCustomerListLimit: function(searchFilter) {
             var sFilter=searchFilter;
-            var sMsg=searchFilter==null||searchFilter==undefined?"All":searchFilter;
             //console.log("[Customer Services] => criterio de busqueda: "+sMsg);
               return $http.post(serverHost+serverBackend+"Clientes/search",sFilter,serverHeaders)
                 .then(function mySucess(response, status) {
@@ -289,12 +287,10 @@ moduleCustomerServices.service("CustomerServices", ['$http', '$q', 'tokenSystem'
                     method : "GET",
                     url : serverHost+serverBackend+"Clientes/controlAccessDoorsAssociatedToACustomerServices/"+id
                   }).then(function mySuccess(response) {
-                    deferred.resolve(response);
-                    return deferred.promise;
+                    return response;
                   }).catch(function onError(response) {
                     console.log("Error: "+response.data.error); 
-                    deferred.resolve(response);
-                    return deferred.promise;
+                    return response;
               })
           },
       }

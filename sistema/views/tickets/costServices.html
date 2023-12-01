@@ -1,245 +1,140 @@
 <!-- SETUP SERVICES COST -->
-<div class="container">
-	<div class="panel panel-default padding-panel">
-		<div class="panel-heading">
-			<h3 class="panel-title">COSTOS DE SERVICIOS</h3>
-		</div>
-		<div class="panel-body">
-			<!-- FORM CONTAINER-->
-			<div ng-if="sessionidProfile!=5 || (sessionidProfile==6 && sessionidTypeTenant!=2)" >
-				<form class="form-horizontal" name="frmCost">
-				<fieldset>
-					<!-- Company Name-->    
-					<div class="container-fluid" ng-show="sessionidProfile!=3"> 
-						<div class="row">   
-							<div class="col-md-9 col-md-offset-3">
-							  <label class="col-xs-12">Administracion</label>
-							    <div class="col-md-8">
-								    <div class="input-group">
-								        <span class="input-group-addon"><i class="icon-suitcase"></i></span>
-								  		<input ng-show="sessionidProfile!=1" name="CompanyName"  disabled class="form-control" ng-model="$parent.CompanyName" />
-									    <ui-select ng-show="sessionidProfile==1" name="idCompanyKf" ng-show="sessionidProfile==1" ng-required="sessionidProfile==1" ng-model="selectIdCompanyKf.selected" on-select="onSelectCallback()" ng-change="officeListByCompnayID(selectIdCompanyKf.selected.idCompany);">
-			                          		<ui-select-match allow-clear="true" placeholder="Seleccione una administracion">{{$select.selected.nameCompany}}</ui-select-match>
-			                            	<ui-select-choices repeat="item in listCompany | filter: $select.search">
-			                              		<div ng-bind-html="item.nameCompany | highlight: $select.search"></div>
-			                                		<small ng-bind-html="item.mail_admin | highlight: $select.search"></small>
-			                            	</ui-select-choices>
-			                        	</ui-select>
-								    </div>
-							  	</div>
-							</div>
-						</div>
+<div class="panel panel-default ">
+	<div class="panel-heading">
+		<h3 class="panel-title">COSTOS DE SERVICIOS</h3>
+	</div>
+	<div class="panel-body">
+		<!-- FORM CONTAINER-->
+		<div class="row">
+			<!-- Company Name-->
+			<div ng-if="sysLoggedUser.idProfileKf=='1'" class="form-group col-md-6">
+				<label style="padding-left: 15px;">Administración</label>
+				<div class="col-xs-12 selectContainer">
+					<div class="input-group">
+					<span class="input-group-addon"><i class="icon-suitcase"></i></span>
+						<ui-select 
+							name="admins"
+							ng-change="ticket.optionTypeSelected.name=undefined;select.buildings.selected=undefined;getBuildingListFn(select.admins.selected);"
+							ng-disabled="sysLoggedUser.idProfileKf!='1'"
+							ng-model="select.admins.selected" 
+							on-select="onSelectCallback()" >
+						<ui-select-match allow-clear="true" placeholder="Selecione una opción" >{{$select.selected.name | uppercase}}</ui-select-match>
+							<ui-select-choices repeat="item in administrationList | filter: $select.search">
+								<div ng-bind-html="item.name | highlight: $select.search"></div>
+								<small>Tipo de Cliente: </small><small class="label label-default" ng-bind-html="item.ClientType | highlight: $select.search"></small>
+							</ui-select-choices>
+							<ui-select-no-choice>
+								<span ng-if="administrationList.length > 0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay Administraciones registradas</span>
+							</ui-select-no-choice>
+						</ui-select>
 					</div>
-					<!-- Address for Admins -->
-					<div class="container-fluid" ng-show="sessionidProfile!=3"> 
-						<div class="row">   
-							<div class="col-md-9 col-md-offset-3">
-							  	<label class="col-xs-12">Direcci&#243n del Consorcio</label>
-								    <div class="col-md-8">
-									    <div class="input-group">
-									        <span class="input-group-addon"><i class="glyphicon icon-building"></i></span>
-				                            <ui-select name="idAddressAtt" ng-disabled="!companyFound" ng-change="getCostServiceData(4, selectIdAddressKf.selected.idAdress); getKeyChains(selectIdAddressKf.selected.idAdress);" ng-required="sessionidProfile!=4" ng-model="selectIdAddressKf.selected" autofocus>
-							                  	<ui-select-match allow-clear="true" placeholder="Seleccione una direccion">{{$select.selected.nameAdress}}</ui-select-match>
-							                    <ui-select-choices repeat="item in listOffice | filter: $select.search">
-							                      <div ng-bind-html="item.nameAdress | highlight: $select.search"></div>
-							                        <!--<small>Costo de Gestion: </small><small ng-bind-html="item.priceManagement | highlight: $select.search"></small>
-							                        <small>Costo de Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>
-													getServicesValues(selectIdAddressKf.selected.idAdress); 
-													getKeyChains(selectIdAddressKf.selected.idAdress);
-							                        -->
-							                    </ui-select-choices>
-							                </ui-select>
-									    </div>
-								  	</div>
-							</div>
-						</div>
-					</div>
-					<!-- Address for Onwers-->
-					<div class="container-fluid" ng-show="sessionidProfile==3"> 
-						<div class="row">   
-							<div class="col-md-9 col-md-offset-3">
-							  	<label class="col-xs-12">Direcci&#243n del Consorcio</label>
-								    <div class="col-md-8">
-									    <div class="input-group">
-									        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-									  		<select name="idAddressAtt" class="form-control" ng-change="getCostServiceData(3, select.idAddressAtt); getKeyChains(select.idAddressAtt);"  ng-options="item.idAdress as item.nameAdress for item in ListTenantAddress" ng-required="sessionidProfile!=3" ng-model="select.idAddressAtt" autofocus >
-											    <option value="">Seleccione un consorcio</option>
-										    </select>
-									    </div>
-								  	</div>
-							</div>
-						</div>
-					</div>
-					<div><ul><i class="divider"></li></ul></div>
-					<div ng-if="!selectIdAddressKf.selected.idAdress && !select.idAddressAtt">
-						<div class="alert alert-info alert-dismissible" role="alert">
-							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<i class="glyphicon glyphicon-info-sign"></i><span> <strong>INFO: </strong>Selecciona una dieccion de un consorcio para conocer los costos.</span>
-						</div>
-					</div>
-					<div ng-if="sssselectIdAddressKf.selected.idAdress || ssssselect.idAddressAtt">
-						<!-- Service-->
-						<div class="container-fluid">
-							<div class="row">
-			  				    <div class="col-md-6 col-md-offset-3">
-								    <div ng-if="costService!=0" class="alert alert-info" role="alert">
-										<strong>Costo Gestion (Alta / Baja): </strong><span class="pull-right">{{costService}} <i class="glyphicon glyphicon-edit"></i></span>
-
-									</div>
-									<div ng-if="costService==0" class="alert alert-warning" role="alert">
-										<strong>Costo Servicio: </strong><span class="pull-right">Valor No Asignado. <i class="glyphicon glyphicon-exclamation-sign"></i></span>
-										
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Key-->
-						<div class="container-fluid"> 
-							<div class="row"> 
-							    <div class="col-md-6 col-md-offset-3">
-								    <div ng-if="costKey!=0" class="alert alert-info" role="alert">
-										<strong>Costo de Llave: </strong><span class="pull-right">{{costKey}} <i class="glyphicon icon-key"></i></span>
-									</div>
-									<div ng-if="costKey==0" class="alert alert-warning" role="alert">
-										<strong>Costo Llave: </strong><span class="pull-right">Valor No Asignado. <i class="glyphicon glyphicon-exclamation-sign"></i></span>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Delivery-->
-						<div class="container-fluid">
-							<div class="row">
-							   	<div class="col-md-6 col-md-offset-3">
-								    <div ng-if="costDelivery!=0" class="alert alert-info" role="alert">
-										<strong>Costo de Envio: </strong><span class="pull-right">{{costDelivery}} <i class="glyphicon icon-truck"></i></span>
-									</div>
-									<div ng-if="costDelivery==0" class="alert alert-warning" role="alert">
-										<strong>Costo Envio: </strong><span class="pull-right">Valor No Asignado. <i class="fas fa-ban"></i></span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div ng-if="selectIdAddressKf.selected.idAdress || select.idAddressAtt" class="container-fluid justify-content-md-center col-md-12 col-md-offset-3">
-						<div class="col-md-3">    	    
-							<div class="cost-widget well well-sm">
-				            	<div class="cost-icon">
-				                 	<i class="fas fa-edit"></i>
-				            	</div>
-				            	<div class="text">
-				                	<h4 class="text-muted">Costo Gestion</h4>
-				            	</div>
-				            	<div class="options">
-				                <span data-toggle="tooltip" data-placement="bottom" title="Costo de gestion" class="badge badge-light">{{costService}}</span>
-				            	</div>
-				        	</div>
-				        </div>
-						<!--<div class="col-md-3">    	    
-							<div class="hero-widget well well-sm">
-				            	<div class="icon">
-				                 	<i class="fas fa-key"></i>
-				            	</div>
-				            	<div class="text">
-				                	<h4 class="text-muted">Costo de Llave</h4>
-				            	</div>
-				            	<div class="options">
-				                <span data-toggle="tooltip" data-placement="bottom" title="Costo de Llave" class="badge badge-light">{{costKey}}</span>
-				            	</div>
-				        	</div>
-				        </div>-->
-						<div class="col-md-3">    	    
-							<div class="cost-widget well well-sm">
-				            	<div class="cost-icon">
-				                 	<i class="fas fa-truck"></i>
-				            	</div>
-				            	<div class="text">
-				                	<h4 class="text-muted">Costo de Envio</h4>
-				            	</div>
-				            	<div class="options">
-				                	<span data-toggle="tooltip" data-placement="bottom" title="Costo de envio" class="badge badge-light">{{costDelivery}}</span>
-				            	</div>
-				        	</div>
-				        </div>
-				    </div>
-				</fieldset>
-				</form>
-			</div>
-			<div ng-if="sessionidProfile==5 || (sessionidProfile==6 && sessionidTypeTenant==2)" >
-					<div class="col-md-9 col-md-offset-3">
-					  <label class="col-xs-12">Consorcio</label>
-					    <div class="col-md-8">
-						    <div class="input-group">
-						        <span class="input-group-addon"><i class="icon-suitcase"></i></span>
-						  		<input name="addressName"  disabled class="form-control" value="{{idAddressAtt}}" />
-						    </div>
-					  	</div>
-					</div>
-					<br><br><br><br>
-					<div class="container-fluid justify-content-md-center col-md-12 col-md-offset-3">
-						<div class="col-md-3">    	    
-							<div class="hero-widget well well-sm">
-				            	<div class="icon">
-				                 	<i class="fas fa-edit"></i>
-				            	</div>
-				            	<div class="text">
-				                	<h4 class="text-muted">Costo Gestion</h4>
-				            	</div>
-				            	<div class="options">
-				                <span data-toggle="tooltip" data-placement="bottom" title="Costo de gestion" class="badge badge-light">{{costService}}</span>
-				            	</div>
-				        	</div>
-				        </div>
-						<!--<div class="col-md-3">    	    
-							<div class="hero-widget well well-sm">
-				            	<div class="icon">
-				                 	<i class="fas fa-key"></i>
-				            	</div>
-				            	<div class="text">
-				                	<h4 class="text-muted">Costo de Llave</h4>
-				            	</div>
-				            	<div class="options">
-				                <span data-toggle="tooltip" data-placement="bottom" title="Costo de Llave" class="badge badge-light">{{costKey}}</span>
-				            	</div>
-				        	</div>
-				        </div>-->
-						<div class="col-md-3">    	    
-							<div class="hero-widget well well-sm">
-				            	<div class="icon">
-				                 	<i class="fas fa-truck"></i>
-				            	</div>
-				            	<div class="text">
-				                	<h4 class="text-muted">Costo de Envio</h4>
-				            	</div>
-				            	<div class="options">
-				                	<span data-toggle="tooltip" data-placement="bottom" title="Costo de envio" class="badge badge-light">{{costDelivery}}</span>
-				            	</div>
-				        	</div>
-				        </div>
-				    </div>
-			</div>
-			<div class="col-md-8 col-md-offset-2" ng-if="selectIdAddressKf.selected.idAdress || select.idAddressAtt || sessionidProfile==5 ">
-				<h3 style="text-align: center;">Tipos de Llaveros Disponibles</h3>
-		      	<div class="modal-body pre-scrollable">
-    				<table class="table  table-striped ">
-	                    <thead style=" background: #4d5d6f; color: white;">
-	                        <tr >
-	                            <th>N°</th>
-	                            <th>Descripcion</th>
-	                            <th>Costo</th>
-	                    </thead>
-	                    <tbody >
-	                        <tr style="align-content: center;" ng-repeat="keys in keyChains">
-	                        
-	                        	<td>{{$index+1}}</td>
-		                        <td><span ng-if="keys.item=='Llaveros'"><i class="fas fa-key"> </i></span>
-		                        	<span ng-if="keys.item=='Sticket Vehicular'"><i class="fas fa-car"> </i></span>
-		                        	<span ng-if="keys.item=='Credencial Movil'"><i class="fas fa-mobile-alt"> </i></span>{{keys.item}}</td>
-		                        <td>$ {{keys.value}}</td>
-		                    </tr>
-		                </tbody>
-    				</table>
 				</div>
 			</div>
+			<!-- Text Address for Admins & TASS-->
+			<div ng-if="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && !isHomeSelected" class="form-group n-padding-r" ng-class="
+				{	'col-md-6': 
+					sysLoggedUser.idProfileKf=='1',
+					'col-md-12':  
+					sysLoggedUser.idProfileKf!='1',
+				}">
+				<label style="padding-left: 15px;">Consorcio</label>
+				<div class="col-xs-12 selectContainer">
+					<div class="input-group">
+					<span class="input-group-addon"><i class="icon-suitcase"></i></span>
+						<ui-select 
+							name="buildings"
+							ng-change="mainSwitchFn('loadBuildingData', select.buildings.selected, null); ticket.idClientDepartament=undefined;"
+							ng-disabled="select.admins.selected==undefined"
+							ng-model="select.buildings.selected">
+						<ui-select-match allow-clear="true" placeholder="Selecione una opción" >{{$select.selected.name | uppercase}}</ui-select-match>
+							<ui-select-choices repeat="item in buildingList | filter: $select.search">
+								<div ng-bind-html="item.name | highlight: $select.search"></div>
+								<small>Tipo de Cliente: </small><small class="label label-default" ng-bind-html="item.ClientType | highlight: $select.search"></small>
+							</ui-select-choices>
+							<ui-select-no-choice>
+								<span ng-if="buildingList.length == 0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay consorcios asociados</span>
+							</ui-select-no-choice>
+						</ui-select>
+					</div>
+				</div>
+			</div>
+			<!-- Address for Onwers/Tenants-->
+			<div class="form-group" ng-if="sysLoggedUser.idProfileKf==3 || sysLoggedUser.idProfileKf==5 || (((sysLoggedUser.idProfileKf==4 && isHomeSelected) || sysLoggedUser.idProfileKf==6) && sysLoggedUser.idTypeTenantKf!=null)">
+				<!-- TABLE LIST WHERE IS DISPLAYED THE DEPARTMENTS -->
+				<div ng-include="'views/tickets/list/listDepartments.html'"></div>
+			</div>
+		</div>
+		<div ng-if="ticket.idClientDepartament!=null || select.buildings.selected!=undefined" >
+				<div class="container-fluid justify-content-md-center col-md-12 col-md-offset-3">
+					<div class="col-md-3">    	    
+						<div class="hero-widget well well-sm">
+							<div class="icon">
+								<i class="fas fa-edit"></i>
+							</div>
+							<div class="text">
+								<h4 class="text-muted">Costo Gestion</h4>
+							</div>
+							<div class="options">
+							<span data-toggle="tooltip" data-placement="bottom" title="Costo de gestion" class="badge badge-light">{{buildingServiceValue}}</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">    	    
+						<div class="hero-widget well well-sm">
+							<div class="icon">
+								<i class="fas fa-truck"></i>
+							</div>
+							<div class="text">
+								<h4 class="text-muted">Costo de Envío</h4>
+							</div>
+							<div class="options">
+								<span data-toggle="tooltip" data-placement="bottom" title="Costo de envio" class="badge badge-light">{{buildingDeliveryCost}}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>
+		<div class="col-md-6 col-xs-12 form-group" ng-if="ticket.idClientDepartament!=null || select.buildings.selected!=undefined">
+			<legend style="text-align: center;">Puertas disponibles</legend>
+			<div class="col-md-12 col-xs-12 n-padding-l n-padding-r">
+				<div ng-if="rsCustomerAccessControlDoors.length>0" class="form-group col-md-2 col-xs-6 bg-warning " ng-repeat="door in rsCustomerAccessControlDoors" style="margin-bottom: 0px !important; margin-left: 5px !important; margin-top: 5px !important;">
+					<div class="col-md-12 col-xs-12 well-door" style="cursor: pointer;">
+						<div class="door-icon">
+							<span><i class="product-success fas " ng-class="{'fa-door-open text-success':door.selected, 'fa-door-closed':!door.selected}"></i></span>
+						</div>
+						<div class="text-badge">
+							<span class="new-customer badge badge-light"> {{door.titulo}} </span>
+						</div>
+					</div>
+				</div>
+				<div ng-if="rsCustomerAccessControlDoors.length==0 " class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay Puertas disponibles</h5></div>
+			</div>
+		</div>
+		<div class="col-md-6 col-xs-12 form-group" ng-if="ticket.idClientDepartament!=null || select.buildings.selected!=undefined">
+			<legend style="text-align: center;">Llaveros disponibles</legend>
+			<div ng-if="rsKeyProductsData.length>=1" class="modal-body pre-scrollable">
+				<table class="table  table-striped ">
+					<thead style=" background: #4d5d6f; color: white;">
+						<tr >
+							<th>N°</th>
+							<th>Descripcion</th>
+							<th>Status</th>
+							<th>Costo</th>
+					</thead>
+					<tbody >
+						<tr style="align-content: center;" ng-repeat="keys in rsKeyProductsData">
+						
+							<td>{{$index+1}}</td>
+							<td><span ng-if="keys.item=='Llaveros'"><i class="fas fa-key"> </i></span>
+								<span ng-if="keys.item=='Sticket Vehicular'"><i class="fas fa-car"> </i></span>
+								<span ng-if="keys.item=='Credencial Movil'"><i class="fas fa-mobile-alt"> </i></span>{{keys.descriptionProduct}}</td>
+							<td><span class="badge" ng-class="{'badge-warning':keys.idStatusFk!='1', 'badge-success':keys.idStatusFk=='1',}">{{keys.contractStatus}}</span></td>
+							<td>$ {{keys.priceFabric}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div ng-if="rsKeyProductsData.length==0 " class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay Llaveros disponibles</h5></div>
 		</div>
 	</div>
 </div>

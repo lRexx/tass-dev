@@ -106,7 +106,7 @@
 								  				(service.modem.selected==undefined) && fCustomerNewService.service_modem.$touched,
 								  			}">
 						  	<div class="col-md-6"><label style="padding-left: 15px;">MODEM </label> </div>
-						  	<div class="pull-right col-md-4"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.modem.selected==undefined" ng-click="compServiceProductDetailsFn(service.modem.selected, productListType.MODEM)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+						  	<div class="pull-right col-md-4 n-padding-r"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.modem.selected==undefined" ng-click="compServiceProductDetailsFn(service.modem.selected, productListType.MODEM)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 						  	<button ng-if="service.modem.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeProductDetailsFn(service.modem.selected, productListType.MODEM, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div> 
 						    <div class="col-xs-12 selectContainer">							   
 							    <div class="input-group">
@@ -157,29 +157,29 @@
 						</div>
 						<div ng-if="service.new.idTypeInternetFk!=undefined && service.new.idTypeInternetFk>='3'" class="form-group col-md-6" ng-class="
 									{	'has-success': 
-										service.new.numLine!='' && fCustomerNewService.service_numLine.$valid,
+										service.new.numberLine!='' && fCustomerNewService.service_numberLine.$valid,
 									 	'has-error':  
-										(service.new.numLine=='' || service.new.numLine==undefined) && fCustomerNewService.service_numLine.$touched,
+										(service.new.numberLine=='' || service.new.numberLine==undefined) && fCustomerNewService.service_numberLine.$touched,
 									}">
 						  <label style="padding-left: 15px;">N° de Linea</label>  
 							  <div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-sim-card"></i></span>
-									<input name="service_numLine" type="text" class="form-control" ng-model="service.new.numLine" />
+									<input name="service_numberLine" type="text" class="form-control" ng-model="service.new.numberLine" />
 							  </div>
 							</div>
 						</div>
 						<div ng-if="service.new.idTypeInternetFk!=undefined && service.new.idTypeInternetFk>='3'" class="form-group col-md-6" ng-class="
 									{	'has-success': 
-										service.new.numChip!='' && fCustomerNewService.service_numChip.$valid,
+										service.new.numberChip!='' && fCustomerNewService.service_numberChip.$valid,
 									 	'has-error':  
-										(service.new.numChip=='' || service.new.numChip==undefined) && fCustomerNewService.service_numChip.$touched,
+										(service.new.numberChip=='' || service.new.numberChip==undefined) && fCustomerNewService.service_numberChip.$touched,
 									}">
 						  <label style="padding-left: 15px;">N° de Chip</label>  
 							  <div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-sim-card"></i></span>
-									<input name="service_numChip" type="text" class="form-control" ng-model="service.new.numChip" />
+									<input name="service_numberChip" type="text" class="form-control" ng-model="service.new.numberChip" />
 							  </div>
 							</div>
 						</div>
@@ -209,7 +209,7 @@
 								  			}">
 						  <div class="col-md-6">
 						  	<label style="padding-left: 15px;">Router conectado </label></div>
-						  <div class="pull-right col-md-4"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.router.selected==undefined" ng-click="compServiceProductDetailsFn(service.router.selected, productListType.ROUTER)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+						  <div class="pull-right col-md-4  n-padding-r"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.router.selected==undefined" ng-click="compServiceProductDetailsFn(service.router.selected, productListType.ROUTER)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 						  	<button ng-if="service.router.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeProductDetailsFn(service.router.selected, productListType.ROUTER, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
 						    <div class="col-xs-12 selectContainer">
 							    <div class="input-group">
@@ -281,22 +281,22 @@
 								</div>
 							</div>
 							<div ng-if="service.new.idTypeInternetFk!=undefined && service.new.idTypeInternetFk=='1'" class="well-checkbox form-group col-md-6 n-padding-l n-padding-r">
-								<div class="form-group col-md-6 text-badge"> <h4>Wifi TASS</h4></div>
+								<div class="form-group col-md-6 text-badge"> <h4>Wifi BSS</h4></div>
 								<div class="form-group col-md-12">
-								  <label style="padding-left: 15px;">Usuario TASS</label>  
+								  <label style="padding-left: 15px;">Usuario BSS</label>  
 									  <div class="col-xs-12">
 										<div class="input-group">
 											<span class="input-group-addon"><i class="fas fa-user"></i></span>
-											<input name="service_userTass" type="text" class="form-control" ng-model="service.new.userTass" />
+											<input name="service_userTass" type="text" class="form-control" ng-model="service.new.userWifi" />
 									  </div>
 									</div>
 								</div>
 								<div class="form-group col-md-12">
-								  <label style="padding-left: 15px;">Clave TASS</label>  
+								  <label style="padding-left: 15px;">Clave BSS</label>  
 									  <div class="col-xs-12">
 										<div class="input-group">
 											<span class="input-group-addon"><i class="fas fa-key"></i></span>
-											<input name="service_passTass" type="text" class="form-control" ng-model="service.new.passTass" />
+											<input name="service_passTass" type="text" class="form-control" ng-model="service.new.passWifi" />
 									  </div>
 									</div>
 								</div>
@@ -308,7 +308,7 @@
 									  <div class="col-xs-12">
 										<div class="input-group">
 											<span class="input-group-addon"><i class="fas fa-user"></i></span>
-											<input name="service_userCliente" type="text" class="form-control" ng-model="service.new.userCliente" />
+											<input name="service_userCliente" type="text" class="form-control" ng-model="service.new.userAdmin" />
 									  </div>
 									</div>
 								</div>
@@ -317,7 +317,7 @@
 									  <div class="col-xs-12">
 										<div class="input-group">
 											<span class="input-group-addon"><i class="fas fa-key"></i></span>
-											<input name="service_passCliente" type="text" class="form-control" ng-model="service.new.passCliente" />
+											<input name="service_passCliente" type="text" class="form-control" ng-model="service.new.passAdmin" />
 									  </div>
 									</div>
 								</div>

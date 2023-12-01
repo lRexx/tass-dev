@@ -552,9 +552,10 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
         $scope.setCustomersListRs = {}
         $scope.getCustomerLisServiceFn = function(searchFilter, isNotCliente, idClientTypeFk, isInDebt, start, limit, strict){
           console.log($scope.customerSearch);
-          var searchFilter    = searchFilter!=undefined && searchFilter!=null?searchFilter:null;
+          console.log(idClientTypeFk);
+          var searchFilter    = searchFilter!=undefined && searchFilter!="" && searchFilter!=null?searchFilter:null;
           var isNotCliente    = isNotCliente!=undefined && isNotCliente!=null?isNotCliente:"0";
-          var idClientTypeFk  = idClientTypeFk!=undefined && idClientTypeFk!=null?idClientTypeFk:null;
+          var idClientTypeFk  = idClientTypeFk!=undefined && idClientTypeFk!="" && idClientTypeFk!=null?idClientTypeFk:null;
           var isInDebt        = isInDebt!=false && isInDebt!=undefined && isInDebt!=null?1:null;
           var start           = start!=undefined && start!=null && (!isInDebt && !strict)?start:"";
           var limit           = limit!=undefined && limit!=null && (!isInDebt && !strict)?limit:"";
@@ -569,7 +570,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
             "limit":limit,
             "strict":strict
           };
-          //console.log($scope.customersSearch);
+          console.log($scope.customersSearch);
           return CustomerServices.getCustomerListLimit($scope.customersSearch).then(function(response){
             //console.info(response);
             if(response.status==200){
@@ -591,7 +592,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
       **************************************************/
           $scope.getCustomersListFn = function(search, isNotCliente, idClientTypeFk, isInDebt, start, limit) {
             $scope.getCustomerLisServiceFn(search, isNotCliente, idClientTypeFk, isInDebt, start, limit, null).then(function(data) {
-              //console.info(data.customers);
+              console.info(data);
               $scope.rsCustomerListData     = data.customers;
               $scope.pagination.totalCount  = data.totalCount;
             }, function(err) {
@@ -605,15 +606,43 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
       **************************************************/
           $scope.getCustomersListByTypeFn = function(idClientTypeFk) {
             if (idClientTypeFk!=undefined && idClientTypeFk!='' && idClientTypeFk!=null){
-              $scope.getCustomerLisServiceFn(null, $scope.customersSearch.isNotCliente, idClientTypeFk, null, "", "", null).then(function(data) {
-                //console.info(data.customers);
-                $scope.rsCustomerListByTypeData = data.customers;
-              }, function(err) {
-                //error
-              });
+              if ($scope.select.filterTypeOfClient!=undefined){
+                $scope.getCustomerLisServiceFn(null, $scope.customersSearch.isNotCliente, idClientTypeFk, $scope.customerSearch.isInDebt, "", "", $scope.customerSearch.strict).then(function(data) {
+                  //console.info(data.customers);
+                    $scope.rsCustomerListByTypeData = data.customers;
+                }, function(err) {
+                  //error
+                  $scope.rsCustomerListByTypeData = [];
+                });
+              }else{
+                console.info("idClientTypeFk: "+ idClientTypeFk);
+                $scope.getCustomerLisServiceFn($scope.customersSearch.searchFilter, $scope.customersSearch.isNotCliente, idClientTypeFk, $scope.customerSearch.isInDebt, "", "10", $scope.customerSearch.strict).then(function(data) {
+                    console.info(data);
+                    if(data.status==404){
+                      $scope.rsCustomerListData = [];
+                    }else{
+                      $scope.rsCustomerListData    = data.customers;
+                      $scope.pagination.totalCount = data.totalCount;
+                    }
+                }, function(err) {
+                  //error
+                  $scope.rsCustomerListData = [];
+                });
+              }
             }else{
               $scope.customersSearch.idClientTypeFk = null;
-              $scope.pageChanged();
+              $scope.getCustomerLisServiceFn($scope.customersSearch.searchFilter, $scope.customersSearch.isNotCliente, idClientTypeFk, $scope.customerSearch.isInDebt, "", "10", $scope.customerSearch.strict).then(function(data) {
+                //console.info(data.customers);
+                if(data.status==404){
+                  $scope.rsCustomerListData = [];
+                }else{
+                  $scope.rsCustomerListData    = data.customers;
+                  $scope.pagination.totalCount = data.totalCount;
+                }
+              }, function(err) {
+                //error
+                $scope.rsCustomerListData = [];
+              });
             }
           }
       /**************************************************
@@ -623,13 +652,15 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
       **************************************************/
         $scope.searchboxfilterDB=null;
         $scope.getCustomersByNameFn = function(clientName, isInDebt, strict) {
-          console.log($scope.customerSearch);
+          var clientTypeFk = $scope.customersSearch.idClientTypeFk!= undefined && ($scope.customerSearch.typeClient=="" && $scope.customerSearch.typeClient!=undefined)?$scope.customersSearch.idClientTypeFk:$scope.customerSearch.typeClient;
+          console.log("clientTypeFk: "+clientTypeFk);
+
           if(clientName!=undefined && clientName.length>=2){
             if (clientName!=undefined && clientName!='' && clientName!=null){
-              $scope.getCustomerLisServiceFn(clientName, $scope.customersSearch.isNotCliente, $scope.customersSearch.idClientTypeFk, $scope.customerSearch.isInDebt, "", "10", $scope.customerSearch.strict).then(function(response) {
+              $scope.getCustomerLisServiceFn(clientName, $scope.customersSearch.isNotCliente, clientTypeFk, $scope.customerSearch.isInDebt, 0, 10, $scope.customerSearch.strict).then(function(response) {
                 console.info(response);
                 if(response.status==undefined){
-                  $scope.rsCustomerListData = response.customers;
+                  $scope.rsCustomerListData    = response.customers;
                   $scope.pagination.totalCount = response.customers.length;
                 }else if(response.status==404){
                   $scope.rsCustomerListData = [];
@@ -658,11 +689,14 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
       **************************************************/
           $scope.realItemList = null;
           $scope.searchboxfilterOffline=null;
+          $scope.fullSourceList = [];
           $scope.offlineSearch = function (sourceList, qvalue1, qvalue2, vStrict) {
             console.log("[search]-->qvalue1: "+qvalue1);
             console.log("[search]-->qvalue2: "+qvalue2);
             console.log("[search]-->vStrict: "+vStrict);
-            $scope.items = sourceList;
+            console.log(sourceList);
+            $scope.fullSourceList=$scope.fullSourceList.length==0 && sourceList.length>$scope.fullSourceList.length?sourceList:$scope.fullSourceList;
+            $scope.items = $scope.fullSourceList;
             console.log($scope.items);
             var output=[];
             if ((qvalue1!=undefined && qvalue1!='' && qvalue1!=null) || (qvalue2!=undefined && qvalue2!='' && qvalue2!=null)){
@@ -730,7 +764,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
           }, function(err) {
             $scope.customersSearch.idClientTypeFk = null;
           });
-        };$scope.getCompaniesCustomersListFn();
+        };//$scope.getCompaniesCustomersListFn();
 
       /**************************************************
       *                                                 *
@@ -777,17 +811,17 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
             console.log("getLisOfCustomersByIdFn: "+id);
             $scope.rsCustomerListData=[];
             CustomerServices.getCustomersListByCustomerId(id).then(function(response){
-              console.log(response);
+              
               if(response.status==200){
                 $scope.rsCustomerListData     = response.data;
                 $scope.pagination.totalCount  = response.data.length;
-
-                if($scope.select.filterTypeOfClient!='' && $scope.elect.filterCustomerIdFk.selected!=undefined){
+                console.log($scope.rsCustomerListData);
+                if($scope.select.filterTypeOfClient!=undefined && $scope.select.filterCustomerIdFk.selected!=undefined){
                   console.log("select.filterTypeOfClient: ");
                   console.log($scope.select.filterTypeOfClient);
                   console.log("select.filterCustomerIdFk: ");
                   console.log($scope.select.filterCustomerIdFk.selected);
-                  $scope.offlineSearch($scope.rsCustomerListData,$scope.searchboxfilterOffline,$scope.customerSearch.isInDebt,false);
+                  //$scope.offlineSearch($scope.rsCustomerListData,$scope.searchboxfilterOffline,$scope.customerSearch.isInDebt,false);
                 }
               }else{
                 $scope.rsCustomerListData     = [];
@@ -1191,7 +1225,6 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                                   });
                                 break;
                                 case "payment":
-
                                     $scope.customer.new.billing_information_details.nameAddress=nameAddress.toUpperCase();
                                 break;
                                 case "particular":
@@ -1267,6 +1300,9 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                   }
                 });
               }else{
+                    inform.add('Debe indicar el nombre y numero de la calle. ',{
+                      ttl:2000, type: 'warning'
+                    });
                   switch(opt){
                     case "main":
                       $scope.rsAddress_API_Data_Main = null; //Main = Principal Customer Address
@@ -3243,6 +3279,12 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                   //$scope.getCustomerListFn("all", 2);
                   $scope.getBuildingsFn();
                   $scope.rsCustomerSelectData = [];
+                  if ($scope.rsCustomerAdminListData!=undefined && $scope.rsCustomerAdminListData.length==0){
+                    $scope.getAdminCustomersListFn();
+                  }
+                  if ($scope.rsCustomerCompaniesListData!=undefined && $scope.rsCustomerCompaniesListData.length==0){
+                    $scope.getCompaniesCustomersListFn();
+                  }                    
                   $timeout(function() {
                     for (var admin in $scope.rsCustomerAdminListData){
                       $scope.rsCustomerSelectData.push($scope.rsCustomerAdminListData[admin]);
@@ -3488,6 +3530,47 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                 case "isInDebtClient":
                   console.log(cObj);
                   $scope.setClientInDebtFn(cObj);
+                break;
+                case "newManualAddress":
+                  console.log(cObj);
+                  var twoNumber_patt=/^(?=(?:\D*\d){2})[a-zA-Z0-9_]+( [a-zA-Z0-9_]+)*$/;
+                  if (twoNumber_patt.test(cObj.nameAddress)){
+                    switch(opt2){
+                      case "main":
+                        $scope.customer.new.address=cObj.nameAddress.toUpperCase();
+                        $scope.customer.new.nameAddress=cObj.nameAddress.toUpperCase(); 
+                        $scope.customer.new.addressLat=null;
+                        $scope.customer.new.addressLon=null;
+                        $scope.geoLocation.option="main";
+                        $scope.geoLocation.address=cObj.nameAddress.toUpperCase();
+                        $scope.addrrSelected=true;
+                        $("#AddressLatLon").modal({backdrop: 'static', keyboard: false});
+                        $("#AddressLatLon").on('shown.bs.modal', function () {
+                          $("#addr_Lat").focus();
+                        });
+                      break;
+                      case "payment":
+                          $scope.customer.new.billing_information_details.nameAddress=cObj.nameAddress.toUpperCase();
+                      break;
+                      case "particular":
+                        $scope.customer.particular.address=cObj.nameAddress.toUpperCase();              
+                        $scope.customer.particular.nameAddress=cObj.nameAddress.toUpperCase(); 
+                        $scope.customer.particular.addressLat=null;
+                        $scope.customer.particular.addressLon=null;
+                        $scope.geoLocation.option="particular";
+                        $scope.geoLocation.address=cObj.nameAddress.toUpperCase();
+                        $scope.addrrSelected=true;
+                        $("#AddressLatLon").modal({backdrop: 'static', keyboard: false});
+                        $("#AddressLatLon").on('shown.bs.modal', function () {
+                          $("#addr_Lat").focus();
+                        });
+                      break;
+                    }
+                  }else{
+                    inform.add('Debe indicar el nombre y numero de la calle. ',{
+                      ttl:2000, type: 'warning'
+                    });
+                  }
                 break;
               default:
             }
@@ -3759,9 +3842,18 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                           var arrLocation = [];
                           arrProvince = $scope.getCustomerProvinceNameFromIdFn($scope.customer.update.idProvinceFk);
                           arrLocation= $scope.getCustomerLocationNameFromIdFn($scope.customer.update.idLocationFk, $scope.customer.update.idProvinceFk);
-                          $scope.customer.select.main.province.selected = {idProvince: arrProvince[0].idProvince, province: arrProvince[0].province};
-                          $scope.customer.select.main.location.selected = {idLocation: arrLocation[0].idLocation, location: arrLocation[0].location};
-
+                          $scope.customer.select.main.province.selected = arrProvince.length==1?{idProvince: arrProvince[0].idProvince, province: arrProvince[0].province}:undefined;
+                          $scope.customer.select.main.location.selected = arrLocation.length==1?{idLocation: arrLocation[0].idLocation, location: arrLocation[0].location}:undefined;
+                          if ($scope.customer.select.main.province.selected==undefined){
+                              inform.add('El cliente '+$scope.customer.update.name+' No tiene asignada una provincia, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                          }
+                          if ($scope.customer.select.main.location.selected==undefined){
+                              inform.add('El cliente '+$scope.customer.update.name+' No tiene asignada una localidad, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                          }
                           $scope.customer.update.nameAddress=$scope.customer.update.idClientDepartamentFk==null||$scope.customer.update.idClientDepartamentFk==''?$scope.customer.update.address:'';
                           $scope.customer.select.main.address.selected=$scope.customer.update.idClientDepartamentFk!=null?{address:$scope.customer.update.address}:undefined;
                           if($scope.customer.update.idClientDepartamentFk){                          
@@ -3858,9 +3950,18 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                           var arrLocation = [];                              
                           arrProvince = $scope.getCustomerProvinceNameFromIdFn($scope.customer.update.idProvinceFk);
                           arrLocation= $scope.getCustomerLocationNameFromIdFn($scope.customer.update.idLocationFk, $scope.customer.update.idProvinceFk);
-                          $scope.customer.select.main.province.selected = {idProvince: arrProvince[0].idProvince, province: arrProvince[0].province};
-                          $scope.customer.select.main.location.selected = {idLocation: arrLocation[0].idLocation, location: arrLocation[0].location};
-
+                          $scope.customer.select.main.province.selected = arrProvince.length==1?{idProvince: arrProvince[0].idProvince, province: arrProvince[0].province}:undefined;
+                          $scope.customer.select.main.location.selected = arrLocation.length==1?{idLocation: arrLocation[0].idLocation, location: arrLocation[0].location}:undefined;
+                          if ($scope.customer.select.main.province.selected==undefined){
+                              inform.add('El cliente '+$scope.customer.update.name+' No tiene asignada una provincia, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                          }
+                          if ($scope.customer.select.main.location.selected==undefined){
+                              inform.add('El cliente '+$scope.customer.update.name+' No tiene asignada una localidad, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                          }
                           $scope.customer.update.nameAddress=$scope.customer.update.address;
                           $scope.addrrSelected=$scope.customer.update.address!=null || $scope.customer.update.address!=undefined?true:false;
                           //COMPANY RELATED
@@ -4004,9 +4105,18 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                           var arrLocation = [];                              
                           arrProvince = $scope.getCustomerProvinceNameFromIdFn($scope.customer.update.idProvinceFk);
                           arrLocation= $scope.getCustomerLocationNameFromIdFn($scope.customer.update.idLocationFk, $scope.customer.update.idProvinceFk);
-                          $scope.customer.select.main.province.selected = {idProvince: arrProvince[0].idProvince, province: arrProvince[0].province};
-                          $scope.customer.select.main.location.selected = {idLocation: arrLocation[0].idLocation, location: arrLocation[0].location};
-
+                          $scope.customer.select.main.province.selected = arrProvince.length==1?{idProvince: arrProvince[0].idProvince, province: arrProvince[0].province}:undefined;
+                          $scope.customer.select.main.location.selected = arrLocation.length==1?{idLocation: arrLocation[0].idLocation, location: arrLocation[0].location}:undefined;
+                          if ($scope.customer.select.main.province.selected==undefined){
+                              inform.add('El cliente '+$scope.customer.update.name+' No tiene asignada una provincia, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                          }
+                          if ($scope.customer.select.main.location.selected==undefined){
+                              inform.add('El cliente '+$scope.customer.update.name+' No tiene asignada una localidad, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                          }
                           $scope.customer.update.nameAddress=$scope.customer.update.idClientDepartamentFk==null||$scope.customer.update.idClientDepartamentFk==''?$scope.customer.update.address:'';
                           $scope.customer.select.main.address.selected=$scope.customer.update.idClientDepartamentFk!=null?{address:$scope.customer.update.address}:undefined;
                           if($scope.customer.update.idClientDepartamentFk){
@@ -4099,9 +4209,18 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                           var arrLocation = [];                              
                           arrProvince = $scope.getCustomerProvinceNameFromIdFn($scope.customer.update.idProvinceFk);
                           arrLocation= $scope.getCustomerLocationNameFromIdFn($scope.customer.update.idLocationFk, $scope.customer.update.idProvinceFk);
-                          $scope.customer.select.main.province.selected = {idProvince: arrProvince[0].idProvince, province: arrProvince[0].province};
-                          $scope.customer.select.main.location.selected = {idLocation: arrLocation[0].idLocation, location: arrLocation[0].location};
-
+                          $scope.customer.select.main.province.selected = arrProvince.length==1?{idProvince: arrProvince[0].idProvince, province: arrProvince[0].province}:undefined;
+                          $scope.customer.select.main.location.selected = arrLocation.length==1?{idLocation: arrLocation[0].idLocation, location: arrLocation[0].location}:undefined;
+                          if ($scope.customer.select.main.province.selected==undefined){
+                              inform.add('El cliente '+$scope.customer.update.name+' No tiene asignada una provincia, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                          }
+                          if ($scope.customer.select.main.location.selected==undefined){
+                              inform.add('El cliente '+$scope.customer.update.name+' No tiene asignada una localidad, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                          }
                           $scope.customer.update.nameAddress=$scope.customer.update.idClientDepartamentFk==null||$scope.customer.update.idClientDepartamentFk==''?$scope.customer.update.address:'';
                           $scope.customer.select.main.address.selected=$scope.customer.update.idClientDepartamentFk!=null?{address:$scope.customer.update.address}:undefined;
 
@@ -4547,18 +4666,30 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                   case "details_customer": //CUSTOMER
                       var arrProvince  = [];
                       var arrLocation = []; 
+                      console.log(obj);
                       var subOption = obj.idClientTypeFk;
                       $scope.tmpVars.list_schedule_atention=obj.list_schedule_atention;
                       $scope.customer.details=obj;
                       $scope.customer.details.billing_information_details=obj.billing_information[0];
                       $scope.customer.details.IsInDebtTmp=obj.IsInDebt==1?true:false;
-                      $scope.customer.details.IsInDebtURL = serverHost+"/status/client_id/"+$scope.customer.details.idClient;
+                      $scope.customer.details.IsInDebtURL = serverHost+"/status/client/"+$scope.customer.details.idClient;
                       switch (subOption){
                         case "1": //ADMINISTRATION CUSTOMER
                           arrProvince = $scope.getCustomerProvinceNameFromIdFn($scope.customer.details.idProvinceFk);
                           arrLocation= $scope.getCustomerLocationNameFromIdFn($scope.customer.details.idLocationFk, $scope.customer.details.idProvinceFk);
-                          $scope.customer.details.province = arrProvince[0].province;
-                          $scope.customer.details.location = arrLocation[0].location;
+                          $scope.customer.details.province = arrProvince.length==1?arrProvince[0].province:null;
+                          $scope.customer.details.location = arrLocation.length==1?arrLocation[0].location:null;
+                          if ($scope.customer.details.province==null){
+                              inform.add('El cliente '+$scope.customer.details.name+' No tiene asignada una provincia, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                          }
+                          if ($scope.customer.details.location==null){
+                              inform.add('El cliente '+$scope.customer.details.name+' No tiene asignada una localidad, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                          }
+                          
                           if($scope.customer.details.idClientDepartamentFk){
                             $scope.customer.update.isNotClient=true;
                             $scope.getBuildingsDeptosByDeptoIdFn($scope.customer.details.idClientDepartamentFk);
@@ -4579,9 +4710,20 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                           arrCompany=$scope.getCustomerBusinessNameByIdFn($scope.customer.details.idClientAdminFk);
                           arrProvince = $scope.getCustomerProvinceNameFromIdFn($scope.customer.details.idProvinceFk);
                           arrLocation= $scope.getCustomerLocationNameFromIdFn($scope.customer.details.idLocationFk, $scope.customer.details.idProvinceFk);
-                          $scope.customer.details.companyBusinessName=arrCompany[0].businessName;
-                          $scope.customer.details.province = arrProvince[0].province;
-                          $scope.customer.details.location = arrLocation[0].location;
+                          $scope.customer.details.companyBusinessName=arrCompany.length==1?arrCompany[0].businessName:null;
+                          $scope.customer.details.province = arrProvince.length==1?arrProvince[0].province:null;
+                          $scope.customer.details.location = arrLocation.length==1?arrLocation[0].location:null;
+                          if ($scope.customer.details.province==null){
+                              inform.add('El cliente '+$scope.customer.details.name+' No tiene asignada una provincia, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                          }
+                          if ($scope.customer.details.location==null){
+                              inform.add('El cliente '+$scope.customer.details.name+' No tiene asignada una localidad, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                          }
+                          
                           $scope.rolePermission="ro";
                           $scope.list_depto_floors_details=[];
                           $scope.customer.info = obj;
@@ -4633,8 +4775,19 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                         case "3": //COMPANY CUSTOMER
                           arrProvince = $scope.getCustomerProvinceNameFromIdFn($scope.customer.details.idProvinceFk);
                           arrLocation= $scope.getCustomerLocationNameFromIdFn($scope.customer.details.idLocationFk, $scope.customer.details.idProvinceFk);
-                          $scope.customer.details.province = arrProvince[0].province;
-                          $scope.customer.details.location = arrLocation[0].location;
+                          $scope.customer.details.province = arrProvince.length==1?arrProvince[0].province:null;
+                          $scope.customer.details.location = arrLocation.length==1?arrLocation[0].location:null;
+                          if ($scope.customer.details.province==null){
+                              inform.add('El cliente '+$scope.customer.details.name+' No tiene asignada una provincia, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                          }
+                          if ($scope.customer.details.location==null){
+                              inform.add('El cliente '+$scope.customer.details.name+' No tiene asignada una localidad, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                          }
+                          
                           if($scope.customer.details.idClientDepartamentFk){                          
                             $scope.customer.details.isNotClient=true;
                             $scope.getBuildingsDeptosByDeptoIdFn($scope.customer.details.idClientDepartamentFk);
@@ -4656,8 +4809,19 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                           $scope.customer.details.companyBusinessName=arrCompany[0].businessName;                             
                           arrProvince = $scope.getCustomerProvinceNameFromIdFn($scope.customer.details.idProvinceFk);
                           arrLocation= $scope.getCustomerLocationNameFromIdFn($scope.customer.details.idLocationFk, $scope.customer.details.idProvinceFk);
-                          $scope.customer.details.province = arrProvince[0].province;
-                          $scope.customer.details.location = arrLocation[0].location;
+                          $scope.customer.details.province = arrProvince.length==1?arrProvince[0].province:null;
+                          $scope.customer.details.location = arrLocation.length==1?arrLocation[0].location:null;
+                          if ($scope.customer.details.province==null){
+                              inform.add('El cliente '+$scope.customer.details.name+' No tiene asignada una provincia, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                          }
+                          if ($scope.customer.details.location==null){
+                              inform.add('El cliente '+$scope.customer.details.name+' No tiene asignada una localidad, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                          }
+                          
                           if($scope.customer.details.idClientDepartamentFk){                          
                             $scope.customer.details.isNotClient=true;
                             $scope.getBuildingsDeptosByDeptoIdFn($scope.customer.details.idClientDepartamentFk);
@@ -4753,8 +4917,18 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       case "1": //ADMINISTRATION CUSTOMER
                         arrProvince = $scope.getCustomerProvinceNameFromIdFn($scope.customer.companyDetails.idProvinceFk);
                         arrLocation= $scope.getCustomerLocationNameFromIdFn($scope.customer.companyDetails.idLocationFk, $scope.customer.companyDetails.idProvinceFk);
-                        $scope.customer.companyDetails.province = arrProvince[0].province;
-                        $scope.customer.companyDetails.location = arrLocation[0].location;
+                        $scope.customer.companyDetails.province = arrProvince.length==1?arrProvince[0].province:null;
+                        $scope.customer.companyDetails.location = arrLocation.length==1?arrLocation[0].location:null;
+                        if ($scope.customer.companyDetails.province==null){
+                              form.add('El cliente '+$scope.customer.companyDetails.name+' No tiene asignada una provincia, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                        }
+                        if ($scope.customer.companyDetails.location==null){
+                              form.add('El cliente '+$scope.customer.companyDetails.name+' No tiene asignada una localidad, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                        }
                         if($scope.customer.companyDetails.idClientDepartamentFk){                          
                           $scope.customer.update.isNotClient=true;
                           $scope.getBuildingsDeptosByDeptoIdFn($scope.customer.companyDetails.idClientDepartamentFk);
@@ -4774,8 +4948,18 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       case "3": //COMPANY CUSTOMER
                         arrProvince = $scope.getCustomerProvinceNameFromIdFn($scope.customer.companyDetails.idProvinceFk);
                         arrLocation= $scope.getCustomerLocationNameFromIdFn($scope.customer.companyDetails.idLocationFk, $scope.customer.companyDetails.idProvinceFk);
-                        $scope.customer.companyDetails.province = arrProvince[0].province;
-                        $scope.customer.companyDetails.location = arrLocation[0].location;
+                        $scope.customer.companyDetails.province = arrProvince.length==1?arrProvince[0].province:null;
+                        $scope.customer.companyDetails.location = arrLocation.length==1?arrLocation[0].location:null;
+                        if ($scope.customer.companyDetails.province==null){
+                              form.add('El cliente '+$scope.customer.companyDetails.name+' No tiene asignada una provincia, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                        }
+                        if ($scope.customer.companyDetails.location==null){
+                              form.add('El cliente '+$scope.customer.companyDetails.name+' No tiene asignada una localidad, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                        }
                         if($scope.customer.companyDetails.idClientDepartamentFk){                          
                           $scope.customer.companyDetails.isNotClient=true;
                           $scope.getBuildingsDeptosByDeptoIdFn($scope.customer.companyDetails.idClientDepartamentFk);
@@ -4873,9 +5057,18 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       var arrLocation = [];                              
                       arrProvince = $scope.getCustomerProvinceNameFromIdFn($scope.customer.info.idProvinceFk);
                       arrLocation= $scope.getCustomerLocationNameFromIdFn($scope.customer.info.idLocationFk, $scope.customer.info.idProvinceFk);
-                      $scope.customer.select.main.province.selected = {idProvince: arrProvince[0].idProvince, province: arrProvince[0].province};
-                      $scope.customer.select.main.location.selected = {idLocation: arrLocation[0].idLocation, location: arrLocation[0].location};
-
+                      $scope.customer.select.main.province.selected = arrProvince.length==1?{idProvince: arrProvince[0].idProvince, province: arrProvince[0].province}:undefined;
+                      $scope.customer.select.main.location.selected = arrLocation.length==1?{idLocation: arrLocation[0].idLocation, location: arrLocation[0].location}:undefined;
+                          if ($scope.customer.select.main.province.selected==undefined){
+                              inform.add('El cliente '+$scope.customer.info.name+' No tiene asignada una provincia, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                          }
+                          if ($scope.customer.select.main.location.selected==undefined){
+                              inform.add('El cliente '+$scope.customer.info.name+' No tiene asignada una localidad, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                          }
                       $scope.customer.info.nameAddress=$scope.customer.info.idClientDepartamentFk==null||$scope.customer.info.idClientDepartamentFk==''?$scope.customer.info.address:'';
                       $scope.customer.select.main.address.selected=$scope.customer.info.idClientDepartamentFk!=null?{address:$scope.customer.info.address}:undefined;
 
@@ -5240,34 +5433,40 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
           *     UPDATE THE CUSTOMER     *
           ******************************/
             $scope.generateSecurityCodeFn = function(client){
-            CustomerServices.generateCustomerSecurityCode(client.idClient).then(function(data){
-                $scope.rsJsonData = data;
-                //console.log($scope.rsJsonData);
-                if($scope.rsJsonData.status==200){
-                  console.log("Customer Security Code Successfully Generated");
-                  inform.add('Codigo de Seguridad ha sido generado con exito. ',{
-                        ttl:2000, type: 'success'
-                  });
-                }else if($scope.rsJsonData.status==404){
-                  console.log("error, contact administrator");
-                  inform.add('Error: [404] Contacta al area de soporte. ',{
-                        ttl:2000, type: 'danger'
-                  });
-                }else if($scope.rsJsonData.status==500){
-                  console.log("Customer not Created, contact administrator");
-                  inform.add('Error: [500] Contacta al area de soporte. ',{
-                        ttl:2000, type: 'danger'
-                  });
-                }
-                blockUI.start('');
-                $timeout(function() {
-                  blockUI.message('Actualizando listado de clientes.');
-                }, 1000);
-                $timeout(function() {
-                  $scope.switchCustomersFn('dashboard','', 'registered')
-                  blockUI.stop();
-                }, 1500);
-            });
+              CustomerServices.generateCustomerSecurityCode(client.idClient).then(function(data){
+                  $scope.rsJsonData = data;
+                  //console.log($scope.rsJsonData);
+                  if($scope.rsJsonData.status==200){
+                    console.log("Customer Security Code Successfully Generated");
+                    inform.add('Codigo de Seguridad ha sido generado con exito. ',{
+                          ttl:2000, type: 'success'
+                    });
+                  }else if($scope.rsJsonData.status==404){
+                    console.log("error, contact administrator");
+                    inform.add('Error: [404] Contacta al area de soporte. ',{
+                          ttl:2000, type: 'danger'
+                    });
+                  }else if($scope.rsJsonData.status==500){
+                    console.log("Customer not Created, contact administrator");
+                    inform.add('Error: [500] Contacta al area de soporte. ',{
+                          ttl:2000, type: 'danger'
+                    });
+                  }
+                  blockUI.start('');
+                  $timeout(function() {
+                    blockUI.message('Actualizando datos del cliente: '+client.name);
+                  }, 1000);
+                  $timeout(function() {
+                    //$scope.switchCustomersFn('dashboard','', 'registered');
+                  }, 1500);
+                  $timeout(function() {
+                    $scope.getCustomersByNameFn($scope.customerSearch.searchFilter, $scope.customerSearch.isInDebt, $scope.customerSearch.strict);
+                  }, 2500);
+                  $timeout(function() {
+                    $scope.getCustomersByIdFn('details_customer', client.idClient, 'show');
+                    blockUI.stop();
+                  }, 3500);
+              });
             };
           /**************************************************
           *                                                 *

@@ -1,5 +1,5 @@
 <!-- Phones List -->
-<label class="clf-p-left">Telefonos de contactos <button style="margin-left: 117px;" ng-disabled="contactPhones.phoneContact==undefined || contactPhones.phoneContact.length<=0 || contactPhones.phoneContact.length<8 || contactPhones.phoneTag=='' || contactPhones.phoneTag==undefined" ng-click="addPhoneNumFn(contactPhones, 'new')" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</button> </label>  
+<label class="clf-p-left">Telefonos de contactos <button style="margin-left: 115px;" ng-disabled="contactPhones.phoneContact==undefined || contactPhones.phoneContact.length<=0 || contactPhones.phoneContact.length<8 || contactPhones.phoneTag=='' || contactPhones.phoneTag==undefined" ng-click="addPhoneNumFn(contactPhones, 'new')" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</button> </label>  
 <div class="input-group">
 	<span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>  
 	<select style="width: 43%; padding-left: 2px; font-size: 12px;" name="contactName" class="form-control text-uppercase" ng-disabled="(customer.new.idClientTypeFk==5)" ng-change="enabledNextBtn()" ng-model="contactPhones.phoneTag" ng-required="list_phones.length==0" autofocus >

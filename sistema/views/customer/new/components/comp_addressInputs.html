@@ -32,7 +32,8 @@
 								  				customer.new.nameAddress!='' && !addrrSelected && fNewCustomer.customer_address.$touched
 								  			}">
       	<label style="padding-left: 15px;">Direcci&#243n
-      	</label> 
+      	</label><button 
+		  ng-disabled="customer.select.company.selected==undefined && customer.select.company.selected.idClient==''"  ng-click="switchCustomersFn('newManualAddress', customer.new, 'main');" class="btn btn-xs btn-success new-addr-btn"><i class="fas fa-search-plus"></i> Agregar</button> </label> 
       	<div class="input-group">
       		<span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span> 
 			<input type="text" 
@@ -46,7 +47,7 @@
 			<span data-toggle="tooltip" data-placement="top" title="Buscar" style="cursor: pointer;" ng-click="getAddressByNameFn(customer.new.nameAddress, customer.select.main.province.selected.idProvinceAPIGobFk, 'main');" class="input-group-addon"><i class="fas fa-search-location"></i></span> 
       	</div>
 		<ul class="list-group" ng-if="rsAddress_API_Data_Main.length>0">
-			<li class="list-group-item" ng-repeat="item in rsAddress_API_Data_Main" ng-click="searchAddressByNameFn(item, 'address', 'main')">{{item.calle.nombre}} {{item.altura.valor}}, {{item.provincia.nombre}}</li>
+			<li class="list-group-item" ng-repeat="item in rsAddress_API_Data_Main" ng-click="searchAddressByNameFn(item, 'address', 'main')">{{item.nomenclatura}}</li>
 		</ul>
 	</div>
 	<!-- Type Of Unit -->

@@ -8,7 +8,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr class="tr_body" ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse" >
+      <tr class="tr_body" ng-repeat="item in pagedItems[currentPage]" >
           <td ng-trim="true"><bold>{{item.idProfiles}}</bold></td>
 
           <td ng-trim="true" ng-click="selectProfileDataFn(item);">{{item.name}}</td>

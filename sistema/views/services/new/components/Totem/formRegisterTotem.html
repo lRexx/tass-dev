@@ -166,7 +166,7 @@
 								  				(service.dvr.selected==undefined) && fCustomerNewService.service_dvr.$touched,
 								  			}">
 								<div class="col-md-8"><label style="padding-left: 15px;">DVR/NVR</label></div>
-								<div class="pull-right col-md-4"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.dvr.selected==undefined" ng-click="compServiceProductDetailsFn(service.dvr.selected, productListType.RECORD_DEVICE)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+								<div class="pull-right col-md-4 n-padding-r"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.dvr.selected==undefined" ng-click="compServiceProductDetailsFn(service.dvr.selected, productListType.RECORD_DEVICE)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 							  	<button ng-if="service.dvr.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeProductDetailsFn(service.dvr.selected, productListType.RECORD_DEVICE, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>  
 							    <div class="col-xs-12 selectContainer">							   
 								    <div class="input-group">
@@ -230,7 +230,7 @@
 							<div class="col-md-12">
 								<div class="col-md-8">
 									<label class="clf-p-left">Backups de Energia</label></div>
-								<div class="pull-right col-md-4" style="padding-bottom: 5px;"><button ng-click="loadDetailModalWindow(service.batteries.selected)" ng-disabled="service.batteries.selected==undefined" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</button></div>
+								<div class="pull-right col-md-4 n-padding-r" style="padding-bottom: 5px;"><button ng-click="loadDetailModalWindow(service.batteries.selected)" ng-disabled="service.batteries.selected==undefined" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</button></div>
 							    <div class="selectContainer">							   
 								    <div class="col-md-12 input-group">
 						              	<span class="input-group-addon"><i class="fas fa-car-battery"></i></span>

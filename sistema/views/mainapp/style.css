@@ -37,6 +37,28 @@ body{
     color: #777777;
     border-color: #ccc;
 }
+
+.background-success{
+  border: 1px solid #5cb85c;
+  background-color: #4cae4c;
+}
+.background-warning{
+  border: 1px solid #f0ad4e;
+  background-color: #eea236;
+}
+.background-danger{
+  border: 1px solid #d9534f;
+  background-color: #d43f3a;
+}
+.background-primary{
+  border: 1px solid #337ab7;
+  background-color: #2e6da4;
+}
+.background-default{
+  border: 1px solid #777777;
+  background-color: #ccc;
+}
+
 .text-bss{
   color: #0F2A37;
   border-color: #0F2A37;
@@ -732,7 +754,6 @@ input.fileUpload{
   margin-bottom: 40px !important;
 }
 /**********************************************************/
-
 .badge-notify{
    background-color:#ffc107;
    color: black;
@@ -1552,6 +1573,9 @@ background-color: #f7f7f7;
 
 /*CUSTOMERS */
 /***********************************/
+.new-addr-btn{
+  margin-left: 200px;
+}
 .text-badge{
   text-align: center;
 }
@@ -2145,6 +2169,56 @@ input:checked + .slider-3x:before {
   border-radius: 4px;
   font-weight: 545;
 }
+/********************************************/
+
+/********************************************/
+/*           CARD STATUS CLASS            */
+/********************************************/
+.card-status {
+  position: relative;
+  background-color:#236484!important;
+  border-radius: 8px;
+  cursor: pointer;
+  min-height: 100px;
+  padding: 10px 10px 10px 10px;
+}
+.card-status:hover {
+background-color: #0F2A37  !important;
+transition: box-shadow .25s;
+box-shadow: 0 2px 5px 0 rgba(0,0,0,0.16), 0 2px 10px 0 rgba(0,0,0,0.12);
+}
+.card-status:hover > .card-icon i,
+.card-status:hover > .card-title h4{
+  color: rgba(255,255,255,1);
+}
+.card-status:hover > .card-sticky span{
+background-color: rgba(255,255,255,1);
+}
+.card-status:hover > .sticky-warning span{
+color: rgb(255, 193, 7, 1) !important;
+}
+.card-status:hover > .sticky-success span{
+color: rgb(40, 167, 69, 1) !important;
+}
+.card-status > .card-icon i{
+font-size: 2vw;
+color: rgba(255,255,255,0.5);
+}
+.card-status > .card-title h4{
+  font-size: 2vw;
+}
+.card-status > .card-title h4,
+.card-status > .card-sticky span{
+color: rgba(255,255,255,0.5);
+}
+.card-status > .card-sticky span{
+float: right !important;
+background-color: rgba(255,255,255,0.5);
+padding: 4px;
+border-radius: 4px;
+font-weight: 545;
+}
+
 /********************************************/
 
 .card {
@@ -3125,6 +3199,12 @@ img.circle-border {
     padding-top: 0.4em;
   }
 }
+.status-card-icon-size{
+  font-size: 2vw !important;
+}
+.status-card-font-size{
+  font-size: 1vw !important;
+}
 /*-----------------------------------------------------------------------*/
 @media screen and (min-width: 1601px) and (max-width: 1680px){
     .margin-filter-bar-1 {
@@ -3246,7 +3326,22 @@ img.circle-border {
     font-size: 12px !important;
     font-weight: 700;
   }
-
+  .card-status {
+    min-height: 140px;
+  }
+  .card-status > .card-icon i {
+    font-size: 6vw !important;
+    color: rgba(255,255,255,0.5);
+  }
+  .panel-title-status {
+    font-size: 1.1vw !important;
+  }
+  .panel-title-status > label {
+    font-size: 1vw !important
+  }
+  .panel-contract-number {
+    font-size: 1.1vw  !important;
+  }
 }
 @media screen and (min-width: 1201px) and (max-width: 1213px) {
   .filter-bar-sticker{
@@ -3255,8 +3350,6 @@ img.circle-border {
     margin-left: 4.8em;
   }
 }
-
-
 @media screen and (min-width: 1201px) and (max-width: 1440px) {
   .nav-side-menu {
     width: 16%;
@@ -3277,7 +3370,6 @@ img.circle-border {
 
   }
 }
-
 @media screen and (min-width: 1118px) and (max-width: 1200px){
 
   .font-size-bar-1{
@@ -3358,13 +3450,18 @@ img.circle-border {
       font-size: 0.8em;
   }
 }
-
 @media screen and (min-width: 800px)  and (max-width: 918px) {
   .show-hide{   /* used to hide or show the content*/
     display: none;
   }
+  .card-status > .card-icon i{
+    font-size: 6vw;
+    color: rgba(255,255,255,0.5);
+    }
+  .card-status > .card-title h4{
+    font-size: 3vw;
+  }
 }
-
 @media screen and (min-width: 817px) and (max-width: 991px) {
     .show-hide{   /* used to hide or show the content*/
       display: block;
@@ -3590,7 +3687,6 @@ img.circle-border {
   .file-list li {
       margin: 0;
     }
-  }
 
   .file-list-1 img {
     width: 75px;
@@ -3599,6 +3695,13 @@ img.circle-border {
 
   .file-list-2 img {
     width: 6em;
+  }
+  .ui-select-bootstrap > .ui-select-match > .btn {
+    text-align: left !important;
+    width: 100.3% !important;
+    float: left;
+    position: relative;
+    margin-left: -0.1em;
   }
 
 }
@@ -3641,7 +3744,7 @@ img.circle-border {
         width: 100%;
       }
       .padding-panel {
-          margin-top: 70px;
+          margin-top: 190px;
       }
       .nav-side-menu .toggle-btn {
         display: block;
@@ -3878,7 +3981,28 @@ img.circle-border {
      width: 83.4%
   }
 }
-
+@media screen and (min-width: 360px) and (max-height: 780px) {
+  .card-status > .card-icon i{
+    font-size: 16vw;
+    color: rgba(255,255,255,0.5);
+    }
+  .card-status > .card-title h4{
+    font-size: 1vw;
+  }
+  .panel-title-status{
+    font-size: 3vw;
+  }
+  .panel-title-status > label{
+    font-size: 2vw;
+  }
+  .panel-contract-number{
+    font-size: 4vw;
+  }
+  .new-addr-btn{
+    margin-left: 200px;
+  }
+}
+/*Samsung s22+ */
 @media screen and (max-width: 360px) and (max-height: 640px){
   .show-hide-3{
       display: none;
@@ -3922,6 +4046,7 @@ img.circle-border {
       width: 80.4%;
   }
 }
+
 @media screen and (max-width: 360px) and (max-height: 530px){
   .show-hide-3{
       display: none;
@@ -3965,6 +4090,7 @@ img.circle-border {
       width: 80.4%;
   }
 }
+
 @media screen and (max-width: 320px) and (max-height: 568px){
   .show-hide-3{
       display: none;

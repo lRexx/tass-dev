@@ -1165,8 +1165,9 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                             $timeout(function() {
                                 deferred.resolve();
                                 $scope.depto.department = {};
-                                $scope.depto.department.idUserKf      = $scope.update.user.idUser;
-                                $scope.depto.department.idDepartment  = depto.idClientDepartament;
+                                $scope.depto.department.idUserKf           = $scope.update.user.idUser;
+                                $scope.depto.department.idDepartment       = depto.idClientDepartament;
+                                $scope.depto.department.isApprovalRequired = $scope.sysLoggedUser.idProfileKf==1 || $scope.sysLoggedUser.idProfileKf==4?false:true;
                                 console.log($scope.depto.department);
                                 DepartmentsServices.assignDepto($scope.depto).then(function(response_assign) {
                                   if(response_assign.status==200){

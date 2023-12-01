@@ -84,6 +84,7 @@ class Profiles_model extends CI_Model
 	
 				$this->db->select("*")->from("tb_profiles");
 				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_profiles.idStatus', 'left');
+				$this->db->order_by("tb_profiles.idProfiles asc");
 				$quuery = $this->db->where("tb_profiles.idProfiles =", $id)->get();
 	
 	

@@ -763,7 +763,11 @@ class Client_model extends CI_Model {
 
     public function customerIsInDebt ($idClient)
 	{
-		$query = $this->db->select("tb_clients.IsInDebt")->from("tb_clients")->where('idClient', $idClient)->get();
+		$this->db->select("tb_clients.idClient, tb_clients.name,tb_clients.address,tb_clients.idClientTypeFk, tb_clients.idStatusFk,tb_clients.IsInDebt,tb_client_type.ClientType,tb_location.location,tb_province.province")->from("tb_clients");
+        $this->db->join('tb_client_type', 'tb_client_type.idClientType = tb_clients.idClientTypeFk', 'left');
+        $this->db->join('tb_location', 'tb_location.idLocation = tb_clients.idLocationFk', 'left');
+        $this->db->join('tb_province', 'tb_province.idProvince = tb_clients.idProvinceFk', 'left');
+        $query = $this->db->where('idClient', $idClient)->get();
 		if ($query->num_rows() == 1) {
 			$client = $query->row_array();
             return $client;
@@ -1918,6 +1922,40 @@ class Client_model extends CI_Model {
 
             return null;
         }
+    }
+    public function list_admin_companies(){
+        $quuery         = null;
+        $query_total    = null;
+        $rs             = null;
+        $where          = null;
+
+        //echo isset($limit)."\n";
+        //echo isset($start);
+
+            $this->db->select("*")->from("tb_clients");
+            $this->db->join('tb_client_type', 'tb_client_type.idClientType = tb_clients.idClientTypeFk', 'left');
+            $this->db->join('tb_zonas', 'tb_zonas.idZona = tb_clients.idZonaFk', 'left');
+            $this->db->join('tb_location', 'tb_location.idLocation = tb_clients.idLocationFk', 'left');
+            $this->db->join('tb_province', 'tb_province.idProvince = tb_clients.idProvinceFk', 'left');
+            $this->db->where("tb_clients.idStatusFk !=", -1);
+            $this->db->where('tb_clients.isNotCliente', 0);
+            $this->db->group_start();
+            $this->db->where('tb_clients.idClientTypeFk', 1);
+            $this->db->or_where('tb_clients.idClientTypeFk', 1);
+            $this->db->group_end();
+
+            $quuery = $this->db->order_by("tb_clients.idClient", "ASC")->get();
+
+
+            if ($quuery->num_rows() > 0) {
+
+                $rs['customers'] = $quuery->result_array();
+
+                return $rs;
+
+            }
+
+            return null;
     }
     public function postUploadFiles($customerId, $fileName, $file) {
         $image_path = realpath(APPPATH . '../../files');
