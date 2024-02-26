@@ -89,22 +89,47 @@
 								 	'has-error':  
 									(service.update.dateUp=='' || service.update.dateUp==undefined) && fCustomerUpdateService.service_start_date.$touched,
 								}">
-					  <label style="padding-left: 15px;">Fecha de alta</label>  
-						  <div class="col-xs-12">
+						<label style="padding-left: 15px;">Fecha de alta</label>  
+						<div class="col-xs-12">
 							<div class="input-group">
-								<span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
-								<input name="service_start_date" type="text" ng-keydown="fnLoadPhoneMask()" required="true"  class="form-control input--date" ng-model="service.update.dateUp" />
-						  </div>
+								<span ng-click="open_start_date()" class="input-group-addon"><i ng-click="open_start_date()" class="far fa-calendar-alt"></i></span>
+								<input 
+									ng-click="open_start_date()" 
+									type="text" 
+									name="service_start_date"
+									class="form-control" 
+									uib-datepicker-popup="{{format}}" 
+									ng-model="service.update.dateUp" 
+									is-open="popup_start_date.opened"  
+									ng-required="true" 
+									close-text="Cerrar" 
+									clear-text="Borrar"
+									current-text="Hoy"
+									alt-input-formats="altInputFormats" />
+							</div>
 						</div>
 					</div>
 					<!-- Control_de_Acceso: End_date -->
 					<div class="form-group col-md-6">
-					  <label style="padding-left: 15px;">Fecha de baja</label>  
-						  <div class="col-xs-12">
+						<label style="padding-left: 15px;">Fecha de baja</label>  
+						<div class="col-xs-12">
 							<div class="input-group">
-								<span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
-								<input name="service_end_date" type="text" ng-keydown="fnLoadPhoneMask()" class="form-control input--date" ng-model="service.update.dateDown" />
-						  </div>
+								<span ng-click="open_end_date()" class="input-group-addon"><i ng-click="open_end_date()" class="far fa-calendar-alt"></i></span>
+								<input 
+								ng-click="open_end_date()" 
+								type="text" 
+								name="service_end_date"
+								class="form-control" 
+								uib-datepicker-popup="{{format}}" 
+								ng-model="service.update.dateDown" 
+								is-open="popup_end_date.opened"  
+								ng-required="false"
+								ng-disabled="true"
+								close-text="Cerrar" 
+								clear-text="Borrar"
+								current-text="Hoy"
+								alt-input-formats="altInputFormats" />
+							</div>
 						</div>
 					</div>
 					<div class="well-checkbox form-group col-md-12 n-padding-l n-padding-r" style="width: auto;">

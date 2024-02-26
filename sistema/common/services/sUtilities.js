@@ -6,12 +6,26 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
       var sndJson= {};
       var checkResult =0;
       return {
-          /* GET ALL TYPE OF CUSTOMERS */
+          /* GET AGENTS */
             getAgents: function() {
             //console.log("[Utilities Services]: Get Agents ");
               return $http({
                     method : "GET",
                     url : serverHost+serverBackend+"Util/agent"
+                  }).then(function mySuccess(response) {
+                    rsJson=response.data;
+                    return rsJson;
+                  }).catch(function onError(response) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                    return response;
+            });   
+          },
+          /* GET COST CENTERS */
+          getCostCenter: function() {
+            //console.log("[Utilities Services]: Get Agents ");
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"Util/costcenter"
                   }).then(function mySuccess(response) {
                     rsJson=response.data;
                     return rsJson;

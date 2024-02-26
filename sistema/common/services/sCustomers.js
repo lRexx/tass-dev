@@ -146,6 +146,19 @@ moduleCustomerServices.service("CustomerServices", ['$http', '$q', 'tokenSystem'
                   return response;
                 })  
           },
+          getUsersByClientId: function(id) {
+            //console.log("[Customer Services] => get users by client id: "+sMsg);
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"User/listUsersByClient/"+id
+                  }).then(function mySuccess(response) {
+                  rsJson=response;
+                  return rsJson;
+                },function myError(response) { 
+                  console.log("Error: "+response.data.error); 
+                  return response;
+                })  
+          },
           uploadCustomerFiles: function(file, customerId, fileName){
               var fd = new FormData();
               fd.append('file', file);
@@ -260,6 +273,32 @@ moduleCustomerServices.service("CustomerServices", ['$http', '$q', 'tokenSystem'
             rsCustomer.client = data;
             console.log("[Service][setClientInDebt]---> Customer is in debt ");
             return $http.post(serverHost+serverBackend+"Clientes/IsInDebt",rsCustomer, serverHeaders)
+              .then(function mySucess(response) {
+                deferred.resolve(response);
+                return deferred.promise;
+              }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                deferred.resolve(response);
+                return deferred.promise;
+              });
+          },
+          setClientHasStockInBuilding: function(data) {
+            rsCustomer.client = data;
+            console.log("[Service][setClientHasStockInBuilding]---> Customer has stock in Building ");
+            return $http.post(serverHost+serverBackend+"Clientes/isStockInBuilding",rsCustomer, serverHeaders)
+              .then(function mySucess(response) {
+                deferred.resolve(response);
+                return deferred.promise;
+              }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                deferred.resolve(response);
+                return deferred.promise;
+              });
+          },
+          setClientHasStockInOffice: function(data) {
+            rsCustomer.client = data;
+            console.log("[Service][setClientHasStockInOffice]---> Customer has stock in Office ");
+            return $http.post(serverHost+serverBackend+"Clientes/isStockInOffice",rsCustomer, serverHeaders)
               .then(function mySucess(response) {
                 deferred.resolve(response);
                 return deferred.promise;

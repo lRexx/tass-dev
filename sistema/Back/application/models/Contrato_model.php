@@ -572,8 +572,9 @@ class Contrato_model extends CI_Model {
             $this->db->select("*")->from("tb_contratos");
             $this->db->join('tb_systemunderlock', 'tb_systemunderlock.idContratoFk = tb_contratos.idContrato', 'left');
             $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
+            $this->db->join('tb_type_contrato', 'tb_type_contrato.idTypeContrato = tb_contratos.maintenanceType', 'left');
             $this->db->where('idClientFk', $idClientFk);
-            $rsContract  = $this->db->where("tb_contratos.idStatusFk =", 1)->get();
+            $rsContract  = $this->db->where("tb_contratos.idStatusFk !=", null)->get();
         $c=0;
         $contract = null;
         //print_r($contract_item['idContrato']);
@@ -629,7 +630,7 @@ class Contrato_model extends CI_Model {
                                         ->where('ACS.idDoorFk', $service_items['idAccCrtlDoor'])
                                         ->group_by('ACS.idDoorFk')
                                         ->get();
-                                        if ($rsAccessDoors->num_rows() == 1){
+                                        if ($rsAccessDoors->num_rows() >= 1){
                                             //print "contrato: ".$contract_item['idContrato']."\n";
                                             //print "Door Type: ".$service_items['idAccCrtlDoor']."\n";
                                             //print "Encontrado: ".$rsAccessDoors->num_rows()."\n";                                            
@@ -700,10 +701,9 @@ class Contrato_model extends CI_Model {
                                         ->where('INTS.idTypeInternetFk', $service_items['idAccCrtlDoor'])
                                         ->group_by('INTS.idTypeInternetFk')
                                         ->get();
-
-                                        if ($rsInterServices->num_rows() == 1){                                       
+                                        if ($rsInterServices->num_rows() >= 1){                                       
                                             foreach ($rsInterServices->result_array() as $internet_item => $internet_items) {
-                                                if( $internet_items['USED_QTTY']==1){                                                    
+                                                if( $internet_items['USED_QTTY']>0){                                                    
                                                     $isUsed++;
                                                     $item_used=1;
                                                 }else{
@@ -730,7 +730,7 @@ class Contrato_model extends CI_Model {
                                         ->join('tb_cameras_totem AS TBCT', 'TBCT.idClientServicesCameraTotemFk = TS.idClientServicesTotem', 'left')
                                         ->where('TS.idContracAssociated_SE', $contract_item['idContrato'])
                                         ->get();
-                                        if ($rsCameraTotem->num_rows() == 1){
+                                        if ($rsCameraTotem->num_rows() >= 1){
                                             foreach ($rsCameraTotem->result_array() as $totem_item => $totem_items) {
                                                 //VALIDATION
                                                 if($totem_items['USED_QTTY']>0){
@@ -835,7 +835,7 @@ class Contrato_model extends CI_Model {
                                         ->join('tb_cameras AS TBC', 'TBC.idClientServicesCameraFk = CS.idClientServicesCamera', 'left')
                                         ->where('CS.idContracAssociated_SE', $contract_item['idContrato'])
                                         ->get();
-                                        if ($rsCameraService->num_rows() == 1){                                          
+                                        if ($rsCameraService->num_rows() >= 1){                                          
                                             foreach ($rsCameraService->result_array() as $camera_item => $camera_items) {
                                                 //VALIDATION
                                                 if($camera_items['USED_QTTY']>0){
@@ -939,7 +939,7 @@ class Contrato_model extends CI_Model {
                                         ->where('ALS.idContracAssociated_SE', $contract_item['idContrato'])
                                         ->get();
 
-                                        if ($rsAlarmServices->num_rows() == 1){                                       
+                                        if ($rsAlarmServices->num_rows() >= 1){                                       
                                             foreach ($rsAlarmServices->result_array() as $alarm_item => $alarm_items) {
                                                 if( $alarm_items['USED_QTTY']==1){                                                    
                                                     $isUsed++;
@@ -967,7 +967,7 @@ class Contrato_model extends CI_Model {
                                         ->where('SPS.idContracAssociated_SE', $contract_item['idContrato'])
                                         ->get();
 
-                                        if ($rsAppMonitorServices->num_rows() == 1){                                       
+                                        if ($rsAppMonitorServices->num_rows() >= 1){                                       
                                             foreach ($rsAppMonitorServices->result_array() as $appmonitor_item => $appmonitor_items) {
                                                 if( $appmonitor_items['USED_QTTY']==1){                                                    
                                                     $isUsed++;

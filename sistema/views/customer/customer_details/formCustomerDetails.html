@@ -45,6 +45,10 @@
                   <button ng-if="customer.details.idClientType=='2'" style="margin-left: 20px; margin-top: -0.5em;" ng-disabled="!customer.details.idClientAdminFk"  ng-click="getCustomersByIdFn('details_company', customer.details.idClientAdminFk, 'show')" class="btn btn-xs btn-success"><i class="fas fa-info-circle"></i> Ver Administraión</button>
                   <button ng-if="customer.details.idClientType=='4'" style="margin-left: 20px; margin-top: -0.5em;" ng-disabled="!customer.details.idClientCompaniFk"  ng-click="getCustomersByIdFn('details_company', customer.details.idClientCompaniFk, 'show')" class="btn btn-xs btn-success"><i class="fas fa-info-circle"></i> Ver Empresa</button>                
                 </div>
+                <div ng-if="customer.details.idClientType!='5'" class="col-md-12 ">
+                  <span ng-if="customer.details.zona!=null">Zona: {{customer.details.zona.n_zona}} - {{customer.details.zona.descripcion | uppercase}}</span>
+                  <span ng-if="customer.details.zona==null">Zona: <label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="Zona no asignada" class="label label-default">n/a</label></span>
+                </div>
               </div>
               <!-- RIGHT COLUMN -->
               <div class="col-md-6 n-padding-l n-padding-r">
@@ -82,15 +86,44 @@
                 </div>
                 <div  ng-if="sysLoggedUser.idProfileKf==1" class="col-md-12">
                   <div class="col-md-12 col-xs-12 n-padding-l" >
-                    <span>Estatus URL:</span>
+                    <span>Estatus Cliente:</span>
                     <button data-toggle="tooltip" data-placement="bottom" title="Copiar" type="button" style="margin-left: 20px; margin-top: -0.5em;" ngclipboard data-clipboard-text="{{customer.details.IsInDebtURL}}" class="btn btn-xs btn-success"><i class="fas fa-copy"></i> Copiar</button>
                     <a data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{customer.details.IsInDebtURL}}" class="btn btn-xs btn-success"><i class="fas fa-link"></i> Abrir</a>
                   </div>
                 </div>
-              </div>
-              <div ng-if="customer.details.idClientType!='5'" class="col-md-12 ">
-                <span ng-if="customer.details.zona!=null">Zona: {{customer.details.zona.n_zona}} - {{customer.details.zona.descripcion | uppercase}}</span>
-                <span ng-if="customer.details.zona==null">Zona: <label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="Zona no asignada" class="label label-default">n/a</label></span>
+                <div ng-if="sysLoggedUser.idProfileKf==1 && customer.details.idClientTypeFk=='2'" class="col-md-12 col-sm-12 col-xs-12 ">
+                  <span>Stock:</span>
+                  <div class="form-group col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r">
+                      <div class="col-md-6 col-sm-6 col-xs-6 n-padding-l n-padding-r">
+                        <div class="n-padding-r">
+                          <label class="switch switch-2x" for="isStockInBuilding-set">
+                              <input type="checkbox" class="success" 
+                                ng-disabled="customer.details.isStockInOfficeTmp"
+                                ng-click="modalConfirmation('isStockInBuilding', 0, customer.details)"
+                                ng-model="customer.details.isStockInBuildingTmp" 
+                                id="isStockInBuilding-set">
+                              <span class="slider slider-2x flat"></span>
+                          </label>
+                          <span class="font-size-10px"><span ng-if="customer.details.isStockInBuildingTmp" style="cursor: pointer; margin-top: -8%;" class="badge badge-success">Edificio</span></span>
+                          <span class="font-size-10px"><span ng-if="!customer.details.isStockInBuildingTmp || customer.details.isStockInBuildingTmp==null || customer.details.isStockInBuildingTmp==undefined" style="cursor: pointer; margin-top: -8%;" class="badge badge-light">Edificio</span>&nbsp;<span style="cursor: pointer; margin-top: -8%;" data-toggle="tooltip" data-placement="bottom" title="Deshabilitado" ng-if="customer.details.isStockInOfficeTmp" class="badge badge-warning"><i class="fas fa-lock"></i></span></span>
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-sm-6 col-xs-6 n-padding-l n-padding-r">
+                        <div class="n-padding-r">
+                          <label class="switch switch-2x" for="isStockInOffice-set">
+                              <input type="checkbox" class="success" 
+                                ng-disabled="customer.details.isStockInOfficeTmp"
+                                ng-click="modalConfirmation('isStockInOffice', 0, customer.details)"
+                                ng-model="customer.details.isStockInOfficeTmp" 
+                                id="isStockInOffice-set">
+                              <span class="slider slider-2x flat"></span>
+                          </label>
+                          <span class="font-size-10px"><span ng-if="customer.details.isStockInOfficeTmp" style="cursor: pointer; margin-top: -8%;" class="badge badge-success">Oficina</span></span>
+                          <span class="font-size-10px"><span ng-if="!customer.details.isStockInOfficeTmp || customer.details.isStockInOfficeTmp==null || customer.details.isStockInOfficeTmp==undefined" style="cursor: pointer; margin-top: -8%;" class="badge badge-light">Oficina</span>&nbsp;<span style="cursor: pointer; margin-top: -8%;" data-toggle="tooltip" data-placement="bottom" title="Deshabilitado" ng-if="customer.details.isStockInBuildingTmp" class="badge badge-warning"><i class="fas fa-lock"></i></span></span>
+                        </div>
+                      </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

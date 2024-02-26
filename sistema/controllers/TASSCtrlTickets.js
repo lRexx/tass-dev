@@ -398,6 +398,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     }else{
                                         $scope.formValidated=true;
                                     }
+                                }else if ($scope.ticket.delivery.idTypeDeliveryKf=="3"){
+                                    $scope.formValidated=true;
                                 }
                             }
                         }else if ($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==5 || (($scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf==1)){
@@ -1497,8 +1499,21 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
         *                                                 *
         **************************************************/  
             $scope.provincesAllowed = function(item){
-                return item.idProvince == "1" || item.idProvince == "2";
+                return item.idTypeDeliveryKf == "3" || item.idTypeDeliveryKf == "2";
             }
+        /**************************************************
+        *            SHOW ONLY ADMIN AND COMPANY          *
+        *                 CUSTOMER OPTIONS                *
+        **************************************************/
+            $scope.checkDeliveryMethod = function(item){
+                if ($scope.ticket.building.isStockInBuilding!="1"){
+                    return item.idTypeDelivery != "3";
+                }else{
+                    return item.idTypeDelivery == "3";
+                }
+                
+            };
+
         /**************************************************
         *                                                 *
         *            TICKETS MENU FUNCTION                *

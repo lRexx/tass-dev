@@ -6,6 +6,7 @@ var app = angular.module('systemApp', ["ngRoute", "ngCookies",
                                           "module.Monitor",
                                         "module.Customers",
                                            "module.Status",
+                                             "module.Info",
                                          "module.Approval",
                                          "module.Services",
                                            "module.NewPwd",
@@ -92,6 +93,16 @@ app.config(['$routeProvider', '$locationProvider',
           controller: 'CustomersCtrl',
           css: 'views/mainapp/style.css'
         })
+        .when('/info', {
+            templateUrl: 'views/info/',
+            controller: 'infoCtrl',
+            css: 'views/info/style.css'
+        })
+        .when('/info/client/:client', {
+            templateUrl: 'views/info/',
+            controller: 'infoCtrl',
+            css: 'views/info/style.css'
+        })
         .when('/status', {
             templateUrl: 'views/status/',
             controller: 'statusCtrl',
@@ -148,7 +159,7 @@ app.config(['$routeProvider', '$locationProvider',
             css: 'views/mainapp/style.css'
         })
         .otherwise({
-            redirectTo: '/login'
+            redirectTo: '/'
         });
         // use the HTML5 History API
         $locationProvider.html5Mode(true);

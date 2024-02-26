@@ -49,6 +49,30 @@
 		  		required autofocus />
 			</div>								  	
 	</div>
+	<!-- Cost Center -->
+	<div class="form-group col-md-12" ng-class="
+			{	'has-success': 
+				customer.update.billing_information_details.idCostCenterFk!='' && fUpdateCustomer.payment_costCenterBilling.$valid,
+				'has-error':  
+				(customer.update.billing_information_details.idCostCenterFk=='' || customer.update.billing_information_details.idCostCenterFk==undefined) && fUpdateCustomer.payment_costCenterBilling.$touched,
+			}" > 
+		<label style="padding-left: 15px;">Centro de Costo</label>
+			<div class="input-group">
+				<span class="input-group-addon">
+					<i ng-if="(customer.update.isNotCliente=='0' && (customer.update.idClientTypeFk!=2 || !allowAction.edit.costCenterBilling)) || (customer.update.isNotCliente=='1' && customer.update.idClientTypeFk=='2')" class="fas fa-chart-line"></i>
+					<i 	style="color: #f0ad4e; font-size:20px; cursor: pointer;" 
+					  ng-if="(customer.update.isNotCliente=='0') && (customer.update.idClientTypeFk=='2' && allowAction.edit.costCenterBilling && (customer.update.billing_information_details.idCostCenterFk!='' || customer.update.billing_information_details.idCostCenterFk!=null || customer.update.billing_information_details.idCostCenterFk!=undefined))" 
+					  ng-click="allowAction.edit.costCenterBilling=false" 
+					  class="fas fa-pen-square" 
+					  data-toggle="tooltip" 
+					  data-placement="left" 
+					  title="Editar"></i>		  			
+				</span>
+				<select ng-disabled="customer.update.isNotCliente=='0' && (customer.update.idClientTypeFk=='2' && allowAction.edit.costCenterBilling)?true:false"  name="payment_costCenterBilling" class="form-control"  ng-options="item.idCostCenter as item.costCenter for item in rsCostCenterData" ng-change="enabledNextBtn();" ng-model="customer.update.billing_information_details.idCostCenterFk" ng-required="true" autofocus >
+					<option value="">Seleccione una opci&#243n</option>
+				</select>
+			</div>
+	</div>
 	<div class="form-group col-md-12" ng-class="
 								  			{	'has-success': 
 								  				addrrSelected && fUpdateCustomer.payment_direccion.$valid,

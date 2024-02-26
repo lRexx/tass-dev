@@ -475,6 +475,22 @@ class Services extends REST_Controller {
         }
     }
 
+
+    public function multiServicesCreationByClient_get($id = null){
+        $rs = null;
+        if ($id == null) {
+            $this->response([ 'error' => 'DEBE PASAR UN ARGUMENTO' ], 404);
+        }
+        $rs = $this->services_model->multiServicesCreationByClient($id);
+
+        if (! is_null($rs)) {
+            $this->response($rs, 200);
+        } else {
+            $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
+        }
+    }
+
+
 }
 
 ?>

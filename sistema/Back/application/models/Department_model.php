@@ -37,7 +37,7 @@ class Department_model extends CI_Model
 
 
 			if ($quuery->num_rows() === 1) {
-				$rs                     = $quuery->row_array();
+				$rs = $quuery->row_array();
                 $rs['building'] = $this->db->select("*")->from("tb_clients")->where('idClient', $rs['idClientFk'])->get()->row_array();
                 $rs['administration'] = $this->db->select("*")->from("tb_clients")->where('idClient', $rs['building']['idClientAdminFk'])->get()->row_array();
 				$this->db->select("*")->from("tb_user");

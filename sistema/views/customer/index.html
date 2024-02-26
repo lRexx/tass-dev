@@ -114,7 +114,7 @@
                         <div  class="row">
                           <div class="form-group">
                                 <!-- Filter Type of Tenant For Admins ng-if="sysContent=='customer'"-->
-                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                <div class="col-md-2 col-sm-2 col-xs-12">
                                     <label style="padding-left: 15px;">Tipo de Cliente</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
@@ -166,8 +166,8 @@
                                               </ui-select>
                                     </div>
                                 </div>
-                                <div ng-if="sysLoggedUser.idProfileKf==1" class="col-md-3 col-sm-3 col-xs-12">
-                                  <div class="col-md-12 col-xs-12" ><label class="clf-size">Mostrar Inhabilitados</label></div>
+                                <div ng-if="sysLoggedUser.idProfileKf==1" class="col-md-2 col-sm-2 col-xs-12">
+                                  <div class="col-md-12 col-xs-12" ><label class="clf-size">Inhabilitados</label></div>
                                   <div class="col-md-12 col-xs-12">
                                     <label class="switch switch-2x" for="isInDebt-search">
                                         <input type="checkbox" class="success" ng-click="select.filterTypeOfClient!='' && customerSearch.typeClient=='' && select.filterTypeOfClient!=undefined?offlineSearch(rsCustomerListData,searchboxfilterOffline,customerSearch.isInDebt,false):getCustomersByNameFn($parent.customerSearch.searchFilter, customerSearch.isInDebt, customerSearch.strict)" ng-model="customerSearch.isInDebt" id="isInDebt-search">
@@ -183,6 +183,26 @@
                                   <button data-toggle="tooltip" data-placement="top" title="Nuevo Cliente" type="button" ng-click="switchCustomersFn('new','')" class="btn btn-xs btn-labeled btn-info"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i> </span>Nuevo</button>
                                 </div>-->
                           </div>
+                        </div>
+                        <div  class="row">
+                            <div ng-if="sysLoggedUser.idProfileKf==1 && customerSearch.typeClient=='2'" class="form-group col-md-2 col-sm-2 col-xs-12">
+                              <div class="col-md-12 col-xs-12" ><label class="clf-size">Stock Edificio</label></div>
+                              <div class="col-md-12 col-xs-12">
+                                <label class="switch switch-2x" for="isStockInBuilding-search">
+                                    <input type="checkbox" class="success" ng-click="select.filterTypeOfClient!='' && customerSearch.typeClient=='' && select.filterTypeOfClient!=undefined?offlineSearch(rsCustomerListData,searchboxfilterOffline,customerSearch.isStockInBuilding,false):getCustomersByNameFn($parent.customerSearch.searchFilter, customerSearch.isStockInBuilding, customerSearch.strict)" ng-model="customerSearch.isStockInBuilding" id="isStockInBuilding-search">
+                                    <span class="slider slider-2x flat"></span>
+                                </label>
+                              </div>
+                            </div>
+                            <div ng-if="sysLoggedUser.idProfileKf==1 && customerSearch.typeClient=='2'" class="form-group col-md-2 col-sm-2 col-xs-12">
+                              <div class="col-md-12 col-xs-12" ><label class="clf-size">Stock Oficina</label></div>
+                              <div class="col-md-12 col-xs-12">
+                                <label class="switch switch-2x" for="isStockInOffice-search">
+                                    <input type="checkbox" class="success" ng-click="select.filterTypeOfClient!='' && customerSearch.typeClient=='' && select.filterTypeOfClient!=undefined?offlineSearch(rsCustomerListData,searchboxfilterOffline,customerSearch.isStockInOffice,false):getCustomersByNameFn($parent.customerSearch.searchFilter, customerSearch.isStockInOffice, customerSearch.strict)" ng-model="customerSearch.isStockInOffice" id="isStockInOffice-search">
+                                    <span class="slider slider-2x flat"></span>
+                                </label>
+                              </div>
+                            </div>
                         </div>
                         <row>
                           <div ng-if="select.filterTypeOfClient==undefined || select.filterTypeOfClient.idClientType==null || select.filterTypeOfClient.idClientType==''" ng-class="col-md-12">
@@ -331,10 +351,12 @@
 <div ng-include="'views/customer/update/formUpdateCustomer.html'"></div>
 <div ng-include="'views/customer/new/formRegisterCustomer.html'"></div>
 <div ng-include="'views/customer/list/listAllowedUsers.html'"></div>
+<div ng-include="'views/customer/list/istContactUsers.html'"></div>
 <div ng-include="'views/customer/list/phonesandschedule.html'"></div>
 <div ng-include="'views/customer/list/mailscontact.html'"></div>
 <div ng-include="'views/customer/list/multiLoadDepto.html'"></div>
 <div ng-include="'views/customer/list/listDepartments.html'"></div>
+<div ng-include="'views/customer/enableInitialKeys.html'"></div>
 <div ng-include="'views/customer/list/listParticularAddress.html'"></div>
 <div ng-include="'views/customer/list/listCustomersFiles.html'"></div>
 <div ng-include="'views/customer/customer_details/formCustomerDetails.html'"></div>

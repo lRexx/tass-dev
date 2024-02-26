@@ -1142,7 +1142,7 @@ input.fileUpload{
     .well .srvs-icon {margin-top: -2.9em;}
     .well .depto-icon i{ display: block; font-size: 76px; line-height: 76px; color: #19475E; margin-bottom: 15px; text-align: center;}
     .door-icon i{ display: block; font-size: 46px; line-height: 46px; color: #2A2D33; margin-bottom: 15px; text-align: center;}
-    .well:hover .depto-icon i {display: block; color: #f5f5f5;}
+    .well:hover .depto-icon i {display: block; color: #19475E;}
     .well-bg:hover { background-color: #19475E;}
     .depto-widget .text{text-align: center;}
     

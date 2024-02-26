@@ -111,7 +111,7 @@ class Clientes extends REST_Controller {
 		}
 
 		$rs = $this->client_model->IsInDebt($this->post('client'));
-//		$this->response($pofile);
+        //$this->response($pofile);
 		if ($rs == 1) {
             $this->response("Registro exitoso", 200);
 		} elseif ($rs == 0) {
@@ -119,6 +119,39 @@ class Clientes extends REST_Controller {
 		}
 	}
 
+	public function isStockInBuilding_post()
+	{
+
+		$rs = null;
+		if (!$this->post('client')) {
+			$this->response(null, 404);
+		}
+
+		$rs = $this->client_model->isStockInBuilding($this->post('client'));
+        //$this->response($pofile);
+		if ($rs == 1) {
+            $this->response("Registro exitoso", 200);
+		} elseif ($rs == 0) {
+			$this->response(array('error' => 'NO HAY RESULTADOS'), 500);
+		}
+	}    
+
+	public function isStockInOffice_post()
+	{
+
+		$rs = null;
+		if (!$this->post('client')) {
+			$this->response(null, 404);
+		}
+
+		$rs = $this->client_model->isStockInOffice($this->post('client'));
+        //$this->response($pofile);
+		if ($rs == 1) {
+            $this->response("Registro exitoso", 200);
+		} elseif ($rs == 0) {
+			$this->response(array('error' => 'NO HAY RESULTADOS'), 500);
+		}
+	}  
     public function building_post() {
 
         $pofile = null;
@@ -270,7 +303,7 @@ class Clientes extends REST_Controller {
         }
 
         $user = null;
-        $user = $this->client_model->getadmin($idClient, null, null, null, null, null);
+        $user = $this->client_model->getadmin($idClient, null, null, null, null, null, null, null, null, null);
 
         if (! is_null($user)) {
             $this->response($user, 200);
@@ -309,16 +342,19 @@ class Clientes extends REST_Controller {
 			$this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
 		}
 	}
+	/*Solicitud para saber si el cliente tiene stock en el edificio*/
     public function search_post() {
-        $searchFilter   = $this->post('searchFilter');
-        $idClientTypeFk = $this->post('idClientTypeFk');
-        $isNotCliente   = $this->post('isNotCliente');
-        $IsInDebt       = $this->post('isInDebt');
-        $limit          = $this->post('limit');
-        $start          = $this->post('start');
-        $strict         = $this->post('strict');
+        $searchFilter           = $this->post('searchFilter');
+        $idClientTypeFk         = $this->post('idClientTypeFk');
+        $isNotCliente           = $this->post('isNotCliente');
+        $IsInDebt               = $this->post('isInDebt');
+        $isStockInBuilding      = $this->post('isStockInBuilding');
+        $isStockInOffice        = $this->post('isStockInOffice');
+        $limit                  = $this->post('limit');
+        $start                  = $this->post('start');
+        $strict                 = $this->post('strict');
 
-        $client_rs = $this->client_model->getadmin(null, $searchFilter, $idClientTypeFk, $IsInDebt, $isNotCliente, $limit, $start, $strict);
+        $client_rs = $this->client_model->getadmin(null, $searchFilter, $idClientTypeFk, $IsInDebt, $isStockInBuilding, $isStockInOffice, $isNotCliente, $limit, $start, $strict);
 
         if (! is_null($client_rs)) {
             $this->response($client_rs, 200);

@@ -1,10 +1,10 @@
 /**
-* Status Controller
+* Infor Controller
 **/
-var sysStatus = angular.module("module.Status", ["tokenSystem", "angular.filter", "services.Customers","services.Address", "services.Products", "services.Contracts", "services.Service", "services.User", "ngAnimate", "ngSanitize", "ui.bootstrap", "ui.select", "services.Utilities", "bootstrapLightbox"]);
+var clientInfo = angular.module("module.Info", ["tokenSystem", "angular.filter", "services.Customers","services.Address", "services.Products", "services.Contracts", "services.Service", "services.User", "ngAnimate", "ngSanitize", "ui.bootstrap", "ui.select", "services.Utilities", "bootstrapLightbox"]);
 
-sysStatus.controller('statusCtrl', function($scope, $location, $routeParams, blockUI, $q, Lightbox, $timeout, inform, CustomerServices, ProductsServices, ContractServices, serviceServices, addressServices, userServices, tokenSystem, $window, serverHost, UtilitiesServices, $filter, APP_SYS){
-    console.log(APP_SYS.app_name+" Modulo Status");
+clientInfo.controller('infoCtrl', function($scope, $location, $routeParams, blockUI, $q, Lightbox, $timeout, inform, CustomerServices, ProductsServices, ContractServices, serviceServices, addressServices, userServices, tokenSystem, $window, serverHost, UtilitiesServices, $filter, APP_SYS){
+    console.log(APP_SYS.app_name+" Modulo Info");
     $scope.list_batteries=[];
     $scope.battery_install=[];
     $scope.list_cameras=[];
@@ -555,32 +555,14 @@ sysStatus.controller('statusCtrl', function($scope, $location, $routeParams, blo
     *                                                                          *
     ****************************************************************************/
 
-        /* USAGE: /status/client/55 */
+        /* USAGE: /info/client/55 
+        https://devtass.sytes.net/info/client/929*/
         console.log($routeParams);
-        $scope.checkStatus={'services':false, 'client':false}
+        $scope.getClientInfo=null;
         if($routeParams){
           if ($routeParams.client!=undefined){
             var idClient = $routeParams.client;
-            //console.log("client: "+idClient);
-            //$timeout(function() {$scope.checkCustomerIsInDebtFn(idClient);}, 1500);
-            $scope.checkCustomerIsInDebtFn(idClient);
-            $scope.checkStatus.client=true;
-            $scope.checkStatus.services=false;
-          }else if ($routeParams.service!=undefined){
-            var idClient = $routeParams.service;
-            //console.log("client: "+idClient);
-            //$timeout(function() {$scope.checkCustomerIsInDebtFn(idClient);}, 1500);
-            $scope.checkCustomerIsInDebtFn(idClient);
-            
-            $timeout(function() {
-              $scope.getContractsByCustomerIdFn(idClient);
-              //$scope.getSelectedServiceByIdContractFn(obj.idContractFk, obj.idTipeServiceFk);
-            }, 1500);
-            $timeout(function() {
-              $scope.getListCustomersServicesFn(idClient);
-            }, 2000);
-            $scope.checkStatus.client=false;
-            $scope.checkStatus.services=true;
+            console.log("client: "+idClient);
           }else{
             $location.path("/login");
           }

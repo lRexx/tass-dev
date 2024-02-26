@@ -15,7 +15,7 @@ class Mail_model extends CI_Model
     			 //TASS
     			$config = array(
                     'protocol' => 'smtp',
-                    'smtp_host' => 'coferba.com.ar',
+                    'smtp_host' => 'bss.com.ar',
                     'smtp_user' => $param['0']['value'], 
                     'smtp_pass' => $param['1']['value'], 
                     'smtp_port' => '465',
@@ -144,7 +144,7 @@ class Mail_model extends CI_Model
     			 //TASS
     			$config = array(
                     'protocol' => 'smtp',
-                    'smtp_host' => 'coferba.com.ar',
+                    'smtp_host' => 'bss.com.ar',
                     'smtp_user' => $param['0']['value'], 
                     'smtp_pass' => $param['1']['value'], 
                     'smtp_port' => '465',

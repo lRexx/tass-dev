@@ -533,7 +533,18 @@
                //console.log($scope.rsProfileData);
            });
           };
-         
+        /**************************************************
+        *                                                 *
+        *                     GET AGENTS                  *
+        *                                                 *
+        **************************************************/
+        $scope.rsCostCenterData = {};
+        $scope.getCostCenterFn = function(){
+         UtilitiesServices.getCostCenter().then(function(data){
+             $scope.rsCostCenterData = data;
+             //console.log($scope.rsProfileData);
+         });
+        };
         /**************************************************
         *                                                 *
         *                    GET ZONES                    *
@@ -1026,6 +1037,7 @@
           $scope.getTypeOfIVAFn();
           $scope.getTypeOfMailsFn();
           $scope.getAgentsFn();
+          $scope.getCostCenterFn();
           $scope.getZonesFn();
           $scope.getCategoryDepartamentFn();
           $scope.typeOfPropertyFn();

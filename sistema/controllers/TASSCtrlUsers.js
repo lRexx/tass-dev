@@ -67,7 +67,22 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                         //console.log(obj);
                 $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
-                    $scope.switchUsersFn($scope.tenantObj, "update");
+                    $scope.switchUsersFn("update", $scope.tenantObj);
+                $('#confirmRequestModal').modal('hide');
+                }
+            break;
+            case "resetPwd":
+                if (confirm==0){
+                    $scope.userObj=obj;
+                        console.log(obj)
+                        $scope.mess2show="Se restablecera la clave del usuario: "+$scope.userObj.fullNameUser+" por favor,     Confirmar?";
+                        console.log("ID del Usuario a restablecer la clave  : "+obj.idUser);
+                        console.log("Nombres del Usuario a restablecer la clave  : "+$scope.userObj.fullNameUser);
+                        console.log("============================================================================");
+                        //console.log(obj);
+                $('#confirmRequestModal').modal('toggle');
+                }else if (confirm==1){
+                    $scope.switchUsersFn("resetPwd", $scope.userObj);
                 $('#confirmRequestModal').modal('hide');
                 }
             break;
@@ -93,12 +108,12 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 $('#confirmRequestModal').modal('toggle');
               }else if (confirm==1){
                 if (opt=="remove"){
-                  $scope.deleteUser($scope.argObj);
+                  $scope.switchUsersFn('remove', $scope.argObj);
                 }else if (opt=="disabled"){
-                  $scope.disabledUser($scope.argObj);
+                  $scope.switchUsersFn('disabled', $scope.argObj);
                 }else{
                   console.log($scope.argObj);
-                  $scope.enabledUser($scope.argObj);
+                  $scope.switchUsersFn('enabled', $scope.argObj);
                 }
                 $('#confirmRequestModal').modal('hide');
               }
@@ -768,10 +783,38 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
           }
         /**************************************************
         *                                                 *
+        *             REQUEST PWD FUNCTION                *
+        *                                                 *
+        **************************************************/
+          $scope.recoverPwdUser = function (newpwd){
+            console.log(newpwd);
+              userServices.recoverPwd(newpwd).then(function(response){
+                if(response.status==200){
+                  inform.add('La clave ha sido restablecida satisfactoriamente, por favor verificar casilla de correo.',{
+                    ttl:4000, type: 'warning'
+                  });
+                  blockUI.message('Una Nueva Clave fue enviada a la direccion de correo!');
+                  $timeout(function() {
+                    blockUI.stop();
+                  }, 1500);
+                }else if(response.status==404){
+                  inform.add('[Error]: '+response.status+', Ocurrio error verifique los datos e intenta de nuevo o contacta el area de soporte. ',{
+                    ttl:5000, type: 'danger'
+                    });
+                }else if(response.status==500){
+                  inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con servidor, contacta el area de soporte. ',{
+                    ttl:5000, type: 'danger'
+                    });
+                }
+      
+              });
+          }
+        /**************************************************
+        *                                                 *
         *                 SWITCH USER DATA                *
         *                                                 *
         **************************************************/
-          $scope.switchUsersFn=function(obj, opt){
+          $scope.switchUsersFn = function(opt, obj){
             switch(opt){
               case "add":
                 $scope.register.user={'fullNameUser':null, 'emailUser': null, 'phoneNumberUser': null, 'phoneLocalNumberUser': null, 'idAddresKf': null, 'idProfileKf': null, 'idTypeTenantKf': null, 'idCompanyKf': null, 'idTyepeAttendantKf': null, 'descOther': null, 'idDepartmentKf':null, 'isEdit': null, 'requireAuthentication': null, 'dni': null, 'idSysProfileFk': null, 'isCreateByAdmin': null};
@@ -945,6 +988,28 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   $scope.sysUpdateFn();
                 }, 500);
                   //console.log($scope.update.user);
+              break;
+              case "edit":
+                //Edit User function
+                $scope.selectUserDataFn(obj);
+              break;
+              case "enabled":
+                //Enabled User function
+                $scope.enabledUser(obj);
+              break; 
+              case "disabled":
+                //disabled User function
+                $scope.disabledUser(obj);
+              break;
+              case "remove":
+                //remove User function
+                $scope.deleteUser(obj);
+              break;
+              case "resetPwd":
+                $scope.newpwd = {'user':{'emailUser':null, 'dni':null}};
+                $scope.newpwd.user.emailUser=obj.emailUser;
+                $scope.newpwd.user.dni=obj.dni;
+                $scope.recoverPwdUser($scope.newpwd);
               break;
               case "selectDepto":
                 $scope.tmp.data=obj;

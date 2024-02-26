@@ -311,8 +311,8 @@ class User_model extends CI_Model
 				$this->db->limit($searchFilter['topFilter']);
 			}
 			$quuery = $this->db->order_by("tb_user.idUser", "ASC")->get();
-			if ($query->num_rows() > 0) {
-				$user = $query->result_array();
+			if ($quuery->num_rows() > 0) {
+				$user = $quuery->result_array();
 				foreach ($user as $key => $item) {
 					$idProfile = null;
 					$idProfile = $item['idProfileKf'];
@@ -548,7 +548,7 @@ class User_model extends CI_Model
 		)->where("emailUser", $user['emailUser'])
 		->where("dni", $user['dni'])
 		->update("tb_user");
-		if ($this->db->affected_rows() === 1) {
+		if ($this->db->affected_rows() === 0 || $this->db->affected_rows() === 1) {
 			$this->db->select("*")->from("tb_user");
 			$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
 			$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
@@ -1179,6 +1179,33 @@ class User_model extends CI_Model
 
 
 		$quuery = $this->db->order_by("tb_user.fullNameUser", "asc")->get();
+
+
+		if ($quuery->num_rows() > 0) {
+			return $quuery->result_array();
+		}
+		return null;
+	}
+
+	
+	// GET DE LISTADO DE TODO LOS USUARIOS ASOCIADOS A UN CLIENTE //
+	public function listUsersByClient ($id)
+	{
+		$quuery = null;
+		$rs     = null;
+		$extrawhere = null;
+
+		$this->db->select("*")->from("tb_user as t1");
+		$this->db->join('tb_profile', 'tb_profile.idProfile = t1.idProfileKf', 'left');
+		$this->db->join('tb_profiles', 'tb_profiles.idProfiles = t1.idSysProfileFk', 'left');
+		$this->db->join('tb_status', 'tb_status.idStatusTenant = t1.idStatusKf', 'left');
+		$this->db->join('tb_typetenant', 'tb_typetenant.idTypeTenant = t1.idTypeTenantKf', 'left');
+		$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = t1.idDepartmentKf', 'left');
+		$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');	
+		$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = t1.idTyepeAttendantKf', 'left');
+		$extrawhere = " t1.idUser in (select tb_client_departament.idUserKf from tb_client_departament where idClientFk = ".$id.")  or t1.idDepartmentKf in (select tb_client_departament.idClientDepartament from tb_client_departament where idClientFk = ".$id." ) or (t1.idAddresKf = ".$id.")";
+		$this->db->where($extrawhere);
+		$quuery = $this->db->order_by("t1.fullNameUser", "asc")->get();
 
 
 		if ($quuery->num_rows() > 0) {

@@ -4,7 +4,7 @@
 	    <div class="modal-content">
           	<div class="modal-header">
           		<button ng-if="productDetailsAssigned" type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
-            	<h3 class="modal-title"><i class="product-success fas fa-wrench"></i> DETALLES DE {{productSelected.classification}}</h3>
+            	<h3 class="modal-title"><i class="product-success fas fa-wrench"></i> {{productSelected.classification}}</h3>
         	</div>
     		<div class="modal-body"  style="overflow-y: scroll;">
     			<form class="form-horizontal" name="fServiceProductDetails">    				
@@ -97,20 +97,32 @@
 				    		</div>
 				    	</div>
 					</div>
-					<!-- Expiration date -->					  
+					<!-- Expiration date -->
 					<div class="form-group col-md-12" ng-if="productSelected.isDateExpiration=='1'" ng-class="
 								{	'has-success': 
-									service.adicional.dateExpiration!='' && fServiceProductDetails.serviceProductExpDate.$valid,
-								 	'has-error':  
-									(service.adicional.dateExpiration=='' || service.adicional.dateExpiration==undefined) && fServiceProductDetails.serviceProductExpDate.$touched,
-								}">  
-					  	<label style="padding-left: 15px;">Fecha de Vencimiento</label>
-					    <div class="col-xs-12">
-						    <div class="input-group">
-						    	<span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
-				    			<input name="serviceProductExpDate" ng-disabled="productDetailsAssigned" type="text" ng-keydown="fnLoadPhoneMask()" ng-required="productSelected.isDateExpiration=='1'" class="form-control input--date" ng-model="service.adicional.dateExpiration" />
-				    		</div>
-				    	</div>
+								service.adicional.dateExpiration!='' && fServiceProductDetails.serviceProductExpDate.$valid,
+								'has-error':  
+								(service.adicional.dateExpiration=='' || service.adicional.dateExpiration==undefined) && fServiceProductDetails.serviceProductExpDate.$touched,
+							}">
+						<label style="padding-left: 15px;">Fecha de Vencimiento</label>
+						<div class="col-xs-12">
+							<div class="input-group">
+								<span ng-click="open_serviceProductExpDate()" class="input-group-addon"><i ng-click="open_serviceProductExpDate()" class="far fa-calendar-alt"></i></span>
+								<input 
+									ng-click="open_serviceProductExpDate()" 
+									type="text" 
+									name="serviceProductExpDate"
+									class="form-control" 
+									uib-datepicker-popup="{{format}}" 
+									ng-model="service.adicional.dateExpiration" 
+									is-open="popup_serviceProductExpDate.opened"  
+									ng-required="true" 
+									close-text="Cerrar" 
+									clear-text="Borrar"
+									current-text="Hoy"
+									alt-input-formats="altInputFormats" />
+							</div>
+						</div>
 					</div>
 				</form>
 			</div>

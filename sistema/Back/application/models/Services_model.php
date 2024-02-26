@@ -1126,9 +1126,10 @@ class Services_model extends CI_Model {
                                         foreach ($data[$id] as $idFk => $item3Fk) {
                                             if ($item3Fk[0]=='tb_user_license'){
                                                 //echo $item3Fk[0]." - ".$item3Fk[1]."\n";
-                                                $dataG = $this->db->select(" idClientServicesSmartPanicFk, idClientTypeFk, idDetinationOfLicenseFk, detinationOfLicense, idDepartmentFk, tb_client_departament.idClientDepartament AS idDepto, CONCAT(floor,'-',departament) AS Depto, idClient AS idBuilding, address AS Building, idParticularAddressFk, idUserFk, fullName, nameProfile, email, phone, keyword, idOS, numberUserPassword, profileUser ")
+                                                $dataG = $this->db->select(" idClientServicesSmartPanicFk, idClientTypeFk, idDetinationOfLicenseFk, detinationOfLicense, idDepartmentFk, tb_client_departament.idClientDepartament AS idDepto, CONCAT(floor,'-',departament) AS Depto, idClient AS idBuilding, address AS Building, idParticularAddressFk, idUserFk, fullName, nameProfile, email, phone, keyword, idOS, numberUserPassword, profileUser, tb_sistemas_operativos.descripcion as osName")
                                                 ->from($item3Fk[0]) 
                                                 ->join('tb_detination_of_license', 'tb_detination_of_license.idDetinationOfLicense = '.$item3Fk[0].'.idDetinationOfLicenseFk', 'LEFT')
+                                                ->join('tb_sistemas_operativos', 'tb_sistemas_operativos.idSistemaOperativo = '.$item3Fk[0].'.idOS', 'LEFT')
                                                 ->join('tb_user', 'tb_user.idUser = '.$item3Fk[0].'.idUserFk', 'LEFT')
                                                 ->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'LEFT')
                                                 ->join('tb_client_departament', 'tb_client_departament.idClientDepartament = '.$item3Fk[0].'.idDepartmentFk', 'LEFT')
@@ -2139,7 +2140,6 @@ class Services_model extends CI_Model {
 		return null;
 
 	}
-
 }
 
 ?>

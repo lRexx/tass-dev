@@ -33,6 +33,17 @@ class Util extends REST_Controller {
         }
     }
 
+    public function costcenter_get() {
+
+        $rs = null;
+        $rs = $this->util_model->getCostCenter();
+
+        if (! is_null($rs)) {
+            $this->response($rs, 200);
+        } else {
+            $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
+        }
+    }
     public function localidad_get($idProvinceFk) {
 
         if (! $idProvinceFk) {

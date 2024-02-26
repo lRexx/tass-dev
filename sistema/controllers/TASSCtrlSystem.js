@@ -19,13 +19,23 @@ system.filter('toDate', function() {
       return new Date(items);
     };
 });
-system.controller('SystemCtrl', function($scope, $location, $routeParams, blockUI, Lightbox, $timeout, inform, ProductsServices, ticketServices, CustomerServices, serviceServices, ContractServices, DepartmentsServices, addressServices, userServices, tokenSystem, $window, serverHost, UtilitiesServices, $filter, APP_SYS, APP_REGEX){
+system.controller('SystemCtrl', function($scope, $location, $routeParams, blockUI, $q, Lightbox, $timeout, inform, ProductsServices, ticketServices, CustomerServices, serviceServices, ContractServices, DepartmentsServices, addressServices, userServices, tokenSystem, $window, serverHost, UtilitiesServices, $filter, APP_SYS, APP_REGEX){
     console.log(APP_SYS.app_name+" Modulo System");
     if (!$scope.sysToken || !$scope.sysLoggedUser ){
         $location.path("/login");
-    }    
+    }  
+    const sysDate = new Date();
+    const fullSysDate = sysDate.toLocaleString('es-AR');  
     //Variables Initialization
-    $scope.select={'admins':{'selected':undefined}, 'buildings':{'selected':undefined}, 'province':{'selected':undefined}, 'location':{'selected':undefined}, 'depto':undefined,'floor':undefined, 'product':{'selected':undefined}};
+    $scope.pagination = {
+        'maxSize': 5,     // Limit number for pagination display number.  
+        'totalCount': 0,  // Total number of items in all pages. initialize as a zero  
+        'pageIndex': 1,   // Current page number. First page is 1.-->  
+        'pageSizeSelected': 30, // Maximum number of items per page. 
+        'totalCount':0
+     } 
+    $scope.customerSearch={'searchFilter':'', 'typeClient':'', 'isNotCliente':undefined, 'isInDebt':false, 'isStockInBuilding': false, 'isStockInOffice': false, 'strict':false};
+    $scope.select={'filterTypeOfClient':{}, 'filterCustomerIdFk':{'selected':undefined},'admins':{'selected':undefined}, 'buildings':{'selected':undefined}, 'province':{'selected':undefined}, 'location':{'selected':undefined}, 'depto':undefined,'floor':undefined, 'product':{'selected':undefined}};
     $scope.zone={'new':{}, 'update':{}};
     $scope.rsNewZonesData ={};
     $scope.zones={'new':{'zona':{}}, 'update':{'zona':{}}};
@@ -359,78 +369,231 @@ system.controller('SystemCtrl', function($scope, $location, $routeParams, blockU
             $scope.sortKey = keyname;   //set the sortKey to the param passed
             $scope.reverse = !$scope.reverse; //if true make it false and vice versa
         }
-                /**************************************************
-                *                                                 *
-                *          COLLAPSE / EXPAND TABLE ROWS           *
-                *                                                 *
-                **************************************************/
-                 $scope.tableRowExpanded          = false;
-                 $scope.tableRowIndexCurrExpanded = "";
-                 $scope.tableRowIndexPrevExpanded = "";
-                 $scope.dayDataCollapseFn = function () {
-                     $scope.tableRowExpanded          = false;
-                     $scope.tableRowIndexCurrExpanded = "";
-                     $scope.tableRowIndexPrevExpanded = "";
-                     $scope.vIndex=null;
-                     $scope.dayDataCollapse = [true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true];
-                 };
-                 $scope.dayDataCollapse = [];
-                 $scope.vIndex=null;
-                 $scope.selectedItem = undefined;
-                 $scope.selectTable = {'rowIndex':'', 'item':{}, 'option':''};
-                 $scope.selectTableRow = function (value, item, opt) {
-                     $scope.selectTable = {'rowIndex':'', 'item':{}, 'option':''}; 
-                     $scope.vIndex = value;
-                     $scope.selectTable.rowIndex = value;
-                     $scope.selectTable.option = opt;
-                     $scope.selectTable.item = item;
-                     $scope.selectedItem = item;
-                     console.log("[selectTableRow ("+$scope.vIndex +")]->idService: "+$scope.selectTable.item.idServiceTechnician);
-                     if ($scope.dayDataCollapse === 'undefined') {
-                         $scope.dayDataCollapse = $scope.dayDataCollapseFn();
-                         console.log("dayDataCollapse:");
-                         console.log($scope.dayDataCollapse);
-                     } else {
-                         //console.log("dayDataCollapse != undefined");
-                         //console.log($scope.dayDataCollapse);
-                         console.log('Variable tableRowExpanded: '+$scope.tableRowExpanded);
-                         console.log('Variable tableRowIndexCurrExpanded: '+$scope.tableRowIndexCurrExpanded);
-                         if ($scope.tableRowExpanded === false && $scope.tableRowIndexCurrExpanded === "") {
-                             console.log("ROWEXPANDED FALSE")
-                             $scope.tableRowIndexPrevExpanded = "";
-                             $scope.tableRowExpanded = true;
-                             $scope.tableRowIndexCurrExpanded = $scope.vIndex;
-                             $scope.dayDataCollapse[$scope.vIndex] = false;
-                             //console.log('Id del idDeptoKf: '+$scope.idDeptoKf+' / Index Id de la tabla: ' +$scope.vIndex);
-                             if(opt=="cost"){$scope.getTechServiceCostByTypeServiceIdFn($scope.selectTable.item.idServiceTechnician);}
-                             //console.log("===================================")
-                         } else if ($scope.tableRowExpanded === true) {
-                                 console.log("ROWEXPANDED TRUE")
-                             if ($scope.tableRowIndexCurrExpanded === $scope.vIndex) {
-                                 console.log("tableRowIndexCurrExpanded == vIndex")
-                                 $scope.tableRowExpanded = false;
-                                 $scope.tableRowIndexCurrExpanded = "";
-                                 $scope.selectTable = {'rowIndex':'', 'item':{}, 'option':''};
-                                 $scope.selectedItem = undefined;
-                                 //console.log('Id del idDeptoKf: '+$scope.idDeptoKf+' / Index Id de la tabla: ' +$scope.vIndex);
-                                 $scope.dayDataCollapse[$scope.vIndex] = true;
-                                 $scope.vIndex =null;
-                                 //console.log("===================================")
-                             } else {
-                                 //console.log("tableRowIndexCurrExpanded != vIndex")
-                                 //console.log('Id del idDeptoKf: '+$scope.idDeptoKf+' / Index Id de la tabla: ' +$scope.vIndex);
-                                 $scope.tableRowIndexPrevExpanded = $scope.tableRowIndexCurrExpanded;
-                                 $scope.tableRowIndexCurrExpanded = $scope.vIndex;
-                                 if(opt=="depto"){$scope.lisTenantByType($scope.idDeptoKf, null);}
-                                 if(opt=="service"){$scope.getListContractServicesFn($scope.idDeptoKf, null);}
-                                 if(opt=="cost"){$scope.getTechServiceCostByTypeServiceIdFn($scope.selectTable.item.idServiceTechnician);}
-                                 $scope.dayDataCollapse[$scope.tableRowIndexPrevExpanded] = true;
-                                 $scope.dayDataCollapse[$scope.tableRowIndexCurrExpanded] = false;
-                                 //console.log("===================================")
-                             }
-                         } 
-                     }
-                 };
+        /**************************************************
+        *                                                 *
+        *          COLLAPSE / EXPAND TABLE ROWS           *
+        *                                                 *
+        **************************************************/
+            $scope.tableRowExpanded          = false;
+            $scope.tableRowIndexCurrExpanded = "";
+            $scope.tableRowIndexPrevExpanded = "";
+            $scope.dayDataCollapseFn = function () {
+                $scope.tableRowExpanded          = false;
+                $scope.tableRowIndexCurrExpanded = "";
+                $scope.tableRowIndexPrevExpanded = "";
+                $scope.vIndex=null;
+                $scope.dayDataCollapse = [true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true];
+            };
+            $scope.dayDataCollapse = [];
+            $scope.vIndex=null;
+            $scope.selectedItem = undefined;
+            $scope.selectTable = {'rowIndex':'', 'item':{}, 'option':''};
+            $scope.selectTableRow = function (value, item, opt) {
+                $scope.selectTable = {'rowIndex':'', 'item':{}, 'option':''}; 
+                $scope.vIndex = value;
+                $scope.selectTable.rowIndex = value;
+                $scope.selectTable.option = opt;
+                $scope.selectTable.item = item;
+                $scope.selectedItem = item;
+                console.log("[selectTableRow ("+$scope.vIndex +")]->idService: "+$scope.selectTable.item.idServiceTechnician);
+                if ($scope.dayDataCollapse === 'undefined') {
+                    $scope.dayDataCollapse = $scope.dayDataCollapseFn();
+                    console.log("dayDataCollapse:");
+                    console.log($scope.dayDataCollapse);
+                } else {
+                    //console.log("dayDataCollapse != undefined");
+                    //console.log($scope.dayDataCollapse);
+                    console.log('Variable tableRowExpanded: '+$scope.tableRowExpanded);
+                    console.log('Variable tableRowIndexCurrExpanded: '+$scope.tableRowIndexCurrExpanded);
+                    if ($scope.tableRowExpanded === false && $scope.tableRowIndexCurrExpanded === "") {
+                        console.log("ROWEXPANDED FALSE")
+                        $scope.tableRowIndexPrevExpanded = "";
+                        $scope.tableRowExpanded = true;
+                        $scope.tableRowIndexCurrExpanded = $scope.vIndex;
+                        $scope.dayDataCollapse[$scope.vIndex] = false;
+                        //console.log('Id del idDeptoKf: '+$scope.idDeptoKf+' / Index Id de la tabla: ' +$scope.vIndex);
+                        if(opt=="cost"){$scope.getTechServiceCostByTypeServiceIdFn($scope.selectTable.item.idServiceTechnician);}
+                        //console.log("===================================")
+                    } else if ($scope.tableRowExpanded === true) {
+                            console.log("ROWEXPANDED TRUE")
+                        if ($scope.tableRowIndexCurrExpanded === $scope.vIndex) {
+                            console.log("tableRowIndexCurrExpanded == vIndex")
+                            $scope.tableRowExpanded = false;
+                            $scope.tableRowIndexCurrExpanded = "";
+                            $scope.selectTable = {'rowIndex':'', 'item':{}, 'option':''};
+                            $scope.selectedItem = undefined;
+                            //console.log('Id del idDeptoKf: '+$scope.idDeptoKf+' / Index Id de la tabla: ' +$scope.vIndex);
+                            $scope.dayDataCollapse[$scope.vIndex] = true;
+                            $scope.vIndex =null;
+                            //console.log("===================================")
+                        } else {
+                            //console.log("tableRowIndexCurrExpanded != vIndex")
+                            //console.log('Id del idDeptoKf: '+$scope.idDeptoKf+' / Index Id de la tabla: ' +$scope.vIndex);
+                            $scope.tableRowIndexPrevExpanded = $scope.tableRowIndexCurrExpanded;
+                            $scope.tableRowIndexCurrExpanded = $scope.vIndex;
+                            if(opt=="depto"){$scope.lisTenantByType($scope.idDeptoKf, null);}
+                            if(opt=="service"){$scope.getListContractServicesFn($scope.idDeptoKf, null);}
+                            if(opt=="cost"){$scope.getTechServiceCostByTypeServiceIdFn($scope.selectTable.item.idServiceTechnician);}
+                            $scope.dayDataCollapse[$scope.tableRowIndexPrevExpanded] = true;
+                            $scope.dayDataCollapse[$scope.tableRowIndexCurrExpanded] = false;
+                            //console.log("===================================")
+                        }
+                    } 
+                }
+            };
+
+            $scope.customersSearch={
+            "searchFilter":null,
+            "isNotCliente":"0",
+            "idClientTypeFk":null,
+            "isInDebt": null,
+            "start":"1",
+            "limit":"30",
+            "strict": null
+            }
+        /**************************************************
+        *                                                 *
+        *             LIST CUSTOMER SERVICE               *
+        *                                                 *
+        **************************************************/
+            $scope.getCustomersListRs = {'customerList':null, 'totalNumberOfCustomer':0}
+            $scope.setCustomersListRs = {}
+            $scope.getCustomerLisServiceFn = function(searchFilter, isNotCliente, idClientTypeFk, isInDebt, isStockInBuilding, isStockInOffice, start, limit, strict){
+            console.log($scope.customerSearch);
+            console.log("isStockInOffice:"+isStockInOffice);
+            var searchFilter        = searchFilter!=undefined && searchFilter!="" && searchFilter!=null?searchFilter:null;
+            var isNotCliente        = isNotCliente!=undefined && isNotCliente!=null?isNotCliente:"0";
+            var idClientTypeFk      = idClientTypeFk!=undefined && idClientTypeFk!="" && idClientTypeFk!=null?idClientTypeFk:null;
+            var isInDebt            = isInDebt!=false && isInDebt!=undefined && isInDebt!=null?1:null;
+            var isStockInBuilding   = isStockInBuilding!=false && isStockInBuilding!=undefined && isStockInBuilding!=null?1:null;
+            var isStockInOffice     = isStockInOffice!=false && isStockInOffice!=undefined && isStockInOffice!=null?1:null;
+            var start               = start!=undefined && start!=null && ((!isInDebt || !isStockInBuilding || !isStockInOffice) && !strict)?start:"";
+            var limit               = limit!=undefined && limit!=null && ((!isInDebt || !isStockInBuilding || !isStockInOffice) && !strict)?limit:"";
+            var strict              = strict!=false && strict!=undefined && strict!=null?strict:null;
+            //console.log(isStockInOffice);
+            $scope.getCustomersListRs = {'customerList':null, 'totalNumberOfCustomer':0}
+            $scope.customersSearch={
+                "searchFilter":searchFilter,
+                "isNotCliente":isNotCliente,
+                "idClientTypeFk":idClientTypeFk,
+                "isInDebt":isInDebt,
+                "isStockInBuilding":isStockInBuilding,
+                "isStockInOffice":isStockInOffice,
+                "start":start,
+                "limit":limit,
+                "strict":strict
+            };
+            console.log($scope.customersSearch);
+            return CustomerServices.getCustomerListLimit($scope.customersSearch).then(function(response){
+                //console.info(response);
+                if(response.status==200){
+                return response.data;
+                }else if(response.status==404){
+                return response;
+                }
+            });
+            }
+            $scope.pageChanged = function(){
+            //console.info($scope.pagination.pageIndex);
+            var pagIndex = ($scope.pagination.pageIndex-1)*($scope.pagination.pageSizeSelected);
+            $scope.getCustomersListFn(null, $scope.customersSearch.isNotCliente, $scope.customersSearch.idClientTypeFk, $scope.customerSearch.isInDebt, $scope.customerSearch.isStockInBuilding, $scope.customerSearch.isStockInOffice, pagIndex, $scope.pagination.pageSizeSelected);
+            }
+        /**************************************************
+        *                                                 *
+        *           GET CUSTOMER LIST FUNCTION            *
+        *                                                 *
+        **************************************************/
+            $scope.getCustomersListFn = function(search, isNotCliente, idClientTypeFk, isInDebt, isStockInBuilding, isStockInOffice, start, limit) {
+                $scope.getCustomerLisServiceFn(search, isNotCliente, idClientTypeFk, isInDebt, isStockInBuilding, isStockInOffice, start, limit, null).then(function(data) {
+                console.info(data);
+                $scope.rsCustomerListData     = data.customers;
+                $scope.pagination.totalCount  = data.totalCount;
+                }, function(err) {
+                //error
+                });
+            }
+        /**************************************************
+        *                                                 *
+        *             LIST CUSTOMER BY TYPE               *
+        *                                                 *
+        **************************************************/
+            $scope.getCustomersListByTypeFn = function(idClientTypeFk) {
+                if (idClientTypeFk!=undefined && idClientTypeFk!='' && idClientTypeFk!=null){
+                if ($scope.select.filterTypeOfClient!=undefined){
+                    if (idClientTypeFk!='2'){
+                    $scope.customerSearch.isStockInOffice   = false;
+                    $scope.customerSearch.isStockInBuilding = false;
+                    }
+                    $scope.getCustomerLisServiceFn(null, $scope.customersSearch.isNotCliente, idClientTypeFk, $scope.customerSearch.isInDebt, $scope.customerSearch.isStockInBuilding, $scope.customerSearch.isStockInOffice, "", "", $scope.customerSearch.strict).then(function(data) {
+                    //console.info(data.customers);
+                        $scope.rsCustomerListByTypeData = data.customers;
+                    }, function(err) {
+                    //error
+                    $scope.rsCustomerListByTypeData = [];
+                    });
+                }else{
+                    console.info("idClientTypeFk: "+ idClientTypeFk);
+                    if (idClientTypeFk!='2'){
+                    $scope.customerSearch.isStockInOffice   = false;
+                    $scope.customerSearch.isStockInBuilding = false;
+                    }
+                    $scope.getCustomerLisServiceFn($scope.customersSearch.searchFilter, $scope.customersSearch.isNotCliente, idClientTypeFk, $scope.customerSearch.isInDebt, $scope.customerSearch.isStockInBuilding, $scope.customerSearch.isStockInOffice, "", "30", $scope.customerSearch.strict).then(function(data) {
+                        console.info(data);
+                        if(data.status==404){
+                        $scope.rsCustomerListData = [];
+                        }else{
+                        $scope.rsCustomerListData    = data.customers;
+                        $scope.pagination.totalCount = data.totalCount;
+                        }
+                    }, function(err) {
+                    //error
+                    $scope.rsCustomerListData = [];
+                    });
+                }
+                }else{
+                console.info("idClientTypeFk: "+ idClientTypeFk);
+                $scope.customerSearch.isStockInOffice   = false;
+                $scope.customerSearch.isStockInBuilding = false;
+                $scope.customersSearch.idClientTypeFk = null;
+                $scope.getCustomerLisServiceFn($scope.customersSearch.searchFilter, $scope.customersSearch.isNotCliente, idClientTypeFk, $scope.customerSearch.isInDebt, $scope.customerSearch.isStockInBuilding, $scope.customerSearch.isStockInOffice, "", "30", $scope.customerSearch.strict).then(function(data) {
+                    //console.info(data.customers);
+                    if(data.status==404){
+                    $scope.rsCustomerListData = [];
+                    }else{
+                    $scope.rsCustomerListData    = data.customers;
+                    $scope.pagination.totalCount = data.totalCount;
+                    }
+                }, function(err) {
+                    //error
+                    $scope.rsCustomerListData = [];
+                });
+                }
+            }
+
+        /**************************************************
+        *                                                 *
+        *              GET CUSTOMERS CONTRACT             *
+        *                                                 *
+        **************************************************/
+            $scope.rsContractsListByCustomerIdData=[];
+            $scope.rsContractNotFound=false;
+            $scope.getContractsByCustomerIdFn=function(idClient){
+                $scope.rsContractsListByCustomerIdData=[];
+                ContractServices.getContractListByCustomerId(idClient).then(function(response){
+                    //console.log(response);
+                    if(response.status==200){
+                        $scope.rsContractNotFound=false;
+                        $scope.rsContractsListByCustomerIdData=response.data;
+                    }else{
+                        $scope.rsContractsListByCustomerIdData=[];
+                        $scope.rsContractNotFound=true;
+                        inform.add('No se existen contratos asociados al cliente. ',{
+                                ttl:2000, type: 'warning'
+                        });
+                    }
+                    //console.log($scope.rsContractsListByCustomerIdData);
+                });
+            }
         /**************************************************
         *                                                 *
         *         ADD OWNER / TENANT / ATTENDANT          *
@@ -1191,11 +1354,180 @@ system.controller('SystemCtrl', function($scope, $location, $routeParams, blockU
                     }
                 });
             };
+        /***********************************
+        *   ADDING NEW CUSTOMER SERVICE    *
+        ************************************/
+            $scope.addCustomerServiceFn = function(service){
+                serviceServices.addService(service).then(function(data){
+                    $scope.rsJsonData = data;
+                    //console.log($scope.rsJsonData);
+                    if($scope.rsJsonData.status==200){
+                        console.log("Customer Service Successfully Created");
+                        inform.add('El Servicio del cliente ha sido creado con exito. ',{
+                            ttl:2000, type: 'success'
+                        });
+                    }else if($scope.rsJsonData.status==500){
+                        console.log("Customer Service not Created, contact administrator");
+                        inform.add('Error: [500] Contacta al area de soporte. ',{
+                            ttl:2000, type: 'danger'
+                        });
+                    }
+                });
+            };
         /**************************************************
         *                                                 *
         *             SYSTEM MENU FUNCTION                *
         *                                                 *
         **************************************************/
+            $scope.template_control_access={
+                "idContratoFk": "434",
+                "name": "",
+                "dateUp": "2024-01-16T03:00:00.000Z",
+                "dateDown": null,
+                "location": "",
+                "maxCamera": "",
+                "zonesQttyInstalled": "",
+                "isHasInternetConnect": 0,
+                "numberPortRouter": "",
+                "addessClient": null,
+                "portHttp": null,
+                "addressVpn": null,
+                "namePort1": "",
+                "nroPort1": "",
+                "namePort2": "",
+                "nroPort2": "",
+                "generalComments": "",
+                "idDoorFk": "1",
+                "aclaration": "No corresponde",
+                "locationGabinet": "No corresponde",
+                "isBlocklingScrew": "0",
+                "lockingScrewComment": "",
+                "locationEmergencyButton": "No corresponde",
+                "locationOffKey": "No corresponde",
+                "portNumberRouter": null,
+                "idTipoConexionRemoto": "",
+                "user": null,
+                "pass": null,
+                "useVpn": null,
+                "passVpn": null,
+                "isSysUser": false,
+                "people": {},
+                "idTypeMaintenanceFk": "1",
+                "idTypeMaintenanceFkConstract": "1",
+                "serviceName": "CONTROL DE ACCESO",
+                "idClientFk": "929",
+                "contractNumb": "929-6NC-25122",
+                "idTipeServiceFk": "1",
+                "idServiceType": "1",
+                "idContracAssociated_SE": "434",
+                "idAccessControlFk": "29",
+                "lock": "56",
+                "idInputReaderFk": "60",
+                "ouputReader": "60",
+                "ouputButom": null,
+                "idFontFk": "43",
+                "idEmergencyButtonFk": "61",
+                "idShutdownKeyFk": "31",
+                "battery_install": [
+                    {
+                        "idProductIndex": 1,
+                        "idBatteryFk": "62",
+                        "descriptionProduct": "NO    CORRESPONDE",
+                        "model": "NO    CORRESPONDE",
+                        "brand": "NO    CORRESPONDE",
+                        "isNumberSerieInternal": "0",
+                        "isNumberSerieFabric": "0",
+                        "isDateExpiration": "0",
+                        "numberSerieFabric": null,
+                        "numberSerieInternal": null,
+                        "dateExpiration": null,
+                        "idProductClassification": "5",
+                        "classification": "BATERIA",
+                        "description": "BATERIA",
+                        "isNew": 1
+                    }
+                ],
+                "open_devices": [
+                    {
+                        "idProductIndex": 1,
+                        "idOpenDevice": "32",
+                        "descriptionProduct": "LLAVERO HID SEOS EXCLUSIVO",
+                        "model": "SEOS EX",
+                        "brand": "HID",
+                        "isNumberSerieInternal": "0",
+                        "isNumberSerieFabric": "0",
+                        "isDateExpiration": "0",
+                        "idProductClassification": "19",
+                        "classification": "DISPOSITIVO DE APERTURA",
+                        "numberSerieInternal": null,
+                        "numberSerieFabric": null,
+                        "dateExpiration": null,
+                        "isNew": 1
+                    }
+                ],
+                "isOuputReader": "1",
+                "isOuputButom": null,
+                "acaration2": null,
+                "addressClient": null,
+                "adicional": [
+                    {
+                        "idProductDetail": 0,
+                        "idProductoFk": "56",
+                        "numberSerieFabric": null,
+                        "numberSerieInternal": null,
+                        "dateExpiration": null,
+                        "optAux": null
+                    },
+                    {
+                        "idProductDetail": 1,
+                        "idProductoFk": "43",
+                        "numberSerieFabric": null,
+                        "numberSerieInternal": null,
+                        "dateExpiration": null,
+                        "optAux": null
+                    },
+                    {
+                        "idProductDetail": 2,
+                        "idProductoFk": "60",
+                        "numberSerieFabric": null,
+                        "numberSerieInternal": null,
+                        "dateExpiration": null,
+                        "optAux": "entrance"
+                    },
+                    {
+                        "idProductDetail": 3,
+                        "idProductoFk": "29",
+                        "numberSerieFabric": "1",
+                        "numberSerieInternal": null,
+                        "dateExpiration": null,
+                        "optAux": null
+                    },
+                    {
+                        "idProductDetail": 4,
+                        "idProductoFk": "60",
+                        "numberSerieFabric": null,
+                        "numberSerieInternal": null,
+                        "dateExpiration": null,
+                        "optAux": "exit"
+                    },
+                    {
+                        "idProductDetail": 5,
+                        "idProductoFk": "61",
+                        "numberSerieFabric": null,
+                        "numberSerieInternal": null,
+                        "dateExpiration": null,
+                        "optAux": null
+                    },
+                    {
+                        "idProductDetail": 6,
+                        "idProductoFk": "31",
+                        "numberSerieFabric": null,
+                        "numberSerieInternal": null,
+                        "dateExpiration": null,
+                        "optAux": null
+                    }
+                ]
+            };
             $scope.mainSwitchFn = function(opt1, opt2, obj, obj2){
                 switch (opt1){
                     case "dash":
@@ -1208,25 +1540,321 @@ system.controller('SystemCtrl', function($scope, $location, $routeParams, blockU
                           break;
                       }
                     break;
-                    case "sysProfile":
-                        switch (fnAction){
-                          case "dash":
-                            $scope.sysContent = "";
-                            $scope.loadPagination($scope.rsProfileData, "idProfiles", "10");
-                            $scope.sysContent = 'sysProfile';
-                          break;
-                          case "newProfile":
-                            $scope.sysProfile.Name="";
-                            $scope.checkBoxes.modulo=false;
-                            $('#newSysProfile').modal('show');
-                          break;
-                          case "updProfile2":
-                            $scope.sysUpProfile.Name="";
-                            $scope.filterSysProfile=null;
-                            $scope.sysProfFound=false;
-                            $('#updateSysProfile2').modal('show');
-                          break;
-                          default:
+                    case "customers":
+                        switch (opt2){
+                            case "list":
+                                $scope.sysContent                         = "";
+                                $scope.pagination.pageIndex               = 1;
+                                $scope.customersSearch.isNotCliente       = "0";
+                                $scope.customersSearch.isInDebt           = false;
+                                $scope.getCustomersListFn(null, "0", null, null, null, null, ($scope.pagination.pageIndex-1), $scope.pagination.pageSizeSelected, null);
+                                $scope.select.filterTypeOfClient          = undefined;
+                                $scope.select.filterCustomerIdFk.selected = undefined;
+                                $scope.customerSearch={'searchFilter':'', 'typeClient':'', 'isInDebt':false, 'isStockInBuilding':false, 'isStockInOffice':false, 'strict':false};
+                                $scope.isNewCustomer                      = false;
+                                $scope.isUpdateCustomer                   = false;
+                                //$scope.customerPaginationFn($scope.rsCustomerListData, 10);
+                                //$scope.loadPagination($scope.rsCustomerListData, "idClientIndex", "10");
+                                $scope.sysContent                         = 'registeredCustomers';
+                            break;
+                            case "create":
+                                $scope.services_to_add = [];
+                                $scope.internet_service = [];
+                                var requestDate  = new Date();
+                                var formatedDate    = requestDate.getDate()+"-"+(requestDate.getMonth()+1)+"-"+requestDate.getFullYear()+ " / " +requestDate.getHours() + ":" + requestDate.getMinutes();
+                                
+                                
+                                ContractServices.getContractListByCustomerId(obj.idClient).then(function(response){
+                                    //console.log(response.data);
+                                    if(response.status==200){
+                                        $scope.rsContractNotFound=false;
+                                        $scope.rsContractsListByCustomerIdData=response.data;
+                                        console.info(response.data);
+                                        for (var key in response.data){
+                                            console.info(response.data[key].idContrato+" - "+response.data[key].numeroContrato);
+
+                                            for (var srv in response.data[key].services){
+                                                console.info("   * "+response.data[key].services[srv].idServiceType+" - "+response.data[key].services[srv].serviceName);
+                                                switch (response.data[key].services[srv].idServiceType){
+                                                    case "1": //CONTROL ACCESS
+                                                        for (var crt in response.data[key].services[srv].service_items){
+                                                            console.log("     * "+response.data[key].services[srv].service_items[crt].idAccCrtlDoor+" - "+response.data[key].services[srv].service_items[crt].itemName+" ["+response.data[key].services[srv].service_items[crt].qtty+"]");
+                                                                for (var i = 0; i < response.data[key].services[srv].service_items[crt].available; i++) {
+                                                                    $scope.services_to_add.push({
+                                                                        'idClientFk': obj.idClient,
+                                                                        'dateUp': fullSysDate,
+                                                                        'idContratoFk': response.data[key].idContrato,
+                                                                        'idContracAssociated_SE' : response.data[key].idContrato,
+                                                                        'contractNumb': response.data[key].numeroContrato,
+                                                                        'idTypeMaintenanceFk': response.data[key].maintenanceType,
+                                                                        'idDoorFk': response.data[key].services[srv].service_items[crt].idAccCrtlDoor,
+                                                                        "name": "",
+                                                                        "MntType": response.data[key].description,
+                                                                        "dateDown": null,
+                                                                        "location": "",
+                                                                        "maxCamera": "",
+                                                                        "zonesQttyInstalled": "",
+                                                                        "isHasInternetConnect": 0,
+                                                                        "numberPortRouter": "",
+                                                                        "addessClient": null,
+                                                                        "portHttp": null,
+                                                                        "addressVpn": null,
+                                                                        "namePort1": "",
+                                                                        "nroPort1": "",
+                                                                        "namePort2": "",
+                                                                        "nroPort2": "",
+                                                                        "generalComments": "",
+                                                                        "aclaration": "No corresponde",
+                                                                        "locationGabinet": "No corresponde",
+                                                                        "isBlocklingScrew": "0",
+                                                                        "lockingScrewComment": "",
+                                                                        "locationEmergencyButton": "No corresponde",
+                                                                        "locationOffKey": "No corresponde",
+                                                                        "portNumberRouter": null,
+                                                                        "idTipoConexionRemoto": "",
+                                                                        "user": null,
+                                                                        "pass": null,
+                                                                        "useVpn": null,
+                                                                        "passVpn": null,
+                                                                        "isSysUser": false,
+                                                                        "people": {},
+                                                                        "serviceName": response.data[key].services[srv].serviceName,
+                                                                        "idTipeServiceFk": "1",
+                                                                        "idServiceType": "1",
+                                                                        "idAccessControlFk": "29",
+                                                                        "lock": "56",
+                                                                        "idInputReaderFk": "60",
+                                                                        "ouputReader": "60",
+                                                                        "ouputButom": null,
+                                                                        "idFontFk": "43",
+                                                                        "idEmergencyButtonFk": "61",
+                                                                        "idShutdownKeyFk": "31",
+                                                                        "battery_install": [
+                                                                            {
+                                                                                "idProductIndex": 1,
+                                                                                "idBatteryFk": "62",
+                                                                                "descriptionProduct": "NO    CORRESPONDE",
+                                                                                "model": "NO    CORRESPONDE",
+                                                                                "brand": "NO    CORRESPONDE",
+                                                                                "isNumberSerieInternal": "0",
+                                                                                "isNumberSerieFabric": "0",
+                                                                                "isDateExpiration": "0",
+                                                                                "numberSerieFabric": null,
+                                                                                "numberSerieInternal": null,
+                                                                                "dateExpiration": null,
+                                                                                "idProductClassification": "5",
+                                                                                "classification": "BATERIA",
+                                                                                "description": "BATERIA",
+                                                                                "isNew": 1
+                                                                            }
+                                                                        ],
+                                                                        "open_devices": [
+                                                                            {
+                                                                                "idProductIndex": 1,
+                                                                                "idOpenDevice": "32",
+                                                                                "descriptionProduct": "LLAVERO HID SEOS EXCLUSIVO",
+                                                                                "model": "SEOS EX",
+                                                                                "brand": "HID",
+                                                                                "isNumberSerieInternal": "0",
+                                                                                "isNumberSerieFabric": "0",
+                                                                                "isDateExpiration": "0",
+                                                                                "idProductClassification": "19",
+                                                                                "classification": "DISPOSITIVO DE APERTURA",
+                                                                                "numberSerieInternal": null,
+                                                                                "numberSerieFabric": null,
+                                                                                "dateExpiration": null,
+                                                                                "isNew": 1
+                                                                            }
+                                                                        ],
+                                                                        "isOuputReader": "1",
+                                                                        "isOuputButom": null,
+                                                                        "acaration2": null,
+                                                                        "addressClient": null,
+                                                                        "adicional": [
+                                                                            {
+                                                                                "idProductDetail": 0,
+                                                                                "idProductoFk": "56",
+                                                                                "numberSerieFabric": null,
+                                                                                "numberSerieInternal": null,
+                                                                                "dateExpiration": null,
+                                                                                "optAux": null
+                                                                            },
+                                                                            {
+                                                                                "idProductDetail": 1,
+                                                                                "idProductoFk": "43",
+                                                                                "numberSerieFabric": null,
+                                                                                "numberSerieInternal": null,
+                                                                                "dateExpiration": null,
+                                                                                "optAux": null
+                                                                            },
+                                                                            {
+                                                                                "idProductDetail": 2,
+                                                                                "idProductoFk": "60",
+                                                                                "numberSerieFabric": null,
+                                                                                "numberSerieInternal": null,
+                                                                                "dateExpiration": null,
+                                                                                "optAux": "entrance"
+                                                                            },
+                                                                            {
+                                                                                "idProductDetail": 3,
+                                                                                "idProductoFk": "29",
+                                                                                "numberSerieFabric": "1",
+                                                                                "numberSerieInternal": null,
+                                                                                "dateExpiration": null,
+                                                                                "optAux": null
+                                                                            },
+                                                                            {
+                                                                                "idProductDetail": 4,
+                                                                                "idProductoFk": "60",
+                                                                                "numberSerieFabric": null,
+                                                                                "numberSerieInternal": null,
+                                                                                "dateExpiration": null,
+                                                                                "optAux": "exit"
+                                                                            },
+                                                                            {
+                                                                                "idProductDetail": 5,
+                                                                                "idProductoFk": "61",
+                                                                                "numberSerieFabric": null,
+                                                                                "numberSerieInternal": null,
+                                                                                "dateExpiration": null,
+                                                                                "optAux": null
+                                                                            },
+                                                                            {
+                                                                                "idProductDetail": 6,
+                                                                                "idProductoFk": "31",
+                                                                                "numberSerieFabric": null,
+                                                                                "numberSerieInternal": null,
+                                                                                "dateExpiration": null,
+                                                                                "optAux": null
+                                                                            }
+                                                                        ]});
+                                                                }
+                                                        }
+                                                    break;
+                                                    case "2": //INTERNET
+                                                        for (var crt in response.data[key].services[srv].service_items){
+                                                            console.log("     * "+response.data[key].services[srv].service_items[crt].idAccCrtlDoor+" - "+response.data[key].services[srv].service_items[crt].itemName+" ["+response.data[key].services[srv].service_items[crt].qtty+"]");
+                                                                for (var i = 0; i < response.data[key].services[srv].service_items[crt].qtty; i++) {
+                                                                    $scope.services_to_add.push({
+                                                                        'idClientFk': obj.idClient,
+                                                                        'dateUp': formatedDate,
+                                                                        'idContratoFk': response.data[key].idContrato,
+                                                                        'idContracAssociated_SE' : response.data[key].idContrato,
+                                                                        'contractNumb': response.data[key].numeroContrato,
+                                                                        'idTypeMaintenanceFk': response.data[key].maintenanceType,
+                                                                        "MntType": response.data[key].description,
+                                                                        "name": "",
+                                                                        "dateDown": null,
+                                                                        "location": "",
+                                                                        "maxCamera": "",
+                                                                        "zonesQttyInstalled": "",
+                                                                        "isHasInternetConnect": 0,
+                                                                        "numberPortRouter": "",
+                                                                        "addessClient": null,
+                                                                        "portHttp": "",
+                                                                        "addressVpn": "",
+                                                                        "namePort1": "",
+                                                                        "nroPort1": "",
+                                                                        "namePort2": "",
+                                                                        "nroPort2": "",
+                                                                        "generalComments": "",
+                                                                        "aclaration": "",
+                                                                        "locationGabinet": "",
+                                                                        "isBlocklingScrew": "",
+                                                                        "lockingScrewComment": "",
+                                                                        "locationEmergencyButton": "",
+                                                                        "locationOffKey": "",
+                                                                        "portNumberRouter": "",
+                                                                        "idTipoConexionRemoto": "",
+                                                                        "isSysUser": false,
+                                                                        "people": {},
+                                                                        "serviceName": "INTERNET",
+                                                                        "idTipeServiceFk": "2",
+                                                                        "idServiceType": "2",
+                                                                        "idTypeInternetFk": response.data[key].services[srv].service_items[crt].idAccCrtlDoor,
+                                                                        "idInternetCompanyFk": "1",
+                                                                        "idServiceFk": "1",
+                                                                        "idServiceAsociateFk": [
+                                                                        ],
+                                                                        "port": response.data[key].services[srv].service_items[crt].idAccCrtlDoor<="2"?"1":null,
+                                                                        "macAddr": response.data[key].services[srv].service_items[crt].idAccCrtlDoor<="2"?"2C-54-91-88-C9-E3":null,
+                                                                        "userAdmin": response.data[key].services[srv].service_items[crt].idAccCrtlDoor<="2"?"admin":null,
+                                                                        "passAdmin": response.data[key].services[srv].service_items[crt].idAccCrtlDoor<="2"?"admin":null,
+                                                                        "userWifi": response.data[key].services[srv].service_items[crt].idAccCrtlDoor<="2"?"admin":null,
+                                                                        "passWifi": response.data[key].services[srv].service_items[crt].idAccCrtlDoor<="2"?"admin":null,
+                                                                        "idRouterInternetFk": response.data[key].services[srv].service_items[crt].idAccCrtlDoor<="2"?"55":null,
+                                                                        "idModemInternetFk": "63",
+                                                                        "macAddress": response.data[key].services[srv].service_items[crt].idAccCrtlDoor<="2"?"2C-54-91-88-C9-E3":null,
+                                                                        "numberLine": response.data[key].services[srv].service_items[crt].idAccCrtlDoor<="2"?null:"1",
+                                                                        "numberChip": response.data[key].services[srv].service_items[crt].idAccCrtlDoor<="2"?null:"1",
+                                                                        "isDown": null,
+                                                                        "adicional": [
+                                                                            {
+                                                                                "idProductDetail": 0,
+                                                                                "idProductoFk": "55",
+                                                                                "numberSerieFabric": ".",
+                                                                                "numberSerieInternal": null,
+                                                                                "dateExpiration": null,
+                                                                                "optAux": null
+                                                                            },
+                                                                            {
+                                                                                "idProductDetail": 1,
+                                                                                "idProductoFk": "63",
+                                                                                "numberSerieFabric": null,
+                                                                                "numberSerieInternal": null,
+                                                                                "dateExpiration": null,
+                                                                                "optAux": null
+                                                                            }
+                                                                        ]
+                                                                    });
+                                                                }
+                                                        }
+                                                    break;
+                                                }
+                                            }
+                                        }                                        
+                                    }else{
+                                        $scope.rsContractsListByCustomerIdData=[];
+                                        $scope.rsContractNotFound=true;
+                                        inform.add('No se existen contratos asociados al cliente. ',{
+                                                ttl:2000, type: 'warning'
+                                        });
+                                    }
+                                    //console.log($scope.rsContractsListByCustomerIdData);
+                                    console.info($scope.services_to_add);
+                                    //blockUI.start('Registrando servicios.');
+                                    console.log($scope.services_to_add.length)
+                                    var createdService = [];
+                                    angular.forEach($scope.services_to_add,function(service){
+                                        var deferredService = $q.defer();
+                                        createdService.push(deferredService.promise);
+                                        //CREATE SERVICE
+                                        //$timeout(function() {
+                                        //    deferredService.resolve();
+                                        //    serviceServices.addService(service).then(function(response){
+                                        //        if(response.status==200){
+                                        //            console.log("Customer Service Successfully Created");
+                                        //            inform.add('El Servicio del cliente ha sido creado con exito. ',{
+                                        //                ttl:2000, type: 'success'
+                                        //            });
+                                        //        }else if($scope.rsJsonData.status==500){
+                                        //            console.log("Customer Service not Created, contact administrator");
+                                        //            inform.add('Error: [500] Contacta al area de soporte. ',{
+                                        //                ttl:2000, type: 'danger'
+                                        //            });
+                                        //        }
+                                        //    });
+                                        //}, 1000);
+                                    });
+                                    
+                                    $q.all(createdService).then(function () {
+                                        $timeout(function() {
+                                            blockUI.stop();
+                                        }, 2000);
+                                    });
+                                });
+
+                            break;
                         }
                     break;
                     case "sysUsers":

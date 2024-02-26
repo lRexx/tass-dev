@@ -81,18 +81,30 @@
 				    	</div>
 					</div>
 					<!-- Control_de_Acceso: Start_date -->
-					<div class="form-group col-md-6" ng-class="
-								{	'has-success': 
-									service.new.dateUp!='' && fCustomerNewService.service_start_date.$valid,
-								 	'has-error':  
-									(service.new.dateUp=='' || service.new.dateUp==undefined) && fCustomerNewService.service_start_date.$touched,
-								}">
-					  <label style="padding-left: 15px;">Fecha de alta</label>  
-						  <div class="col-xs-12">
+					<div class="form-group col-md-6 col-xs-6" ng-class="
+									{'has-success': 
+										service.new.dateUp!='' && fCustomerNewService.service_start_date.$valid,
+									'has-error':  
+										(service.new.dateUp=='' || service.new.dateUp==undefined) && fCustomerNewService.service_start_date.$touched,
+									}">
+						<label style="padding-left: 15px;">Fecha de alta</label>
+						<div class="col-xs-12 ">
 							<div class="input-group">
-								<span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
-								<input name="service_start_date" type="text" ng-keydown="fnLoadPhoneMask()" required="true" class="form-control input--date" ng-model="service.new.dateUp" />
-						  </div>
+								<span ng-click="open_start_date()" class="input-group-addon"><i ng-click="open_start_date()" class="far fa-calendar-alt"></i></span>
+								<input 
+									ng-click="open_start_date()" 
+									type="text" 
+									name="service_start_date"
+									class="form-control" 
+									uib-datepicker-popup="{{format}}" 
+									ng-model="service.new.dateUp" 
+									is-open="popup_start_date.opened"  
+									ng-required="true" 
+									close-text="Cerrar" 
+									clear-text="Borrar"
+									current-text="Hoy"
+									alt-input-formats="altInputFormats" />
+							</div>
 						</div>
 					</div>
 					<div ng-if="service.new.idTypeMaintenanceFkConstract=='3'" class="form-group col-md-6" ng-class="
@@ -115,13 +127,26 @@
 						</div>
 					</div>
 					<!-- Control_de_Acceso: End_date -->
-					<div class="form-group col-md-6">
-					  <label style="padding-left: 15px;">Fecha de baja</label>  
-						  <div class="col-xs-12">
+					<div class="form-group col-md-6 col-md-6 col-xs-6">
+						<label style="padding-left: 15px;">Fecha de baja</label>
+						<div class="col-xs-12">
 							<div class="input-group">
-								<span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
-								<input name="service_end_date" type="text" ng-keydown="fnLoadPhoneMask()" ng-disabled="true" class="form-control input--date" ng-model="service.new.dateDown" />
-						  </div>
+								<span ng-click="open_end_date()" class="input-group-addon"><i ng-click="open_end_date()" class="far fa-calendar-alt"></i></span>
+								<input 
+								ng-click="open_end_date()" 
+								type="text" 
+								name="service_end_date"
+								class="form-control" 
+								uib-datepicker-popup="{{format}}" 
+								ng-model="service.new.dateDown" 
+								is-open="popup_end_date.opened"  
+								ng-required="false"
+								ng-disabled="true"
+								close-text="Cerrar" 
+								clear-text="Borrar"
+								current-text="Hoy"
+								alt-input-formats="altInputFormats" />
+							</div>
 						</div>
 					</div>
 					<div class="well-checkbox form-group col-md-12 n-padding-l n-padding-r" style="width: auto;">
@@ -341,7 +366,7 @@
 					                </ui-select>
 					            </div>
 						  	</div>
-							<div class="well-checkbox n-padding-t n-padding-b" ng-class="{'n-padding-l n-padding-r':list_open_devices.length>0}" style="margin-left: 0px;margin-right: 0px;">
+							<div class="well-checkbox" ng-class="{'n-padding-l n-padding-r':list_open_devices.length>0}" style="margin-left: 0px;margin-right: 0px;">
 							  	<table ng-if="list_open_devices.length>0">
 							    	<tr ng-repeat="device in list_open_devices">
 							    		<td style="width: 5%; padding: 0 0px 0 10px;"><label style="font-size: 80%" class="label label-default">{{$index+1}}</label></td>
@@ -355,7 +380,7 @@
 							          	</td>
 							      	</tr>
 							  	</table>
-							  	<div ng-if="list_open_devices.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay dispositivos de apertura cargados</h5></div>
+							  	<div ng-if="list_open_devices.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay dispositivos cargados</h5></div>
 							</div>						  	
 						</div>						
 					</div>
@@ -384,7 +409,7 @@
 					                </ui-select>
 					            </div>
 					        </div>
-							<div class="well-checkbox n-padding-t n-padding-b" style="margin-left: 0px;margin-right: 0px;">
+							<div class="well-checkbox" style="margin-left: 0px;margin-right: 0px;">
 							  	<table ng-if="list_batteries.length>0">
 							    	<tr ng-repeat="battery in list_batteries">
 							    		<td style="width: 0%; padding: 0 10px 0 10px;"><label style="font-size: 80%" class="label label-default">{{$index+1}}</label></td>

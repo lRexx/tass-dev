@@ -82,57 +82,102 @@
                 </div>
                 <div class="panel-body">
                   <!-- CUSTOMER COLUMN -->
-                  <div  class="col-md-8 well-checkbox n-margin-r n-margin-l customer-frame">
-                    <div class="col-md-6 col-xs-12">
-                      <span class="badge badge-default">sistema web</span><span> N° de Cliente : {{customerFound.idClient}}</span>
+                  <div  class="col-md-8 col-xs-8 well-checkbox n-margin-r n-margin-l customer-frame">
+                    <!-- LEFT COLUMN -->
+                    <div class="col-md-6 col-xs-12 n-padding-l n-padding-r">
+                      <div class="col-md-12 col-xs-12"><span class="badge badge-default">sistema web</span><span> N° de Cliente : {{customerFound.idClient}}</span></div>                      
+                      <div class="col-md-12 col-xs-12"><span>Nombre: {{customerFound.name | uppercase}}</span></div>
+                      <div ng-if="customerFound.idClientType!='5'" class="col-md-12 col-xs-12"><span>Dirección: {{customerFound.address | uppercase}}</span></div>
+                      <div ng-if="customerFound.idClientType=='5'" class="col-md-12 col-xs-12"><span>Dirección: {{customerFound.billing_information_details.businessAddress | uppercase}}</span></div>
+                      <div ng-if="customerFound.idClientType=='5'" class="col-md-12 col-xs-12"><span>Mail: {{customerFound.mail}}</span></div>
+                      <div ng-if="customerFound.idClientType=='2' || customerFound.idClientType=='4'" class="col-md-12 col-xs-12">
+                        <span ng-if="customerFound.idClientType=='2'">Administracion: {{customerFound.companyBusinessName}}</span>
+                        <span ng-if="customerFound.idClientType=='4'">Empresa: {{customerFound.companyBusinessName}}</span>
+                      </div>
+                      <div ng-if="customerFound.idClientType!='5'" class="col-md-12 col-xs-12">
+                        <span ng-if="customerFound.zona!=null">Zona: {{customerFound.zona.n_zona}} - {{customerFound.zona.descripcion | uppercase}}</span>
+                        <span ng-if="customerFound.zona==null">Zona: <label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="Zona no asignada" class="label label-default">n/a</label></span>
+                      </div>
+                      <div ng-if="sysLoggedUser.idProfileKf==1 && customerFound.idClientTypeFk=='2'" class="col-md-12 col-sm-12 col-xs-12 ">
+                        <span>Stock:</span>
+                        <div class="form-group col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r">
+                            <div class="col-md-6 col-sm-6 col-xs-6 n-padding-l n-padding-r">
+                              <div class="n-padding-r">
+                                <label class="switch switch-2x" for="isStockInBuilding-set">
+                                    <input type="checkbox" class="success" 
+                                      ng-disabled="customerFound.isStockInOfficeTmp"
+                                      ng-click="modalConfirmation('isStockInBuilding', 0, customerFound, null)"
+                                      ng-model="customerFound.isStockInBuildingTmp" 
+                                      id="isStockInBuilding-set">
+                                    <span class="slider slider-2x flat"></span>
+                                </label>
+                                <span class="font-size-10px"><span ng-if="customerFound.isStockInBuildingTmp" style="cursor: pointer; margin-top: -8%;" class="badge badge-success">Edificio</span></span>
+                                <span class="font-size-10px"><span ng-if="!customerFound.isStockInBuildingTmp || customerFound.isStockInBuildingTmp==null || customerFound.isStockInBuildingTmp==undefined" style="cursor: pointer; margin-top: -8%;" class="badge badge-light">Edificio</span>&nbsp;<span style="cursor: pointer; margin-top: -8%;" data-toggle="tooltip" data-placement="bottom" title="Deshabilitado" ng-if="customerFound.isStockInOfficeTmp" class="badge badge-warning"><i class="fas fa-lock"></i></span></span>
+                              </div>
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6 n-padding-l n-padding-r">
+                              <div class="n-padding-r">
+                                <label class="switch switch-2x" for="isStockInOffice-set">
+                                    <input type="checkbox" class="success" 
+                                      ng-disabled="customerFound.isStockInBuildingTmp"
+                                      ng-click="modalConfirmation('isStockInOffice', 0, customerFound, null)"
+                                      ng-model="customerFound.isStockInOfficeTmp" 
+                                      id="isStockInOffice-set">
+                                    <span class="slider slider-2x flat"></span>
+                                </label>
+                                <span class="font-size-10px"><span ng-if="customerFound.isStockInOfficeTmp" style="cursor: pointer; margin-top: -8%;" class="badge badge-success">Oficina</span></span>
+                                <span class="font-size-10px"><span ng-if="!customerFound.isStockInOfficeTmp || customerFound.isStockInOfficeTmp==null || customerFound.isStockInOfficeTmp==undefined" style="cursor: pointer; margin-top: -8%;" class="badge badge-light">Oficina</span>&nbsp;<span style="cursor: pointer; margin-top: -8%;" data-toggle="tooltip" data-placement="bottom" title="Deshabilitado" ng-if="customerFound.isStockInBuildingTmp" class="badge badge-warning"><i class="fas fa-lock"></i></span></span>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
                     </div>
-                    <div class="col-md-6 col-xs-12">
-                      <span class="badge badge-default">sistema de gestion</span>
-                      <span ng-if="customerFound.idClientAssociated_SE!=null"> N° de Cliente : {{customerFound.idClientAssociated_SE}}</span>
-                      <span ng-if="customerFound.idClientAssociated_SE==null"> N° de Cliente : <label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="no asignado" class="label label-default">n/a</label></span>
-                    </div>                      
-                    <div class="col-md-6"><span>Tipo de Cliente: {{customerFound.ClientType | uppercase}}</span></div>
-                    <div class="col-md-6"><span>Nombre: {{customerFound.name | uppercase}}</span></div>
-                    <div ng-if="customerFound.idClientType=='1' || customerFound.idClientType=='3'" class="col-md-6"><span>Razón Social: {{customerFound.businessName | uppercase}}</span></div>
-                    <div ng-if="customerFound.idClientType=='1' || customerFound.idClientType=='3'" class="col-md-6"><span>CUIT: {{customerFound.CUIT}}</span></div>
-                    <div ng-if="customerFound.idClientType=='5'" class="col-md-6"><span>Mail: {{customerFound.mail}}</span></div>
-                    <div ng-if="customerFound.idClientType=='2' || customerFound.idClientType=='4'" class="col-md-6">
-                      <span ng-if="customerFound.idClientType=='2'">Administracion: {{customerFound.companyBusinessName}}</span>
-                      <span ng-if="customerFound.idClientType=='4'">Empresa: {{customerFound.companyBusinessName}}</span>
+                    <!-- RIGHT COLUMN -->
+                    <div class="col-md-6 col-xs-12 n-padding-l n-padding-r">
+                      <div class="col-md-12 col-xs-12">
+                        <span class="badge badge-default">sistema de gestion</span>
+                        <span ng-if="customerFound.idClientAssociated_SE!=null"> N° de Cliente : {{customerFound.idClientAssociated_SE}}</span>
+                        <span ng-if="customerFound.idClientAssociated_SE==null"> N° de Cliente : <label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="no asignado" class="label label-default">n/a</label></span>
+                      </div>
+                      <div class="col-md-12 col-xs-12"><span>Tipo de Cliente: {{customerFound.ClientType | uppercase}}</span></div>
+                      <div ng-if="customerFound.idClientType=='1' || customerFound.idClientType=='3'" class="col-md-12 col-xs-12"><span>Razón Social: {{customerFound.businessName | uppercase}}</span></div>
+                      <div ng-if="customerFound.idClientType=='1' || customerFound.idClientType=='3'" class="col-md-12 col-xs-12"><span>CUIT: {{customerFound.CUIT}}</span></div>
+                      <div class="col-md-12 col-xs-12"><span>IVA: {{customerFound.billing_information_details.typeTax | uppercase}}</span></div>
+                      <div  ng-if="sysLoggedUser.idProfileKf==1" class="col-md-12 col-xs-12">
+                        <div class="col-md-12 col-xs-12 n-padding-l" >
+                          <span>Estatus Servicios:</span>
+                          <button data-toggle="tooltip" data-placement="bottom" title="Copiar" type="button" style="margin-left: 20px; margin-top: -0.5em;" ngclipboard data-clipboard-text="{{customerFound.servicesStatustURL}}" class="btn btn-xs btn-success"><i class="fas fa-copy"></i> Copiar</button>
+                          <a data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{customerFound.servicesStatustURL}}" class="btn btn-xs btn-success"><i class="fas fa-link"></i> Abrir</a>
+                        </div>
+                      </div>
                     </div>
 
-                    <div ng-if="customerFound.idClientType!='5'" class="col-md-6">
-                      <span ng-if="customerFound.zona!=null">Zona: {{customerFound.zona.n_zona}} - {{customerFound.zona.descripcion | uppercase}}</span>
-                      <span ng-if="customerFound.zona==null">Zona: <label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="Zona no asignada" class="label label-default">n/a</label></span>
-                    </div>
-                    <div ng-if="customerFound.idClientType!='5'" class="col-md-6"><span>Dirección: {{customerFound.address | uppercase}}</span></div>
-                    <div ng-if="customerFound.idClientType=='5'" class="col-md-6"><span>Dirección: {{customerFound.billing_information_details.businessAddress | uppercase}}</span></div>
-                    <div class="col-md-6"><span>IVA: {{customerFound.billing_information_details.typeTax | uppercase}}</span></div>
                   </div>
-                  <!-- NEW CONTRACT -->
-                  <div class="col-md-2">
-                    <div class="col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="bottom" title="NUEVO CONTRATO" ng-click="switchCustomersFn('contract', customerFound, 'new_contract_windows');">
-                      <div class="depto-icon">
-                            <span><i class="default-sys-color fas fa-file-signature"></i></span>
+                  <div  class="col-md-4 col-xs-4">
+                      <!-- NEW CONTRACT -->
+                      <div class="col-md-4 col-xs-6">
+                        <div class="col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="bottom" title="NUEVO CONTRATO" ng-click="switchCustomersFn('contract', customerFound, 'new_contract_windows');">
+                          <div class="depto-icon">
+                                <span><i class="default-sys-color fas fa-file-signature"></i></span>
+                          </div>
+                          <div class="text-badge">
+                              <span class="registered-customer badge badge-light"> NUEVO CONTRATO </span>
+                          </div>
+                        </div>
                       </div>
-                      <div class="text-badge">
-                          <span class="registered-customer badge badge-light"> NUEVO CONTRATO </span>
+                      <!-- //NEW CONTRACT -->
+                      <!-- NEW SERVICE -->
+                      <div class="col-md-4 col-xs-6">
+                        <div class="col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="bottom" title="NUEVO SERVICIO" ng-click="switchCustomersFn('services', customerFound, 'select_contract_first', '');">
+                          <div class="depto-icon">
+                                <span><i class="default-sys-color fas fa-wrench"></i></span>
+                          </div>
+                          <div class="text-badge">
+                              <span class="registered-customer badge badge-light"> NUEVO SERVICIO </span>
+                          </div>
+                        </div>
                       </div>
-                    </div>
                   </div>
-                  <!-- //NEW CONTRACT -->
-                  <!-- NEW SERVICE -->
-                  <div class="col-md-2">
-                    <div class="col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="bottom" title="NUEVO SERVICIO" ng-click="switchCustomersFn('services', customerFound, 'select_contract_first', '');">
-                      <div class="depto-icon">
-                            <span><i class="default-sys-color fas fa-wrench"></i></span>
-                      </div>
-                      <div class="text-badge">
-                          <span class="registered-customer badge badge-light"> NUEVO SERVICIO </span>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- //NEW SERVICE -->
                   <!-- CONTRACT LIST -->
                   <div class="col-md-12 n-padding-l n-padding-r">
                     <label class="clf-size from-left-from-label" style="margin-left: 6em; padding-bottom: 15px;">CONTRATOS</label>
@@ -143,13 +188,14 @@
                     <div ng-include="'views/services/list/listServices.html'"></div>
                   </div>-->
                 </div>
+                <!-- //NEW SERVICE -->
                 <div class="modal-footer">
-                    <div class="row">
-                        <div class="col-xs-3 col-sm-1 col-md-1">
-                              <button type="button" ng-click="closeServicePanel()" class="btn btn-labeled btn-success">
-                                <span class="btn-label"><i class="fas fa-search"></i></span>Buscar nuevo cliente</button>
-                        </div>
-                    </div>
+                  <div class="row">
+                      <div class="col-xs-3 col-sm-1 col-md-1">
+                            <button type="button" ng-click="closeServicePanel()" class="btn btn-labeled btn-success">
+                              <span class="btn-label"><i class="fas fa-search"></i></span>Buscar nuevo cliente</button>
+                      </div>
+                  </div>
                 </div>
             </div>
         </div>
@@ -196,4 +242,5 @@
 <div ng-include="'views/services/update/formContractDetails.html'"></div>
 <div ng-include="'views/utilities/pdfViewerModal.html'"></div>
 <div ng-include="'views/utilities/modalConfirmation.html'"></div>
+<div ng-include="'views/utilities/modalConfirmationCustom.html'"></div>
 <div ng-include="'views/services/contracts/terminateContract.html'"></div>

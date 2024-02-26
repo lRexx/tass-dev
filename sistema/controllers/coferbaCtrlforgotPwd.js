@@ -89,13 +89,13 @@ moduleForgotPwd.controller('ForgotPwdCtrl', function($scope, $rootScope, $locati
     }
   }
   $scope.requestNewPwd = function () {
-  var user =
-          {
-            user:{
-                    emailUser: $scope.forgot.email
-                  }
-          };
-    return user;
+    var user =
+            {
+              user:{
+                      emailUser: $scope.forgot.email
+                    }
+            };
+      return user;
   };
   /**************************************************
   *                                                 *
