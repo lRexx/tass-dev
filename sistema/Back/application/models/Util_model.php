@@ -326,6 +326,19 @@ class Util_model extends CI_Model {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
+    public function typeTechnicianServices() {
+
+        $query = null;
+        $rs    = null;
+
+        $query = $this->db->select("*")->from("tb_technician_services_type")
+            ->get();
+        if ($query->num_rows() > 0) {
+            $rs = $query->result_array();
+        }
+
+        return $rs;
+    }
 }
 
 ?>

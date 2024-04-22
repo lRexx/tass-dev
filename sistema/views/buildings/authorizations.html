@@ -7,9 +7,28 @@
       <div class="panel-body">
         <div  class="row">
             <div ng-if="select.buildings.selected!=undefined" class="col-md-12">
+                <!-- Type MercadoPago Payment Method-->
+                <div class="form-group col-md-12 col-xs-12 n-padding-r n-padding-l n-margin-b">
+                    <div ng-if="sysLoggedUser.idProfileKf=='1'" class="well well-md col-md-6 col-xs-12" style="margin-right: 0.1em; padding: 10px !important;" ng-class="{'well-checkbox-success': functions.mpPaymentMethod}">
+                        <div class="col-md-3 col-xs-3 n-padding-r" style="padding-top: 10px !important;">
+                            <label class="switch switch-2x" for="mpPaymentMethod">
+                                <input type="checkbox" class="success" ng-click="modalConfirmation('mpPaymentMethod', 0, select.buildings.selected)" ng-model="functions.mpPaymentMethod" id="mpPaymentMethod">
+                                <span class="slider slider-2x flat"></span>
+                            </label>
+                        </div>
+                        <div class="col-md-9 col-xs-9 n-padding-l" style="padding-top: 10px !important;">
+                            <span class="font-size-16px">Pago anticipado de pedidos <span><img id="comp-k1xl6bdlimgimage" style="height: 30px !important;" data-type="image" itemprop="image" src="images/mp_logo.png"></span></span>
+                        </div>
+                    </div>
+                    <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-5 col-xs-12" style="margin-right: 0.2em; padding: 5px !important;">
+                        <div class="alert alert-info" role="alert">
+                            <strong>INFO: </strong>Lorem ipsum dolor sit amet, consectetur adip.
+                        </div>
+                    </div>
+                </div>
                 <!-- Type EXPENSES-->
                 <div class="form-group col-md-12 col-xs-12 n-padding-r n-padding-l n-margin-b">
-                    <div class="well well-md col-md-6 col-xs-12" style="margin-right: 0.1em; padding: 10px !important;" ng-class="{'well-checkbox-success': functions.expensePayment}">
+                    <div ng-if="sysLoggedUser.idProfileKf=='1'" class="well well-md col-md-6 col-xs-12" style="margin-right: 0.1em; padding: 10px !important;" ng-class="{'well-checkbox-success': functions.expensePayment}">
                         <div class="col-md-3 col-xs-3 n-padding-r" style="padding-top: 10px !important;">
                             <label class="switch switch-2x" for="expensePayment">
                                 <input type="checkbox" class="success" ng-click="modalConfirmation('expensesPayment', 0, select.buildings.selected)" ng-model="functions.expensePayment" id="expensePayment">
@@ -20,7 +39,7 @@
                             <span class="font-size-16px">Cobrar por expensas</span>
                         </div>
                     </div>
-                    <div class="col-md-5 col-xs-12" style="margin-right: 0.2em; padding: 5px !important;">
+                    <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-5 col-xs-12" style="margin-right: 0.2em; padding: 5px !important;">
                         <div class="alert alert-info" role="alert">
                             <strong>INFO: </strong>Lorem ipsum dolor sit amet, consectetur adip.
                         </div>

@@ -126,6 +126,23 @@ class Ticket extends REST_Controller {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
+
+    public function completeTicketRefund_post() {
+
+        if (!$this->post('ticket')){
+			$this->response(null , 404);
+		}
+
+        $rs = null;
+        $rs = $this->ticket_model->completeTicketRefund($this->post('ticket'));
+
+        if (!is_null($rs)) {
+            $this->response($rs, 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
+
     /* SERVICIO retorna el detalle de   UN ticket POR ID */
     public function find_get($id) {
         if (!$id) {

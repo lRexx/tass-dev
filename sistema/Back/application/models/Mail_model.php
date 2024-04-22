@@ -54,7 +54,7 @@ class Mail_model extends CI_Model
                 @media screen {
                     @font-face {
                         font-family: monserrateExtended;
-                        src: url(https://devtass.sytes.net/fonts/montserrat/Montserrat-Medium.otf);
+                        src: url(https://'.BSS_HOST.'/fonts/montserrat/Montserrat-Medium.otf);
                     }
                 }
                 body{
@@ -79,7 +79,7 @@ class Mail_model extends CI_Model
                     <tbody>
                         <tr width="100%" bgcolor="#ffffff">
                             <td width="40%" style="text-align:left;" bgcolor="#ffffff">
-                                <img src="https://devtass.sytes.net/images/logo_2.png" alt="logos juntos.png" width="60%" class="logo_mail">
+                                <img src="https://sistema.bss.com.ar/images/logo_2.png" alt="logos juntos.png" width="60%" class="logo_mail">
                             </td>
                             <td width="60%" style="text-align:left"><h1 style="font-size:2vw;" bgcolor="#ffffff">'.$title.'</h1></td>
                         </tr>

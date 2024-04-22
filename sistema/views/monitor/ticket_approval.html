@@ -1,6 +1,6 @@
 <!-- APPROVAL TICKET -->
 <div  ng-if="approval!=undefined" class="col-md-10 col-md-offset-1">
-  <div class="panel padding-panel" ng-class="{'panel-warning':(tkupdate.idStatusTicketKf=='2'), 'panel-success':(tkupdate.idStatusTicketKf!='2' && tkupdate.idStatusTicketKf=='3')}">
+  <div class="panel padding-panel" ng-class="{'panel-warning':(tkupdate.idStatusTicketKf=='2' || tkupdate.idStatusTicketKf=='9' || tkupdate.idStatusTicketKf=='11'), 'panel-success':(tkupdate.idStatusTicketKf!='2' && tkupdate.idStatusTicketKf!='9' && tkupdate.idStatusTicketKf!='11' && tkupdate.idStatusTicketKf=='3')}">
     <div class="panel-heading">
         <h3 class="modal-title">
             <i ng-if="tkupdate.idTypeTicketKf==1" class="fas fa-key"></i>
@@ -12,7 +12,7 @@
             'label-success':  
             tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='3' || tkupdate.idStatusTicketKf=='5',
             'label-warning':  
-            tkupdate.idStatusTicketKf=='4' || tkupdate.idStatusTicketKf=='10' || tkupdate.idStatusTicketKf=='2' || tkupdate.idStatusTicketKf=='7',
+            tkupdate.idStatusTicketKf=='4' || tkupdate.idStatusTicketKf=='10' || tkupdate.idStatusTicketKf=='2' || tkupdate.idStatusTicketKf=='9' || tkupdate.idStatusTicketKf=='11' || tkupdate.idStatusTicketKf=='7',
             'label-danger':  
             tkupdate.idStatusTicketKf=='6',
           }" >{{tkupdate.typeticket.TypeTicketName}}</span>
@@ -35,7 +35,7 @@
                         'label-success':  
                         tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='3' || tkupdate.idStatusTicketKf=='5',
                         'label-warning':  
-                        tkupdate.idStatusTicketKf=='4' || tkupdate.idStatusTicketKf=='10' || tkupdate.idStatusTicketKf=='2' || tkupdate.idStatusTicketKf=='7',
+                        tkupdate.idStatusTicketKf=='4' || tkupdate.idStatusTicketKf=='10' || tkupdate.idStatusTicketKf=='2' || tkupdate.idStatusTicketKf=='9' || tkupdate.idStatusTicketKf=='11' || tkupdate.idStatusTicketKf=='7',
                         'label-danger':  
                         tkupdate.idStatusTicketKf=='6',
                       }">{{tkupdate.statusTicket.statusName}}</span>
@@ -100,7 +100,7 @@
                     </div>
                 </div>
             </div>
-            <div ng-if="(tkupdate.idStatusTicketKf!='2' && (tkupdate.idStatusTicketKf=='3' || tkupdate.idStatusTicketKf!='3'))" class="col-md-12">
+            <div ng-if="(tkupdate.idStatusTicketKf!='2' && tkupdate.idStatusTicketKf!='9' && tkupdate.idStatusTicketKf!='11' && (tkupdate.idStatusTicketKf=='3' || tkupdate.idStatusTicketKf!='3'))" class="col-md-12">
                 <div class="alert alert-success" role="alert">
                   <strong>INFO:</strong> El Ticket ya ha sido Aprobado satisfactoriamente.
                 </div>
@@ -132,7 +132,7 @@
             </div>-->
             <div class="col-xs-12 col-sm-12 col-md-12 pull-right">
                 <!-- APPROVE TICKET -->
-                <a ng-if="tkupdate.idStatusTicketKf<3 && tkupdate.idStatusTicketKf==2 && (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4') && tkupdate.isCancelRequested!='1'" id="approveTicket" ng-click="tkupdate.isCancelRequested?'':mainSwitchFn('approveTicket', tkupdate)" type="button" class="btn btn-labeled btn-success">
+                <a ng-if="(tkupdate.idStatusTicketKf==2 || tkupdate.idStatusTicketKf=='9' || tkupdate.idStatusTicketKf=='11') && (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4') && tkupdate.isCancelRequested!='1'" id="approveTicket" ng-click="tkupdate.isCancelRequested?'':mainSwitchFn('approveTicket', tkupdate)" type="button" class="btn btn-labeled btn-success">
                     <span class="btn-label"><i class="fas fa-check"></i></span>Aprobar</a>
                 <!-- CANCEL TICKET -->
                 <a ng-if="((tkupdate.idStatusTicketKf!=6 && tkupdate.idStatusTicketKf!=1) ||  (tkupdate.idStatusTicketKf==10 && tkupdate.isCancelRequested==1)) && (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4')" id="cancelTicket" ng-click="modalConfirmation('cancel_sys',0, tkupdate)" type="button" class="btn btn-labeled btn-danger">

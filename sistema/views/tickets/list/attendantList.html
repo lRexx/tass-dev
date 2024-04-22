@@ -35,8 +35,7 @@
                                 </td>
                                 <td ng-click="mainSwitchFn('selectedUser', item);"  style="vertical-align: middle; text-align: center;" ng-if="(item.idProfileKf!=null && item.idProfileKf!=undefined && item.idProfileKf!='' && item.idProfileKf=='6')">
                                     <label class="label label-default text-uppercase">{{item.nameProfile}}</label>
-                                    <label ng-if="item.idTypeTenantKf!=null" class="badge badge-warning text-uppercase" style="font-size: 70%!important">{{item.typeTenantName}}</label>
-                                    <label ng-if="item.idTypeTenantKf==null" class="badge badge-warning text-uppercase" style="font-size: 70%!important">{{item.nameTypeAttendant}}</label>
+                                    <label ng-if="item.idTypeTenantKf!=null || item.idTypeTenantKf==null" class="badge badge-warning text-uppercase" style="font-size: 70%!important">{{item.nameTypeAttendant}}</label>
                                 </td>
                                 <td ng-click="mainSwitchFn('selectedUser', item);"  style="vertical-align: middle;text-align: center;">
                                     <label ng-if="item.idStatusKf==1" class="label label-success text-uppercase">{{item.statusTenantName}}</label>

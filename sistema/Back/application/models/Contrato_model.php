@@ -653,21 +653,25 @@ class Contrato_model extends CI_Model {
                                                     }
                                                 }
                                             }*/
-                                            foreach ($rsAccessDoors->result_array() as $door_item => $door_items) {
+                                            foreach ($rsAccessDoors->result_array() as &$door_items) {
                                                 //VALIDATIONS
+                                                //print_r($door_items);
                                                 if($door_items['USED_QTTY']>0){
                                                     if ($door_items['USED_QTTY']<$service_items['qtty']){
+                                                        //print_r("hola mundo 1");
                                                         $qtty_door_used=$door_items['USED_QTTY'];
                                                         $item_used=$qtty_door_used;
                                                         $item_available=$service_items['qtty'] - $door_items['USED_QTTY'];
                                                         $isNotUsed++;
                                                     }else if ($door_items['USED_QTTY']==$service_items['qtty']){
+                                                        //print_r("hola mundo 2");
                                                         $qtty_door_used=$service_items['qtty'];
                                                         $item_used=$service_items['qtty'];
                                                         $item_available=0;
                                                         $isUsed++;
                                                     }
                                                 }else{
+                                                    //print_r("hola mundo 3");
                                                     $item_used="0";
                                                     $item_available=$service_items['qtty']!=null&&$service_items['qtty']!=''?(int)$service_items['qtty']:1;
                                                     $qtty_door_used=0;
@@ -675,6 +679,7 @@ class Contrato_model extends CI_Model {
                                                 }
                                             }                                            
                                         }else{
+                                            //print_r("hola mundo 3");
                                             $item_used="0";
                                             $item_available=$service_items['qtty']!=null&&$service_items['qtty']!=''?(int)$service_items['qtty']:1;
                                             $qtty_door_used=0;
@@ -941,7 +946,7 @@ class Contrato_model extends CI_Model {
 
                                         if ($rsAlarmServices->num_rows() >= 1){                                       
                                             foreach ($rsAlarmServices->result_array() as $alarm_item => $alarm_items) {
-                                                if( $alarm_items['USED_QTTY']==1){                                                    
+                                                if( $alarm_items['USED_QTTY']>0){                                                    
                                                     $isUsed++;
                                                     $item_used=1;
                                                 }else{
@@ -969,7 +974,7 @@ class Contrato_model extends CI_Model {
 
                                         if ($rsAppMonitorServices->num_rows() >= 1){                                       
                                             foreach ($rsAppMonitorServices->result_array() as $appmonitor_item => $appmonitor_items) {
-                                                if( $appmonitor_items['USED_QTTY']==1){                                                    
+                                                if( $appmonitor_items['USED_QTTY']>0){                                                    
                                                     $isUsed++;
                                                     $item_used=1;
                                                 }else{

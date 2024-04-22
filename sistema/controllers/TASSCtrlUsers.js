@@ -194,6 +194,11 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 $('#confirmRequestModal').modal('hide');
               }
             break;
+            case "closeNotificationModal":
+              $('.circle-loader').toggleClass('load-complete');
+              $('.checkmark').toggle();
+              $('#userNotificationModal').modal('hide');
+          break;
             default:
           }
         }
@@ -786,17 +791,27 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
         *             REQUEST PWD FUNCTION                *
         *                                                 *
         **************************************************/
+        $scope.notificationUser = {'emailUser':null, 'newPasswd': null}
           $scope.recoverPwdUser = function (newpwd){
             console.log(newpwd);
               userServices.recoverPwd(newpwd).then(function(response){
+                console.log(response.data);
                 if(response.status==200){
-                  inform.add('La clave ha sido restablecida satisfactoriamente, por favor verificar casilla de correo.',{
-                    ttl:4000, type: 'warning'
-                  });
-                  blockUI.message('Una Nueva Clave fue enviada a la direccion de correo!');
+                  $timeout(function() {
+                    console.log("Password Successfully restored.");
+                    inform.add('La clave ha sido restablecida satisfactoriamente, por favor verificar casilla de correo.',{
+                      ttl:4000, type: 'warning'
+                    });
+                    $('.circle-loader').toggleClass('load-complete');
+                    $('.checkmark').toggle();
+                    $scope.notificationUser.emailUser=newpwd.user.emailUser;
+                    $scope.notificationUser.newPasswd=response.data;
+                  }, 2000);
                   $timeout(function() {
                     blockUI.stop();
-                  }, 1500);
+                    console.log($scope.notificationUser);
+                  }, 2500);
+
                 }else if(response.status==404){
                   inform.add('[Error]: '+response.status+', Ocurrio error verifique los datos e intenta de nuevo o contacta el area de soporte. ',{
                     ttl:5000, type: 'danger'
@@ -1009,7 +1024,11 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 $scope.newpwd = {'user':{'emailUser':null, 'dni':null}};
                 $scope.newpwd.user.emailUser=obj.emailUser;
                 $scope.newpwd.user.dni=obj.dni;
-                $scope.recoverPwdUser($scope.newpwd);
+                $('#userNotificationModal').modal({backdrop: 'static', keyboard: false});
+                $timeout(function() {
+                  $scope.recoverPwdUser($scope.newpwd);
+                }, 2000);
+                  
               break;
               case "selectDepto":
                 $scope.tmp.data=obj;

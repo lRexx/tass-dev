@@ -259,7 +259,8 @@ class User extends REST_Controller {
                 if (!is_null($rs)) {
 
                     //$this->response(array('response' => $rs), 200);
-                    $this->response(array('response' => "Su Nueva Clave fue enviada a su direccion de correo!"), 200);
+                    //$this->response(array('response' => "Su Nueva Clave fue enviada a su direccion de correo!"), 200);
+                    $this->response($rs, 200);
                 } else {
                     $this->response(array('error' => "ERROR INESPERADO"), 500);
                 }
@@ -347,7 +348,17 @@ class User extends REST_Controller {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
+    public function get_the_current_url_get() {
 
+        $user = null;
+        $user = $this->user_model->get_the_current_url();
+
+        if (!is_null($user)) {
+            $this->response($user, 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
 
     /* SERVICIO SENDMAIL TEST */
     public function sednmail_post() {

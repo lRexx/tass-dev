@@ -13,8 +13,8 @@
       <tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in pagedItems[currentPage] | orderBy:sortKey:reverse"> 
         <td ng-click="" style="vertical-align: middle;text-align: center;">{{item.id}}</td>
         <td ng-click="" ng-trim="true">{{item.service}}</td>
-        <td style="vertical-align: middle;text-align: center;">{{item.createAt}}</td>
-        <td style="vertical-align: middle;text-align: center;">{{item.ActivateAt}}</td>
+        <td style="vertical-align: middle;text-align: center;">{{item.createAt | toDate | date:'dd-MM-yyyy HH:mm:ss'}}</td>
+        <td style="vertical-align: middle;text-align: center;">{{item.ActivateAt | toDate | date:'dd-MM-yyyy HH:mm:ss' }}</td>
         <td ng-click="" style="vertical-align: middle;text-align: center;">
             <label ng-if="item.idStatusFk==1" class="label label-success">ACTIVO
             </label>

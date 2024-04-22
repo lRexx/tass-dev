@@ -49,6 +49,39 @@
                   <span ng-if="customer.details.zona!=null">Zona: {{customer.details.zona.n_zona}} - {{customer.details.zona.descripcion | uppercase}}</span>
                   <span ng-if="customer.details.zona==null">Zona: <label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="Zona no asignada" class="label label-default">n/a</label></span>
                 </div>
+                <div ng-if="sysLoggedUser.idProfileKf==1 && customer.details.idClientTypeFk=='2'" class="col-md-12 col-sm-12 col-xs-12 ">
+                  <span>Stock:</span>
+                  <div class="form-group col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r">
+                      <div class="col-md-6 col-sm-6 col-xs-6 n-padding-l n-padding-r">
+                        <div class="n-padding-r">
+                          <label class="switch switch-2x" for="isStockInBuilding-set">
+                              <input type="checkbox" class="success" 
+                                ng-disabled="customer.details.isStockInOfficeTmp"
+                                ng-click="modalConfirmation('isStockInBuilding', 0, customer.details, null)"
+                                ng-model="customer.details.isStockInBuildingTmp" 
+                                id="isStockInBuilding-set">
+                              <span class="slider slider-2x flat"></span>
+                          </label>
+                          <span class="font-size-10px"><span ng-if="customer.details.isStockInBuildingTmp" style="cursor: pointer; margin-top: -8%;" class="badge badge-success">Edificio</span></span>
+                          <span class="font-size-10px"><span ng-if="!customer.details.isStockInBuildingTmp || customer.details.isStockInBuildingTmp==null || customer.details.isStockInBuildingTmp==undefined" style="cursor: pointer; margin-top: -8%;" class="badge badge-light">Edificio</span>&nbsp;<span style="cursor: pointer; margin-top: -8%;" data-toggle="tooltip" data-placement="bottom" title="Deshabilitado" ng-if="customer.details.isStockInOfficeTmp" class="badge badge-warning"><i class="fas fa-lock"></i></span></span>
+                        </div>
+                      </div>
+                      <div class="col-md-6 col-sm-6 col-xs-6 n-padding-l n-padding-r">
+                        <div class="n-padding-r">
+                          <label class="switch switch-2x" for="isStockInOffice-set">
+                              <input type="checkbox" class="success" 
+                                ng-disabled="customer.details.isStockInBuildingTmp"
+                                ng-click="modalConfirmation('isStockInOffice', 0, customer.details, null)"
+                                ng-model="customer.details.isStockInOfficeTmp" 
+                                id="isStockInOffice-set">
+                              <span class="slider slider-2x flat"></span>
+                          </label>
+                          <span class="font-size-10px"><span ng-if="customer.details.isStockInOfficeTmp" style="cursor: pointer; margin-top: -8%;" class="badge badge-success">Oficina</span></span>
+                          <span class="font-size-10px"><span ng-if="!customer.details.isStockInOfficeTmp || customer.details.isStockInOfficeTmp==null || customer.details.isStockInOfficeTmp==undefined" style="cursor: pointer; margin-top: -8%;" class="badge badge-light">Oficina</span>&nbsp;<span style="cursor: pointer; margin-top: -8%;" data-toggle="tooltip" data-placement="bottom" title="Deshabilitado" ng-if="customer.details.isStockInBuildingTmp" class="badge badge-warning"><i class="fas fa-lock"></i></span></span>
+                        </div>
+                      </div>
+                  </div>
+                </div>
               </div>
               <!-- RIGHT COLUMN -->
               <div class="col-md-6 n-padding-l n-padding-r">
@@ -86,42 +119,23 @@
                 </div>
                 <div  ng-if="sysLoggedUser.idProfileKf==1" class="col-md-12">
                   <div class="col-md-12 col-xs-12 n-padding-l" >
-                    <span>Estatus Cliente:</span>
+                    <span>Estatus Cliente&nbsp;&nbsp;&nbsp;:</span>
                     <button data-toggle="tooltip" data-placement="bottom" title="Copiar" type="button" style="margin-left: 20px; margin-top: -0.5em;" ngclipboard data-clipboard-text="{{customer.details.IsInDebtURL}}" class="btn btn-xs btn-success"><i class="fas fa-copy"></i> Copiar</button>
                     <a data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{customer.details.IsInDebtURL}}" class="btn btn-xs btn-success"><i class="fas fa-link"></i> Abrir</a>
                   </div>
                 </div>
-                <div ng-if="sysLoggedUser.idProfileKf==1 && customer.details.idClientTypeFk=='2'" class="col-md-12 col-sm-12 col-xs-12 ">
-                  <span>Stock:</span>
-                  <div class="form-group col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r">
-                      <div class="col-md-6 col-sm-6 col-xs-6 n-padding-l n-padding-r">
-                        <div class="n-padding-r">
-                          <label class="switch switch-2x" for="isStockInBuilding-set">
-                              <input type="checkbox" class="success" 
-                                ng-disabled="customer.details.isStockInOfficeTmp"
-                                ng-click="modalConfirmation('isStockInBuilding', 0, customer.details)"
-                                ng-model="customer.details.isStockInBuildingTmp" 
-                                id="isStockInBuilding-set">
-                              <span class="slider slider-2x flat"></span>
-                          </label>
-                          <span class="font-size-10px"><span ng-if="customer.details.isStockInBuildingTmp" style="cursor: pointer; margin-top: -8%;" class="badge badge-success">Edificio</span></span>
-                          <span class="font-size-10px"><span ng-if="!customer.details.isStockInBuildingTmp || customer.details.isStockInBuildingTmp==null || customer.details.isStockInBuildingTmp==undefined" style="cursor: pointer; margin-top: -8%;" class="badge badge-light">Edificio</span>&nbsp;<span style="cursor: pointer; margin-top: -8%;" data-toggle="tooltip" data-placement="bottom" title="Deshabilitado" ng-if="customer.details.isStockInOfficeTmp" class="badge badge-warning"><i class="fas fa-lock"></i></span></span>
-                        </div>
-                      </div>
-                      <div class="col-md-6 col-sm-6 col-xs-6 n-padding-l n-padding-r">
-                        <div class="n-padding-r">
-                          <label class="switch switch-2x" for="isStockInOffice-set">
-                              <input type="checkbox" class="success" 
-                                ng-disabled="customer.details.isStockInOfficeTmp"
-                                ng-click="modalConfirmation('isStockInOffice', 0, customer.details)"
-                                ng-model="customer.details.isStockInOfficeTmp" 
-                                id="isStockInOffice-set">
-                              <span class="slider slider-2x flat"></span>
-                          </label>
-                          <span class="font-size-10px"><span ng-if="customer.details.isStockInOfficeTmp" style="cursor: pointer; margin-top: -8%;" class="badge badge-success">Oficina</span></span>
-                          <span class="font-size-10px"><span ng-if="!customer.details.isStockInOfficeTmp || customer.details.isStockInOfficeTmp==null || customer.details.isStockInOfficeTmp==undefined" style="cursor: pointer; margin-top: -8%;" class="badge badge-light">Oficina</span>&nbsp;<span style="cursor: pointer; margin-top: -8%;" data-toggle="tooltip" data-placement="bottom" title="Deshabilitado" ng-if="customer.details.isStockInBuildingTmp" class="badge badge-warning"><i class="fas fa-lock"></i></span></span>
-                        </div>
-                      </div>
+                <div  ng-if="sysLoggedUser.idProfileKf==1" class="col-md-12 col-xs-12">
+                  <div class="col-md-12 col-xs-12 n-padding-l" >
+                    <span>Estatus Servicios:</span>
+                    <button data-toggle="tooltip" data-placement="bottom" title="Copiar" type="button" style="margin-left: 20px; margin-top: -0.5em;" ngclipboard data-clipboard-text="{{customer.details.servicesStatustURL}}" class="btn btn-xs btn-success"><i class="fas fa-copy"></i> Copiar</button>
+                    <a data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{customer.details.servicesStatustURL}}" class="btn btn-xs btn-success"><i class="fas fa-link"></i> Abrir</a>
+                  </div>
+                </div>
+                <div  ng-if="sysLoggedUser.idProfileKf==1" class="col-md-12 col-xs-12">
+                  <div class="col-md-12 col-xs-12 n-padding-l" >
+                    <span>Info Cliente&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span>
+                    <button data-toggle="tooltip" data-placement="bottom" title="Copiar" type="button" style="margin-left: 20px; margin-top: -0.5em;" ngclipboard data-clipboard-text="{{customer.details.infoURL}}" class="btn btn-xs btn-success"><i class="fas fa-copy"></i> Copiar</button>
+                    <a data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{customer.details.infoURL}}" class="btn btn-xs btn-success"><i class="fas fa-link"></i> Abrir</a>
                   </div>
                 </div>
               </div>
@@ -250,7 +264,7 @@
                     </div>
                   </div>
               </div>
-          <!-- AUTH USERS -->
+              <!-- AUTH USERS -->
               <div ng-click="switchCustomersFn('details_customer', null, 'usersAllowed')" class="col-md-3" style="margin-bottom: 1em;">
                   <div class="card-customer">
                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
@@ -274,6 +288,30 @@
                     </div>
                   </div>
               </div>
+              <!-- INITIAL DELIVERY -->
+              <div ng-if="customer.details.idClientTypeFk=='2'" ng-click="switchCustomersFn('details_customer', null, 'initial_delivery')" class="col-md-3" style="margin-bottom: 1em;">
+                <div class="card-customer">
+                  <div class="col-md-6 col-xs-6 n-padding-l card-icon">
+                    <i class="fas fa-truck-loading"></i>
+                  </div>
+                  <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
+                                  'sticky-success': 
+                                  customer.details.initial_delivery.length>0,
+                                  'sticky-warning':  
+                                  customer.details.initial_delivery.length==0,
+                                }">
+                    <span ng-if="customer.details.initial_delivery.length>0">
+                      <i class="fas fa-check-circle"></i>
+                    </span>
+                    <span ng-if="customer.details.initial_delivery.length==0" data-toggle="tooltip" data-placement="top" title="Entrega inicial no creada.">
+                      <i class="fas fa-exclamation-triangle"></i>
+                    </span>
+                  </div>
+                  <div class="col-md-12 card-title">
+                    <h4 class="text-uppercase right">Entrega Inicial</h4>
+                  </div>
+                </div>
+            </div>
           </div>        
           <div class="clearfix"> </div> 
         </div>   
@@ -298,4 +336,5 @@
 <div ng-if="!isNewCustomer" ng-include="'views/customer/customer_details/components/comp_allowedUserList.html'"></div>
 <div ng-if="!isNewCustomer" ng-include="'views/customer/customer_details/components/comp_paymentInfoDetails.html'"></div>
 <div ng-if="!isNewCustomer" ng-include="'views/customer/customer_details/components/comp_departmentList.html'"></div>
+<div ng-if="!isNewCustomer" ng-include="'views/customer/customer_details/components/comp_initialDeliveryDetails.html'"></div>
 <div ng-include="'views/utilities/modalConfirmationCustom.html'"></div>

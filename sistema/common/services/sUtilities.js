@@ -357,6 +357,19 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
             });   
+          },
+          typeTechnicianServices: function() {
+            //console.log("[Utilities Services]: Get type of operating system List");
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"Util/typeTechnicianServices"
+                  }).then(function mySuccess(response) {
+                    rsJson=response;
+                    return rsJson;
+                  }).catch(function onError(response) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                    return response;
+            });   
           },      
       }
 }]);

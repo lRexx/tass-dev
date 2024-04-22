@@ -21,8 +21,9 @@
 				        </div>
 				    </div>
 				    <!-- BAJA -->
-				    <div class="col-md-6 col-xs-6 card-depto-colum" ng-click="mainSwitchFn('deliveryToOtherAddress', selectedUserToDelivery, 2);" >
+				    <div class="col-md-6 col-xs-6 card-depto-colum" ng-click="(ticket.building.isStockInBuilding=='1' || ((ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0')))?'':mainSwitchFn('deliveryToOtherAddress', selectedUserToDelivery, 2);" >
 				        <div class="card-depto cyan white-text">
+							<div ng-if="(ticket.building.isStockInBuilding=='1' || ((ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0')))" class="ribbon ribbon-top-right"><span tyle="background-color: #ccc !important;">No disponible</span></div>
 				            <div class="card-depto-content">
                                 <i class="fas fa-map-marked-alt" style="padding-left: 0.45em;"></i>
 				            </div>

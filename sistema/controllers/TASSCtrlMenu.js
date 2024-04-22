@@ -63,8 +63,12 @@
       $scope.sysToken             = tokenSystem.getTokenStorage(1);
       $scope.sysLoggedUser        = tokenSystem.getTokenStorage(2);
       $scope.sysLoggedUserModules = tokenSystem.getTokenStorage(6);
-      var statusPath = /(status\/)+([A-z_]{4,15})+\/\d/;
+      var regexPath = /(\/status\/|\/info\/)+([A-z_]{4,15})+\/\d/;
+      //console.log(regexPath);
       var currentUrl = $location.path();
+      console.log(currentUrl)
+      console.log("currentUrl Match with regexPath: ")
+      console.log(currentUrl.match(regexPath));
       //if (!currentUrl.match(statusPath) && (!$scope.sysToken || $scope.sysToken==null || $scope.sysToken==undefined) && (!$scope.sysLoggedUser || $scope.sysLoggedUser==null || $scope.sysLoggedUser==undefined)){
       //  console.log("Redirecting to login page....");
       //  $location.path("/login");
@@ -1021,7 +1025,7 @@
             };
 
             //console.log(currentUrl);
-      if ($location.path() != "/register" && $location.path() != "/forgotpwd" && $location.path() != "/newpwd" && !currentUrl.match(statusPath)){
+      if ($location.path() != "/register" && $location.path() != "/forgotpwd" && $location.path() != "/newpwd" && !currentUrl.match(regexPath)){
         //console.log($location.path());
         if (!$scope.sysToken || $scope.sysLoggedUser==undefined || $scope.sysLoggedUserModules==undefined){
           $timeout(function() {

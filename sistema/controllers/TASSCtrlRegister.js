@@ -133,6 +133,9 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
       console.log($scope.userData2Add());
         userServices.addUser($scope.userData2Add()).then(function(response_userRegister){
           if(response_userRegister.status==200){
+            inform.add('Su Cuenta de usuario ha sido creada satisfactoriamente, verifique su casilla de correo electronico para continuar.',{
+              ttl:6000, type: 'success'
+            });
             console.log("REGISTERED SUCCESSFULLY");
             if($scope.register.idProfileKf==3){
               userServices.findUserByEmail($scope.register.dni).then(function(response_userFound) {
@@ -201,7 +204,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
                           descOther               : $scope.register.typeOtherAtt,
                           idDepartmentKf          : $scope.register.idDepartment_tmp,
                           isEdit                  : 1,
-                          idSysProfileFk          : 13,
+                          idSysProfileFk          : 10,
                           isDepartmentApproved    : $scope.register.isDepartmentApproved,
                           requireAuthentication   : $scope.register.isRequireAuthentication
                     }
@@ -254,7 +257,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
       DepartmentsServices.assignDepto(userData).then(function(response) {
         if(response.status==200){
           inform.add('Departamento Asignado y pendiente por aprobacion por la administracion.',{
-            ttl:3000, type: 'success'
+            ttl:6000, type: 'success'
           });
         }else if (response.status==404){
           inform.add('Ocurrio un error, contacte al area de soporte de TASS..',{

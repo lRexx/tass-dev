@@ -90,7 +90,7 @@
             <label ng-if="item.idStatusKf==-1" class="label label-danger"><del>ELIMINADO</del>
             </label>
         </td>
-        <td  style="vertical-align: middle;text-align: center;">{{item.dateCreated | dateToISO | date:'MM/dd/yyyy'}}</td>
+        <td  style="vertical-align: middle;text-align: center;">{{item.dateCreated | toDate | date:'dd-MM-yyyy' }}</td>
         <td>
         	<div class="btn-group">
             <button type="button" class="btn btn-info  btn-sm btn-xs dropdown-toggle" data-toggle="dropdown"><i class="fas fa-bars"></i>
@@ -103,7 +103,7 @@
              <li ng-if="item.idUser!=1 && sysLoggedUser.idProfileKf=='1'" role="presentation"><div class="divider"></div>
              <li ng-if="item.idUser!=1 && sysLoggedUser.idProfileKf=='1'" class="dropdown-item"><a href="" ng-click="modalConfirmation('resetPwd', 0, item)"><i title="Restablecer" class="fas fa-cogs"></i> Restablecer clave</a></li>
              <li ng-if="item.idStatusKf==0 " role="presentation"><div class="divider"></div>
-             <li ng-if="item.idStatusKf==0 " class="dropdown-item"><a href="" ng-click="switchCustomersFn('enable', item);"><i title="Habilitar Usuario" class="fas fa-exchange-alt"></i> Habilitar</a></li>
+             <li ng-if="item.idStatusKf==0 " class="dropdown-item"><a href="" ng-click="modalConfirmation('enabled', 0,  item);"><i title="Habilitar Usuario" class="fas fa-exchange-alt"></i> Habilitar</a></li>
              <li ng-if="item.idStatusKf>0 && item.idUser!=1 && sysLoggedUser.idProfileKf=='1'" role="presentation"><div class="divider"></div>
              <li ng-if="item.idStatusKf>0 && item.idUser!=1 && sysLoggedUser.idProfileKf=='1'"><a href="" ng-click="modalConfirmation('disabled', 0, item)"><i title="Deshabilitar Usuario" class="fas fa-times-circle"></i> Deshabilitar</a></li>
              <li ng-if="item.idStatusKf==0 && item.idUser!=1 && sysLoggedUser.idProfileKf=='1'" role="presentation"><div class="divider"></div></li>

@@ -82,22 +82,37 @@ class Clientes extends REST_Controller {
 	}
 
 
-
-    public function chargeForExpenses_post()
+    public function mpPaymentMethod_post()
 	{
 
-		$pofile = null;
+		$rs = null;
 		if (!$this->post('client')) {
 			$this->response(null, 404);
 		}
 
-		$pofile = $this->client_model->chargeForExpenses($this->post('client'));
-//		$this->response($pofile);
-		if ($pofile == 1) {
+		$rs = $this->client_model->mpPaymentMethod($this->post('client'));
+		if ($rs == 1) {
 			$this->response(['response' => "Registro exitoso"], 200);
-		} elseif ($pofile == 0) {
+		} elseif ($rs == 0) {
 			$this->response(['error' => "Sin Resultados"], 500);
-		} elseif ($pofile == 2) {
+		} elseif ($rs == 2) {
+			$this->response(['response' => "Cliente ya se encuentra registrado"], 203);
+		}
+	}
+    public function chargeForExpenses_post()
+	{
+
+		$rs = null;
+		if (!$this->post('client')) {
+			$this->response(null, 404);
+		}
+
+		$rs = $this->client_model->chargeForExpenses($this->post('client'));
+		if ($rs == 1) {
+			$this->response(['response' => "Registro exitoso"], 200);
+		} elseif ($rs == 0) {
+			$this->response(['error' => "Sin Resultados"], 500);
+		} elseif ($rs == 2) {
 			$this->response(['response' => "Cliente ya se encuentra registrado"], 203);
 		}
 	}
@@ -353,8 +368,9 @@ class Clientes extends REST_Controller {
         $limit                  = $this->post('limit');
         $start                  = $this->post('start');
         $strict                 = $this->post('strict');
+        $totalCount             = $this->post('totalCount');
 
-        $client_rs = $this->client_model->getadmin(null, $searchFilter, $idClientTypeFk, $IsInDebt, $isStockInBuilding, $isStockInOffice, $isNotCliente, $limit, $start, $strict);
+        $client_rs = $this->client_model->getadmin(null, $searchFilter, $idClientTypeFk, $IsInDebt, $isStockInBuilding, $isStockInOffice, $isNotCliente, $limit, $start, $strict, $totalCount);
 
         if (! is_null($client_rs)) {
             $this->response($client_rs, 200);
@@ -479,5 +495,26 @@ class Clientes extends REST_Controller {
 			$this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
 		}
 	}
+	public function internetServiceAssociatedToCustomer_get($idClient){
+
+		$user = $this->client_model->getInternetServiceAssociatedToCustomer($idClient);
+		if (! is_null($user)) {
+			$this->response($user, 200);
+		} else {
+			$this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
+		}
+	}
+    public function initialDelivery_post() {
+		$rs = null;
+		if (!$this->post('client')) {
+			$this->response(null, 404);
+		}
+        $rs = $this->client_model->initialDelivery($this->post('client'));
+        if (! is_null($rs)) {
+            $this->response([ 'response' => "Entrega inicial cargada satisfactoriamente" ], 200);
+        } else {
+            $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
+        }
+    }
 
 }

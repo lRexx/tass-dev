@@ -547,7 +547,8 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
           "isInDebt": null,
           "start":"1",
           "limit":"10",
-          "strict": null
+          "strict": null,
+          "totalCount": null
         }
       /**************************************************
       *                                                 *
@@ -556,9 +557,12 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
       **************************************************/
         $scope.getCustomersListRs = {'customerList':null, 'totalNumberOfCustomer':0}
         $scope.setCustomersListRs = {}
-        $scope.getCustomerLisServiceFn = function(searchFilter, isNotCliente, idClientTypeFk, isInDebt, isStockInBuilding, isStockInOffice, start, limit, strict){
+        $scope.getCustomerLisServiceFn = function(searchFilter, isNotCliente, idClientTypeFk, isInDebt, isStockInBuilding, isStockInOffice, start, limit, strict, totalCount){
           console.log($scope.customerSearch);
-          console.log("isStockInOffice:"+isStockInOffice);
+          console.log("isStockInOffice: "+isStockInOffice);
+          console.log("totalCount     : "+totalCount);
+          console.log("isInDebt       : "+isInDebt);
+          console.log("strict         : "+strict);
           var searchFilter        = searchFilter!=undefined && searchFilter!="" && searchFilter!=null?searchFilter:null;
           var isNotCliente        = isNotCliente!=undefined && isNotCliente!=null?isNotCliente:"0";
           var idClientTypeFk      = idClientTypeFk!=undefined && idClientTypeFk!="" && idClientTypeFk!=null?idClientTypeFk:null;
@@ -568,6 +572,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
           var start               = start!=undefined && start!=null && ((!isInDebt || !isStockInBuilding || !isStockInOffice) && !strict)?start:"";
           var limit               = limit!=undefined && limit!=null && ((!isInDebt || !isStockInBuilding || !isStockInOffice) && !strict)?limit:"";
           var strict              = strict!=false && strict!=undefined && strict!=null?strict:null;
+          var totalCount          = totalCount!=false && totalCount!=undefined && totalCount!=null?totalCount:null;
           //console.log(isStockInOffice);
           $scope.getCustomersListRs = {'customerList':null, 'totalNumberOfCustomer':0}
           $scope.customersSearch={
@@ -579,7 +584,8 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
             "isStockInOffice":isStockInOffice,
             "start":start,
             "limit":limit,
-            "strict":strict
+            "strict":strict,
+            "totalCount":totalCount
           };
           console.log($scope.customersSearch);
           return CustomerServices.getCustomerListLimit($scope.customersSearch).then(function(response){
@@ -594,18 +600,21 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
         $scope.pageChanged = function(){
           //console.info($scope.pagination.pageIndex);
           var pagIndex = ($scope.pagination.pageIndex-1)*($scope.pagination.pageSizeSelected);
-          $scope.getCustomersListFn(null, $scope.customersSearch.isNotCliente, $scope.customersSearch.idClientTypeFk, $scope.customerSearch.isInDebt, $scope.customerSearch.isStockInBuilding, $scope.customerSearch.isStockInOffice, pagIndex, $scope.pagination.pageSizeSelected);
+          $scope.getCustomersListFn(null, $scope.customersSearch.isNotCliente, $scope.customersSearch.idClientTypeFk, $scope.customerSearch.isInDebt, $scope.customerSearch.isStockInBuilding, $scope.customerSearch.isStockInOffice, pagIndex, $scope.pagination.pageSizeSelected, false);
         }
       /**************************************************
       *                                                 *
       *           GET CUSTOMER LIST FUNCTION            *
       *                                                 *
       **************************************************/
-          $scope.getCustomersListFn = function(search, isNotCliente, idClientTypeFk, isInDebt, isStockInBuilding, isStockInOffice, start, limit) {
-            $scope.getCustomerLisServiceFn(search, isNotCliente, idClientTypeFk, isInDebt, isStockInBuilding, isStockInOffice, start, limit, null).then(function(data) {
+          $scope.getCustomersListFn = function(search, isNotCliente, idClientTypeFk, isInDebt, isStockInBuilding, isStockInOffice, start, limit, strict, totalCount) {
+            console.log("totalCount:"+totalCount);
+            $scope.getCustomerLisServiceFn(search, isNotCliente, idClientTypeFk, isInDebt, isStockInBuilding, isStockInOffice, start, limit, strict, totalCount).then(function(data) {
               console.info(data);
               $scope.rsCustomerListData     = data.customers;
-              $scope.pagination.totalCount  = data.totalCount;
+              if (data.totalCount!=undefined){
+                $scope.pagination.totalCount  = data.totalCount;
+              }
             }, function(err) {
               //error
             });
@@ -622,7 +631,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                   $scope.customerSearch.isStockInOffice   = false;
                   $scope.customerSearch.isStockInBuilding = false;
                 }
-                $scope.getCustomerLisServiceFn(null, $scope.customersSearch.isNotCliente, idClientTypeFk, $scope.customerSearch.isInDebt, $scope.customerSearch.isStockInBuilding, $scope.customerSearch.isStockInOffice, "", "", $scope.customerSearch.strict).then(function(data) {
+                $scope.getCustomerLisServiceFn(null, $scope.customersSearch.isNotCliente, idClientTypeFk, $scope.customerSearch.isInDebt, $scope.customerSearch.isStockInBuilding, $scope.customerSearch.isStockInOffice, "", "", $scope.customerSearch.strict, null).then(function(data) {
                   //console.info(data.customers);
                     $scope.rsCustomerListByTypeData = data.customers;
                 }, function(err) {
@@ -635,7 +644,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                   $scope.customerSearch.isStockInOffice   = false;
                   $scope.customerSearch.isStockInBuilding = false;
                 }
-                $scope.getCustomerLisServiceFn($scope.customersSearch.searchFilter, $scope.customersSearch.isNotCliente, idClientTypeFk, $scope.customerSearch.isInDebt, $scope.customerSearch.isStockInBuilding, $scope.customerSearch.isStockInOffice, "", "10", $scope.customerSearch.strict).then(function(data) {
+                $scope.getCustomerLisServiceFn($scope.customersSearch.searchFilter, $scope.customersSearch.isNotCliente, idClientTypeFk, $scope.customerSearch.isInDebt, $scope.customerSearch.isStockInBuilding, $scope.customerSearch.isStockInOffice, "", "10", $scope.customerSearch.strict, null).then(function(data) {
                     console.info(data);
                     if(data.status==404){
                       $scope.rsCustomerListData = [];
@@ -653,7 +662,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
               $scope.customerSearch.isStockInOffice   = false;
               $scope.customerSearch.isStockInBuilding = false;
               $scope.customersSearch.idClientTypeFk = null;
-              $scope.getCustomerLisServiceFn($scope.customersSearch.searchFilter, $scope.customersSearch.isNotCliente, idClientTypeFk, $scope.customerSearch.isInDebt, $scope.customerSearch.isStockInBuilding, $scope.customerSearch.isStockInOffice, "", "10", $scope.customerSearch.strict).then(function(data) {
+              $scope.getCustomerLisServiceFn($scope.customersSearch.searchFilter, $scope.customersSearch.isNotCliente, idClientTypeFk, $scope.customerSearch.isInDebt, $scope.customerSearch.isStockInBuilding, $scope.customerSearch.isStockInOffice, "", "10", $scope.customerSearch.strict, null).then(function(data) {
                 //console.info(data.customers);
                 if(data.status==404){
                   $scope.rsCustomerListData = [];
@@ -668,7 +677,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
             }
           }
           $scope.getCustomerByTypeFn = function(idClientTypeFk) {
-            $scope.getCustomerLisServiceFn(null, $scope.customersSearch.isNotCliente, idClientTypeFk, $scope.customerSearch.isInDebt, $scope.customerSearch.isStockInBuilding, $scope.customerSearch.isStockInOffice, "", "", $scope.customerSearch.strict).then(function(data) {
+            $scope.getCustomerLisServiceFn(null, $scope.customersSearch.isNotCliente, idClientTypeFk, $scope.customerSearch.isInDebt, $scope.customerSearch.isStockInBuilding, $scope.customerSearch.isStockInOffice, "", "", $scope.customerSearch.strict, null).then(function(data) {
               //console.info(data.customers);
                 $scope.rsCustomerAdminListData = data.customers;
             }, function(err) {
@@ -682,13 +691,17 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
       *                                                 *
       **************************************************/
         $scope.searchboxfilterDB=null;
-        $scope.getCustomersByNameFn = function(clientName, isInDebt, strict) {
+        $scope.getCustomersByNameFn = function(clientName, isInDebt, strict, totalCount) {
           var clientTypeFk = $scope.customersSearch.idClientTypeFk!= undefined && ($scope.customerSearch.typeClient=="" && $scope.customerSearch.typeClient!=undefined)?$scope.customersSearch.idClientTypeFk:$scope.customerSearch.typeClient;
+          console.log("clientName  : "+clientName);
           console.log("clientTypeFk: "+clientTypeFk);
+          console.log("totalCount  : "+totalCount);
+          console.log("isInDebt    : "+isInDebt);
+          console.log("strict      : "+strict);
           console.log($scope.customerSearch.isStockInOffice);
           if(clientName!=undefined && clientName.length>=2){
             if (clientName!=undefined && clientName!='' && clientName!=null){
-              $scope.getCustomerLisServiceFn(clientName, $scope.customersSearch.isNotCliente, clientTypeFk, $scope.customerSearch.isInDebt, $scope.customerSearch.isStockInBuilding, $scope.customerSearch.isStockInOffice, 0, 10, $scope.customerSearch.strict).then(function(response) {
+              $scope.getCustomerLisServiceFn(clientName, $scope.customersSearch.isNotCliente, clientTypeFk, isInDebt, $scope.customerSearch.isStockInBuilding, $scope.customerSearch.isStockInOffice, 0, 10, strict, totalCount).then(function(response) {
                 console.info(response);
                 if(response.status==undefined){
                   $scope.rsCustomerListData    = response.customers;
@@ -730,9 +743,10 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
             //console.log("fullSourceList: "+$scope.fullSourceList.length);
             $scope.fullSourceList=$scope.fullSourceList.length==0 && sourceList.length>$scope.fullSourceList.length?sourceList:$scope.fullSourceList;
             $scope.items = $scope.fullSourceList;
-            console.log($scope.items);
+            
             var output=[];
             if ((qvalue1!=undefined && qvalue1!='' && qvalue1!=null) || (qvalue2!=undefined && qvalue2!='' && qvalue2!=null)){
+              console.log($scope.items);
               angular.forEach($scope.items,function(customer){
                 var customerName=customer.name;
                 var customerAddress=customer.address;
@@ -780,7 +794,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
       *                                                 *
       **************************************************/
           $scope.getAdminCustomersListFn = function() {
-            $scope.getCustomerLisServiceFn(null,"0",1, null, "","",null).then(function(data) {
+            $scope.getCustomerLisServiceFn(null,"0",1, null, "","",null,null,null,null).then(function(data) {
               $scope.rsCustomerAdminListData = data.customers;
             }, function(err) {
               $scope.customersSearch.idClientTypeFk = null;
@@ -792,7 +806,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
       *                                                 *
       **************************************************/
         $scope.getCompaniesCustomersListFn = function() {
-          $scope.getCustomerLisServiceFn(null,"0",3, null, "","",null).then(function(data) {
+          $scope.getCustomerLisServiceFn(null,"0",3, null, "","",null,null,null,null).then(function(data) {
             $scope.rsCustomerCompaniesListData = data.customers;
           }, function(err) {
             $scope.customersSearch.idClientTypeFk = null;
@@ -869,6 +883,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
           **/
             $scope.modalConfirmation = function(opt, confirm, obj, obj2){
               $scope.swMenu = opt;
+              console.log($scope.swMenu);
               $scope.vConfirm = confirm;
               var tmpOpt=$scope.div2Open;
               //console.log(tmpOpt);
@@ -1055,7 +1070,9 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                         console.log("Dirección del consorcio    : "+obj.address);
                         console.log("============================================================================");
                     }   
-                    $('#confirmRequestModalCustom').modal('toggle');
+                    $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
+                    $('#confirmRequestModalCustom').on('shown.bs.modal', function () {});
+                    
                   }else if (confirm==1){
                       if($scope.customer.details.IsInDebtTmp){
                           $scope.customerDetail.IsInDebt=1;
@@ -1065,7 +1082,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       console.log($scope.customerDetail);
                       $scope.switchCustomersFn('isInDebtClient', $scope.customerDetail);
                   $('#confirmRequestModalCustom').modal('hide');
-                  }else if (confirm<0){
+                  }else if (confirm==null){
                       if ($scope.customer.details.IsInDebt==0 || $scope.customer.details.IsInDebt==null){
                           $scope.customer.details.IsInDebtTmp=false
                       }else{
@@ -1093,8 +1110,9 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                         console.log("ID del Cliente             : "+obj.idClient);
                         console.log("Dirección del consorcio    : "+obj.address);
                         console.log("============================================================================");
-                    }   
-                    $('#confirmRequestModalCustom').modal('toggle');
+                    }
+                    $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
+                    $('#confirmRequestModalCustom').on('shown.bs.modal', function () {});
                   }else if (confirm==1){
                       if($scope.customer.details.isStockInBuildingTmp){
                           $scope.customerDetail.isStockInBuilding=1;
@@ -1104,7 +1122,8 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       console.log($scope.customerDetail);
                       $scope.switchCustomersFn('isStockInBuilding', $scope.customerDetail);
                   $('#confirmRequestModalCustom').modal('hide');
-                  }else if (confirm<0){
+                  }else if (confirm==null){
+                      console.log($scope.customerDetail);
                       if ($scope.customer.details.isStockInBuilding==0 || $scope.customer.details.isStockInBuilding==null){
                           $scope.customer.details.isStockInBuildingTmp=false
                       }else{
@@ -1114,6 +1133,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                   }
               break;
               case "isStockInOffice":
+                console.log(confirm);
                   if (confirm==0){
                     $scope.customerDetail=obj;
                     if($scope.customer.details.isStockInOfficeTmp){
@@ -1132,8 +1152,9 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                         console.log("ID del Cliente             : "+obj.idClient);
                         console.log("Dirección del consorcio    : "+obj.address);
                         console.log("============================================================================");
-                    }   
-                    $('#confirmRequestModalCustom').modal('toggle');
+                    }
+                    $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
+                    $('#confirmRequestModalCustom').on('shown.bs.modal', function () {});
                   }else if (confirm==1){
                       if($scope.customer.details.isStockInOfficeTmp){
                           $scope.customerDetail.isStockInOffice=1;
@@ -1143,7 +1164,8 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       console.log($scope.customerDetail);
                       $scope.switchCustomersFn('isStockInOffice', $scope.customerDetail);
                   $('#confirmRequestModalCustom').modal('hide');
-                  }else if (confirm<0){
+                  }else if (confirm==null){
+                      console.log($scope.customerDetail);
                       if ($scope.customer.details.isStockInOffice==0 || $scope.customer.details.isStockInOffice==null){
                           $scope.customer.details.isStockInOfficeTmp=false
                       }else{
@@ -3499,7 +3521,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       $scope.pagination.pageIndex               = 1;
                       $scope.customersSearch.isNotCliente       = "0";
                       $scope.customersSearch.isInDebt           = false;
-                      $scope.getCustomersListFn(null, "0", null, null, null, null, ($scope.pagination.pageIndex-1), $scope.pagination.pageSizeSelected, null);
+                      $scope.getCustomersListFn(null, "0", null, null, null, null, ($scope.pagination.pageIndex-1), $scope.pagination.pageSizeSelected, null, true);
                       $scope.select.filterTypeOfClient          = undefined;
                       $scope.select.filterCustomerIdFk.selected = undefined;
                       $scope.customerSearch={'searchFilter':'', 'typeClient':'', 'isInDebt':false, 'isStockInBuilding':false, 'isStockInOffice':false, 'strict':false};
@@ -3521,7 +3543,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       $scope.customerSearch={'searchFilter':'', 'typeClient':'', 'isInDebt':false, 'isStockInBuilding':false, 'isStockInOffice':false, 'strict':false};
                       $scope.isNewCustomer                      = false;
                       $scope.isUpdateCustomer                   = false;
-                      $scope.getCustomersListFn(null, "1", null, null, null, null, ($scope.pagination.pageIndex-1), $scope.pagination.pageSizeSelected, null);
+                      $scope.getCustomersListFn(null, "1", null, null, null, null, ($scope.pagination.pageIndex-1), $scope.pagination.pageSizeSelected, null, true);
                       $scope.sysContent                         = 'registeredNotCustomers';
                     break;
                   }
@@ -3614,6 +3636,9 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       break;
                       case "customerDepartmentInfo":
                         $('#customerDepartmentsDetails').modal('show');
+                      break;
+                      case "initial_delivery":
+                        $('#customerInitialDeliveryDetails').modal('show');
                       break;
                   }
                 break;
@@ -5012,6 +5037,8 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       $scope.customer.details.isStockInBuildingTmp        = obj.isStockInBuilding==1?true:false;
                       $scope.customer.details.isStockInOfficeTmp          = obj.isStockInOffice==1?true:false;
                       $scope.customer.details.IsInDebtURL                 = serverHost+"/status/client/"+$scope.customer.details.idClient;
+                      $scope.customer.details.servicesStatustURL          = serverHost+"/status/services/"+$scope.customer.details.idClient;
+                      $scope.customer.details.infoURL                     = serverHost+"/info/client/"+$scope.customer.details.idClient;
                       switch (subOption){
                         case "1": //ADMINISTRATION CUSTOMER
                           arrProvince = $scope.getCustomerProvinceNameFromIdFn($scope.customer.details.idProvinceFk);
@@ -5683,8 +5710,8 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       });
                       $('#UpdateModalCustomer').modal('hide');
                     }, 500);
-                    $scope.getAdminCustomersListFn();
-                    $scope.getCompaniesCustomersListFn();
+                    //$scope.getAdminCustomersListFn();
+                    //$scope.getCompaniesCustomersListFn();
                   }else if(response.status==404){
                     console.log("not found, contact administrator");
                     inform.add('Error: [404] Contacta al area de soporte. ',{
@@ -5881,11 +5908,11 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
           *                                                 *
           **************************************************/
             $scope.setClientHasStockInBuildingFn = function(obj){
-              //console.log(obj);
+              console.log(obj);
               CustomerServices.setClientHasStockInBuilding(obj).then(function(response){
                   console.log(response);
                   if(response.status==200){
-                      if (obj.isStockInBuilding){
+                      if (obj.isStockInBuilding && obj.isStockInBuildingTmp){
                         inform.add('Stock en Edificio habilitado satisfactoriamente.',{
                             ttl:5000, type: 'success'
                         });
@@ -5895,51 +5922,38 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                         });
                       }
                       $timeout(function() {
-                        blockUI.message('Actualizando datos del cliente: '+obj.name);
+                          blockUI.message('Actualizando datos del cliente: '+obj.name);
+                          blockUI.stop();
                       }, 1500);
-                      $timeout(function() {
-                        $scope.getCustomersByNameFn($scope.customerSearch.searchFilter, $scope.customerSearch.isInDebt, $scope.customerSearch.strict);
-                      }, 2500);
-                      $timeout(function() {
-                        $scope.getCustomersByIdFn('details_customer', obj.idClient, 'show');
-                        blockUI.stop();
-                      }, 3500);
                       
                   }
               });
             }
           /**************************************************
           *                                                 *
-          *         SET CLIENT STOCK IN OFFICE            *
+          *         SET CLIENT STOCK IN OFFICE              *
           *                                                 *
           **************************************************/
             $scope.setClientHasStockInOfficeFn = function(obj){
-              //console.log(obj);
-              CustomerServices.setClientHasStockInOffice(obj).then(function(response){
-                  console.log(response);
-                  if(response.status==200){
-                      if (obj.isStockInBuilding){
-                        inform.add('Stock en Oficina habilitado satisfactoriamente.',{
-                            ttl:5000, type: 'success'
-                        });
-                      }else{
-                        inform.add('Stock en Oficina deshabilitado satisfactoriamente.',{
-                            ttl:5000, type: 'warning'
-                        });
-                      }
-                      $timeout(function() {
+                console.log(obj);
+                CustomerServices.setClientHasStockInOffice(obj).then(function(response){
+                    console.log(response);
+                    if(response.status==200){
+                        if (obj.isStockInOffice  && obj.isStockInOfficeTmp){
+                          inform.add('Stock en Oficina habilitado satisfactoriamente.',{
+                              ttl:5000, type: 'success'
+                          });
+                        }else{
+                          inform.add('Stock en Oficina deshabilitado satisfactoriamente.',{
+                              ttl:5000, type: 'warning'
+                          });
+                        }
+                        $timeout(function() {
                         blockUI.message('Actualizando datos del cliente: '+obj.name);
-                      }, 1500);
-                      $timeout(function() {
-                        $scope.getCustomersByNameFn($scope.customerSearch.searchFilter, $scope.customerSearch.isInDebt, $scope.customerSearch.strict);
-                      }, 2500);
-                      $timeout(function() {
-                        $scope.getCustomersByIdFn('details_customer', obj.idClient, 'show');
                         blockUI.stop();
-                      }, 3500);
-                      
-                  }
-              });
+                        }, 1500);
+                    }
+                });
             }
       /**************************************************
       *                                                 *

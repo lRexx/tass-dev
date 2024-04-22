@@ -96,7 +96,7 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
     const sysYear  = sysDate.toLocaleString('es-AR', { year: 'numeric'}).toString().substr(2,2);
     const sysMonth = sysDate.toLocaleString('es-AR', { month: 'numeric'});
     const sysDay   = sysDate.toLocaleString('es-AR', { day: 'numeric'});
-
+    $scope.customerSearch={'searchFilter':'', 'typeClient':'', 'isInDebt':false, 'isStockInBuilding': false, 'isStockInOffice': false, 'strict':false};
     $scope.getSelectedCustomerData = tokenSystem.getTokenStorage(7);
     $scope.formats = ['dd-MM-yyyy', 'dd/MM/yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
     $scope.format = $scope.formats[1];
@@ -174,7 +174,7 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
       status: 'full'
     };
     $scope.select = {'filterTypeOfClient': {}, 'filterCustomerIdFk':{'selected':undefined}};
-    $scope.customerSearch={'name':'', 'typeClient':null};
+    $scope.customerSearch={'name':'','searchFilter':'', 'typeClient':'', 'isInDebt':false, 'isStockInBuilding': false, 'isStockInOffice': false, 'strict':false};
     /*DATE PICKER*/
     $scope.formats = ['dd-MM-yyyy', 'dd/MM/yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
     $scope.format = $scope.formats[1];
@@ -302,7 +302,7 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                     break;                 
                     case "underLock-show":
                         //$scope.customerContractFn(cObj, 'disable');
-                    break;                             
+                    break; 
                 }
             break;
         /******************************
@@ -419,6 +419,22 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                         console.log(cObj);
                         $scope.setClientHasStockInOfficeFn(cObj);
                     break;
+                    case "new_enableInitialKeys":
+                        console.log(cObj);
+                        $scope.customer={'update':{}};
+                        if(cObj.initial_delivery.length==1){
+                            $scope.customer.update.expirationDate   = cObj.initial_delivery[0].expirationDate;
+                            $scope.customer.update.initial_qtty     = cObj.initial_delivery[0].initial_qtty;
+                            $scope.customer.update.initial_price    = cObj.initial_delivery[0].initial_price;
+                        }
+                        $('#enableInitialKeys').modal('toggle');
+                    break;
+                    case "add_enableInitialKeys":
+                        console.log(cObj);
+                        $scope.customer.update.idClientKf = cObj.idClient;
+                        console.log($scope.customer.update);
+                        $scope.addInitialDeliveryFn($scope.customer.update); 
+                    break; 
                 }
             break;
         }
@@ -565,62 +581,27 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
     *                                                                                                                                           *
     *                                                                                                                                           *
     ********************************************************************************************************************************************/
-        /**************************************************
-         *                                                 *
-         *         SET CLIENT STOCK IN BUILDING            *
-         *                                                 *
-         **************************************************/
-            $scope.setClientHasStockInBuildingFn = function(obj){
-                //console.log(obj);
-                CustomerServices.setClientHasStockInBuilding(obj).then(function(response){
-                    console.log(response);
-                    if(response.status==200){
-                        if (obj.isStockInBuilding){
-                        inform.add('Stock en Edificio habilitado satisfactoriamente.',{
-                            ttl:5000, type: 'success'
-                        });
-                        }else{
-                        inform.add('Stock en Edificio deshabilitado satisfactoriamente.',{
-                            ttl:5000, type: 'warning'
-                        });
-                        }
-                        $timeout(function() {
-                            blockUI.message('Actualizando datos del cliente: '+obj.name);
-                            blockUI.stop();
-                        }, 1500);
-                        
-                    }
-                });
-            }
-        /**************************************************
-         *                                                 *
-         *         SET CLIENT STOCK IN OFFICE              *
-         *                                                 *
-         **************************************************/
-            $scope.setClientHasStockInOfficeFn = function(obj){
-                //console.log(obj);
-                CustomerServices.setClientHasStockInOffice(obj).then(function(response){
-                    console.log(response);
-                    if(response.status==200){
-                        if (obj.isStockInBuilding){
-                        inform.add('Stock en Oficina habilitado satisfactoriamente.',{
-                            ttl:5000, type: 'success'
-                        });
-                        }else{
-                        inform.add('Stock en Oficina deshabilitado satisfactoriamente.',{
-                            ttl:5000, type: 'warning'
-                        });
-                        }
-                        $timeout(function() {
-                        blockUI.message('Actualizando datos del cliente: '+obj.name);
-                        blockUI.stop();
-                        }, 1500);
-                    }
-                });
-            }
-
-
-
+          /**************************************************
+          *                                                 *
+          *                SET CLIENT IN DEBT               *
+          *                                                 *
+          **************************************************/
+          $scope.addInitialDeliveryFn = function(obj){
+            //console.log(obj);
+            CustomerServices.addInitialDelivery(obj).then(function(response){
+                console.log(response);
+                if(response.status==200){
+                      inform.add('Entrega Inicial habilitada satisfactoriamente.',{
+                          ttl:15000, type: 'success'
+                      });
+                      $('#enableInitialKeys').modal('hide');
+                }if(response.status==404 || response.status==500){
+                    inform.add('Ocurrio un error con la Entrega Inicial, contacta al soporte.',{
+                        ttl:15000, type: 'danger'
+                    });
+                }
+            });
+          }
     /********************************************************************************************************************************************
     *                                                                                                                                           *
     *                                                                                                                                           *
@@ -1109,84 +1090,26 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                                     $('#confirmRequestModal').modal('hide');
                                 }            
                             break;
-                            case "isStockInBuilding":
+                            case "add_enable_initial_keys":
                                 if (confirm==0){
-                                  $scope.customerDetail=obj;
-                                  if($scope.customerFound.isStockInBuildingTmp){
-                                    $scope.mess2show="El Cliente "+obj.name+" ["+obj.ClientType+"] posee stock en edificio.     Confirmar?";
-                                    console.log("============================================================================");
-                                    console.log("El cliente posee stock en edificio.");
-                                    console.log("============================================================================");
-                                    console.log("ID del Cliente             : "+obj.idClient);
-                                    console.log("Dirección del consorcio    : "+obj.address);
-                                    console.log("============================================================================");
-                                  }else{
-                                    $scope.mess2show="El Cliente "+obj.name+" ["+obj.ClientType+"] no posee stock en edificio.     Confirmar?";
+                                    $scope.customerDetail=obj;
+                                      $scope.mess2show="Datos para Entrega Inicial al Cliente "+obj.name+" ["+obj.ClientType+"].     Confirmar?";
                                       console.log("============================================================================");
-                                      console.log("El cliente no posee stock en edificio.");
+                                      console.log("Entrega Inicial.");
                                       console.log("============================================================================");
                                       console.log("ID del Cliente             : "+obj.idClient);
                                       console.log("Dirección del consorcio    : "+obj.address);
                                       console.log("============================================================================");
-                                  }   
-                                  $('#confirmRequestModalCustom').modal('toggle');
+                                    $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
+                                    //$('#confirmRequestModalCustom').modal('toggle');
                                 }else if (confirm==1){
-                                    if($scope.customerFound.isStockInBuildingTmp){
-                                        $scope.customerDetail.isStockInBuilding=1;
-                                    }else{
-                                        $scope.customerDetail.isStockInBuilding=0;
-                                    }
-                                    console.log($scope.customerDetail);
-                                    $scope.switchCustomersFn('customers',$scope.customerDetail,'isStockInBuilding');
-                                $('#confirmRequestModalCustom').modal('hide');
+                                    //console.log($scope.customerDetail);
+                                    $scope.switchCustomersFn('customers',$scope.customerDetail,'add_enableInitialKeys');
+                                    $('#confirmRequestModalCustom').modal('hide');
                                 }else if (confirm<0){
-                                    if ($scope.customerFound.isStockInBuilding==0 || $scope.customerFound.isStockInBuilding==null){
-                                        $scope.customerFound.isStockInBuildingTmp=false
-                                    }else{
-                                        $scope.customerFound.isStockInBuildingTmp=true
-                                    }
-                                    
+                                    $scope.customer={};
                                 }
                             break;
-                            case "isStockInOffice":
-                                if (confirm==0){
-                                  $scope.customerDetail=obj;
-                                  if($scope.customerFound.isStockInOfficeTmp){
-                                    $scope.mess2show="El Cliente "+obj.name+" ["+obj.ClientType+"] posee stock en oficina.     Confirmar?";
-                                    console.log("============================================================================");
-                                    console.log("El cliente posee stock en oficina.");
-                                    console.log("============================================================================");
-                                    console.log("ID del Cliente             : "+obj.idClient);
-                                    console.log("Dirección del consorcio    : "+obj.address);
-                                    console.log("============================================================================");
-                                  }else{
-                                    $scope.mess2show="El Cliente "+obj.name+" ["+obj.ClientType+"] no posee stock en oficina.     Confirmar?";
-                                      console.log("============================================================================");
-                                      console.log("El cliente no posee stock en oficina.");
-                                      console.log("============================================================================");
-                                      console.log("ID del Cliente             : "+obj.idClient);
-                                      console.log("Dirección del consorcio    : "+obj.address);
-                                      console.log("============================================================================");
-                                  }   
-                                  $('#confirmRequestModalCustom').modal('toggle');
-                                }else if (confirm==1){
-                                    if($scope.customerFound.isStockInOfficeTmp){
-                                        $scope.customerDetail.isStockInOffice=1;
-                                    }else{
-                                        $scope.customerDetail.isStockInOffice=0;
-                                    }
-                                    console.log($scope.customerDetail);
-                                    $scope.switchCustomersFn('customers',$scope.customerDetail,'isStockInOffice');
-                                $('#confirmRequestModalCustom').modal('hide');
-                                }else if (confirm<0){
-                                    if ($scope.customerFound.isStockInOffice==0 || $scope.customerFound.isStockInOffice==null){
-                                        $scope.customerFound.isStockInOfficeTmp=false
-                                    }else{
-                                        $scope.customerFound.isStockInOfficeTmp=true
-                                    }
-                                    
-                                }
-                            break;                            
                             default:
                         }
                     }
@@ -1267,43 +1190,43 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                         "limit":"10",
                         "strict": null
                     }
-                    /**************************************************
-                    *                                                 *
-                    *             LIST CUSTOMER SERVICE               *
-                    *                                                 *
-                    **************************************************/
+                /**************************************************
+                *                                                 *
+                *             LIST CUSTOMER SERVICE               *
+                *                                                 *
+                **************************************************/
+                    $scope.getCustomersListRs = {'customerList':null, 'totalNumberOfCustomer':0}
+                    $scope.setCustomersListRs = {}
+                    $scope.getCustomerLisServiceFn = function(searchFilter, isNotCliente, idClientTypeFk, isInDebt, start, limit, strict){
+                        console.log($scope.customerSearch);
+                        console.log(idClientTypeFk);
+                        var searchFilter    = searchFilter!=undefined && searchFilter!="" && searchFilter!=null?searchFilter:null;
+                        var isNotCliente    = isNotCliente!=undefined && isNotCliente!=null?isNotCliente:"0";
+                        var idClientTypeFk  = idClientTypeFk!=undefined && idClientTypeFk!="" && idClientTypeFk!=null?idClientTypeFk:null;
+                        var isInDebt        = isInDebt!=false && isInDebt!=undefined && isInDebt!=null?1:null;
+                        var start           = start!=undefined && start!=null && (!isInDebt && !strict)?start:"";
+                        var limit           = limit!=undefined && limit!=null && (!isInDebt && !strict)?limit:"";
+                        var strict          = strict!=false && strict!=undefined && strict!=null?strict:null;
                         $scope.getCustomersListRs = {'customerList':null, 'totalNumberOfCustomer':0}
-                        $scope.setCustomersListRs = {}
-                        $scope.getCustomerLisServiceFn = function(searchFilter, isNotCliente, idClientTypeFk, isInDebt, start, limit, strict){
-                            console.log($scope.customerSearch);
-                            console.log(idClientTypeFk);
-                            var searchFilter    = searchFilter!=undefined && searchFilter!="" && searchFilter!=null?searchFilter:null;
-                            var isNotCliente    = isNotCliente!=undefined && isNotCliente!=null?isNotCliente:"0";
-                            var idClientTypeFk  = idClientTypeFk!=undefined && idClientTypeFk!="" && idClientTypeFk!=null?idClientTypeFk:null;
-                            var isInDebt        = isInDebt!=false && isInDebt!=undefined && isInDebt!=null?1:null;
-                            var start           = start!=undefined && start!=null && (!isInDebt && !strict)?start:"";
-                            var limit           = limit!=undefined && limit!=null && (!isInDebt && !strict)?limit:"";
-                            var strict          = strict!=false && strict!=undefined && strict!=null?strict:null;
-                            $scope.getCustomersListRs = {'customerList':null, 'totalNumberOfCustomer':0}
-                            $scope.customersSearch={
-                            "searchFilter":searchFilter,
-                            "isNotCliente":isNotCliente,
-                            "idClientTypeFk":idClientTypeFk,
-                            "isInDebt":isInDebt,
-                            "start":start,
-                            "limit":limit,
-                            "strict":strict
-                            };
-                            console.log($scope.customersSearch);
-                            return CustomerServices.getCustomerListLimit($scope.customersSearch).then(function(response){
-                            //console.info(response);
-                            if(response.status==200){
-                                return response.data;
-                            }else if(response.status==404){
-                                return response;
-                            }
-                            });
+                        $scope.customersSearch={
+                        "searchFilter":searchFilter,
+                        "isNotCliente":isNotCliente,
+                        "idClientTypeFk":idClientTypeFk,
+                        "isInDebt":isInDebt,
+                        "start":start,
+                        "limit":limit,
+                        "strict":strict
+                        };
+                        console.log($scope.customersSearch);
+                        return CustomerServices.getCustomerListLimit($scope.customersSearch).then(function(response){
+                        //console.info(response);
+                        if(response.status==200){
+                            return response.data;
+                        }else if(response.status==404){
+                            return response;
                         }
+                        });
+                    }
                 /**************************************************
                  *                                                 *
                  *         LIST ADMINISTRATION CUSTOMERS           *
@@ -1315,20 +1238,25 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                         }, function(err) {
                             $scope.customersSearch.idClientTypeFk = null;
                         });
-                    };$scope.getAdminCustomersListFn();
+                    };//$scope.getAdminCustomersListFn();
                     $scope.getCustomerBusinessNameByIdFn = function(clientId){
-                        console.log("getCustomerBusinessNameByIdFn: "+clientId);
+                        //console.log("getCustomerBusinessNameByIdFn: "+clientId);
                         var arrCompanySelect = [];
-                        //console.log($scope.rsCustomerAdminListData);
-                        for (var key in  $scope.rsCustomerAdminListData){
-                            if ($scope.rsCustomerAdminListData[key].idClient==clientId){
-                                arrCompanySelect.push({'idClient':$scope.rsCustomerAdminListData[key].idClient, 'businessName':$scope.rsCustomerAdminListData[key].businessName});
-                                break;
+                        if (clientId!=undefined){
+                          CustomerServices.getCustomersById(clientId).then(function(response){
+                            if(response.status==200){
+                              //console.log(response.data);
+                              arrCompanySelect.push({'idClient':response.data.idClient, 'businessName':response.data.businessName});
                             }
+                          });
+                        }else{
+                            inform.add('Client Id, no recibido. ',{
+                              ttl:4000, type: 'warning'
+                            });
                         }
                         //console.log(arrCompanySelect);
                         return arrCompanySelect;
-                    }
+                      }
                     $scope.getZoneNameFn = function(zoneId){
                         //console.log("getZoneNameFn: "+zoneId);
                         $scope.zoneInfo={}
@@ -1403,7 +1331,6 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                     var i=0;
                     if (string!=undefined && string!=""){
                         $scope.getCustomerLisServiceFn(string, "0", typeClient, null, 0, 0, strict).then(function(response) {
-                            
                             if(response.status==undefined){
                               $scope.listCustomerFound = response.customers;
                               //$scope.pagination.totalCount = response.customers.length;
@@ -1438,31 +1365,33 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                     }
                     $scope.customerSearch.name=obj.name;
                     //COMPANY RELATED
-                    var arrCompany=[]
                     if($scope.customerFound.idClientType=="2"){
                         if ($scope.customerFound.idClientAdminFk!=null && $scope.customerFound.idClientAdminFk!=undefined){
-                        var companyBusinessName = $scope.customerFound.idClientAdminFk;
-                        //console.log(companyBusinessName);
-                        arrCompany=$scope.getCustomerBusinessNameByIdFn(companyBusinessName);
-                        if (arrCompany.length==1){
-                            console.log(arrCompany);
-                            $scope.customerFound.companyBusinessName=arrCompany[0].businessName;
-                        }
+                          var arrCompany=[]
+                          arrCompany=$scope.getCustomerBusinessNameByIdFn($scope.customerFound.idClientAdminFk);
+                          //console.log(arrCompany);
+                          $timeout(function() {
+                            if (arrCompany.length==1){
+                                $scope.customerFound.companyBusinessName=arrCompany[0].businessName;
+                            }
+                          }, 500);
                         }else{
-                        inform.add("El Consorcio "+obj.name+ " no se encuentra asociado a una Administración.",{
-                                ttl:10000, type: 'danger'
-                        });
+                            inform.add("El Consorcio "+obj.name+ " no se encuentra asociado a una Administración.",{
+                                    ttl:10000, type: 'danger'
+                            });
                         }
                     }
                     if ($scope.customerFound.idClientType=="4"){
                         if ($scope.customerFound.idClientCompaniFk!=null && $scope.customerFound.idClientCompaniFk!=undefined){
                         var companyBusinessName = $scope.customerFound.idClientCompaniFk;
-                        //console.log(companyBusinessName);                    
-                        arrCompany=$scope.getCustomerBusinessNameByIdFn(companyBusinessName);
-                        if (arrCompany.length==1){
-                            console.log(arrCompany);
-                            $scope.customerFound.companyBusinessName=arrCompany[0].businessName;
-                        }
+                            var arrCompany=[]
+                            arrCompany=$scope.getCustomerBusinessNameByIdFn($scope.customerFound.idClientCompaniFk);
+                            //console.log(arrCompany);
+                            $timeout(function() {
+                              if (arrCompany.length==1){
+                                  $scope.customerFound.companyBusinessName=arrCompany[0].businessName;
+                              }
+                            }, 500);
                         }else{
                         inform.add("La Sucursal "+obj.name+ " no se encuentra asociada a una Empresa/Administracion.",{
                                 ttl:10000, type: 'danger'
@@ -1504,6 +1433,19 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                         $scope.loadCustomerFieldsFn($scope.getSelectedCustomerData);
                         tokenSystem.destroyTokenStorage(6);
                     }
+
+
+                $scope.checkDoor = function(door){
+                    if (door.idAccessControlDoor=="7"){
+                        if ($scope.service.update.serviceItems!=undefined){
+                            $scope.service.update.serviceItems.qtty=1;
+                        }else{
+                            $scope.service.new.serviceItems.qtty=1;
+                        }
+                        
+                    }
+                }
+
             /**************************************************
             *                                                 *
             *           SERVICES CONTRACTS CUSTOMERS          *
@@ -1528,93 +1470,95 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                     if (opt=="new"){
                         /*Validate if the type of service is access control or internet */
                         if (obj.serviceType.idClientTypeServices=="1" || obj.idServiceType=="1"){
-                        var itemName=obj.serviceItems.accCrtlDoor.titulo;
+                            var itemName=obj.serviceItems.accCrtlDoor.titulo;
                         }else if (obj.serviceType.idClientTypeServices=="2" || obj.idServiceType=="2"){
-                        var itemName=obj.serviceItems.internetType.nombre;
+                            var itemName=obj.serviceItems.internetType.nombre;
                         }else if ((obj.serviceType.idClientTypeServices>="3" || obj.idServiceType<="3") && (obj.serviceType.idClientTypeServices<="4" || obj.idServiceType<="4")){
-                        var itemName="CAMARAS";
+                            var itemName="CAMARAS";
                         }else{
-                        var itemName=obj.serviceType.clientTypeServices==undefined?obj.serviceName:obj.serviceType.clientTypeServices;
+                            var itemName=obj.serviceType.clientTypeServices==undefined?obj.serviceName:obj.serviceType.clientTypeServices;
                         }          
                         for (var srvs in $scope.list_services_tmp){
-                        if ($scope.list_services_tmp[srvs].idServiceType==obj.serviceType.idClientTypeServices){
-                            if ($scope.list_services_tmp[srvs].serviceItems!=undefined && $scope.list_services_tmp[srvs].serviceItems.length>=0){
-                            for (var item in  $scope.list_services_tmp[srvs].serviceItems){
-                                if ($scope.list_services_tmp[srvs].serviceItems[item].idServiceTypeFk==obj.serviceType.idClientTypeServices && $scope.list_services_tmp[srvs].serviceItems[item].qtty==obj.serviceItems.qtty){
-                                console.log("obj.serviceType.idClientTypeServices: "+obj.serviceType.idClientTypeServices+ " (Encontrado)");
-                                if (obj.serviceType.idClientTypeServices=="5" || obj.serviceType.idClientTypeServices=="6"){
-                                    var ptag= itemName.toUpperCase();
-                                    inform.add("El Servicio: "+ptag+", ya ha sido agregado.",{
-                                    ttl:5000, type: 'warning'
-                                    });
-                                    $scope.isServiceItemExist=true;
-                                    break; 
-                                }else if (obj.serviceType.idClientTypeServices=="1" || obj.serviceType.idClientTypeServices=="2"){
-                                    console.log("obj.serviceType.idClientTypeServices == 1 OR 2 : "+obj.serviceType.idClientTypeServices+ " (Encontrado)");
-                                    if (obj.serviceType.idClientTypeServices=="1" && $scope.list_services_tmp[srvs].serviceItems[item].idAccCrtlDoor==obj.serviceItems.accCrtlDoor.idAccessControlDoor){
-                                    console.log("obj.serviceItems.accCrtlDoor.idAccessControlDoor: "+obj.serviceItems.accCrtlDoor.idAccessControlDoor+ " (Encontrado)");
-                                    var ptag= itemName.toUpperCase();
-                                    inform.add("La puerta : "+ptag+", ya esta asociada al servicio control de acceso.",{
-                                        ttl:5000, type: 'warning'
-                                    });
-                                    $scope.isServiceItemExist=true;
-                                    break;
-                                    }else if (obj.serviceType.idClientTypeServices=="2" && $scope.list_services_tmp[srvs].serviceItems[item].itemName==obj.serviceItems.internetType.nombre){
-                                    console.log("obj.serviceItems.internetType.nombre: "+obj.serviceItems.internetType.nombre+ " (Encontrado)");
-                                    var ptag= itemName.toUpperCase();
-                                    inform.add("El dispositivo: "+ptag+", ya ha sido agregado.",{
-                                        ttl:5000, type: 'warning'
-                                    });
-                                    $scope.isServiceItemExist=true;
-                                    break;
-                                    }else{
-                                        console.log("obj.serviceType.idClientTypeServices == 1 OR 2 : "+obj.serviceType.idClientTypeServices+ " (No Encontrado)");
-                                        
+                            if ($scope.list_services_tmp[srvs].idServiceType==obj.serviceType.idClientTypeServices){
+                                if ($scope.list_services_tmp[srvs].serviceItems!=undefined && $scope.list_services_tmp[srvs].serviceItems.length>=0){
+                                    for (var item in  $scope.list_services_tmp[srvs].serviceItems){
+                                        if ($scope.list_services_tmp[srvs].serviceItems[item].idServiceTypeFk==obj.serviceType.idClientTypeServices && $scope.list_services_tmp[srvs].  serviceItems[item].qtty==obj.serviceItems.qtty){
+                                            console.log("obj.serviceType.idClientTypeServices: "+obj.serviceType.idClientTypeServices+ " (Encontrado)");
+                                        if (obj.serviceType.idClientTypeServices=="5" || obj.serviceType.idClientTypeServices=="6"){
+                                            var ptag= itemName.toUpperCase();
+                                            inform.add("El Servicio: "+ptag+", ya ha sido agregado.",{
+                                            ttl:5000, type: 'warning'
+                                            });
+                                            $scope.isServiceItemExist=true;
+                                            break; 
+                                        }else if (obj.serviceType.idClientTypeServices=="1" || obj.serviceType.idClientTypeServices=="2"){
+                                            console.log("obj.serviceType.idClientTypeServices == 1 OR 2 : "+obj.serviceType.idClientTypeServices+ " (Encontrado)");
+                                            if (obj.serviceType.idClientTypeServices=="1" && $scope.list_services_tmp[srvs].serviceItems[item].idAccCrtlDoor!=7 &&
+                                            $scope.list_services_tmp[srvs].serviceItems[item].idAccCrtlDoor==obj.serviceItems.accCrtlDoor.idAccessControlDoor){
+                                                console.log("obj.serviceItems.accCrtlDoor.idAccessControlDoor: "+obj.serviceItems.accCrtlDoor.idAccessControlDoor+ " (Encontrado)");
+                                                var ptag= itemName.toUpperCase();
+                                                inform.add("La puerta : "+ptag+", ya esta asociada al servicio control de acceso.",{
+                                                    ttl:5000, type: 'warning'
+                                                });
+                                                $scope.isServiceItemExist=true;
+                                                break;
+                                            }else if (obj.serviceType.idClientTypeServices=="2" && $scope.list_services_tmp[srvs].serviceItems[item].itemName==obj.serviceItems.internetType.nombre){
+                                                console.log("obj.serviceItems.internetType.nombre: "+obj.serviceItems.internetType.nombre+ " (Encontrado)");
+                                                var ptag= itemName.toUpperCase();
+                                                inform.add("El dispositivo: "+ptag+", ya ha sido agregado.",{
+                                                    ttl:5000, type: 'warning'
+                                                });
+                                                $scope.isServiceItemExist=true;
+                                                break;
+                                            }else{
+                                                console.log("obj.serviceType.idClientTypeServices == 1 OR 2 : "+obj.serviceType.idClientTypeServices+ " (No Encontrado)");
+                                                
+                                                $scope.isServiceItemExist=false;
+                                            }
+                                        }else{
+                                            $scope.isServiceItemExist=false;
+                                        }
+                                        }else{
                                         $scope.isServiceItemExist=false;
+                                        }
                                     }
                                 }else{
                                     $scope.isServiceItemExist=false;
                                 }
+
+                                var idItemNumb=0;
+                                var itemAclaration=null;
+                                var itemAclaration=obj.serviceType.idClientTypeServices=="1" && obj.serviceItems.accCrtlDoor.idAccessControlDoor=="7"?obj.serviceItems.itemAclaracion:null;   
+                                var itemQtty=obj.serviceType.idClientTypeServices=="1" || obj.serviceType.idClientTypeServices=="3" || obj.serviceType.idClientTypeServices=="4"?obj.serviceItems.qtty:1;                
+                                if (obj.serviceType.idClientTypeServices=="1"){
+                                    var idServiceItem=obj.serviceItems.accCrtlDoor.idAccessControlDoor;
+                                }else if (obj.serviceType.idClientTypeServices=="2"){
+                                    var idServiceItem=obj.serviceItems.internetType.idTipoServicioInternet;
                                 }else{
-                                $scope.isServiceItemExist=false;
+                                    var idServiceItem=null;
+                                }
+                                if (!$scope.isServiceItemExist && ($scope.list_services_tmp[srvs].serviceItems==undefined || $scope.list_services_tmp[srvs].serviceItems.length<=0)){
+                                    //console.log("scope.isServiceItemExist: "+$scope.isServiceItemExist+" Y $scope.list_services_tmp[srvs].serviceItems.length: "+$scope.list_services_tmp[srvs].serviceItems.length);
+                                    idItemNumb=0;
+                                                                    
+                                    $scope.list_services_tmp[srvs].serviceItems.push({'id':(idItemNumb+1), 'qtty':itemQtty, 'idAccCrtlDoor':idServiceItem,'itemName':itemName, 'itemAclaracion':itemAclaration, 'idServiceTypeFk':obj.serviceType.idClientTypeServices});
+
+                                }else if((!$scope.isServiceItemExist) && $scope.list_services_tmp[srvs].serviceItems.length>0){
+                                    //console.log("scope.isServiceItemExist: "+$scope.isServiceItemExist+" Y $scope.list_services_tmp[srvs].serviceItems.length: "+$scope.list_services_tmp[srvs].serviceItems.length);                  
+                                    for (var item in  $scope.list_services_tmp[srvs].serviceItems){idItemNumb=$scope.list_services_tmp[srvs].serviceItems[item].id;}                                                        
+                                    
+                                    $scope.list_services_tmp[srvs].serviceItems.push({'id':(idItemNumb+1), 'qtty':itemQtty, 'idAccCrtlDoor':idServiceItem,'itemName':itemName, 'itemAclaracion':itemAclaration, 'idServiceTypeFk':obj.serviceType.idClientTypeServices});
+                                }
+                                if ((!$scope.isServiceItemExist && $scope.list_services_tmp[srvs].serviceItems.length>=0 && obj.serviceType.idClientTypeServices!="5" && obj.serviceType.idClientTypeServices!="6" && !$scope.isServiceItemExist) || ((!$scope.isServiceItemExist || $scope.isServiceItemExist) && $scope.list_services_tmp[srvs].serviceItems.length>=0 && (obj.serviceType.idClientTypeServices=="3" || obj.serviceType.idClientTypeServices=="4"))){
+                                    inform.add("El item: "+itemName+" del servicio: "+obj.serviceType.clientTypeServices+", ha sido agregado.",{
+                                            ttl:5000, type: 'success'
+                                    });
+                                }else if ((obj.serviceType.idClientTypeServices=="5" || obj.serviceType.idClientTypeServices=="6") && !$scope.isServiceItemExist){
+                                    inform.add("El Servicio: "+obj.serviceType.clientTypeServices+" ha sido agregado.",{
+                                        ttl:5000, type: 'success'
+                                    });
                                 }
                             }
-                            }else{
-                            $scope.isServiceItemExist=false;
-                            }
-
-                            var idItemNumb=0;
-                            var itemAclaration=null;
-                            var itemQtty=obj.serviceType.idClientTypeServices=="1" || obj.serviceType.idClientTypeServices=="3" || obj.serviceType.idClientTypeServices=="4"?obj.serviceItems.qtty:1;                
-                            if (obj.serviceType.idClientTypeServices=="1"){
-                                var idServiceItem=obj.serviceItems.accCrtlDoor.idAccessControlDoor;
-                            }else if (obj.serviceType.idClientTypeServices=="2"){
-                                var idServiceItem=obj.serviceItems.internetType.idTipoServicioInternet;
-                            }else{
-                                var idServiceItem=null;
-                            }
-                            if (!$scope.isServiceItemExist && ($scope.list_services_tmp[srvs].serviceItems==undefined || $scope.list_services_tmp[srvs].serviceItems.length<=0)){
-                                //console.log("scope.isServiceItemExist: "+$scope.isServiceItemExist+" Y $scope.list_services_tmp[srvs].serviceItems.length: "+$scope.list_services_tmp[srvs].serviceItems.length);
-                                idItemNumb=0;
-                                                                
-                                $scope.list_services_tmp[srvs].serviceItems.push({'id':(idItemNumb+1), 'qtty':itemQtty, 'idAccCrtlDoor':idServiceItem,'itemName':itemName, 'itemAclaracion':itemAclaration, 'idServiceTypeFk':obj.serviceType.idClientTypeServices});
-
-                            }else if((!$scope.isServiceItemExist) && $scope.list_services_tmp[srvs].serviceItems.length>0){
-                                //console.log("scope.isServiceItemExist: "+$scope.isServiceItemExist+" Y $scope.list_services_tmp[srvs].serviceItems.length: "+$scope.list_services_tmp[srvs].serviceItems.length);                  
-                                for (var item in  $scope.list_services_tmp[srvs].serviceItems){idItemNumb=$scope.list_services_tmp[srvs].serviceItems[item].id;}                                                        
-                                
-                                $scope.list_services_tmp[srvs].serviceItems.push({'id':(idItemNumb+1), 'qtty':itemQtty, 'idAccCrtlDoor':idServiceItem,'itemName':itemName, 'itemAclaracion':itemAclaration, 'idServiceTypeFk':obj.serviceType.idClientTypeServices});
-                            }
-                            if ((!$scope.isServiceItemExist && $scope.list_services_tmp[srvs].serviceItems.length>=0 && obj.serviceType.idClientTypeServices!="5" && obj.serviceType.idClientTypeServices!="6" && !$scope.isServiceItemExist) || ((!$scope.isServiceItemExist || $scope.isServiceItemExist) && $scope.list_services_tmp[srvs].serviceItems.length>=0 && (obj.serviceType.idClientTypeServices=="3" || obj.serviceType.idClientTypeServices=="4"))){
-                                inform.add("El item: "+itemName+" del servicio: "+obj.serviceType.clientTypeServices+", ha sido agregado.",{
-                                        ttl:5000, type: 'success'
-                                });
-                            }else if ((obj.serviceType.idClientTypeServices=="5" || obj.serviceType.idClientTypeServices=="6") && !$scope.isServiceItemExist){
-                                inform.add("El Servicio: "+obj.serviceType.clientTypeServices+" ha sido agregado.",{
-                                    ttl:5000, type: 'success'
-                                });
-                            }
-                        }
                         }
                         //$scope.service.new.serviceItems.accCrtlDoor=null;
                         //$scope.service.new.serviceItems.qtty=null;
@@ -1704,28 +1648,57 @@ services.controller('ServicesCtrl', function($scope, $location, $routeParams, bl
                         }
                     }
                 }
+                $scope.newitemAclaracion="";
                 $scope.contractServiceItemEditFn = function(opt, srvs, obj){
                     switch(opt){
                         case "edit":
-                        //console.log(srvs);
-                        //console.log(item);
-                        $('#itemQttyEdit').focus();
-                        $scope.serviceItems={'qtty':null};
-                        obj.serviceItemEdit=true;
+                            if (obj.idAccCrtlDoor!="7"){
+                                //console.log(srvs);
+                                //console.log(item);
+                                $('#itemQttyEdit').focus();
+                                $scope.serviceItems={'qtty':null};
+                                obj.serviceItemEdit=true;
+                            }else{
+                                console.log(srvs);
+                                console.log(obj);
+                                $scope.newitemAclaracion="";
+                                $scope.itemAclaracionEdit=true;
+                                obj.itemAclaracionEdit=true;
+                            }   
+
                         break;
                         case "assign":
-                            //console.log(srvs);
-                            //console.log(obj);
-                            var itemQtty=obj.qtty==null?0:parseInt(obj.qtty);
-                            //console.log("Actual cantidad: "+itemQtty);
-                            //console.log("nueva cantidad: "+$scope.serviceItems.qtty);                      
-                            obj.qtty=Number(itemQtty) + Number(parseInt($scope.serviceItems.qtty));
-                            obj.serviceItemEdit=false;
-                            inform.add("Servicio ["+srvs.serviceName+"]: la cantidad de "+obj.itemName+" ha sido incrementado satisfactoriamente.",{
-                                ttl:5000, type: 'success'
-                            });
-                            console.log($scope.list_services_tmp);
-                    
+                            if (obj.idAccCrtlDoor!="7"){
+                                //console.log(srvs);
+                                //console.log(obj);
+                                var itemQtty=obj.qtty==null?0:parseInt(obj.qtty);
+                                //console.log("Actual cantidad: "+itemQtty);
+                                //console.log("nueva cantidad: "+$scope.serviceItems.qtty);                      
+                                obj.qtty=Number(itemQtty) + Number(parseInt($scope.serviceItems.qtty));
+                                obj.serviceItemEdit=false;
+                                inform.add("Servicio ["+srvs.serviceName+"]: la cantidad de "+obj.itemName+" ha sido incrementado satisfactoriamente.",{
+                                    ttl:5000, type: 'success'
+                                });
+                                inform.add("Recuerde al finalizar los cambios en el contrato, hacer click en \"Actualizar\" para guardar los cambios. ",{
+                                    ttl:15000, type: 'info'
+                                });
+                                console.log($scope.list_services_tmp);
+                            }else{
+                                console.log(srvs);
+                                console.log(obj);
+                                console.log($scope.list_services_tmp[0].newitemAclaracion);
+                                obj.itemAclaracion=$scope.list_services_tmp[0].newitemAclaracion;
+                                inform.add("Servicio ["+srvs.serviceName+"]: la aclaración de la puerta "+obj.itemName+" ha sido modificada satisfactoriamente.",{
+                                    ttl:5000, type: 'success'
+                                });
+                                inform.add("Recuerde al finalizar los cambios en el contrato, hacer click en \"Actualizar\" para guardar los cambios. ",{
+                                    ttl:15000, type: 'info'
+                                });
+                                $scope.itemAclaracionEdit=false;
+                                obj.itemAclaracionEdit=false;
+                                $scope.list_services_tmp[0].newitemAclaracion="";
+                                console.log($scope.list_services_tmp);
+                            }
                         break;
                     }
 

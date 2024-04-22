@@ -78,20 +78,33 @@ class Rates_model extends CI_Model {
     public function getServiceCostByCustomer($item) {
         $rs = [];
         $where = null;
-        $where = "tb_technician_service_cost.cost = (SELECT MIN(cost+0) AS min FROM tb_technician_service_cost
-        LEFT JOIN tb_technician_services ON tb_technician_services.idServiceTechnician = tb_technician_service_cost.idServiceTechnicianKf
-        LEFT JOIN tb_type_maintenance ON tb_type_maintenance.idTypeMaintenance = tb_technician_service_cost.idTipoMantenimientoKf
-        LEFT JOIN tb_contratos ON tb_contratos.maintenanceType = tb_type_maintenance.idTypeMaintenance
-        LEFT JOIN tb_servicios_del_contrato_cabecera ON tb_servicios_del_contrato_cabecera.idContratoFk = tb_contratos.idContrato
-        LEFT JOIN tb_servicios_del_contrato_cuerpo ON tb_servicios_del_contrato_cuerpo.idServiceTypeFk = tb_servicios_del_contrato_cabecera.idServiceType
-        WHERE tb_contratos.idClientFk = ".$item['idCustomer']." AND tb_servicios_del_contrato_cabecera.idServiceType = ".$item['idServiceType']." AND tb_technician_services.idServiceTechnician = ".$item['idServiceTechnician'].") LIMIT 1";
-        $this->db->select("*")->from("tb_technician_service_cost");
-        $this->db->join('tb_technician_services', 'tb_technician_services.idServiceTechnician = tb_technician_service_cost.idServiceTechnicianKf', 'left');
-        $this->db->join('tb_type_maintenance', 'tb_type_maintenance.idTypeMaintenance = tb_technician_service_cost.idTipoMantenimientoKf', 'left');
+        $this->db->select("*")->from("tb_technician_services");
+        $this->db->join('tb_technician_services_type', 'tb_technician_services_type.idServiceType = tb_technician_services.idServiceTypeFk', 'left');
+        $this->db->join('tb_technician_services_mode', 'tb_technician_services_mode.idServiceMode = tb_technician_services.idServiceModeFk', 'left');
+        $where = "tb_technician_services.idServiceTypeFk = ".$item['idServiceTechnician']." AND tb_technician_services.idServiceModeFk = ".$item['deviceIsOnline'];
         $query = $this->db->where($where)->get();
-        $rs = $query->result_array();
          if ($query->num_rows() === 1) {
-            return $rs;
+            foreach ($query->result_array() as $key => $tech_service) {
+                $where = "tb_technician_service_cost.cost = (SELECT MIN(cost+0) AS min FROM tb_technician_service_cost
+                LEFT JOIN tb_technician_services ON tb_technician_services.idServiceTechnician = tb_technician_service_cost.idServiceTechnicianKf
+                LEFT JOIN tb_type_maintenance ON tb_type_maintenance.idTypeMaintenance = tb_technician_service_cost.idTipoMantenimientoKf
+                LEFT JOIN tb_contratos ON tb_contratos.maintenanceType = tb_type_maintenance.idTypeMaintenance
+                LEFT JOIN tb_servicios_del_contrato_cabecera ON tb_servicios_del_contrato_cabecera.idContratoFk = tb_contratos.idContrato
+                LEFT JOIN tb_servicios_del_contrato_cuerpo ON tb_servicios_del_contrato_cuerpo.idServiceTypeFk = tb_servicios_del_contrato_cabecera.idServiceType
+                WHERE tb_contratos.idClientFk = ".$item['idCustomer']." AND 
+                tb_servicios_del_contrato_cabecera.idServiceType = ".$item['idServiceType']." AND 
+                tb_technician_services.idServiceTypeFk = ".$tech_service['idServiceTechnician'].") LIMIT 1";
+                $this->db->select("*")->from("tb_technician_service_cost");
+                $this->db->join('tb_technician_services', 'tb_technician_services.idServiceTechnician = tb_technician_service_cost.idServiceTechnicianKf', 'left');
+                $this->db->join('tb_technician_services_type', 'tb_technician_services_type.idServiceType = tb_technician_services.idServiceTypeFk', 'left');
+                $this->db->join('tb_technician_services_mode', 'tb_technician_services_mode.idServiceMode = tb_technician_services.idServiceModeFk', 'left');
+                $this->db->join('tb_type_maintenance', 'tb_type_maintenance.idTypeMaintenance = tb_technician_service_cost.idTipoMantenimientoKf', 'left');
+                $query2 = $this->db->where($where)->get();
+                $rs = $query2->result_array();
+                if ($query2->num_rows() === 1) {
+                    return $rs;
+                }
+            }
         }
 
         return null;

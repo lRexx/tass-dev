@@ -50,7 +50,7 @@ class Mercadolibre_model extends CI_Model
 					$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Estado: <span style="background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">Pendiente de aprobación</span></td>';
 					$body.='</tr>';	
 					$body.='<tr width="100%" bgcolor="#ffffff">';
-					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #ffffff;">Entrar</a></span></td>';
+					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #ffffff;">Entrar</a></span></td>';
 					$body.='</tr>';
 					$rs = $this->mail_model->sendMail($title, $to, $body, $subject);
 					if ($rs == "Enviado" && $department['isApprovalRequired']){
@@ -65,7 +65,7 @@ class Mercadolibre_model extends CI_Model
 							$body = null;
 							$to = null;
 							#MAIL TO THE BUILDING OR ADMINISTRATION
-							$approval_url="https://devtass.sytes.net/login/approve/depto/up/depto/".$department['idDepartment']."/user/".$department['idUserKf'];
+							$approval_url="https://".BSS_HOST."/login/approve/depto/up/depto/".$department['idDepartment']."/user/".$department['idUserKf'];
 							$to = $buildingAdminMail['mailContact'];
 							$title = "Alta de Departamento";
 							$subject="Alta de Departamento :: ".$building['Depto'];
@@ -81,7 +81,7 @@ class Mercadolibre_model extends CI_Model
 							$body.='<tr width="100%" bgcolor="#ffffff">';
 							$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="'.$approval_url.'" target="_blank" title="Aprobar" style="text-decoration: none; color: #ffffff;">Aprobar</a></span></td>';
 							$body.='</tr>';	
-							//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
+							//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://dev.bss.com.ar/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
 							$this->mail_model->sendMail($title, $to, $body, $subject);
 						}
 					}
@@ -90,14 +90,15 @@ class Mercadolibre_model extends CI_Model
 		}
 
 	}
+	//https://dev.bss.com.ar/Back/index.php/MercadoLibre/getNotificationOfMP
 	public function createMPLink($data)
 	{	
 		$data               = json_decode(json_encode($data));
 		$external_reference = $data->idTicket."_".(rand() * 8) . "_" . (time() * 4);
 		$paymentFor = $data->metadata->paymentFor;
 		try {
-			$uri = 'https://devtass.sytes.net/mpago/index.php';
-			//$uri   = 'https://www.libreando.com.ar/mpago/index.php'; //solo server
+			//$uri = 'https://dev.bss.com.ar/mpago/index.php';
+			$uri   = 'https://'.BSS_HOST.'/mpago/index.php'; //solo server
 			$param = [
 				"clienteid" 		 => '8877359900700578' ,
 				"clientesecret" 	 => 'al5TAYSIdZPx2lzzU64DFgSX67SDrhsr' ,
@@ -114,29 +115,33 @@ class Mercadolibre_model extends CI_Model
 				"external_reference" => $external_reference ,
 				"back_url" 			 => $data->back_url ,
 			];
+			
 			//print_r($param);
 			$post_url;
-			$headers = [
-				'Content-Type: application/json' ,
-			];
-
+			$certificates_dir=realpath(APPPATH . '../certificate');
 			$curl = curl_init();
 			curl_setopt_array($curl , [
-				CURLOPT_URL => $uri ,
-				CURLOPT_RETURNTRANSFER => true ,
-				CURLOPT_ENCODING => "" ,
-				CURLOPT_MAXREDIRS => 10 ,
-				CURLOPT_TIMEOUT => 30 ,
-				CURLOPT_CUSTOMREQUEST => "POST" ,
-				CURLOPT_POSTFIELDS => json_encode($param) ,
-				CURLOPT_HTTPHEADER => [
-					"accept: application/json" ,
+				CURLOPT_URL 			=> $uri ,
+				CURLOPT_RETURNTRANSFER 	=> TRUE ,
+				CURLOPT_ENCODING 		=> "" ,
+				CURLOPT_MAXREDIRS 		=> 10 ,
+				CURLOPT_TIMEOUT 		=> 30 ,
+				CURLOPT_CUSTOMREQUEST 	=> "POST" ,
+				CURLOPT_POSTFIELDS 		=> json_encode($param) ,
+				CURLOPT_POST 			=> TRUE,
+				CURLOPT_VERBOSE 		=> TRUE,
+				CURLOPT_CAINFO 			=> $certificates_dir."/curl-ca-bundle.crt",
+				CURLOPT_STDERR 			=> fopen('curl_mp.log', 'a+'),
+				CURLOPT_HTTPHEADER 		=> [
+					"Accept: application/json" ,
+					"Content-Type: application/x-www-form-urlencoded"
 				] ,
 			]);
-
+			//print_r($curl);
 			$response = curl_exec($curl);
 			$err      = curl_error($curl);
 			curl_close($curl);
+			//print_r(json_decode($response, true, JSON_UNESCAPED_SLASHES));
 			//print_r($response);
 			if ($err){
 				return json_encode([
@@ -144,17 +149,31 @@ class Mercadolibre_model extends CI_Model
 					'status' => 404 ,
 					'data' => $err
 				]);
-			} else {
+			} else if ($response!=null){
 					$ticketObj = null;
 					$ticketObj['history']['idUserKf'] 			= "1";
 					$ticketObj['history']['idTicketKf']  		= $data->idTicket;
 					$ticketObj['history']['descripcion'] 		= "";
 					$ticketObj['history']['idCambiosTicketKf'] 	= $paymentFor==1?"5":"18";
+					//print_r($ticketObj);
 					$this->Ticket_model->addTicketTimeline($ticketObj);
 
 				return json_encode([
 					'message' => 'Datos registrados exitosamente' ,
 					'status' => 200 ,
+					'data' => json_decode($response, true, JSON_UNESCAPED_SLASHES)
+				]);
+			}else if(json_decode($response, true, JSON_UNESCAPED_SLASHES)==null){
+				$ticketObj = null;
+				$ticketObj['history']['idUserKf'] 			= "1";
+				$ticketObj['history']['idTicketKf']  		= $data->idTicket;
+				$ticketObj['history']['descripcion'] 		= "";
+				$ticketObj['history']['idCambiosTicketKf'] 	= "25";
+				//print_r($ticketObj);
+				$this->Ticket_model->addTicketTimeline($ticketObj);
+				return json_encode([
+					'message' => 'Ocurrio un error con la Api de MercadoLibre' ,
+					'status' => 500 ,
 					'data' => json_decode($response, true, JSON_UNESCAPED_SLASHES)
 				]);
 			}
@@ -169,6 +188,7 @@ class Mercadolibre_model extends CI_Model
 
 	public function getPaymentMPDetails($id)
 	{	
+		$ticket2Update = null;
 		$MP_TOKEN="TEST-8877359900700578-012401-cc12a648254efb51f0c30f4b394955f6-1177407195";
 		if (!$id) {
            return null;
@@ -230,16 +250,31 @@ class Mercadolibre_model extends CI_Model
 					$ticketObj['history']['idTicketKf']  		= $idTicketKf;
 					$ticketObj['history']['descripcion'] 		= "Pago del pedido has sido aprobado y acreditado";
 					$ticketObj['history']['idCambiosTicketKf'] 	= "4";
-					$changeStatusRs = $this->Ticket_model->quickChangueStatus($idTicketKf,"8");
 					$this->Ticket_model->addTicketTimeline($ticketObj);
-					if ($changeStatusRs){
-						$ticketObj = null;
-						$ticketObj['history']['idUserKf'] 			= "1";
-						$ticketObj['history']['idTicketKf']  		= $idTicketKf;
-						$ticketObj['history']['descripcion'] 		= "";
-						$ticketObj['history']['idCambiosTicketKf'] 	= "13";
+					$ticket2Update = $this->Ticket_model->ticketById($idTicketKf);
+					if ($ticket2Update[0]['idStatusTicketKf']=="9"){
+						$changeStatusRs = $this->Ticket_model->quickChangueStatus($idTicketKf,"11");
+						if ($changeStatusRs){
+							$ticketObj = null;
+							$ticketObj['history']['idUserKf'] 			= "1";
+							$ticketObj['history']['idTicketKf']  		= $idTicketKf;
+							$ticketObj['history']['descripcion'] 		= "";
+							$ticketObj['history']['idCambiosTicketKf'] 	= "3";
+						}
+						$this->Ticket_model->addTicketTimeline($ticketObj);
+					}else{
+						$changeStatusRs = $this->Ticket_model->quickChangueStatus($idTicketKf,"8");
+						if ($changeStatusRs){
+							$ticketObj = null;
+							$ticketObj['history']['idUserKf'] 			= "1";
+							$ticketObj['history']['idTicketKf']  		= $idTicketKf;
+							$ticketObj['history']['descripcion'] 		= "";
+							$ticketObj['history']['idCambiosTicketKf'] 	= "13";
+						}
+						$this->Ticket_model->addTicketTimeline($ticketObj);
+						
 					}
-					$this->Ticket_model->addTicketTimeline($ticketObj);
+
 					if($rsPaymentUpdated){
 						$lastPaymentUpdated = null;
 						$lastPaymentUpdated = $this->paymentById($response_decode->external_reference);
@@ -288,14 +323,14 @@ class Mercadolibre_model extends CI_Model
 		// ENVIAMOS EL MAIL DE CONFIRMAR REGISTRO //
 		/*MAIL*/
 		if($response['type'] != "test"){
-			$title = "Webhook Payment Notification from MercadoPago to TASS - [". $response['type']."] - ID:".$response['data']['id'];
+			$title = "Webhook Payment Notification from MercadoPago to BSS - [". $response['type']."] - ID:".$response['data']['id'];
 			$body = 'Api version: '.$response['api_version'].' <BR>' . 'Action: '.$response['action'].' <BR>' . 'Type: '.$response['type'].' <br>' . 'App ID: '.$response['application_id'].' <br>' . 'Date: '.$response['date_created'].' <br>' . 'Mode: '.$response['live_mode'].' <br>';
-			$subject = "Webhook Payment Notification from MercadoPago to TASS - [". $response['type']."] - ID:".$response['data']['id'];
+			$subject = "Webhook Payment Notification from MercadoPago to BSS - [". $response['type']."] - ID:".$response['data']['id'];
 			$this->mail_model->sendMail($title, "rexx84@gmail.com", $body, $subject);
 		}else{
-			$title = "Webhook Payment Notification from MercadoPago to TASS [TEST] - ID: ".$response['data']['id'];
+			$title = "Webhook Payment Notification from MercadoPago to BSS [TEST] - ID: ".$response['data']['id'];
 			$body = 'Api version: '.$response['api_version'].' <BR>' . 'Action: '.$response['action'].' <BR>' . 'Type: '.$response['type'].' <br>' . 'App ID: '.$response['application_id'].' <br>' . 'Date: '.$response['date_created'].' <br>' . 'Mode: '.$response['live_mode'].' <br>';
-			$subject = "Webhook Payment Notification from MercadoPago to TASS [TEST] - ID: ".$response['data']['id'];
+			$subject = "Webhook Payment Notification from MercadoPago to BSS [TEST] - ID: ".$response['data']['id'];
 			$this->mail_model->sendMail($title, "rexx84@gmail.com", $body, $subject);
 		}
 

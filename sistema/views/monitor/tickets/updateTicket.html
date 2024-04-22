@@ -46,14 +46,14 @@
                                     'label-default': 
                                     tkupdate.idStatusTicketKf=='8',
                                     'label-success':  
-                                    tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='3' || tkupdate.idStatusTicketKf=='5',
+                                    tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='5',
                                     'label-warning':  
-                                    tkupdate.idStatusTicketKf=='4' || tkupdate.idStatusTicketKf=='10' || tkupdate.idStatusTicketKf=='2' || tkupdate.idStatusTicketKf=='7',
+                                    tkupdate.idStatusTicketKf=='3' || tkupdate.idStatusTicketKf=='4' || tkupdate.idStatusTicketKf=='10' || tkupdate.idStatusTicketKf=='2' || tkupdate.idStatusTicketKf=='7' || tkupdate.idStatusTicketKf=='9' || tkupdate.idStatusTicketKf=='11',
                                     'label-danger':  
                                     tkupdate.idStatusTicketKf=='6',
                                   }">{{tkupdate.statusTicket.statusName}}</span>
                                   </span>
-                                  <button ng-if="sysLoggedUser.idProfileKf==1 && tkupdate.idTypeTicketKf<=2 && tkupdate.idStatusTicketKf==2 && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tkupdate.isCancelRequested!=1"  data-toggle="tooltip" data-placement="bottom" title="Aprobar" type="button" style="margin-left: 0.5%" ng-click="mainSwitchFn('approveTicket', tkupdate)" class="btn btn-sm btn-success"><i class="fas fa-check"></i></button>
+                                  <button ng-if="sysLoggedUser.idProfileKf==1 && (tkupdate.idStatusTicketKf==2 || tkupdate.idStatusTicketKf==9 || tkupdate.idStatusTicketKf==11) && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tkupdate.isCancelRequested!=1"  data-toggle="tooltip" data-placement="bottom" title="Aprobar" type="button" style="margin-left: 0.5%" ng-click="mainSwitchFn('approveTicket', tkupdate)" class="btn btn-sm btn-success"><i class="fas fa-check"></i></button>
                                   <button ng-if="sysLoggedUser.idProfileKf==1 && tkupdate.idTypeTicketKf<=2 && (tkupdate.idStatusTicketKf=='4' || tkupdate.idStatusTicketKf=='5' || tkupdate.idStatusTicketKf=='7' || tkupdate.idStatusTicketKf=='8')" ng-click="mainSwitchFn('change_ticket_status', tkupdate, null)" data-toggle="tooltip" data-placement="bottom" title="Cambiar estatus" type="button" style="margin-left: 0.5%" class="btn btn-sm btn-primary"><i class="fas fa-sync"></i></button>
                                   <button ng-if="((tkupdate.idStatusTicketKf!=6 && tkupdate.idStatusTicketKf!=1) ||  (tkupdate.idStatusTicketKf==10 && tkupdate.isCancelRequested==1)) && (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4')" ng-click="modalConfirmation('cancel_sys',0, tkupdate)" data-toggle="tooltip" data-placement="bottom" title="Cancelar pedido" type="button" style="margin-left: 0.5%" class="btn btn-sm btn-danger"><i class="fas fa-ban"></i></button>
                                   <button ng-if="sysLoggedUser.idProfileKf!=1 && tkupdate.idTypeTicketKf<=2 && (tkupdate.idStatusTicketKf=='10' && tkupdate.isCancelRequested!='1')" ng-click="modalConfirmation('cancel_user',0, tkupdate)" data-toggle="tooltip" data-placement="bottom" title="Cancelar pedido" type="button" style="margin-left: 0.5%" class="btn btn-sm btn-danger"><i class="fas fa-ban"></i></button>
@@ -157,7 +157,8 @@
                         </div>
                         <div class="col-md-12 col-sm-12 col-xs-12"> 
                             <!-- KEYS -->
-                              <div ng-click="mainSwitchFn('ticket_keyList', tkupdate.keys, null)" class="col-md-3 col-xs-3" style="margin-bottom: 1em;">
+                              <div ng-click="mainSwitchFn('ticket_keyList', tkupdate.keys, null)" style="margin-bottom: 1em;"
+                              ng-class="{'col-md-3 col-xs-6':!tkupdate.isHasRefundsOpen, 'col-md-2 col-xs-6':tkupdate.isHasRefundsOpen}">
                                   <div class="card-customer">
                                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                         <i class="fas fa-key"></i>
@@ -181,7 +182,8 @@
                                   </div>
                               </div>          
                             <!-- USER -->
-                              <div ng-show="tkupdate.idTypeRequestFor=='1'" ng-click="mainSwitchFn('ticket_user', tkupdate, null)" class="col-md-3 col-xs-3" style="margin-bottom: 1em;">
+                              <div ng-show="tkupdate.idTypeRequestFor=='1'" ng-click="mainSwitchFn('ticket_user', tkupdate, null)" style="margin-bottom: 1em;"
+                              ng-class="{'col-md-3 col-xs-6':!tkupdate.isHasRefundsOpen, 'col-md-2 col-xs-6':tkupdate.isHasRefundsOpen}">
                                   <div class="card-customer">
                                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                         <i class="fas fas fa-user"></i> 
@@ -205,7 +207,8 @@
                                   </div>
                               </div>
                             <!-- DELIVERY -->
-                              <div ng-click="mainSwitchFn('ticket_delivery', tkupdate, null)" class="col-md-3 col-xs-3" style="margin-bottom: 1em;">
+                              <div ng-click="mainSwitchFn('ticket_delivery', tkupdate, null)" class="" style="margin-bottom: 1em;"
+                              ng-class="{'col-md-3 col-xs-6':!tkupdate.isHasRefundsOpen, 'col-md-2 col-xs-6':tkupdate.isHasRefundsOpen}">
                                   <div class="card-customer">
                                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                         <i class="fas fa-truck"></i>
@@ -229,7 +232,8 @@
                                   </div>
                               </div>
                             <!-- PAYMENTS -->
-                              <div ng-click="((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2'))?mainSwitchFn('ticket_payment', tkupdate, null):''" class="col-md-3 col-xs-3" style="margin-bottom: 1em;">
+                              <div ng-click="((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2'))?mainSwitchFn('ticket_payment', tkupdate, null):''" style="margin-bottom: 1em;"
+                              ng-class="{'col-md-3 col-xs-6':!tkupdate.isHasRefundsOpen, 'col-md-2 col-xs-6':tkupdate.isHasRefundsOpen}">
                                   <div class="card-customer">
                                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                         <i class="fas fa-receipt"></i>
@@ -252,6 +256,30 @@
                                     </div>
                                   </div>
                               </div>
+                            <!-- REFUNDS -->
+                            <div ng-click="(tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2' && tkupdate.isHasRefundsOpen)?mainSwitchFn('ticket_refunds', tkupdate, null):''" class="col-md-2 col-xs-6" style="margin-bottom: 1em;" ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2' && tkupdate.isHasRefundsOpen">
+                              <div class="card-customer">
+                                <div class="col-md-6 col-xs-6 n-padding-l card-icon">
+                                    <i class="fas fa-hand-holding-usd"></i>
+                                </div>
+                                <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
+                                                'sticky-success': 
+                                                (tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2' && tkupdate.isHasRefundsOpen),
+                                                'sticky-warning':  
+                                                tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails==null && tkupdate.idStatusTicketKf=='2',
+                                              }">
+                                  <span ng-if="((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2'))">
+                                    <i class="fas fa-check-circle"></i>
+                                  </span>
+                                  <span ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails==null && !tkupdate.isHasRefundsOpen" data-toggle="tooltip" data-placement="top" title="">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                  </span>                                       
+                                </div>
+                                <div class="col-md-12 card-title">
+                                  <h4 class="text-uppercase right">Reintegro</h4>
+                                </div>
+                              </div>
+                          </div>
                         </div>
                         <!-- TEMPORAL DELIVERY DATA REQUESTED -->
                         <br>
@@ -353,7 +381,7 @@
                           <span class="btn-label"><i class="fas fa-trash-alt"></i></span>Borrar Factura</a>
                       </div>
                       <!-- APPROVE TICKET -->
-                      <div ng-if="tkupdate.idStatusTicketKf<3 && tkupdate.idStatusTicketKf==2 && (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4') && tkupdate.isCancelRequested!='1'" class="col-xs-3 col-sm-4 col-md-2 ">
+                      <div ng-if="(tkupdate.idStatusTicketKf==2 || tkupdate.idStatusTicketKf==9 || tkupdate.idStatusTicketKf==11) && (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4') && tkupdate.isCancelRequested!='1'" class="col-xs-3 col-sm-4 col-md-2 ">
                         <a id="approveTicket" ng-click="tkupdate.isCancelRequested?'':mainSwitchFn('approveTicket', tkupdate)" type="button" class="btn btn-labeled btn-success">
                           <span class="btn-label"><i class="fas fa-check"></i></span>Aprobar</a>
                       </div>
@@ -363,7 +391,7 @@
                           <span class="btn-label"><i class="fas fa-window-close"></i></span>Rechazar</a>
                       </div>
                       <!-- REQUEST CANCEL -->
-                      <div ng-if="tkupdate.idStatusTicketKf!=6 && tkupdate.idStatusTicketKf!=1 && tkupdate.isCancelRequested!=1 && (sysLoggedUser.idProfileKf=='3' || sysLoggedUser.idProfileKf=='4' || sysLoggedUser.idProfileKf=='5')" class="col-xs-3 col-sm-4 col-md-2">
+                      <div ng-if="tkupdate.idStatusTicketKf!=6 && tkupdate.idStatusTicketKf!=1 && tkupdate.isCancelRequested!=1 && (sysLoggedUser.idProfileKf=='3') || ((sysLoggedUser.idProfileKf=='4' || sysLoggedUser.idProfileKf=='5') && sysLoggedUser.idTypeTenantKf!=null)" class="col-xs-3 col-sm-4 col-md-2">
                         <a id="cancelTicket" ng-click="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6)  || tkupdate.idStatusTicketKf==1 || tkupdate.isCancelRequested?'':modalConfirmation('cancel_user',0, tkupdate)" ng-disabled="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6)  || tkupdate.idStatusTicketKf==1 || tkupdate.isCancelRequested" type="button" class="btn btn-labeled btn-danger">
                           <span class="btn-label"><i class="fas fa-ban"></i></span>Cancelar</a>
                       </div>
@@ -391,6 +419,7 @@
 </div>
 <!-- KE LIST-->
 <div ng-if="sysToken" ng-include="'views/monitor/tickets/lists/ticketKeyList.html'"></div>
+<div ng-if="sysToken" ng-include="'views/monitor/tickets/lists/refundsList.html'"></div>
 <div ng-if="sysToken" ng-include="'views/monitor/tickets/delivery_details.html'"></div>
 <div ng-if="sysToken" ng-include="'views/monitor/tickets/user_details.html'"></div>
 <div ng-if="sysToken" ng-include="'views/monitor/tickets/payment_details.html'"></div>

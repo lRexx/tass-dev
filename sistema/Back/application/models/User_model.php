@@ -479,7 +479,7 @@ class User_model extends CI_Model
 					$body.='</tr>';
 					if ($userRs['isConfirmatedMail'] == null || $userRs['isConfirmatedMail'] == 0){
 						$body.='<tr width="100%" bgcolor="#ffffff">';
-						$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:2%;padding-bottom:2%;">Antes de ingresar debe confirmar su dirección de correo a través del siguiente link: <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="'. $currentURL . 'validate/'. $tokenMail . '" target="_blank" title="Confirmar correo" style="text-decoration: none; color: #fff;">Confirmar</a></span></td>';
+						$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:2%;padding-bottom:2%;">Antes de ingresar debe confirmar su dirección de correo a través del siguiente link: <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="'. $currentURL . '/Back/index.php/User/validate/'. $tokenMail . '" target="_blank" title="Confirmar correo" style="text-decoration: none; color: #fff;">Confirmar</a></span></td>';
 						$body.='</tr>';	
 					}else if ($userRs['isConfirmatedMail'] == 1 && $userRs['idStatusKf'] == 1){
 						$body.='<tr width="100%" bgcolor="#ffffff">';
@@ -493,9 +493,9 @@ class User_model extends CI_Model
 					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%">En el proximo inicio de sesión el sistema solicitara el cambio de su contraseña &nbsp;</td>';
 					$body.='</tr>';	
 					$body.='<tr width="100%" bgcolor="#ffffff">';
-					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
 					$body.='</tr>';	
-					//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
+					//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
 					$this->mail_model->sendMail($title, $to, $body, $subject);
 
 				}
@@ -540,6 +540,7 @@ class User_model extends CI_Model
 	{
 		$recoverRamdonPwd = null;
 		$recoverRamdonPwd = $this->get_random_password($chars_min=12);
+		$base_url = $this->get_the_current_url();
 		$this->db->set(
 			array(
 				'passwordUser' => sha1(md5($recoverRamdonPwd)),
@@ -578,12 +579,12 @@ class User_model extends CI_Model
 				$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%">En el proximo inicio de sesión el sistema solicitara el cambio de su contraseña &nbsp;</td>';
 				$body.='</tr>';	
 				$body.='<tr width="100%" bgcolor="#ffffff">';
-				$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+				$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
 				$body.='</tr>';	
-				//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
+				//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
 				$this->mail_model->sendMail($title, $to, $body, $subject);
 			}
-			return true;
+			return $recoverRamdonPwd;
 		} else {
 			return false;
 		}
@@ -606,7 +607,7 @@ class User_model extends CI_Model
 
 		$protocol     = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http");
 		$base_url     = $protocol . "://" . $_SERVER['HTTP_HOST'];
-		$complete_url = $base_url . $_SERVER["REQUEST_URI"];
+		$complete_url = $base_url;
 
 		return $complete_url;
 
@@ -688,9 +689,9 @@ class User_model extends CI_Model
 					$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha asignado una nueva contraseña de acceso satisfactoriamente.</td>';
 					$body.='</tr>';	
 					$body.='<tr width="100%" bgcolor="#ffffff">';
-					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
 					$body.='</tr>';	
-					//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
+					//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
 					$this->mail_model->sendMail($title, $to, $body, $subject);
 				}
 			}
@@ -740,9 +741,9 @@ class User_model extends CI_Model
 										$body.='</tr>';	
 									}
 									$body.='<tr width="100%" bgcolor="#ffffff">';
-									$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #ffffff;">Entrar</a></span></td>';
+									$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #ffffff;">Entrar</a></span></td>';
 									$body.='</tr>';	
-									//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
+									//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
 									$rs = $this->mail_model->sendMail($title, $to, $body, $subject);
 								if ($rs == "Enviado" && $user['isApprovalRequired']){
 									$this->db->select("tb_client_mails.mailContact")->from("tb_client_mails");
@@ -756,7 +757,7 @@ class User_model extends CI_Model
 										$body = null;
 										$to = null;
 										#MAIL TO THE BUILDING OR ADMINISTRATION
-										$approval_url="https://devtass.sytes.net/login/approve/depto/up/depto/".$building['idClientDepartament']."/user/".$userRs['idUser'];
+										$approval_url="https://".BSS_HOST."/login/approve/depto/up/depto/".$building['idClientDepartament']."/user/".$userRs['idUser'];
 										$to = $buildingAdminMail['mailContact'];
 										$title = "Alta de Departamento";
 										$subject="Alta de Departamento :: ".$building['Depto'];
@@ -772,7 +773,7 @@ class User_model extends CI_Model
 										$body.='<tr width="100%" bgcolor="#ffffff">';
 										$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="'.$approval_url.'" target="_blank" title="Aprobar" style="text-decoration: none; color: #ffffff;">Aprobar</a></span></td>';
 										$body.='</tr>';	
-										//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
+										//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
 										$this->mail_model->sendMail($title, $to, $body, $subject);
 									}
 								}
@@ -1084,7 +1085,7 @@ class User_model extends CI_Model
 				if ($user['isConfirmatedMail'] == 1 && $user['idStatusKf'] == 1){
 					$subject="Correo confirmado";
 					$body='<tr width="100%" bgcolor="#ffffff">';
-					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>, <br><br> Su cuenta de usuario se encuentra <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>, <br><br> Su cuenta de usuario se encuentra <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
 					$body.='</tr>';	
 				}
 				$this->mail_model->sendMail($title, $to, $body, $subject);
@@ -1110,31 +1111,31 @@ class User_model extends CI_Model
 			$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
 			$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
 			$query = $this->db->where("tb_user.idUser = ", $id)->get();
-			if ($query->num_rows() > 0) {
-				$user = null;
-				$building = null;
-				$title = null;
-				$subject = null;
-				$body = null;
-				$to = null;
-				$user = $query->row_array();
-				#MAIL
-				$to    = $user['emailUser'];
-				$title = "Estado de Usuario";
-				if ($user['idStatusKf'] == 1){
-					$subject="Usuario Activo";
-					$body='<tr width="100%" bgcolor="#ffffff">';
-					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>, <br><br> Su cuenta de usuario se encuentra <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://devtass.sytes.net/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
-					$body.='</tr>';	
-				}else{
-					$subject="Usuario Inactivo";
-					$body='<tr width="100%" bgcolor="#ffffff">';
-					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>, <br><br> Su cuenta de usuario se encuentra <span style="background-color:#d9534f;border-color: #d9534f !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"> '.$user['statusTenantName']. '</span><br><br> Comuniquese con nuestro equipo de atención al cliente! </td>';
-					$body.='</tr>';
-				}
-				
-				$this->mail_model->sendMail($title, $to, $body, $subject);
-			}
+			//if ($query->num_rows() > 0) {
+			//	$user = null;
+			//	$building = null;
+			//	$title = null;
+			//	$subject = null;
+			//	$body = null;
+			//	$to = null;
+			//	$user = $query->row_array();
+			//	#MAIL
+			//	$to    = $user['emailUser'];
+			//	$title = "Estado de Usuario";
+			//	if ($user['idStatusKf'] == 1){
+			//		$subject="Usuario Activo";
+			//		$body='<tr width="100%" bgcolor="#ffffff">';
+			//		$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>, <br><br> Su cuenta de usuario se encuentra <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+			//		$body.='</tr>';	
+			//	}else{
+			//		$subject="Usuario Inactivo";
+			//		$body='<tr width="100%" bgcolor="#ffffff">';
+			//		$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>, <br><br> Su cuenta de usuario se encuentra <span style="background-color:#d9534f;border-color: #d9534f !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"> '.$user['statusTenantName']. '</span><br><br> Comuniquese con nuestro equipo de atención al cliente! </td>';
+			//		$body.='</tr>';
+			//	}
+			//	
+			//	$this->mail_model->sendMail($title, $to, $body, $subject);
+			//}
 			return true;
 		} else {
 			return false;
@@ -1229,6 +1230,7 @@ class User_model extends CI_Model
 		$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
 		$this->db->where("tb_user.idAddresKf =", $id);
 		$this->db->where("tb_user.idTypeTenantKf =", null);
+		$this->db->or_where("tb_user.idTypeTenantKf !=", null);
 		$this->db->where("tb_user.idProfileKf =", 6);
 
 

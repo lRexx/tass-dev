@@ -22,7 +22,7 @@
                       <span class="input-group-addon"><i class="fas fa-screwdriver"></i></span>
                       <select name="tech_service" 
                           class="form-control"
-                          ng-change="getTypeOfMaintenanceFn(technician_services.new.idServiceTechnicianKf)"
+                          ng-change="getTypeOfMaintenanceByTechServiceIdFn(technician_services.new.idServiceTechnicianKf)"
                           ng-options="item.idServiceTechnician as item.description for item in rsTechServicesData" 
                           ng-model="technician_services.new.idServiceTechnicianKf"  ng-required="true" autofocus >
                         <option class="text-uppercase" value="">Selecciona un tipo</option>

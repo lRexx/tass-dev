@@ -19,7 +19,7 @@
                                     <div class="n-padding-l n-padding-r">
                                         <div class="form-check form-check-inline">
                                             <div class="col-md-12 n-padding-l n-padding-r">
-                                                <div ng-repeat="item in typedelivery" class="col-md-5 col-xs-5 col-md-offset-1">
+                                                <div ng-repeat="item in typedelivery | filter:checkDeliveryMethod" class="col-md-5 col-xs-5 col-md-offset-1">
                                                     <input id="idTypeDeliveryKf-{{item.idTypeDelivery}}" 
                                                             class="radio-custom" type="radio" 
                                                             ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery, null);" 

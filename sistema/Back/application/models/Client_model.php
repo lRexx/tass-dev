@@ -253,6 +253,33 @@ class Client_model extends CI_Model {
 
 	}
 
+    public function mpPaymentMethod($client)
+	{
+		$val = false;
+		$query = $this->db->select("*")->from("tb_clients")->where('idClient', $client['idClient'])->get();
+		if ($query->num_rows() > 0) { //si existe el cliente
+			if (!is_null($client['mpPaymentMethod'])) {
+				if ($client['mpPaymentMethod'] == 1) {
+					$val = true;
+				}
+				if ($client['mpPaymentMethod'] == 0) {
+					$val = true;
+				}
+			}
+		} else {
+			return 0;
+		}
+		if ($val) {
+			$this->db->set(
+				[
+					'mpPaymentMethod' => $client['mpPaymentMethod'],
+				]
+			)->where("idClient", $client['idClient'])->update("tb_clients");
+			return 1;
+		} else {
+			return 0;
+		}
+	}
 	public function chargeForExpenses($client)
 	{
 		$val = false;
@@ -814,7 +841,8 @@ class Client_model extends CI_Model {
 	//PARA GENERAR EL IdSecurityCode DEL CLIENTE
 	function generateRandomString ($length = 5)
 	{
-		$characters       = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        //$characters       = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$characters       = '0123456789abcdefghijklmnopqrstuvwxyz';
 		$charactersLength = strlen($characters);
 		$randomString     = '';
 		for ($i = 0; $i < $length; $i++) {
@@ -1782,7 +1810,7 @@ class Client_model extends CI_Model {
 
     }
 
-    public function getadmin($id, $searchFilter, $idClientTypeFk, $isInDebt, $isStockInBuilding, $isStockInOffice,  $isNotCliente, $limit = '', $start = '', $strict = null){
+    public function getadmin($id, $searchFilter, $idClientTypeFk, $isInDebt, $isStockInBuilding, $isStockInOffice,  $isNotCliente, $limit = '', $start = '', $strict = null, $totalCount = null){
         $quuery         = null;
         $query_total    = null;
         $rs             = null;
@@ -1818,6 +1846,7 @@ class Client_model extends CI_Model {
                 $rs['list_phone_contact'] = $rs2;
 
                 $this->db->select("*")->from("tb_client_mails");
+                $this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
                 $quuery = $this->db->where("tb_client_mails.idClientFk =", $id)->get();
 
                 $rs6               = $quuery->result_array();
@@ -1858,6 +1887,78 @@ class Client_model extends CI_Model {
                 $rs6                       = $quuery->result_array();
                 $rs['files_uploaded']      = $rs6;
 
+                // INITIAL DELIVERY DATA
+                $this->db->select("*")->from("tb_client_initial_delivery");
+                $quuery = $this->db->where("tb_client_initial_delivery.idClientKf =", $id)->get();
+
+                $rs7                       = $quuery->result_array();
+                $rs['initial_delivery']    = $rs7;
+                if($quuery->num_rows()>0){
+                    //print_r($rs['customers'][$i]['initial_delivery'][0]['expirationDate']);
+                    $dateString = $rs['initial_delivery'][0]['expirationDate']; 
+                    // Date string to compare
+                    // Convert date string to a DateTime object
+                    $dateToCompare = new DateTime($dateString);
+                    
+                    // Get the current date as a DateTime object
+                    $now        = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
+
+                    $dateToCompareFormatted = $dateToCompare->format('Y-m-d');
+                    $currentDateFormatted = $now->format('Y-m-d');
+                    //print_r("currentDate   : ".$currentDateFormatted);
+                    //print("dateString    : ".$dateString);
+                    //print("dateToCompare : ".$dateToCompareFormatted);
+                    //print("currentDate   : ".$currentDate);
+                    if ($currentDateFormatted > $dateToCompareFormatted) {
+                        $rs['initial_delivery'][0]['expiration_state'] = true;
+                    }else{
+                        $rs['initial_delivery'][0]['expiration_state'] = false;
+                    }
+                }
+
+                if (! is_null($rs['idClientAdminFk'])){
+                    $this->db->select("*")->from("tb_clients");
+                    $quuery = $this->db->where("tb_clients.idClient =", $rs['idClientAdminFk'])->get();
+
+                    if ($quuery->num_rows() > 0) {
+                        $rs8                       = $quuery->result_array();
+                        $rs['administration_details']      = $rs8;
+
+                        $this->db->select("*")->from("tb_client_phone_contact");
+                        $quuery = $this->db->where("tb_client_phone_contact.idClientFk =", $rs['idClientAdminFk'])->get();
+        
+                        $rsTmp1                      = $quuery->result_array();
+                        $rs['administration_details'][0]['list_phone_contact'] = $rsTmp1;
+        
+                        $this->db->select("*")->from("tb_client_mails");
+                        $this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
+                        $quuery = $this->db->where("tb_client_mails.idClientFk =", $rs['idClientAdminFk'])->get();
+        
+                        $rsTmp2               = $quuery->result_array();
+                        $rs['administration_details'][0]['list_emails'] = $rsTmp2;
+                    }
+                }
+                if (! is_null($rs['idClientCompaniFk'])){
+                    $this->db->select("*")->from("tb_clients");
+                    $quuery = $this->db->where("tb_clients.idClient =", $rs['idClientCompaniFk'])->get();
+                    if ($quuery->num_rows() > 0) {
+                        $rs8                       = $quuery->result_array();
+                        $rs['company_details']      = $rs8;
+
+                        $this->db->select("*")->from("tb_client_phone_contact");
+                        $quuery = $this->db->where("tb_client_phone_contact.idClientFk =", $rs['idClientCompaniFk'])->get();
+        
+                        $rsTmp1                      = $quuery->result_array();
+                        $rs['company_details'][0]['list_phone_contact'] = $rsTmp1;
+        
+                        $this->db->select("*")->from("tb_client_mails");
+                        $this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
+                        $quuery = $this->db->where("tb_client_mails.idClientFk =", $rs['idClientCompaniFk'])->get();
+        
+                        $rsTmp2               = $quuery->result_array();
+                        $rs['company_details'][0]['list_emails'] = $rsTmp2;
+                    }
+                }
                 return $rs;
             }
 
@@ -1897,6 +1998,9 @@ class Client_model extends CI_Model {
                     $this->db->where($where);
                 }
             }else{
+                if (isset($limit) && isset($start)) {
+                    $this->db->limit($limit, $start);
+                }
                 if (! is_null($idClientTypeFk)) {
                     $this->db->where('tb_clients.idClientTypeFk', $idClientTypeFk);
                 }
@@ -1963,12 +2067,11 @@ class Client_model extends CI_Model {
                     }
                 }
                 $query_total =  $this->db->select("*")->from("tb_clients")->get();
-                if ($query_total->num_rows() > 0) {
+                if ($query_total->num_rows() > 0 && ! is_null($totalCount)) {
                     $rs['totalCount'] = $query_total->num_rows();
+
                 }
                 $rs['customers'] = $quuery->result_array();
-
-
                 $i = 0;
                 foreach ($quuery->result() as &$row) {
 
@@ -2002,6 +2105,7 @@ class Client_model extends CI_Model {
                     $rs['customers'][$i]['list_client_contact_users'] = $rs3;
 
                     $this->db->select("*")->from("tb_client_mails");
+                    $this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
                     $quuery = $this->db->where("tb_client_mails.idClientFk =", $row->idClient)->get();
 
                     $rs4                   = $quuery->result_array();
@@ -2040,6 +2144,81 @@ class Client_model extends CI_Model {
                     $rs8                       = $quuery->result_array();
                     $rs['customers'][$i]['files_uploaded']      = $rs8;
 
+                    //INITIAL DELIVERY DATA
+                    $this->db->select("*")->from("tb_client_initial_delivery");
+                    $quuery = $this->db->where("tb_client_initial_delivery.idClientKf =", $row->idClient)->get();
+
+                    $rs9                       = $quuery->result_array();
+                    $rs['customers'][$i]['initial_delivery']    = $rs9;
+                    if($quuery->num_rows()>0){
+                        //print_r($rs['customers'][$i]['initial_delivery'][0]['expirationDate']);
+                        $dateString = $rs['customers'][$i]['initial_delivery'][0]['expirationDate']; 
+                        // Date string to compare
+                        // Convert date string to a DateTime object
+                        $dateToCompare = new DateTime($dateString);
+                        
+                        // Get the current date as a DateTime object
+                        $now        = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
+
+                        $dateToCompareFormatted = $dateToCompare->format('Y-m-d');
+                        $currentDateFormatted = $now->format('Y-m-d');
+                        //print_r("currentDate   : ".$currentDateFormatted);
+                        //print("dateString    : ".$dateString);
+                        //print("dateToCompare : ".$dateToCompareFormatted);
+                        //print("currentDate   : ".$currentDate);
+                        if ($currentDateFormatted > $dateToCompareFormatted) {
+                            $rs['customers'][$i]['initial_delivery'][0]['expiration_state'] = true;
+                        }else{
+                            $rs['customers'][$i]['initial_delivery'][0]['expiration_state'] = false;
+                        }
+                    }
+                    
+                    if (! is_null($row->idClientAdminFk)){
+                        $this->db->select("*")->from("tb_clients");
+                        $quuery = $this->db->where("tb_clients.idClient =", $row->idClientAdminFk)->get();
+
+                        if ($quuery->num_rows() > 0) {
+                            $rs10                       = $quuery->result_array();
+                            $rs['customers'][$i]['administration_details']      = $rs10;
+    
+                            $this->db->select("*")->from("tb_client_phone_contact");
+                            $quuery = $this->db->where("tb_client_phone_contact.idClientFk =", $row->idClientAdminFk)->get();
+            
+                            $rsTmp1                      = $quuery->result_array();
+                            $rs['customers'][$i]['administration_details'][0]['list_phone_contact'] = $rsTmp1;
+            
+                            $this->db->select("*")->from("tb_client_mails");
+                            $this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
+                            $quuery = $this->db->where("tb_client_mails.idClientFk =", $row->idClientAdminFk)->get();
+            
+                            $rsTmp2               = $quuery->result_array();
+                            $rs['customers'][$i]['administration_details'][0]['list_emails'] = $rsTmp2;
+                        }
+                    }
+
+                    if (! is_null($row->idClientCompaniFk)){
+                        $this->db->select("*")->from("tb_clients");
+                        $quuery = $this->db->where("tb_clients.idClient =", $row->idClientCompaniFk)->get();
+
+
+                        if ($quuery->num_rows() > 0) {
+                            $rs11                       = $quuery->result_array();
+                            $rs['customers'][$i]['company_details']      = $rs11;
+    
+                            $this->db->select("*")->from("tb_client_phone_contact");
+                            $quuery = $this->db->where("tb_client_phone_contact.idClientFk =", $row->idClientCompaniFk)->get();
+            
+                            $rsTmp1                      = $quuery->result_array();
+                            $rs['customers'][$i]['company_details'][0]['list_phone_contact'] = $rsTmp1;
+            
+                            $this->db->select("*")->from("tb_client_mails");
+                            $this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
+                            $quuery = $this->db->where("tb_client_mails.idClientFk =", $row->idClientCompaniFk)->get();
+            
+                            $rsTmp2               = $quuery->result_array();
+                            $rs['customers'][$i]['company_details'][0]['list_emails'] = $rsTmp2;
+                        }
+                    }
                     $i++;
                 }
 
@@ -2158,16 +2337,29 @@ class Client_model extends CI_Model {
         $rs          = null;
         $where_string= null;
         if (! is_null($idClient)) {
-            $this->db->select("tb_contratos.idContrato, tb_client_services_access_control.idClientServicesAccessControl AS idService, tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_access_control_door.*")->from("tb_contratos");
+            $this->db->select("tb_client_services_access_control.idClientServicesAccessControl AS idService, tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_contratos.idContrato, tb_servicios_del_contrato_cuerpo.idServiciosDelContratoCuerpo, tb_servicios_del_contrato_cuerpo.itemAclaracion, tb_access_control_door.*", FALSE)->from("tb_contratos");
             $this->db->join('tb_servicios_del_contrato_cabecera', 'tb_servicios_del_contrato_cabecera.idContratoFk = tb_contratos.idContrato', 'left');
             $this->db->join('tb_servicios_del_contrato_cuerpo', 'tb_servicios_del_contrato_cuerpo.idServiciosDelContratoFk = tb_servicios_del_contrato_cabecera.idServiciosDelContrato', 'left');
             $this->db->join('tb_client_services_access_control', 'tb_client_services_access_control.idContracAssociated_SE = tb_contratos.idContrato', 'left');
-            $this->db->join('tb_access_control_door', 'tb_access_control_door.idAccessControlDoor = tb_client_services_access_control.idDoorFk', 'left');
+            $this->db->join('tb_access_control_door', 'tb_access_control_door.idAccessControlDoor = tb_servicios_del_contrato_cuerpo.idAccCrtlDoor', 'left');
             $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
             $where_string = "tb_contratos.idClientFk = $idClient AND tb_contratos.idStatusFk = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 1 AND tb_client_services_access_control.idContracAssociated_SE!=''
-            GROUP BY tb_access_control_door.idAccessControlDoor,tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_access_control_door.idAccessControlDoor;";
+            GROUP BY tb_servicios_del_contrato_cuerpo.idAccCrtlDoor,tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_access_control_door.idAccessControlDoor;";
             $quuery = $this->db->where($where_string)->get();
             if ($quuery->num_rows() > 0) {
+                foreach ($quuery->result_array() as $key => $ticket) {
+                    #print_r($ticket);
+                    $this->db->select("itemAclaracion")->from("tb_servicios_del_contrato_cuerpo");
+                    $this->db->where('idServiciosDelContratoCuerpo', $ticket['idServiciosDelContratoCuerpo']);
+                    $this->db->where('idServiceTypeFk', 1);
+                    $cuerpo = $this->db->get();
+                    if ($cuerpo->num_rows()>0) {
+                        if (!is_null($ticket['idAccessControlDoor'])){
+                            #print_r($cuerpo->result_array());
+                            $ticket['itemAclaracion']=$cuerpo->result_array();
+                        }
+                    }
+                }
                 $rs = $quuery->result_array();
                 return $rs;
             }else{
@@ -2177,6 +2369,74 @@ class Client_model extends CI_Model {
             return null;
         }
     }
+    public function getInternetServiceAssociatedToCustomer($idClient = null) {
+        $quuery      = null;
+        $rs          = null;
+        $where_string= null;
+        if (! is_null($idClient)) {
+            $this->db->select("tb_client_services_internet.idClientServicesInternet AS idService, tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_contratos.idContrato, tb_servicios_del_contrato_cuerpo.idServiciosDelContratoCuerpo, tb_servicios_del_contrato_cuerpo.itemAclaracion, tb_client_services_internet.*", FALSE)->from("tb_contratos");
+            $this->db->join('tb_servicios_del_contrato_cabecera', 'tb_servicios_del_contrato_cabecera.idContratoFk = tb_contratos.idContrato', 'left');
+            $this->db->join('tb_servicios_del_contrato_cuerpo', 'tb_servicios_del_contrato_cuerpo.idServiciosDelContratoFk = tb_servicios_del_contrato_cabecera.idServiciosDelContrato', 'left');
+            $this->db->join('tb_client_services_internet', 'tb_client_services_internet.idContracAssociated_SE = tb_contratos.idContrato', 'left');
+            $this->db->join('tb_tipos_servicios_internet', 'tb_tipos_servicios_internet.idTipoServicioInternet = tb_client_services_internet.idTypeInternetFk', 'left');
+            $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
+            $where_string = "tb_contratos.idClientFk = $idClient AND tb_contratos.idStatusFk = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 2 AND tb_client_services_internet.idContracAssociated_SE!=''
+            GROUP BY tb_servicios_del_contrato_cuerpo.idAccCrtlDoor,tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_tipos_servicios_internet.idTipoServicioInternet;";
+            $quuery = $this->db->where($where_string)->get();
+            $servicesAssociated = null;
+            if ($quuery->num_rows() > 0) {
+                foreach ($quuery->result_array() as $key => $ticket) {
+                    //Check if the Internet Type if BSS Wifi.
+                    //print($ticket['idTypeInternetFk']);
+                    if($ticket['idTypeInternetFk']==1){
+                        $rs = $quuery->result_array();
+                        $servicesAssociated=json_decode($ticket['idServiceAsociateFk']);
+                        if (count($servicesAssociated)>0){
+                            $serviceAsociate_arr=[];
+                            foreach ($servicesAssociated as $idServiceAssociated) {
+                                $aux = null;
+                                $this->db->select("*")->from("tb_client_services_access_control");
+                                $quuery2 = $this->db->where("tb_client_services_access_control.idClientServicesFk",$idServiceAssociated)->get();
+                                //print_r($quuery2->result_array());
+                                if ($quuery2->num_rows() > 0) {
+                                    $aux=$quuery2->result_array();
+                                }
+                                array_push($serviceAsociate_arr,$aux);
+                            }
+                            $rs[0]['idServiceAsociateFk_array']=$serviceAsociate_arr;
+                        }
+                    }
+                }
+            }
+            
+            return $rs;
+        }else{
+            return null;
+        }
+    }
+    public function initialDelivery($client) {
+        $idClientDepartamentFk = null;
+        $idDepartmentKf        = null;
+        $user                  = null;
+        // INITIAL DELIVERY DATA
+        $now        = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
+        $this->db->insert('tb_client_initial_delivery', [
+                'idClientKf'        => $client['idClientKf'],
+                'expirationDate'    => $client['expirationDate'],
+                'initial_price'     => $client['initial_price'],
+                'initial_qtty'      => $client['initial_qtty'],
+                'created_at'        => $now->format('Y-m-d H:i:s'),
+            ]
+        );
+        if ($this->db->affected_rows() === 1) {
+            return 1;
+        } else {
+            return 2;
+        }
+
+
+    }
+
 }
 
 ?>

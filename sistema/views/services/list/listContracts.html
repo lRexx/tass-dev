@@ -238,7 +238,7 @@
                               <span ng-if="customerFound.idClientTypeFk=='2'"><i class="fas fa-building"></i> Departamento: <label class="text-uppercase label label-success">{{service.idDepartmentFk_array[0].departament}} - {{service.idDepartmentFk_array[0].floor}}</label></span>-->
                             </span>
                           </td>
-                          <td class="show-column-table media-middle text-center">{{service.dateUp}}</td>
+                          <td class="show-column-table media-middle text-center">{{service.dateUp | toDate | date:'dd-MM-yyyy HH:mm:ss'}}</td>
                           <!--<td>{{item.dateCreated}}</td>-->
                           <td ng-trim="true" ng-click="">
                             <button style="font-size: 70%" ng-click="switchCustomersFn('services', service, 'edit');" data-toggle="tooltip" data-placement="bottom" title="Modificar" type="button" class="btn btn-warning btn-xs"><i class="far fa-edit"></i></button>

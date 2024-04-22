@@ -2070,8 +2070,10 @@ class Services_model extends CI_Model {
 
     public function addTechService($item) {
         $this->db->insert('tb_technician_services', [
-                'description' => $item['description'],
-                'isProtected' => $item['isProtected']
+                'description'       => $item['description'],
+                'isProtected'       => $item['isProtected'],
+                'idServiceTypeFk'   => $item['idServiceTypeFk'],
+                'idServiceModeFk'   => $item['idServiceModeFk']
             ]
         );
         if ($this->db->affected_rows() === 1) {
@@ -2084,8 +2086,10 @@ class Services_model extends CI_Model {
     public function editTechService($item) {
         $this->db->set(
             [
-            'description' => $item['description'],
-            'isProtected' => $item['isProtected']
+            'description'       => $item['description'],
+            'isProtected'       => $item['isProtected'],
+            'idServiceTypeFk'   => $item['idServiceTypeFk'],
+            'idServiceModeFk'   => $item['idServiceModeFk']
             ]
         )->where("idServiceTechnician", $item['idServiceTechnician'])->update("tb_technician_services");
 
@@ -2103,7 +2107,10 @@ class Services_model extends CI_Model {
 
     public function listarTechServices() {
         $rs = null;
-        $query = $this->db->select("*")->from("tb_technician_services")->get();
+        $this->db->select("*")->from("tb_technician_services");
+        $this->db->join('tb_technician_services_mode', 'tb_technician_services_mode.idServiceMode = tb_technician_services.idServiceModeFk', 'left');
+        $this->db->join('tb_technician_services_type', 'tb_technician_services_type.IdServiceType = tb_technician_services.idServiceTypeFk', 'left');
+        $query = $this->db->get();
         $rs = $query->result_array();
          if ($query->num_rows() > 0) {
             return $rs;

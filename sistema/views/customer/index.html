@@ -284,35 +284,24 @@
                                   <div class="input-group search-box-rule col-md-12 col-sm-12 col-xs-12">
                                     <input 
                                       type="text" 
-                                      class="form-control text-uppercase" 
-                                      ng-disabled="select.filterTypeOfClient!=undefined && (rsCustomerListData.status==404 || rsCustomerListData.length==0)" 
-                                      ng-keydown="$event.keyCode === 13 && getCustomersByNameFn(customerSearch.searchFilter, customerSearch.isInDebt, customerSearch.strict)"  
+                                      class="form-control text-uppercase"  
+                                      ng-keydown="$event.keyCode === 13 && getCustomersByNameFn($parent.customerSearch.searchFilter, null, $parent.customerSearch.strict, true)"  
                                       ng-model="customerSearch.searchFilter" 
                                       placeholder="Presione Enter para buscar..."
                                       style="border-radius: 4px;">
                                   </div>
                                 </div>
                           </div>
-                          <div ng-if="select.filterTypeOfClient!='' && select.filterTypeOfClient!=undefined" class="form-group col-md-6 col-sm-6 col-xs-6 n-padding-l n-padding-r">
-                            <!-- Filter Search -->
-                            <div class="col-md-12 col-sm-12 col-xs-12 ">
-                              <label style="padding-left: 15px;">Busquéda de cliente: </label>
-                              <div class="input-group search-box-rule col-md-12 col-sm-12 col-xs-12">
-                                  <input 
-                                  type="text" 
-                                  class="form-control text-uppercase" 
-                                  ng-disabled="select.filterTypeOfClient==undefined && (rsCustomerListData.status==404 || rsCustomerListData.length==0)"
-                                  ng-keydown="offlineSearch(rsCustomerListData,searchboxfilterOffline,null,customerSearch.strict)"
-                                  ng-model="searchboxfilterOffline" 
-                                  placeholder="Presione Enter para buscar..." style="border-radius: 4px;">
-                              </div>
-                            </div>
-                          </div>
                           <div class="form-group col-md-6 col-sm-6 col-xs-6 n-padding-l n-padding-r" style="margin-top: 3.3%;">
                                 <div class="col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r">
                                   <div class="col-md-1 col-xs-1 n-padding-r">
                                     <label class="switch switch-2x" for="strict-search">
-                                        <input type="checkbox" class="success" ng-disabled="select.filterTypeOfClient!=undefined && (rsCustomerListData.status==404 || rsCustomerListData.length==0)" ng-click="select.filterTypeOfClient==undefined?getCustomersByNameFn(customerSearch.searchFilter, customerSearch.isInDebt, customerSearch.strict):offlineSearch(rsCustomerListData,customerSearch.searchFilter,null,customerSearch.strict)" ng-model="customerSearch.strict" id="strict-search">
+                                        <input 
+                                        type="checkbox" 
+                                        class="success" 
+                                        ng-click="getCustomersByNameFn($parent.customerSearch.searchFilter, null, $parent.customerSearch.strict, true)"  
+                                        ng-model="customerSearch.strict" 
+                                        id="strict-search">
                                         <span class="slider slider-2x flat"></span>
                                     </label>
                                   </div>
@@ -351,15 +340,14 @@
 <div ng-include="'views/customer/update/formUpdateCustomer.html'"></div>
 <div ng-include="'views/customer/new/formRegisterCustomer.html'"></div>
 <div ng-include="'views/customer/list/listAllowedUsers.html'"></div>
-<div ng-include="'views/customer/list/istContactUsers.html'"></div>
 <div ng-include="'views/customer/list/phonesandschedule.html'"></div>
 <div ng-include="'views/customer/list/mailscontact.html'"></div>
 <div ng-include="'views/customer/list/multiLoadDepto.html'"></div>
 <div ng-include="'views/customer/list/listDepartments.html'"></div>
-<div ng-include="'views/customer/enableInitialKeys.html'"></div>
 <div ng-include="'views/customer/list/listParticularAddress.html'"></div>
 <div ng-include="'views/customer/list/listCustomersFiles.html'"></div>
 <div ng-include="'views/customer/customer_details/formCustomerDetails.html'"></div>
 <div ng-include="'views/customer/company_details/formCompanyDetails.html'"></div>
+<div ng-include="'views/customer/list/istContactUsers.html'"></div>
 <div ng-include="'views/utilities/modalConfirmation.html'"></div>
 <div ng-if="sysToken" ng-include="'views/utilities/expirationWarningWindows.html'"></div>

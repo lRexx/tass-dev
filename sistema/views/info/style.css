@@ -58,6 +58,19 @@ body{
   border: 1px solid #777777;
   background-color: #ccc;
 }
+h3{
+  font-size: 1vw !important;
+}
+
+.td-mail-column-font{
+  font-size: 1.5vw !important;
+}
+.td-phone-column-font{
+  font-size: 1.5vw !important;
+}
+.td-copy-btn-font button{
+  font-size: 1.2vw !important;
+}
 
 .text-bss{
   color: #0F2A37;
@@ -1068,6 +1081,27 @@ input:checked + .slider-3x:before {
 
 }
 @media screen and (max-width: 480px){
+  h3{
+    font-size: 3.2vw !important;
+  }
+  .td-mail-column-font{
+    font-size: 4.5vw !important;
+  }
+ .td-copy-btn-font button{
+    font-size: 3.7vw !important;
+  }
+  .td-phone-column-font{
+    font-size: 4.5vw !important;
+  }
+  .table-user-column-font{
+    font-size: 2.2vw !important;
+  }
+  .table-phone-column-font{
+    font-size: 2.5vw !important;
+  }
+  .collapsed-font{
+    font-size: 3.2vw !important;
+  }
   .card-status > .card-icon i{
     font-size: 14vw;
     color: rgba(255,255,255,0.5);

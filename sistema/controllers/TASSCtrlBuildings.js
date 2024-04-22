@@ -2,7 +2,7 @@
 * Buildings Controller
 **/
 var building = angular.module("module.Buildings", ["tokenSystem", "services.Keys", "services.Customers", "services.Address", "ui.select", "services.Utilities", "services.Ticket","services.Departments", "services.Service", "services.Contracts", "services.Products", "services.User",]);
-building.controller('BuildingsCtrl', function($scope, $compile, $location, $interval, $q, $routeParams, blockUI, $timeout, inform, KeysServices, serviceServices, DepartmentsServices, CustomerServices, ticketServices, ContractServices, addressServices, $filter, ProductsServices, userServices, tokenSystem, $window, serverHost, UtilitiesServices, APP_SYS, APP_REGEX){
+building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $location, $interval, $q, $routeParams, blockUI, $timeout, inform, KeysServices, serviceServices, DepartmentsServices, CustomerServices, ticketServices, ContractServices, addressServices, $filter, ProductsServices, userServices, tokenSystem, $window, serverHost, UtilitiesServices, APP_SYS, APP_REGEX){
     console.log(APP_SYS.app_name+" Modulo Edificio");
     if (!$scope.sysToken || !$scope.sysLoggedUser ){
         $location.path("/login");
@@ -69,6 +69,7 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
     $scope.att= {'ownerOption':undefined}
     $scope.update={'user':{'fullNameUser':null, 'emailUser': null, 'phoneNumberUser': null, 'phoneLocalNumberUser': null, 'idAddresKf': null, 'idProfileKf': null, 'idTypeTenantKf': null, 'idCompanyKf': null, 'idTyepeAttendantKf': null, 'descOther': null, 'idDepartmentKf':null, 'isEdit': null, 'requireAuthentication': null, 'dni': null, 'idSysProfileFk': null, 'isCreateByAdmin': null, 'typeTenantChange':false}};
     $scope.isNewKey = null;
+    $scope.customerSearch={'name':'', 'typeClient':1};
     $scope.list_depto_floors=[];
     $scope.tenantObj = {}
     $scope.companyObj = {}
@@ -462,6 +463,48 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                     $('#confirmRequestModal').modal('hide');
                     }
                 break;
+                case "mpPaymentMethod":
+                    if (confirm==0){
+                        $scope.buildingObj.client=$scope.select.buildings.selected;
+                        console.log($scope.functions)
+                            //console.log(obj)
+                            if($scope.functions.mpPaymentMethod){
+                                $scope.mess2show="Autorizar el Pago Anticipado de un pedido,     Confirmar y Aprobar?";
+                                console.log("============================================================================");
+                                console.log("Autorizar el Pago Anticipado de un pedido");
+                                console.log("============================================================================");
+                                console.log("ID del Cliente             : "+$scope.buildingObj.client.idClient);
+                                console.log("Dirección del consorcio    : "+$scope.buildingObj.client.address);
+                                console.log("============================================================================");
+                            }else{
+                                $scope.mess2show="Desactivar el Pago Anticipado de un pedido,     Confirmar y Aprobar?";
+                                console.log("============================================================================");
+                                console.log("Desactivar el Pago Anticipado de un pedido");
+                                console.log("============================================================================");
+                                console.log("ID del Cliente             : "+$scope.buildingObj.client.idClient);
+                                console.log("Dirección del consorcio    : "+$scope.buildingObj.client.address);
+                                console.log("============================================================================");
+                            }
+                            console.log($scope.buildingObj);
+                    $('#confirmRequestModalCustom').modal('toggle');
+                    }else if (confirm==1){
+                        if($scope.functions.mpPaymentMethod){
+                            $scope.buildingObj.client.mpPaymentMethod=1;
+                        }else{
+                            $scope.buildingObj.client.mpPaymentMethod=0;
+                        }
+                        console.log($scope.buildingObj);
+                        $scope.switchBuildingFn("mpPaymentMethod", $scope.buildingObj);
+                    $('#confirmRequestModalCustom').modal('hide');
+                    }else if (confirm==null){
+                        if ($scope.buildingObj.client.mpPaymentMethod==0 || $scope.buildingObj.client.mpPaymentMethod==null){
+                            $scope.functions.mpPaymentMethod=false
+                        }else{
+                            $scope.functions.mpPaymentMethod=true
+                        }
+                        
+                    }
+                break;
                 case "expensesPayment":
                     if (confirm==0){
                         $scope.buildingObj.client=$scope.select.buildings.selected;
@@ -495,7 +538,7 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                         console.log($scope.buildingObj);
                         $scope.switchBuildingFn("expensesPayment", $scope.buildingObj);
                     $('#confirmRequestModalCustom').modal('hide');
-                    }else if (confirm<0){
+                    }else if (confirm==null){
                         if ($scope.buildingObj.client.chargeForExpenses==0 || $scope.buildingObj.client.chargeForExpenses==null){
                             $scope.functions.expensePayment=false
                         }else{
@@ -537,7 +580,7 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                         console.log($scope.buildingObj);
                         $scope.switchBuildingFn("autoApproveAll", $scope.buildingObj);
                     $('#confirmRequestModalCustom').modal('hide');
-                    }else if (confirm<0){
+                    }else if (confirm==null){
                         if ($scope.buildingObj.client.autoApproveAll==0 || $scope.buildingObj.client.autoApproveAll==null){
                             $scope.functions.autoApproveAll=false
                         }else{
@@ -578,7 +621,7 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                         }
                         $scope.switchBuildingFn("autoApproveOwners", $scope.buildingObj);
                     $('#confirmRequestModalCustom').modal('hide');
-                    }else if (confirm<0){
+                    }else if (confirm==null){
                         if ($scope.buildingObj.client.autoApproveOwners==0 || $scope.buildingObj.client.autoApproveOwners==null){
                             $scope.functions.autoApproveOwners=false
                         }else{
@@ -2416,6 +2459,29 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                 }
             /**************************************************
             *                                                 *
+            *              ALLOW MP EARLY PAYMENT             *
+            *                                                 *
+            **************************************************/
+            $scope.setMpPaymentMethodFn = function(obj){
+                console.log(obj);
+                CustomerServices.mpPaymentMethod(obj).then(function(response){
+                    //console.log(response);
+                    if(response.status==200){
+                        if (obj.client.mpPaymentMethod){
+                            inform.add('Pago anticipado por MercadoPago activado satisfactoriamente.',{
+                                ttl:5000, type: 'success'
+                            });
+                        }else{
+                            inform.add('Pago anticipado por MercadoPago desactivado satisfactoriamente.',{
+                                ttl:5000, type: 'warning'
+                            });
+                        }
+
+                    }
+                });
+            } 
+            /**************************************************
+            *                                                 *
             *              ALLOW EXPENSES PAYMENT             *
             *                                                 *
             **************************************************/
@@ -2624,6 +2690,179 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                             }, 3000);
                         });
                     };
+            /******************************
+            *    UTIL FOR CUSTOMER DATA   *
+            ******************************/
+                $scope.customersSearch={
+                    "searchFilter":null,
+                    "isNotCliente":"0",
+                    "idClientTypeFk":null,
+                    "isInDebt": null,
+                    "start":"1",
+                    "limit":"10",
+                    "strict": null
+                }
+            /**************************************************
+            *                                                 *
+            *             LIST CUSTOMER SERVICE               *
+            *                                                 *
+            **************************************************/
+                $scope.getCustomersListRs = {'customerList':null, 'totalNumberOfCustomer':0}
+                $scope.setCustomersListRs = {}
+                $scope.getCustomerLisServiceFn = function(searchFilter, isNotCliente, idClientTypeFk, isInDebt, start, limit, strict){
+                    console.log($scope.customerSearch);
+                    console.log(idClientTypeFk);
+                    var searchFilter    = searchFilter!=undefined && searchFilter!="" && searchFilter!=null?searchFilter:null;
+                    var isNotCliente    = isNotCliente!=undefined && isNotCliente!=null?isNotCliente:"0";
+                    var idClientTypeFk  = idClientTypeFk!=undefined && idClientTypeFk!="" && idClientTypeFk!=null?idClientTypeFk:null;
+                    var isInDebt        = isInDebt!=false && isInDebt!=undefined && isInDebt!=null?1:null;
+                    var start           = start!=undefined && start!=null && (!isInDebt && !strict)?start:"";
+                    var limit           = limit!=undefined && limit!=null && (!isInDebt && !strict)?limit:"";
+                    var strict          = strict!=false && strict!=undefined && strict!=null?strict:null;
+                    $scope.getCustomersListRs = {'customerList':null, 'totalNumberOfCustomer':0}
+                    $scope.customersSearch={
+                    "searchFilter":searchFilter,
+                    "isNotCliente":isNotCliente,
+                    "idClientTypeFk":idClientTypeFk,
+                    "isInDebt":isInDebt,
+                    "start":start,
+                    "limit":limit,
+                    "strict":strict,
+                    "totalCount":null,
+                    };
+                    console.log($scope.customersSearch);
+                    return CustomerServices.getCustomerListLimit($scope.customersSearch).then(function(response){
+                    console.info(response);
+                    if(response.status==200){
+                        return response.data;
+                    }else if(response.status==404){
+                    inform.add('[Info]: '+response.data.error+'.',{
+                        ttl:5000, type: 'info'
+                    });
+                        return response;
+                    }
+                    });
+                }
+            /**************************************************
+            *                                                 *
+            *                 SEARCH CUSTOMERS                *
+            *                                                 *
+            **************************************************/
+                $scope.getCustomerBusinessNameByIdFn = function(clientId){
+                    //console.log("getCustomerBusinessNameByIdFn: "+clientId);
+                    var arrCompanySelect = [];
+                    if (clientId!=undefined){
+                    CustomerServices.getCustomersById(clientId).then(function(response){
+                        if(response.status==200){
+                        //console.log(response.data);
+                        arrCompanySelect.push(response.data);
+                        }
+                    });
+                    }else{
+                        inform.add('Client Id, no recibido. ',{
+                        ttl:4000, type: 'warning'
+                        });
+                    }
+                    //console.log(arrCompanySelect);
+                    return arrCompanySelect;
+                }
+                $scope.searchCustomerFound=false;
+                $scope.findCustomerFn=function(string, typeClient, strict){
+                    if(event.keyCode === 8 || event.which === 8){
+                        console.log(event.which);
+                        $scope.buildingList=[];
+                        $scope.select.admins.selected=undefined;
+                        $scope.select.buildings.selected=undefined;
+                    }else if(event.keyCode === 1 || event.which === 1 || event.keyCode === 13 || event.which === 13){
+                        console.log("Search:");
+                        console.log("string: "+string);
+                        console.log("typeClient: "+typeClient);
+                        console.log("strict: "+strict);
+                        $scope.buildingList=[];
+                        $scope.select.admins.selected=undefined;
+                        $scope.select.buildings.selected=undefined;
+                        var output=[];
+                        var i=0;
+                        if (string!=undefined && string!=""){
+                            $scope.customerFound={};
+                            $scope.getCustomerLisServiceFn(string, "0", typeClient, null, 0, 10, strict).then(function(response) {
+                                if(response.status==undefined){
+                                $scope.listCustomerFound = response.customers;
+                                //$scope.pagination.totalCount = response.customers.length;
+                                console.info($scope.listCustomerFound);
+                                }else if(response.status==404){
+                                $scope.listCustomerFound = [];
+                                //$scope.pagination.totalCount  = 0;
+                                } 
+                            }, function(err) {
+                                $scope.listCustomerFound = [];
+                                //$scope.pagination.totalCount  = 0;
+                            });
+                        }else{
+                            $scope.customerFound={};
+                        }
+                        console.info($scope.listCustomerFound);
+                    }
+                }
+                $scope.customerFound={};
+                $scope.loadCustomerFieldsFn=function(obj){
+                    $scope.customerFound={};
+                    console.log("===============================");
+                    console.log("|  SERVICE CUSTOMER SELECTED  |");
+                    console.log("===============================");
+                    console.log(obj);
+                    $scope.select.admins.selected = undefined;
+                    $scope.customerFound=obj;
+                    $scope.customerSearch.name = obj.name;
+                    $scope.select.admins.selected=obj;
+                    if (obj.idClientTypeFk=="1" || obj.idClientTypeFk=="3"){
+                        $scope.select.admins.selected=obj;
+                        $scope.getBuildingListFn($scope.select.admins.selected.idClient);
+                    }else if (obj.idClientTypeFk=="2"){
+                        if ($scope.customerFound.idClientAdminFk!=null && $scope.customerFound.idClientAdminFk!=undefined){
+                            var arrCompany=[]
+                            arrCompany=$scope.getCustomerBusinessNameByIdFn($scope.customerFound.idClientAdminFk);
+                            $timeout(function() {
+                            if (arrCompany.length==1){
+                                $scope.select.admins.selected=arrCompany[0];
+                                console.log($scope.select.admins.selected);
+                            }
+                            }, 500);
+                        }else{
+                            inform.add("El Consorcio "+obj.name+ " no se encuentra asociado a una Administración.",{
+                                    ttl:10000, type: 'danger'
+                            });
+                        }
+                        $scope.select.buildings.selected=obj;
+                    }else if (obj.idClientTypeFk=="4"){
+                        if ($scope.customerFound.idClientBranchFk!=null && $scope.customerFound.idClientBranchFk!=undefined){
+                            var arrCompany=[]
+                            arrCompany=$scope.getCustomerBusinessNameByIdFn($scope.customerFound.idClientBranchFk);
+                            
+                            $timeout(function() {
+                            if (arrCompany.length==1){
+                                $scope.select.admins.selected=arrCompany[0];
+                                console.log($scope.select.admins.selected);
+                            }
+                            }, 500);
+                        }else{
+                            inform.add("El Consorcio "+obj.name+ " no se encuentra asociado a una Administración.",{
+                                    ttl:10000, type: 'danger'
+                            });
+                        }
+                        $scope.select.buildings.selected=obj;
+                    }
+                    $scope.listCustomerFound=[];
+                    if (obj.idClientTypeFk=="2" || obj.idClientTypeFk=="4"){
+                        $timeout(function() {
+                            var isCollapsed = false;
+                            isCollapsed = !isCollapsed; 
+                            $scope.dayDataCollapseFn();
+                        }, 700);
+                    }
+
+    
+                }
             /**************************************************
             *                                                 *
             *            BUILDING MENU FUNCTION                *
@@ -3058,6 +3297,20 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                                 }, 2500);
                             }
                             $scope.sysSubContent                         = "";
+                        break;
+                        case "mpPaymentMethod":
+                            console.log(obj);
+                            if (obj.client.mpPaymentMethod==0 || obj.client.mpPaymentMethod==null){
+                                blockUI.start('Desactivando pago anticipado por MP para el consorcio: '+obj.client.address);
+                            }else{
+                                blockUI.start('Activando pago anticipado por MP para el consorcio: '+obj.client.address);
+                            }
+                            $timeout(function() {
+                                $scope.setMpPaymentMethodFn(obj);
+                            }, 2000);
+                            $timeout(function() {
+                                blockUI.stop();
+                            }, 3000);
                         break;
                         case "expensesPayment":
                             console.log(obj);
@@ -3708,7 +3961,7 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                             $scope.sysContent                         = 'administration';
                             console.log($scope.sysLoggedUser);
                             if ($scope.sysLoggedUser.idProfileKf=='1'){
-                                $scope.getAdminListFn(); //LOAD ADMINISTRATION LIST
+                                //$scope.getAdminListFn(); //LOAD ADMINISTRATION LIST
                             }else{
                                 $scope.select.admins.selected = {'idClient': $scope.sysLoggedUser.company[0].idClient, 'name': $scope.sysLoggedUser.company[0].name};
                                 $scope.getBuildingListFn($scope.sysLoggedUser.company[0].idClient);
@@ -3742,14 +3995,15 @@ building.controller('BuildingsCtrl', function($scope, $compile, $location, $inte
                             
                         break;
                         case "authorization":
-                            $scope.sysSubContent                      = "";
-                            $scope.sysSubContent                      = 'authorization';
-                            $scope.ListDpto = [];
+                            $scope.sysSubContent       = "";
+                            $scope.sysSubContent       = 'authorization';
+                            $scope.ListDpto            = [];
                             $scope.keyListByBuildingId = [];
-                            $scope.functions={'expensePayment': false, 'autoApproveAll': false, 'autoApproveOwners': false};
-                            $scope.functions.expensePayment = obj.chargeForExpenses==1?true:false;
-                            $scope.functions.autoApproveAll = obj.autoApproveAll==1?true:false
-                            $scope.functions.autoApproveOwners = obj.autoApproveOwners==1?true:false;
+                            $scope.functions={'expensePayment': false, 'autoApproveAll': false, 'autoApproveOwners': false, 'mpPaymentMethod':false};
+                            $scope.functions.expensePayment     = obj.chargeForExpenses==1?true:false;
+                            $scope.functions.autoApproveAll     = obj.autoApproveAll==1?true:false
+                            $scope.functions.autoApproveOwners  = obj.autoApproveOwners==1?true:false;
+                            $scope.functions.mpPaymentMethod    = obj.mpPaymentMethod==1?true:false;
                             console.log(obj);
                         break;
                         case "newAttendant":

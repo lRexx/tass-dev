@@ -2054,6 +2054,25 @@ input:checked + .slider-3x:before {
   background-color: #f5f5f5;
 }
 
+
+.ribbon-success span{
+  color: #fff !important;
+  background-color: #449d44 !important;
+  border-color: #398439 !important;
+}
+
+.ribbon-success::before, .ribbon-success::after {
+  border: 5px solid #398439 !important;
+}
+.ribbon-warning span{
+  color: #fff !important;
+  background-color: #f0ad4e !important;
+  border-color: #ffc107 !important;
+}
+.ribbon-warning::before, .ribbon-warning::after {
+  border: 5px solid #ffc107 !important;
+}
+
 /*PRODUCTS MODULE STYLE */
 
 .product_content {
@@ -3013,6 +3032,9 @@ font-weight: 545;
 /*FileList*/
 .h-300px{
   height: 300px !important;
+}
+.h-400px{
+  height: 400px !important;
 }
 .h-auto-px{
   height: auto !important;

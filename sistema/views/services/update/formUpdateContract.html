@@ -116,7 +116,7 @@
 							              	<td style="width: 1%;padding: 0 10px 0 10px;"><label style="font-size: 75%" class="label label-default">{{$index+1}}</label></td>
 							              	<td ng-if="srvs.idServiceType=='1' || srvs.idServiceType=='3' || srvs.idServiceType=='4'" style="width: 20%; padding-top: 7px;">
 							              		<span class="text-muted text-box">
-							              			<label style="font-size: 100%;">{{item.itemName | uppercase}}</label>
+							              			<label style="font-size: 100%;">{{item.itemName | uppercase}}</label><span ng-if="item.itemAclaracion!=null && item.itemAclaracion!=undefined" class="badge badge-warning">{{ item.itemAclaracion }}</span>
 							              		</span>
 							              	</td>
 							              	<td ng-if="srvs.idServiceType=='2' || srvs.idServiceType=='5' || srvs.idServiceType=='6'" style="width: 40%; padding-top: 7px;"><span class="text-muted text-box">

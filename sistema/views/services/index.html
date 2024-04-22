@@ -98,39 +98,6 @@
                         <span ng-if="customerFound.zona!=null">Zona: {{customerFound.zona.n_zona}} - {{customerFound.zona.descripcion | uppercase}}</span>
                         <span ng-if="customerFound.zona==null">Zona: <label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="Zona no asignada" class="label label-default">n/a</label></span>
                       </div>
-                      <div ng-if="sysLoggedUser.idProfileKf==1 && customerFound.idClientTypeFk=='2'" class="col-md-12 col-sm-12 col-xs-12 ">
-                        <span>Stock:</span>
-                        <div class="form-group col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r">
-                            <div class="col-md-6 col-sm-6 col-xs-6 n-padding-l n-padding-r">
-                              <div class="n-padding-r">
-                                <label class="switch switch-2x" for="isStockInBuilding-set">
-                                    <input type="checkbox" class="success" 
-                                      ng-disabled="customerFound.isStockInOfficeTmp"
-                                      ng-click="modalConfirmation('isStockInBuilding', 0, customerFound, null)"
-                                      ng-model="customerFound.isStockInBuildingTmp" 
-                                      id="isStockInBuilding-set">
-                                    <span class="slider slider-2x flat"></span>
-                                </label>
-                                <span class="font-size-10px"><span ng-if="customerFound.isStockInBuildingTmp" style="cursor: pointer; margin-top: -8%;" class="badge badge-success">Edificio</span></span>
-                                <span class="font-size-10px"><span ng-if="!customerFound.isStockInBuildingTmp || customerFound.isStockInBuildingTmp==null || customerFound.isStockInBuildingTmp==undefined" style="cursor: pointer; margin-top: -8%;" class="badge badge-light">Edificio</span>&nbsp;<span style="cursor: pointer; margin-top: -8%;" data-toggle="tooltip" data-placement="bottom" title="Deshabilitado" ng-if="customerFound.isStockInOfficeTmp" class="badge badge-warning"><i class="fas fa-lock"></i></span></span>
-                              </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6 col-xs-6 n-padding-l n-padding-r">
-                              <div class="n-padding-r">
-                                <label class="switch switch-2x" for="isStockInOffice-set">
-                                    <input type="checkbox" class="success" 
-                                      ng-disabled="customerFound.isStockInBuildingTmp"
-                                      ng-click="modalConfirmation('isStockInOffice', 0, customerFound, null)"
-                                      ng-model="customerFound.isStockInOfficeTmp" 
-                                      id="isStockInOffice-set">
-                                    <span class="slider slider-2x flat"></span>
-                                </label>
-                                <span class="font-size-10px"><span ng-if="customerFound.isStockInOfficeTmp" style="cursor: pointer; margin-top: -8%;" class="badge badge-success">Oficina</span></span>
-                                <span class="font-size-10px"><span ng-if="!customerFound.isStockInOfficeTmp || customerFound.isStockInOfficeTmp==null || customerFound.isStockInOfficeTmp==undefined" style="cursor: pointer; margin-top: -8%;" class="badge badge-light">Oficina</span>&nbsp;<span style="cursor: pointer; margin-top: -8%;" data-toggle="tooltip" data-placement="bottom" title="Deshabilitado" ng-if="customerFound.isStockInBuildingTmp" class="badge badge-warning"><i class="fas fa-lock"></i></span></span>
-                              </div>
-                            </div>
-                        </div>
-                      </div>
                     </div>
                     <!-- RIGHT COLUMN -->
                     <div class="col-md-6 col-xs-12 n-padding-l n-padding-r">
@@ -174,6 +141,24 @@
                           </div>
                           <div class="text-badge">
                               <span class="registered-customer badge badge-light"> NUEVO SERVICIO </span>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- INITIAL PRICE & KEYS "-->
+                      <div class="col-md-4 col-xs-6">
+                        <div class="col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="bottom" title="ENTREGA INICIAL" ng-click="switchCustomersFn('customers', customerFound, 'new_enableInitialKeys', '');">
+                          <div class="depto-icon">
+                            <div ng-if="customerFound.initial_delivery.length>0" class="ribbon ribbon-top-right" 
+                              ng-class="{
+                                  'ribbon-success':customerFound.initial_delivery.length==1 && !customerFound.initial_delivery[0].expiration_state, 
+                                  'ribbon-warning':customerFound.initial_delivery.length==1 && customerFound.initial_delivery[0].expiration_state}">
+                              <span ng-if="customerFound.initial_delivery.length==1 && !customerFound.initial_delivery[0].expiration_state">Activo</span>
+                              <span ng-if="customerFound.initial_delivery.length==1 && customerFound.initial_delivery[0].expiration_state">Expirado</span>
+                            </div>
+                                <span><i class="default-sys-color fas fa-key"></i></span>
+                          </div>
+                          <div class="text-badge">
+                              <span class="registered-customer badge badge-light">ENTREGA INICIAL </span>
                           </div>
                         </div>
                       </div>
@@ -240,6 +225,7 @@
 <div ng-include="'views/services/update/components/comp_serviceUnits.html'"></div>
 <div ng-include="'views/services/new/activationDateContract.html'"></div>
 <div ng-include="'views/services/update/formContractDetails.html'"></div>
+<div ng-include="'views/services/enableInitialKeys.html'"></div>
 <div ng-include="'views/utilities/pdfViewerModal.html'"></div>
 <div ng-include="'views/utilities/modalConfirmation.html'"></div>
 <div ng-include="'views/utilities/modalConfirmationCustom.html'"></div>

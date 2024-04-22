@@ -235,6 +235,18 @@ moduleCustomerServices.service("CustomerServices", ['$http', '$q', 'tokenSystem'
                   return response;
                 })  
           },
+          mpPaymentMethod: function(userData) {
+            console.log("[Service][mpPaymentMethod]---> Customer Configuration Early Mercado Pago Payment: ");
+            return $http.post(serverHost+serverBackend+"Clientes/mpPaymentMethod",userData, serverHeaders)
+              .then(function mySucess(response) {
+                deferred.resolve(response);
+                return deferred.promise;
+            }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                deferred.resolve(response);
+                return deferred.promise;
+            });
+          },
           chargeForExpenses: function(userData) {
             console.log("[Service][chargeForExpenses]---> Customer Configuration Charge for Expenses: ");
             return $http.post(serverHost+serverBackend+"Clientes/chargeForExpenses",userData, serverHeaders)
@@ -332,5 +344,29 @@ moduleCustomerServices.service("CustomerServices", ['$http', '$q', 'tokenSystem'
                     return response;
               })
           },
+          getCheckControlAccessState: function(id) {
+            //console.log("[Customer Services] => get customer by id: "+sMsg);
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"Clientes/internetServiceAssociatedToCustomer/"+id
+                  }).then(function mySuccess(response) {
+                    return response;
+                  }).catch(function onError(response) {
+                    console.log("Error: "+response.data.error); 
+                    return response;
+              })
+          },
+          addInitialDelivery: function(data) {
+            rsCustomer.client = data;
+            //console.log("[Customer Services] => new: "+rsCustomer.client.name);
+              return $http.post(serverHost+serverBackend+"Clientes/initialDelivery",rsCustomer,serverHeaders)
+                .then(function mySucess(response, status) {
+                  rsJson=response;
+                  return rsJson;
+                },function myError(response) { 
+                  console.log("Error: "+response.data.error); 
+                  return response;
+                })  
+          }, 
       }
 }]);

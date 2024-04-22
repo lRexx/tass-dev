@@ -22,7 +22,7 @@
             <div class="col-md-8 widget-text-box">
                 <p class="media-heading"><b>Dirección:</b> <p>{{customerStatus.address}}</p></p>
                 <p class="media-heading"><b>Provincia:</b> <p>{{customerStatus.province}}</p></p>
-                <p class="media-heading"><b>Provincia:</b> <p>{{customerStatus.location}}</p></p>
+                <p class="media-heading"><b>Localidad:</b> <p>{{customerStatus.location}}</p></p>
                 <h4 class="media-heading">Estado: 
                   <span ng-if="customerStatus.IsInDebt=='0' || customerStatus.IsInDebt==null" class="label label-success text-uppercase font-size-12px"> <i class="far fa-check-circle"></i> habilitado</span>
                   <span ng-if="customerStatus.IsInDebt!=null && customerStatus.IsInDebt=='1'"  class="label label-danger text-uppercase font-size-12px"><i class="far fa-times-circle"></i> inhabilitado</span>

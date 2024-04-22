@@ -1,108 +1,103 @@
 <!-- STATUS CUSTOMER-->
-<div ng-show="serviceResponse.status==200 && (customerStatus.IsInDebt!=undefined || customerStatus.IsInDebt==null) && sysLoggedUser.idProfileKf!=0" class="col-md-4 col-md-offset-4">
+<div ng-show="serviceResponse.status==200 && (customerStatus.IsInDebt!=undefined || customerStatus.IsInDebt==null) && sysLoggedUser.idProfileKf!=0" class="col-md-10 col-md-offset-1">
   <div class="panel" style="margin-top: 5%!important" ng-class="
     {'panel-success': customerStatus.IsInDebt=='0' || customerStatus.IsInDebt==null, 'panel-danger': customerStatus.IsInDebt!=null && customerStatus.IsInDebt=='1'}">
     <div class="panel-heading">
-      <h3 class="panel-title" ng-if="checkStatus.client">ESTADO DEL CLIENTE</h3>
-      <h3 class="panel-title panel-title-status" ng-if="checkStatus.services">SERVICIOS <span ng-if="customerStatus.idClientTypeFk==2" class="text-uppercase">DEL</span> <span ng-if="customerStatus.idClientTypeFk=='1' || customerStatus.idClientTypeFk=='3' || customerStatus.idClientTypeFk=='4'" class="text-uppercase">DE LA</span> <span class="text-uppercase">{{customerStatus.ClientType}}</span> :: {{customerStatus.address}} 
-        <label ng-if="customerStatus.IsInDebt=='0' || customerStatus.IsInDebt==null" class="label label-success text-uppercase"> <i class="far fa-check-circle"></i> habilitado</label>
-        <label ng-if="customerStatus.IsInDebt!=null && customerStatus.IsInDebt=='1'"  class="label label-danger text-uppercase"><i class="far fa-times-circle"></i> inhabilitado</label></h3>
+      <h3 class="panel-title" ng-if="checkStatus.client" style="font-size: 100%;">INFORMACIÓN DEL CLIENTE
+        <label ng-if="customerStatus.IsInDebt=='0' || customerStatus.IsInDebt==null" class="label label-success text-uppercase" style="font-size: 70%;"> <i class="far fa-check-circle"></i> habilitado</label></h3>
     </div>
     <div class="panel-body n-padding-l n-padding-r">
           <div ng-if="checkStatus.client" class="col-md-12">
-            <div class="col-md-4 widget-head-color-box p-lg text-center" ng-class="
-            {'background-success': customerStatus.IsInDebt=='0' || customerStatus.IsInDebt==null, 'background-danger': customerStatus.IsInDebt!=null && customerStatus.IsInDebt=='1'}" style="margin-top: 0px !important; padding: 47px 0px 47px 0px;">
-                <div class="m-b-md">
-                    <span class="label text-uppercase font-size-18px" style="color:#fff;" ng-class="
-                    {'label-success': customerStatus.IsInDebt=='0' || customerStatus.IsInDebt==null, 'label-danger': customerStatus.IsInDebt!=null && customerStatus.IsInDebt=='1'}">{{customerStatus.ClientType}}</span>
-                    </span>
-                </div>
-                <i style="color: #fff; font-weight: bold; font-size:76px" class="fas fa-building img-circle circle-border m-b-md" alt="profile"></i>
-            </div>
-            <div class="col-md-8 widget-text-box">
-                <p class="media-heading"><b>Dirección:</b> <p>{{customerStatus.address}}</p></p>
-                <p class="media-heading"><b>Provincia:</b> <p>{{customerStatus.province}}</p></p>
-                <p class="media-heading"><b>Provincia:</b> <p>{{customerStatus.location}}</p></p>
-                <h4 class="media-heading">Estado: 
-                  <span ng-if="customerStatus.IsInDebt=='0' || customerStatus.IsInDebt==null" class="label label-success text-uppercase font-size-12px"> <i class="far fa-check-circle"></i> habilitado</span>
-                  <span ng-if="customerStatus.IsInDebt!=null && customerStatus.IsInDebt=='1'"  class="label label-danger text-uppercase font-size-12px"><i class="far fa-times-circle"></i> inhabilitado</span>
-                </h4>
-                
-            </div>
-        </div>
-        <div ng-if="checkStatus.services && rsContractsListByCustomerIdData.length>=1" class="col-md-12" ng-repeat="contract in rsContractsListByCustomerIdData">
-          <div class="panel " ng-class="
-          {'panel-warning': contract.idStatusFk=='0' || contract.idStatusFk==null || contract.idStatusFk==undefined, 
-           'panel-success': contract.idStatusFk!=undefined && contract.idStatusFk!=null && contract.idStatusFk=='1',
-           'panel-danger': contract.idStatusFk!=undefined && contract.idStatusFk!=0 && contract.idStatusFk!=1 && contract.idStatusFk!=null && contract.idStatusFk=='-1'}">
-            <div class="panel-heading">
-              <h3 class="panel-title panel-contract-number">Contrato: {{contract.numeroContrato}} 
-                <span class="badge" ng-class="
-                {'badge-warning': contract.idStatusFk=='0' || contract.idStatusFk==null || contract.idStatusFk==undefined, 
-                 'badge-success': contract.idStatusFk!=undefined && contract.idStatusFk!=null && contract.idStatusFk=='1',
-                 'badge-danger': contract.idStatusFk!=undefined && contract.idStatusFk!=0 && contract.idStatusFk!=1 && contract.idStatusFk!=null && contract.idStatusFk=='-1'}">{{contract.statusTenantName}}</span></h3>
-            </div>
-            <div class="panel-body n-padding-l n-padding-r">
-              <div ng-if="contract.services_active.length>0" ng-repeat="service in contract.services_active"  ng-trim="true" class="media-middle text-center">
-                  <div ng-click="mainSwitchFn('open_service', service, null)" class="col-md-6 col-sm-6 col-xs-12" >
-                      <div class="card-status">
-                        <div class="col-md-12 col-xs-12 n-padding-l card-icon">
-                            <i ng-class="{
-                                  'fas fa-door-open':service.idTipeServiceFk=='1',
-                                  'fas fa-network-wired':service.idTipeServiceFk=='2',
-                                  'fas fa-video':service.idTipeServiceFk=='3' || service.idTipeServiceFk=='4',
-                                  'fas fa-bell':service.idTipeServiceFk=='5',
-                                  'fas fa-code-branch':service.idTipeServiceFk=='6',}"></i>
-                        </div>
-                        <!-- <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
-                                        'sticky-success': 
-                                        service.item_contracted>0,
-                                        'sticky-warning':  
-                                        service.item_contracted>0 && service.item_available<=0 || service.items_contracted>0 && service.items_available<=0,
-                                      }">
-                          <span ng-if="service.item_contracted>0" data-toggle="tooltip" data-placement="top" title="Contratado">
-                            <i class="fas fa-check-circle"></i>
-                          </span>
-                          <span ng-if="(service.item_contracted>0 && service.item_available<=0) || (service.items_contracted>0 && service.items_available<=0)" data-toggle="tooltip" data-placement="top" title="Limite Alcanzado">
-                            <i class="fas fa-exclamation-triangle"></i>
-                          </span>               
-                        </div>--> 
-                        <div class="col-md-12 card-title">
-                          <h4 ng-if="service.idTipeServiceFk!=undefined || service.idTipeServiceFk!=null" class="text-uppercase" >{{service.clientTypeServices}}</h4>
+            <div class="col-md-6 col-xs-12 n-padding-l n-padding-r">
+              <div class="col-md-12 col-xs-12 n-padding-l n-padding-r">
+                <legend>Administración</legend>
+                <p class="media-heading"><h4><b>{{customerStatus.administration_details[0].name}}</b></h4></p>
+                <div id="accordion">
+                  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+                    <!-- MAIL LIST -->
+                    <div class="panel panel-default">
+                      <div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse" data-target="#collapseCurrentOne" aria-expanded="true" aria-controls="collapseOne" style="cursor: pointer;">
+                        <h4 class="panel-title">
+                          <span role="button" data-toggle="collapse" data-target="#collapseCurrentOne" aria-expanded="true" aria-controls="collapseOne" class="collapsed-font">CORREOS</span>
+                          <span class="badge pull-right"> {{customerStatus.administration_details[0].list_emails.length}}</span>
+                        </h4>
+                      </div>
+                      <div id="collapseCurrentOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body n-padding-l n-padding-r">
+                          <div ng-include="'views/info/list/mailList.html'"></div>
                         </div>
                       </div>
-                  </div>          
-                
-            <!--<div class="col-md-12">
-                <div style="text-align: center;">
-                  <div class="circle-loader-spin">
-                    <div class="status draw"></div>
+                    </div>
+                    <!-- PHONE LIST -->
+                    <div class="panel panel-default">
+                      <div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse" data-target="#collapseCurrentThree" aria-expanded="true" aria-controls="collapseOne" style="cursor: pointer;">
+                        <h4 class="panel-title">
+                          <span role="button" data-toggle="collapse" data-target="#collapseCurrentThree" aria-expanded="true" aria-controls="collapseOne" class="collapsed-font">TELÉFONOS</span>
+                          <span class="badge pull-right"> {{customerStatus.administration_details[0].list_phone_contact.length}}</span>
+                        </h4>
+                      </div>
+                      <div id="collapseCurrentThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body n-padding-l">
+                          <div ng-include="'views/info/list/phoneList.html'"></div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="col-md-10 col-md-offset-1">
-                <div ng-show="(customerStatus.IsInDebt!=undefined || customerStatus.IsInDebt==null) && sysLoggedUser.idProfileKf!=0" class="alert" ng-class="
-                {'alert-success': customerStatus.IsInDebt=='0' || customerStatus.IsInDebt==null, 'alert-danger': customerStatus.IsInDebt!=null && customerStatus.IsInDebt=='1'}" role="alert">
-                  <strong></strong>El Cliente se encuentra 
-                  <span ng-if="customerStatus.IsInDebt=='0' || customerStatus.IsInDebt==null" class="label label-success text-uppercase">habilitado.</span>
-                  <span ng-if="customerStatus.IsInDebt!=null && customerStatus.IsInDebt=='1'"  class="label label-danger text-uppercase">inhabilitado.</span>
+          </div>
+          <div class="col-md-6 col-xs-12 n-padding-l n-padding-r">
+            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r"></div>
+              <legend>Consorcio</legend>
+              <p class="media-heading"><h4><b>{{customerStatus.address}}</b></h4></p>
+              <!--<p class="media-heading"><b>Provincia:</b> <p>{{customerStatus.province}}</p></p>
+              <p class="media-heading"><b>Provincia:</b> <p>{{customerStatus.location}}</p></p>
+              <h4 class="media-heading">Estado: 
+                <span ng-if="customerStatus.IsInDebt=='0' || customerStatus.IsInDebt==null" class="label label-success text-uppercase font-size-12px"> <i class="far fa-check-circle"></i> habilitado</span>
+                <span ng-if="customerStatus.IsInDebt!=null && customerStatus.IsInDebt=='1'"  class="label label-danger text-uppercase font-size-12px"><i class="far fa-times-circle"></i> inhabilitado</span>
+              </h4>-->
+              <div id="accordion">
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+                  <!-- ATTENDANT LIST -->
+                  <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse" data-target="#collapseAttendants" aria-expanded="true" aria-controls="collapseOne" style="cursor: pointer;">
+                      <h4 class="panel-title">
+                        <span role="button" data-toggle="collapse" data-target="#collapseAttendants" aria-expanded="true" aria-controls="collapseOne" class="collapsed-font">ENCARGADOS</span>
+                        <span class="badge pull-right"> {{attendantListByAddress.length}}</span>
+                      </h4>
+                    </div>
+                    <div id="collapseAttendants" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                      <div class="panel-body n-padding-l n-padding-r">
+                        <div ng-include="'views/info/list/attendantList.html'"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- DEPARTMENT LIST & TENANT -->
+                  <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse" data-target="#collapseDepartments" aria-expanded="true" aria-controls="collapseOne" style="cursor: pointer;">
+                      <h4 class="panel-title">
+                        <span role="button" data-toggle="collapse" data-target="#collapseDepartments" aria-expanded="true" aria-controls="collapseOne" class="collapsed-font">DEPARTAMENTOS</span>
+                        <span class="badge pull-right"> {{ListDpto.length}}</span>
+                      </h4>
+                    </div>
+                    <div id="collapseDepartments" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                      <div class="panel-body n-padding-l n-padding-r">
+                        <div ng-include="'views/info/list/departmentList.html'"></div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>-->
-              </div>
+              </div
             </div>
           </div>
         </div>
-        <div ng-if="checkStatus.services && rsContractsListByCustomerIdData.length==0" class="col-md-12">
-          <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning">
-            <h5 class="col-md-offset-3"><i class="fas fa-exclamation-triangle"> </i> <span style="font-size: 18px; font-weight: 600; color: rgba(255, 188, 87, 1);">No hay contratos registrados o asociados.</span></h5>
-          </div>
-        </div>
+
   </div>
 </div>
 <div ng-if="checkStatus.client" ng-show="serviceResponse.status==404 && sysLoggedUser.idProfileKf!=0" class="col-md-6 col-md-offset-3">
   <div class="panel panel-warning padding-panel">
     <div class="panel-heading">
-      <h3 class="panel-title">ESTATUS DEL CLIENTE</h3>
+      <h3 class="panel-title">INFORMACIÓN DEL CLIENTE</h3>
     </div>
     <div class="panel-body">
         <div class="col-md-10 col-md-offset-1">
@@ -113,4 +108,4 @@
     </div>
   </div>
 </div>
-<div ng-include="'views/status/serviceItem.html'"></div>
+<div ng-include="'views/utilities/modalConfirmation.html'"></div>

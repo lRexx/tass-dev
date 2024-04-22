@@ -139,6 +139,18 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
                     return checkResult;
             });   
           },
+          /*COMPLETE REFUND TICKET */
+          completeTicketRefund: function(ticket) {
+            console.log("Completing refund ticket service :: Triggered");
+            //console.log(tkUpdateData);
+            return $http.post(serverHost+serverBackend+"Ticket/completeTicketRefund",ticket, serverHeaders)
+              .then(function mySucess(response) {
+                return response;
+              },function myError(response) { 
+                console.log("Error: "+response.data.error); 
+                return response;
+              })
+          },
           /*CHANCE STATUS TICKET */
           changueStatus: function(ticket) {
             console.log("Changing status ticket service :: Triggered");

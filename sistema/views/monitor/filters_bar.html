@@ -14,7 +14,7 @@
                     <div class="pull-right">
                         <div class="input-group">
                         <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-                        <input type="text" class="form-control" ng-change="mainSwitchFn('search', null)" ng-model="filters.searchFilter" placeholder="Buscar...">
+                        <input type="text" class="form-control" ng-keydown="$event.keyCode === 13 && mainSwitchFn('search', null)" ng-model="filters.searchFilter" placeholder="Presione Enter para Buscar...">
                         </div>
                     </div> 
                 </div>
@@ -35,13 +35,13 @@
                     <i class="fas fa-times-circle"></i></a></span>
                     <span ng-if="sysLoggedUser.idProfileKf && filters.typeTicket" style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="{{filters.typeTicket.TypeTicketName}}" class="label_tags label label-success">
                     {{filters.typeTicket.TypeTicketName}}
-                    <a ng-click="filters.typeTicket=null; mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="bottom" title="quitar">
+                    <a ng-click="filters.typeTicket=undefined; mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="bottom" title="quitar">
                     <i class="fas fa-times-circle"></i></a></span>
                     <span ng-if="sysLoggedUser.idProfileKf && filters.ticketStatus.statusName" style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="{{filters.ticketStatus.statusName}}" class="label_tags label label-success">{{filters.ticketStatus.statusName}}
-                    <a ng-click="filters.ticketStatus=null; mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="bottom" title="quitar">
+                    <a ng-click="filters.ticketStatus=undefined; mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="bottom" title="quitar">
                     <i class="fas fa-times-circle"></i></a></span>
                     <span ng-if="sysLoggedUser.idProfileKf && filters.typDelivery.typeDelivery" style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="{{filters.typDelivery.typeDelivery}}" class="label_tags label label-success">{{filters.typDelivery.typeDelivery}}
-                    <a ng-click="filters.typDelivery=null; mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="bottom" title="quitar">
+                    <a ng-click="filters.typDelivery=undefined; mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="bottom" title="quitar">
                     <i class="fas fa-times-circle"></i></a></span>
                     <span ng-if="sysLoggedUser.idProfileKf && filters.paymentsType.descripcion" style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="{{filters.paymentsType.descripcion}}" class="label_tags label label-success">{{filters.paymentsType.descripcion}}
                         <a ng-click="filters.paymentsType=null; mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="bottom" title="quitar">

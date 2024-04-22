@@ -268,6 +268,16 @@ class Util extends REST_Controller {
             return true;            
         }
     }
+    public function typeTechnicianServices_get() {
+
+        $result = $this->util_model->typeTechnicianServices();
+
+        if (! is_null($result)) {
+            $this->response($result, 200);
+        } else {
+            $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
+        }
+    }
 }
 
 ?>
