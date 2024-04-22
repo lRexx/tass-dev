@@ -1,0 +1,1329 @@
+*   Trying 54.164.17.164:443...
+* Connected to api.mercadopago.com (54.164.17.164) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\apache\bin\curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256
+* ALPN, server accepted to use h2
+* Server certificate:
+*  subject: C=AR; L=Ciudad Autonoma de Buenos Aires; O=Mercadolibre Inc; CN=api.mercadopago.com
+*  start date: Feb 14 00:00:00 2024 GMT
+*  expire date: Feb 13 23:59:59 2025 GMT
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert Global G2 TLS RSA SHA256 2020 CA1
+*  SSL certificate verify ok.
+* Using HTTP2, server supports multi-use
+* Connection state changed (HTTP/2 confirmed)
+* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+* Using Stream ID: 1 (easy handle 0x1cce4cb74d0)
+> GET /v1/payments/1317313258 HTTP/2
+Host: api.mercadopago.com
+accept-encoding: charset=utf-8
+content-type: application/json
+accept: application/json
+authorization: Bearer TEST-8877359900700578-012401-cc12a648254efb51f0c30f4b394955f6-1177407195
+
+* Connection state changed (MAX_CONCURRENT_STREAMS == 128)!
+< HTTP/2 200 
+< date: Mon, 04 Mar 2024 18:27:39 GMT
+< content-type: application/json;charset=UTF-8
+< vary: Accept-Encoding
+< vary: Accept,Accept-Encoding
+< cache-control: max-age=0
+< etag: 3cf4e2170a1dedfbc007b07efc555c26
+< x-content-type-options: nosniff
+< x-request-id: 92c0f76a-1ac2-441c-9e11-884a4f553a71
+< x-xss-protection: 1; mode=block
+< strict-transport-security: max-age=16070400; includeSubDomains; preload
+< access-control-allow-origin: *
+< access-control-allow-headers: Content-Type
+< access-control-allow-methods: PUT, GET, POST, DELETE, OPTIONS
+< access-control-max-age: 86400
+< timing-allow-origin: *
+< 
+* Connection #0 to host api.mercadopago.com left intact
+*   Trying 167.250.5.31:443...
+* Connected to dev.bss.com.ar (167.250.5.31) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* error setting certificate verify locations:
+  CAfile: /curl-ca-bundle.crt
+  CApath: none
+* Closing connection 0
+*   Trying 167.250.5.31:443...
+* Connected to dev.bss.com.ar (167.250.5.31) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\htdocs\tass-dev\sistema\Back\certificate/curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use h2
+* Server certificate:
+*  subject: CN=dev.bss.com.ar
+*  start date: Apr  3 00:00:00 2024 GMT
+*  expire date: Jul  2 23:59:59 2024 GMT
+*  subjectAltName: host "dev.bss.com.ar" matched cert's "dev.bss.com.ar"
+*  issuer: C=US; ST=TX; L=Houston; O=cPanel, Inc.; CN=cPanel, Inc. Certification Authority
+*  SSL certificate verify ok.
+* Using HTTP2, server supports multi-use
+* Connection state changed (HTTP/2 confirmed)
+* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+* Using Stream ID: 1 (easy handle 0x19e82eff440)
+> POST /mpago/index.php HTTP/2
+Host: dev.bss.com.ar
+accept-encoding: deflate, gzip
+accept: application/json
+content-type: application/x-www-form-urlencoded
+content-length: 398
+
+* We are completely uploaded and fine
+* old SSL session ID is stale, removing
+* Connection state changed (MAX_CONCURRENT_STREAMS == 100)!
+< HTTP/2 200 
+< access-control-allow-origin: *
+< vary: Accept-Encoding,User-Agent
+< content-encoding: gzip
+< content-length: 935
+< content-type: application/json; charset=utf-8
+< date: Wed, 10 Apr 2024 03:37:45 GMT
+< server: Apache
+< 
+* Connection #0 to host dev.bss.com.ar left intact
+*   Trying 167.250.5.31:443...
+* Connected to dev.bss.com.ar (167.250.5.31) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\htdocs\tass-dev\sistema\Back\certificate/curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use h2
+* Server certificate:
+*  subject: CN=dev.bss.com.ar
+*  start date: Apr  3 00:00:00 2024 GMT
+*  expire date: Jul  2 23:59:59 2024 GMT
+*  subjectAltName: host "dev.bss.com.ar" matched cert's "dev.bss.com.ar"
+*  issuer: C=US; ST=TX; L=Houston; O=cPanel, Inc.; CN=cPanel, Inc. Certification Authority
+*  SSL certificate verify ok.
+* Using HTTP2, server supports multi-use
+* Connection state changed (HTTP/2 confirmed)
+* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+* Using Stream ID: 1 (easy handle 0x19e82d88d20)
+> POST /mpago/index.php HTTP/2
+Host: dev.bss.com.ar
+accept-encoding: deflate, gzip
+accept: application/json
+content-type: application/x-www-form-urlencoded
+content-length: 398
+
+* We are completely uploaded and fine
+* old SSL session ID is stale, removing
+* Connection state changed (MAX_CONCURRENT_STREAMS == 100)!
+< HTTP/2 200 
+< access-control-allow-origin: *
+< vary: Accept-Encoding,User-Agent
+< content-encoding: gzip
+< content-length: 934
+< content-type: application/json; charset=utf-8
+< date: Wed, 10 Apr 2024 03:57:39 GMT
+< server: Apache
+< 
+* Connection #0 to host dev.bss.com.ar left intact
+*   Trying 186.137.127.17:443...
+* Connected to devtass.sytes.net (186.137.127.17) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\htdocs\tass-dev\sistema\Back\certificate/curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: CN=devtass.sytes.net
+*  start date: Mar  3 00:00:00 2024 GMT
+*  expire date: Jun  1 23:59:59 2024 GMT
+*  subjectAltName: host "devtass.sytes.net" matched cert's "devtass.sytes.net"
+*  issuer: C=AT; O=ZeroSSL; CN=ZeroSSL RSA Domain Secure Site CA
+*  SSL certificate verify ok.
+> POST /mpago/index.php HTTP/1.1
+Host: devtass.sytes.net
+Accept-Encoding: deflate, gzip
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 398
+
+* upload completely sent off: 398 out of 398 bytes
+* old SSL session ID is stale, removing
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Date: Wed, 10 Apr 2024 05:10:29 GMT
+< Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.30
+< X-Powered-By: PHP/7.4.30
+< Access-Control-Allow-Origin: *
+< Content-Length: 931
+< Content-Type: text/html; charset=UTF-8
+< 
+* Connection #0 to host devtass.sytes.net left intact
+*   Trying 186.137.127.17:443...
+* Connected to devtass.sytes.net (186.137.127.17) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\htdocs\tass-dev\sistema\Back\certificate/curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: CN=devtass.sytes.net
+*  start date: Mar  3 00:00:00 2024 GMT
+*  expire date: Jun  1 23:59:59 2024 GMT
+*  subjectAltName: host "devtass.sytes.net" matched cert's "devtass.sytes.net"
+*  issuer: C=AT; O=ZeroSSL; CN=ZeroSSL RSA Domain Secure Site CA
+*  SSL certificate verify ok.
+> POST /mpago/index.php HTTP/1.1
+Host: devtass.sytes.net
+Accept-Encoding: deflate, gzip
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 398
+
+* upload completely sent off: 398 out of 398 bytes
+* old SSL session ID is stale, removing
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Date: Wed, 10 Apr 2024 05:12:21 GMT
+< Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.30
+< X-Powered-By: PHP/7.4.30
+< Access-Control-Allow-Origin: *
+< Content-Length: 931
+< Content-Type: text/html; charset=UTF-8
+< 
+* Connection #0 to host devtass.sytes.net left intact
+*   Trying 186.137.127.17:443...
+* Connected to devtass.sytes.net (186.137.127.17) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\htdocs\tass-dev\sistema\Back\certificate/curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: CN=devtass.sytes.net
+*  start date: Mar  3 00:00:00 2024 GMT
+*  expire date: Jun  1 23:59:59 2024 GMT
+*  subjectAltName: host "devtass.sytes.net" matched cert's "devtass.sytes.net"
+*  issuer: C=AT; O=ZeroSSL; CN=ZeroSSL RSA Domain Secure Site CA
+*  SSL certificate verify ok.
+> POST /mpago/index.php HTTP/1.1
+Host: devtass.sytes.net
+Accept-Encoding: deflate, gzip
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 403
+
+* upload completely sent off: 403 out of 403 bytes
+* old SSL session ID is stale, removing
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Date: Wed, 10 Apr 2024 05:15:00 GMT
+< Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.30
+< X-Powered-By: PHP/7.4.30
+< Access-Control-Allow-Origin: *
+< Content-Length: 931
+< Content-Type: text/html; charset=UTF-8
+< 
+* Connection #0 to host devtass.sytes.net left intact
+*   Trying 186.137.127.17:443...
+* Connected to devtass.sytes.net (186.137.127.17) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\htdocs\tass-dev\sistema\Back\certificate/curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: CN=devtass.sytes.net
+*  start date: Mar  3 00:00:00 2024 GMT
+*  expire date: Jun  1 23:59:59 2024 GMT
+*  subjectAltName: host "devtass.sytes.net" matched cert's "devtass.sytes.net"
+*  issuer: C=AT; O=ZeroSSL; CN=ZeroSSL RSA Domain Secure Site CA
+*  SSL certificate verify ok.
+> POST /mpago/index.php HTTP/1.1
+Host: devtass.sytes.net
+Accept-Encoding: deflate, gzip
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 403
+
+* upload completely sent off: 403 out of 403 bytes
+* old SSL session ID is stale, removing
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Date: Wed, 10 Apr 2024 05:21:39 GMT
+< Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.30
+< X-Powered-By: PHP/7.4.30
+< Access-Control-Allow-Origin: *
+< Content-Length: 931
+< Content-Type: text/html; charset=UTF-8
+< 
+* Connection #0 to host devtass.sytes.net left intact
+*   Trying 186.137.127.17:443...
+* Connected to devtass.sytes.net (186.137.127.17) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\htdocs\tass-dev\sistema\Back\certificate/curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: CN=devtass.sytes.net
+*  start date: Mar  3 00:00:00 2024 GMT
+*  expire date: Jun  1 23:59:59 2024 GMT
+*  subjectAltName: host "devtass.sytes.net" matched cert's "devtass.sytes.net"
+*  issuer: C=AT; O=ZeroSSL; CN=ZeroSSL RSA Domain Secure Site CA
+*  SSL certificate verify ok.
+> POST /mpago/index.php HTTP/1.1
+Host: devtass.sytes.net
+Accept-Encoding: deflate, gzip
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 404
+
+* upload completely sent off: 404 out of 404 bytes
+* old SSL session ID is stale, removing
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Date: Wed, 10 Apr 2024 05:21:56 GMT
+< Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.30
+< X-Powered-By: PHP/7.4.30
+< Access-Control-Allow-Origin: *
+< Content-Length: 931
+< Content-Type: text/html; charset=UTF-8
+< 
+* Connection #0 to host devtass.sytes.net left intact
+*   Trying 186.137.127.17:443...
+* Connected to devtass.sytes.net (186.137.127.17) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\htdocs\tass-dev\sistema\Back\certificate/curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: CN=devtass.sytes.net
+*  start date: Mar  3 00:00:00 2024 GMT
+*  expire date: Jun  1 23:59:59 2024 GMT
+*  subjectAltName: host "devtass.sytes.net" matched cert's "devtass.sytes.net"
+*  issuer: C=AT; O=ZeroSSL; CN=ZeroSSL RSA Domain Secure Site CA
+*  SSL certificate verify ok.
+> POST /mpago/index.php HTTP/1.1
+Host: devtass.sytes.net
+Accept-Encoding: deflate, gzip
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 403
+
+* upload completely sent off: 403 out of 403 bytes
+* old SSL session ID is stale, removing
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Date: Wed, 10 Apr 2024 05:23:10 GMT
+< Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.30
+< X-Powered-By: PHP/7.4.30
+< Access-Control-Allow-Origin: *
+< Content-Length: 931
+< Content-Type: text/html; charset=UTF-8
+< 
+* Connection #0 to host devtass.sytes.net left intact
+*   Trying 167.250.5.31:443...
+* Connected to dev.bss.com.ar (167.250.5.31) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\htdocs\tass-dev\sistema\Back\certificate/curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use h2
+* Server certificate:
+*  subject: CN=dev.bss.com.ar
+*  start date: Apr  3 00:00:00 2024 GMT
+*  expire date: Jul  2 23:59:59 2024 GMT
+*  subjectAltName: host "dev.bss.com.ar" matched cert's "dev.bss.com.ar"
+*  issuer: C=US; ST=TX; L=Houston; O=cPanel, Inc.; CN=cPanel, Inc. Certification Authority
+*  SSL certificate verify ok.
+* Using HTTP2, server supports multi-use
+* Connection state changed (HTTP/2 confirmed)
+* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+* Using Stream ID: 1 (easy handle 0x19e82c50ec0)
+> POST /mpago/index.php HTTP/2
+Host: dev.bss.com.ar
+accept-encoding: deflate, gzip
+accept: application/json
+content-type: application/x-www-form-urlencoded
+content-length: 403
+
+* We are completely uploaded and fine
+* old SSL session ID is stale, removing
+* Connection state changed (MAX_CONCURRENT_STREAMS == 100)!
+< HTTP/2 200 
+< access-control-allow-origin: *
+< vary: Accept-Encoding,User-Agent
+< content-encoding: gzip
+< content-length: 939
+< content-type: application/json; charset=utf-8
+< date: Wed, 10 Apr 2024 05:24:39 GMT
+< server: Apache
+< 
+* Connection #0 to host dev.bss.com.ar left intact
+*   Trying 186.137.127.17:443...
+* Connected to devtass.sytes.net (186.137.127.17) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\htdocs\tass-dev\sistema\Back\certificate/curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: CN=devtass.sytes.net
+*  start date: Mar  3 00:00:00 2024 GMT
+*  expire date: Jun  1 23:59:59 2024 GMT
+*  subjectAltName: host "devtass.sytes.net" matched cert's "devtass.sytes.net"
+*  issuer: C=AT; O=ZeroSSL; CN=ZeroSSL RSA Domain Secure Site CA
+*  SSL certificate verify ok.
+> POST /mpago/index.php HTTP/1.1
+Host: devtass.sytes.net
+Accept-Encoding: deflate, gzip
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 403
+
+* upload completely sent off: 403 out of 403 bytes
+* old SSL session ID is stale, removing
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Date: Wed, 10 Apr 2024 05:25:11 GMT
+< Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.30
+< X-Powered-By: PHP/7.4.30
+< Access-Control-Allow-Origin: *
+< Content-Length: 2047
+< Content-Type: application/json; charset=utf-8
+< 
+* Connection #0 to host devtass.sytes.net left intact
+*   Trying 186.137.127.17:443...
+* Connected to devtass.sytes.net (186.137.127.17) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\htdocs\tass-dev\sistema\Back\certificate/curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: CN=devtass.sytes.net
+*  start date: Mar  3 00:00:00 2024 GMT
+*  expire date: Jun  1 23:59:59 2024 GMT
+*  subjectAltName: host "devtass.sytes.net" matched cert's "devtass.sytes.net"
+*  issuer: C=AT; O=ZeroSSL; CN=ZeroSSL RSA Domain Secure Site CA
+*  SSL certificate verify ok.
+> POST /mpago/index.php HTTP/1.1
+Host: devtass.sytes.net
+Accept-Encoding: deflate, gzip
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 403
+
+* upload completely sent off: 403 out of 403 bytes
+* old SSL session ID is stale, removing
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Date: Wed, 10 Apr 2024 05:25:25 GMT
+< Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.30
+< X-Powered-By: PHP/7.4.30
+< Access-Control-Allow-Origin: *
+< Content-Length: 2047
+< Content-Type: application/json; charset=utf-8
+< 
+* Connection #0 to host devtass.sytes.net left intact
+*   Trying 186.137.127.17:443...
+* Connected to devtass.sytes.net (186.137.127.17) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\htdocs\tass-dev\sistema\Back\certificate/curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: CN=devtass.sytes.net
+*  start date: Mar  3 00:00:00 2024 GMT
+*  expire date: Jun  1 23:59:59 2024 GMT
+*  subjectAltName: host "devtass.sytes.net" matched cert's "devtass.sytes.net"
+*  issuer: C=AT; O=ZeroSSL; CN=ZeroSSL RSA Domain Secure Site CA
+*  SSL certificate verify ok.
+> POST /mpago/index.php HTTP/1.1
+Host: devtass.sytes.net
+Accept-Encoding: deflate, gzip
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 402
+
+* upload completely sent off: 402 out of 402 bytes
+* old SSL session ID is stale, removing
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Date: Wed, 10 Apr 2024 23:04:18 GMT
+< Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.30
+< X-Powered-By: PHP/7.4.30
+< Access-Control-Allow-Origin: *
+< Content-Length: 2046
+< Content-Type: application/json; charset=utf-8
+< 
+* Connection #0 to host devtass.sytes.net left intact
+*   Trying 34.232.5.129:443...
+* Connected to api.mercadopago.com (34.232.5.129) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\apache\bin\curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256
+* ALPN, server accepted to use h2
+* Server certificate:
+*  subject: C=AR; L=Ciudad Autonoma de Buenos Aires; O=Mercadolibre Inc; CN=api.mercadopago.com
+*  start date: Feb 14 00:00:00 2024 GMT
+*  expire date: Feb 13 23:59:59 2025 GMT
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert Global G2 TLS RSA SHA256 2020 CA1
+*  SSL certificate verify ok.
+* Using HTTP2, server supports multi-use
+* Connection state changed (HTTP/2 confirmed)
+* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+* Using Stream ID: 1 (easy handle 0x19e82c50ec0)
+> GET /v1/payments/1322396391 HTTP/2
+Host: api.mercadopago.com
+accept-encoding: charset=utf-8
+content-type: application/json
+accept: application/json
+authorization: Bearer TEST-8877359900700578-012401-cc12a648254efb51f0c30f4b394955f6-1177407195
+
+* Connection state changed (MAX_CONCURRENT_STREAMS == 128)!
+< HTTP/2 200 
+< date: Wed, 10 Apr 2024 23:05:43 GMT
+< content-type: application/json;charset=UTF-8
+< vary: Accept-Encoding
+< vary: Accept,Accept-Encoding
+< cache-control: max-age=0
+< etag: d587ffcb707d7b15ce154c1dedd5bed5
+< x-content-type-options: nosniff
+< x-request-id: cf522380-d7b4-4353-b204-b6344a3809fe
+< x-xss-protection: 1; mode=block
+< strict-transport-security: max-age=16070400; includeSubDomains; preload
+< access-control-allow-origin: *
+< access-control-allow-headers: Content-Type
+< access-control-allow-methods: PUT, GET, POST, DELETE, OPTIONS
+< access-control-max-age: 86400
+< timing-allow-origin: *
+< 
+* Connection #0 to host api.mercadopago.com left intact
+*   Trying 186.137.127.17:443...
+* Connected to devtass.sytes.net (186.137.127.17) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\htdocs\tass-dev\sistema\Back\certificate/curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: CN=devtass.sytes.net
+*  start date: Mar  3 00:00:00 2024 GMT
+*  expire date: Jun  1 23:59:59 2024 GMT
+*  subjectAltName: host "devtass.sytes.net" matched cert's "devtass.sytes.net"
+*  issuer: C=AT; O=ZeroSSL; CN=ZeroSSL RSA Domain Secure Site CA
+*  SSL certificate verify ok.
+> POST /mpago/index.php HTTP/1.1
+Host: devtass.sytes.net
+Accept-Encoding: deflate, gzip
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 403
+
+* upload completely sent off: 403 out of 403 bytes
+* old SSL session ID is stale, removing
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Date: Thu, 11 Apr 2024 01:56:44 GMT
+< Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.30
+< X-Powered-By: PHP/7.4.30
+< Access-Control-Allow-Origin: *
+< Content-Length: 2047
+< Content-Type: application/json; charset=utf-8
+< 
+* Connection #0 to host devtass.sytes.net left intact
+*   Trying 34.225.157.229:443...
+* Connected to api.mercadopago.com (34.225.157.229) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\apache\bin\curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256
+* ALPN, server accepted to use h2
+* Server certificate:
+*  subject: C=AR; L=Ciudad Autonoma de Buenos Aires; O=Mercadolibre Inc; CN=api.mercadopago.com
+*  start date: Feb 14 00:00:00 2024 GMT
+*  expire date: Feb 13 23:59:59 2025 GMT
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert Global G2 TLS RSA SHA256 2020 CA1
+*  SSL certificate verify ok.
+* Using HTTP2, server supports multi-use
+* Connection state changed (HTTP/2 confirmed)
+* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+* Using Stream ID: 1 (easy handle 0x19e82c50ec0)
+> GET /v1/payments/1322416885 HTTP/2
+Host: api.mercadopago.com
+accept-encoding: charset=utf-8
+content-type: application/json
+accept: application/json
+authorization: Bearer TEST-8877359900700578-012401-cc12a648254efb51f0c30f4b394955f6-1177407195
+
+* Connection state changed (MAX_CONCURRENT_STREAMS == 128)!
+< HTTP/2 200 
+< date: Thu, 11 Apr 2024 01:58:16 GMT
+< content-type: application/json;charset=UTF-8
+< vary: Accept-Encoding
+< vary: Accept,Accept-Encoding
+< cache-control: max-age=0
+< etag: 870c92d35ccee17477ee33d064e1a6fa
+< x-content-type-options: nosniff
+< x-request-id: 2aee87ad-6fef-464a-bfc1-490e267bb822
+< x-xss-protection: 1; mode=block
+< strict-transport-security: max-age=16070400; includeSubDomains; preload
+< access-control-allow-origin: *
+< access-control-allow-headers: Content-Type
+< access-control-allow-methods: PUT, GET, POST, DELETE, OPTIONS
+< access-control-max-age: 86400
+< timing-allow-origin: *
+< 
+* Connection #0 to host api.mercadopago.com left intact
+*   Trying 186.137.127.17:443...
+* Connected to devtass.sytes.net (186.137.127.17) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\htdocs\tass-dev\sistema\Back\certificate/curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: CN=devtass.sytes.net
+*  start date: Mar  3 00:00:00 2024 GMT
+*  expire date: Jun  1 23:59:59 2024 GMT
+*  subjectAltName: host "devtass.sytes.net" matched cert's "devtass.sytes.net"
+*  issuer: C=AT; O=ZeroSSL; CN=ZeroSSL RSA Domain Secure Site CA
+*  SSL certificate verify ok.
+> POST /mpago/index.php HTTP/1.1
+Host: devtass.sytes.net
+Accept-Encoding: deflate, gzip
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 398
+
+* upload completely sent off: 398 out of 398 bytes
+* old SSL session ID is stale, removing
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Date: Thu, 11 Apr 2024 02:25:05 GMT
+< Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.30
+< X-Powered-By: PHP/7.4.30
+< Access-Control-Allow-Origin: *
+< Content-Length: 2042
+< Content-Type: application/json; charset=utf-8
+< 
+* Connection #0 to host devtass.sytes.net left intact
+*   Trying 34.232.5.129:443...
+* Connected to api.mercadopago.com (34.232.5.129) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\apache\bin\curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256
+* ALPN, server accepted to use h2
+* Server certificate:
+*  subject: C=AR; L=Ciudad Autonoma de Buenos Aires; O=Mercadolibre Inc; CN=api.mercadopago.com
+*  start date: Feb 14 00:00:00 2024 GMT
+*  expire date: Feb 13 23:59:59 2025 GMT
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert Global G2 TLS RSA SHA256 2020 CA1
+*  SSL certificate verify ok.
+* Using HTTP2, server supports multi-use
+* Connection state changed (HTTP/2 confirmed)
+* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+* Using Stream ID: 1 (easy handle 0x19e82c50ec0)
+> GET /v1/payments/1312016886 HTTP/2
+Host: api.mercadopago.com
+accept-encoding: charset=utf-8
+content-type: application/json
+accept: application/json
+authorization: Bearer TEST-8877359900700578-012401-cc12a648254efb51f0c30f4b394955f6-1177407195
+
+* Connection state changed (MAX_CONCURRENT_STREAMS == 128)!
+< HTTP/2 200 
+< date: Thu, 11 Apr 2024 03:20:43 GMT
+< content-type: application/json;charset=UTF-8
+< vary: Accept-Encoding
+< vary: Accept,Accept-Encoding
+< cache-control: max-age=0
+< etag: 0c065c936847338c3d53738299b3dd61
+< x-content-type-options: nosniff
+< x-request-id: 3064e477-a5b5-4428-ace7-e52f056bfab0
+< x-xss-protection: 1; mode=block
+< strict-transport-security: max-age=16070400; includeSubDomains; preload
+< access-control-allow-origin: *
+< access-control-allow-headers: Content-Type
+< access-control-allow-methods: PUT, GET, POST, DELETE, OPTIONS
+< access-control-max-age: 86400
+< timing-allow-origin: *
+< 
+* Connection #0 to host api.mercadopago.com left intact
+*   Trying 34.202.111.68:443...
+* Connected to api.mercadopago.com (34.202.111.68) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\apache\bin\curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256
+* ALPN, server accepted to use h2
+* Server certificate:
+*  subject: C=AR; L=Ciudad Autonoma de Buenos Aires; O=Mercadolibre Inc; CN=api.mercadopago.com
+*  start date: Feb 14 00:00:00 2024 GMT
+*  expire date: Feb 13 23:59:59 2025 GMT
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert Global G2 TLS RSA SHA256 2020 CA1
+*  SSL certificate verify ok.
+* Using HTTP2, server supports multi-use
+* Connection state changed (HTTP/2 confirmed)
+* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+* Using Stream ID: 1 (easy handle 0x19e82c50ec0)
+> GET /v1/payments/1177407195 HTTP/2
+Host: api.mercadopago.com
+accept-encoding: charset=utf-8
+content-type: application/json
+accept: application/json
+authorization: Bearer TEST-8877359900700578-012401-cc12a648254efb51f0c30f4b394955f6-1177407195
+
+* Connection state changed (MAX_CONCURRENT_STREAMS == 128)!
+< HTTP/2 404 
+< date: Thu, 11 Apr 2024 03:21:17 GMT
+< content-type: application/json;charset=UTF-8
+< vary: Accept-Encoding
+< vary: accept-encoding
+< x-content-type-options: nosniff
+< x-request-id: abe74917-5975-4e38-8cdf-221c03877f3d
+< x-xss-protection: 1; mode=block
+< strict-transport-security: max-age=16070400; includeSubDomains; preload
+< access-control-allow-origin: *
+< access-control-allow-headers: Content-Type
+< access-control-allow-methods: PUT, GET, POST, DELETE, OPTIONS
+< access-control-max-age: 86400
+< timing-allow-origin: *
+< 
+* Connection #0 to host api.mercadopago.com left intact
+*   Trying 34.234.187.66:443...
+* Connected to api.mercadopago.com (34.234.187.66) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\apache\bin\curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256
+* ALPN, server accepted to use h2
+* Server certificate:
+*  subject: C=AR; L=Ciudad Autonoma de Buenos Aires; O=Mercadolibre Inc; CN=api.mercadopago.com
+*  start date: Feb 14 00:00:00 2024 GMT
+*  expire date: Feb 13 23:59:59 2025 GMT
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert Global G2 TLS RSA SHA256 2020 CA1
+*  SSL certificate verify ok.
+* Using HTTP2, server supports multi-use
+* Connection state changed (HTTP/2 confirmed)
+* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+* Using Stream ID: 1 (easy handle 0x19e82c50ec0)
+> GET /v1/payments/1177407195 HTTP/2
+Host: api.mercadopago.com
+accept-encoding: charset=utf-8
+content-type: application/json
+accept: application/json
+authorization: Bearer TEST-8877359900700578-012401-cc12a648254efb51f0c30f4b394955f6-1177407195
+
+* Connection state changed (MAX_CONCURRENT_STREAMS == 128)!
+< HTTP/2 404 
+< date: Thu, 11 Apr 2024 03:22:48 GMT
+< content-type: application/json;charset=UTF-8
+< vary: Accept-Encoding
+< vary: accept-encoding
+< x-content-type-options: nosniff
+< x-request-id: 5357d7be-f631-4f24-a414-0a32b1e2e6a3
+< x-xss-protection: 1; mode=block
+< strict-transport-security: max-age=16070400; includeSubDomains; preload
+< access-control-allow-origin: *
+< access-control-allow-headers: Content-Type
+< access-control-allow-methods: PUT, GET, POST, DELETE, OPTIONS
+< access-control-max-age: 86400
+< timing-allow-origin: *
+< 
+* Connection #0 to host api.mercadopago.com left intact
+*   Trying 52.21.144.157:443...
+* Connected to api.mercadopago.com (52.21.144.157) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\apache\bin\curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256
+* ALPN, server accepted to use h2
+* Server certificate:
+*  subject: C=AR; L=Ciudad Autonoma de Buenos Aires; O=Mercadolibre Inc; CN=api.mercadopago.com
+*  start date: Feb 14 00:00:00 2024 GMT
+*  expire date: Feb 13 23:59:59 2025 GMT
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert Global G2 TLS RSA SHA256 2020 CA1
+*  SSL certificate verify ok.
+* Using HTTP2, server supports multi-use
+* Connection state changed (HTTP/2 confirmed)
+* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+* Using Stream ID: 1 (easy handle 0x19e82c50ec0)
+> GET /v1/payments/1322417535 HTTP/2
+Host: api.mercadopago.com
+accept-encoding: charset=utf-8
+content-type: application/json
+accept: application/json
+authorization: Bearer TEST-8877359900700578-012401-cc12a648254efb51f0c30f4b394955f6-1177407195
+
+* Connection state changed (MAX_CONCURRENT_STREAMS == 128)!
+< HTTP/2 200 
+< date: Thu, 11 Apr 2024 03:23:55 GMT
+< content-type: application/json;charset=UTF-8
+< vary: Accept-Encoding
+< vary: Accept,Accept-Encoding
+< cache-control: max-age=0
+< etag: c8eff6043ce7151802f5f794dc82c543
+< x-content-type-options: nosniff
+< x-request-id: 4dadd4b0-686f-4ce5-bbd1-d943ddf660df
+< x-xss-protection: 1; mode=block
+< strict-transport-security: max-age=16070400; includeSubDomains; preload
+< access-control-allow-origin: *
+< access-control-allow-headers: Content-Type
+< access-control-allow-methods: PUT, GET, POST, DELETE, OPTIONS
+< access-control-max-age: 86400
+< timing-allow-origin: *
+< 
+* Connection #0 to host api.mercadopago.com left intact
+*   Trying 186.137.127.17:443...
+* Connected to devtass.sytes.net (186.137.127.17) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\htdocs\tass-dev\sistema\Back\certificate/curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: CN=devtass.sytes.net
+*  start date: Mar  3 00:00:00 2024 GMT
+*  expire date: Jun  1 23:59:59 2024 GMT
+*  subjectAltName: host "devtass.sytes.net" matched cert's "devtass.sytes.net"
+*  issuer: C=AT; O=ZeroSSL; CN=ZeroSSL RSA Domain Secure Site CA
+*  SSL certificate verify ok.
+> POST /mpago/index.php HTTP/1.1
+Host: devtass.sytes.net
+Accept-Encoding: deflate, gzip
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 403
+
+* upload completely sent off: 403 out of 403 bytes
+* old SSL session ID is stale, removing
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Date: Thu, 11 Apr 2024 03:33:30 GMT
+< Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.30
+< X-Powered-By: PHP/7.4.30
+< Access-Control-Allow-Origin: *
+< Content-Length: 2047
+< Content-Type: application/json; charset=utf-8
+< 
+* Connection #0 to host devtass.sytes.net left intact
+*   Trying 34.202.111.68:443...
+* Connected to api.mercadopago.com (34.202.111.68) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\apache\bin\curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256
+* ALPN, server accepted to use h2
+* Server certificate:
+*  subject: C=AR; L=Ciudad Autonoma de Buenos Aires; O=Mercadolibre Inc; CN=api.mercadopago.com
+*  start date: Feb 14 00:00:00 2024 GMT
+*  expire date: Feb 13 23:59:59 2025 GMT
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert Global G2 TLS RSA SHA256 2020 CA1
+*  SSL certificate verify ok.
+* Using HTTP2, server supports multi-use
+* Connection state changed (HTTP/2 confirmed)
+* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+* Using Stream ID: 1 (easy handle 0x19e82c50ec0)
+> GET /v1/payments/1322417601 HTTP/2
+Host: api.mercadopago.com
+accept-encoding: charset=utf-8
+content-type: application/json
+accept: application/json
+authorization: Bearer TEST-8877359900700578-012401-cc12a648254efb51f0c30f4b394955f6-1177407195
+
+* Connection state changed (MAX_CONCURRENT_STREAMS == 128)!
+< HTTP/2 200 
+< date: Thu, 11 Apr 2024 03:46:51 GMT
+< content-type: application/json;charset=UTF-8
+< vary: Accept-Encoding
+< vary: Accept,Accept-Encoding
+< cache-control: max-age=0
+< etag: 27f05815e17e50fabb3464cb55e6564f
+< x-content-type-options: nosniff
+< x-request-id: b2c9ef57-63a1-4f39-b47c-a8e1f084ca00
+< x-xss-protection: 1; mode=block
+< strict-transport-security: max-age=16070400; includeSubDomains; preload
+< access-control-allow-origin: *
+< access-control-allow-headers: Content-Type
+< access-control-allow-methods: PUT, GET, POST, DELETE, OPTIONS
+< access-control-max-age: 86400
+< timing-allow-origin: *
+< 
+* Connection #0 to host api.mercadopago.com left intact
+*   Trying 186.137.127.17:443...
+* Connected to devtass.sytes.net (186.137.127.17) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\htdocs\tass-dev\sistema\Back\certificate/curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: CN=devtass.sytes.net
+*  start date: Mar  3 00:00:00 2024 GMT
+*  expire date: Jun  1 23:59:59 2024 GMT
+*  subjectAltName: host "devtass.sytes.net" matched cert's "devtass.sytes.net"
+*  issuer: C=AT; O=ZeroSSL; CN=ZeroSSL RSA Domain Secure Site CA
+*  SSL certificate verify ok.
+> POST /mpago/index.php HTTP/1.1
+Host: devtass.sytes.net
+Accept-Encoding: deflate, gzip
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 397
+
+* upload completely sent off: 397 out of 397 bytes
+* old SSL session ID is stale, removing
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Date: Thu, 11 Apr 2024 03:49:31 GMT
+< Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.30
+< X-Powered-By: PHP/7.4.30
+< Access-Control-Allow-Origin: *
+< Content-Length: 2041
+< Content-Type: application/json; charset=utf-8
+< 
+* Connection #0 to host devtass.sytes.net left intact
+*   Trying 34.202.111.68:443...
+* Connected to api.mercadopago.com (34.202.111.68) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\apache\bin\curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256
+* ALPN, server accepted to use h2
+* Server certificate:
+*  subject: C=AR; L=Ciudad Autonoma de Buenos Aires; O=Mercadolibre Inc; CN=api.mercadopago.com
+*  start date: Feb 14 00:00:00 2024 GMT
+*  expire date: Feb 13 23:59:59 2025 GMT
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert Global G2 TLS RSA SHA256 2020 CA1
+*  SSL certificate verify ok.
+* Using HTTP2, server supports multi-use
+* Connection state changed (HTTP/2 confirmed)
+* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+* Using Stream ID: 1 (easy handle 0x19e82c50ec0)
+> GET /v1/payments/1322418421 HTTP/2
+Host: api.mercadopago.com
+accept-encoding: charset=utf-8
+content-type: application/json
+accept: application/json
+authorization: Bearer TEST-8877359900700578-012401-cc12a648254efb51f0c30f4b394955f6-1177407195
+
+* Connection state changed (MAX_CONCURRENT_STREAMS == 128)!
+< HTTP/2 200 
+< date: Thu, 11 Apr 2024 03:50:50 GMT
+< content-type: application/json;charset=UTF-8
+< vary: Accept-Encoding
+< vary: Accept,Accept-Encoding
+< cache-control: max-age=0
+< etag: 252a84f40bbb38547fb26830f5da9a94
+< x-content-type-options: nosniff
+< x-request-id: 77e50aa3-ca21-4052-b052-0bc28419e791
+< x-xss-protection: 1; mode=block
+< strict-transport-security: max-age=16070400; includeSubDomains; preload
+< access-control-allow-origin: *
+< access-control-allow-headers: Content-Type
+< access-control-allow-methods: PUT, GET, POST, DELETE, OPTIONS
+< access-control-max-age: 86400
+< timing-allow-origin: *
+< 
+* Connection #0 to host api.mercadopago.com left intact
+*   Trying 186.137.127.17:443...
+* Connected to devtass.sytes.net (186.137.127.17) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\htdocs\tass-dev\sistema\Back\certificate/curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: CN=devtass.sytes.net
+*  start date: Mar  3 00:00:00 2024 GMT
+*  expire date: Jun  1 23:59:59 2024 GMT
+*  subjectAltName: host "devtass.sytes.net" matched cert's "devtass.sytes.net"
+*  issuer: C=AT; O=ZeroSSL; CN=ZeroSSL RSA Domain Secure Site CA
+*  SSL certificate verify ok.
+> POST /mpago/index.php HTTP/1.1
+Host: devtass.sytes.net
+Accept-Encoding: deflate, gzip
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 396
+
+* upload completely sent off: 396 out of 396 bytes
+* old SSL session ID is stale, removing
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Date: Thu, 11 Apr 2024 04:45:50 GMT
+< Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.30
+< X-Powered-By: PHP/7.4.30
+< Access-Control-Allow-Origin: *
+< Content-Length: 2040
+< Content-Type: application/json; charset=utf-8
+< 
+* Connection #0 to host devtass.sytes.net left intact
+*   Trying 186.137.127.17:443...
+* Connected to devtass.sytes.net (186.137.127.17) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\htdocs\tass-dev\sistema\Back\certificate/curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: CN=devtass.sytes.net
+*  start date: Mar  3 00:00:00 2024 GMT
+*  expire date: Jun  1 23:59:59 2024 GMT
+*  subjectAltName: host "devtass.sytes.net" matched cert's "devtass.sytes.net"
+*  issuer: C=AT; O=ZeroSSL; CN=ZeroSSL RSA Domain Secure Site CA
+*  SSL certificate verify ok.
+> POST /mpago/index.php HTTP/1.1
+Host: devtass.sytes.net
+Accept-Encoding: deflate, gzip
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 396
+
+* upload completely sent off: 396 out of 396 bytes
+* old SSL session ID is stale, removing
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Date: Thu, 11 Apr 2024 04:50:34 GMT
+< Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.30
+< X-Powered-By: PHP/7.4.30
+< Access-Control-Allow-Origin: *
+< Content-Length: 2040
+< Content-Type: application/json; charset=utf-8
+< 
+* Connection #0 to host devtass.sytes.net left intact
+*   Trying 186.137.127.17:443...
+* Connected to devtass.sytes.net (186.137.127.17) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\htdocs\tass-dev\sistema\Back\certificate/curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: CN=devtass.sytes.net
+*  start date: Mar  3 00:00:00 2024 GMT
+*  expire date: Jun  1 23:59:59 2024 GMT
+*  subjectAltName: host "devtass.sytes.net" matched cert's "devtass.sytes.net"
+*  issuer: C=AT; O=ZeroSSL; CN=ZeroSSL RSA Domain Secure Site CA
+*  SSL certificate verify ok.
+> POST /mpago/index.php HTTP/1.1
+Host: devtass.sytes.net
+Accept-Encoding: deflate, gzip
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 403
+
+* upload completely sent off: 403 out of 403 bytes
+* old SSL session ID is stale, removing
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Date: Thu, 11 Apr 2024 04:53:33 GMT
+< Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.30
+< X-Powered-By: PHP/7.4.30
+< Access-Control-Allow-Origin: *
+< Content-Length: 2047
+< Content-Type: application/json; charset=utf-8
+< 
+* Connection #0 to host devtass.sytes.net left intact
+*   Trying 34.194.124.109:443...
+* Connected to api.mercadopago.com (34.194.124.109) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\apache\bin\curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256
+* ALPN, server accepted to use h2
+* Server certificate:
+*  subject: C=AR; L=Ciudad Autonoma de Buenos Aires; O=Mercadolibre Inc; CN=api.mercadopago.com
+*  start date: Feb 14 00:00:00 2024 GMT
+*  expire date: Feb 13 23:59:59 2025 GMT
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert Global G2 TLS RSA SHA256 2020 CA1
+*  SSL certificate verify ok.
+* Using HTTP2, server supports multi-use
+* Connection state changed (HTTP/2 confirmed)
+* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+* Using Stream ID: 1 (easy handle 0x19e82c50ec0)
+> GET /v1/payments/1317799042 HTTP/2
+Host: api.mercadopago.com
+accept-encoding: charset=utf-8
+content-type: application/json
+accept: application/json
+authorization: Bearer TEST-8877359900700578-012401-cc12a648254efb51f0c30f4b394955f6-1177407195
+
+* Connection state changed (MAX_CONCURRENT_STREAMS == 128)!
+< HTTP/2 200 
+< date: Thu, 11 Apr 2024 04:54:30 GMT
+< content-type: application/json;charset=UTF-8
+< vary: Accept-Encoding
+< vary: Accept,Accept-Encoding
+< cache-control: max-age=0
+< etag: 51a3b13cbb7daaa868d2afe449455aa6
+< x-content-type-options: nosniff
+< x-request-id: 19a699dc-7af8-415d-b709-34cb43540ace
+< x-xss-protection: 1; mode=block
+< strict-transport-security: max-age=16070400; includeSubDomains; preload
+< access-control-allow-origin: *
+< access-control-allow-headers: Content-Type
+< access-control-allow-methods: PUT, GET, POST, DELETE, OPTIONS
+< access-control-max-age: 86400
+< timing-allow-origin: *
+< 
+* Connection #0 to host api.mercadopago.com left intact
+*   Trying 186.137.127.17:443...
+* Connected to devtass.sytes.net (186.137.127.17) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\htdocs\tass-dev\sistema\Back\certificate/curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: CN=devtass.sytes.net
+*  start date: Mar  3 00:00:00 2024 GMT
+*  expire date: Jun  1 23:59:59 2024 GMT
+*  subjectAltName: host "devtass.sytes.net" matched cert's "devtass.sytes.net"
+*  issuer: C=AT; O=ZeroSSL; CN=ZeroSSL RSA Domain Secure Site CA
+*  SSL certificate verify ok.
+> POST /mpago/index.php HTTP/1.1
+Host: devtass.sytes.net
+Accept-Encoding: deflate, gzip
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 403
+
+* upload completely sent off: 403 out of 403 bytes
+* old SSL session ID is stale, removing
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Date: Thu, 11 Apr 2024 05:25:36 GMT
+< Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.30
+< X-Powered-By: PHP/7.4.30
+< Access-Control-Allow-Origin: *
+< Content-Length: 2047
+< Content-Type: application/json; charset=utf-8
+< 
+* Connection #0 to host devtass.sytes.net left intact
+*   Trying 34.194.124.109:443...
+* Connected to api.mercadopago.com (34.194.124.109) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\apache\bin\curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256
+* ALPN, server accepted to use h2
+* Server certificate:
+*  subject: C=AR; L=Ciudad Autonoma de Buenos Aires; O=Mercadolibre Inc; CN=api.mercadopago.com
+*  start date: Feb 14 00:00:00 2024 GMT
+*  expire date: Feb 13 23:59:59 2025 GMT
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert Global G2 TLS RSA SHA256 2020 CA1
+*  SSL certificate verify ok.
+* Using HTTP2, server supports multi-use
+* Connection state changed (HTTP/2 confirmed)
+* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+* Using Stream ID: 1 (easy handle 0x19e82c50ec0)
+> GET /v1/payments/1317799194 HTTP/2
+Host: api.mercadopago.com
+accept-encoding: charset=utf-8
+content-type: application/json
+accept: application/json
+authorization: Bearer TEST-8877359900700578-012401-cc12a648254efb51f0c30f4b394955f6-1177407195
+
+* Connection state changed (MAX_CONCURRENT_STREAMS == 128)!
+< HTTP/2 200 
+< date: Thu, 11 Apr 2024 05:42:29 GMT
+< content-type: application/json;charset=UTF-8
+< vary: Accept-Encoding
+< vary: Accept,Accept-Encoding
+< cache-control: max-age=0
+< etag: 0d288a2f6a461befb3332bbba233f30f
+< x-content-type-options: nosniff
+< x-request-id: ba53ed4f-7a94-4fdd-a033-5cb007a2d45d
+< x-xss-protection: 1; mode=block
+< strict-transport-security: max-age=16070400; includeSubDomains; preload
+< access-control-allow-origin: *
+< access-control-allow-headers: Content-Type
+< access-control-allow-methods: PUT, GET, POST, DELETE, OPTIONS
+< access-control-max-age: 86400
+< timing-allow-origin: *
+< 
+* Connection #0 to host api.mercadopago.com left intact
+*   Trying 34.194.124.109:443...
+* Connected to api.mercadopago.com (34.194.124.109) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\apache\bin\curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256
+* ALPN, server accepted to use h2
+* Server certificate:
+*  subject: C=AR; L=Ciudad Autonoma de Buenos Aires; O=Mercadolibre Inc; CN=api.mercadopago.com
+*  start date: Feb 14 00:00:00 2024 GMT
+*  expire date: Feb 13 23:59:59 2025 GMT
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert Global G2 TLS RSA SHA256 2020 CA1
+*  SSL certificate verify ok.
+* Using HTTP2, server supports multi-use
+* Connection state changed (HTTP/2 confirmed)
+* Copying HTTP/2 data in stream buffer to connection buffer after upgrade: len=0
+* Using Stream ID: 1 (easy handle 0x19e82c50ec0)
+> GET /v1/payments/1317800482 HTTP/2
+Host: api.mercadopago.com
+accept-encoding: charset=utf-8
+content-type: application/json
+accept: application/json
+authorization: Bearer TEST-8877359900700578-012401-cc12a648254efb51f0c30f4b394955f6-1177407195
+
+* Connection state changed (MAX_CONCURRENT_STREAMS == 128)!
+< HTTP/2 200 
+< date: Thu, 11 Apr 2024 12:22:07 GMT
+< content-type: application/json;charset=UTF-8
+< vary: Accept-Encoding
+< vary: Accept,Accept-Encoding
+< cache-control: max-age=0
+< etag: 82acf0b0dfce569403336d8bf7cd1abe
+< x-content-type-options: nosniff
+< x-request-id: 3e20fd95-c8ac-4d8d-8d7f-6b70c9617bd2
+< x-xss-protection: 1; mode=block
+< strict-transport-security: max-age=16070400; includeSubDomains; preload
+< access-control-allow-origin: *
+< access-control-allow-headers: Content-Type
+< access-control-allow-methods: PUT, GET, POST, DELETE, OPTIONS
+< access-control-max-age: 86400
+< timing-allow-origin: *
+< 
+* Connection #0 to host api.mercadopago.com left intact
+*   Trying 186.137.127.17:443...
+* Connected to devtass.sytes.net (186.137.127.17) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\htdocs\tass-dev\sistema\Back\certificate/curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: CN=devtass.sytes.net
+*  start date: Mar  3 00:00:00 2024 GMT
+*  expire date: Jun  1 23:59:59 2024 GMT
+*  subjectAltName: host "devtass.sytes.net" matched cert's "devtass.sytes.net"
+*  issuer: C=AT; O=ZeroSSL; CN=ZeroSSL RSA Domain Secure Site CA
+*  SSL certificate verify ok.
+> POST /mpago/index.php HTTP/1.1
+Host: devtass.sytes.net
+Accept-Encoding: deflate, gzip
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 403
+
+* upload completely sent off: 403 out of 403 bytes
+* old SSL session ID is stale, removing
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Date: Sun, 14 Apr 2024 05:52:32 GMT
+< Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.30
+< X-Powered-By: PHP/7.4.30
+< Access-Control-Allow-Origin: *
+< Content-Length: 2047
+< Content-Type: application/json; charset=utf-8
+< 
+* Connection #0 to host devtass.sytes.net left intact
+*   Trying 186.137.127.17:443...
+* Connected to devtass.sytes.net (186.137.127.17) port 443 (#0)
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* successfully set certificate verify locations:
+*   CAfile: C:\xampp_strix\htdocs\tass-dev\sistema\Back\certificate/curl-ca-bundle.crt
+  CApath: none
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384
+* ALPN, server accepted to use http/1.1
+* Server certificate:
+*  subject: CN=devtass.sytes.net
+*  start date: Mar  3 00:00:00 2024 GMT
+*  expire date: Jun  1 23:59:59 2024 GMT
+*  subjectAltName: host "devtass.sytes.net" matched cert's "devtass.sytes.net"
+*  issuer: C=AT; O=ZeroSSL; CN=ZeroSSL RSA Domain Secure Site CA
+*  SSL certificate verify ok.
+> POST /mpago/index.php HTTP/1.1
+Host: devtass.sytes.net
+Accept-Encoding: deflate, gzip
+Accept: application/json
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 403
+
+* upload completely sent off: 403 out of 403 bytes
+* old SSL session ID is stale, removing
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< Date: Sun, 14 Apr 2024 05:57:22 GMT
+< Server: Apache/2.4.54 (Win64) OpenSSL/1.1.1p PHP/7.4.30
+< X-Powered-By: PHP/7.4.30
+< Access-Control-Allow-Origin: *
+< Content-Length: 2047
+< Content-Type: application/json; charset=utf-8
+< 
+* Connection #0 to host devtass.sytes.net left intact
