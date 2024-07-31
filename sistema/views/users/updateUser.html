@@ -50,7 +50,7 @@
                         </div>
                     </div>
                     <!-- Company List-->
-                    <div class="form-group col-md-12" ng-show="users.update.idProfileKf==2 || users.update.idProfileKf==4" ng-class="
+                    <div class="form-group col-md-12" ng-show="users.update.idProfileKf==22 || users.update.idProfileKf==44" ng-class="
                         {	'has-success': 
                             select.companies.selected!=undefined && fUpdateUser.company.$valid,
                              'has-error':  
@@ -77,6 +77,34 @@
                                     </ui-select-no-choice>
                                 </ui-select>
                             </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12 " ng-if="users.update.idProfileKf==2 || users.update.idProfileKf==4 || users.update.idProfileKf==6" ng-class="
+                        {	'has-success': 
+                            filterCompanyKf.selected!=undefined && customerSearch.name!=undefined && fUpdateUser.customerSearch.$valid,
+                            'has-error':  
+                            (filterCompanyKf.selected==undefined) && customerSearch.name==undefined && fUpdateUser.customerSearch.$touched,
+                        }">
+                        <div class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-l n-padding-r">
+                            <label ng-if="users.update.idProfileKf==2" style="padding-left: 15px;">Empresas</label>
+                            <label ng-if="users.update.idProfileKf==4" style="padding-left: 15px;">Administraciones</label>
+                            <label ng-if="users.update.idProfileKf==6" style="padding-left: 15px;">Direcci&#243n del consorcio asignado</label>
+                        <div class="input-group s-ui-width s-ui-m-left">
+                            <span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
+                            <input type="text" name="customerSearch" 
+                                id="customerSearch"
+                                ng-model="customerSearch.name"
+                                ng-keydown="findCustomerFn(customerSearch.name, users.update.idProfileKf, 'setClient');"
+                                class="form-control text-uppercase" 
+                                move-to-list input-selector="'.input-search'"
+                                list-items-selector="'.list-group li'"
+                                placeholder="Presione Enter para buscar..."
+                                style="z-index: 2100; border-radius: 4px;border-bottom-left-radius: 0px;border-top-left-radius: 0px;"
+                                ng-required="users.update.idProfileKf==2 || users.update.idProfileKf==4 || users.update.idProfileKf==6" />
+                            <ul id="customerList" class="list-group" ng-show="listCustomerFound.length>0 && (customerSearch.name!=undefined || customerSearch.name!=null)" style="height: 0px; z-index: 2000;" >
+                                <li tabindex="0" id="customerList-{{$index}}" style="z-index: 2000;"  class="list-group-item" ng-repeat="item in listCustomerFound" navigate-list-items ng-class="{'padding-t-38': $index==0}" ng-click="loadCustomerFieldsFn(item, 'setClient');" input-selector="'.input-search'" list-items-selector="'.list-group li'" ng-keydown="$event.keyCode === 13 && loadCustomerFieldsFn(item)" > {{item.idClient}} - {{item.name}} <span class="label label-default">{{item.ClientType | uppercase}}</span></li>
+                            </ul>
+                        </div>
                         </div>
                     </div>
                     <!-- Select Type of Attendant -->
@@ -139,7 +167,7 @@
                         </div>
                     </div>
                     <!-- List Address For Users-->
-                    <div ng-if="((users.update.idProfileKf==6))" class="form-group col-md-12"  ng-class="
+                    <div ng-if="((users.update.idProfileKf==66))" class="form-group col-md-12"  ng-class="
                         {	'has-success': 
                             select.addressAttendant.selected!=undefined && fUpdateUser.user_address.$valid,
                             'has-error':  
@@ -298,7 +326,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">Departamentos asociados
-                                        <button ng-if="(users.update.idTypeTenantKf=='2' && users.update.deptos.length==0 && users.update.idProfileKf==4 || users.update.idProfileKf==5 || users.update.idProfileKf==6) || (users.update.idTypeTenantKf=='1' && users.update.idProfileKf==3 || users.update.idProfileKf==4 || users.update.idProfileKf==6)" data-toggle="tooltip" data-placement="right" title="Nuevo departamento"  ng-click="switchUsersFn(users.update, 'selectDepto');" type="button" class="btn btn-labeled btn-sm btn-info">
+                                        <button ng-if="(users.new.idProfileKf.idProfile==2 || users.new.idProfileKf.idProfile==3 || users.new.idProfileKf.idProfile==4 || users.new.idProfileKf.idProfile==6) || (users.update.idProfileKf==2 || users.update.idProfileKf==3 || (users.update.idProfileKf==5 && userDepartamentList.length==0) || users.update.idProfileKf==4 || users.update.idProfileKf==6)" data-toggle="tooltip" data-placement="right" title="Nuevo departamento"  ng-click="switchUsersFn('selectDepto', users.update);" type="button" class="btn btn-labeled btn-sm btn-info">
                                             <span class="btn-label"><i title="nuevo" class="fas fa-plus"></i> </span>Departamento</button>
                                     </h3>
                                 </div>

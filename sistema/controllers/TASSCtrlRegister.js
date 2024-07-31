@@ -144,6 +144,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
                   blockUI.start('Asociando usuario al departamento seleccionado.');
                   $timeout(function() {
                     $scope.depto.department.idUserKf=response_userFound.data[0].idUser;
+                    $scope.depto.department.isApprovalRequired = true;
                     $scope.depto.department.idDepartment=$scope.register.idDepartmentKf;
                   }, 1500); 
                   $timeout(function() {
@@ -259,6 +260,10 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
           inform.add('Departamento Asignado y pendiente por aprobacion por la administracion.',{
             ttl:6000, type: 'success'
           });
+          $timeout(function() {
+            $location.path("/login");
+            blockUI.stop();
+          }, 1500);
         }else if (response.status==404){
           inform.add('Ocurrio un error, contacte al area de soporte de TASS..',{
             ttl:3000, type: 'danger'
@@ -291,7 +296,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
       /**********************************************
       *               INPUT PHONE MASK              *
       **********************************************/
-        $('.input--phone').mask('+54 (0##) (15) ####-####',
+        $('.input--phone').mask('+54 (15) ####-####',
         {
           reverse: false,
           translation:{
@@ -304,7 +309,22 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
               pattern: /[1-9]/
             }
           },
-          placeholder: "+54 (0__) (15) ____ ____"
+          placeholder: "+54 (15) ____ ____"
+        });
+        $('.input--phone--wired').mask('+54 (####) ####-####',
+        {
+          reverse: false,
+          translation:{
+            '0': null,
+            '1': null,
+            '4': null,
+            '5': null,
+            '+': null,
+            '#':{
+              pattern: /[0-9]/
+            }
+          },
+          placeholder: "+54 (_____) ____ ____"
         });
       /**********************************************
       *               INPUT DNI MASK                *

@@ -5,8 +5,13 @@ var sysInfo = angular.module("module.Info", ["tokenSystem", "angular.filter", "s
 
 sysInfo.controller('infoCtrl', function($scope, $location, $routeParams, blockUI, $q, Lightbox, $timeout, inform, DepartmentsServices, CustomerServices, ProductsServices, ContractServices, serviceServices, addressServices, userServices, tokenSystem, $window, serverHost, UtilitiesServices, $filter, APP_SYS){
     console.log(APP_SYS.app_name+" Modulo Info");
-
-
+    if (!$scope.sysToken || !$scope.sysLoggedUser ){
+      $location.path("/login");
+    }
+    
+    var currentUrl = $location.path()
+    var urlPath = currentUrl.split('/');
+    $scope.urlPathSelected=urlPath[1];
       /**************************************************
       *                                                 *
       *                GET CUSTOMER BY ID               *
@@ -357,12 +362,17 @@ sysInfo.controller('infoCtrl', function($scope, $location, $routeParams, blockUI
     *                                                                          *
     ****************************************************************************/
 
-        /* USAGE: /info/client/55 */
-        console.log($routeParams);
+    $scope.sysRouteParams = undefined;
+    $scope.sysRouteParams = tokenSystem.getTokenStorage(8);
+    if ($scope.sysRouteParams && $scope.sysRouteParams!=undefined){
+        console.log("===========================================");
+        console.log("    Parameters for Approval received       ");
+        console.log("===========================================");
+        console.log($scope.sysRouteParams);
         $scope.checkStatus={'services':false, 'client':false}
-        if($routeParams){
-          if ($routeParams.client!=undefined){
-            var idClient = $routeParams.client;
+        if($scope.sysRouteParams){
+          if ($scope.sysRouteParams.client!=undefined){
+            var idClient = $scope.sysRouteParams.client;
             //console.log("client: "+idClient);
             //$timeout(function() {$scope.checkCustomerIsInDebtFn(idClient);}, 1500);
             //$scope.checkCustomerIsInDebtFn(idClient);
@@ -375,7 +385,7 @@ sysInfo.controller('infoCtrl', function($scope, $location, $routeParams, blockUI
                   isCollapsed = !isCollapsed; 
                   $scope.dayDataCollapseFn();
               }, 700);
-            console.log($routeParams);
+            console.log($scope.sysRouteParams);
           }else{
             $location.path("/login");
           }
@@ -385,6 +395,6 @@ sysInfo.controller('infoCtrl', function($scope, $location, $routeParams, blockUI
               ttl:5000, type: 'warning'
             });
         }
-
+    }
 
 });

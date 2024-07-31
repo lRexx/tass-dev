@@ -86,7 +86,7 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 
 /* SYS CONSTANT TO DEFINE SERVER HOST  */
 
-//define('BSS_HOST', 'devtass.sytes.net');
-define('BSS_HOST', 'dev.bss.com.ar');
+define('BSS_HOST', 'devbss.sytes.net');
+//define('BSS_HOST', 'dev.bss.com.ar');
 //define('BSS_HOST', 'sistema.bss.com.ar');
 

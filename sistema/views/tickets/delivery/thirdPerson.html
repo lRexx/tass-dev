@@ -142,7 +142,6 @@
                                     <ui-select name="localidad" 
                                                 class="dropdown-select" 
                                                 ng-model="ticket.delivery.thirdPerson.location.selected"
-                                                ng-disabled=""
                                                 ng-disabled="((ticket.building.isStockInBuilding=='1' || ((ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0'))) || !ticket.delivery.thirdPerson.province.selected.idProvince  && !ticket.delivery.thirdPerson.nameAddress)" 
                                                 required="true" 
                                                 ng-change="mainSwitchFn('checkThirdPersonLocation', ticket.delivery.thirdPerson.location.selected); enabledNextBtn();" 

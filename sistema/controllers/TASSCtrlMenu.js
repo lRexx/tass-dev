@@ -64,11 +64,15 @@
       $scope.sysLoggedUser        = tokenSystem.getTokenStorage(2);
       $scope.sysLoggedUserModules = tokenSystem.getTokenStorage(6);
       var regexPath = /(\/status\/|\/info\/)+([A-z_]{4,15})+\/\d/;
+      var regexPathStatusClient = /^\/status\/client\/\d+$/;
+      var regexPathValidateUser = /^\/validate\/token\/+([A-z_]{4,15})+\/\d+$/;
+      var currentUrl = $location.path()
+      var urlPath = currentUrl.split('/');
+      $scope.urlPathSelected1=urlPath[1];
+      $scope.urlPathSelected2=urlPath[2];
       //console.log(regexPath);
-      var currentUrl = $location.path();
-      console.log(currentUrl)
-      console.log("currentUrl Match with regexPath: ")
-      console.log(currentUrl.match(regexPath));
+      //console.log("currentUrl Match with regexPath: ")
+      //console.log(currentUrl.match(regexPath));
       //if (!currentUrl.match(statusPath) && (!$scope.sysToken || $scope.sysToken==null || $scope.sysToken==undefined) && (!$scope.sysLoggedUser || $scope.sysLoggedUser==null || $scope.sysLoggedUser==undefined)){
       //  console.log("Redirecting to login page....");
       //  $location.path("/login");
@@ -170,9 +174,12 @@
           $scope.mess2show="";
           console.log("$scope.swMenu: "+$scope.swMenu);
           switch ($scope.swMenu){
+            case "closeRequest":
+              $('#showModalEmailChange').modal('hide');
+            break;
             case "updateSysUser":
               if (confirm==0){
-                  if ($scope.sessionidProfile==1 && obj.idUser!=0){
+                  if (obj.idUser!=0){
                     if (obj.idProfileKf){$scope.mess2show="El usuario ("+obj.fullNameUser+") bajo el perfil de "+obj.nameProfile+" sera Actualizado.     Confirmar?";}
                       $scope.idUserKf   =  obj.idUser;
                       $scope.argObj = obj;
@@ -182,13 +189,13 @@
                   }      
                 $('#confirmRequestModalMenu').modal('toggle');
               }else if (confirm==1){
-                    $scope.sysUpdateUserFn($scope.argObj);
+                $scope.updateProfileLoggedUser();
                 $('#confirmRequestModalMenu').modal('hide');
               }
             break;
             case "updateUserPwd":
               if (confirm==0){
-                  if ($scope.sessionidProfile==1 && obj.idUser!=0){
+                  if (obj.idUser!=0){
                     if (obj.idProfileKf){$scope.mess2show="Esta seguro que desea hacer el cambio de contraseña.     Confirmar?";}
                       $scope.idUserKf   =  obj.idUser;
                       $scope.argObj = obj;
@@ -198,7 +205,7 @@
                   }      
                 $('#confirmRequestModalMenu').modal('toggle');
               }else if (confirm==1){
-                    $scope.sysUpdateUserFn($scope.argObj);
+                    $scope.sysPwdChangeFn();
                 $('#confirmRequestModalMenu').modal('hide');
               }
             break;
@@ -220,6 +227,30 @@
             break;
             default:
           }
+        }
+      /**************************************************
+      *                                                 *
+      *                   SCHEDULE TIME                 *
+      *                                                 *
+      **************************************************/
+        $scope.sysUpdateUserFn = function(obj){
+          $scope.rsUser = {'user':{}}
+          $scope.rsUser.user=obj;
+          console.log($scope.rsUser);
+          userServices.updateUser($scope.rsUser).then(function(data){
+            $scope.rsJsonData = data;
+            if($scope.rsJsonData.status==200){
+              console.log("Usuario: "+obj.fullNameUser+" Successfully updated");
+              inform.add('El Usuario: '+obj.fullNameUser+' ha sido actualizado con exito. ',{
+                    ttl:3000, type: 'success'
+              });
+            }else if($scope.rsJsonData.status==500){
+              console.log("User not updated, contact administrator");
+              inform.add('Error: [500] Contacta al area de soporte. ',{
+                    ttl:2000, type: 'danger'
+              });
+            }
+          });
         }
       /**************************************************
       *                                                 *
@@ -644,7 +675,16 @@
             *               INPUT PHONE MASK              *
             **********************************************/
               $('.input--phone-no-format').mask('9999999999999');
-              $('.input--phone').mask('+54 (0##) (15) ####-####',
+              $('.input--depto').mask('ZZZ',
+                  {
+                    translation:{
+                      'Z':{
+                        pattern: /[a-zA-Z0-9]/
+                      }
+                    }
+                  }
+              ); 
+              $('.input--movil').mask('+54 (15) ####-####',
               {
                 reverse: false,
                 translation:{
@@ -657,7 +697,22 @@
                     pattern: /[0-9]/
                   }
                 },
-                placeholder: "+54 (0__) (15) ____ ____"
+                placeholder: "+54 (15) ____ ____"
+              });
+              $('.input--local').mask('+54 (####) ####-####',
+              {
+                reverse: false,
+                translation:{
+                  '0': null,
+                  '1': null,
+                  '4': null,
+                  '5': null,
+                  '+': null,
+                  '#':{
+                    pattern: /[0-9]/
+                  }
+                },
+                placeholder: "+54 (_____) ____ ____"
               });
               $('.input--time').mask('00:00');
               $('.input--date').mask('00r00r0000', {
@@ -743,14 +798,16 @@
             //console.log($scope.profile);
           }
           $scope.updateProfileLoggedUser=function(){
+            $scope.rsUser = {'user':{}}
+            var isEmailChange = $scope.sysLoggedUser.emailUser != $scope.profile.emailUser?true:false;
             console.log("==========================================");
                 $scope.sysLoggedUser.fullNameUser         = $scope.profile.fullNameUser;
                 $scope.sysLoggedUser.emailUser            = $scope.profile.emailUser;
                 $scope.sysLoggedUser.phoneNumberUser      = $scope.profile.phoneNumberUser;
                 $scope.sysLoggedUser.phoneLocalNumberUser = $scope.profile.phoneLocalNumberUser;
                 $scope.sysLoggedUser.isEdit               = 1;
-                $scope.rsUser = {'user':{}}
                 $scope.rsUser.user=$scope.sysLoggedUser;
+                $scope.rsUser.user.isEmailChange = isEmailChange;
             console.log($scope.rsUser)
             console.log("==========================================");
             userServices.updateUser($scope.rsUser).then(function(response){
@@ -759,8 +816,11 @@
                 inform.add($scope.rsUser.user.fullNameUser+', su perfil ha sido actualizado con exito. ',{
                       ttl:4000, type: 'success'
                 });
+                if ($scope.rsUser.user.isEmailChange){
+                  $('#showModalEmailChange').modal({backdrop: 'static', keyboard: false});
+                }
                 $('#ProfileModalUser').modal('hide');
-                setTimeout(function() {
+                $timeout(function() {
                   $scope.updateSysUserLoggedSession($scope.rsUser.user.idUser);
                 }, 1000);
               }else if(response.status==404){
@@ -889,9 +949,7 @@
         **************************************************/
           $scope.logout = function(){
             $scope.rsJSON = "";
-            sessionStorage.removeItem('sysToken');
-            sessionStorage.removeItem('sysLoggedUser');
-            sessionStorage.removeItem('sysLoggedUserModules');
+            tokenSystem.destroyTokenStorage(1);
             $scope.sysToken = false;
             $scope.sysLoggedUser = false;
             $location.path("/login");
@@ -1012,7 +1070,7 @@
             }
             $scope.timeOutFn = function(){
               var currentLocation = $location.path();
-              if (currentLocation!="/login" && currentLocation!="/register" && currentLocation!="/forgotpwd" &&  currentLocation!="/newpwd"){
+              if (currentLocation!="/login" && currentLocation!="/register" && currentLocation!="/forgotpwd" && currentLocation!="/newpwd" && currentLocation!="/validate" && !currentUrl.match(regexPathValidateUser) && !currentUrl.match(regexPathStatusClient)){
                   //console.log('starting session timer');
                   $scope.warningTimeOut("start_timeout");
                   //Get the inputs Events of mouse/keyboard to check the activity.
@@ -1024,15 +1082,24 @@
               }
             };
 
-            //console.log(currentUrl);
-      if ($location.path() != "/register" && $location.path() != "/forgotpwd" && $location.path() != "/newpwd" && !currentUrl.match(regexPath)){
-        //console.log($location.path());
+            //console.log(currentUrl); && !currentUrl.match(regexPath)
+            console.log($location.path()+" - Match: "+currentUrl.match(regexPathStatusClient));
+            console.log($location.path()+" - Match: "+currentUrl.match(regexPathValidateUser))
+            
+            $scope.sysRouteParams = tokenSystem.getTokenStorage(8);
+            console.log("$scope.sysToken: "+$scope.sysToken);  
+            console.log("$scope.sysLoggedUser: "+$scope.sysLoggedUser);
+            console.log("$scope.sysRouteParams:"); 
+            console.log($scope.sysRouteParams); 
+      if ($location.path() != "/register" && $location.path() != "/forgotpwd" && $location.path() != "/newpwd" && $location.path() !="/validate" && !currentUrl.match(regexPathValidateUser) && !currentUrl.match(regexPathStatusClient)){
+        console.log($location.path());
         if (!$scope.sysToken || $scope.sysLoggedUser==undefined || $scope.sysLoggedUserModules==undefined){
           $timeout(function() {
-            console.log("Entro nuevamente aca");
+            console.log("Login redirection...");
             $location.path("/login");
           }, 2000);
         }else{
+          console.log("Login success, system loading...");
           //$scope.sysLoadLStorage();
           $scope.sysLoadModules();
           $scope.getStatesFn();
@@ -1064,11 +1131,48 @@
               blockUI.stop(); 
             }, 500);
           }
+          if (($scope.sysToken) && ($scope.sysRouteParams.Type!=undefined && $scope.sysRouteParams.info!=undefined) && ($scope.sysLoggedUser!=false || $scope.sysLoggedUser!=undefined)){
+            console.log("Redirecting to menu page....");  
+            $location.path(currentUrl);
+          }else if(($scope.sysToken) && ($scope.sysRouteParams.Type!=undefined || $scope.sysRouteParams.info!=undefined) && ($scope.sysLoggedUser!=false || $scope.sysLoggedUser!=undefined)){
+            var switch_opt=$scope.sysRouteParams.Type!=undefined && $scope.sysRouteParams.info==undefined?$scope.sysRouteParams.Type:$scope.sysRouteParams.info
+            switch (switch_opt){
+              case "depto":
+                $location.path("/buildings");
+              break;
+              case "ticket":
+                $location.path("/monitor");
+              break;
+              case "info":
+                $location.path("/info");
+              break;
+              case "status":
+                $location.path("/status");
+              break;
+              default:
+            }
+              const hasReloadedKey = 'hasReloaded';
+
+              // Función para recargar la página solo una vez
+              function reloadOnce() {
+                  if (!sessionStorage.getItem(hasReloadedKey)) {
+                      // Establecer el estado en localStorage para evitar recargas adicionales
+                      sessionStorage.setItem(hasReloadedKey, 'true');
+                      
+                      // Recargar la página
+                      console.log("reloading windows!!")
+                      window.location.reload();
+                  }
+              }
+              $timeout(function() {
+                reloadOnce();
+              }, 500);
+          }
+
           
         }
       }
       $scope.getRoute = function(route){
-        //console.log(route);
         return route === $location.path();
       }
   });

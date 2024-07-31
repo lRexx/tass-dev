@@ -27,7 +27,7 @@
                 </span>
               </h3>
             </div>
-            <!-- PARA CONSULTAS tkupdate.typeticket.TypeTicketName.substr(20,9) -->
+            <!-- PARA CONSULTAS tkupdate.typeticket.TypeTicketName.substr(20,9) tk.idStatusTicketKf=='12' && tk.idTypeTicketKf=='2'-->
             <div class="modal-body"  style="overflow-y: scroll;">
                 <!-- FORM CONTAINER-->
                 <form class="form-horizontal" name="fUpdateTicket" novalidate>
@@ -48,7 +48,7 @@
                                     'label-success':  
                                     tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='5',
                                     'label-warning':  
-                                    tkupdate.idStatusTicketKf=='3' || tkupdate.idStatusTicketKf=='4' || tkupdate.idStatusTicketKf=='10' || tkupdate.idStatusTicketKf=='2' || tkupdate.idStatusTicketKf=='7' || tkupdate.idStatusTicketKf=='9' || tkupdate.idStatusTicketKf=='11',
+                                    tkupdate.idStatusTicketKf=='3' || tkupdate.idStatusTicketKf=='4' || tkupdate.idStatusTicketKf=='10' || tkupdate.idStatusTicketKf=='2' || tkupdate.idStatusTicketKf=='7' || tkupdate.idStatusTicketKf=='9' || tkupdate.idStatusTicketKf=='11' || tkupdate.idStatusTicketKf=='12',
                                     'label-danger':  
                                     tkupdate.idStatusTicketKf=='6',
                                   }">{{tkupdate.statusTicket.statusName}}</span>
@@ -147,7 +147,7 @@
                                       <button ng-if="file.typeFile=='application/pdf'" type="button" data-toggle="tooltip" data-placement="bottom" title="Ver archivo" class="btn btn-warning btn-xs" ng-click="openPDFViewerModal(file.urlFile)">
                                           <i class="far fa-eye"></i>
                                       </button>
-                                      <button ng-if="tkupdate.billingReceiptDetails!=null && tkupdate.isBillingUploaded!=null && tkupdate.isBillingUploaded=='1'" type="button" data-toggle="tooltip" data-placement="bottom" title="Eliminar archivo" class="btn btn-danger btn-xs" ng-click="modalConfirmation('deleteSingleFile', 0, tkupdate.billingReceiptDetails[0])" >
+                                      <button ng-if="sysLoggedUser.idProfileKf=='1' && tkupdate.billingReceiptDetails!=null && tkupdate.isBillingUploaded!=null && tkupdate.isBillingUploaded=='1'" type="button" data-toggle="tooltip" data-placement="bottom" title="Eliminar archivo" class="btn btn-danger btn-xs" ng-click="modalConfirmation('deleteSingleFile', 0, tkupdate.billingReceiptDetails[0])" >
                                           <i class="fas fa-trash-alt"></i>
                                       </button>
                                     </div>                  
@@ -207,7 +207,7 @@
                                   </div>
                               </div>
                             <!-- DELIVERY -->
-                              <div ng-click="mainSwitchFn('ticket_delivery', tkupdate, null)" class="" style="margin-bottom: 1em;"
+                              <div ng-if="tkupdate.idTypeTicketKf=='1'" ng-click="mainSwitchFn('ticket_delivery', tkupdate, null)" class="" style="margin-bottom: 1em;"
                               ng-class="{'col-md-3 col-xs-6':!tkupdate.isHasRefundsOpen, 'col-md-2 col-xs-6':tkupdate.isHasRefundsOpen}">
                                   <div class="card-customer">
                                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
@@ -232,7 +232,7 @@
                                   </div>
                               </div>
                             <!-- PAYMENTS -->
-                              <div ng-click="((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2'))?mainSwitchFn('ticket_payment', tkupdate, null):''" style="margin-bottom: 1em;"
+                              <div ng-if="tkupdate.paymentDetails!=null" ng-click="((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2'))?mainSwitchFn('ticket_payment', tkupdate, null):''" style="margin-bottom: 1em;"
                               ng-class="{'col-md-3 col-xs-6':!tkupdate.isHasRefundsOpen, 'col-md-2 col-xs-6':tkupdate.isHasRefundsOpen}">
                                   <div class="card-customer">
                                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
@@ -401,7 +401,7 @@
                           <span class="btn-label"><i class="fas fa-ban"></i></span>Cancelar</a>
                       </div>
                       <!-- CHANGE DELIVERY -->
-                      <div ng-if="tkupdate.idStatusTicketKf!=1 && tkupdate.idStatusTicketKf!=5 && tkupdate.idStatusTicketKf!=6 && tkupdate.isCancelRequested!=1 && tkupdate.isDeliveryHasChanged!=1" class="col-xs-3 col-sm-4 col-md-2">
+                      <div ng-if="tkupdate.idTypeTicketKf=='1' && tkupdate.idStatusTicketKf!=1 && tkupdate.idStatusTicketKf!=5 && tkupdate.idStatusTicketKf!=6 && tkupdate.isCancelRequested!=1 && tkupdate.isDeliveryHasChanged!=1" class="col-xs-3 col-sm-4 col-md-2">
                         <a id="deliveryChange" ng-click="mainSwitchFn('ticket_delivery_change', tkupdate, null)" type="button" class="btn btn-labeled btn-info">
                           <span class="btn-label"><i class="fas fa-truck"></i></span>Cambiar envío</a>
                       </div>

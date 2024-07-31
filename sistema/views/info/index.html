@@ -67,7 +67,7 @@
                       </h4>
                     </div>
                     <div id="collapseAttendants" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-                      <div class="panel-body n-padding-l n-padding-r">
+                      <div class="panel-body" ng-class="{'n-padding-l n-padding-r': attendantListByAddress.length>0}">
                         <div ng-include="'views/info/list/attendantList.html'"></div>
                       </div>
                     </div>

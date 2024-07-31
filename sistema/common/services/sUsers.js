@@ -95,6 +95,18 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                 return response;
               });
           },
+          validateAccount: function(token) {
+            //console.log("[Customer Services] => get customer by id: "+sMsg);
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"User/validate/"+token
+                  }).then(function mySuccess(response) {
+                    return response;
+                  }).catch(function onError(response) {
+                    console.log("Error: "+response); 
+                    return response;
+              })
+          },
           /* UPDATE AN USER AND CHANGE PASSWORD */
           updateUser: function(userData2Change) {
             var data2update = userData2Change;

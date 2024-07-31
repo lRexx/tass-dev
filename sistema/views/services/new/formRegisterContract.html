@@ -10,20 +10,37 @@
 				<!-- FORM CONTAINER-->
 				<form class="form-horizontal" name="fCustomerNewContract" novalidate>
 					<fieldset>
-					<!-- Sign Date -->					  
-					<div class="form-group col-md-6" ng-class="
-								{	'has-success': 
-									contract.new.dateOfSign!='' && fCustomerNewContract.contractDate.$valid,
-								 	'has-error':  
-									(contract.new.dateOfSign=='' || contract.new.dateOfSign==undefined) && fCustomerNewContract.contractDate.$touched,
-								}">  
-					  	<label style="padding-left: 15px;">Fecha de vigencia</label>
-					    <div class="col-xs-12 selectContainer">
-						    <div class="input-group">
-						    	<span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
-				    			<input id="inputDatePick" name="contractDate" type="text" ng-keydown="fnLoadPhoneMask()" class="form-control input--date" ng-required="true" ng-model="contract.new.dateOfSign" />
-				    		</div>
-				    	</div>
+					<!-- Sign Date -->
+					<div class="col-md-6" >
+						<div class="form-group col-md-12 col-xs-12" ng-class="
+									{	'has-success': 
+										contract.new.dateOfSign!='' && fCustomerNewContract.contractDate.$valid,
+										'has-error':  
+										(contract.new.dateOfSign=='' || contract.new.dateOfSign==undefined) && fCustomerNewContract.contractDate.$touched,
+									}">
+							<label>Fecha de vigencia</label>
+							<div class="input-group">
+								<input 
+									ng-click="open1()" 
+									type="text" 
+									id="inputDatePick"
+									name="contractDate"
+									ng-change="mainSwitchFn('search', null)"
+									class="form-control" 
+									uib-datepicker-popup="{{format}}" 
+									ng-model="contract.new.dateOfSign" 
+									is-open="popup1.opened"  
+									custom-class="getCreatedDayClass(date, mode)"
+									ng-required="true" 
+									close-text="Cerrar" 
+									clear-text="Borrar"
+									current-text="Hoy"
+									alt-input-formats="altInputFormats" />
+								<span ng-click="open1()" class="input-group-addon">
+								<i ng-click="open1()" class="far fa-calendar-alt"></i>
+								</span>
+							</div>
+						</div>
 					</div>
 					<!-- Contract Number -->
 					<div class="form-group col-md-6" ng-class="

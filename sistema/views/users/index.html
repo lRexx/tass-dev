@@ -42,30 +42,79 @@
 			<div  class="panel panel-default">
 				<div class="panel-heading">
 				  <h3 ng-if="sysContentList=='users'" class="panel-title">USUARIOS</h3>
-				  <h3 ng-if="sysContentList=='owners_tenants'" class="panel-title">HABITANTES</h3>
-				  <h3 ng-if="sysContentList=='att'" class="panel-title">ENCARGADOS</h3>
-				  <h3 ng-if="sysContentList=='company'" class="panel-title">EMPRESAS</h3>
-				  <h3 ng-if="sysContentList=='sysProfile'" class="panel-title">PERFILES DEL SISTEMA</h3>
-				  <h3 ng-if="sysContentList=='sysUsers'" class="panel-title">USUARIOS DEL SISTEMA</h3>
-				  <h3 ng-if="sysContentList=='products'" class="panel-title">PRODUCTOS</h3>
-				  <h3 ng-if="sysContentList=='sysZones'" class="panel-title">GESTION DE ZONAS</h3>
 				</div>
 				<div class="panel-body">
-						<!-- ROW WITH THE FILTERS USED TO DISPLAY DATA IN THE TABLE -->
+					<!-- Filter Searchbox  -->
+					<div class="row">
+						<div class="form-group">
+							<!-- Filter Search -->
+							<div class="col-md-10">
+								<label style="padding-left: 15px;">Buscar</label>
+								<div class="input-group">
+										<span class="input-group-addon"><i class="glyphicon glyphicon-search "></i></span>
+										<input type="text" class="form-control" ng-change="search(filters.userProfile.nameProfile, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, false)"  ng-model="searchboxfilter" placeholder="Buscar...">
+								</div>
+							</div>
+							<div class="col-md-2 btn-group-mg-top" ><br>
+								<div class="btn-group">
+									<!-- REFRESH BUTTON -->
+									<!-- USERS -->
+									<button ng-if="sysContentList=='users'" type="button" ng-click="refreshList();" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>
+									<!-- TENANTS -->
+									<button ng-if="sysContentList=='owners_tenants'" type="button" ng-click="getUserLists(1, 'owners_tenants');cleanFilters();" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>
+									<!-- ATTENDANTS -->
+									<button ng-if="sysContentList=='att'" type="button" ng-click="getUserLists(1, '6');cleanFilters();" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>
+									<!-- COMPANY -->
+									<button ng-if="sysContentList=='company'" type="button" ng-click="getUserLists(1, '2');cleanFilters();" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>									
+									<!-- SYSUERS -->
+									<button ng-if="sysContentList=='sysUsers'" type="button" ng-click="getUserLists(1, '1');cleanFilters();" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>									
+									<!-- //Search box -->
+									<!-- New user button -->
+									<button data-toggle="tooltip" data-placement="top" title="Nuevo Usuario" type="button" ng-click="managedUsers('new','user')" class="btn btn-md btn-labeled btn-info"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i> </span>Nuevo</button>									 
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Filter Profiles  -->
+					<div class="row">
+						<div ng-class="col-md-12">
+							<div class="col-md-2 col-xs-6">
+							  <input id="typeUserAll" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" ng-click="search(null, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, true);" ng-checked="true" name="typeClient" value="" ng-model="filters.userProfile" checked="checked">
+							  <label for="typeUserAll" class="radio-2x-label">
+								<span>Todos</span>
+							  </label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div ng-class="col-md-12">
+							<div class="col-md-2 col-xs-6" ng-repeat="item in listProfile">
+							  <input id="typeUser-{{item.idProfile}}" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" 
+							  ng-click="search(filters.userProfile, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, true);" 
+							  name="typeClient" value="{{item.nameProfile}}" ng-model="filters.userProfile">
+							  <label for="typeUser-{{item.idProfile}}" class="radio-2x-label">
+								<span>{{item.nameProfile}}</span>
+							  </label>
+							</div>
+						</div>
+					</div>
+					<!-- ROW WITH THE FILTERS USED TO DISPLAY DATA IN THE TABLE -->
 					<div  class="row">
 						<div class="form-group">
 							<!-- Filter Type of User For Admins -->
-							<div class="col-md-2">
+							<!--<div class="col-md-2">
 								<label style="padding-left: 15px;">Perfil</label>
 									<div class="input-group">
 										<span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
-										<select  name="userProfile" ng-change="search(filters.userProfile.nameProfile, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, true); getCustomersListByTypeFn(filters.userProfile.idProfile); filters.companies.selected=undefined" ng-options="item.nameProfile for item in listProfile | filter:filterProfile" class="form-control" ng-model="filters.userProfile" >
+										<select  name="userProfile" 
+											 	 ng-change="search(filters.userProfile.nameProfile, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, true); getCustomersListByTypeFn(filters.userProfile.idProfile); filters.companies.selected=undefined" 
+												 ng-options="item.nameProfile for item in listProfile | filter:filterProfile" class="form-control" ng-model="filters.userProfile" >
 											<option value="" >Todos</option>
 										</select>
 									</div>
-							</div>
+							</div>-->
 							<!-- Filter Type of User For Admins -->
-							<div ng-if="filters.userProfile.idProfile=='1'" class="col-md-2">
+							<div ng-if="filters.userProfile=='1'" class="col-md-2">
 								<label style="padding-left: 15px;">Role</label>
 									<div class="input-group">
 										<span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
@@ -79,7 +128,7 @@
 								<label style="padding-left: 15px;">Estatus</label>
 									<div class="input-group">
 										<span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
-										<select name="userStatus" ng-change="search(filters.userProfile.nameProfile, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, true)" ng-options="item.statusTenantName for item in listStatus"  class="form-control" ng-model="filters.userStatus" >
+										<select name="userStatus" ng-change="search(filters.userProfile, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, true)" ng-options="item.statusTenantName for item in listStatus"  class="form-control" ng-model="filters.userStatus" >
 												<option value="" >Todos</option>
 										</select>
 									</div>
@@ -152,36 +201,6 @@
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="form-group">
-							<!-- Filter Search -->
-							<div class="col-md-10">
-								<label style="padding-left: 15px;">Buscar</label>
-								<div class="input-group">
-										<span class="input-group-addon"><i class="glyphicon glyphicon-search "></i></span>
-										<input type="text" class="form-control" ng-change="search(filters.userProfile.nameProfile, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, false)"  ng-model="searchboxfilter" placeholder="Buscar...">
-								</div>
-							</div>
-							<div class="col-md-2 btn-group-mg-top" ><br>
-								<div class="btn-group">
-									<!-- REFRESH BUTTON -->
-									<!-- USERS -->
-									<button ng-if="sysContentList=='users'" type="button" ng-click="refreshList();" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>
-									<!-- TENANTS -->
-									<button ng-if="sysContentList=='owners_tenants'" type="button" ng-click="getUserLists(1, 'owners_tenants');cleanFilters();" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>
-									<!-- ATTENDANTS -->
-									<button ng-if="sysContentList=='att'" type="button" ng-click="getUserLists(1, '6');cleanFilters();" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>
-									<!-- COMPANY -->
-									<button ng-if="sysContentList=='company'" type="button" ng-click="getUserLists(1, '2');cleanFilters();" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>									
-									<!-- SYSUERS -->
-									<button ng-if="sysContentList=='sysUsers'" type="button" ng-click="getUserLists(1, '1');cleanFilters();" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>									
-									<!-- //Search box -->
-									<!-- New user button -->
-									<button data-toggle="tooltip" data-placement="top" title="Nuevo Usuario" type="button" ng-click="managedUsers('new','user')" class="btn btn-md btn-labeled btn-info"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i> </span>Nuevo</button>									 
-								</div>
-							</div>
-						</div>
-					</div>
 					<!-- TABLE LIST WHERE IS DISPLAYED THE USER DATA REQUESTED -->
 					<div ng-if="sysContentList=='users'" ng-include="'views/users/lists/listUsers.html'"></div>
 					<!-- TABLE LIST WHERE IS DISPLAYED THE TENANT DATA REQUESTED -->
@@ -249,10 +268,9 @@
 	  </div>
 	</div>
 </div>
-
 <div ng-show="isNewUser" ng-include="'views/users/newUser.html'"></div>
 <div ng-show="isUpdateUser" ng-include="'views/users/updateUser.html'"></div>
-<div ng-show="isNewUser || isUpdateUser" ng-include="'views/users/assingNewDepartment.html'"></div>
+<div ng-include="'views/users/assingNewDepartment.html'"></div>
 <div ng-include="'views/utilities/modalConfirmation.html'"></div>
 <div ng-include="'views/utilities/userPasswordNotificationModal.html'"></div>
 <div ng-if="sysToken" ng-include="'views/utilities/expirationWarningWindows.html'"></div>

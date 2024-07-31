@@ -26,6 +26,7 @@
                             <i ng-if="tk.idStatusTicketKf=='3' && tk.idTypeTicketKf==4" class="i-success fas fa-question"></i>
                             <i ng-if="tk.idStatusTicketKf=='6' && (tk.isCancelRequested==null || tk.isCancelRequested=='1')" class="i-cancel fas fa-ban"></i>
                             <i ng-if="tk.idStatusTicketKf=='8' && tk.idTypeTicketKf<=2 && tk.isCancelRequested!='1'" class="i-default fas fa-box-open"></i>
+                            <i ng-if="tk.idStatusTicketKf=='12' && tk.idTypeTicketKf=='2' && tk.isCancelRequested!='1'" class="i-default fas fa-box-open"></i>
                             <i ng-if="tk.idStatusTicketKf==10  && tk.isCancelRequested=='1' && tk.idTypeTicketKf<=2" class="i-warning fas fa-times-circle"></i>
                             <i ng-if="tk.idStatusTicketKf==7 && tk.idTypeTicketKf<=2" class="i-warning fas fa-box"></i>
 
@@ -56,6 +57,8 @@
                                 <span ng-if="(tk.idStatusTicketKf==10  && tk.isCancelRequested=='1')">
                                     <span data-toggle="tooltip" data-placement="right" title="Cancelación solicitada" class="label label-warning">{{tk.statusTicket.statusName}}</span>
                                 </span>
+                                <!-- BAJA Pendiente ID#: 12-->
+                                <span ng-if="(tk.idStatusTicketKf=='12' && tk.idTypeTicketKf=='2' && tk.isCancelRequested!='1')" data-toggle="tooltip" data-placement="right" title="Baja pendiente" class="label label-default">{{tk.statusTicket.statusName}}</span>
                                 <span data-toggle="tooltip" data-placement="right" title="Solicitado por: {{tk.tmp_nameUserRequestChOrCancel}}"  class="label label-danger" ng-if="tk.idTmpDeliveryData && tk.isCancelRequested"><i class="fas fa-exclamation-circle"></i> Cancelacion Solicitada</span>
                                 <span data-toggle="tooltip" data-placement="right" title="Solicitado por: {{tk.tmp_nameUserRequestChOrCancel}}"  class="label label-warning" ng-if="tk.idTmpDeliveryData && tk.isChangeDeliverylRequested"><i class="fas fa-exclamation-circle"></i> Cambio de envio Solicitado</span>
                             </li>
@@ -195,7 +198,7 @@
                             <i style="font-size: 1em" class="fas fa-sync"></i>
                         </button>
                         <!-- CREATE MP LINK -->
-                        <button ng-if="(sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tk.idTypeRequestFor==1 && tk.idTypePaymentKf==2 && tk.idTypeTicketKf<=2 && tk.idStatusTicketKf!=6 && tk.isCancelRequested!='1' && tk.paymentDetails==null" type="button" ng-click="modalConfirmation('createMPLink',0, tk)" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="left"  title="MP" >
+                        <button ng-if="((tk.idTypeTicketKf=='1' && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tk.idTypeRequestFor==1 && tk.idTypePaymentKf==2 && tk.idTypeTicketKf<=2 && tk.idStatusTicketKf!=6 && tk.isCancelRequested!='1' && tk.paymentDetails==null) || (tk.idTypeTicketKf=='1' && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tk.idTypeRequestFor==1 && tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1 && (tk.paymentDetails.mp_payment_id==null || tk.paymentDetails.mp_payment_id==0)))" type="button" ng-click="modalConfirmation('createMPLink',0, tk)" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="left"  title="MP" >
                             <i class="fas fa-receipt"></i>  
                         </button>
                     </div>

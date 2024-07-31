@@ -23,6 +23,7 @@ var app = angular.module('systemApp', ["ngRoute", "ngCookies",
                                         "module.Buildings",
                                           "module.Tickets",
                                            "module.System",
+                                         "module.Validate",
                                                  "blockUI",
                                                   "inform",
                                         //"inform-exception",
@@ -35,11 +36,31 @@ var app = angular.module('systemApp', ["ngRoute", "ngCookies",
                    //"angularUtils.directives.dirPagination",
                                           "angular.filter",
                                                 "rzSlider",
+                                                "ngLocale",
                                              "angularCSS"]);
 app.config(function(blockUIConfig) {
       // Tell blockUI not to mark the body element as the main block scope.
       blockUIConfig.autoInjectBodyBlock = true;  
       blockUIConfig.autoBlock = true;
+});
+// Configurar el idioma español de Argentina como localización
+app.config(['$localeProvider', function ($localeProvider) {
+    $localeProvider.$get().id = 'es-ar';
+}]);
+// Crear un servicio para manejar moment-timezone
+app.factory('DateService', function() {
+    var moment = window.moment;
+
+    return {
+        createDateInTimeZone: function(dateStr, timeZone) {
+            // Crear la fecha en la zona horaria especificada
+            return moment.tz(dateStr, 'YYYY-MM-DD', timeZone).toDate();
+        },
+        setFormat: function(dateStr, sformat) {
+            // Crear la fecha en la zona horaria especificada
+            return moment(dateStr).format(sformat);
+        }
+    };
 });
 //app.config(function(paginationTemplateProvider) {
 //    paginationTemplateProvider.setPath('views/pagination/dirPagination-tpl.html');
@@ -59,6 +80,26 @@ app.config(['$routeProvider', '$locationProvider',
             css: 'views/login/style-login.css'
         })
         .when('/login/approve/:Type/:action/token/:secureToken', {
+            templateUrl: 'views/login/',
+            controller: 'LoginCtrl',
+            css: 'views/login/style-login.css'
+        })
+        .when('/login/:Type/client/:client', {
+            templateUrl: 'views/login/',
+            controller: 'LoginCtrl',
+            css: 'views/login/style-login.css'
+        })
+        .when('/:info/client/:client', {
+            templateUrl: 'views/status/',
+            controller: 'statusCtrl',
+            css: 'views/status/style.css'
+        })
+        .when('/login/:Type/services/:service', {
+            templateUrl: 'views/login/',
+            controller: 'LoginCtrl',
+            css: 'views/login/style-login.css'
+        })
+        .when('/:Type/services/:service', {
             templateUrl: 'views/login/',
             controller: 'LoginCtrl',
             css: 'views/login/style-login.css'
@@ -98,22 +139,7 @@ app.config(['$routeProvider', '$locationProvider',
             controller: 'infoCtrl',
             css: 'views/info/style.css'
         })
-        .when('/info/client/:client', {
-            templateUrl: 'views/info/',
-            controller: 'infoCtrl',
-            css: 'views/info/style.css'
-        })
         .when('/status', {
-            templateUrl: 'views/status/',
-            controller: 'statusCtrl',
-            css: 'views/status/style.css'
-        })
-        .when('/status/client/:client', {
-            templateUrl: 'views/status/',
-            controller: 'statusCtrl',
-            css: 'views/status/style.css'
-        })
-        .when('/status/services/:service', {
             templateUrl: 'views/status/',
             controller: 'statusCtrl',
             css: 'views/status/style.css'
@@ -153,6 +179,16 @@ app.config(['$routeProvider', '$locationProvider',
             controller: 'UsersCtrl',
             css: 'views/mainapp/style.css'
         })
+        .when('/validate/token/:secureToken', {
+            templateUrl: 'views/validation/',
+            controller: 'ValidationCtrl',
+            css: 'views/validation/style.css'
+        })
+        .when('/validate', {
+            templateUrl: 'views/validation/',
+            controller: 'ValidationCtrl',
+            css: 'views/validation/style.css'
+        })
         .when('/system', {
             templateUrl: 'views/system/',
             controller: 'SystemCtrl',
@@ -165,15 +201,16 @@ app.config(['$routeProvider', '$locationProvider',
         $locationProvider.html5Mode(true);
 }]);
 //app.constant("serverHost","https://apidev.sytes.net");
-app.constant("serverHost","https://devtass.sytes.net");
+app.constant("serverHost","https://devbss.sytes.net");
 app.constant("serverBackend","/Back/index.php/");
 app.constant("serverHeaders", {'headers':{'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Credentials': true, 'Access-Control-Allow-Origin': '*'}});
 app.constant('APP_SYS', {
   'app_name': 'Gestion de Clientes',
   'version' : '1.0',
-  'api_url' : 'https://devtass.sytes.net/',
+  'api_url' : 'https://devbss.sytes.net/',
   'api_path': 'Back/index.php/',
-  'headers' : {'headers':{'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Credentials': true, 'Access-Control-Allow-Origin': '*'}}
+  'headers' : {'headers':{'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Credentials': true, 'Access-Control-Allow-Origin': '*'}},
+  'timezone': 'America/Argentina/Buenos_Aires'
 });
 app.constant('APP_REGEX',{
     'checkEmail':/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
@@ -182,5 +219,5 @@ app.constant('APP_REGEX',{
 app.controller('AppCtrl', function($scope, $location, $window, tokenSystem, APP_SYS){
     console.log("App "+APP_SYS.app_name);
     console.log("Version v"+APP_SYS.version);
-    
+    console.log("Version v"+APP_SYS.timezone);
 });

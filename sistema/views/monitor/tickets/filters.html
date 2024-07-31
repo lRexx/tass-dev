@@ -10,7 +10,7 @@
                 <div class="col-md-12">
                     <form class="form-horizontal" name="filtersTicket" autocomplete="off" novalidate>
                         <div class="row">
-                            <div class="col-md-12 col-xs-12">
+                            <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-12 col-xs-12">
                                 <div class="col-md-2 col-xs-2" ><label class="clf-size">Buscar Cliente</label></div>
                                 <div class="col-md-1 col-xs-2">
                                   <label class="switch switch-2x" for="strict-search">
@@ -22,65 +22,65 @@
                                   <label ng-if="customerSearch.strict" style="cursor: pointer;" class="badge badge-success">Busquéda exacta</label>
                                   <label ng-if="!customerSearch.strict" style="cursor: pointer;" class="badge badge-warning">Busquéda exacta</label>
                                 </div>
-                              </div>
-                              <div ng-class="col-md-12">
-                                <div class="col-md-2 col-xs-6">
-                                  <input id="typeClientAll" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" ng-checked="true" name="typeClient" value="" ng-model="customerSearch.typeClient" required="" autofocus="" checked="checked" style="">
-                                  <label for="typeClientAll" class="radio-2x-label">
-                                    <span>Todos</span>
-                                  </label>
-                                </div>
-                                <div class="col-md-2 col-xs-6">
-                                  <input id="typeClient1" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="1" ng-model="customerSearch.typeClient" required="" autofocus="" style="">
-                                  <label for="typeClient1" class="radio-2x-label">
-                                    <span>Administracion</span>
-                                  </label>
-                                </div>
-                                <div class="col-md-2 col-xs-6">
-                                  <input id="typeClient2" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="2" ng-model="customerSearch.typeClient" required="" autofocus="" style="">
-                                  <label for="typeClient2" class="radio-2x-label">
-                                    <span>Edificio</span>
-                                  </label> 
-                                </div>
-                                <div class="col-md-2 col-xs-6">
-                                  <input id="typeClient3" class="radio-2x ng-not-empty ng-dirty ng-valid ng-valid-required ng-touched" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="3" ng-model="customerSearch.typeClient" required="" autofocus="" style="">
-                                  <label for="typeClient3" class="radio-2x-label">
-                                    <span>Empresa</span>
-                                  </label> 
-                                </div>
-                                <div class="col-md-2 col-xs-6">
-                                  <input id="typeClient4" class="radio-2x ng-not-empty ng-valid ng-valid-required ng-dirty ng-touched" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="4" ng-model="customerSearch.typeClient" required="" autofocus="" style="">
-                                  <label for="typeClient4" class="radio-2x-label">
-                                    <span>Sucursal</span>
-                                  </label> 
-                                </div>
-                                <div class="col-md-2 col-xs-6">
-                                  <input id="typeClient5" class="radio-2x ng-not-empty ng-valid ng-valid-required ng-dirty ng-valid-parse ng-touched" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="5" ng-model="customerSearch.typeClient" required="" autofocus="" style="">
-                                  <label for="typeClient5" class="radio-2x-label">
-                                    <span>Particular</span>
-                                  </label> 
-                                </div>
-                              </div>
-                              <div class="clearfix"> </div>
-                              <div class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-l n-padding-r" ng-class="{'col-md-6 col-xs-6 col-sm-6': listOffices.length>0}">
-                                <label style="padding-left: 15px" ng-show="listOffices.length>=0">{{customerFound.ClientType}}</label>
-                                <div class="input-group s-ui-width s-ui-m-left">
-                                    <span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
-                                    <input type="text" name="customerSearch" 
-                                        id="customerSearch" 
-                                        ng-model="customerSearch.name"
-                                        ng-keydown="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict);"
-                                        class="form-control text-uppercase" 
-                                        move-to-list input-selector="'.input-search'"
-                                        list-items-selector="'.list-group li'"
-                                        placeholder="Presione Enter para buscar..."
-                                        style="z-index: 2100; border-radius: 4px;border-bottom-left-radius: 0px;border-top-left-radius: 0px;"
-                                        required="true" />
-                                    <ul id="customerList" class="list-group" ng-show="listCustomerFound.length>0 && (customerSearch.name!=undefined || customerSearch.name!=null)" style="height: 0px; z-index: 2000;" >
-                                        <li tabindex="0" id="customerList-{{$index}}" style="z-index: 2000;"  class="list-group-item" ng-repeat="item in listCustomerFound" navigate-list-items ng-class="{'padding-t-38': $index==0}" ng-click="loadCustomerFieldsFn(item);" input-selector="'.input-search'" list-items-selector="'.list-group li'" ng-keydown="$event.keyCode === 13 && loadCustomerFieldsFn(item)" > {{item.idClient}} - {{item.name}} <span class="label label-default">{{item.ClientType | uppercase}}</span></li>
-                                    </ul>
-                                </div>
-                              </div>
+                            </div>
+                            <div ng-if="sysLoggedUser.idProfileKf=='1'" ng-class="col-md-12">
+                            <div class="col-md-2 col-xs-6">
+                                <input id="typeClientAll" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" ng-checked="true" name="typeClient" value="" ng-model="customerSearch.typeClient" required="" autofocus="" checked="checked" style="">
+                                <label for="typeClientAll" class="radio-2x-label">
+                                <span>Todos</span>
+                                </label>
+                            </div>
+                            <div class="col-md-2 col-xs-6">
+                                <input id="typeClient1" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="1" ng-model="customerSearch.typeClient" required="" autofocus="" style="">
+                                <label for="typeClient1" class="radio-2x-label">
+                                <span>Administracion</span>
+                                </label>
+                            </div>
+                            <div class="col-md-2 col-xs-6">
+                                <input id="typeClient2" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="2" ng-model="customerSearch.typeClient" required="" autofocus="" style="">
+                                <label for="typeClient2" class="radio-2x-label">
+                                <span>Edificio</span>
+                                </label> 
+                            </div>
+                            <div class="col-md-2 col-xs-6">
+                                <input id="typeClient3" class="radio-2x ng-not-empty ng-dirty ng-valid ng-valid-required ng-touched" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="3" ng-model="customerSearch.typeClient" required="" autofocus="" style="">
+                                <label for="typeClient3" class="radio-2x-label">
+                                <span>Empresa</span>
+                                </label> 
+                            </div>
+                            <div class="col-md-2 col-xs-6">
+                                <input id="typeClient4" class="radio-2x ng-not-empty ng-valid ng-valid-required ng-dirty ng-touched" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="4" ng-model="customerSearch.typeClient" required="" autofocus="" style="">
+                                <label for="typeClient4" class="radio-2x-label">
+                                <span>Sucursal</span>
+                                </label> 
+                            </div>
+                            <div class="col-md-2 col-xs-6">
+                                <input id="typeClient5" class="radio-2x ng-not-empty ng-valid ng-valid-required ng-dirty ng-valid-parse ng-touched" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="5" ng-model="customerSearch.typeClient" required="" autofocus="" style="">
+                                <label for="typeClient5" class="radio-2x-label">
+                                <span>Particular</span>
+                                </label> 
+                            </div>
+                            </div>
+                            <div class="clearfix"> </div>
+                            <div ng-if="sysLoggedUser.idProfileKf=='1'" class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-l n-padding-r" ng-class="{'col-md-6 col-xs-6 col-sm-6': listOffices.length>0}">
+                            <label style="padding-left: 15px" ng-show="listOffices.length>=0">{{customerFound.ClientType}}</label>
+                            <div class="input-group s-ui-width s-ui-m-left">
+                                <span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
+                                <input type="text" name="customerSearch" 
+                                    id="customerSearch" 
+                                    ng-model="customerSearch.name"
+                                    ng-keydown="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict);"
+                                    class="form-control text-uppercase" 
+                                    move-to-list input-selector="'.input-search'"
+                                    list-items-selector="'.list-group li'"
+                                    placeholder="Presione Enter para buscar..."
+                                    style="z-index: 2100; border-radius: 4px;border-bottom-left-radius: 0px;border-top-left-radius: 0px;"
+                                    required="true" />
+                                <ul id="customerList" class="list-group" ng-show="listCustomerFound.length>0 && (customerSearch.name!=undefined || customerSearch.name!=null)" style="height: 0px; z-index: 2000;" >
+                                    <li tabindex="0" id="customerList-{{$index}}" style="z-index: 2000;"  class="list-group-item" ng-repeat="item in listCustomerFound" navigate-list-items ng-class="{'padding-t-38': $index==0}" ng-click="loadCustomerFieldsFn(item);" input-selector="'.input-search'" list-items-selector="'.list-group li'" ng-keydown="$event.keyCode === 13 && loadCustomerFieldsFn(item)" > {{item.idClient}} - {{item.name}} <span class="label label-default">{{item.ClientType | uppercase}}</span></li>
+                                </ul>
+                            </div>
+                            </div>
                             <!-- Administrations & Companies for Users TASS-->
                             <!-- <div ng-show="sysLoggedUser.idProfileKf==1" class="form-group col-md-6 col-xs-12 n-padding-r">
                                 <label ng-show="sysLoggedUser.idProfileKf==1">Empresa o Administracion</label>
@@ -245,15 +245,6 @@
                                 </label>
                                 </div>
                             </div>
-                            <div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">
-                                <div class="col-md-12 col-xs-12" ><label class="clf-size">Mostrar pedido <span class="badge badge-warning">{{filters.ticketStatus.statusName}}s</span> con reintegros</label></div>
-                                <div class="col-md-4 col-xs-2">
-                                <label class="switch switch-2x" for="isHasRefundsOpen-search">
-                                    <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isHasRefundsOpen" id="isHasRefundsOpen-search">
-                                    <span class="slider slider-2x flat"></span>
-                                </label>
-                                </div>
-                            </div>
                             <div ng-if="sysLoggedUser.idProfileKf==1 && (filters.ticketStatus.idStatus=='1' || filters.ticketStatus.idStatus=='5')" class="col-md-12 n-padding-l n-padding-r" ng-class="
                                 {	'has-success': 
                                     filters.idDeliveryCompanyKf.idDeliveryCompany!='' && filtersTicket.idDeliveryCompanyKf.$valid,
@@ -288,6 +279,30 @@
                                 </div>
                                 </div>
                             </div>-->
+                        </div>
+                        <div class="row">
+                            <div  class="col-md-6 col-xs-6">
+                            <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
+                                <div class="col-md-12 col-xs-12" ><label class="clf-size">Mostrar pedidos con reintegros <span class="badge badge-warning">pendientes</span></label></div>
+                                <div class="col-md-4 col-xs-2">
+                                <label class="switch switch-2x" for="isHasRefundsOpen-search">
+                                    <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isHasRefundsOpen" id="isHasRefundsOpen-search">
+                                    <span class="slider slider-2x flat"></span>
+                                </label>
+                                </div>
+                            </div>
+                            <div  class="col-md-6 col-xs-6">
+                                <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
+                                <div class="col-md-12 col-xs-12" ><label class="clf-size">Entrega inicial <span class="badge badge-warning">activa</span></label></div>
+                                <div class="col-md-4 col-xs-2">
+                                    <label class="switch switch-2x" for="isInitialDeliveryActive-search">
+                                        <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isInitialDeliveryActive" id="isInitialDeliveryActive-search">
+                                        <span class="slider slider-2x flat"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div ng-if="sysLoggedUser.idProfileKf" class="form-group col-md-12 col-xs-12">
                                 <legend style="text-align: left;">Cantidad de pedidos a mostrar</legend>
                                 <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>

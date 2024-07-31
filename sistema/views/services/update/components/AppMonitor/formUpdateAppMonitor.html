@@ -73,14 +73,14 @@
 					    	</div>
 						</div>
 						<!-- APP_MONITOR: Start_date -->
-						<div class="form-group col-md-6" ng-class="
+						<div class="form-group col-md-6 n-padding-l n-padding-r" ng-class="
 							{	'has-success': 
-								service.update.dateUp!='' && fCustomerUpdateService.service_start_date.$valid,
+								service.update.dateUp!='' && service.update.dateUp!=undefined,
 								'has-error':  
-								(service.update.dateUp=='' || service.update.dateUp==undefined) && fCustomerUpdateService.service_start_date.$touched,
+								(service.update.dateUp=='' || service.update.dateUp==undefined),
 							}">
 							<label style="padding-left: 15px;">Fecha de alta</label>  
-							<div class="col-xs-12>
+							<div class="col-xs-12">
 								<div class="input-group">
 									<span ng-click="open_start_date()" class="input-group-addon"><i ng-click="open_start_date()" class="far fa-calendar-alt"></i></span>
 									<input 
@@ -91,18 +91,17 @@
 										uib-datepicker-popup="{{format}}" 
 										ng-model="service.update.dateUp" 
 										is-open="popup_start_date.opened"  
-										ng-required="true" 
+										ng-required="false" 
 										close-text="Cerrar" 
 										clear-text="Borrar"
-										current-text="Hoy"
-										alt-input-formats="altInputFormats" />
+										current-text="Hoy"/>
 								</div>
 							</div>
 						</div>
 						<!-- APP_MONITOR: End_date -->
-						<div class="form-group col-md-6">
+						<div class="form-group col-md-6 n-padding-l n-padding-r">
 							<label style="padding-left: 15px;">Fecha de baja</label>  
-							<div class="col-xs-12>
+							<div class="col-xs-12">
 								<div class="input-group">
 									<span ng-click="open_end_date()" class="input-group-addon"><i ng-click="open_end_date()" class="far fa-calendar-alt"></i></span>
 									<input 
@@ -117,8 +116,7 @@
 									ng-disabled="true"
 									close-text="Cerrar" 
 									clear-text="Borrar"
-									current-text="Hoy"
-									alt-input-formats="altInputFormats" />
+									current-text="Hoy" />
 								</div>
 							</div>
 						</div>
@@ -295,7 +293,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
-                        <button type="submit" ng-click="modalConfirmation('updateService', 0, service.update)" ng-disabled="fCustomerUpdateService.$invalid" class="btn btn-labeled btn-success">
+                        <button type="submit" ng-click="modalConfirmation('updateService', 0, service.update)" class="btn btn-labeled btn-success">
                             <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
                         <a ng-click="modalConfirmation('closeServiceWindow', 0, service.update)" type="button" class="btn btn-labeled btn-danger">
                             <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>

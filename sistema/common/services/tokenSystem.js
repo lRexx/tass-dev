@@ -127,6 +127,7 @@ tkSysService.service("tokenSystem",function(){
                 sessionStorage.removeItem("sysLoggedUser");
                 sessionStorage.removeItem("sysLoggedUserModules");
                 sessionStorage.removeItem("sysRouteParams");
+                sessionStorage.removeItem("hasReloadedKey");
               break;
               case 2:
                 sessionStorage.removeItem("attempsToken");

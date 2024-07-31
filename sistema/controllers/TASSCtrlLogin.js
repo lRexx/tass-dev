@@ -46,6 +46,7 @@ login.directive('passwordConfirm', ['$parse', function ($parse) {
  }]);
 login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams, blockUI, $timeout, DepartmentsServices, inform, inputService, ticketServices, userServices, tokenSystem, serverHost, serverBackend, $window, APP_SYS){
   console.log(APP_SYS.app_name+" Modulo Login User");
+  blockUI.stop();
   $scope.launchLoader = function(){
     $scope.wLoader  = true;
     $('#loader').delay(1500).fadeIn(function () {
@@ -72,28 +73,13 @@ login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams
   $scope.departmentSelected   = {};
   tokenSystem.destroyTokenStorage(4);
   console.log($routeParams);
-  if ($routeParams.Type!=undefined){
+  if ($routeParams.Type!=undefined || $routeParams.info!=undefined){
     tokenSystem.setRouteParamsStorage($routeParams);
   }
   $scope.redirect ="/";
-  $scope.sysRouteParams = tokenSystem.getTokenStorage(8);
-  console.log("$scope.sysToken: "+$scope.sysToken);  
-  console.log("$scope.sysLoggedUser: "+$scope.sysLoggedUser);
-  console.log("$scope.sysRouteParams:"); 
-  console.log($scope.sysRouteParams); 
-  if (($scope.sysToken) && $scope.sysRouteParams.Type==undefined && ($scope.sysLoggedUser!=false || $scope.sysLoggedUser!=undefined)){
+  if (($scope.sysToken) && ($scope.sysLoggedUser!=false || $scope.sysLoggedUser!=undefined)){
     console.log("Redirecting to menu page....");  
     $location.path($scope.redirect);
-  }else if(($scope.sysToken) && $scope.sysRouteParams.Type!=undefined && ($scope.sysLoggedUser!=false || $scope.sysLoggedUser!=undefined)){
-    switch ($scope.sysRouteParams.Type){
-      case "depto":
-        $location.path("/buildings");
-      break;
-      case "ticket":
-        $location.path("/monitor");
-      break;
-      default:
-    }
   }
 
   /**************************************************
@@ -101,6 +87,7 @@ login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams
   *         PARAMETER TO AUTHORIZE A TICKET         *
   *                                                 *
   **************************************************/
+  //https://devbss.sytes.net/login/info/client/1
   //https://devtass.sytes.net/login/approve/ticket/up/token/PIYBkhNSG2WdXkBZzQi7
   //https://devtass.sytes.net/login/approve/ticket/up/NDE3Onl5dU5SN2dUMFNjU3pzdEc3OTdE
   /* USAGE: /login/auth/ticket/id/tokenId/token/secureToken */
@@ -163,8 +150,6 @@ login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams
     });
 
   }
-
-    
 
   /**************************************************
   *                                                 *
@@ -265,6 +250,11 @@ login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams
           }
       }
   /**************************************************/
+  $scope.passwordFieldType = 'password'; // Initial password field type
+  $scope.togglePasswordVisibility = function() {
+    console.log($scope.passwordFieldType);
+    $scope.passwordFieldType = ($scope.passwordFieldType === 'password') ? 'text' : 'password';
+  };
   /**************************************************
   *                                                 *
   *                  SYS TOKEN GEN                  *
@@ -361,6 +351,7 @@ login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams
       $scope.sysCheckBeforeSignup = function(){
         userServices.checkUserMail($scope.signup.email, "register").then(function(data) {
           $scope.mailCheckResult= data;
+          console.log(data);
           if($scope.mailCheckResult==500 || $scope.mailCheckResult==503){
             if($scope.mailCheckResult==500 || $scope.mailCheckResult==503){
               inform.add('[Error]: '+$scope.mailCheckResult+', Ha ocurrido un error en la comunicacion con servidor, contacta el area de soporte. ',{
@@ -501,6 +492,7 @@ login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams
       $frontbox  = $('.frontbox');
 
   $scope.fnLoginToggle = function(swLogin){
+    console.log("Login option:"+swLogin);
     switch (swLogin){
       case 1:
         $frontbox.addClass('moving');
@@ -510,6 +502,8 @@ login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams
         $scope.login   = {email:'', passwd:''};
         $("#loginEmail").popover('hide');
         $("#signupemail").popover('hide');
+        $scope.redirect2Register = true;
+        $location.path("/register");
       break;
       case 2:
         $frontbox.removeClass("moving");

@@ -288,7 +288,6 @@ class Services_model extends CI_Model {
         if ($data->num_rows() > 0) {
             $id = $data->result_array()[0]['idClientServicesFk'];
         }
-
         if ($id == 0) {
             return 0;
         }     
@@ -298,8 +297,6 @@ class Services_model extends CI_Model {
         if (count($item['open_devices']) > 0) {
             $this->insertServiceOpenDevicesAccessControl($item['open_devices'], $item['idClientServicesAccessControl'], true);  //se actualizan los dispositivos de apertura.
         }
-
-
         if (isset($item['adicional'])) {
             $this->db->delete('tb_detalles_control_acceso', [ 'idServicesFk' => $id ]);
             foreach ($item['adicional'] as $item1) {
@@ -314,7 +311,6 @@ class Services_model extends CI_Model {
                 );
             }
         }
-
         return true;
     }
 
@@ -417,11 +413,7 @@ class Services_model extends CI_Model {
                 );
             }
         }
-        if ($this->db->affected_rows() === 1) {
-            return 1;
-        } else {
-            return 0;
-        }
+        return true;
     }
 
     public function addcamera($item) {

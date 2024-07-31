@@ -14,34 +14,6 @@
                     <fieldset>
                         <div class="row">
                             <div class="form-group">
-                                <!-- List Address of Buildings ng-model="keys.file.address.selected"-->
-                                <!-- <div  class="col-md-8"  ng-class="
-                                    {	'has-success': 
-                                        keys.file.address.selected!=undefined && fNewKeyFile.building_address.$valid,
-                                        'has-error':  
-                                        (keys.file.address.selected==undefined) && fNewKeyFile.building_address.$touched
-                                    }">
-                                    <label style="padding-left: 15px;">Consorcio</label>  
-                                    <div class="col-xs-12 selectContainer">
-                                        <div class="input-group">
-                                        <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span> 
-                                        <ui-select name="building_address"
-                                                    ng-required="true"
-                                                    ng-change="keys.file.address.selected!=undefined && keys.file.products.selected!=undefined && keys.file.mainQttyKeys>0?generateKeyListFn(keys.file):''; list_depto_floors=[]"
-                                                    ng-model="keys.file.address.selected" autofocus>
-                                            <ui-select-match  allow-clear="true" placeholder="Todos">{{$select.selected.address}}</ui-select-match>
-                                                <ui-select-choices repeat="item in buildingCustomerList | filter: $select.search">
-                                                    <div ng-bind-html="item.address | highlight: $select.search"></div>
-                                                    <small>Tipo de Cliente: </small><small class="label label-default" ng-bind-html="item.ClientType | highlight: $select.search"></small>
-                                                    <small>Provincia: </small><small class="label label-default"  ng-bind-html="item.province | highlight: $select.search"></small>
-                                                </ui-select-choices>
-                                                <ui-select-no-choice>
-                                                    <span ng-if="rsCustomerListSelectData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay edificios registrados</span>
-                                                </ui-select-no-choice>
-                                            </ui-select>
-                                        </div>
-                                    </div>
-                                </div>-->
                                 <div class="form-group col-md-6 col-sm-6 col-xs-12" ng-class="{
                                     'has-success': 
                                         customer.update.mainQttyKeys!='' && customer.update.mainQttyKeys!=null && customer.update.mainQttyKeys>0  && fNewKeyFile.mainQttyKeys.$valid,

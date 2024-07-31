@@ -161,7 +161,7 @@
 							</div>
 						</div>
 						<!-- OPTION DEPARTMENTS-->
-						<div ng-show="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && ticket.optionTypeSelected.name=='department' && select.buildings.selected!=undefined">
+						<div ng-show="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && ticket.optionTypeSelected.name=='department' && select.buildings.selected!=undefined && !isHomeSelected">
 							<div class="col-md-12" style="padding: 10px !important;">
 								<div class="well well-md" ng-class="{'well-success': ticket.idClientDepartament!=undefined && ticket.idClientDepartament!='' && ticket.idClientDepartament!=null && ticket.idClientDepartament!=0}">
 									<div class="panel-body n-padding-l n-padding-r">
@@ -385,7 +385,7 @@
 											<span><i class="product-success fas " ng-class="{'fa-door-open text-success':door.selected, 'fa-door-closed':!door.selected}"></i></span>
 										</div>
 										<div class="text-badge">
-											<span class="new-customer badge badge-light"> {{door.titulo}} </span><br><br>
+											<span class="new-customer badge badge-light"> {{door.titulo}} </span><br><span class="badge badge-warning">{{door.itemAclaracion}}</span><br>
 											<label class="switch switch-2x" for="allowDoor-{{door.idAccessControlDoor}}">
 												<input type="checkbox" class="success" ng-change="addDoorOpenList(door)" ng-model="door.selected" id="allowDoor-{{door.idAccessControlDoor}}">
 												<span class="slider slider-2x flat"></span>
@@ -482,7 +482,11 @@
 									<div class="n-padding-l n-padding-r">
 										<div class="form-check form-check-inline">
 											<div class="col-md-12 n-padding-l n-padding-r">
-												<div ng-repeat="item in typedelivery | filter:checkDeliveryMethod" class="col-md-4 col-xs-4" ng-class="{'col-xs-offset-2':item.idTypeDelivery!='3'}">
+												<div ng-repeat="item in typedelivery | filter:checkDeliveryMethod" class="col-md-4 col-xs-4" ng-class="
+													{
+														'col-md-offset-2 col-xs-offset-2':(ticket.building.isStockInOffice!=null && ticket.building.isStockInOffice!='0'),
+														'col-md-offset-4 col-xs-offset-4':(ticket.building!=undefined && (ticket.building.isStockInBuilding=='1' || ((ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0'))))
+													}">
 													<input id="idTypeDeliveryKf-{{item.idTypeDelivery}}" class="radio-custom" type="radio" ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery, null); enabledNextBtn();" name="idTypeDeliveryKf" value="{{item.idTypeDelivery}}" ng-model="ticket.delivery.idTypeDeliveryKf" required autofocus>
 													<label for="idTypeDeliveryKf-{{item.idTypeDelivery}}" class="radio-custom-label">
 														<span>{{item.typeDelivery}}</span>
@@ -581,11 +585,11 @@
 									<div class="n-padding-l n-padding-r">
 										<div class="form-check form-check-inline">
 											<div class="col-md-12 col-md-offset-2">
-												<div class="well col-md-3 col-xs-3" ng-class="{
+												<div ng-if="ticket.building.chargeForExpenses!=0 && ticket.building.chargeForExpenses!=null && ticket.building.chargeForExpenses!=undefined" class="well col-md-3 col-xs-3" ng-class="{
 														'well-success': 
 														ticket.cost.idTypePaymentKf=='1',
 														}">
-													<input id="idTypePaymentKf-1" class="radio-custom" type="radio" ng-disabled="ticket.building.chargeForExpenses!=1" ng-click="mainSwitchFn('setPaymentType', null, null); enabledNextBtn();" name="idTypePaymentKf" value="1" ng-model="ticket.cost.idTypePaymentKf" required autofocus>
+													<input id="idTypePaymentKf-1" class="radio-custom" type="radio" ng-disabled="ticket.building.chargeForExpenses!=1" ng-click="mainSwitchFn('setPaymentType', null, null); enabledNextBtn();" name="idTypePaymentKf" value="1" ng-value="1" ng-model="ticket.cost.idTypePaymentKf" required autofocus>
 													<label for="idTypePaymentKf-1" class="radio-custom-label" style="margin-top: 4%; height: 47px;" ng-class="{'radio-custom-label-disabled':ticket.building.chargeForExpenses!=1}">
 														<span ng-if="ticket.optionTypeSelected.name=='department'">Abono por expensas
 															<span ng-if="ticket.building.chargeForExpenses==1" class="badge badge-success">Habilitado</span>
@@ -597,11 +601,15 @@
 														</span>
 													</label>
 												</div>
-												<div class="well col-md-3 col-xs-3 col-md-offset-1" style="padding-right: 0px !important;" ng-class="{
+												<div class="well col-md-3 col-xs-3" style="padding-right: 0px !important;" ng-class="{
 														'well-success': 
 														ticket.cost.idTypePaymentKf=='2',
+														'col-md-offset-2':
+														ticket.building.chargeForExpenses!=1,
+														'col-md-offset-1':
+														ticket.building.chargeForExpenses==1,
 														}">
-													<input id="idTypePaymentKf-2" class="radio-custom" type="radio" ng-disabled="ticket.radioButtonBuilding!=undefined && ticket.radioButtonBuilding=='3'" ng-click="mainSwitchFn('setPaymentType', null, null); enabledNextBtn();" name="idTypePaymentKf" value="2" ng-model="ticket.cost.idTypePaymentKf" required autofocus>
+													<input id="idTypePaymentKf-2" class="radio-custom" type="radio" ng-disabled="ticket.radioButtonBuilding!=undefined && ticket.radioButtonBuilding=='3'" ng-click="mainSwitchFn('setPaymentType', null, null); enabledNextBtn();" name="idTypePaymentKf" value="2" ng-value="2" ng-checked="ticket.building.chargeForExpenses=='0'" ng-model="ticket.cost.idTypePaymentKf" required autofocus>
 													<label for="idTypePaymentKf-2" class="radio-custom-label" ng-class="{'radio-custom-label-disabled':ticket.radioButtonBuilding!=undefined && ticket.radioButtonBuilding=='3'}">
 														<span><img id="comp-k1xl6bdlimgimage" class="mp-logo" data-type="image" itemprop="image" src="images/mp_logo.png"></span>
 													</label>
@@ -858,14 +866,14 @@
 				<div class="modal-footer">
 					<div class="row">
 						<div class="col-xs-6 col-sm-6 col-md-6 pull-right">
-							<button type="submit" ng-click="modalConfirmation('tup', 0, ticket);" ng-show="!hasNextStep() || (ticketRegistered!=undefined && ticketRegistered!=null)" ng-disabled="fkeyup.$invalid" class="btn btn-labeled btn-success">
+							<button type="submit" ng-click="modalConfirmation('tup', 0, ticket);" ng-show="(ticketRegistered!=undefined && ticketRegistered!=null) || !hasNextStep()" ng-disabled="fkeyup.$invalid" class="btn btn-labeled btn-success">
 								Completar Pedido<span class="btn-label-right"><i class="glyphicon glyphicon-send"></i> </span></button>
 
 							<button ng-click="incrementStep(); enabledNextBtn();" ng-disabled="formValidated!=true" ng-show="btnShow" class="btn btn-labeled btn-primary">
 								Siguiente<span class="btn-label-right"><i class="fas fa-arrow-circle-right"></i></span></button>
 						</div>
 						<div class="col-xs-1 col-sm-1 col-md-1 pull-left">
-								<button type="button" ng-click="decrementStep();" ng-show="btnBack || (ticketRegistered!=undefined && ticketRegistered!=null)" class="btn btn-labeled btn-primary">
+								<button type="button" ng-click="decrementStep();" ng-show="(ticketRegistered!=undefined && ticketRegistered!=null) || btnBack" class="btn btn-labeled btn-primary">
 								<span class="btn-label"><i class="fas fa-arrow-circle-left"></i></span>Atras</button>
 						</div>
 					</div>
@@ -880,3 +888,4 @@
 <div ng-include="'views/tickets/delivery/thirdPerson.html'"></div>
 <div ng-include="'views/utilities/modalConfirmation.html'"></div>
 <div ng-include="'views/utilities/showModalRequestStatus.html'"></div>
+<div ng-include="'views/utilities/modalConfirmationCustom.html'"></div>

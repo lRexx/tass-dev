@@ -458,7 +458,7 @@ class User_model extends CI_Model
                 $subject = null;
                 $body = null;
 				$to = null;
-				$currentURL = $this->get_the_current_url(); //for simple URL
+				$currentURL = "https://".BSS_HOST; //for simple URL
 				$this->db->select("*")->from("tb_user");
 				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
 				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
@@ -479,7 +479,7 @@ class User_model extends CI_Model
 					$body.='</tr>';
 					if ($userRs['isConfirmatedMail'] == null || $userRs['isConfirmatedMail'] == 0){
 						$body.='<tr width="100%" bgcolor="#ffffff">';
-						$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:2%;padding-bottom:2%;">Antes de ingresar debe confirmar su dirección de correo a través del siguiente link: <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="'. $currentURL . '/Back/index.php/User/validate/'. $tokenMail . '" target="_blank" title="Confirmar correo" style="text-decoration: none; color: #fff;">Confirmar</a></span></td>';
+						$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:2%;padding-bottom:2%;">Antes de ingresar debe confirmar su dirección de correo a través del siguiente link: <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/validate/token/'. $tokenMail . '" target="_blank" title="Confirmar correo" style="text-decoration: none; color: #fff;">Confirmar</a></span></td>';
 						$body.='</tr>';	
 					}else if ($userRs['isConfirmatedMail'] == 1 && $userRs['idStatusKf'] == 1){
 						$body.='<tr width="100%" bgcolor="#ffffff">';
@@ -692,6 +692,35 @@ class User_model extends CI_Model
 					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
 					$body.='</tr>';	
 					//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
+					$this->mail_model->sendMail($title, $to, $body, $subject);
+				}
+			}
+			if (@$user['isEmailChange']) {
+
+				$this->db->set(
+					array(
+						'isConfirmatedMail' => 0
+					)
+				)->where("idUser", $user['idUser'])->update("tb_user");
+				if ($this->db->affected_rows() === 1) {
+					$title = null;
+					$subject = null;
+					$body = null;
+					$to = null;
+					$tokenMail = $user['tokenMail'];
+					#MAIL
+					$to = $user['emailUser'];
+					$title = "Correo Electronico Actualizado";
+					$subject="Cuenta de Usuario :: Cambio de correo";
+					$body='<tr width="100%" bgcolor="#ffffff">';
+					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>, ha realizado el cambio de su dirección de correo electronico de tal forma que es necesario,</td>'; 
+					$body.='</tr>';	
+					$body.='<tr width="100%" bgcolor="#ffffff">';
+					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:2%;padding-bottom:2%;">antes de ingresar debe confirmar su dirección de correo a través del siguiente link: <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/validate/token/'. $tokenMail . '" target="_blank" title="Confirmar correo" style="text-decoration: none; color: #fff;">Confirmar</a></span></td>';
+					$body.='</tr>';	
+					$body.='<tr width="100%" bgcolor="#ffffff">';
+					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+					$body.='</tr>';
 					$this->mail_model->sendMail($title, $to, $body, $subject);
 				}
 			}
@@ -1056,15 +1085,15 @@ class User_model extends CI_Model
 
 	public function validate ($tokenMail)
 	{
-
+		//printf($tokenMail);
 		$this->db->set(
 			array(
 				'isConfirmatedMail' => 1,
 				'idStatusKf'        => 1
 			)
 		)->where("tokenMail", $tokenMail)->update("tb_user");
-
-
+				
+		
 		if ($this->db->affected_rows() === 1) {
 			$this->db->select("*")->from("tb_user");
 			$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
@@ -1092,7 +1121,8 @@ class User_model extends CI_Model
 			}
 			return true;
 		} else {
-			return false;
+			//print_r($this->db->affected_rows());
+			return null;
 		}
 	}
 
@@ -1363,7 +1393,7 @@ class User_model extends CI_Model
         $this->db->join('tb_clients', 'tb_clients.idClient = tb_user.idAddresKf', 'left');
         $this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
         $this->db->join('tb_typetenant', 'tb_typetenant.idTypeTenant = tb_user.idTypeTenantKf', 'left');
-        $where="idProfileKf = 3 OR idProfileKf = 5 OR (idProfileKf = 6 AND idTypeTenantKf IN (1,2))";
+        $where="idProfileKf = 3 OR idProfileKf = 4 OR  idProfileKf = 5 OR idProfileKf = 6 AND (idTypeTenantKf IN (1,2))";
         $this->db->where($where);
         $query = $this->db->order_by("tb_user.idUser", "DESC")->get();
 		if ($query->num_rows() > 0) {
@@ -1396,7 +1426,7 @@ class User_model extends CI_Model
         $this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
         $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
         $this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-        $where = "idProfileKf = 3 OR (idProfileKf = 6 AND idTypeTenantKf IN (1))";
+        $where = "idProfileKf = 3 OR idProfileKf = 4 OR idProfileKf = 6 AND (idTypeTenantKf IN (1))";
         $this->db->where($where);
         $query = $this->db->order_by("tb_user.idUser", "DESC")->get();
 		if ($query->num_rows() > 0) {
@@ -1413,7 +1443,7 @@ class User_model extends CI_Model
 						$owners[$key]['company'] = $query2->result_array();
 					}
 				}
-				if ($idProfile == 5 || ($idProfile == 6 && $item['idTypeTenantKf'] == 2)) {
+				if ($idProfile == 5 || $idProfile == 4 || $idProfile == 6 && ($item['idTypeTenantKf'] == 2)) {
 					$query2 = $this->db->select("*")->from("tb_clients");
 					$query2 = $this->db->where('idClient', $item['idAddresKf']);
 					$query2 = $this->db->get();
@@ -1430,7 +1460,7 @@ class User_model extends CI_Model
         $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
         $this->db->join('tb_clients', 'tb_clients.idClient = tb_user.idAddresKf', 'left');
         $this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-        $where = "idProfileKf = 5 OR (idProfileKf = 6 AND idTypeTenantKf IN (2))";
+        $where = "idProfileKf = 5 OR idProfileKf = 4 OR idProfileKf = 6 AND (idTypeTenantKf IN (2))";
         $this->db->where($where);
         $query = $this->db->order_by("tb_user.idUser", "DESC")->get();
 		if ($query->num_rows() > 0) {
@@ -1447,7 +1477,7 @@ class User_model extends CI_Model
 						$tenants[$key]['company'] = $query2->result_array();
 					}
 				}
-				if ($idProfile == 5 || ($idProfile == 6 && $item['idTypeTenantKf'] == 2)) {
+				if ($idProfile == 5 || $idProfile == 4 || $idProfile == 6 && ($item['idTypeTenantKf'] == 2)) {
 					$query2 = $this->db->select("*")->from("tb_clients");
 					$query2 = $this->db->where('idClient', $item['idAddresKf']);
 					$query2 = $this->db->get();
@@ -1482,7 +1512,7 @@ class User_model extends CI_Model
 						$attendants[$key]['company'] = $query2->result_array();
 					}
 				}
-				if ($idProfile == 5 || ($idProfile == 6 && $item['idTypeTenantKf'] == 2)) {
+				if ($idProfile == 5 || $idProfile == 4 || $idProfile == 6 && ($item['idTypeTenantKf'] == 2)) {
 					$query2 = $this->db->select("*")->from("tb_clients");
 					$query2 = $this->db->where('idClient', $item['idAddresKf']);
 					$query2 = $this->db->get();
@@ -1515,7 +1545,7 @@ class User_model extends CI_Model
 						$companyUser[$key]['company'] = $query2->result_array();
 					}
 				}
-				if ($idProfile == 5 || ($idProfile == 6 && $item['idTypeTenantKf'] == 2)) {
+				if ($idProfile == 5 || $idProfile == 4 || $idProfile == 6 && ($item['idTypeTenantKf'] == 2)) {
 					$query2 = $this->db->select("*")->from("tb_clients");
 					$query2 = $this->db->where('idClient', $item['idAddresKf']);
 					$query2 = $this->db->get();
@@ -1547,7 +1577,7 @@ class User_model extends CI_Model
 						$sysUser[$key]['company'] = $query2->result_array();
 					}
 				}
-				if ($idProfile == 5 || ($idProfile == 6 && $item['idTypeTenantKf'] == 2)) {
+				if ($idProfile == 5 || $idProfile == 4 || $idProfile == 6 && ($item['idTypeTenantKf'] == 2)) {
 					$query2 = $this->db->select("*")->from("tb_clients");
 					$query2 = $this->db->where('idClient', $item['idAddresKf']);
 					$query2 = $this->db->get();

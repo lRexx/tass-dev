@@ -419,11 +419,11 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             console.log("Nombres del Habitante a asociar y aprobar  : "+$scope.tenantObj.fullNameUser);
                             console.log("============================================================================");
                             //console.log(obj);
-                    $('#confirmRequestModal').modal('toggle');
+                        $('#confirmRequestModal').modal('toggle');
                     }else if (confirm==1){
-                        if($scope.sysContent=="administration"){
+                        if($scope.sysContent=="administration" || $scope.sysContent=="approval" ){
                             $scope.switchBuildingFn("approveDepto", $scope.tenantObj);
-                        }else if ($scope.sysContent=="home"){
+                        }else if ($scope.sysContent=="home" || $scope.sysContent=="approval" ){
                             $scope.switchBuildingFn("approveDeptoTenant", $scope.tenantObj);
                         }
                     $('#confirmRequestModal').modal('hide');
@@ -1311,7 +1311,48 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                         }
                                     }
                                 }
-                                console.log($scope.ListDpto);
+                                if($scope.ListDpto!=undefined && $scope.ListDpto.length>0){
+                                    var assignedDeptos = [];
+                                    angular.forEach($scope.ListDpto,function(depto){
+                                        var deferredDeptos = $q.defer();
+                                        assignedDeptos.push(deferredDeptos.promise);
+                                        //ASSIGN DEPARTMENT SERVICE
+                                        $timeout(function() {
+                                            deferredDeptos.resolve();
+                                            DepartmentsServices.listTenant2AssignedDeptoByIdDepto(depto.idClientDepartament).then(function(response_tenants) {
+                                                console.log(response_tenants);
+                                                if(response_tenants.status==200){
+                                                    depto.pending_notifications = {'authorizations':[]};
+                                                    depto.pending_notifications.authorizations = [];
+                                                    depto.tenants = response_tenants.data.tenant;
+                                                    for (var tenant in depto.tenants){
+                                                        if (depto.isAprobatedAdmin==null && depto.idUserKf==depto.tenants[tenant].idUser && depto.tenants[tenant].idTypeTenantKf=="1"){
+                                                            depto.pending_notifications.authorizations.push(depto.tenants[tenant]);
+                                                        }else if(depto.tenants[tenant].isDepartmentApproved==null && depto.tenants[tenant].idTypeTenantKf=="2"){
+                                                            depto.pending_notifications.authorizations.push(depto.tenants[tenant]);
+                                                        }
+                                                    }
+                                                }else if (response_tenants.status==404){
+                                                    depto.tenants = [];
+                                                    depto.pending_notifications = {'authorizations':[]};
+                                                    depto.pending_notifications.authorizations = [];
+                                                }else if (response_tenants.status==500){
+                                                    depto.tenants = [];
+                                                    depto.pending_notifications = {'authorizations':[]};
+                                                    depto.pending_notifications.authorizations = [];
+                                                }
+                                            });
+                                        }, 1000);
+                                    });
+                                    
+                                    $q.all(assignedDeptos).then(function () {
+                                        $timeout(function() {
+                                            blockUI.stop();
+                                            console.log($scope.ListDpto);
+                                        }, 1500);
+                                    });
+                                }
+                                
                                 if ($scope.idDeptoKf!=undefined){
                                     $timeout(function() {
                                         $scope.tableRowExpanded = false;
@@ -2220,7 +2261,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 }else if(($scope.update.user.idProfileKf==4 || $scope.update.user.idProfileKf==5 || $scope.update.user.idProfileKf==6) && $scope.update.user.idTypeTenantKf==2 && $scope.update.user.idDepartmentKf){
                                     blockUI.start('Aprobando departamento del usuario.');
                                     $timeout(function() {
-                                        $scope.department.user  = response_tenantFound.data[0];
+                                        $scope.department.user  = $scope.update.user;
                                         $scope.department.user.registerBy = $scope.update.user.loggedUser;
                                     }, 1500);
                                     $timeout(function() {
@@ -2322,6 +2363,9 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                         }, 5000);
                                     }
                                     if ($scope.sysSubContent=="departments"){
+                                        $timeout(function() {
+                                            $scope.getBuildingFn($scope.select.buildings.selected);
+                                        }, 2000);
                                         $timeout(function() {
                                             $scope.lisTenantByType($scope.idDeptoKf, null);
                                         }, 2500);
@@ -2771,6 +2815,8 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                     if(event.keyCode === 8 || event.which === 8){
                         console.log(event.which);
                         $scope.buildingList=[];
+                        $scope.ListDpto=[];
+                        $scope.sysSubContent  = "";
                         $scope.select.admins.selected=undefined;
                         $scope.select.buildings.selected=undefined;
                     }else if(event.keyCode === 1 || event.which === 1 || event.keyCode === 13 || event.which === 13){
@@ -2779,6 +2825,8 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                         console.log("typeClient: "+typeClient);
                         console.log("strict: "+strict);
                         $scope.buildingList=[];
+                        $scope.ListDpto=[];
+                        $scope.sysSubContent  = "";
                         $scope.select.admins.selected=undefined;
                         $scope.select.buildings.selected=undefined;
                         var output=[];
@@ -2814,7 +2862,6 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                     $scope.select.admins.selected = undefined;
                     $scope.customerFound=obj;
                     $scope.customerSearch.name = obj.name;
-                    $scope.select.admins.selected=obj;
                     if (obj.idClientTypeFk=="1" || obj.idClientTypeFk=="3"){
                         $scope.select.admins.selected=obj;
                         $scope.getBuildingListFn($scope.select.admins.selected.idClient);

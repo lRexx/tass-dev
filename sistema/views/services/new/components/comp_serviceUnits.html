@@ -37,7 +37,7 @@
 						<label ng-if="(service.new.serviceType.idClientTypeServices=='1')">Cantidad de puertas</label>
 					</div>
 					<div ng-if="service.new.serviceType.idClientTypeServices=='1' || service.new.serviceType.idClientTypeServices=='3' || service.new.serviceType.idClientTypeServices=='4'" class="pull-right col-md-4">
-						<button ng-disabled="service.new.serviceItems.accCrtlDoor==null || (service.new.serviceItems.qtty==undefined || service.new.serviceItems.qtty=='')" ng-click="addServiceArrFn('new', service.new)" class="btn btn-xs btn-success"><i class="fas fa-plus"></i> Agregar</button> 
+						<button ng-disabled="(service.new.serviceType.idClientTypeServices=='1' && service.new.serviceItems.accCrtlDoor==null) || ((service.new.serviceType.idClientTypeServices=='3' || service.new.serviceType.idClientTypeServices=='4') && (service.new.serviceItems.qtty==undefined || service.new.serviceItems.qtty==''))" ng-click="addServiceArrFn('new', service.new)" class="btn btn-xs btn-success"><i class="fas fa-plus"></i> Agregar</button> 
 					</div>
 					<div class="col-xs-12 input-group">
 						<span class="input-group-addon">

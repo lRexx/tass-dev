@@ -1749,6 +1749,35 @@ class Client_model extends CI_Model {
                         $rs6 = $quuery->result_array();
                         $rs[$i]['list_departament'] = $rs6;
 
+                        // INITIAL DELIVERY DATA
+                        $this->db->select("*")->from("tb_client_initial_delivery");
+                        $quuery = $this->db->where("tb_client_initial_delivery.idClientKf =", $row->idClient)->get();
+
+                        $rs7                       = $quuery->result_array();
+                        $rs[$i]['initial_delivery']    = $rs7;
+                        if($quuery->num_rows()>0){
+                            //print_r($rs['customers'][$i]['initial_delivery'][0]['expirationDate']);
+                            $dateString = $rs[$i]['initial_delivery'][0]['expirationDate']; 
+                            // Date string to compare
+                            // Convert date string to a DateTime object
+                            $dateToCompare = new DateTime($dateString);
+                            
+                            // Get the current date as a DateTime object
+                            $now        = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
+
+                            $dateToCompareFormatted = $dateToCompare->format('Y-m-d');
+                            $currentDateFormatted = $now->format('Y-m-d');
+                            //print_r("currentDate   : ".$currentDateFormatted);
+                            //print("dateString    : ".$dateString);
+                            //print("dateToCompare : ".$dateToCompareFormatted);
+                            //print("currentDate   : ".$currentDate);
+                            if ($currentDateFormatted > $dateToCompareFormatted) {
+                                $rs[$i]['initial_delivery'][0]['expiration_state'] = true;
+                            }else{
+                                $rs[$i]['initial_delivery'][0]['expiration_state'] = false;
+                            }
+                        }
+
                         $i++;
                     }
                     return $rs;

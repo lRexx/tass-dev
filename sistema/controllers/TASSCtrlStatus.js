@@ -5,6 +5,25 @@ var sysStatus = angular.module("module.Status", ["tokenSystem", "angular.filter"
 
 sysStatus.controller('statusCtrl', function($scope, $location, $routeParams, blockUI, $q, Lightbox, $timeout, inform, CustomerServices, ProductsServices, ContractServices, serviceServices, addressServices, userServices, tokenSystem, $window, serverHost, UtilitiesServices, $filter, APP_SYS){
     console.log(APP_SYS.app_name+" Modulo Status");
+      console.log($routeParams);
+      if ($routeParams.Type!=undefined || $routeParams.info!=undefined){
+        tokenSystem.setRouteParamsStorage($routeParams);
+      }
+      $scope.sysRouteParams = tokenSystem.getTokenStorage(8);
+      console.log("$scope.sysToken: "+$scope.sysToken);  
+      console.log("$scope.sysLoggedUser: "+$scope.sysLoggedUser);
+      console.log("$scope.sysRouteParams:"); 
+      console.log($scope.sysRouteParams); 
+      //https://devbss.sytes.net/status/services/1
+    if(!$scope.sysToken && $scope.sysRouteParams.Type==undefined && $scope.sysRouteParams.service==undefined && $scope.sysRouteParams.info!='status' && ($scope.sysLoggedUser==false || $scope.sysLoggedUser==undefined)){
+      $location.path("/login");
+    }else{
+      console.log("No login required!!");
+    }
+    
+    var currentUrl = $location.path()
+    var urlPath = currentUrl.split('/');
+    $scope.urlPathSelected=urlPath[1];
     $scope.list_batteries=[];
     $scope.battery_install=[];
     $scope.list_cameras=[];
@@ -556,39 +575,44 @@ sysStatus.controller('statusCtrl', function($scope, $location, $routeParams, blo
     ****************************************************************************/
 
         /* USAGE: /status/client/55 */
-        console.log($routeParams);
-        $scope.checkStatus={'services':false, 'client':false}
-        if($routeParams){
-          if ($routeParams.client!=undefined){
-            var idClient = $routeParams.client;
-            //console.log("client: "+idClient);
-            //$timeout(function() {$scope.checkCustomerIsInDebtFn(idClient);}, 1500);
-            $scope.checkCustomerIsInDebtFn(idClient);
-            $scope.checkStatus.client=true;
-            $scope.checkStatus.services=false;
-          }else if ($routeParams.service!=undefined){
-            var idClient = $routeParams.service;
-            //console.log("client: "+idClient);
-            //$timeout(function() {$scope.checkCustomerIsInDebtFn(idClient);}, 1500);
-            $scope.checkCustomerIsInDebtFn(idClient);
-            
-            $timeout(function() {
-              $scope.getContractsByCustomerIdFn(idClient);
-              //$scope.getSelectedServiceByIdContractFn(obj.idContractFk, obj.idTipeServiceFk);
-            }, 1500);
-            $timeout(function() {
-              $scope.getListCustomersServicesFn(idClient);
-            }, 2000);
-            $scope.checkStatus.client=false;
-            $scope.checkStatus.services=true;
-          }else{
-            $location.path("/login");
-          }
+        if ($scope.sysRouteParams && $scope.sysRouteParams!=undefined){
+            console.log("===========================================");
+            console.log("    Parameters for Approval received       ");
+            console.log("===========================================");
+            console.log($scope.sysRouteParams);
+          $scope.checkStatus={'services':false, 'client':false}
+          if($scope.sysRouteParams){
+            if ($scope.sysRouteParams.client!=undefined){
+              var idClient = $scope.sysRouteParams.client;
+              console.log("client: "+idClient);
+              //$timeout(function() {$scope.checkCustomerIsInDebtFn(idClient);}, 1500);
+              $scope.checkCustomerIsInDebtFn(idClient);
+              $scope.checkStatus.client=true;
+              $scope.checkStatus.services=false;
+            }else if ($scope.sysRouteParams.service!=undefined){
+              var idClient = $scope.sysRouteParams.service;
+              //console.log("client: "+idClient);
+              //$timeout(function() {$scope.checkCustomerIsInDebtFn(idClient);}, 1500);
+              $scope.checkCustomerIsInDebtFn(idClient);
+              
+              $timeout(function() {
+                $scope.getContractsByCustomerIdFn(idClient);
+                //$scope.getSelectedServiceByIdContractFn(obj.idContractFk, obj.idTipeServiceFk);
+              }, 1500);
+              $timeout(function() {
+                $scope.getListCustomersServicesFn(idClient);
+              }, 2000);
+              $scope.checkStatus.client=false;
+              $scope.checkStatus.services=true;
+            }else{
+              $location.path("/login");
+            }
 
-        }else{
-          inform.add('Numero de Id del cliene no ha sido recibido',{
-              ttl:5000, type: 'warning'
-            });
+          }else{
+            inform.add('Numero de Id del cliene no ha sido recibido',{
+                ttl:5000, type: 'warning'
+              });
+          }
         }
 
 

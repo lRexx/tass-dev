@@ -4,7 +4,7 @@
       <div class="modal-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
-              <h3 class="modal-title"><i class="fas fa-key"></i> LISTADO DE LLAVEROS SOLICITADOS </h3>
+              <h3 class="modal-title"><i class="fas fa-key"></i> LISTADO DE LLAVEROS </h3>
           </div>
         <div class="modal-body">
             <div class="col-md-12">
@@ -13,18 +13,21 @@
                         <tr>
                             <th width="5px" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "> N°</th>
                             <th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-key"> </i> Llavero</th>
-                            <th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-dollar-sign"> </i> Precio</th>
+                            <th ng-if="tkupdate.idTypeTicketKf=='1'" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-dollar-sign"> </i> Precio</th>
                             <th ng-if="ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Categoria</th>
-                            <th ng-if="ticket.optionTypeSelected.name=='department' || ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Asignado</th>
+                            <th ng-if="tkupdate.idTypeTicketKf=='2'" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-barcode"> </i> Codigo</th>
+                            <th ng-if="tkupdate.idTypeTicketKf=='2'" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Asignado</th>
                             <th ng-if="tkupdate.idTypeRequestFor=='6' && (ticketKeyList[0].idUserKf==null || ticketKeyList[0].idUserKf!=null) && ticketKeyList[0].idClientKf!=null" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="glyphicon glyphicon-user"></i> Tipo </th>
-                            <th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-door-open"></i> Puertas</th>
+                            <th ng-if="tkupdate.idTypeTicketKf=='1'" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-door-open"></i> Puertas</th>
                         </tr>
                     </thead>
                     <tbody style="overflow: auto;">
                         <tr  style="align-content: center; cursor: pointer;" data-ng-repeat="key in ticketKeyList">
                             <td ng-click="mainSwitchFn('keyList_doors', key.doors, null)" style="vertical-align: middle;text-align: center;"><span class="font-size-18px">{{$index+1}}</span></td>
                             <td ng-click="mainSwitchFn('keyList_doors', key.doors, null)">{{key.descriptionProduct}} <span class="badge badge-warning">{{key.brand}}</span></td>
-                            <td ng-click="mainSwitchFn('keyList_doors', key.doors, null)" style="vertical-align: middle;text-align: right;">$ {{key.priceFabric | number : 2}}</td>
+                            <td ng-if="tkupdate.idTypeTicketKf=='1'" ng-click="mainSwitchFn('keyList_doors', key.doors, null)" style="vertical-align: middle;text-align: right;">$ {{key.priceFabric | number : 2}}</td>
+                            <td ng-if="tkupdate.idTypeTicketKf=='2'" style="vertical-align: middle;text-align: center;">{{key.codigo}}</td>
+                            <td ng-if="tkupdate.idTypeTicketKf=='2'" style="vertical-align: middle;text-align: center;">{{key.fullNameUser}}</td>
                             <td ng-click="mainSwitchFn('keyList_doors', key.doors, null)" ng-if="ticket.optionTypeSelected.name=='building'" style="vertical-align: middle;text-align: center;">
                                 <span class="label label-default">{{key.categoryName}}</span>
                             </td>
@@ -59,7 +62,7 @@
                             </td>-->
                             <td ng-if="tkupdate.idTypeRequestFor=='6' && key.idUserKf==null && key.idClientKf!=null" ng-click="mainSwitchFn('keyList_doors', key.doors, null)" style="vertical-align: middle;text-align: center;"><span class="font-size-18px">Consorcio</span></td>
                             <td ng-if="tkupdate.idTypeRequestFor=='6' && key.idUserKf!=null && key.idClientKf!=null" ng-click="mainSwitchFn('keyList_doors', key.doors, null)" style="vertical-align: middle;text-align: center;"><span class="font-size-18px">Encargado</span></td>
-                            <td ng-click="mainSwitchFn('keyList_doors', key.doors, null)" style="vertical-align: middle;text-align: center;">
+                            <td ng-if="tkupdate.idTypeTicketKf=='1'" ng-click="mainSwitchFn('keyList_doors', key.doors, null)" style="vertical-align: middle;text-align: center;">
                                 <span ng-if="key.doors.length>0" data-toggle="tooltip" data-placement="bottom" title="Puertas a Habilitar" class="label label-success">
                                     {{key.doors.length}}
                                 </span>

@@ -22,7 +22,7 @@ class Mercadolibre_model extends CI_Model
 		$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
 		$this->db->join('tb_clients AS b', 'b.idClient = tb_client_departament.idClientFk', 'left');
 		$this->db->join('tb_client_type', 'tb_client_type.idClientType = b.idClientTypeFk', 'left');
-		$queryBuilding = $this->db->where("tb_client_departament.idClientDepartament = ", $department['idDepartment'])->get();
+		$queryBuilding = $this->db->where("tb_client_departament.idClientDepartament = ", $data['idDepartment'])->get();
 		if ($queryBuilding->num_rows() > 0) {
 			$building = $queryBuilding->row_array();
 			
@@ -32,7 +32,7 @@ class Mercadolibre_model extends CI_Model
 				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
 				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
 				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-				$queryUser = $this->db->where("idUser =", $department['idUserKf'])->get();
+				$queryUser = $this->db->where("idUser =", $data['idUserKf'])->get();
 				if ($queryUser->num_rows() > 0) {
 					$user = $queryUser->row_array();
 					#MAIL TO USER
@@ -53,7 +53,7 @@ class Mercadolibre_model extends CI_Model
 					$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #ffffff;">Entrar</a></span></td>';
 					$body.='</tr>';
 					$rs = $this->mail_model->sendMail($title, $to, $body, $subject);
-					if ($rs == "Enviado" && $department['isApprovalRequired']){
+					if ($rs == "Enviado" && $data['isApprovalRequired']){
 						$this->db->select("tb_client_mails.mailContact")->from("tb_client_mails");
 						$this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
 						$where="tb_client_mails.idTipoDeMailFk = 1 AND tb_client_mails.idClientFk = ".$building['idBuilding'];
@@ -65,7 +65,7 @@ class Mercadolibre_model extends CI_Model
 							$body = null;
 							$to = null;
 							#MAIL TO THE BUILDING OR ADMINISTRATION
-							$approval_url="https://".BSS_HOST."/login/approve/depto/up/depto/".$department['idDepartment']."/user/".$department['idUserKf'];
+							$approval_url="https://".BSS_HOST."/login/approve/depto/up/depto/".$data['idDepartment']."/user/".$data['idUserKf'];
 							$to = $buildingAdminMail['mailContact'];
 							$title = "Alta de Departamento";
 							$subject="Alta de Departamento :: ".$building['Depto'];
@@ -93,6 +93,7 @@ class Mercadolibre_model extends CI_Model
 	//https://dev.bss.com.ar/Back/index.php/MercadoLibre/getNotificationOfMP
 	public function createMPLink($data)
 	{	
+
 		$data               = json_decode(json_encode($data));
 		$external_reference = $data->idTicket."_".(rand() * 8) . "_" . (time() * 4);
 		$paymentFor = $data->metadata->paymentFor;
@@ -113,11 +114,10 @@ class Mercadolibre_model extends CI_Model
 				"description" 		 => $data->description,
 				"quantity" 			 => $data->quantity,
 				"external_reference" => $external_reference ,
-				"back_url" 			 => $data->back_url ,
+				//"back_url" 			 => $data->back_url ,
 			];
 			
 			//print_r($param);
-			$post_url;
 			$certificates_dir=realpath(APPPATH . '../certificate');
 			$curl = curl_init();
 			curl_setopt_array($curl , [
@@ -189,7 +189,7 @@ class Mercadolibre_model extends CI_Model
 	public function getPaymentMPDetails($id)
 	{	
 		$ticket2Update = null;
-		$MP_TOKEN="TEST-8877359900700578-012401-cc12a648254efb51f0c30f4b394955f6-1177407195";
+		$MP_TOKEN="APP_USR-8877359900700578-012401-353b1bedff98a4ab78a54ff57802f64a-1177407195";
 		if (!$id) {
            return null;
         }
@@ -318,19 +318,53 @@ class Mercadolibre_model extends CI_Model
 
 	public function getNotificationFromMP($response)
 	{
-		$MP_TOKEN="TEST-8877359900700578-012401-cc12a648254efb51f0c30f4b394955f6-1177407195";
-		//var_dump($response['data']);
+		$MP_TOKEN="APP_USR-8877359900700578-012401-353b1bedff98a4ab78a54ff57802f64a-1177407195";
+		//var_dump($response['api_version']);
 		// ENVIAMOS EL MAIL DE CONFIRMAR REGISTRO //
 		/*MAIL*/
 		if($response['type'] != "test"){
-			$title = "Webhook Payment Notification from MercadoPago to BSS - [". $response['type']."] - ID:".$response['data']['id'];
-			$body = 'Api version: '.$response['api_version'].' <BR>' . 'Action: '.$response['action'].' <BR>' . 'Type: '.$response['type'].' <br>' . 'App ID: '.$response['application_id'].' <br>' . 'Date: '.$response['date_created'].' <br>' . 'Mode: '.$response['live_mode'].' <br>';
+			$title = "MercadoPago Webhook Notification ";
 			$subject = "Webhook Payment Notification from MercadoPago to BSS - [". $response['type']."] - ID:".$response['data']['id'];
+			$body='<tr width="100%" bgcolor="#ffffff">';
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Api version: <b>'.$response['api_version'].'</b></td>'; 
+			$body.='</tr>';	
+			$body.='<tr width="100%" bgcolor="#ffffff">';
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Action: <b>'.$response['action'].'</b></td>'; 
+			$body.='</tr>';	
+			$body.='<tr width="100%" bgcolor="#ffffff">';
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Type: <b>'.$response['type'].'</b></td>'; 
+			$body.='</tr>';	
+			$body.='<tr width="100%" bgcolor="#ffffff">';
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">App ID: <b>'.$response['application_id'].'</b></td>'; 
+			$body.='</tr>';
+			$body.='<tr width="100%" bgcolor="#ffffff">';
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Date: <b>'.$response['date_created'].'</b></td>'; 
+			$body.='</tr>';
+			$body.='<tr width="100%" bgcolor="#ffffff">';
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Mode: <b>'.$response['live_mode'].'</b></td>'; 
+			$body.='</tr>';
 			$this->mail_model->sendMail($title, "rexx84@gmail.com", $body, $subject);
 		}else{
-			$title = "Webhook Payment Notification from MercadoPago to BSS [TEST] - ID: ".$response['data']['id'];
-			$body = 'Api version: '.$response['api_version'].' <BR>' . 'Action: '.$response['action'].' <BR>' . 'Type: '.$response['type'].' <br>' . 'App ID: '.$response['application_id'].' <br>' . 'Date: '.$response['date_created'].' <br>' . 'Mode: '.$response['live_mode'].' <br>';
+			$title = "MercadoPago Webhook Notification ";
 			$subject = "Webhook Payment Notification from MercadoPago to BSS [TEST] - ID: ".$response['data']['id'];
+			$body='<tr width="100%" bgcolor="#ffffff">';
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Api version: <b>'.$response['api_version'].'</b></td>'; 
+			$body.='</tr>';	
+			$body.='<tr width="100%" bgcolor="#ffffff">';
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Action: <b>'.$response['action'].'</b></td>'; 
+			$body.='</tr>';	
+			$body.='<tr width="100%" bgcolor="#ffffff">';
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Type: <b>'.$response['type'].'</b></td>'; 
+			$body.='</tr>';	
+			$body.='<tr width="100%" bgcolor="#ffffff">';
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">App ID: <b>'.$response['application_id'].'</b></td>'; 
+			$body.='</tr>';
+			$body.='<tr width="100%" bgcolor="#ffffff">';
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Date: <b>'.$response['date_created'].'</b></td>'; 
+			$body.='</tr>';
+			$body.='<tr width="100%" bgcolor="#ffffff">';
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Mode: <b>'.$response['live_mode'].'</b></td>'; 
+			$body.='</tr>';
 			$this->mail_model->sendMail($title, "rexx84@gmail.com", $body, $subject);
 		}
 
@@ -430,7 +464,7 @@ class Mercadolibre_model extends CI_Model
 						$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Se ha generado el siguiente link de MercadoPago para pagar el Pedido N°: <b>'.$lastTicketUpdatedQuery[0]['codTicket'].'</b></td>';
 						$body.='</tr>';
 						$body.='<tr width="100%" bgcolor="#ffffff">';
-						$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Puede efectuar el pago haciendo click en <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #fff !important; border-radius: 10px; padding: 3px 7px;"><a href="'.$lastTicketUpdatedQuery[0]['paymentDetails']['mp_dev_init_point'].'" target="_blank" style="text-decoration: none; color: #ffffff;">PAGAR</a></span> </td>';
+						$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Puede efectuar el pago haciendo click en <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #fff !important; border-radius: 10px; padding: 3px 7px;"><a href="'.$lastTicketUpdatedQuery[0]['paymentDetails']['mp_prod_init_point'].'" target="_blank" style="text-decoration: none; color: #ffffff;">PAGAR</a></span> </td>';
 						$body.='</tr>';
 						$this->mail_model->sendMail($title, $to, $body, $subject);
 					}

@@ -496,40 +496,40 @@ system.controller('SystemCtrl', function($scope, $location, $rootScope, $routePa
             $scope.getCustomersListRs = {'customerList':null, 'totalNumberOfCustomer':0}
             $scope.setCustomersListRs = {}
             $scope.getCustomerLisServiceFn = function(searchFilter, isNotCliente, idClientTypeFk, isInDebt, isStockInBuilding, isStockInOffice, start, limit, strict){
-            console.log($scope.customerSearch);
-            console.log("isStockInOffice:"+isStockInOffice);
-            var searchFilter        = searchFilter!=undefined && searchFilter!="" && searchFilter!=null?searchFilter:null;
-            var isNotCliente        = isNotCliente!=undefined && isNotCliente!=null?isNotCliente:"0";
-            var idClientTypeFk      = idClientTypeFk!=undefined && idClientTypeFk!="" && idClientTypeFk!=null?idClientTypeFk:null;
-            var isInDebt            = isInDebt!=false && isInDebt!=undefined && isInDebt!=null?1:null;
-            var isStockInBuilding   = isStockInBuilding!=false && isStockInBuilding!=undefined && isStockInBuilding!=null?1:null;
-            var isStockInOffice     = isStockInOffice!=false && isStockInOffice!=undefined && isStockInOffice!=null?1:null;
-            var start               = start!=undefined && start!=null && ((!isInDebt || !isStockInBuilding || !isStockInOffice) && !strict)?start:"";
-            var limit               = limit!=undefined && limit!=null && ((!isInDebt || !isStockInBuilding || !isStockInOffice) && !strict)?limit:"";
-            var strict              = strict!=false && strict!=undefined && strict!=null?strict:null;
-            //console.log(isStockInOffice);
-            $scope.getCustomersListRs = {'customerList':null, 'totalNumberOfCustomer':0}
-            $scope.customersSearch={
-                "searchFilter":searchFilter,
-                "isNotCliente":isNotCliente,
-                "idClientTypeFk":idClientTypeFk,
-                "isInDebt":isInDebt,
-                "isStockInBuilding":isStockInBuilding,
-                "isStockInOffice":isStockInOffice,
-                "start":start,
-                "limit":limit,
-                "strict":strict,
-                "totalCount":true
-            };
-            console.log($scope.customersSearch);
-            return CustomerServices.getCustomerListLimit($scope.customersSearch).then(function(response){
-                //console.info(response);
-                if(response.status==200){
-                return response.data;
-                }else if(response.status==404){
-                return response;
-                }
-            });
+                console.log($scope.customerSearch);
+                console.log("isStockInOffice:"+isStockInOffice);
+                var searchFilter        = searchFilter!=undefined && searchFilter!="" && searchFilter!=null?searchFilter:null;
+                var isNotCliente        = isNotCliente!=undefined && isNotCliente!=null?isNotCliente:"0";
+                var idClientTypeFk      = idClientTypeFk!=undefined && idClientTypeFk!="" && idClientTypeFk!=null?idClientTypeFk:null;
+                var isInDebt            = isInDebt!=false && isInDebt!=undefined && isInDebt!=null?1:null;
+                var isStockInBuilding   = isStockInBuilding!=false && isStockInBuilding!=undefined && isStockInBuilding!=null?1:null;
+                var isStockInOffice     = isStockInOffice!=false && isStockInOffice!=undefined && isStockInOffice!=null?1:null;
+                var start               = start!=undefined && start!=null && ((!isInDebt || !isStockInBuilding || !isStockInOffice) && !strict)?start:"";
+                var limit               = limit!=undefined && limit!=null && ((!isInDebt || !isStockInBuilding || !isStockInOffice) && !strict)?limit:"";
+                var strict              = strict!=false && strict!=undefined && strict!=null?strict:null;
+                //console.log(isStockInOffice);
+                $scope.getCustomersListRs = {'customerList':null, 'totalNumberOfCustomer':0}
+                $scope.customersSearch={
+                    "searchFilter":searchFilter,
+                    "isNotCliente":isNotCliente,
+                    "idClientTypeFk":idClientTypeFk,
+                    "isInDebt":isInDebt,
+                    "isStockInBuilding":isStockInBuilding,
+                    "isStockInOffice":isStockInOffice,
+                    "start":start,
+                    "limit":limit,
+                    "strict":strict,
+                    "totalCount":true
+                };
+                console.log($scope.customersSearch);
+                return CustomerServices.getCustomerListLimit($scope.customersSearch).then(function(response){
+                    //console.info(response);
+                    if(response.status==200){
+                    return response.data;
+                    }else if(response.status==404){
+                    return response;
+                    }
+                });
             }
             $scope.pageChanged = function(){
             //console.info($scope.pagination.pageIndex);
@@ -1439,11 +1439,11 @@ system.controller('SystemCtrl', function($scope, $location, $rootScope, $routePa
         *           GET TYPE OF TypeMaintenance           *
         *                                                 *
         **************************************************/
-            $scope.rsTypeOfMaintenanceData = [];
+            $scope.rsTypeOfMaintenanceListData = [];
             $scope.getTypeOfMaintenanceFn = function(){
                 UtilitiesServices.typeOfMaintenance().then(function(response){
                     if(response.status==200){
-                        $scope.rsTypeOfMaintenanceData = response.data;
+                        $scope.rsTypeOfMaintenanceListData = response.data;
                     }
                 });
             };
@@ -1526,7 +1526,12 @@ system.controller('SystemCtrl', function($scope, $location, $rootScope, $routePa
                 return Math.pow(value, 2);
               }
             }
-          };
+        };
+
+
+        function convertTZ(date, tzString) {
+            return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("es-AR", {timeZone: tzString}));   
+        }
         /**************************************************
         *                                                 *
         *             SYSTEM MENU FUNCTION                *
@@ -1661,8 +1666,9 @@ system.controller('SystemCtrl', function($scope, $location, $rootScope, $routePa
                             case "create":
                                 console.log(obj);
                                 $scope.services_to_add = [];
-                                var requestDate  = new Date(new Date().toLocaleString('es-AR', {timeZone: 'America/Buenos_Aires'}))
-                                var formatedDate = requestDate.getFullYear()+"-"+(requestDate.getMonth()+1)+"-"+requestDate.getDate()+" " +requestDate.getHours() + ":" + requestDate.getMinutes()+ ":" + requestDate.getSeconds();
+                                var currentDate        = new Date();
+                                var rawDate            = moment(currentDate).toDate();
+                                var formatedDate       = moment(rawDate).format('YYYY-MM-DD');
                                 ContractServices.getContractListByCustomerId(obj.idClient).then(function(response){
                                     console.log(formatedDate);
                                     if(response.status==200){
@@ -2796,7 +2802,7 @@ system.controller('SystemCtrl', function($scope, $location, $rootScope, $routePa
                                 $scope.getTypeOfMaintenanceFn();
                                 $scope.technician_services={'new':{}, 'update':{}, 'temp':{}};
                                 $scope.technician_services.update = obj;
-                                $scope.getTypeOfMaintenanceByTechServiceIdFn(obj.idServiceTechnicianKf);
+                                //$scope.getTypeOfMaintenanceByTechServiceIdFn(obj.idServiceTechnicianKf);
                                 console.log($scope.technician_services.update);
                                 $('#editTechServiceCost').modal('toggle');
                                 $('#technician_cost').focus();

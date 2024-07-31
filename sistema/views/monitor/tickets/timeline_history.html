@@ -24,9 +24,10 @@
                         <div ng-if="history.idCambiosTicketKf=='24'" class="timeline-badge warning"><i class="fas fa-money-check-alt"></i></div>
                         <div ng-if="history.idCambiosTicketKf=='26'" class="timeline-badge success"><i class="fas fa-money-check-alt"></i></div>
                         <div ng-if="sysLoggedUser.idProfileKf=='1' && history.idCambiosTicketKf=='22'" class="timeline-badge default"><i class="fas fa-hand-holding-usd"></i></div>
-                        <div ng-if="sysLoggedUser.idProfileKf=='1' && history.idCambiosTicketKf=='7'" class="timeline-badge danger"><i class="fas fa-ban"></i></div>
+                        <div ng-if="history.idCambiosTicketKf=='7'" class="timeline-badge danger"><i class="fas fa-ban"></i></div>
                         <div ng-if="sysLoggedUser.idProfileKf=='1' && history.idCambiosTicketKf=='25'" class="timeline-badge danger"><i class="fas fa-ban"></i></div>
                         <div ng-if="sysLoggedUser.idProfileKf=='1' && history.idCambiosTicketKf=='26'" class="timeline-badge success"><i class="fas fa-hand-holding-usd"></i></div>
+                        <div ng-if="history.idCambiosTicketKf=='27'" class="timeline-badge default"><i class="fas fa-box-open"></i></div>
                         
                         
                         
@@ -52,8 +53,9 @@
                                 <span ng-if="history.idCambiosTicketKf=='21'"><span class="label label-info">{{history.nameProfile}}</span>&nbsp;<span class="label label-danger">{{history.descripcion}}</span></span>
                                 <span ng-if="history.idCambiosTicketKf=='24'"><span class="label label-info">{{history.nameProfile}}</span>&nbsp;<span class="label label-warning">{{history.descripcion}}</span></span>
                                 <span ng-if="history.idCambiosTicketKf=='26'"><span class="label label-success">{{history.nameProfile}}</span>&nbsp;<span class="label label-success">{{history.descripcion}}</span></span>
+                                <span ng-if="history.idCambiosTicketKf=='27'"><span class="label label-info">{{history.nameProfile}}</span>&nbsp;<span class="label label-default">{{history.descripcion}}</span></span>
                                 <span ng-if="sysLoggedUser.idProfileKf=='1' && history.idCambiosTicketKf=='22'"><span class="label label-info">{{history.nameProfile}}</span>&nbsp;<span class="label label-default">{{history.descripcion}}</span></span>
-                                <span ng-if="sysLoggedUser.idProfileKf=='1' && history.idCambiosTicketKf=='7'"><span class="label label-info">{{history.nameProfile}}</span>&nbsp;<span class="label label-danger">{{history.descripcion}}</span></span>
+                                <span ng-if="history.idCambiosTicketKf=='7'"><span class="label label-info">{{history.nameProfile}}</span>&nbsp;<span class="label label-danger">{{history.descripcion}}</span></span>
                                 <span ng-if="sysLoggedUser.idProfileKf=='1' && history.idCambiosTicketKf=='25'"><span class="label label-info">{{history.nameProfile}}</span>&nbsp;<span class="label label-danger">{{history.descripcion}}</span></span>
                                 
                             </div>

@@ -17,13 +17,14 @@
 				            <div class="card-depto-content">
                                 <i class="fas fa-map-marker" style="padding-left: 0.65em;"></i>
 				            </div>
-				            <span class="card-depto-span" style="margin-left: 28%;">ASOCIADA</span>
+				            <span class="card-depto-span" style="margin-left: 9%;">EN LA DIRECCIÓN</span>
+							<span class="card-depto-span" style="margin-left: 20%;">DEL EDIFICIO</span>
 				        </div>
 				    </div>
 				    <!-- BAJA -->
-				    <div class="col-md-6 col-xs-6 card-depto-colum" ng-click="(ticket.building.isStockInBuilding=='1' || ((ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0')))?'':mainSwitchFn('deliveryToOtherAddress', selectedUserToDelivery, 2);" >
-				        <div class="card-depto cyan white-text">
-							<div ng-if="(ticket.building.isStockInBuilding=='1' || ((ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0')))" class="ribbon ribbon-top-right"><span tyle="background-color: #ccc !important;">No disponible</span></div>
+				    <div ng-if="(((ticket.building.isStockInBuilding!=null && ticket.building.isStockInBuilding!='0') && (ticket.building.isStockInOffice!=null && ticket.building.isStockInOffice!='0')) || ticket.building.isStockInOffice=='1')" class="col-md-6 col-xs-6 card-depto-colum" ng-click="(ticket.building.isStockInBuilding=='1' || ((ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0')))?'':mainSwitchFn('deliveryToOtherAddress', selectedUserToDelivery, 2);" >
+				        <div class="card-depto cyan white-text" style="padding-bottom:2.97em;">
+							<div  ng-if="off" class="ribbon ribbon-top-right"><span tyle="background-color: #ccc !important;">No disponible</span></div>
 				            <div class="card-depto-content">
                                 <i class="fas fa-map-marked-alt" style="padding-left: 0.45em;"></i>
 				            </div>

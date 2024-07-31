@@ -312,9 +312,10 @@ class Clientes extends REST_Controller {
     }
 
 
-    public function findadmin_get($idClient) {
+    public function findadmin_get($idClient=null) {
+
         if (!isset($idClient) || is_null($idClient)) {
-            $this->response(null, 404);
+            $this->response([ 'info' => 'Client ID not received' ], 404);
         }
 
         $user = null;

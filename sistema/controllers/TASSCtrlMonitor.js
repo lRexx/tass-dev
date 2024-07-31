@@ -246,6 +246,9 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                       }
                   }
               break;
+              case "closeRequest":
+                $("#showModalRequestStatus").modal('hide');
+              break;
               case "update":
                   if (confirm==0){
                       $scope.tenantObj=obj;
@@ -571,11 +574,24 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
     **************************************************/
         $scope.listStatusTicket=null;
         $scope.listStatusTicketChange=null;
+        // Define the desired order of ids
+        
         $scope.getTicketStatusTypeListFn = function(){
           ticketServices.getTicketStatusTypeList().then(function(response){
             if(response.status==200){
-                    $scope.listStatusTicket       = response.data;
-                    $scope.listStatusTicketChange = response.data;
+                const desiredOrder = ["2", "9", "3", "11", "8", "12", "4", "5", "7", "10","6", "-1", "1"];
+                const dataList = response.data;
+                const orderMap = {};
+                desiredOrder.forEach((id, index) => {
+                  orderMap[id] = index;
+                });
+                const sortedList = dataList.sort((a, b) => orderMap[a.idStatus] - orderMap[b.idStatus]);
+                // Print the sorted list
+                sortedList.forEach(item => {
+                  console.log(`${item.idStatus}\t${item.statusName}`);
+                });
+                $scope.listStatusTicket  = sortedList;
+                $scope.listStatusTicketChange = sortedList;
             }else if (response.status==404){
                 inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
                     ttl:3000, type: 'danger'
@@ -1535,8 +1551,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
           $scope.mp.link.new.data.idTicket            = obj.idTicket;
           $scope.mp.link.new.data.ticket_number       = obj.codTicket;
           $scope.mp.link.new.data.monto               = Number(parseInt(obj.total));
-          $scope.mp.link.new.data.linkDeNotificacion  = "https://devBss.sytes.net/Back/index.php/MercadoLibre/getNotificationOfMP";
-          $scope.mp.link.new.data.back_url            = "https://devBss.sytes.net/monitor";
+          $scope.mp.link.new.data.linkDeNotificacion  = serverHost+"/Back/index.php/MercadoLibre/getNotificationOfMP";
+          $scope.mp.link.new.data.back_url            = serverHost+"/monitor";
           $scope.mp.link.new.data.description         = obj.typeticket.TypeTicketName;
           $scope.mp.link.new.data.quantity            = obj.keys.length;
           console.log($scope.mp.link);
@@ -1837,7 +1853,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
     **************************************************/
       $scope.showCalender = false;
       $scope.monitor={'filters':{},'update':{},'edit':{}};
-      $scope.monitor.filter={'idUserRequestBy':'', 'idUserMadeBy':'', 'idBuildingKf':'', 'idClientAdminFk':'', 'idClientCompaniFk':'', 'idClientBranchFk':'', 'topfilter':'', 'idTypeTicketKf':'', 'idStatusTicketKf':'', 'codTicket':'', 'idTypePaymentKf':'', 'idTypeDeliveryKf':'', 'dateCreatedFrom':'', 'dateCreatedTo':'', 'dateDeliveredFrom':'', 'dateDeliveredTo':'', 'isBillingUploaded':null, 'isBillingInitiated':null, 'isHasRefundsOpen':null, 'idDeliveryCompanyKf':''};
+      $scope.monitor.filter={'idUserRequestBy':'', 'idUserMadeBy':'', 'idBuildingKf':'', 'idClientAdminFk':'', 'idClientCompaniFk':'', 'idClientBranchFk':'', 'topfilter':'', 'idTypeTicketKf':'', 'idStatusTicketKf':'', 'codTicket':'', 'idTypePaymentKf':'', 'idTypeDeliveryKf':'', 'dateCreatedFrom':'', 'dateCreatedTo':'', 'dateDeliveredFrom':'', 'dateDeliveredTo':'', 'isBillingUploaded':null, 'isBillingInitiated':null, 'isHasRefundsOpen':null, 'idDeliveryCompanyKf':'', 'isInitialDeliveryActive':null};
       $scope.mainSwitchFn = function(opt, obj, obj2){
         switch (opt){
             case "dashboard":
@@ -1923,24 +1939,26 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
             case "search":
               switch ($scope.sysLoggedUser.idProfileKf){
                 case "1":
-                  $scope.monitor.filter.idClientAdminFk        = $scope.filterCompanyKf.selected!=undefined && $scope.filterCompanyKf.selected.idClientTypeFk=="1"?$scope.filterCompanyKf.selected.idClient:"";
-                  $scope.monitor.filter.idClientCompaniFk      = $scope.filterCompanyKf.selected!=undefined && $scope.filterCompanyKf.selected.idClientTypeFk=="3"?$scope.filterCompanyKf.selected.idClient:"";
-                  $scope.monitor.filter.idBuildingKf           = $scope.filterAddressKf.selected!=undefined && $scope.filterCompanyKf.selected.idClientTypeFk=="1"?$scope.filterAddressKf.selected.idClient:"";
-                  $scope.monitor.filter.idClientBranchFk       = $scope.filterAddressKf.selected!=undefined && $scope.filterCompanyKf.selected.idClientTypeFk=="3"?$scope.filterAddressKf.selected.idClient:"";
-                  $scope.monitor.filter.topfilter              = $scope.filters.topDH;
-                  $scope.monitor.filter.idProfileKf            = $scope.sysLoggedUser.idProfileKf;
-                  $scope.monitor.filter.idTypeTicketKf         = !$scope.filters.typeTicket?"":$scope.filters.typeTicket.idTypeTicket;
-                  $scope.monitor.filter.idStatusTicketKf       = !$scope.filters.ticketStatus?"":$scope.filters.ticketStatus.idStatus;
-                  $scope.monitor.filter.idTypeDeliveryKf       = !$scope.filters.typDelivery?"":$scope.filters.typDelivery.idTypeDelivery;
-                  $scope.monitor.filter.idTypePaymentKf        = $scope.filters.paymentsType=="" || $scope.filters.paymentsType==undefined?"":$scope.filters.paymentsType.id;
-                  $scope.monitor.filter.isBillingInitiated     = $scope.filters.paymentsType!="" && $scope.filters.isBillingInitiated?1:0;
+                  $scope.monitor.filter.idClientAdminFk         = $scope.filterCompanyKf.selected!=undefined && $scope.filterCompanyKf.selected.idClientTypeFk=="1"?$scope.filterCompanyKf.selected.idClient:"";
+                  $scope.monitor.filter.idClientCompaniFk       = $scope.filterCompanyKf.selected!=undefined && $scope.filterCompanyKf.selected.idClientTypeFk=="3"?$scope.filterCompanyKf.selected.idClient:"";
+                  $scope.monitor.filter.idBuildingKf            = $scope.filterAddressKf.selected!=undefined && $scope.filterCompanyKf.selected.idClientTypeFk=="1"?$scope.filterAddressKf.selected.idClient:"";
+                  $scope.monitor.filter.idClientBranchFk        = $scope.filterAddressKf.selected!=undefined && $scope.filterCompanyKf.selected.idClientTypeFk=="3"?$scope.filterAddressKf.selected.idClient:"";
+                  $scope.monitor.filter.topfilter               = $scope.filters.topDH;
+                  $scope.monitor.filter.idProfileKf             = $scope.sysLoggedUser.idProfileKf;
+                  $scope.monitor.filter.idTypeTicketKf          = !$scope.filters.typeTicket?"":$scope.filters.typeTicket.idTypeTicket;
+                  $scope.monitor.filter.idStatusTicketKf        = !$scope.filters.ticketStatus?"":$scope.filters.ticketStatus.idStatus;
+                  $scope.monitor.filter.idTypeDeliveryKf        = !$scope.filters.typDelivery?"":$scope.filters.typDelivery.idTypeDelivery;
+                  $scope.monitor.filter.idTypePaymentKf         = $scope.filters.paymentsType=="" || $scope.filters.paymentsType==undefined?"":$scope.filters.paymentsType.id;
+                  $scope.monitor.filter.isBillingInitiated      = $scope.filters.paymentsType!="" && $scope.filters.isBillingInitiated?1:0;
+                  $scope.monitor.filter.isInitialDeliveryActive = $scope.filters.isInitialDeliveryActive?1:0;
                   //console.log($scope.filters.paymentsType);
                   if ($scope.filters.paymentsType!=undefined && $scope.filters.paymentsType.id!=undefined && $scope.filters.paymentsType.id=="2" && ($scope.filters.ticketStatus!=undefined && $scope.filters.ticketStatus.idStatus!="6") && $scope.monitor.filter.isBillingUploaded){
                       $scope.monitor.filter.isBillingUploaded      = 1;
                   }else{
                       $scope.monitor.filter.isBillingUploaded      = 0;
                   }
-                  $scope.monitor.filter.isHasRefundsOpen = $scope.filters.ticketStatus!=undefined && $scope.filters.ticketStatus.idStatus=="6" && $scope.filters.isHasRefundsOpen?1:0;
+                  //$scope.monitor.filter.isHasRefundsOpen = $scope.filters.ticketStatus!=undefined && $scope.filters.ticketStatus.idStatus=="6" && $scope.filters.isHasRefundsOpen?1:0;
+                  $scope.monitor.filter.isHasRefundsOpen = $scope.filters.isHasRefundsOpen?1:0;
                   $scope.monitor.filter.idDeliveryCompanyKf    = !$scope.filters.deliveryCompanyKf?"":$scope.filters.deliveryCompanyKf.idDeliveryCompany;
                   //CREATED
                   if ($scope.filters.dateCreatedFrom!=null && $scope.filters.dateCreatedFrom!=undefined){
@@ -2177,13 +2195,13 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               angular.forEach(obj,function(ticket){
                 var deferredtickets = $q.defer();
                 assignedtickets.push(deferredtickets.promise);
-                deferredtickets.resolve();
-                $scope.update.ticket.idTicket              = ticket.idTicket;
-                $scope.update.ticket.history               = [];
-                $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"22"});
                 $timeout(function() {
+                  deferredtickets.resolve();
+                  $scope.update.ticket.idTicket              = ticket.idTicket;
+                  $scope.update.ticket.history               = [];
+                  $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"22"});
                   $scope.setBillingInitiateFn($scope.update);
-                }, 100)
+                }, 500)
               });
               $q.all(assignedtickets).then(function () {
                 $scope.setRequestBillingListAsArrayFn(obj);
@@ -3198,10 +3216,10 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 $scope.mp.link.new.data.idTicket              = obj.idTicket;
                 $scope.mp.link.new.data.ticket_number         = obj.codTicket;
                 $scope.mp.link.new.data.monto                 = obj.createNewMPLinkForDelivery?Number(parseInt(obj.costDelivery)):Number(parseInt(obj.total));
-                //$scope.mp.link.new.data.linkDeNotificacion    = "https://dev.bss.com.ar/Back/index.php/MercadoLibre/getNotificationOfMP";
-                //$scope.mp.link.new.data.back_url              = "https://dev.bss.com.ar/monitor";
-                $scope.mp.link.new.data.linkDeNotificacion    = "https://devtass.sytes.net/Back/index.php/MercadoLibre/getNotificationOfMP";
-                $scope.mp.link.new.data.back_url              = "https://devtass.sytes.net/monitor";
+                //$scope.mp.link.new.data.linkDeNotificacion    = serverHost+"/Back/index.php/MercadoLibre/getNotificationOfMP";
+                //$scope.mp.link.new.data.back_url              = serverHost+"/monitor";
+                $scope.mp.link.new.data.linkDeNotificacion    = serverHost+"/Back/index.php/MercadoLibre/getNotificationOfMP";
+                $scope.mp.link.new.data.back_url              = "";
                 $scope.mp.link.new.data.description           = obj.typeticket.TypeTicketName;
                 $scope.mp.link.new.data.quantity              = obj.keys.length;
                 $scope.mp.link.new.data.idPayment             = obj.idPaymentKf!=null || obj.idPaymentKf!=undefined?obj.idPaymentKf:null;
@@ -3530,11 +3548,27 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               //       
               //  }
                 //console.log($scope.sessionIdUser);   
-                //console.log($searchFilter);
+                console.log(filter);
+                $scope.listTicktTmp=null;
+                $scope.listTickt = [];
                 ticketServices.all(filter).then(function(response){
                   if(response.status==200){
-                      $scope.listTickt    =  response.data.response;
+                      $scope.listTicktTmp =  response.data.response;
+                      if (filter.isInitialDeliveryActive==1){ //isInitialDeliveryActive
+                        console.log($scope.listTickt);
+                        for(var i=0;i<$scope.listTicktTmp.length;i++){
+                            //console.log($scope.listTicktTmp[i].building.isInitialDeliveryActive.length);
+                            //console.log($scope.listTicktTmp[i].building.isInitialDeliveryActive[0].expiration_state);
+                            if ($scope.listTicktTmp[i].building.isInitialDeliveryActive.length>=1 && $scope.listTicktTmp[i].building.isInitialDeliveryActive[0].expiration_state==false){
+                              $scope.listTickt.push($scope.listTicktTmp[i]);
+                            }
+                        }
+                      }else{
+                        $scope.listTickt    =  response.data.response;
+                      }
+                      
                       $scope.totalTickets = $scope.listTickt.length;
+
                   }else if (response.status==404){
                       inform.add('No se encontraron resultados verifique el filtro seleccionado o contacte al soporte de BSS.',{
                           ttl:3000, type: 'info'
@@ -3608,63 +3642,122 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
           *          SET BILLING ARRAY LIST FUNCTION        *
           ***************************************************/
             $scope.setRequestBillingListAsArrayFn = function(obj){
-              console.log(obj);
-              $scope.sheetName = "Pedidos a Facturar -"+sysDay+sysMonth2Digit+sysYear
-              $scope.list_requests=[];
 
-              for (var f in obj){ 
-                var floor         = obj[f].idTypeRequestFor=="1"?obj[f].department.floor:"";
-                var depto         = obj[f].idTypeRequestFor=="1"?obj[f].department.departament:obj[f].typeRequestFor.name;
-                var department    = obj[f].idTypeRequestFor=="1"?floor+" - "+depto.toUpperCase():depto.toUpperCase();
-                var codTicket     = obj[f].codTicket;
-                var fileName      = obj[f].idTicket+"_"+codTicket.substr(5)+".pdf";
-                var fullNameUser  = obj[f].idUserRequestBy!=null && obj[f].userRequestBy.fullNameUser!=undefined?obj[f].userRequestBy.fullNameUser:"no asignado";
-                if (obj[f].created_at!=null){
-                    if(obj[f].keys.length>1){
-                      var i = 1;
-                      var costDelivery = null;
-                      var costService  = null;
-                      var CantidadLlaveros = 0;
-                      var CantidadLlaverosTmp = null;
-                      var keyModel = null;
-                      var priceFabric = 0;
-                      for (var key = 0; key < obj[f].keys.length; key++) {
-                        costDelivery = i == 1 ?obj[f].costDelivery:0;
-                        costService  = i == 1 ?obj[f].costService:0;
-                        if (obj[f].keys[key].idDepartmenKf == obj[f].idDepartmentKf && obj[f].keys[key].idTicketKf == obj[f].idTicket){
+              try {
+                if (obj.length>=1){
+                  $scope.sheetName = "Pedidos a Facturar -"+sysDay+sysMonth2Digit+sysYear
+                  $scope.list_requests=[];
+                  for (var f in obj){
+                    //console.log(obj[f]);
+                    var floor         = obj[f].idTypeRequestFor=="1"?obj[f].department.floor:"";
+                    var depto         = obj[f].idTypeRequestFor=="1"?obj[f].department.departament:obj[f].typeRequestFor.name;
+                    var department    = obj[f].idTypeRequestFor=="1"?floor+" - "+depto.toUpperCase():depto.toUpperCase();
+                    var codTicket     = obj[f].codTicket;
+                    var fileName      = obj[f].idTicket+"_"+codTicket.substr(5)+".pdf";
+                    var fullNameUser  = obj[f].idUserRequestBy!=null && obj[f].userRequestBy.fullNameUser!=undefined?obj[f].userRequestBy.fullNameUser:"no asignado";
+                    var dniUser       = obj[f].idUserRequestBy!=null && obj[f].userRequestBy.dni!=undefined?obj[f].userRequestBy.dni:"no asignado";
+                    if (obj[f].created_at!=null){
+                        if(obj[f].keys.length>1){
+                          var i = 1;
+                          var costDelivery = null;
+                          var costService  = null;
+                          var CantidadLlaveros = 0;
+                          var keyModel = null;
+                          var priceFabric = 0;
+                          var keyList = obj[f].keys;
+                          for (var key = 0; key < obj[f].keys.length; key++) {
+                            costDelivery = i == 1 ?obj[f].costDelivery:0;
+                            costService  = i == 1 ?obj[f].costService:0;
+                            //if (obj[f].keys[key].idDepartmenKf == obj[f].idDepartmentKf && obj[f].keys[key].idTicketKf == obj[f].idTicket){
+                            //
+                            //}
+                            if (keyModel == null){
+                              keyModel = obj[f].keys[key].model;
+                              var j=1;
+                            }else if (keyModel != obj[f].keys[key].model){
+                              keyModel = obj[f].keys[key].model;
+                              var j=1;
+                            }
+                            //console.log("keyModel: " +keyModel);
+                            // Parsear el JSON
+                            const data = keyList;
+                            //console.log(data);
+                            // Contar las coincidencias del valor de la key "model"
+                            let occurrences = 0;
 
-                        }
-                        console.log("keyModel: " +keyModel);
-                        console.log("i: " +(i)+ " / keys.length: "+obj[f].keys.length);
-                          if (keyModel == null){
-                            keyModel = obj[f].keys[key].model;
-                            CantidadLlaverosTmp = 1;
-                            console.log(CantidadLlaverosTmp);
-                          }else if (keyModel == obj[f].keys[key].model && i < obj[f].keys.length){
-                            CantidadLlaverosTmp++;
-                            console.log(CantidadLlaverosTmp);
-                          }else if (keyModel == obj[f].keys[key].model && i == obj[f].keys.length){
-                            CantidadLlaverosTmp++;
-                            CantidadLlaveros = CantidadLlaverosTmp;
-                            console.log(CantidadLlaveros);
-                          }
-                        if(obj[f].idTypePaymentKf=="1"){
-                            $scope.list_requests.push({
-                              'idTicket':obj[f].idTicket,
-                              'NumeroPedido':obj[f].codTicket, 
-                              'FechaPedido':obj[f].created_at,
-                              'idClient': obj[f].idBuildingKf,
-                              'Consorcio':obj[f].building.address,
-                              'Departamento':department,
-                              'SolicitadoPor':fullNameUser,
-                              'CostoEnvio':costDelivery, 
-                              'CostoGestion':costService,
-                              'CantidadLlaveros': CantidadLlaveros,
-                              'idProducto':obj[f].keys[0].idProduct,
-                              'Producto': obj[f].keys[0].model,
-                              'PrecioUnitario':obj[f].keys[0].priceFabric,
+                            // Iterar sobre el array de objetos
+                            data.forEach(item => {
+                              if (item.model === keyModel) {
+                                occurrences++;
+                              }
                             });
+                            
+                            //console.log("keyModel: " +keyModel);
+                            //let occurrences = 0;
+                            //const obj2 = JSON.parse(keyList);
+                            //for (const item in obj2) {
+                            //    if (obj2.hasOwnProperty(item) && obj2[item] === keyModel) {
+                            //      occurrences++;
+                            //    }
+                            //}
+                            if (occurrences==1 && j==occurrences){
+                              CantidadLlaveros=1
+                              //console.log("j:" +j);
+                              //console.log("occurrences:" +occurrences);
+                              //console.log("CantidadLlaveros:" +CantidadLlaveros)
+                            }else if (occurrences>1 && j<occurrences){
+                              CantidadLlaveros=0
+                              //console.log("j:" +j);
+                              //console.log("occurrences:" +occurrences);
+                              //console.log("CantidadLlaveros:" +CantidadLlaveros)
+                              j++;
+                            }else if (occurrences>1 && j==occurrences){
+                              CantidadLlaveros=occurrences
+                              //console.log("j:" +j);
+                              //console.log("occurrences:" +occurrences);
+                              //console.log("CantidadLlaveros:" +CantidadLlaveros);
+                            }
+                            if(obj[f].idTypePaymentKf=="1"){
+                                $scope.list_requests.push({
+                                  'idTicket':obj[f].idTicket,
+                                  'NumeroPedido':obj[f].codTicket, 
+                                  'FechaPedido':obj[f].created_at,
+                                  'idClient': obj[f].idBuildingKf,
+                                  'Consorcio':obj[f].building.address,
+                                  'Departamento':department,
+                                  'SolicitadoPor':fullNameUser,
+                                  'dniSolicitante':dniUser,
+                                  'CostoEnvio':costDelivery, 
+                                  'CostoGestion':costService,
+                                  'CantidadLlaveros': CantidadLlaveros,
+                                  'idProducto':obj[f].keys[key].idProduct,
+                                  'Producto': obj[f].keys[key].model,
+                                  'PrecioUnitario':obj[f].keys[key].priceFabric,
+                                });
+                            }else{
+                                $scope.list_requests.push({
+                                  'idTicket':obj[f].idTicket,
+                                  'NumeroPedido':obj[f].codTicket, 
+                                  'FechaPedido':obj[f].created_at,
+                                  'idClient': obj[f].idBuildingKf,
+                                  'Consorcio':obj[f].building.address,
+                                  'Departamento':department,
+                                  'SolicitadoPor':fullNameUser,
+                                  'dniSolicitante':dniUser,
+                                  'CostoEnvio':costDelivery, 
+                                  'CostoGestion':costService,
+                                  'CantidadLlaveros': CantidadLlaveros,
+                                  'idProducto':obj[f].keys[key].idProduct,
+                                  'Producto': obj[f].keys[key].model,
+                                  'PrecioUnitario':obj[f].keys[key].priceFabric,
+                                  'FacturaNombre':fileName
+                                });
+                            }
+                            i++;
+                          }
+                          //console.log($scope.list_requests);
                         }else{
+                          if(obj[f].idTypePaymentKf=="1"){
                             $scope.list_requests.push({
                               'idTicket':obj[f].idTicket,
                               'NumeroPedido':obj[f].codTicket, 
@@ -3673,39 +3766,46 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                               'Consorcio':obj[f].building.address,
                               'Departamento':department,
                               'SolicitadoPor':fullNameUser,
+                              'dniSolicitante':dniUser,
                               'CostoEnvio':costDelivery, 
                               'CostoGestion':costService,
-                              'CantidadLlaveros': CantidadLlaveros,
+                              'CantidadLlaveros': obj[f].keys.length,
+                              'idProducto':obj[f].keys[key].idProduct,
+                              'Producto': obj[f].keys[key].model,
+                              'PrecioUnitario':obj[f].keys[key].priceFabric,
+                            });
+                          }else{
+                            $scope.list_requests.push({
+                              'idTicket':obj[f].idTicket,
+                              'NumeroPedido':obj[f].codTicket, 
+                              'FechaPedido':obj[f].created_at,
+                              'idClient': obj[f].idBuildingKf,
+                              'Consorcio':obj[f].building.address,
+                              'Departamento':department,
+                              'SolicitadoPor':obj[f].userRequestBy.fullNameUser,
+                              'dniSolicitante':dniUser,
+                              'CostoEnvio':obj[f].costDelivery, 
+                              'CostoGestion':obj[f].costService,
+                              'CantidadLlaveros': obj[f].keys.length,
                               'idProducto':obj[f].keys[0].idProduct,
                               'Producto': obj[f].keys[0].model,
                               'PrecioUnitario':obj[f].keys[0].priceFabric,
                               'FacturaNombre':fileName
                             });
+                          }
                         }
-                        i++;
-                      }
-                    }else{
-                      $scope.list_requests.push({
-                        'idTicket':obj[f].idTicket,
-                        'NumeroPedido':obj[f].codTicket, 
-                        'FechaPedido':obj[f].created_at,
-                        'idClient': obj[f].idBuildingKf,
-                        'Consorcio':obj[f].building.address,
-                        'Departamento':department,
-                        'SolicitadoPor':obj[f].userRequestBy.fullNameUser,
-                        'CostoEnvio':obj[f].costDelivery, 
-                        'CostoGestion':obj[f].costService,
-                        'CantidadLlaveros': obj[f].keys.length,
-                        'idProducto':obj[f].keys[0].idProduct,
-                        'Producto': obj[f].keys[0].model,
-                        'PrecioUnitario':obj[f].keys[0].priceFabric,
-                        'FacturaNombre':fileName
-                      });
                     }
+                  }
+                  console.log($scope.list_requests);
+                  $scope.buildXLS($scope.list_requests);
+                }else{
+                  inform.add('No se encontraron resultados verifique el filtro seleccionado o contacte al soporte de BSS.',{
+                    ttl:5000, type: 'info'
+                });
                 }
+              } catch (error) {
+                console.error('Error processing request billing list:', error);
               }
-              console.log($scope.list_requests);
-              $scope.buildXLS($scope.list_requests);
             }
           /**************************************************
           *        SET DELIVERY ARRAY LIST FUNCTION         *

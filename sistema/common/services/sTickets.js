@@ -19,11 +19,23 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
                 return response;
               })
           },
-          /* ADD TICKET */
+          /* ADD TICKET UP */
           addUpRequest: function(ticket) {
             console.log("Adding ticket service :: Triggered");
             //console.log(ticket);
             return $http.post(serverHost+serverBackend+"Ticket/index2",ticket, serverHeaders)
+              .then(function mySucess(response) {
+                return response;
+              },function myError(response) { 
+                console.log("Error: "+response.data.error); 
+                return response;
+              })
+          },
+          /* ADD TICKET DOWN*/
+          addDownRequest: function(ticket) {
+            console.log("Adding ticket service :: Triggered");
+            //console.log(ticket);
+            return $http.post(serverHost+serverBackend+"Ticket/index3",ticket, serverHeaders)
               .then(function mySucess(response) {
                 return response;
               },function myError(response) { 

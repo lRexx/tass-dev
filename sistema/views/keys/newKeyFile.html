@@ -15,7 +15,7 @@
                         <div class="row">
                             <div class="form-group">
                                 <!-- List Address of Buildings-->
-                                <div  class="col-md-8"  ng-class="
+                                <!-- <div  class="col-md-8"  ng-class="
                                     {	'has-success': 
                                         keys.file.address.selected!=undefined && fNewKeyFile.building_address.$valid,
                                         'has-error':  
@@ -41,7 +41,34 @@
                                             </ui-select>
                                         </div>
                                     </div>
+                                </div>-->
+                                <div class="col-md-8 col-sm-8 col-xs-8 " ng-class="
+                                {	'has-success': 
+                                    customerSearch.address!=undefined && customerSearch.address!=undefined && fAssignNewDepto.customerSearchAddress.$valid,
+                                    'has-error':  
+                                    (customerSearch.address==undefined) && customerSearch.address==undefined && fAssignNewDepto.customerSearchAddress.$touched,
+                                    'col-md-6 col-xs-6 col-sm-6': ListDpto.length>0,
+                                }">
+                                <div class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-l n-padding-r">
+                                    <label style="padding-left: 15px;">Consorcio</label>
+                                <div class="input-group s-ui-width s-ui-m-left">
+                                    <span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
+                                    <input type="text" name="customerSearchAddress" 
+                                        id="customerSearchAddress"
+                                        ng-model="customerSearch.address"
+                                        ng-keydown="findCustomerFn(customerSearch.address, null, false);"
+                                        class="form-control text-uppercase" 
+                                        move-to-list input-selector="'.input-search'"
+                                        list-items-selector="'.list-group li'"
+                                        placeholder="Presione Enter para buscar..."
+                                        style="z-index: 2100; border-radius: 4px;border-bottom-left-radius: 0px;border-top-left-radius: 0px;"
+                                        ng-required="true" />
+                                    <ul id="customerList" class="list-group" ng-show="listCustomerFound.length>0 && (customerSearch.address!=undefined || customerSearch.address!=null)" style="height: 0px; z-index: 2000;" >
+                                        <li tabindex="0" id="customerList-{{$index}}" style="z-index: 2000;"  class="list-group-item" ng-repeat="item in listCustomerFound" navigate-list-items ng-class="{'padding-t-38': $index==0}" ng-click="loadCustomerFieldsFn(item);" input-selector="'.input-search'" list-items-selector="'.list-group li'" ng-keydown="$event.keyCode === 13 && loadCustomerFieldsFn(item)" > {{item.idClient}} - {{item.name}} <span class="label label-default">{{item.ClientType | uppercase}}</span></li>
+                                    </ul>
                                 </div>
+                                </div>
+                            </div>
                                 <div class="col-md-4" ng-class="{
                                     'has-success': 
                                         keys.file.mainQttyKeys!='' && keys.file.mainQttyKeys!=null && keys.file.mainQttyKeys>0  && fNewKeyFile.mainQttyKeys.$valid,
@@ -111,9 +138,9 @@
                                 <!-- List Open Devices Products For RESERVA-->
                                 <div  class="col-md-6"  ng-class="
                                     {	'has-success': 
-                                        select.products2.selected!=undefined && fNewKeyFile.products2.$valid,
+                                        select.products_reserva.selected!=undefined && fNewKeyFile.products2.$valid,
                                         'has-error':  
-                                        (select.products2.selected==undefined) && fNewKeyFile.products2.$touched
+                                        (select.products_reserva.selected==undefined) && fNewKeyFile.products2.$touched
                                     }">
                                     <label style="padding-left: 15px;">Dispositivos de Apertura <span class="badge badge-warning">RESERVA</span></label>  
                                     <div class="col-xs-12 selectContainer">
@@ -122,8 +149,8 @@
                                             <ui-select
                                                     name="products2"  
                                                     ng-required="true"
-                                                    ng-change="keys.file.address.selected!=undefined && select.products2.selected!=undefined?setProductKeyToDepto('re', select.products2.selected):'';"
-                                                    ng-model="select.products2.selected" autofocus>
+                                                    ng-change="keys.file.address.selected!=undefined && select.products_reserva.selected!=undefined?setProductKeyToDepto('re', select.products_reserva.selected):'';"
+                                                    ng-model="select.products_reserva.selected" autofocus>
                                                 <ui-select-match  allow-clear="true" placeholder="Todos">{{$select.selected.descriptionProduct}}</ui-select-match>
                                                 <ui-select-choices repeat="item in rsProductsData | filter: {idProductClassificationFk:19}| filter: $select.search">
                                                     <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
@@ -140,9 +167,9 @@
                                 <!-- List Open Devices Products For COCHERAS -->
                                 <div  class="col-md-6"  ng-class="
                                     {	'has-success': 
-                                        select.products3.selected!=undefined && fNewKeyFile.products3.$valid,
+                                        select.products_cocheras.selected!=undefined && fNewKeyFile.products3.$valid,
                                         'has-error':  
-                                        (select.products3.selected==undefined) && fNewKeyFile.products3.$touched
+                                        (select.products_cocheras.selected==undefined) && fNewKeyFile.products3.$touched
                                     }">
                                     <label style="padding-left: 15px;">Dispositivos de Apertura <span class="badge badge-warning">COCHERAS</span></label>
                                     <div class="col-xs-12 selectContainer">
@@ -151,8 +178,8 @@
                                             <ui-select
                                                     name="products3"  
                                                     ng-required="true"
-                                                    ng-change="keys.file.address.selected!=undefined && select.products3.selected!=undefined?setProductKeyToDepto('co', select.products3.selected):'';"
-                                                    ng-model="select.products3.selected" autofocus>
+                                                    ng-change="keys.file.address.selected!=undefined && select.products_cocheras.selected!=undefined?setProductKeyToDepto('co', select.products_cocheras.selected):'';"
+                                                    ng-model="select.products_cocheras.selected" autofocus>
                                                 <ui-select-match  allow-clear="true" placeholder="Todos">{{$select.selected.descriptionProduct}}</ui-select-match>
                                                 <ui-select-choices repeat="item in rsProductsData | filter: {idProductClassificationFk:19}| filter: $select.search">
                                                     <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>

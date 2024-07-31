@@ -44,13 +44,14 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
         'adicional':{}, 
         'aditional_alarm':{'sysUser':{'selected':undefined}}
     };
+    $scope.customerSearch={'name':'','searchFilter':'', 'typeClient':'', 'isInDebt':false, 'isStockInBuilding': false, 'isStockInOffice': false, 'strict':false};
     $scope.contract = {
         'new':{}, 
         'update':{}, 
         'info':{}, 
         'select':{'main':{},'date':{}, 'codes':{}}
     };
-    $scope.select={'filterCategoryKey':'', 'department':'', 'filterCustomerIdFk':{'selected':undefined}, 'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined}, 'products2':{'selected':undefined}, 'products3':{'selected':undefined}}
+    $scope.select={'admins':{'selected':undefined}, 'buildings':{'selected':undefined},'depto':undefined,'floor':undefined,'filterCategoryKey':'', 'department':'', 'filterCustomerIdFk':{'selected':undefined}, 'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined}, 'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
     $scope.keys={'llavero':{}, 
     'new':{'address':{'selected':undefined}, 'products':{'selected':undefined}, 'categoryKey':'', 'department':{}, 'codigo':'', 'codigoExt':''},
     'update':{'address':{'selected':undefined}, 'products':{'selected':undefined}, 'categoryKey':'', 'department':{}, 'codigo':'', 'codigoExt':''},
@@ -533,7 +534,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             f=0;
                             //console.log($scope.keys.file.building.list_departament);
                             for (category in $scope.rsCategoryKeyChainsData){
-                                if( $scope.rsCategoryKeyChainsData[category].name.toLowerCase().substring(0,2)!="de"){
+                                if($scope.rsCategoryKeyChainsData[category].name.toLowerCase().substring(0,2)!="de" && $scope.rsCategoryKeyChainsData[category].name.toLowerCase().substring(0,2)!="co"){
                                     $scope.list_depto_floors.push({'id':(f),'nameFloor':$scope.rsCategoryKeyChainsData[category].name.toLowerCase().substring(0,2), 'qttyKeys':'', 'deptos':[]});
                                     f++;
                                 }
@@ -619,14 +620,166 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                 *                 GET CUSTOMER LIST               *
                 *                                                 *
                 **************************************************/
-                    $scope.getCustomerListFn = function() {
-                        $scope.buildingCustomerList = [];
-                        $scope.globalGetCustomerListFn(null,"0",2,"","",null).then(function(data) {
-                          $scope.buildingCustomerList = data.customers;
-                        }, function(err) {
-                          $scope.buildingCustomerList = null;
+                $scope.customerSearch={'searchFilter':'', 'typeClient':'', 'isNotCliente':undefined, 'isInDebt':false, 'isStockInBuilding': false, 'isStockInOffice': false, 'strict':false};
+
+                /**************************************************
+                *                                                 *
+                *       GET LIST OF CUSTOMER BY CUSTOMER ID       *
+                *                                                 *
+                **************************************************/
+                  $scope.listOffices=[];
+                  $scope.getLisOfCustomersByIdFn = function(obj){
+                    //console.log("getLisOfCustomersByIdFn: "+obj.idClient);
+                    $scope.listOffices=[];
+                    CustomerServices.getCustomersListByCustomerId(obj.idClient).then(function(response){
+                      //console.log(response);
+                      if(response.status==200){
+                        $scope.listOffices = response.data;
+                      }else{
+                        $scope.listOffices = [];
+                        inform.add('No hay Consorcios o Sucursales asociadas a la ('+obj.ClientType+') - '+obj.name+' , contacte al area de soporte de BSS.',{
+                          ttl:5000, type: 'info'
+                          });
+                      }
+                    });
+                  };
+                /******************************
+                *    UTIL FOR CUSTOMER DATA   *
+                ******************************/
+                  $scope.customersSearch={
+                    "searchFilter":null,
+                    "isNotCliente":"0",
+                    "idClientTypeFk":"2",
+                    "isInDebt": null,
+                    "start":"1",
+                    "limit":"10",
+                    "strict": null
+                  }
+                /**************************************************
+                *                                                 *
+                *             LIST CUSTOMER SERVICE               *
+                *                                                 *
+                **************************************************/
+                  $scope.getCustomersListRs = {'customerList':null, 'totalNumberOfCustomer':0}
+                  $scope.setCustomersListRs = {}
+                  $scope.getCustomerLisServiceFn = function(searchFilter, isNotCliente, idClientTypeFk, isInDebt, start, limit, strict){
+                      console.log($scope.customerSearch);
+                      console.log(idClientTypeFk);
+                      var searchFilter    = searchFilter!=undefined && searchFilter!="" && searchFilter!=null?searchFilter:null;
+                      var isNotCliente    = isNotCliente!=undefined && isNotCliente!=null?isNotCliente:"0";
+                      var idClientTypeFk  = idClientTypeFk!=undefined && idClientTypeFk!="" && idClientTypeFk!=null?idClientTypeFk:null;
+                      var isInDebt        = isInDebt!=false && isInDebt!=undefined && isInDebt!=null?1:null;
+                      var start           = start!=undefined && start!=null && (!isInDebt && !strict)?start:"";
+                      var limit           = limit!=undefined && limit!=null && (!isInDebt && !strict)?limit:"";
+                      var strict          = strict!=false && strict!=undefined && strict!=null?strict:null;
+                      $scope.getCustomersListRs = {'customerList':null, 'totalNumberOfCustomer':0}
+                      $scope.customersSearch={
+                      "searchFilter":searchFilter,
+                      "isNotCliente":isNotCliente,
+                      "idClientTypeFk":idClientTypeFk,
+                      "isInDebt":isInDebt,
+                      "start":start,
+                      "limit":limit,
+                      "strict":strict,
+                      "totalCount":null,
+                      };
+                      console.log($scope.customersSearch);
+                      return CustomerServices.getCustomerListLimit($scope.customersSearch).then(function(response){
+                      console.info(response);
+                      if(response.status==200){
+                          return response.data;
+                      }else if(response.status==404){
+                        inform.add('[Info]: '+response.data.error+'.',{
+                          ttl:5000, type: 'info'
                         });
-                      };$scope.getCustomerListFn(); //LOAD CUSTOMER LIST
+                          return response;
+                      }
+                      });
+                  }
+                /**************************************************
+                *                                                 *
+                *                 SEARCH CUSTOMERS                *
+                *                                                 *
+                **************************************************/
+                  $scope.getCustomerBusinessNameByIdFn = function(clientId){
+                    //console.log("getCustomerBusinessNameByIdFn: "+clientId);
+                    var arrCompanySelect = [];
+                    if (clientId!=undefined){
+                      CustomerServices.getCustomersById(clientId).then(function(response){
+                        if(response.status==200){
+                          //console.log(response.data);
+                          arrCompanySelect.push(response.data);
+                        }
+                      });
+                    }else{
+                        inform.add('Client Id, no recibido. ',{
+                          ttl:4000, type: 'warning'
+                        });
+                    }
+                    //console.log(arrCompanySelect);
+                    return arrCompanySelect;
+                  }
+                  $scope.searchCustomerFound=false;
+                  $scope.select={'admins':{'selected':undefined}, 'buildings':{'selected':undefined},'depto':undefined,'floor':undefined};
+                  $scope.findCustomerFn=function(string, typeClient, strict){
+                      if(event.keyCode === 8 || event.which === 8){
+                          console.log(event.which);
+                          $scope.buildingList=[];
+                          $scope.ListDpto=[];
+                          $scope.sysSubContent  = "";
+                          //$scope.select.admins.selected=undefined;
+                          //$scope.select.buildings.selected=undefined;
+                      }else if(event.keyCode === 1 || event.which === 1 || event.keyCode === 13 || event.which === 13){
+                          console.log("Search:");
+                          console.log("string: "+string);
+                          console.log("typeClient: "+typeClient);
+                          console.log("strict: "+strict);
+                          $scope.buildingList=[];
+                          $scope.ListDpto=[];
+                          $scope.sysSubContent  = "";
+                          //$scope.select.admins.selected=undefined;
+                          //$scope.select.buildings.selected=undefined;
+                          var output=[];
+                          var i=0;
+                          if (string!=undefined && string!=""){
+                              $scope.customerFound={};
+                              $scope.getCustomerLisServiceFn(string, "0", typeClient, null, 0, 10, strict).then(function(response) {
+                                  if(response.status==undefined){
+                                  $scope.listCustomerFound = response.customers;
+                                  //$scope.pagination.totalCount = response.customers.length;
+                                  console.info($scope.listCustomerFound);
+                                  }else if(response.status==404){
+                                  $scope.listCustomerFound = [];
+                                  //$scope.pagination.totalCount  = 0;
+                                  } 
+                              }, function(err) {
+                                  $scope.listCustomerFound = [];
+                                  //$scope.pagination.totalCount  = 0;
+                              });
+                          }else{
+                              $scope.customerFound={};
+                          }
+                          console.info($scope.listCustomerFound);
+                      }
+                  }
+                  $scope.customerFound={};
+                  $scope.loadCustomerFieldsFn=function(obj){
+                      $scope.customerFound={};
+                      console.log("===============================");
+                      console.log("|  SERVICE CUSTOMER SELECTED  |");
+                      console.log("===============================");
+                      console.log(obj);
+                      $scope.customerFound=obj;
+                      $scope.customerSearch.address = obj.name;
+                      if (obj.idClientTypeFk=="2"){
+                          $scope.keys.file.address.selected=obj;
+                          if ($scope.keys.file.mainQttyKeys>0 && $scope.keys.file.products.selected!=undefined)
+                          $timeout(function() {
+                            $scope.generateKeyListFn($scope.keys.file);
+                        }, 700);
+                      }
+                      $scope.listCustomerFound=[];
+                  }
                 /**************************************************
                 *                                                 *
                 * DEPARTMENT LIST BY SELECTED ADDRESS AND TENANT  *
@@ -702,7 +855,8 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             'update':{'address':{'selected':undefined}, 'products':{'selected':undefined}, 'categoryKey':'', 'department':{}, 'codigo':'', 'codigoExt':''},
                             'file':{'mainQttyKeys':null, 'product':{}, 'building':{}, 'address':{'selected':undefined}, 'products':{'selected':undefined}, 'categoryKey':'', 'department':{}, 'codigo':'', 'codigoExt':''}};
                             $scope.isNewKey=true;
-                            $scope.select={'filterCategoryKey':'', 'department':'', 'filterCustomerIdFk':{'selected':undefined}, 'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined}, 'products2':{'selected':undefined}, 'products3':{'selected':undefined}}
+                            $scope.customerSearch.address=undefined;
+                            $scope.select={'filterCategoryKey':'', 'department':'', 'filterCustomerIdFk':{'selected':undefined}, 'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined}, 'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
                             $('#newKeysFile').modal({backdrop: 'static', keyboard: false});
                             $('#newKeysFile').on('shown.bs.modal', function () {
                                 $('#client_address').focus();
@@ -797,6 +951,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                         case "list":
                             $scope.sysContent                         = "";
                             $scope.getAllKeysFn(true);
+                            $scope.select={'filterCategoryKey':'', 'department':'', 'filterCustomerIdFk':{'selected':undefined}, 'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined}, 'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
                             $scope.select.filterCustomerIdFk.selected = undefined;
                             $("#categoryKeyAll").prop("checked", true);
                             $("#categoryKeyAll").val("undefined");
@@ -837,6 +992,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
         *                                                 *
         **************************************************/
             $scope.generateKeyListFn = function(obj){
+                console.log($scope.keys);
                 if ($scope.keys.file.building.idClient==undefined || obj.address.selected.idClient!=$scope.keys.file.building.idClient){
                     $scope.loadDeptoListByAddress(obj);
                 }else{
@@ -924,7 +1080,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                 console.log(product);
                 for (var f in $scope.list_depto_floors){
                     for (var d in $scope.list_depto_floors[f].deptos){
-                        if (($scope.list_depto_floors[f].nameFloor=="re" && $scope.list_depto_floors[f].nameFloor=="co" && ($scope.select.products2.selected==undefined || $scope.select.products3.selected==undefined)) || ($scope.list_depto_floors[f].nameFloor!="re" && $scope.list_depto_floors[f].nameFloor!="co" && $scope.list_depto_floors[f].deptos[d].idProductKf!=product.idProduct)){
+                        if (($scope.list_depto_floors[f].nameFloor=="re" && $scope.list_depto_floors[f].nameFloor=="co" && ($scope.select.products_reserva.selected==undefined || $scope.select.products_cocheras.selected==undefined)) || ($scope.list_depto_floors[f].nameFloor!="re" && $scope.list_depto_floors[f].nameFloor!="co" && $scope.list_depto_floors[f].deptos[d].idProductKf!=product.idProduct)){
                             $scope.list_depto_floors[f].deptos[d].idProductKf=product.idProduct;
                             $scope.list_depto_floors[f].deptos[d].productName=product.descriptionProduct+" ("+product.model+")";
                         }

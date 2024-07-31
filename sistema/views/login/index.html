@@ -54,15 +54,16 @@
 					        	<div class="inner-addon right-addon">
 						          	<input 
 						          	id="loginpassword"
-						          	type="password" 
+						          	type="{{passwordFieldType}}" 
 						          	ng-model="login.passwd" 
 									data-html="true"
+									ng-click="togglePasswordVisibility()"
 									data-popover-content="#popover_pwd"
 						          	ng-blur="inputCheckCss('loginpassword');" 
 						          	class="form-input" 
-						          	name="loginpassword" autofocus required>
+						          	name="loginpassword" autofocus required style="cursor: pointer;">
 						          	<label>Contrase&#241a</label>
-					          		<i class="glyphicon glyphicon-lock"></i>
+									<i class="glyphicon" ng-class="{'glyphicon-eye-open':passwordFieldType === 'text', 'glyphicon-eye-close':passwordFieldType === 'password'}"></i>
 					          		<span class="bar"></span>
 						        </div>
 					        </div>
