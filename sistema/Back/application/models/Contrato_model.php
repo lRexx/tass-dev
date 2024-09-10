@@ -53,13 +53,17 @@ class Contrato_model extends CI_Model {
     public function update($client) {
 
         $this->db->set([
-                "idClientFk"           => $client['idClientFk'],
-                "fechaFirmaVigencia"   => $client['fechaFirmaVigencia'],
-                "fechaFirmaActivacion" => $client['fechaFirmaActivacion'],
-                "numeroContrato"       => $client['numeroContrato'],
-                "contratoType"         => $client['contratoType'],
-                "maintenanceType"      => $client['maintenanceType'],
-                "idStatusFk"           => $client['idStatusFk'],
+                "idClientFk"                        => $client['idClientFk'],
+                "fechaFirmaVigencia"                => $client['fechaFirmaVigencia'],
+                "fechaFirmaActivacion"              => $client['fechaFirmaActivacion'],
+                "numeroContrato"                    => $client['numeroContrato'],
+                "contratoType"                      => $client['contratoType'],
+                "maintenanceType"                   => $client['maintenanceType'],
+                "idStatusFk"                        => $client['idStatusFk'],
+                'dateDown'                          => $client['dateDown'],
+                'terminationReason'                 => @$client['terminationReason'],
+                'terminationApprovedByIdUserKf'     => @$client['terminationApprovedByIdUserKf'],
+                'idReasonTypeKf'                    => @$client['reasonType'],
             ]
         )->where("idContrato", $client['idContrato'])->update("tb_contratos");
 
@@ -573,6 +577,7 @@ class Contrato_model extends CI_Model {
             $this->db->join('tb_systemunderlock', 'tb_systemunderlock.idContratoFk = tb_contratos.idContrato', 'left');
             $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
             $this->db->join('tb_type_contrato', 'tb_type_contrato.idTypeContrato = tb_contratos.maintenanceType', 'left');
+            $this->db->join('tb_client_service_reason_down', 'tb_client_service_reason_down.idReason = tb_contratos.idReasonTypeKf', 'left');
             $this->db->where('idClientFk', $idClientFk);
             $rsContract  = $this->db->where("tb_contratos.idStatusFk !=", null)->get();
         $c=0;

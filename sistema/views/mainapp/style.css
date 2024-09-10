@@ -321,6 +321,33 @@ th {
     /*font-family: 'Open Sans', sans-serif;*/
     cursor: pointer;
 }
+/*******************************************************
+*                                                      *
+*             Booststrap custom CSS Class              *
+*                                                      *
+*******************************************************/
+
+.modal-header-sec-code {
+  padding: 15px;
+  background-color: #c9302c;
+  color: white;
+  order-bottom: 1px solid #c9302c;
+}
+.modal-title-sec-code{
+  font-weight: 400;
+}
+.modal-body-sec-code p{
+  padding: 15px;
+  text-align: left;
+  font-size: 14px;
+}
+.modal-footer-sec-code{
+background-color: #f7f7f7;
+}
+
+.confirmModal, .modal-backdrop{
+visibility: hidden;
+}
 /***********************************/
 /*  MODAL VERTICAL CENTER ALIGN    */
 /***********************************/

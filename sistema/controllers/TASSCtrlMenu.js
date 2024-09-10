@@ -536,18 +536,41 @@
        *                GET TYPE OF IVA                  *
        *                                                 *
        **************************************************/
-       $scope.rsTypeOfIVAData = {};
-       $scope.getTypeOfIVAFn = function(){
-         UtilitiesServices.getTypeOfIVA().then(function(data){
-             $scope.rsTypeOfIVAData = data;
-             //console.log($scope.rsProfileData);
-         });
-       };
-        /**************************************************
-        *                                                 *
-        *                GET TYPE OF MAILS                *
-        *                                                 *
-        **************************************************/
+        $scope.rsTypeOfIVAData = {};
+        $scope.getTypeOfIVAFn = function(){
+          UtilitiesServices.getTypeOfIVA().then(function(data){
+              $scope.rsTypeOfIVAData = data;
+              //console.log($scope.rsProfileData);
+          });
+        };
+      /**************************************************
+       *                                                 *
+       *                GET TYPE OF IVA                  *
+       *                                                 *
+       **************************************************/
+        $scope.rsTypeReasonDownServicesData = {};
+        $scope.getTypeReasonDownServicesFn = function(){
+          UtilitiesServices.typeReasonDownServices().then(function(response){
+              if(response.status==200){
+                $scope.rsTypeReasonDownServicesData = response.data;
+            }else if(response.status==404){
+                inform.add('Error[404]: no se pudo obtener la lista de motivos para dar de baja un contrato/servicio, Contacta al area de soporte. ',{
+                    ttl:5000, type: 'warning'
+                });
+                $scope.rsTypeReasonDownServicesData = null;
+            }else if(response.status==500){
+                inform.add('Error[500] Contacta al area de soporte. ',{
+                    ttl:5000, type: 'danger'
+                });
+                $scope.rsTypeReasonDownServicesData = null;
+            }
+          });
+        };
+      /**************************************************
+      *                                                 *
+      *                GET TYPE OF MAILS                *
+      *                                                 *
+      **************************************************/
         $scope.rsTypeOfMailsData = {};
         $scope.getTypeOfMailsFn = function(){
           UtilitiesServices.typeOfMails().then(function(data){
@@ -684,7 +707,7 @@
                     }
                   }
               ); 
-              $('.input--movil').mask('+54 (15) ####-####',
+              $('.input--movil').mask('+54 (####) (15) ####-####',
               {
                 reverse: false,
                 translation:{
@@ -697,7 +720,7 @@
                     pattern: /[0-9]/
                   }
                 },
-                placeholder: "+54 (15) ____ ____"
+                placeholder: "+54 (_____) (15) ____ ____"
               });
               $('.input--local').mask('+54 (####) ####-####',
               {
@@ -752,14 +775,14 @@
               $('.input--date-number').mask('999999');
               $('.input--date').mask('00/00/0000', {placeholder: "__/__/____"});
               $('.input-ipaddr').mask('099.099.099.099', {placeholder: "___.___.___.___"});
-              $('.input-macaddr').mask('ZZ-ZZ-ZZ-ZZ-ZZ-ZZ', 
+              $('.input-macaddr').mask('ZZ:ZZ:ZZ:ZZ:ZZ:ZZ', 
                   {
                     translation:{
                       'Z':{
                         pattern: /[a-zA-Z0-9]/
                       }
                     },
-                    placeholder: "__-__-__-__-__-__"}
+                    placeholder: "__:__:__:__:__:__"}
               );
               $('.input--decimal').mask('999999,99');
               $('.input--tel.input--dni').on('focus', function () {
@@ -1106,6 +1129,7 @@
           $scope.getAllLocationsFn();
           $scope.setScheduleListFn();
           $scope.getTypeOfIVAFn();
+          $scope.getTypeReasonDownServicesFn();
           $scope.getTypeOfMailsFn();
           $scope.getAgentsFn();
           $scope.getCostCenterFn();

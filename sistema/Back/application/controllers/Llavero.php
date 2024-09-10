@@ -208,4 +208,20 @@ class Llavero extends REST_Controller
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
+
+    public function checkKeysAssigned2DepartmentByService_get($id) {
+        if (!$id) {
+            $this->response(NULL, 404);
+        }
+
+        $rs = null;
+        $rs = $this->llavero_model->checkKeysAssigned2DepartmentByService($id);
+
+        if (!is_null($rs)) {
+            $this->response([ 'keys_assigned' => $rs ], 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
+
 }

@@ -208,7 +208,7 @@ class Llavero_model extends CI_Model
 	public function addVarios($file)
 	{ //recibe excel y lo decodifica
 
-		$uploaddir = 'uploads/';
+		$uploaddir = realpath(APPPATH . '../../uploads');
 		$path = $_FILES['excel']['name'];
 		$ext = pathinfo($path, PATHINFO_EXTENSION);
 		$user_img = time() . rand() . '.' . $ext;
@@ -404,7 +404,8 @@ class Llavero_model extends CI_Model
 	{ //recibe excel y lo decodifica
 		//print_r($_FILES['excel']);
 		//return null;
-		$uploaddir = 'uploads/';
+		//echo 'Current PHP version: ' . phpversion();
+		$uploaddir = realpath(APPPATH . '../../uploads');
 		$path = $_FILES['excel']['name'];
 		$ext = pathinfo($path, PATHINFO_EXTENSION);
 		$user_img = time() . rand() . '.' . $ext;
@@ -481,4 +482,52 @@ class Llavero_model extends CI_Model
 			return null;
 		}
     }
+
+    public function checkKeysAssigned2DepartmentByService ($idService)
+	{
+		$quuery = null;
+		$rs     = null;
+		$this->db->select('DISTINCT tc.idContrato, 
+		tc.numeroContrato,
+		tc.fechaFirmaVigencia,
+		CASE 
+			WHEN tc.fechaFirmaVigencia < CURDATE() THEN "EXPIRED"
+			ELSE "ACTIVE"
+		END AS contract_status,
+		tk.idKeychain,
+		tk.codExt,
+		tk.codigo,
+		tpc.classification,
+		tp.descriptionProduct,
+		tp.model,
+		tk.idUserKf,
+		tk.idDepartmenKf, 
+		CONCAT(d.floor, "-", UPPER(d.departament)) AS department,
+		u.fullNameUser AS user,
+		pro.nameProfile AS profile,
+	    ty.typeTenantName AS type', false);
+		$this->db->from('tb_ticket_keychain_doors td');
+		$this->db->join('tb_client_services_access_control tac', 'tac.idClientServicesAccessControl = td.idServiceKf', 'left');
+		$this->db->join('tb_access_control_door acd', 'acd.idAccessControlDoor = td.idAccessControlDoorKf', 'left');
+		$this->db->join('tb_contratos tc', 'tc.idContrato = td.idContractKf', 'left');
+		$this->db->join('tb_status tst', 'tst.idStatusTenant = tc.idStatusFk', 'left');
+		$this->db->join('tb_ticket_keychain tkc', 'tkc.id = td.idTicketKeychainKf', 'left');
+		$this->db->join('tb_keychain tk', 'tk.idKeychain = tkc.idKeychainKf', 'left');
+		$this->db->join('tb_client_departament d', 'd.idClientDepartament = tk.idDepartmenKf', 'left');
+		$this->db->join('tb_user u', 'u.idUser = tk.idUserKf', 'left');
+		$this->db->join('tb_profile pro', 'pro.idProfile = u.idProfileKf', 'left');
+		$this->db->join('tb_typetenant ty', 'ty.idTypeTenant = u.idTypeTenantKf', 'left');
+		$this->db->join('tb_products tp', 'tp.idProduct = tkc.idProductKf', 'left');
+		$this->db->join('tb_products_classification tpc', 'tpc.idProductClassification = tp.idProductClassificationFk', 'left');
+		$this->db->where('td.idServiceKf', $idService);
+		$this->db->where('tk.idDepartmenKf IS NOT NULL');
+		$quuery = $this->db->get();
+        
+		if ($quuery->num_rows() > 0) {
+			$rs = $quuery->result_array();
+			return $rs;
+		}
+		return null;
+
+	}
 }

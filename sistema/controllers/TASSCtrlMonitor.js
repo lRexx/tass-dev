@@ -1887,6 +1887,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                     //  $scope.listCompany = listCompany;
                     //  //console.log($scope.listCompany);
                     //});
+                  console.log($scope.sysLoggedUser);
                   $scope.filters.topDH="10";
                   $scope.monitor.filter.idProfileKf         = $scope.sysLoggedUser.idProfileKf;
                   $scope.monitor.filter.isBillingInitiated  = null;
@@ -1895,6 +1896,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $scope.listTickets($scope.monitor.filter);
                 break;
                 case "4":
+                  console.log($scope.sysLoggedUser);
                   $scope.isHomeSelected=false;
                   $scope.getLisOfCustomersByIdFn($scope.sysLoggedUser.company[0]);
                   $scope.filters.topDH="10";

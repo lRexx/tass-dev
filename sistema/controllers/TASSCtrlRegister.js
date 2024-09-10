@@ -296,7 +296,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
       /**********************************************
       *               INPUT PHONE MASK              *
       **********************************************/
-        $('.input--phone').mask('+54 (15) ####-####',
+        $('.input--phone').mask('+54 (####) (15) ####-####',
         {
           reverse: false,
           translation:{
@@ -306,10 +306,10 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
             '5': null,
             '+': null,
             '#':{
-              pattern: /[1-9]/
+              pattern: /[0-9]/
             }
           },
-          placeholder: "+54 (15) ____ ____"
+          placeholder: "+54 (_____) (15) ____ ____"
         });
         $('.input--phone--wired').mask('+54 (####) ####-####',
         {

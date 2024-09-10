@@ -178,7 +178,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     $scope.mess2show="Esta seguro que desea realizar el pedido de alta.     Confirmar?";
   
                     console.log("Pedido de Alta:");
-                    console.log("============================================================================")   
+                    console.log("============================================================================");
+                    console.log($scope.ticketUp);
                     $('#confirmRequestModal').modal('toggle');
                     }else if (confirm==1){
                         $scope.mainSwitchFn('up', $scope.ticketUp);
@@ -755,20 +756,45 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 //console.log($scope.rsCustomerAccessControlDoors);
             }
             $scope.rsCustomerInterneServices = [];
+            $scope.rsControlAccessAssociated = false;
             $scope.checkControlAccessStateFn = function(idClient){
                 $scope.rsCustomerInterneServices = [];
                 //console.log("Getting --> ControlAccessDoorsAssociatedToACustomerFn");
                 CustomerServices.getCheckControlAccessState(idClient).then(function(response){
-                    //console.log(response.data);
+                    console.log(response.data);
                     if(response.status==200){
-                        if (response.data[0].idServiceAsociateFk_array.length>0){
-                            $scope.getCostByCustomer.rate.deviceIsOnline="1";
-                            //console.log($scope.getCostByCustomer);
-                            $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
-                        }else{
-                            $scope.getCostByCustomer.rate.deviceIsOnline="2";
-                            //console.log($scope.getCostByCustomer);
-                            $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
+                        for (var srv in response.data){
+                            console.info(response.data[srv])
+                            console.info(response.data[srv].idServiceAsociateFk_array.length);
+                            console.info(response.data[srv].idServiceAsociateFk_array);
+                            console.info(response.data[srv].idServiceAsociateFk_array[0]);
+                            if (response.data[srv].idServiceAsociateFk_array.length>0){
+                                for (var srva in response.data[srv].idServiceAsociateFk_array){
+                                    console.info(response.data[srv].idServiceAsociateFk_array[srva])
+                                    if (response.data[srv].idServiceAsociateFk_array[srva]!=null && response.data[srv].idServiceAsociateFk_array[srva][0].idClientServicesAccessControl!=undefined){
+                                        $scope.getCostByCustomer.rate.deviceIsOnline="1";
+                                        console.log($scope.getCostByCustomer);
+                                        $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
+                                        $scope.rsControlAccessAssociated = true;
+                                        break;
+                                    }else{
+                                        console.log($scope.getCostByCustomer);
+                                        $scope.rsControlAccessAssociated = false;
+                                    }
+                                }
+                                if (!$scope.rsControlAccessAssociated){
+                                    $scope.getCostByCustomer.rate.deviceIsOnline="2";
+                                    //console.log($scope.getCostByCustomer);
+                                    $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
+                                }
+                            }else{
+                                $scope.getCostByCustomer.rate.deviceIsOnline="2";
+                                //console.log($scope.getCostByCustomer);
+                                $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
+                            }
+                            if ($scope.rsControlAccessAssociated){
+                                break;
+                            }
                         }
                     }else if (response.status==404){
                         $scope.getCostByCustomer.rate.deviceIsOnline="2";
@@ -1466,8 +1492,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
             $scope.getServiceCostByCustomerFn = function(data){
                 serviceServices.getServiceCostByCustomer(data).then(function(response) {
                     if(response.status==200){
-                        $scope.ticket.cost.service   = Number(response.data[0].cost);
-                        $scope.buildingServiceValue  = Number(response.data[0].cost);
+                        $scope.ticket.cost.service   = Number(response.data.technician_service_cost[0].cost);
+                        $scope.buildingServiceValue  = Number(response.data.technician_service_cost[0].cost);
                         $scope.customerCosts=true;
                     }else if (response.status==404){
                         inform.add('El consorcio no presenta costos de servicios asociados, contacte al area de soporte de TASS.',{
@@ -1977,8 +2003,10 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.selectedDeliveryAttendant        = undefined;
                         //$scope.select.products.selected         = undefined;
                         $scope.selectedRequestKeyOwnerUser      = undefined; 
-                        if ($scope.ticket.optionTypeSelected.name=="building" && $scope.ticket.radioButtonBuilding!="4" && $scope.ticket.radioButtonBuilding!="5"){
+                        if ($scope.ticket.optionTypeSelected.name=="building"&& $scope.ticket.radioButtonBuilding!="1" && $scope.ticket.radioButtonBuilding!="4" && $scope.ticket.radioButtonBuilding!="5"){
                             $scope.getUsersByCompanyClientIdFn($scope.select.admins.selected.idClient);
+                        }else{
+                            $scope.getAttendantListFn($scope.ticket.building.idClient);
                         }
                         console.log($scope.ticket);
                     break;
@@ -2076,6 +2104,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 }, 1500);
                                 $timeout(function() {
                                     if ($scope.isRequest=="costs"){
+                                        console.log(obj);
                                         $scope.buildingDeliveryCost = obj.valor_envio;
                                     }else{
                                         $scope.mainSwitchFn('autoSelectDoors', null, null);
@@ -2162,7 +2191,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     });
                                     $q.all(assignedKeys).then(function () {
                                         $timeout(function() {
-                                            
                                             blockUI.stop();
                                             $scope.myDepartamentlist = response.data;
                                             console.log($scope.myDepartamentlist);
@@ -3635,7 +3663,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             <span class="badge badge-warning">{{sysLoggedUser.nameProfile}}</span>
                         </td>*/
                         console.table($scope.new.ticket.mail);
-       
                         switch (obj.optionTypeSelected.name){
                             case "department":
                                 $scope.new.ticket.idTypeRequestFor  = 1;
@@ -3643,66 +3670,66 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     case "1":
                                         if ($scope.sysLoggedUser.idProfileKf=="3"){
                                             console.log("[New Ticket] => Propietario haciendo pedido.");
-                                            $scope.new.ticket.idDepartmentKf    = obj.idClientDepartament.idClientDepartament;
-                                            $scope.new.ticket.idUserRequestBy   = $scope.sysLoggedUser.idUser;
-                                            $scope.new.ticket.idUserRequestByProfile = $scope.sysLoggedUser.idProfileKf;
+                                            $scope.new.ticket.idDepartmentKf            = obj.idClientDepartament.idClientDepartament;
+                                            $scope.new.ticket.idUserRequestBy           = $scope.sysLoggedUser.idUser;
+                                            $scope.new.ticket.idUserRequestByProfile    = $scope.sysLoggedUser.idProfileKf;
                                             $scope.new.ticket.idUserRequestByTypeTenant = $scope.sysLoggedUser.idTypeTenantKf;
                                         }else if ($scope.sysLoggedUser.idProfileKf=="5"){
                                             console.log("[New Ticket] => Inquilino haciendo pedido.");
-                                            $scope.new.ticket.idDepartmentKf    = obj.idClientDepartament.idClientDepartament;
-                                            $scope.new.ticket.idUserRequestBy   = $scope.sysLoggedUser.idUser;
-                                            $scope.new.ticket.idUserRequestByProfile = $scope.sysLoggedUser.idProfileKf;
+                                            $scope.new.ticket.idDepartmentKf            = obj.idClientDepartament.idClientDepartament;
+                                            $scope.new.ticket.idUserRequestBy           = $scope.sysLoggedUser.idUser;
+                                            $scope.new.ticket.idUserRequestByProfile    = $scope.sysLoggedUser.idProfileKf;
                                             $scope.new.ticket.idUserRequestByTypeTenant = $scope.sysLoggedUser.idTypeTenantKf;
                                         }else if ($scope.sysLoggedUser.idProfileKf=="1"){
                                             console.log("[New Ticket] => BSS haciendo pedido a Propietario.");
-                                            $scope.new.ticket.idDepartmentKf    = obj.idClientDepartament.idClientDepartament;
-                                            $scope.new.ticket.idUserRequestBy   = obj.userRequestBy.idUser;
-                                            $scope.new.ticket.idUserRequestByProfile = obj.userRequestBy.idProfileKf;
+                                            $scope.new.ticket.idDepartmentKf            = obj.idClientDepartament.idClientDepartament;
+                                            $scope.new.ticket.idUserRequestBy           = obj.userRequestBy.idUser;
+                                            $scope.new.ticket.idUserRequestByProfile    = obj.userRequestBy.idProfileKf;
                                             $scope.new.ticket.idUserRequestByTypeTenant = obj.userRequestBy.idTypeTenantKf;
                                         }else if ($scope.sysLoggedUser.idProfileKf=="4" && $scope.sysLoggedUser.idProfileKf!=obj.userRequestBy.idProfileKf && ($scope.sysLoggedUser.idTypeTenantKf==null || $scope.sysLoggedUser.idTypeTenantKf!=null) && (!$scope.isHomeSelected || $scope.isHomeSelected)){
                                             console.log("[New Ticket] => Admin consorcio haciendo pedido a Propietario.");
-                                            $scope.new.ticket.idDepartmentKf    = obj.idClientDepartament.idClientDepartament;
-                                            $scope.new.ticket.idUserRequestBy   = obj.userRequestBy.idUser;
-                                            $scope.new.ticket.idUserRequestByProfile = obj.userRequestBy.idProfileKf;
+                                            $scope.new.ticket.idDepartmentKf            = obj.idClientDepartament.idClientDepartament;
+                                            $scope.new.ticket.idUserRequestBy           = obj.userRequestBy.idUser;
+                                            $scope.new.ticket.idUserRequestByProfile    = obj.userRequestBy.idProfileKf;
                                             $scope.new.ticket.idUserRequestByTypeTenant = obj.userRequestBy.idTypeTenantKf;
-                                        }else if ($scope.sysLoggedUser.idProfileKf=="4" && $scope.sysLoggedUser.idTypeTenantKf=="1" && $scope.isHomeSelected){
+                                        }else if ($scope.sysLoggedUser.idProfileKf=="4" && ($scope.sysLoggedUser.idTypeTenantKf=="1" || $scope.sysLoggedUser.idTypeTenantKf=="2") && $scope.isHomeSelected){
                                             console.log("[New Ticket] => Admin consorcio haciendo pedido para su usuario.");
-                                            $scope.new.ticket.idDepartmentKf    = obj.idClientDepartament.idClientDepartament;
-                                            $scope.new.ticket.idUserRequestBy   = $scope.sysLoggedUser.idUser;
-                                            $scope.new.ticket.idUserRequestByProfile = obj.userRequestBy.idProfileKf;
+                                            $scope.new.ticket.idDepartmentKf            = obj.idClientDepartament.idClientDepartament;
+                                            $scope.new.ticket.idUserRequestBy           = $scope.sysLoggedUser.idUser;
+                                            $scope.new.ticket.idUserRequestByProfile    = obj.userRequestBy.idProfileKf;
                                             $scope.new.ticket.idUserRequestByTypeTenant = obj.userRequestBy.idTypeTenantKf;
                                         }
                                     break;
                                     case "2":
                                         if ($scope.sysLoggedUser.idProfileKf=="3"){
                                             console.log("[New Ticket] => Propietario haciendo pedido a inquilino.");
-                                            $scope.new.ticket.idDepartmentKf    = obj.idClientDepartament.idClientDepartament;
-                                            $scope.new.ticket.idUserRequestBy   = obj.userRequestBy.idUser;
-                                            $scope.new.ticket.idUserRequestByProfile = obj.userRequestBy.idProfileKf;
+                                            $scope.new.ticket.idDepartmentKf            = obj.idClientDepartament.idClientDepartament;
+                                            $scope.new.ticket.idUserRequestBy           = obj.userRequestBy.idUser;
+                                            $scope.new.ticket.idUserRequestByProfile    = obj.userRequestBy.idProfileKf;
                                             $scope.new.ticket.idUserRequestByTypeTenant = obj.userRequestBy.idTypeTenantKf;
                                         }else if ($scope.sysLoggedUser.idProfileKf=="5"){
                                             console.log("[New Ticket] => Inquilino haciendo pedido a otro inquilino.");
-                                            $scope.new.ticket.idDepartmentKf    = obj.idClientDepartament.idClientDepartament;
-                                            $scope.new.ticket.idUserRequestBy   = obj.userRequestBy.idUser;
-                                            $scope.new.ticket.idUserRequestByProfile = obj.userRequestBy.idProfileKf;
+                                            $scope.new.ticket.idDepartmentKf            = obj.idClientDepartament.idClientDepartament;
+                                            $scope.new.ticket.idUserRequestBy           = obj.userRequestBy.idUser;
+                                            $scope.new.ticket.idUserRequestByProfile    = obj.userRequestBy.idProfileKf;
                                             $scope.new.ticket.idUserRequestByTypeTenant = obj.userRequestBy.idTypeTenantKf;
                                         }else if ($scope.sysLoggedUser.idProfileKf=="1"){
                                             console.log("[New Ticket] => BSS haciendo pedido a inquilino.");
-                                            $scope.new.ticket.idDepartmentKf    = obj.idClientDepartament.idClientDepartament;
-                                            $scope.new.ticket.idUserRequestBy   = obj.userRequestBy.idUser;
-                                            $scope.new.ticket.idUserRequestByProfile = obj.userRequestBy.idProfileKf;
+                                            $scope.new.ticket.idDepartmentKf            = obj.idClientDepartament.idClientDepartament;
+                                            $scope.new.ticket.idUserRequestBy           = obj.userRequestBy.idUser;
+                                            $scope.new.ticket.idUserRequestByProfile    = obj.userRequestBy.idProfileKf;
                                             $scope.new.ticket.idUserRequestByTypeTenant = obj.userRequestBy.idTypeTenantKf;
                                         }else if ($scope.sysLoggedUser.idProfileKf=="4" && $scope.sysLoggedUser.idProfileKf!=obj.userRequestBy.idProfileKf && ($scope.sysLoggedUser.idTypeTenantKf==null || $scope.sysLoggedUser.idTypeTenantKf!=null) && (!$scope.isHomeSelected || $scope.isHomeSelected)){
                                             console.log("[New Ticket] => Admin consorcio haciendo pedido a inquilino.");
-                                            $scope.new.ticket.idDepartmentKf    = obj.idClientDepartament.idClientDepartament;
-                                            $scope.new.ticket.idUserRequestBy   = obj.userRequestBy.idUser;
-                                            $scope.new.ticket.idUserRequestByProfile = obj.userRequestBy.idProfileKf;
+                                            $scope.new.ticket.idDepartmentKf            = obj.idClientDepartament.idClientDepartament;
+                                            $scope.new.ticket.idUserRequestBy           = obj.userRequestBy.idUser;
+                                            $scope.new.ticket.idUserRequestByProfile    = obj.userRequestBy.idProfileKf;
                                             $scope.new.ticket.idUserRequestByTypeTenant = obj.userRequestBy.idTypeTenantKf;
-                                        }else if ($scope.sysLoggedUser.idProfileKf=="4" && $scope.sysLoggedUser.idTypeTenantKf=="1" && $scope.isHomeSelected){
+                                        }else if ($scope.sysLoggedUser.idProfileKf=="4" && ($scope.sysLoggedUser.idTypeTenantKf=="1" || $scope.sysLoggedUser.idTypeTenantKf=="2") && $scope.isHomeSelected){
                                             console.log("[New Ticket] => Admin consorcio haciendo pedido para su usuario.");
-                                            $scope.new.ticket.idDepartmentKf    = obj.idClientDepartament.idClientDepartament;
-                                            $scope.new.ticket.idUserRequestBy   = $scope.sysLoggedUser.idUser;
-                                            $scope.new.ticket.idUserRequestByProfile = obj.userRequestBy.idProfileKf;
+                                            $scope.new.ticket.idDepartmentKf            = obj.idClientDepartament.idClientDepartament;
+                                            $scope.new.ticket.idUserRequestBy           = $scope.sysLoggedUser.idUser;
+                                            $scope.new.ticket.idUserRequestByProfile    = obj.userRequestBy.idProfileKf;
                                             $scope.new.ticket.idUserRequestByTypeTenant = obj.userRequestBy.idTypeTenantKf;
                                         }
                                     break;

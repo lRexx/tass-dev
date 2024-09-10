@@ -141,5 +141,17 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
                   return response;
               })
           },
+          checkKeysAssigned2DepartmentByService: function(id) {
+            console.log("[Key Services][checkKeysAssigned2DepartmentByService]: Check if there are keys associated to a department in the building By Service ID");
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"Llavero/checkKeysAssigned2DepartmentByService/"+id
+                  }).then(function mySuccess(response) {
+                    return response;
+                  }).catch(function onError(response) {
+                    console.log("Error: "+response.data.error); 
+                    return response;
+            });
+          },
       }
 }]);

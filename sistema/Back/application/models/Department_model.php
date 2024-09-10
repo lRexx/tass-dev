@@ -221,6 +221,7 @@ class Department_model extends CI_Model
             $this->db->select("*, UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto")->from("tb_client_departament");
             //$this->db->join('tb_addres', 'tb_addres.idAdress = tb_department.idAdressKf', 'left');
             $this->db->join('tb_clients', 'tb_clients.idClient = tb_client_departament.idClientFk', 'left');
+            $this->db->join('tb_zonas', 'tb_zonas.idZona = tb_clients.idZonaFk', 'left');
             $this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
             if (is_null($id)){
                 $this->db->where("tb_clients.idClient =", $id);
@@ -238,6 +239,7 @@ class Department_model extends CI_Model
             $this->db->select("*, UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto")->from("tb_user");
             $this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_user.idDepartmentKf', 'left');
             $this->db->join('tb_clients', 'tb_clients.idClient = tb_client_departament.idClientFk', 'left');
+            $this->db->join('tb_zonas', 'tb_zonas.idZona = tb_clients.idZonaFk', 'left');
             $this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
 
             if ($idStatus == 1) { // si le mandas 1 te retorna los APROBADOS

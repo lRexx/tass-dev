@@ -723,7 +723,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                         $scope.IsFnRemove=true;
                         if(($scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=4 && $scope.sysLoggedUser.idProfileKf!=5 && $scope.tenantObj.idTypeTenantKf!=0) || 
                         ($scope.sysLoggedUser.idProfileKf==3 && $scope.sysLoggedUser.idTypeTenantKf==1 && $scope.tenantObj.idTypeTenantKf==2) || 
-                        ($scope.sysLoggedUser.idProfileKf==4 && $scope.sysLoggedUser.idTypeTenantKf==1 && $scope.tenantObj.idTypeTenantKf==2) || 
+                        ($scope.sysLoggedUser.idProfileKf==4 && ($scope.sysLoggedUser.idTypeTenantKf==null || $scope.sysLoggedUser.idTypeTenantKf==1 || $scope.sysLoggedUser.idTypeTenantKf==2) && ($scope.tenantObj.idTypeTenantKf==1 || $scope.tenantObj.idTypeTenantKf==2)) || 
                         ($scope.sysLoggedUser.idProfileKf==6 && $scope.sysLoggedUser.idTypeTenantKf==1 && $scope.tenantObj.idTypeTenantKf==2)){
                             $scope.removeTenantFn($scope.remove);
                         }else if(($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf==1){
@@ -3133,6 +3133,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             }else{
                                 $scope.includeUserByTypeTenant = undefined;
                             }
+                            console.log($scope.includeUserByTypeTenant);
                             $scope.listOfUsersToAssignFn($scope.departmentSelected.idClientDepartament);
                             $('#ListTenants2Assign').modal({backdrop: 'static', keyboard: true});
                         break;

@@ -454,5 +454,28 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                     return response;
                 });
         },
+        getListAuthorizedUsers: function() {
+          var rsData = {};
+          console.log("[Service][Getting]--->[getListAuthorizedUsers]");
+          return $http({
+            method : "GET",
+            url : serverHost+serverBackend+"User/listAuthorizedUsers"
+                }).then(function mySuccess(response) {
+                  return response;
+                }).catch(function onError(response) {
+                  console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                  return response;
+                })
+        },
+        /* GENERATE AND SEND TOKEN CODE */
+        sendGeneratedToken: function(user) {
+            return $http.post(serverHost+serverBackend+"User/sendGeneratedToken",user, serverHeaders)
+              .then(function mySucess(response, status, data) {
+                  return response;
+                }).catch(function onError(response) {
+                  console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                  return response;
+                })
+        },
       }
 }]);

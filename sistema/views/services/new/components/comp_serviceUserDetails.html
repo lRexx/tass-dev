@@ -69,7 +69,7 @@
 				    	</div>
 					</div>
 					<!-- QR -->
-					<div class="form-group col-md-6" ng-class="
+					<!--<div class="form-group col-md-6" ng-class="
 								{	'has-success': 
 									service.users.qrCode!='' && fServiceUserDetails.serviceUserQR.$valid,
 								 	'has-error':  
@@ -95,14 +95,14 @@
 									</label>				    	
 						   	</div>
 						</div>
-					</div>
+					</div>-->
 				</form>
 			</div>
 			<!-- Actions Button -->
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
-                        <button ng-if="isNewCustomerService || isUpdateCustomerService" type="submit" ng-click="processServiceUserDVRFn(service.users)" ng-disabled="fServiceUserDetails.$invalid" class="btn btn-labeled btn-success">
+                        <button ng-if="isNewCustomerService || isUpdateCustomerService" type="submit" ng-click="modalConfirmation('addNewDVRUser',0,service.users,null)" ng-disabled="fServiceUserDetails.$invalid" class="btn btn-labeled btn-success">
                             <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>
                         	<span>Asignar</span>
                         </button>

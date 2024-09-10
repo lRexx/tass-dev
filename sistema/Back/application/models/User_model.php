@@ -1253,19 +1253,19 @@ class User_model extends CI_Model
 		$extrawhere  = null;
 		$atten = [];
 		
-		$this->db->select("*")->from("tb_user");
+		$this->db->select('*');
+		$this->db->from('tb_user');
 		$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
 		$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
 		$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
 		$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-		$this->db->where("tb_user.idAddresKf =", $id);
-		$this->db->where("tb_user.idTypeTenantKf =", null);
-		$this->db->or_where("tb_user.idTypeTenantKf !=", null);
-		$this->db->where("tb_user.idProfileKf =", 6);
-
-
-		$quuery = $this->db->order_by("tb_user.fullNameUser", "asc")->get();
-
+		$this->db->where('tb_user.idAddresKf', '1566');
+		$this->db->where('tb_user.idProfileKf', '6');
+		$this->db->group_start() // Start grouping conditions for idTypeTenantKf
+				 ->where('tb_user.idTypeTenantKf IS NULL')
+				 ->or_where('tb_user.idTypeTenantKf IS NOT NULL')
+			 ->group_end(); // End grouping
+			 $quuery = $this->db->order_by('tb_user.fullNameUser', 'ASC')->get();
 
 		if ($quuery->num_rows() > 0) {
 			$rs = $quuery->result_array();
@@ -1624,6 +1624,59 @@ class User_model extends CI_Model
         return $users;
 	}
 
+	// GET USERS AUTHORIZED TO APPROVE SERVICE OR CONTRACT TERMINATION //
+	public function getAuthorizedUsers ()
+	{
+		$quuery = null;
+		$rs     = null;
+		$extrawhere = null;
+
+		$this->db->select("*")->from("tb_user as t1");
+		$this->db->join('tb_profile', 'tb_profile.idProfile = t1.idProfileKf', 'left');
+		$this->db->join('tb_profiles', 'tb_profiles.idProfiles = t1.idSysProfileFk', 'left');
+		$this->db->join('tb_status', 'tb_status.idStatusTenant = t1.idStatusKf', 'left');
+		$this->db->join('tb_typetenant', 'tb_typetenant.idTypeTenant = t1.idTypeTenantKf', 'left');
+		$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = t1.idDepartmentKf', 'left');
+		$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');	
+		$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = t1.idTyepeAttendantKf', 'left');
+		$this->db->where('t1.idProfileKf', '1');
+		$this->db->where('t1.idSysProfileFk', '1');
+		$this->db->where('t1.isSuperAdmin', '1');
+		$this->db->where('t1.idStatusKf', '1');
+		$quuery = $this->db->order_by("t1.fullNameUser", "asc")->get();
+
+
+		if ($quuery->num_rows() > 0) {
+			return $quuery->result_array();
+		}
+		return null;
+	}
+
+	public function sendGeneratedToken ($user)
+	{
+		$rs=null;
+		$tokenMail  = $this->generateRandomString(5);
+		#MAIL TO USER
+		$to = $user['emailUser'];
+		$title = "Token de Seguridad";
+		$subject="Baja de servicio/Contrato";
+		$body='<tr width="100%" bgcolor="#ffffff">';
+		$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:3%;">Hola, <b>'.$user['fullNameUser'].'</b>,</td>'; 
+		$body.='</tr>';	
+		$body.='<tr width="100%" bgcolor="#ffffff">';
+		$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Se Ha solicitado la Baja de un Servicio/Contrato en el Cliente: <b>'.$user['clientName'].'</b>, debido a ello se ha generado el siguiente codigo de seguridad.</td>';
+		$body.='</tr>';
+		$body.='<tr width="100%" bgcolor="#ffffff">';
+		$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;"><b>Codigo de Seguridad:</b> <span style="background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">'.$tokenMail.'</span></td>';
+		$body.='</tr>';	
+		$body.='<tr width="100%" bgcolor="#ffffff">';
+		$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding:4%;"> Importante: indicar el codigo recibido al operador que esta realizando la actividad para que esta pueda ser finalizada con exito.</td>';
+		$body.='</tr>';
+		$rs = $this->mail_model->sendMail($title, $to, $body, $subject);
+		if ($rs == "Enviado"){
+			return $tokenMail;
+		}
+	}
 }
 
 ?>

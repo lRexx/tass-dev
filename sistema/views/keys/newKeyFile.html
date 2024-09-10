@@ -49,26 +49,26 @@
                                     (customerSearch.address==undefined) && customerSearch.address==undefined && fAssignNewDepto.customerSearchAddress.$touched,
                                     'col-md-6 col-xs-6 col-sm-6': ListDpto.length>0,
                                 }">
-                                <div class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-l n-padding-r">
-                                    <label style="padding-left: 15px;">Consorcio</label>
-                                <div class="input-group s-ui-width s-ui-m-left">
-                                    <span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
-                                    <input type="text" name="customerSearchAddress" 
-                                        id="customerSearchAddress"
-                                        ng-model="customerSearch.address"
-                                        ng-keydown="findCustomerFn(customerSearch.address, null, false);"
-                                        class="form-control text-uppercase" 
-                                        move-to-list input-selector="'.input-search'"
-                                        list-items-selector="'.list-group li'"
-                                        placeholder="Presione Enter para buscar..."
-                                        style="z-index: 2100; border-radius: 4px;border-bottom-left-radius: 0px;border-top-left-radius: 0px;"
-                                        ng-required="true" />
-                                    <ul id="customerList" class="list-group" ng-show="listCustomerFound.length>0 && (customerSearch.address!=undefined || customerSearch.address!=null)" style="height: 0px; z-index: 2000;" >
-                                        <li tabindex="0" id="customerList-{{$index}}" style="z-index: 2000;"  class="list-group-item" ng-repeat="item in listCustomerFound" navigate-list-items ng-class="{'padding-t-38': $index==0}" ng-click="loadCustomerFieldsFn(item);" input-selector="'.input-search'" list-items-selector="'.list-group li'" ng-keydown="$event.keyCode === 13 && loadCustomerFieldsFn(item)" > {{item.idClient}} - {{item.name}} <span class="label label-default">{{item.ClientType | uppercase}}</span></li>
-                                    </ul>
+                                    <div class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-l n-padding-r">
+                                        <label style="padding-left: 15px;">Consorcio</label>
+                                        <div class="input-group s-ui-width s-ui-m-left">
+                                            <span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
+                                            <input type="text" name="customerSearchAddress" 
+                                                id="customerSearchAddress"
+                                                ng-model="customerSearch.address"
+                                                ng-keydown="findCustomerFn(customerSearch.address, null, false);"
+                                                class="form-control text-uppercase" 
+                                                move-to-list input-selector="'.input-search'"
+                                                list-items-selector="'.list-group li'"
+                                                placeholder="Presione Enter para buscar..."
+                                                style="z-index: 2100; border-radius: 4px;border-bottom-left-radius: 0px;border-top-left-radius: 0px;"
+                                                ng-required="true" />
+                                            <ul id="customerList" class="list-group" ng-show="listCustomerFound.length>0 && (customerSearch.address!=undefined || customerSearch.address!=null)" style="height: 0px; z-index: 2000;" >
+                                                <li tabindex="0" id="customerList-{{$index}}" style="z-index: 2000;"  class="list-group-item" ng-repeat="item in listCustomerFound" navigate-list-items ng-class="{'padding-t-38': $index==0}" ng-click="loadCustomerFieldsFn(item, true);" input-selector="'.input-search'" list-items-selector="'.list-group li'" ng-keydown="$event.keyCode === 13 && loadCustomerFieldsFn(item)" > {{item.idClient}} - {{item.name}} <span class="label label-default">{{item.ClientType | uppercase}}</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
-                                </div>
-                            </div>
                                 <div class="col-md-4" ng-class="{
                                     'has-success': 
                                         keys.file.mainQttyKeys!='' && keys.file.mainQttyKeys!=null && keys.file.mainQttyKeys>0  && fNewKeyFile.mainQttyKeys.$valid,

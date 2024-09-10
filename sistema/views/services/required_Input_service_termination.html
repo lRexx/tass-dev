@@ -1,20 +1,20 @@
-<!-- TERMINATE CONTRACT  -->
-<div id="requiredInputForContractTermination" class="modal fade bd-example-modal-lg" style="top: 150px;" role="dialog">
+<!-- TERMINATE SERVICE  -->
+<div id="requiredInputForServiceTermination" class="modal fade bd-example-modal-lg" style="top: 150px;" role="dialog">
     <div class="modal-dialog modal-md" >
       <div class="modal-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
-              <h3 class="modal-title"><i class="fas fa-file-alt"></i> [{{contractSelected.numeroContrato}}] - <span class="label label-info" >Finalizar Contrato</span></h3>
+              <h3 class="modal-title"><i class="fas fa-file-alt"></i> [{{service.update.idContracAssociated_SE_array[0].numeroContrato}}] - <span class="label label-info" >Finalizar Servicio</span></h3>
           </div>
         <div class="modal-body">
             <div  class="col-md-12 n-padding-l n-padding-r">
-                <form class="form-horizontal" name="terminateContract" autocomplete="off" novalidate>
+                <form class="form-horizontal" name="requiredInputForServiceTermination" autocomplete="off" novalidate>
                     <!-- TERMINATION DATE -->
                     <div ng-if="sysLoggedUser.idProfileKf==1" class="form-group col-md-6 col-xs-12" ng-class="
                     {	'has-success': 
-                        contractSelected.terminateDate!='' && terminateContract.terminateDate.$valid,
+                        service.update.terminateDate!='' && requiredInputForServiceTermination.terminateDate.$valid,
                         'has-error':  
-                        (contractSelected.terminateDate=='' || contractSelected.terminateDate==undefined) && terminateContract.terminateDate.$touched,
+                        (service.update.terminateDate=='' || service.update.terminateDate==undefined) && requiredInputForServiceTermination.terminateDate.$touched,
                     }">
                         <div class="col-md-12" >
                             <div class="col-md-12 col-xs-12 n-padding-r n-padding-l">
@@ -27,12 +27,11 @@
                                         ng-change=""
                                         class="form-control" 
                                         uib-datepicker-popup="{{format}}" 
-                                        ng-model="contractSelected.terminateDate" 
+                                        ng-model="service.update.terminateDate" 
                                         is-open="popup1.opened"
-                                        ng-required="sysLoggedUser.idProfileKf!=0 && contractSelected.idStatusFk=='1'" 
+                                        ng-required="true" 
                                         close-text="Cerrar" 
                                         clear-text="Borrar"
-                                        ng-required="true"
                                         current-text="Hoy"
                                         alt-input-formats="altInputFormats" />
                                     <span ng-click="open1()" class="input-group-addon">
@@ -45,15 +44,15 @@
 					<!-- Reaon Type for ServiceDown -->
 					<div class="form-group col-md-6 col-xs-12" ng-class="
 								{	'has-success': 
-									contractSelected.reasonType!='' && terminateContract.service_reasonType.$valid,
+									service.update.reasonType!='' && requiredInputForServiceTermination.service_reasonType.$valid,
 								 	'has-error':  
-									(contractSelected.reasonType=='' || contractSelected.reasonType==undefined) && terminateContract.service_reasonType.$touched,
+									(service.update.reasonType=='' || service.update.reasonType==undefined) && requiredInputForServiceTermination.service_reasonType.$touched,
 								}">
 					  <label style="padding-left: 15px;">Motivo</label>
 						  <div class="col-md-12 col-xs-12 n-padding-r n-padding-l">
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fas fa-tag"></i></span>
-								<select name="service_reasonType" id="service_reasonType" class="form-control text-uppercase" ng-options="reason.idReason as reason.reasonDown for reason in rsTypeReasonDownServicesData" ng-model="contractSelected.reasonType" autofocus required="true">
+								<select name="service_reasonType" id="service_reasonType" class="form-control text-uppercase" ng-options="reason.idReason as reason.reasonDown for reason in rsTypeReasonDownServicesData" ng-model="service.update.reasonType" autofocus required="true">
 								    <option class="text-uppercase" value="">Selecciona un motivo</option>
 							    </select>
 						  </div>
@@ -61,16 +60,16 @@
 					</div>
                     <!-- Text Description-->
                     <div class="form-group col-md-12" ng-class="
-                    {	'has-success': 
-                        contractSelected.terminationReason!='' && terminateContract.description.$valid,
-                        'has-error':  
-                        (contractSelected.terminationReason=='' || contractSelected.terminationReason==undefined) && terminateContract.description.$touched,
-                    }">
+                        {	'has-success': 
+                            service.update.terminationReason!='' && requiredInputForServiceTermination.description.$valid,
+                            'has-error':  
+                            (service.update.terminationReason=='' || service.update.terminationReason==undefined) && requiredInputForServiceTermination.description.$touched,
+                        }">
                         <legend style="text-align: left;">Observaciones</legend>
                         <div class="col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fas fa-comments"></i></span>
-                                <textarea style="resize: vertical;" name="description" rows="4" placeholder="Indicar razón o comentarios adicionales" class="form-control" ng-required="true" ng-model="contractSelected.terminationReason" ></textarea>
+                                <textarea style="resize: vertical;" name="description" rows="4" placeholder="Indicar razón o comentarios adicionales" class="form-control" ng-required="true"  ng-model="service.update.terminationReason" ></textarea>
                             </div>
                         </div>
                     </div>
@@ -81,7 +80,7 @@
         <div class="modal-footer">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
-                    <button type="submit" ng-click="switchCustomersFn('general', contractSelected, 'get_approved_users')" ng-disabled="terminateContract.$invalid" class="btn btn-labeled btn-success">
+                    <button type="submit" ng-click="switchCustomersFn('general', service.update, 'get_approved_users')" ng-disabled="requiredInputForServiceTermination.$invalid" class="btn btn-labeled btn-success">
                         <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
                     <a id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
                         <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>

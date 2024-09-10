@@ -1,7 +1,7 @@
 /**
 * Services Controller
 **/
-var services = angular.module("module.Services", ["tokenSystem", "services.Customers", "services.Address", "ui.select", "services.Utilities", "services.Service", "services.Contracts", "services.Products", "services.User",]);
+var services = angular.module("module.Services", ["tokenSystem", "services.Customers", "services.Address", "ui.select", "services.Utilities", "services.Service", "services.Contracts", "services.Products", "services.User", "services.Keys",]);
 services.directive('moveToList', function() {
     return {
       restrict: 'A',
@@ -112,7 +112,7 @@ services.filter('toDate', function() {
         }
     };
 });
-services.controller('ServicesCtrl', function($scope, $location, DateService, uibDateParser, $routeParams, blockUI, $timeout, inform, serviceServices, CustomerServices, ContractServices, addressServices, $filter, ProductsServices, userServices, tokenSystem, $window, serverHost, UtilitiesServices, APP_SYS){
+services.controller('ServicesCtrl', function($scope, $location, $q, DateService, uibDateParser, $routeParams, blockUI, $timeout, inform, serviceServices, CustomerServices, ContractServices, addressServices, KeysServices, $filter, ProductsServices, userServices, tokenSystem, $window, serverHost, UtilitiesServices, APP_SYS, BSS){
     console.log(APP_SYS.app_name+" Modulo Services");
     if (!$scope.sysToken || !$scope.sysLoggedUser ){
         $location.path("/login");
@@ -222,6 +222,7 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
     }, 500);
     blockUI.stop();
     $("#customerSearch").focus();
+    $scope.data_param={'user':{}};
     $scope.switchCustomersFn = function(opt1, obj1, opt2){
         var cObj = !obj1 || obj1==undefined ? null : obj1;
         switch (opt1){
@@ -299,26 +300,44 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                     case "disable":
                         $scope.customerContractFn(cObj, 'disable');
                     break;
-                    case "disable":
-                        $scope.customerContractFn(cObj, 'disable');
-                    break;
-                    case "init_termination":
-                        console.log(cObj);
+                    case "init_terminationContract":
+                        blockUI.start('Iniciando verificación del contrato: '+cObj.numeroContrato);
                         $scope.contractSelected = {'idContrato':'','idStatusFk':'','idClientFk':'','numeroContrato':'','services':[], 'maintenanceType':''};
-                        $scope.contractSelected.idContrato      = cObj.idContrato;
-                        $scope.contractSelected.idStatusFk      = cObj.idStatusFk;
-                        $scope.contractSelected.idClientFk      = cObj.idClientFk;
-                        $scope.contractSelected.numeroContrato  = cObj.numeroContrato;
-                        $scope.contractSelected.services        = cObj.services;
-                        $scope.contractSelected.maintenanceType = cObj.maintenanceType;
-                        $scope.contractSelected.terminateDate   = "";
-                        $scope.contractSelected.description     = "";
-                        console.log($scope.contractSelected);
-                        $('#terminateContract').modal({backdrop: 'static', keyboard: false});
+                        $scope.contract.update                      = cObj;
+                        $scope.preLoadServicesArrFn();
+                        for (var key in $scope.contract.update.services){
+                            $scope.addServiceArrFn("load", $scope.contract.update.services[key]);
+                        }
+                        $timeout(function() {
+                            $scope.serviceDataFn(cObj, 'init_terminateContract');
+                            console.log($scope.contract.update);
+                            console.log($scope.list_services_tmp);
+                        }, 1500);
                     break;
-                    case "apply_termination":
+                    case "requiredInputForContractTermination":
+                        $scope.contractSelected = {'idContrato':'','idStatusFk':'','idClientFk':'','numeroContrato':'','services':[], 'maintenanceType':''};
+                        $scope.contractSelected.idContrato          = cObj.idContrato;
+                        $scope.contractSelected.idStatusFk          = cObj.idStatusFk;
+                        $scope.contractSelected.idClientFk          = cObj.idClientFk;
+                        $scope.contractSelected.numeroContrato      = cObj.numeroContrato;
+                        $scope.contractSelected.services            = cObj.services;
+                        $scope.contractSelected.maintenanceType     = cObj.maintenanceType;
+                        $scope.contractSelected.terminateDate       = "";
+                        $scope.contractSelected.terminationReason   = "";
+                        blockUI.start('Complete los datos a continuación para finalizar. ');
+                        $timeout(function() {
+                            blockUI.stop();
+                            $('#requiredInputForContractTermination').modal({backdrop: 'static', keyboard: false});
+                            console.log($scope.contractSelected);
+                        }, 2000);
+                    break;
+                    case "complete_terminateContract":
                         console.log(cObj);
                         //$scope.customerContractFn(cObj, 'remove');
+                        $timeout(function() {                            
+                            $scope.serviceDataFn(cObj, 'removeContractAndServicesMulti');
+                            blockUI.stop();
+                        }, 1500);
                     break;
 
                     /******************************
@@ -362,6 +381,7 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
         /******************************
         *     CUSTOMERS SERVICES      *
         ******************************/
+       
             case "services":
                 switch (opt2){
                     case "start_new_service":
@@ -459,6 +479,103 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                         $timeout(function() {
                             $scope.serviceDataFn(cObj, 'listCameras');
                         }, 1500);
+                    break;
+                    case "init_terminateService":
+                        $scope.cleanServiceInputsFn();
+                        $scope.contractSelected=undefined;
+                        blockUI.start('Iniciando verificación del servicio '+cObj.clientTypeServices);
+                        $timeout(function() {
+                            $scope.serviceDataFn(cObj, 'init_terminateService');
+                        }, 1500);
+                    break;
+                    case "requiredInputForServiceTermination":
+                        blockUI.start('Complete los datos a continuación para finalizar. ');
+                        $timeout(function() {
+                            blockUI.stop();
+                            $('#requiredInputForServiceTermination').modal({backdrop: 'static', keyboard: false});
+                            console.log($scope.service.update);
+                            console.log($scope.service.update.idAccessControlFk_array);
+                        }, 2000);
+                    break;
+                    case "complete_terminateService":
+                        $scope.service.update.terminationApprovedByIdUserKf = $scope.data_param.user.idUser;
+                        $scope.service.update.idContratoFk                  = $scope.service.update.idContracAssociated_SE;
+                        blockUI.start('Servicio dado de baja.');
+                        $timeout(function() {
+                            console.log($scope.service.update);
+                            $scope.updateCustomerServiceFn($scope.service.update);
+                            blockUI.stop();
+                        }, 1500);
+                    break;
+                }
+            break;
+            case "general":
+                switch (opt2){
+                    case "get_approved_users":
+                        var currentDate                 = cObj.terminateDate;
+                        var rawDate                     = moment(currentDate).toDate();
+                        var formatedDate                = moment(rawDate).format('YYYY-MM-DD');
+                        if ($scope.contractSelected!=undefined){
+                            $scope.contractSelected.dateDown = formatedDate;
+                        }else{
+                            $scope.service.update.dateDown   = formatedDate;
+                            console.log($scope.service.update);
+                        }
+                        blockUI.start('Seleccione el usuario que recibira el codigo de confirmación para aprobar la baja del servicio/contrato. ');
+                        $scope.getListAuthorizedUsersFn();
+                        $timeout(function() {
+                            $('#getApprovedUser').modal({backdrop: 'static', keyboard: false});
+                            blockUI.stop();
+                        }, 2000);
+                    break;
+                    case "request_approval_code":
+                        $scope.data_param={'user':{}};
+                        $scope.data_param.user.idUser       = cObj.idUser;
+                        $scope.data_param.user.emailUser    = cObj.emailUser;
+                        $scope.data_param.user.fullNameUser = cObj.fullNameUser ;
+                        $scope.data_param.user.clientName   = $scope.customerFound.name;
+                        $scope.sendGeneratedTokenFn($scope.data_param);
+                        $timeout(function() {
+                            console.log("Token generated: "+$scope.generatedTokenCode);
+                            blockUI.stop();
+                        }, 2000);
+                    break;
+                    case "approve_termination":
+                        blockUI.start('Se ha enviado un codigo de aprobación a la dirección: '+$scope.data_param.user.emailUser);
+                        $timeout(function() {
+                            $('#confirmCodeModal').modal({backdrop: 'static', keyboard: false});
+                            $('#confirmCodeModal').on('shown.bs.modal', function () {
+                                $('#checkCode').focus();
+                            })
+                            blockUI.stop();
+                        }, 2000);
+                    break;
+                    case "validate_token_code":
+                        if (cObj==$scope.generatedTokenCode){
+                            inform.add('Codigo ingresado, ha sido validado satisfactoriamente.',{
+                                ttl:10000, type: 'success'
+                            });
+                            $scope.generatedTokenCode = null;
+                            blockUI.start('Completando baja del servicio');
+                            console.log($scope.contractSelected);
+                            $timeout(function() {
+                                if ($scope.contractSelected==undefined || $scope.contractSelected==null){
+                                    $('#serviceDownDetails').modal('hide');
+                                    $('#requiredInputForServiceTermination').modal('hide');
+                                    $scope.switchCustomersFn('services', null, 'complete_terminateService');
+                                }else{
+                                    $('#contractDownDetails').modal('hide');
+                                    $('#requiredInputForContractTermination').modal('hide');
+                                    $scope.switchCustomersFn('contract', $scope.contract.update, 'complete_terminateContract');
+                                }
+                                $('#confirmCodeModal').modal('hide');
+                                blockUI.stop();
+                            }, 2000);
+                        }else{
+                            inform.add('Codigo ingresado, no es correcto, intente nuevamente.',{
+                                ttl:5000, type: 'warning'
+                            });
+                        }
                     break;
                 }
             break;
@@ -711,6 +828,51 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                         });
                     };
                 /**************************************************
+                 *                                                 *
+                 *                SET CLIENT IN DEBT               *
+                 *                                                 *
+                 **************************************************/
+                    $scope.authorizedUserListRs = null;
+                    $scope.getListAuthorizedUsersFn = function(){
+                        //console.log(obj);
+                        userServices.getListAuthorizedUsers().then(function(response){
+                            console.log(response);
+                            if(response.status==200){
+                                $scope.authorizedUserListRs = response.data;
+                            }if(response.status==404 || response.status==500){
+                                $scope.authorizedUserListRs = [];
+                                inform.add('No se encontraron usuarios habilitados para aprobación de baja, contacta con soporte.',{
+                                    ttl:15000, type: 'danger'
+                                });
+                            }
+                        });
+                    }
+                /**************************************************
+                 *                                                 *
+                 *                SET CLIENT IN DEBT               *
+                 *                                                 *
+                 **************************************************/
+                    $scope.generatedTokenCode = null;
+                    $scope.sendGeneratedTokenFn = function(user){
+                        //console.log(obj);
+                        userServices.sendGeneratedToken(user).then(function(response){
+                            console.log(response);
+                            if(response.status==200){
+                                inform.add('Codigo de seguridad ha sido enviado satisfactoriamente.',{
+                                    ttl:10000, type: 'success'
+                                });
+                                $scope.switchCustomersFn('general', $scope.service.update, 'approve_termination');
+                                $('#getApprovedUser').modal('hide');
+                                $scope.generatedTokenCode = response.data;
+                            }if(response.status==500){
+                                $scope.generatedTokenCode = [];
+                                inform.add('Ocurrio un error generando y enviando el codigo de seguridad, contacta con soporte.',{
+                                    ttl:15000, type: 'danger'
+                                });
+                            }
+                        });
+                    }
+                /**************************************************
                 *                                                 *
                 *                 LIST PRODUCTS                   *
                 *                                                 *
@@ -867,9 +1029,9 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                             case "closeCustomerWindow":
                                 if (confirm==0){
                                     if ($scope.isNewCustomer==true){
-                                    $scope.mess2show="Se perderan todos los datos cargados para el registro del cliente, esta seguro que desea cancelar?";
+                                        $scope.mess2show="Se perderan todos los datos cargados para el registro del Cliente, esta seguro que desea cancelar?";
                                     }else{
-                                    $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
+                                        $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
                                     }    
                                     $('#confirmRequestModal').modal('show');
                                 }else if (confirm==1){
@@ -885,16 +1047,19 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                                 }
                             break;
                             case "closeServiceWindow":
+                                if (obj.idReasonTypeKf!=null && obj.dateDown!=null){
+                                    confirm=1;
+                                }
                                 if (confirm==0){
                                     if ($scope.isNewCustomerService==true){
-                                    $scope.serviceNew=obj;
-                                    console.log($scope.serviceNew);
-                                    $scope.mess2show="Se perderan todos los datos cargados para el registro del servicio, esta seguro que desea cancelar?";
-                                    $scope.getListContractServicesFn($scope.serviceNew.idContratoFk, null);
+                                        $scope.serviceNew=obj;
+                                        console.log($scope.serviceNew);
+                                        $scope.mess2show="Se perderan todos los datos cargados para el registro del servicio, esta seguro que desea cancelar?";
+                                        $scope.getListContractServicesFn($scope.serviceNew.idContratoFk, null);
                                     }else{
-                                    $scope.serviceUpdate=obj;
-                                    $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
-                                    $scope.getListContractServicesFn($scope.serviceUpdate.idContratoFk, null);
+                                        $scope.serviceUpdate=obj;
+                                        $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
+                                        $scope.getListContractServicesFn($scope.serviceUpdate.idContratoFk, null);
                                     }    
                                     $('#confirmRequestModal').modal('show');
                                 }else if (confirm==1){
@@ -1124,7 +1289,7 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                                 console.log($scope.argObj);   
                                 $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
-                                    $scope.switchCustomersFn('contract', $scope.argObj, 'init_termination');
+                                    $scope.switchCustomersFn('contract', $scope.argObj, 'init_terminationContract');
                                     $('#confirmRequestModal').modal('hide');
                                 }            
                             break;
@@ -1143,6 +1308,22 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                                     $scope.removeServiceItemFn($scope.argObj, $scope.argObj2);
                                     $('#confirmRequestModal').modal('hide');
                                 }            
+                            break;
+                            case "service_remove":
+                                if (confirm==0){
+                                    $scope.mess2show="El servicio "+obj.clientTypeServices+" ["+obj.idClientServices+"] del contratio N° "+obj2.numeroContrato+" sera removido.     Confirmar?";
+                                    $scope.argObj={};
+                                    $scope.argObj2={};
+                                    $scope.argObj = obj;
+                                    $scope.argObj2 = obj2;
+                                    console.log('Servicio a Remover: '+obj.clientTypeServices+' id: '+obj.idClientServices);
+                                    console.log("============================================================================")
+                                    console.log($scope.argObj);   
+                                    $('#confirmRequestModal').modal('toggle');
+                                    }else if (confirm==1){
+                                        $scope.switchCustomersFn('services',$scope.argObj,'init_terminateService');
+                                        $('#confirmRequestModal').modal('hide');
+                                    }
                             break;
                             case "add_enable_initial_keys":
                                 if (confirm==0){
@@ -1163,6 +1344,28 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                                 }else if (confirm<0){
                                     $scope.customer={};
                                 }
+                            break;
+                            case "addNewDVRUser":
+                                if (confirm==0){
+                                    $scope.serviceUser=obj;
+                                    var idProfile   = obj.profile==null || obj.profile==undefined?obj.userProfile:obj.profile;
+                                      $scope.mess2show="Un nuevo usuario sera agregado al DVR,     Confirmar?";
+                                      console.log("============================================================================");
+                                      console.log("Nuevo Usuario DVR.");
+                                      console.log("============================================================================");
+                                      console.log("Usuario   : "+obj.name);
+                                      console.log("Perfil    : "+idProfile);
+                                      console.log("============================================================================");
+                                    $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
+                                    //$('#confirmRequestModalCustom').modal('toggle');
+                                }else if (confirm==1){
+                                    //console.log($scope.customerDetail);
+                                    $scope.processServiceUserDVRFn($scope.serviceUser);
+                                    $('#confirmRequestModalCustom').modal('hide');
+                                }else if (confirm<0){
+                                    $scope.customer={};
+                                }
+                                
                             break;
                             default:
                         }
@@ -2569,6 +2772,7 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                                     $scope.addNewService.isOuputReader            = service.isOuputButom?null:'1';
                                     $scope.addNewService.isOuputButom             = service.isOuputButom?'1':null; 
                                     $scope.addNewService.dateDown                 = null;
+                                    $scope.addNewService.observation              = service.generalComments;
                                     $scope.addNewService.isBlocklingScrew         = service.isBlocklingScrew==0||service.isBlocklingScrew==undefined?0:1;
                                     //$scope.addNewService.locationGabinet          = service.locationGabinet!='' && service.locationGabinet!=undefined?$scope.locationGabine:null;
                                     $scope.addNewService.acaration2               = service.isBlocklingScrew==0||service.isBlocklingScrew==undefined?null:service.lockingScrewComment;
@@ -2579,6 +2783,7 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                                         $scope.addNewService.user=null;
                                         $scope.addNewService.pass=null;
                                         $scope.addNewService.addressVpn=null;
+                                        $scope.addNewService.portVpn=null;
                                         $scope.addNewService.useVpn=null;
                                         $scope.addNewService.passVpn=null;
                                     }
@@ -2588,7 +2793,7 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                                     }, 1500);
                                     $timeout(function() {
                                         console.log(JSON.stringify($scope.addNewService));
-                                        //$scope.addCustomerServiceFn($scope.addNewService);
+                                        $scope.addCustomerServiceFn($scope.addNewService);
                                     }, 1500);
                                         $('#RegisterCtrlAccessService').modal('hide');
                                     blockUI.stop(); 
@@ -2697,7 +2902,7 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                                         }, 1500);
                                         $timeout(function() {
                                             console.log(JSON.stringify($scope.addNewService));
-                                            //$scope.addCustomerServiceFn($scope.addNewService);
+                                            $scope.addCustomerServiceFn($scope.addNewService);
                                         }, 1500);
                                         $('#RegisterCamerasService').modal('hide');
                                         blockUI.stop();
@@ -2726,7 +2931,7 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                                     }, 1500);
                                     $timeout(function() {
                                         console.log(JSON.stringify($scope.addNewService));
-                                        //$scope.addCustomerServiceFn($scope.addNewService);
+                                        $scope.addCustomerServiceFn($scope.addNewService);
                                     }, 1500);
                                         $('#RegisterAlarmService').modal('hide');
                                     blockUI.stop();
@@ -2745,7 +2950,7 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                                         }, 1500);
                                         $timeout(function() {
                                             console.log(JSON.stringify($scope.addNewService));
-                                            //$scope.addCustomerServiceFn($scope.addNewService);
+                                            $scope.addCustomerServiceFn($scope.addNewService);
                                         }, 1500);
                                         $('#RegisterAppMonitorService').modal('hide');
                                         blockUI.stop();
@@ -3368,22 +3573,22 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                                         service.clients               = [];
                                         service.clients               = $scope.list_user;
                                         if (service.isHasInternetConnect==undefined || !service.isHasInternetConnect){
-                                        service.numberPortRouter    = null;
-                                        service.portHttpInter       = null;
-                                        service.numberPortInter     = null;
-                                        service.addressClientInter  = null;
-                                        service.addreesVpn          = null;
-                                        service.namePort            = null;
-                                        service.port                = null;
-                                        service.namePort1           = null;
-                                        service.nroPort1            = null;
-                                        service.namePort2           = null;
-                                        service.nroPort2            = null;                    
+                                            service.numberPortRouter    = null;
+                                            service.portHttpInter       = null;
+                                            service.numberPortInter     = null;
+                                            service.addressClientInter  = null;
+                                            service.addreesVpn          = null;
+                                            service.namePort            = null;
+                                            service.port                = null;
+                                            service.namePort1           = null;
+                                            service.nroPort1            = null;
+                                            service.namePort2           = null;
+                                            service.nroPort2            = null;                    
                                         }else{
-                                        service.namePortInter       = service.namePort;
-                                        service.numberPortInter     = service.port;
-                                        service.numberPort1         = service.nroPort1;
-                                        service.numberPort2         = service.nroPort2;  
+                                            service.namePortInter       = service.namePort;
+                                            service.numberPortInter     = service.port;
+                                            service.numberPort1         = service.nroPort1;
+                                            service.numberPort2         = service.nroPort2;  
                                         }                        
                                         var productIdNumber=0;
                                         
@@ -3572,6 +3777,229 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                             blockUI.stop();
                             $('#serviceCamerasList').modal({backdrop: 'static', keyboard: false});
                         break;
+                        case "init_terminateService":
+                            $scope.rsTicketData           = [];
+                            $scope.rsServiceData          = [];
+                            $scope.rsInternetServiceData  = [];
+                            $scope.rsKeysData             = [];
+                            $scope.service.update=service;
+                            switch ($scope.service.update.nameDataBase){
+                                case "tb_client_services_access_control":
+                                    blockUI.message('Verificando si existen Pedidos Activos Asociados.');
+                                    $timeout(function() {
+                                        $scope.checkTicketsActiveByServiceFn($scope.service.update);
+                                    }, 1500);
+                                    blockUI.message('Verificando si servicio se encuentra asociado a otro.');
+                                    $timeout(function() {
+                                        $scope.checkServicesAssociatedByServiceFn($scope.service.update);
+                                    }, 3000);
+                                    blockUI.message('Verificando si existen Llaveros Asociados.');
+                                    $timeout(function() {
+                                        $scope.checkKeysAssigned2DepartmentByServiceFn($scope.service.update);
+                                    }, 4500);
+                                break;
+                                case "tb_client_services_internet":
+                                    blockUI.message('Verificando si posee servicios asociados.');
+                                    $timeout(function() {
+                                        $scope.checkInternetServicesAssociatedByServiceFn($scope.service.update);
+                                    }, 3000);
+                                break;
+                                case "tb_client_services_totem":
+                                case "tb_client_services_camera":
+                                case "tb_client_services_alarms":
+                                case "tb_client_services_smart_panic":
+                                    blockUI.message('Verificando si servicio se encuentra asociado a otro.');
+                                    $timeout(function() {
+                                        $scope.checkServicesAssociatedByServiceFn($scope.service.update);
+                                    }, 3000);
+                                break;
+                            }
+                            $timeout(function() {
+                                blockUI.stop();
+                                $('#serviceDownDetails').modal({backdrop: 'static', keyboard: false});
+                                console.log($scope.service.update);
+                            }, 5000);
+
+                            //$('#serviceCamerasList').modal({backdrop: 'static', keyboard: false});
+                        break;
+                        case "init_terminateContract":
+                            $scope.rsTicketData           = [];
+                            $scope.rsServiceData          = [];
+                            $scope.rsInternetServiceData  = [];
+                            $scope.rsKeysData             = [];
+                            blockUI.message('Obteniendo servicios asociados al contrato.');
+                            $scope.getListContractServicesFn(service.idContrato, null);
+                            $timeout(function() {
+                                console.log($scope.rsServicesListByContractsIdData);
+                            }, 2000);
+                            $timeout(function() {
+                                console.log($scope.rsServicesListByContractsIdData);
+                                if ($scope.rsServicesListByContractsIdData.length>=1){
+                                    $scope.rsTicketDataTmp  = [];
+                                    $scope.rsServiceDataTmp = [];
+                                    $scope.rsInternetServiceDataTmp = 0;
+                                    $scope.rsKeysDataTmp    = [];
+                                    var assignedServices = [];
+                                    angular.forEach($scope.rsServicesListByContractsIdData,function(serv){
+                                        var deferredService = $q.defer();
+                                        assignedServices.push(deferredService.promise);
+                                        $timeout(function() {
+                                            deferredService.resolve();
+                                            switch (serv.nameDataBase){
+                                                case "tb_client_services_access_control":
+                                                    blockUI.message('Verificando si existen Pedidos Activos Asociados.');
+                                                    serviceServices.checkTicketsActiveByService(serv.idServicesFk).then(function(response_ticket){
+                                                        if(response_ticket.status==200){
+                                                            $scope.rsTicketDataTmp=$scope.rsTicketDataTmp.concat(response_ticket.data.ticket_active);
+                                                        }else if (response_ticket.status==404){
+                                                            //$scope.rsTicketDataTmp = [];
+                                                        }else if (response_ticket.status==500){
+                                                            //$scope.rsTicketDataTmp = [];
+                                                        }
+                                                    });
+                                                    //blockUI.message('Verificando si servicio se encuentra asociado a otro.');
+                                                    //serviceServices.checkServicesAssociatedByService(serv.idServicesFk).then(function(response_service){
+                                                    //    if(response_service.status==200){
+                                                    //        $scope.rsServiceDataTmp=$scope.rsServiceDataTmp.concat(response_service.data.service_associated);
+                                                    //    }else if (response_service.status==404){
+                                                    //        //$scope.rsTicketDataTmp = [];
+                                                    //    }else if (response_service.status==500){
+                                                    //        //$scope.rsTicketDataTmp = [];
+                                                    //    }
+                                                    //});
+                                                    blockUI.message('Verificando si existen Llaveros Asociados.');
+                                                    serviceServices.checkKeysAssigned2DepartmentByService(serv.idServicesFk).then(function(response_keys){
+                                                        if(response_keys.status==200){
+                                                            $scope.rsKeysDataTmp=$scope.rsKeysDataTmp.concat(response_keys.data.keys_assigned);
+                                                        }else if (response_keys.status==404){
+                                                            //$scope.rsTicketDataTmp = [];
+                                                        }else if (response_keys.status==500){
+                                                            //$scope.rsTicketDataTmp = [];
+                                                        }
+                                                    });
+                                                break;
+                                                case "tb_client_services_internet":
+                                                    blockUI.message('Verificando si posee servicios asociados.');
+                                                    serviceServices.checkInternetServicesAssociatedByService(serv.idClientServicesFk).then(function(response_internet){
+                                                        if(response_internet.status==200){
+                                                            $scope.rsInternetServiceDataTmp=Number($scope.rsInternetServiceDataTmp) + Number(response_internet.data.service_associated);
+                                                        }else if (response_internet.status==404){
+                                                            //$scope.rsTicketDataTmp = [];
+                                                        }else if (response_internet.status==500){
+                                                            //$scope.rsTicketDataTmp = [];
+                                                        }
+                                                    });
+                                                break;
+                                                case "tb_client_services_totem":
+                                                case "tb_client_services_camera":
+                                                case "tb_client_services_alarms":
+                                                case "tb_client_services_smart_panic":
+                                                    //blockUI.message('Verificando si servicio se encuentra asociado a otro.');
+                                                    //serviceServices.checkServicesAssociatedByService(serv.idServicesFk).then(function(response_service_2){
+                                                    //    if(response_service_2.status==200){
+                                                    //        $scope.rsServiceDataTmp=(($scope.rsServiceDataTmp+response_service_2.data.service_associated));
+                                                    //    }else if (response_service_2.status==404){
+                                                    //        //$scope.rsTicketDataTmp = [];
+                                                    //    }else if (response_service_2.status==500){
+                                                    //        //$scope.rsTicketDataTmp = [];
+                                                    //    }
+                                                    //});                                                
+                                                break;
+                                            }
+                                        }, 1000);
+                                    });
+                                    
+                                    $q.all(assignedServices).then(function () {
+                                        $timeout(function() {
+                                            blockUI.stop();
+                                            $scope.rsTicketData           = $scope.rsTicketDataTmp;
+                                            $scope.rsServiceData          = $scope.rsServiceDataTmp;
+                                            $scope.rsInternetServiceData  = $scope.rsInternetServiceDataTmp;
+                                            $scope.rsKeysData             = $scope.rsKeysDataTmp;
+                                            console.log("$scope.rsTicketData : ");
+                                            console.log($scope.rsTicketData);
+                                            console.log("$scope.rsServiceData: ");
+                                            console.log($scope.rsServiceData);
+                                            console.log("$scope.rsInternetServiceData: ");
+                                            console.log($scope.rsInternetServiceData);
+                                            console.log("$scope.rsKeysData   : ");
+                                            console.log($scope.rsKeysData);
+                                            $('#contractDownDetails').modal({backdrop: 'static', keyboard: false});
+                                        }, 1500);
+                                    });
+                                }else{
+                                    blockUI.message('El Contrato no tiene servicio asociados activos.');
+                                    inform.add('El Contrato no tiene servicio asociados activos. ',{
+                                        ttl:2000, type: 'success'
+                                    });
+                                    $timeout(function() {
+                                        $scope.switchCustomersFn('contract', service, 'requiredInputForContractTermination');
+                                        blockUI.stop();
+                                    }, 3000);
+                                }
+                            }, 2500);
+                        break;
+                        case "removeContractAndServicesMulti":
+                            blockUI.start('Dando de baja los servicios asociados al contrato.');
+                            $timeout(function() {
+                                console.log($scope.rsServicesListByContractsIdData);
+                                if ($scope.rsServicesListByContractsIdData.length>=1){
+                                    $scope.rsInternetServiceDataTmp = 0;
+                                    var assignedServices = [];
+                                    angular.forEach($scope.rsServicesListByContractsIdData,function(serv){
+                                        var deferredService = $q.defer();
+                                        assignedServices.push(deferredService.promise);
+                                        $timeout(function() {
+                                            deferredService.resolve();
+                                            serv.terminationApprovedByIdUserKf = $scope.data_param.user.idUser;
+                                            serv.idContratoFk                  = $scope.service.update.idContracAssociated_SE;
+                                            serv.terminationReason             = $scope.contractSelected.terminationReason;
+                                            serv.reasonType                    = $scope.contractSelected.reasonType;
+                                            blockUI.message('Servicio dado de baja.');
+                                            $timeout(function() {
+                                                if (serv.dateDown==null){
+                                                    serv.dateDown              = $scope.contractSelected.dateDown;
+                                                    console.log(serv);
+                                                    $scope.updateCustomerServiceFn(serv);
+                                                }
+                                                blockUI.stop();
+                                            }, 1500);
+                                        }, 1000);
+                                    });
+                                    
+                                    $q.all(assignedServices).then(function () {
+                                        $timeout(function() {
+                                            $scope.contract.update.terminationApprovedByIdUserKf = $scope.data_param.user.idUser;
+                                            $scope.contract.update.idStatusFk                    = "-1";
+                                            $scope.contract.update.dateDown                      = $scope.contractSelected.dateDown;
+                                            $scope.contract.update.terminationReason             = $scope.contractSelected.terminationReason;
+                                            $scope.contract.update.reasonType                    = $scope.contractSelected.reasonType;
+                                            blockUI.message('Contrato dado de baja.');
+                                            console.log($scope.contract.update);
+                                            console.log($scope.list_services_tmp);
+                                            $scope.customerContractFn($scope.contract, 'update');
+                                            blockUI.stop();
+                                        }, 1500);
+                                    });
+                                }else{
+                                    blockUI.start('El Contrato no tiene servicio asociados activos.');
+                                    inform.add('El Contrato no tiene servicio asociados activos. ',{
+                                        ttl:2000, type: 'success'
+                                    });
+                                    $timeout(function() {
+                                        $scope.contract.update.terminationApprovedByIdUserKf = $scope.data_param.user.idUser;
+                                        $scope.contract.update.idStatusFk                    = "-1";
+                                        $scope.contract.update.dateDown                      = $scope.contractSelected.dateDown;
+                                        $scope.contract.update.terminationReason             = $scope.contractSelected.terminationReason;
+                                        blockUI.message('Contrato dado de baja.');
+                                        console.log($scope.contract.update);
+                                        console.log($scope.list_services_tmp);
+                                        $scope.customerContractFn($scope.contract, 'update');
+                                        blockUI.stop();
+                                    }, 1500);
+                                }
+                            }, 2500);
+                        break;
                     }
                 }
                 /***********************************
@@ -3628,6 +4056,135 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                             //console.log($scope.rsLocations_API_Data);
                         });
                         $scope.cleanServiceInputsFn();
+                    };
+                /***************************************
+                *   CHECK TICKET ACTIVE BY SERVICE ID  *
+                ****************************************/
+                    $scope.rsTicketData = [];
+                    $scope.checkTicketsActiveByServiceFn = function(service){
+                        $scope.rsTicketData = []
+                        serviceServices.checkTicketsActiveByService(service.idServicesFk).then(function(response){
+                            console.log(response);
+                            if(response.status==200){
+                                console.log("The service is associated with Internet Service.");
+                                inform.add('El Servicio esta asociado a un servicio de Internet activo. ',{
+                                    ttl:6000, type: 'warning'
+                                });
+                                $scope.rsTicketData = response.data.ticket_active;
+                            }else if(response.status==404){
+                                console.log("Service do not internet service related.");
+                                inform.add('El Servicio no se encuentra asociado a un servicio de internet. ',{
+                                    ttl:6000, type: 'success'
+                                });
+                                $scope.rsTicketData = []
+                            }else if(response.status==500){
+                                console.log("Customer Service not Created, contact administrator");
+                                inform.add('Error: [500] Contacta al area de soporte. ',{
+                                    ttl:2000, type: 'danger'
+                                });
+                                $scope.rsTicketData = []
+                            }
+                                //$scope.getContractsByCustomerIdFn(contrato.idClientFk);
+                                //$scope.isNewCustomer=false;
+                                //$scope.isUpdateCustomer=false;
+                            //console.log($scope.rsLocations_API_Data);
+                        });
+                    };
+                /*****************************************
+                *   CHECK KEYS ASSOCIATED BY SERVICE ID  *
+                ******************************************/
+                    $scope.checkKeysAssigned2DepartmentByServiceFn = function(service){
+                        $scope.rsKeysData = [];
+                        KeysServices.checkKeysAssigned2DepartmentByService(service.idServicesFk).then(function(response){
+                            console.log(response);
+                            if(response.status==200){
+                                console.log("The service has one o more keys associated.");
+                                inform.add('El Servicio posee llaveros asociados a departamentos del consorcio. ',{
+                                    ttl:6000, type: 'warning'
+                                });
+                                $scope.rsKeysData = response.data.keys_assigned;
+                            }else if(response.status==404){
+                                console.log("Service do not have keys associated.");
+                                inform.add('El Servicio no posee llaveros asociados en el edificio. ',{
+                                    ttl:6000, type: 'success'
+                                });
+                                $scope.rsKeysData = [];
+                            }else if(response.status==500){
+                                console.log("Customer Service not Created, contact administrator");
+                                inform.add('Error: [500] Contacta al area de soporte. ',{
+                                    ttl:2000, type: 'danger'
+                                });
+                                $scope.rsKeysData = [];
+                            }
+                                //$scope.getContractsByCustomerIdFn(contrato.idClientFk);
+                                //$scope.isNewCustomer=false;
+                                //$scope.isUpdateCustomer=false;
+                            //console.log($scope.rsLocations_API_Data);
+                        });
+                    };
+                /**************************************************************
+                *   CHECK Service Associated with other server BY SERVICE ID  *
+                ***************************************************************/
+                    $scope.checkServicesAssociatedByServiceFn = function(service){
+                        $scope.rsServiceData = [];
+                        serviceServices.checkServicesAssociatedByService(service.idClientServicesFk).then(function(response){
+                            console.log(response);
+                            if(response.status==200){
+                                console.log("The service has one o more service active associated.");
+                                inform.add('El Servicio posee servicios activos asociados. ',{
+                                    ttl:6000, type: 'warning'
+                                });
+                                $scope.rsServiceData = response.data.service_associated;
+                            }else if(response.status==404){
+                                console.log("Service do not have service active associated.");
+                                inform.add('El Servicio no posee servicios activos asociados. ',{
+                                    ttl:6000, type: 'success'
+                                });
+                                $scope.rsServiceData = [];
+                            }else if(response.status==500){
+                                console.log("Customer Service not Created, contact administrator");
+                                inform.add('Error: [500] Contacta al area de soporte. ',{
+                                    ttl:2000, type: 'danger'
+                                });
+                                $scope.rsServiceData = [];
+                            }
+                                //$scope.getContractsByCustomerIdFn(contrato.idClientFk);
+                                //$scope.isNewCustomer=false;
+                                //$scope.isUpdateCustomer=false;
+                            //console.log($scope.rsLocations_API_Data);
+                        });
+                    };
+                /**************************************************************
+                *   CHECK Service Associated with other server BY SERVICE ID  *
+                ***************************************************************/
+                    $scope.checkInternetServicesAssociatedByServiceFn = function(service){
+                        $scope.rsServiceData = [];
+                        serviceServices.checkInternetServicesAssociatedByService(service.idClientServicesFk).then(function(response){
+                            console.log(response);
+                            if(response.status==200){
+                                console.log("The service has one o more service active associated.");
+                                inform.add('El Servicio esta asociado a ('+response.data.service_associated+') servicios actualmente. ',{
+                                    ttl:6000, type: 'warning'
+                                });
+                                $scope.rsServiceData = response.data.service_associated;
+                            }else if(response.status==404){
+                                console.log("Service do not have service active associated.");
+                                inform.add('El Servicio no posee otros servicios activos asociados. ',{
+                                    ttl:6000, type: 'success'
+                                });
+                                $scope.rsServiceData = [];
+                            }else if(response.status==500){
+                                console.log("Customer Service not Created, contact administrator");
+                                inform.add('Error: [500] Contacta al area de soporte. ',{
+                                    ttl:2000, type: 'danger'
+                                });
+                                $scope.rsServiceData = [];
+                            }
+                                //$scope.getContractsByCustomerIdFn(contrato.idClientFk);
+                                //$scope.isNewCustomer=false;
+                                //$scope.isUpdateCustomer=false;
+                            //console.log($scope.rsLocations_API_Data);
+                        });
                     };
             /**************************************************
             *            HIDE SELF INTERNETSERVICES           *
@@ -3931,6 +4488,7 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                     $scope.removeProductDetailsFn = function(obj, idProductDetail, optAux){
                         console.log("removeProductDetailsFn");
                         console.log(obj);
+                        console.log(idProductDetail);
                         $scope.productSelected  = obj;
                         var tmpAux=($scope.productSelected.idProductClassificationFk=="3" || $scope.productSelected.idProductClassification=="3") || ($scope.productSelected.idProductClassificationFk=="20" || $scope.productSelected.idProductClassification=="20")?optAux:null;
                         var objItem             = $scope.list_productsDetails;        
@@ -4045,10 +4603,10 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                         break;
                         case "4":
                             if (opt=="set"){
-                            $scope.productListType.FUENTE=idProd;              
+                                $scope.productListType.FUENTE=idProd;              
                             }else{
-                            $scope.productListType.FUENTE=idProd;
-                            $scope.service.powerSupply.selected=undefined;
+                                $scope.productListType.FUENTE=idProd;
+                                $scope.service.powerSupply.selected=undefined;
                             }
                         break;
                         case "5":
@@ -4056,10 +4614,10 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                         break;
                         case "6":
                             if (opt=="set"){
-                            $scope.productListType.PULSADOR_EMERG=idProd;              
+                                $scope.productListType.PULSADOR_EMERG=idProd;              
                             }else{
-                            $scope.productListType.PULSADOR_EMERG=idProd;
-                            $scope.service.emergencyButton.selected=undefined;
+                                $scope.productListType.PULSADOR_EMERG=idProd;
+                                $scope.service.emergencyButton.selected=undefined;
                             }          
                         break;
                         case "7":
@@ -4067,81 +4625,82 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                                 $scope.productListType.TECLA_APAG=idProd;              
                             }else{
                                 $scope.productListType.TECLA_APAG=idProd;
-                            $scope.service.TurnOffKey.selected=undefined;
+                                $scope.service.TurnOffKey.selected=undefined;
                             }
                         break;
                         case "8":
                             if (opt=="set"){
-                            $scope.productListType.RECORD_DEVICE=idProd;
+                                $scope.productListType.RECORD_DEVICE=idProd;
                             }else{
-                            $scope.productListType.RECORD_DEVICE=idProd;
-                            $scope.service.dvr.selected=undefined;
+                                $scope.productListType.RECORD_DEVICE=idProd;
+                                $scope.service.dvr.selected=undefined;
                             }
                         break;
                         case "9":
                             if (opt=="set"){
-                            $scope.productListType.RECORD_DEVICE=idProd;
+                                $scope.productListType.RECORD_DEVICE=idProd;
                             }else{
-                            $scope.productListType.RECORD_DEVICE=idProd;
-                            $scope.service.dvr.selected=undefined;
+                                $scope.productListType.RECORD_DEVICE=idProd;
+                                $scope.service.dvr.selected=undefined;
                             }
                         break;
                         case "12":
                             if (opt=="set"){
-                            $scope.productListType.PANEL_ALARM=idProd;              
+                                $scope.productListType.PANEL_ALARM=idProd;              
                             }else{
-                            $scope.productListType.PANEL_ALARM=idProd;
-                            $scope.service.alarmPanel.selected=undefined;
+                                $scope.productListType.PANEL_ALARM=idProd;
+                                $scope.service.alarmPanel.selected=undefined;
                             }
                         break;
                         case "13":
                             if (opt=="set"){
-                            $scope.productListType.TECLADO_ALARM=idProd;              
+                                $scope.productListType.TECLADO_ALARM=idProd;              
                             }else{
-                            $scope.productListType.TECLADO_ALARM=idProd;
-                            $scope.service.alarmKeyboard.selected=undefined;
+                                $scope.productListType.TECLADO_ALARM=idProd;
+                                $scope.service.alarmKeyboard.selected=undefined;
                             }
                         break;
                         case "14":
                         break;
                         case "15":
                             if (opt=="set"){
-                            $scope.productListType.MODULO_IP_ALARM=idProd;              
+                                $scope.productListType.MODULO_IP_ALARM=idProd;              
                             }else{
-                            $scope.productListType.MODULO_IP_ALARM=idProd;
-                            $scope.service.module.ipAlarmModule.selected=undefined;
+                                $scope.productListType.MODULO_IP_ALARM=idProd;
+                                $scope.service.module.ipAlarmModule.selected=undefined;
                             }
                         break;
                         case "16":
                             if (opt=="set"){
-                            $scope.productListType.MODULO_GPRS_ALARM=idProd;              
+                                $scope.productListType.MODULO_GPRS_ALARM=idProd;              
                             }else{
-                            $scope.productListType.MODULO_GPRS_ALARM=idProd;
-                            $scope.service.module.gprsAlarmModule.selected=undefined;
+                                $scope.productListType.MODULO_GPRS_ALARM=idProd;
+                                $scope.service.module.gprsAlarmModule.selected=undefined;
                             }
                         break;                
                         case "17":
                             if (opt=="set"){
-                            $scope.productListType.ROUTER=idProd;              
+                                $scope.productListType.ROUTER=idProd;              
                             }else{
-                            $scope.productListType.ROUTER=idProd;
-                            $scope.service.dvr.selected=undefined;
+                                $scope.productListType.ROUTER=idProd;
+                                $scope.service.dvr.selected=undefined;
+                                $scope.service.router.selected=undefined;
                             }
                         break;              
                         case "18":
                             if (opt=="set"){
-                            $scope.productListType.MODEM=idProd;              
+                                $scope.productListType.MODEM=idProd;              
                             }else{
-                            $scope.productListType.MODEM=idProd;
-                            $scope.service.modem.selected=undefined;
+                                $scope.productListType.MODEM=idProd;
+                                $scope.service.modem.selected=undefined;
                             }
                         break;                
                         case "20":
                             if (opt=="set"){
-                            $scope.productListType.PRODUCT_EXIT=idProd;              
+                                $scope.productListType.PRODUCT_EXIT=idProd;              
                             }else{
-                            $scope.productListType.PRODUCT_EXIT=idProd;
-                            $scope.service.exitReader.selected=undefined;
+                                $scope.productListType.PRODUCT_EXIT=idProd;
+                                $scope.service.exitReader.selected=undefined;
                             }
                         break;            
                         }
@@ -4799,7 +5358,8 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                         console.log(obj);
                         var idUser      = obj.idUser==null  || obj.idUser==undefined?obj.idClientFk:obj.idUser;
                         var idProfile   = obj.profile==null || obj.profile==undefined?obj.userProfile:obj.profile;
-                        var qrCode      = obj.qrCode==null  || obj.qrCode==undefined?obj.qrBase64:obj.qrCode;
+                        //var qrCode      = obj.qrCode==null  || obj.qrCode==undefined?obj.qrBase64:obj.qrCode;
+                        var qrCode      = BSS.imageQR_Default;
                         var idListItem  = $scope.list_user.length==0?1:($scope.list_user_licence.length+1);
                         if ($scope.list_user.length==0 || !$scope.isDVRUserEdit){
                             $scope.list_user.push({'idItem':idListItem,'idClientFk':idUser,'name':obj.name, 'user':obj.user, 'pass':obj.pass, 'profile':idProfile, 'userProfile':idProfile, 'qrCode':qrCode, 'qrBase64':qrCode});
@@ -4808,19 +5368,19 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                             });
                         }else{
                             for (var key in $scope.list_user){
-                            if ($scope.list_user[key].idItem==obj.idItem){
-                                $scope.list_user[key].name          = obj.name;
-                                $scope.list_user[key].user          = obj.user;
-                                $scope.list_user[key].pass          = obj.pass;
-                                $scope.list_user[key].profile       = obj.profile;
-                                $scope.list_user[key].userProfile   = obj.profile;
-                                $scope.list_user[key].qrCode        = obj.qrCode;
-                                $scope.list_user[key].qrBase64      = obj.qrCode;
-                                inform.add("Usuario DVR: "+obj.user+" ha sido actualizado correctamente.",{
-                                ttl:5000, type: 'success'
-                                });                      
-                                break;              
-                            }
+                                if ($scope.list_user[key].idItem==obj.idItem){
+                                    $scope.list_user[key].name          = obj.name;
+                                    $scope.list_user[key].user          = obj.user;
+                                    $scope.list_user[key].pass          = obj.pass;
+                                    $scope.list_user[key].profile       = obj.profile;
+                                    $scope.list_user[key].userProfile   = obj.profile;
+                                    $scope.list_user[key].qrCode        = obj.qrCode;
+                                    $scope.list_user[key].qrBase64      = obj.qrCode;
+                                    inform.add("Usuario DVR: "+obj.user+" ha sido actualizado correctamente.",{
+                                    ttl:5000, type: 'success'
+                                    });                      
+                                    break;              
+                                }
                             }
                         }
                         
@@ -4832,6 +5392,9 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                             
                             
                         //console.log($scope.list_user);
+                        if ($scope.isUpdateCustomerService){
+                            $scope.switchCustomersFn('services', $scope.service.update, 'update');
+                        }
                     }
                 /***********************************
                 *     REMOVE USER DATA DETAILS     *
@@ -4958,7 +5521,15 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                 /***********************************
                 *   GENERATE PDF FILE & DOWNLOAD   *
                 ************************************/
-                    $scope.generatePDF = function(user, service){            
+                    //console.log("imageQR_Default: "+BSS.imageQR_Default);
+                    $scope.selectApp = function(user, service){
+                        $('#selectPDFType').modal({backdrop: 'static', keyboard: false});
+                        $scope.userSelected = user;
+                        $scope.serviceSelected = service;
+                    }
+
+                    $scope.generatePDF = function(user, service, appType){
+                        $('#selectPDFType').modal('hide');
                         var blobUrlObject = null;
                         console.log("isListCustomerService: "+$scope.isListCustomerService+" isNewCustomerService: "+$scope.isNewCustomerService+" isUpdateCustomerService: "+$scope.isUpdateCustomerService);
                         if (($scope.isNewCustomerService && $scope.service.new.isHasInternetConnect) || ($scope.isUpdateCustomerService && $scope.service.update.isHasInternetConnect==true) || ($scope.isListCustomerService)){
@@ -4972,11 +5543,7 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                             }
                             console.log(user);
                             console.log(serviceProcess);
-                            if (user.qrCode==null){
-                                inform.add("Error al generar PDF, no existe un codigo QR asociado.",{
-                                ttl:5000, type: 'warning'
-                                });  
-                            }else if ((serviceProcess.idTipeServiceFk=="4" && (serviceProcess.addessClient==null || serviceProcess.addessClient=="") && (serviceProcess.nroPort2==null || serviceProcess.nroPort2=="")) || (serviceProcess.idTipeServiceFk=="3" && (serviceProcess.addressClientInter==null || serviceProcess.addressClientInter=="") && (serviceProcess.numberPort2==null || serviceProcess.numberPort2==""))){
+                            if ((serviceProcess.idTipeServiceFk=="4" && (serviceProcess.addessClient==null || serviceProcess.addessClient=="") && (serviceProcess.nroPort2==null || serviceProcess.nroPort2=="")) || (serviceProcess.idTipeServiceFk=="3" && (serviceProcess.addressClientInter==null || serviceProcess.addressClientInter=="") && (serviceProcess.numberPort2==null || serviceProcess.numberPort2==""))){
                                 inform.add("Error al generar PDF completar campos requeridos de conexion a internet.",{
                                 ttl:5000, type: 'warning'
                                 });                
@@ -5001,15 +5568,16 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                                 var connectionPort  = service.idTipeServiceFk=="4"?service.nroPort2:service.numberPort2;
                                 var username        = user.user;
                                 var password        = user.pass;
-                                var imageData64     = user.qrBase64;
+                                //var imageData64     = user.qrBase64;
+                                var appSelected     = appType=='dmss'?'DMSS':'HIKCONNECT';
                                 console.log(connectionPort);
                                 // Don't forget, that there are CORS-Restrictions. So if you want to run it without a Server in your Browser you need to transform the image to a dataURL
                                 // Use http://dataurl.net/#dataurlmaker          
-                                doc = new jsPDF({
+                                var doc = new jsPDF({
                                     orientation: 'p',
                                     unit: 'mm',
                                     format: 'letter',
-                                    compress: true,
+                                    compress: false,
                                     putOnlyUsedFonts:true,
                                     lineHeight: 1.1,
                                     floatPrecision: 16 // or "smart", default is 16
@@ -5031,114 +5599,134 @@ services.controller('ServicesCtrl', function($scope, $location, DateService, uib
                                         keywords: 'security, bss, service, web',
                                         creator: 'MEEE'
                                     });            
-                                    doc.setLineWidth(0.1);
-                                    doc.setDrawColor(199, 199, 199);
-                                    doc.line(5, 30, 180, 30);
-                                    doc.setFont('Roboto-Bold');
-                                    doc.setTextColor(0,0,0);
-                                    doc.setFontSize(25);
-                                    doc.text(48, 45, "HOJA DE DATOS DE ACCESO");
-                                    doc.setFont('Roboto-Thin');
-                                    doc.setTextColor(0,0,0);
-                                    doc.setFontSize(16);
-                                    doc.text("PARA CONFIGURAR LOS PROGRAMAS DE VISUALIZACIÓN", 33, 52);
-                                    var imageData ="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIbGNtcwIQAABtbnRyUkdCIFhZWiAH4gADABQACQAOAB1hY3NwTVNGVAAAAABzYXdzY3RybAAAAAAAAAAAAAAAAAAA9tYAAQAAAADTLWhhbmSdkQA9QICwPUB0LIGepSKOAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAAF9jcHJ0AAABDAAAAAx3dHB0AAABGAAAABRyWFlaAAABLAAAABRnWFlaAAABQAAAABRiWFlaAAABVAAAABRyVFJDAAABaAAAAGBnVFJDAAABaAAAAGBiVFJDAAABaAAAAGBkZXNjAAAAAAAAAAV1UkdCAAAAAAAAAAAAAAAAdGV4dAAAAABDQzAAWFlaIAAAAAAAAPNUAAEAAAABFslYWVogAAAAAAAAb6AAADjyAAADj1hZWiAAAAAAAABilgAAt4kAABjaWFlaIAAAAAAAACSgAAAPhQAAtsRjdXJ2AAAAAAAAACoAAAB8APgBnAJ1A4MEyQZOCBIKGAxiDvQRzxT2GGocLiBDJKwpai5+M+s5sz/WRldNNlR2XBdkHWyGdVZ+jYgskjacq6eMstu+mcrH12Xkd/H5////2wBDAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/2wBDAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAARCABLALMDAREAAhEBAxEB/8QAHwAAAgIBBQEBAAAAAAAAAAAAAAoJCwgBAgUGBwME/8QAPxAAAAYCAQIFAQUEBgsBAAAAAQIDBAUGBwgRAAkKEhMhMRQVIkFRcRYXYZEjUoGS0fAYGSQyOEJJeKG34WL/xAAcAQEAAgMBAQEAAAAAAAAAAAAABwgFBgkEAwH/xAAoEQABBQABBAICAwEBAQAAAAADAAECBAUGBxESEwgUITEVIiMyFkH/2gAMAwEAAhEDEQA/AH+OiLq12u9NxrUrFfshWqu0ej1GIez9quFtmY6u1mtwUaiZzIzM9OyzhpGRMWxbkOs7fPnKDdFMoidQBEoCRJCdzPxjlFoErYcU9tPHURlqVj1HcY72Sy8xmWGNSu0jKt1HONsaN14W0XJsUDeoxs1xkqnDqOm3nQq1gilkXi5EnNsx3l+57tvISDrNe6mc5GKkFlznpVJt7vFOPEUVhHhoSh4v/ZKsrIIpiVFMz9i+cHIUDLuVlfMr0RRwyFmsEs7Vfyk5NSL5c3nWeP5aQeOlTiPImVcuXCqyhhNyPmOoYREeeiL3zDm5u2mvkmzmMG7M57xI/YqEUQUx9lu91ZAwp8eUjljFTiEc8bjwAHbPWbhsoXgDoiHwRMqaGeL932wFJQ1Y3BhKzuPi5NVu2fzjppEY1znER/nMmZxF3CtRjan2lRkgodcWV0qB5KXWRTbq3CN9Q7opFYD9vjueaedzbFxsmasZMb2FzEptC3zGNjSRr2WsXv3oG+nYXukqO3Tlig5OmujF2WIdTNNn1WrskDYpE7V0mgRSCdER0RHREdER0RHREdER0RHREdER0RHREdER0RHRF+KRftoqPfSbwypWke0cvnRkGzl4sVs0QUcLmSaM0nDx0oVJM5iNmqCzlcwAk3RVWORMxFXI917LPdU8QPYLTVdDMas7Zoxhm1u40uCqfnLDtdzbLWmAmXsYlkHaLCduv1SyfWZxd6wO5pFFstXTg6Y09L0zSVvNKyQES2Wa+zp3Rte66/uGXNFdj61VYswjLWdlj+QuEFFJgQxzOpSWo57MzYMgApvPIPVUWQDwBnACJQEijWVbqJHUTOUxFEjmTVIcolOmcoiUxVCG4MkYpgEpiKFIYpgEoh5gEOiL4+Ufy5/iHv0RHA/kP8uiIARD4/z/AJ/MPfoiyR1Q2zz5pPnKl7E625CmMb5RozwFI+XjFPVYy8UsqieVqlrhVRGNtNNn00SNp6sy6LiNkkSkOKaDxFq6RIre3s0927E/du1hb5TrbNhSc24+VjKrsRh5F6d0ejXJ2zUXYTtfO5MZ+/xxe0Gj6UpMu59VRIzOZq0i6cTtZk1FCKXnoiOiI6IjoiOiI6IjoiOiI6IjoiOiI6IjoiOiI6Io09wO1Pqtt3bI7M7iNt2ANrawkQ1F3A1osi2ItiKy5boikzSkbfBpfR5DgUy/7OtVslRdqhFGKrpo2RYA5OsBFhOpuFvV2t7BWa/3N1qns9pXNzLarR/cqw3SXtIuOG3b501jqwfdrBMIlJQ1fgbDIuDRymaMVuRp0Y++zErPDIvZogpkWL/en1F0o3tyvo5qRjDBeCrLsbuxkWOylZtoMfV2sp3jGekuJlIu+Zny8yyFUE0kLAfITNaCxljNzbXUvX5+QtcuvCqnlWDNyiRfG7eDy7SFqByevrbRY0UVBQUE6pmqNmGrYxxESl9G+UO3OFSJAPlICj8xjeUoqKqfeExEqx34fDeWDte02ubIa1WzIObtVljs65k2SvDaCdZBw3b5B6ZtBSVqcVKGgod/jq3KLNIiJtCUKxCAtX08BYVBUsNecvCJVkwcDx/n+PsPv/P4HkPfjoi0D26IpZ+y53H7T2x978U54Rk5D90k/INcbbE1dusuLSyYZtUi0QsL0zFE3+1zdDdEZZBqoh6SozNdCPOuSOlpFFciugIiWjZ6KjZuGftJWJl2DOUi5Nguk6YyMdINknjF+ycInUSXaPWiyLpqsmociqCqahTCUwD0Rcj0RHREdER0RHREdER0RHREdER0RHREdER0RaCIAAiIgAB8iI8AH6iPRFjBs/urqfpdUQvG0+f8Y4Pr6ySysaN6szJhO2Ezfzis1qNRbi7t9ykCkSVMSNqsFMPlQTP5G48CIEUV1g7he4u98FM0Xt4dumRnsQ3eJka6+2q7lEZJ4H1mnq1ONFWLx1XdfnDCSz1ninT0a5ctlW416mwz9NJw0klCt1y+oRYW9knSNft8dzzeHXTLNwr+VMql1J1vyhhe0V2BslPpuLsIZNy5mqZypg7CNGsdvujim4crmaSxq0ZHIy6QvTs2T97GsXqzpASJsPoi8qzpiKqZ+wxlfB96aIvqdl/HN0xnZ2qzZJ2RSDvNdka1Im9BYBTOog3kjOUBHgU3CCKxTEOmU5SKilzDjKy4WyrkvDtzbCyt+KL/AHHG1paGTOiZvYaPYZGsTCXpKCJycP4tcwAb38ogIcgPPRF5t0RfRMQAwAPPAj7h/D/mD+0OQH3D2Ef4dEVxP4cHZiR2g7P2pdhsMi4lLdi2uzuvtmcunBnTg6mFp53UqsdwuoJ1VF18eJ0tysoscyqh1hUOPJh6Ipy/MUPkxf5h/j0RHnJ/WL/eD/HoiPOT+sX+8H+PREecn9Yv94P8eiLd0RHREdER0RHREdER0RHREdESxuq+xPcT73OM2mZ8Obc66aBamzjtRhJU/V52y2X3ljymOoR3TspZEv8ADQGO9drg4ag0fskIHHsvaGbVQHzJZ6xeMJE5FJtrB2f9FdXLefLUTjGSzfsS8USdTO0O01pltitg5eSRAhSyqV+yMeUJU3ihEwBUmPoinsx9RYpWoAqp5yKTsAAPgPfjjkfcRABEQARHkRABEeOR9uR46IoPtgzfui79Hb3yKA+ghtlpVuFqhIufOVFutLYXsVB2YpzJ0IiUqro7NW6GjE+TKCUsh5QARADEU4XRFhVWd5saWnbF1peljvYGFzKwx/JZTlXFhw3ZIbHMZjprJKQUZbzZQWOemyMbZrAg7rtcRgZOWknk2ykGTtlHmjX5m5FWSeKn1RU1s7t+WrhGxx2dM2oq1U2KrxyEKDX7dnW69PyW2KsUpSKPVMh1CbsLtMwesknZmhziJViG6Ilt+iLUvyH6h0RWgHgupqRkO2FmqLdKGMyg908hoxpR58qSUhiHCMi6ITn28ou1lVB4/wCY489ESoXdE7vnc+xV3IN7saY13z2Yp1AoO22fKhTKjXsrTEdAVesV7JE/GQtfho9uoVBjGw7JslHs2iRQK3QbkRNyqmocxFgePe87uof9RXbAf0zDYB/nwqPAfx/s+RAOiIDve93UREP9YrtiHH55gsJf/IqAH6B8j7iHt79EWo97ru6CBgHuL7YB9w/HGYp/nkCiIAHCwD7jwH3RA34FEB4Hoit4u3tcrTkXQvSvIF4scpcLnd9UtfbbbLZNvPtGZs1ksWKapLTdglpDgPrpKYknbmQeu+A+pcuFFuA8/RFmD0RHREdER0RHREdER0RHRFSoxGxO23Z27hWfUdbsk2LE2QcMZ0yVi6zRJCi8qN+rlIyBNRqNXyDTnxjQdyqUqzaIOmzWTQM5YA5bzFdkYeZRZySJFYqdnrxKuqfcgZV3EeaXFc1e3Bci3jSY6sU8CGN8syYlKkLvCtzm1ESryT9fyKFxfaHSV1ZHcgzgXl6asncyQiZZAQH4H8uQ+BDkAHgQH3AeBAeBABDkOQ6IoPO6YoaV3h7HlOpflLmRzvffr3FqnA5io4MoOtGSR2IOoCX9Imm6r8/V49FU5ithkHDVFcT+qVM5FOCmAgmQB5AQIUBAR5EBAoc8j+I8/I/n0RbgAA+A49xH2+ORHkR4+ORH3H+IiPyI9ESWnjStWCXzT3XTbOFi0153X3L73HVreoJGBVHHebosgN3kgoRMxTtIzIVLrDFn6p0yourYsCfmUcm5Iq1QwcCP8w/t/l/8+OiLcQBMYAD8/wDz+H8A/t4/XnoithfCQ4dksXdnmi2mTZHZqZ4zdmjLrP1kxTWXiEZeKxZFOeB+UXSWM1nbc4hydu4SOA+UwB0RT9TOr2tdil5SwT+vuEJudm37qUmZmXxJj2TlpaTeqmcPZGTkn1ccPX752uc67p47XWcOFjmUVUOcwiJEmv4yzC+HsYaY6nv8b4oxnj9+/wBopNk/kKRQalU371kXENuclZu3lfh45y4aA4Imv9MqodEyySKpiGUQRMQigp8JFRqTkPuuuq7f6dVLzAH1czS8GEuVbhbTEfWNpnHAN3hY2eYyDIrtAqipEXJUAXTTVWSKcEllSHInFO7h3Qu0r2m14/Hlw1Zw9nPZGfhELBFYGx5iXEEe4g4N8ZQIudyhdJKqOougRE0Ddz9jtCRlitkqkVN+0q4wypZUCJcWW8avtbHHaReKdItWKHSYpu2joOrTVjyVYVIeFYolbsItk4r0jj2IbN2bJJFs1TYVxqzQSTImg1ImBEykWXuqvjYYiYuUPXNytQEqdUJN6zayWTcA3aSsy9aI5VKipJPcX3Zig/mIpoCgO332Jezy6bNBcY2Il3QoM1iJzKV3JwcfFOPswUK1sMo1HLdVi7rjGQpjtF0ytlUmWqLyOsJHy4JkjIpVNciShnyJJBF4VwxNHC8ZPUG0MdX+uXEejtKtLaaxp7eiOZcvj+dITXLARy9c7loxX9VChErOJrBWmQxYkhUr2ZBP6pI6e9MOQdRLJ2zXDSzKc4wva1tpvXCSbeUa4BDb2W7bw7EcI3jAcJQkcwWILzxme78XFRcxo2h1hm2E/BE5CUlH6wF5H7plkDRqQn4APcEAIA8/HsA04u/Ojlszylm8G45WrO/9B3tDTun8Xf8Aq7mA+eN37f8ATxAzd/yzOysVW+L2BEbRuco2DnaLeU6tOjVE8n7d3YZfuE8e/f8ADkeTN++3/wB71Rd74x+/bsb/AFA0I0XUKmadr71aUbtPN931XkUugV59MQRA6qjJ28cFTAwps1TB5R3fhPzfzLt8FHnfFXxap5xhLbxLhtAFbyft7bOXZDG49aDu0ikqWbZ4QaTjqGf8PrPJvjJdrVS2uLbraRxQlNszUrjplOzf28AXgFlX90m/rCFkFcUpf9WIM/dsQe7T37NRe1BAU+LtzaYzjnXJlYTumOsJY5lYpm7dU1wso3j71ebhIFeRtGpEy6bO4+BkQjLBO2N60fhAVx+ziZl/G3upXKujTq6FGwG3SvVg26duuSJq9mrZHE1ewAsHeBAmFOBBki7xnCUZN+HVWrVWxSs2KdsJa1uoctazXNCQzV7ACSEYBhyZpDKIsJDJCTM8ZxeL/lkp3Z/G2bgu5VVek6aaz16CMsJ0o22W/Kdwl024iYxUlJmMlqOzVVAnl5XSgUkjD7lQL5gKHpXwWeuj/jQ8WZDv1fx/vLrcOC4KfftI5TN2I7VK36nVlV2cqP2lccezcShcY6stBEV5CWq87c5Nm3/pE608IRVUpE79X7FA2uBhLTWJmLsVassRGz9esEG/ay0JOwUyzRkYiZh5RiquykoqUj3Ld9Hv2ayrV40XRcIKHSUKYSKsB8XvoZJa+7/Re3NYhFEsWblVprKyz9qgp9nROcscxMXWbzELiQVEWa1mqyFQvLUy6iKsvIvbao2SOMY8OQiUlTVOicDEMYhimKYpiiJRKJR5KYDFEBKYg+5TFHzEMHKYkMAD0RNR9qHxT+3ujwVzEe0v27uBrRHlbRjROxTgfv8AMaw6CZWrVKi5EmVFU7jDRSPJm1JySs7KKLdpE1+6VGPT9PoinvJ39u1vmDvL4J2Su2wT6ta84p0CsVIxBY7Pja/Fb1jZPYLJMfJZWjrq3j6/Jv6ZI1rGVKrlNdyRGslWHj2Sema2ZzFpNHrwiYCP3zu0KnXVbQbuIasjHIhydsTJkepPj/RmV4TqaaJ7WsYSFEAKjCHMKnCIB6ogQSKUKtWWAuNegrbVZhhP1mzw0VYq/ORblN3GzEFOMG8rDyrBykIprspKNdtnrNcgiRZsukqQRKcBEiwt7nOrjPdHQHbLWhdmD6Ryfha4MqgmKZFQb5Fr7L9rsaPwKcPczC/1+uOfuiUwkIcgCHm5Aio/XaCzddVFyiog4SUOk4RWTOksiuQwlWRVSU4OmoiqU6SiZylOmchiHABDgCL1zXvBuQdl83YqwBimHWncjZivtZx5UI1FNQ5TzVnlEI1u6eqJFUFpFRRFVpeZfqlK3jomPfPnSiTduooUivFdVtfKdqhrdg3WygED9kcH4tpeM4Z0KQJLSqVTg2kY6nnpQUVAZGxSKLyekj+cRUfyTk4j5jCIkXv3RElZ42b/AIJ9RP8Aurlf/Tdw6IoB/B5cf63VfzAIh/oqZv5APkQ+2sa8gHuHuIe3yH6h0RSo7xeE2333L282Q2ksO3+tX12b8vXa+xkdMx2X3T+Dq8lLLt6LVnSyFVdJFSqlNaQFZbptzrs2rWKK3ZCq0RTAxEx5rZqz2he2lrHj/BF/kNEKpJ0qhwjDLN+yzJ4MbWXJd2bw7ct2udtmMiuD2SUNPzhJJ8xjZBUzSFiVWcFFMGEbHtmKJFWd98ad0Zs3cnz1YO3h+xn+jpK/se8ajjKJWg8WGyIarxxMlK4zjDs49s3p69qTdLtRhmTWsKyikqtUUxrJ4s5yJvnskS83MdqbT5SafyT/AOzmGbYKONIqFUTaREVsBkg0dHRh+R8ka0au0zJp8eZJ04eEEAAAL1x/+W8NOPXPlMr8DxqEy+LSxZljJhzzGw68CvUef9ZAjsw14z9faLWWMz/6PJdBfj0Si/TjOHTkH7Y7eq+pEPi5I3p6NpwysRizP73zoUfHzd3+vCuzP4doszDrXmHX+v0ZhVbfGxFbsyKr37Tl5mCTkGlhO4eLKoOzzKbN6dHyNFEWpmkgDZFuDfytzHSHnqbfjp1a6EYXCqHF+VZ+Vx/kgSXG09bWxIX6u9M9opQWZ60KlyYWhVmGq9W81cIPT2BIg37qOusPAOqepyW1t4Fq/r4pIVmpUM/TnUNlRFXHAoI58rFeJPI8SGY1VzkJ7P8AZoTi7LsV81jxzmixHtOJr9S4Jm6jUwkYmutGcu0PJkWXE0km2i5VqSNFwidum5blaEAyyBnIh6rhXnYua/G/p71f5G3J+l3OuIYtE9EP8lk4FSprVSaEDGcmiOtmalSGdKwCYBnrtXHFzglYdmKYjvieMdZuXdPMj+E5zxfkWlZFbJ9S9q2D5540pwH2qTNdo2J3HERiyCeR5uwjMFv6Ch2q2PEZVHI9E7vO0NWyItNPG0KniRjj13Jpu0413i9th+kt6grWUXJ1EEITlCVbmbsFl2bedRnWxllHqbs5rYdK+Em6c8B47wuxrPuFwq9sM9R65Kv2ntaV3QbxrltXJhEGNuNcQ/sEjEYYsPwH4jhX3mfIocs5NrcihQhmNqFCedIZIFiM0atcNgjkgCvEhLJxEtGJ6YSmU05TZ5vKTsedhnut9iHGOl2L9aNlcd4i1/z7XY6Vi8o3PL+DI27VjNs+9mHzs91c5cQqdwWBOSinkezXgMgmrrat/RHg4MHkExZOVJBWrrte13hsdI+6NsXZtlO2PvPqXizFNwrtfkbLiHCdehcsVuDvaB3rWwWOBise5OhWFDhbE3LDOFaklX49rHzaMs+bpt0pL6VAiaF7dWmWyWjWluB9TZrYelZZc4Sr05VWN6cY6mIs8nXl7nZZyqRqce9tks4aNatWJaIqbJEX66ZWcGgLcqDcUm6RF3nugdvXF/c407yVq1kk6UO9nUUbLi6/AzB8+xfluuouz0u8sW3nTM6atV3buGs8Wks2VnqbNWGETdtFn6LpAipn9sdUs46VZ6yFrdsTSntFyjjeYUi5iNXKorGSjNTlaGtNWlDJJJWCnWiOFGXrE+1L9PJxjhI/lSdJOWyRFjhyIfw/z/8APf8ATgeiLd6huQEB4EA4AQ59gDngA9/bjkeA+Pfoi3AsfzAPmEB+PMAjzxz7h7iPsP4gICA/Ah79EVh14QPuO5+2Gc7BaMZ1y/abrB4nwPjKwa2oySkOSRxnj+iSzvHNmrdekCxZXT1mxRtOOlIlKdPNHZN4f6cggyKoibyX6s7tK3THbt0J2a5QQvUZiHdqTJB4Rs1ZnEcEbAJOxBe4BgvOLMURBvKEvRUPGtar2J1wWoAMMsq1qM51rEYSaThPERBFcJWZ4E9ZRkaLu8Jwn2kzldAutsqlsWxLlt/9qTDw7ySx5eRbIsml6iUTC4Vi3CTciTZnaIcoh67IhQ9dqACUFATbupKCOBcy5VxflRelnVS+2hrXJ273AeavXDUqc0yYTkQ2bZgCAq1TkmVB+5qcIxc1bt4sTwr29GU+V8cwtzChzrgtV6mfXjXrcr4yxiWLHGr0mYY7gZllM1jGvyb/ADsy7+s3/Tx8igqU1XdrxVVMK9zfe/F1EIKNRqW02YmleZCVJMkXGPbfIzSUOkCRE0ytoQ0mpFIHApOGzNIwgUeQ6sEokTtvhSOyXYMAQaHcp2mpriCyxkOruI3V2g2Fkqzm8e41tDIUZ3Lc7Hu0yOYu25Mh1vsanMjpt3cNjh1KSTsyyt7QbQ5E7t0RHRElZ42b/gn1E/7q5X/03cOiJf3wf7xrHd2mSkHzgjRkx1Lzu8dulOfTbNW0rjhdwucAAREiKKZ1TgACPlKPAD0RYdd0vvbbs9z7Yu3RFYylkih66yNzd1DCGueOLPM1itu6urMqQ9ScXVjAPI5TImQLSmq2kJiVs6si2aScstEVxnDQLVoySIp8taPBO3mx1GCs+2+58fQrjLMWMhYMaYbxk1vilfeO0iuXsO8yfbLTDx0lMMDKmZyLuKpz2HGRScGj5OWZEReuiJbPvh6IYX7bm+1l1MwXZbvb6nRcW4hmJWwZElYeVtclbrnUUbLPOXwQMJX4qMbrfXs1ouHaRwFj41VsRR0+XOq8XIn0/DlUzEsj2StVKlnZzH1OZ+3s82qtp2GU/ZOzsq7as03STiLBDlkRQWUr9ljhQk452ds6hJtqZB+1+qBMqxK8dVxfHznvtweoPKOIB1sQp6kbEeTZubyHCsSaE7NZitYcgX7eMj0LwTV/NoSLW9rRlGWen5+qvGJz1uG4u6eloRB9kUcW3eytKMIknW9sGF4zlCBpkCUBRWICO8oEYR/9JfZ3RBq9bJyWP8jkctHaJHLBGwxxHDdy2cJlWbKlm4ZUPURWSOQ5ViRRinTEpwASmAOq7bnwgqXaw9DgvUGB61oMLNAW7QgcB6xxxLXNDXyCdpiKOcZwLDKlGUJNOPfy7qZMz5OHrmlT5TxJxnASQbRMu3IRhGFKQzDfP0YO8CDm0ouOV9njJni7t2dYb3rHWQMJ2hnHzhVIaXMkEhCTUDJKAk8SKqKQuYyRZ/TOiKIrl8iiKwN3iJvSMdApFU1D1E5xwDnvRjktWnte3I03F9/J2MXQJ6bQRkccrOfo1pAsDIIsXGUZIVrQZeEiBaBRSnYPjHLOK9SMY9nN8L9L2fVv52lTh7AklD2RBcpnYwZQIKTTgQcigKzSaBfOE4Rw93EJ2MO5jjlChdyLaTVyobDYLmbPjlhkyH2QxrjPYShJxT1cktATLhaRcJrkiJkswxmKVfa3PQsbYG0lKpxEbMyLh656mfG7mnNOa9OKd3nOZqVdWoYdenr6eeeh/wCoxLFCnoZW9XkQQhXYHr2vQS9Wi4bcgNZeXuMRlRXrHx/jXHuZ2a/FbVIufYD77FGlcDbhjaY7Nmpfy5MMxS13GWux41j+BK8bHpjBhii0Yi86+CmfS0OS4aYb2161xMzGpS1Wr+dcfqsGclGv26T6Hclyli1/MtXbaQYqoLIvksZoN1k103BCEIf2n9RSlOdsdQ94O0FtHF0DK4WTBeb4CMjcgY5yRiq+Om6M7XHsg/Yxl4x1kOpPI2ROxPKREiwWIr9lTMZIsF2MzEMnBARMRNWaneMstWPNdsW0bZrDrjM2cKrAuYS85TYyAVkLyqwmZNGAn5CGjGB45vPO6qWDCyuGJW7SSsJJSTbso9J4Ri3IrDzoiiD7uHZn1i7t+J2dcyiirjzN9JYPUMPbEVaKZvblRzOjqOT16fj11WaN8xs+fnF1K0mTfsjorKu5GrTVZm3K0isRVdPcf7Lm+HbHtEkjnnFEhP4l+vVQrGxGNWsna8MWNoK5kWIvbEgyTd0Scd8cDVcgMq5NCokudgWVjyIyK5FE6KYgHIf7vIhz+Ht/+g+6PwIcgIh7frwRbOB/If5dETH3hTsvGxb3m8CQargW0fmqhZpw/JGAwlBT6/HsnfIVEfcpBFWyY/hiEKYf98eEwMqKZTEVsjbKjCXSLJHTCAmFs6bScTIoCCUnBzDI/qx81EO/KY7ORYq8HTUADJLJio0dpOGa67dTWOWcRxeZ5kczZBN/r262ll6FUn19TE2KJGNn7OPdizkpaVE0YkCaLSGSPnWtCsVDHATN4PINLjl2VzOLFmNXNSvUzRctHTzrUHHbzdGv5RjZpWhO8CDd4zHLxPXIGwMRYLMa/eG6xXK9ynZ7uQ7uSFZzJI3zZrJWV8Aa+MGqkhjaswr62un9Ku2X1JVoiN3uf0SbGQaY+QbnodZdlFeXe3R0s3ZQOw1oGHXrjsnazYGEUD2YiYEbBowjEp2BGU4hYs2kRhRnNhtLwaUmbu+Fk7O7vFvFnd3aPd37M7u7N3f99m/Hf8d+3dNH/HX2X4joiOiJLPxrzV070q1ETatnDlQdqpQfI3QWXPx+5y4Bz5ESHNxzz78fgI/gPBEv74RGtHfd2CYiZyMfEjZbUXPca9Iu0cNwWaP5LHTN0kQzhEhRMdBY5OODAAnLyHuAdEUQXcZ7euy3ar2ys+Lsk1iy1yOrt4fTuCMvoMHadUyXTY2bNJ0e702zeieIcyiLFOMXnYJN2pMVOwN3cRMs0VmwGWImH6X4z7ftzj+FoZtU9db5mleLaQDO+ND5MTbWSxC3TZoTLrE9blxB3LyboAevoivWGLi3L9ZZOMjo1iZJiiRLj9xfGu/hc/pZ37gFFv8AXc87dVZvscAXWACFskhUp+bmqjArPKgwblNQW0aSnHhYKgyDOKkatWI6BaKw0a0VYJKHbuzs/wCn/Dp+v0nguwrB2vLHaGwdbohZ/an2Gr1mLDVyiEWK607V2cVe3l4qabhuUhnbmORrd+aGRUBoQY6NM0bHFRBsZRLml8reg/Jocs0+pfFs2zt42/GrY36ebWexdxNWnRr0DXZ0gxlYNmaVanXslthid6t0dv7jBCauSdx+gXVHJHmQ4XuWK+bZq+T5N23YcYdOBSledUhjPENe1WE9etVE0oQshhFhtGwObHnjxtuLf8fVxlUn8PD2ljCtyMYteSXex8qyZty+mgwXXQE6btsxTKVFqCrZNykgQEVXBykT8uj9PPlxzvgXHqXFtDHy+S0scEaOYfQNbo6VOoCLDr0TnryJCyCpCMA12LVHYGKDBmecYQ8Ny5f8f+Lcq17O7U0b+LZ0SytXR1BV7dGxYLJ5ksjETtMJrEpOQ7jNMEySkSI4O8vLzDIF9yLshcWJhhjSEgk2GMhK9V2LtwkwarKidU3JjrqmUWVH1nki9WImT0yCAINUClLHHOed9QvkHzDPM+NK/eAGOfjcf47Rs2A0qxDe0sn7ysGmQ5HYl29bNAMYDbu4K4YwhufFuL8R6R8ftQ/kmqVSFe5o62zaCAtk4xvCDM8YhG0Rj7jq1aw5Td5yb/UxZSdL/wAQ92HdpcD5yue7uFcbT2XMF5tN+8fMSOOIF5ZJvBWXJshHGRSWuDiRkZd3j61zx31vicgsWpoSJkZeYq9gThCsq9J2TrB0c43yPh/THhnGOV2K9ncxMYVCz9aXsHWrhIRs3Oc7O8LJcvNepnHsi7hsGqzKGUxyiSfP3m+nl7PLN7TxAzDl3NE5ajF8vaaDu0XtkafYg53ZRlbIKfeQyHlH+vbxbqmjXi1d6NPcA0rXW94nxJsjCYrrrGmY+uV7lrhUMjxlXgmaEXXa7a5aAeuo63NazGtGsRGvncFFWRZg1STmpiTdkF4aTFqqi52v2d7gXfx3OibebFUnlPLLuCi8d40w9gSmTjus4+obSYk5NrGt/qXky4YRwS05Kztrvd6sCbcHDp0+kZOJgY9kwjyJ5DSjwoGqFQ1Zw1B7cpyNl2RTrTqSy3IUmTjDVVnZZ+dl7AWtwzl5HOFpJvT4uUj6kpMlUBvNuYRaXZpN2j1BBIibv6Ijoi42Yi4yai5CJmY5hLRUkzXYyUZJtG7+OkWLlI6Lhk/Yu01Wr1m4SUUTWauUlUFSHMU6ZgEQ6Ilce8f2V+1qnhO250g9NMYUbJxReuhm8XPLpiaLVdKJgso5c07GdpqdKdOFVjmVVWc11VRVQwnUMYw89EVYtnypV+l5Ll4CtMBjolsr5UGgvHz0SB9QdPj6iQdO3RvuFAOTrmH2Afn36InGPDL6R6xXPYjGGbrJjVWQyhi+VSuFFs5Lzkdh9h2JnHuk278YWNt7OvShSpOV0jsZmJkI5ZJU6a7RQhhL0RWOAABQAoBwBQAAD8gAOAD39/j8+iLXoiOiI6Ijoi/E+YsnyZCPmbR6RM/nIR22RckIcSmIJyFWIcpTCUxiiYoAPlES88CIdEX52cTFMlvWZxcc0W8hies1YtW6vkOJRMT1EUiH8phKUTF54MJS8gPAcEXB3miUfIsA4rGQqZVL5WniqZndduldh7TAujkBQpDuIedZv45Y5SqHKU6jYxgKcxQHgRDoi8zx1rNrdiSXLM4o17wbjGYU84HlseYloFKkzAYnlNzIVqvxjv3L90f6b3L7D7dEXtT2Ki3pkzvY1g8OQpiEO7ZtnJyEE3nMUpl0zmKUx/vmABABN94eR9+iL7MmLFimcjFm0ZEUP5zkaNkWxTnAhSAcxUCEAxwIAFAwgJgKAF54AA6IuFkalVJVcziUrFdklxMIivIQkY8WEeR9xVctVDiPuPuJufcfz6169xTi2oeZ9PjXH9E7uzua/jZ1sru/57uSxWJN37/nu8nfusxW3tyiKIqO1rUxdnb11dG5XGzN+GZoCNCLN2/HZm/S5SMiYqJSMhFRkfGIDxyjHMmzJIeOQDlNskkQePw5KPH4dZDOyszLFIGZm0M0Pl29NCnXpidm/XcdYY4P27v27s/7XjuXr14kS3rlu6XxZ/ZbsGskbv8AvtM05ybv2b9OuSEAH55/UBEB+QH5AQHgRAOQ54H4HkOsivGsa7jqPqjkSXXnsgaw673qcWWUUWmbjhPGlnlllDCImUVkZusPniihhERMc6xjGERERHnoi9Vx/jTG+MotaDxtj6j48hTHIY8PRanAVCKOYhTlIKkfXo+OaKCQpzgQTom8vmHy8c9EXoHRF//Z"
-                                    doc.addImage(imageData, "jpg", 170, 6, 40, 17);
-                                    doc.setFont('Roboto-Regular');
-                                    doc.setTextColor(0,0,0);
-                                    doc.setFontSize(12);
-                                    var reportTitle = "Cuando el Manual de instalación y configuración correspondiente se lo indique, complete los siguientes datos:";
-                                    var splitTitle = doc.splitTextToSize(reportTitle, 170);
-                                    doc.text(splitTitle, 15, 70);
-
-                                    var imageBG = "data:image/jpeg;base64,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"
-                                    doc.addImage(imageBG, "jpg", 0, 100, 100, 150);  
+                                    //doc.setLineWidth(0.1);
+                                    //doc.setDrawColor(199, 199, 199);
+                                    //doc.line(5, 30, 180, 30);
+                                    //doc.setFont('Roboto-Bold');
+                                    //doc.setTextColor(0,0,0);
+                                    //doc.setFontSize(25);
+                                    //doc.text(48, 45, "HOJA DE DATOS DE ACCESO");
+                                    //doc.setFont('Roboto-Thin');
+                                    //doc.setTextColor(0,0,0);
+                                    //doc.setFontSize(16);
+                                    //doc.text("PARA CONFIGURAR LOS PROGRAMAS DE VISUALIZACIÓN", 33, 52);
+                                    //var imageData =""
+                                    //doc.addImage(imageData, "jpg", 170, 6, 40, 17);
+                                    //doc.setFont('Roboto-Regular');
+                                    //doc.setTextColor(0,0,0);
+                                    //doc.setFontSize(12);
+                                    //var reportTitle = "Cuando el Manual de instalación y configuración correspondiente se lo indique, complete los siguientes datos:";
+                                    //var splitTitle = doc.splitTextToSize(reportTitle, 170);
+                                    //doc.text(splitTitle, 15, 70);
+                                    doc.addImage(BSS.imageBG_Default, "png", 0, 0, 0, 0);  
                                     /********************************************/
-                                    doc.setFont('Roboto-Bold');
-                                    doc.setTextColor(0,0,0);
-                                    doc.setFontSize(18);
+                                    //doc.setFont('Roboto-Bold');
+                                    //doc.setTextColor(0,0,0);
+                                    //doc.setFontSize(18);
                                     //FIELD1
-                                    doc.setFillColor(243,184,53);
-                                    doc.rect(15, 90, 65, 10, 'F');  
-                                    doc.text(18, 97, "DATO 1 o Nickname:");
+                                    //doc.setFillColor(243,184,53);
+                                    //doc.rect(15, 90, 65, 10, 'F');  
+                                    //doc.text(18, 97, "DATO 1 o Nickname:");
                                     // /FIELD1
                                     //FIELD2
-                                    doc.setFillColor(243,184,53);
-                                    doc.rect(15, 110, 65, 10, 'F');
-                                    doc.text(18, 117, "DATO 2 o Address:");
+                                    //doc.setFillColor(243,184,53);
+                                    //doc.rect(15, 110, 65, 10, 'F');
+                                    //doc.text(18, 117, "DATO 2 o Address:");
                                     // /FIELD2
                                     //FIELD3
-                                    doc.setFillColor(243,184,53);
-                                    doc.rect(15, 130, 65, 10, 'F');
-                                    doc.text(18, 137, "DATO 3 o Port:");
+                                    //doc.setFillColor(243,184,53);
+                                    //doc.rect(15, 130, 65, 10, 'F');
+                                    //doc.text(18, 137, "DATO 3 o Port:");
                                     // /FIELD3
                                     //FIELD4
-                                    doc.setFillColor(243,184,53);
-                                    doc.rect(15, 150, 65, 10, 'F');
-                                    doc.text(18, 157, "DATO 4 o Username:");
+                                    //doc.setFillColor(243,184,53);
+                                    //doc.rect(15, 150, 65, 10, 'F');
+                                    //doc.text(18, 157, "DATO 4 o Username:");
                                     // /FIELD4
                                     //FIELD5
-                                    doc.setFillColor(243,184,53);
-                                    doc.rect(15, 170, 65, 10, 'F');
-                                    doc.text(18, 177, "DATO 5 o Password:");
+                                    //doc.setFillColor(243,184,53);
+                                    //doc.rect(15, 170, 65, 10, 'F');
+                                    //doc.text(18, 177, "DATO 5 o Password:");
                                     // /FIELD5
                                     //FIELD6
-                                    doc.setFillColor(243,184,53);
-                                    doc.rect(15, 190, 65, 10, 'F');
-                                    doc.text(18, 197, "CODIGO QR:");
+                                    //doc.setFillColor(243,184,53);
+                                    //doc.rect(15, 190, 65, 10, 'F');
+                                    //doc.text(18, 197, "CODIGO QR:");
                                     // /FIELD6
                                     /********************************************/
                                     doc.setFont('Roboto-Regular');
                                     doc.setTextColor(0,0,0);
                                     doc.setFontSize(16);
                                     //VALUE1
-                                    doc.text(90, 97, clientAddr1);
+                                    doc.text(90, 89, clientAddr1);
                                     // /VALUE1
                                     //VALUE2
-                                    doc.text(90, 117, clientAddr2);
+                                    doc.text(90, 107, clientAddr2);
                                     // /VALUE2
                                     //VALUE3
-                                    doc.text(90, 137, connectionPort);
+                                    doc.text(90, 125, connectionPort);
                                     // /VALUE3
                                     //VALUE4
-                                    doc.text(90, 157, username);
+                                    doc.text(90, 142, username);
                                     // /VALUE4
                                     //VALUE5
-                                    doc.text(90, 177, password);
+                                    doc.text(90, 160, password);
                                     // /VALUE5
                                     //VALUE6
-                                    doc.setFillColor(243,184,53);
-                                    doc.rect(88, 190,54, 54, 'F');
-                                    var imageQR = imageData64;
-                                    doc.addImage(imageQR, "png", 90, 192, 50, 50);
-                                    // /VALUE6
-                                    doc.setLineWidth(0.1);
-                                    doc.setDrawColor(199, 199, 199);
-                                    doc.line(5, 260, 180, 260);
-                                    var imageData2 ="data:image/jpeg;base64,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"
-                                    doc.addImage(imageData2, "jpg", 6, 267, 12, 5);
-                                    doc.setLineWidth(0.1);
-                                    doc.setDrawColor(233,184,53);
-                                    doc.setFont('Roboto-Thin');
+                                    //doc.setFillColor(243,184,53);
+                                    //doc.rect(88, 190,54, 54, 'F');
+                                    //var imageQR = imageData64;
+                                    doc.addImage(BSS.imageQR_Default, "png", 138, 183, 50, 50);
+                                    doc.setFont('Roboto-Regular');
                                     doc.setTextColor(0,0,0);
-                                    doc.setFontSize(8);  
-                                    doc.line(22, 262, 22, 274);
-                                    doc.text(24, 265, "Carlos Calvo 3430 (C1230ABH)");
-                                    doc.text(24, 269, "Ciudad Autónoma de Buenos Aires /Tel: +5411 5031-1207");
-                                    doc.text(24, 273, "info@seguridadtass.com.ar / www.seguridadtass.com.ar");
+                                    doc.setFontSize(13);
+                                    //VALUE1
+                                    doc.text(7, 190, "PARA VISUALIZAR TUS CÁMARAS escaneá el código QR y");
+                                    doc.setFontSize(12);
+                                    // /VALUE1
+                                    //VALUE2
+                                    doc.text(7, 199, "descargá de nuestra web el instructivo PDF "+appSelected);
+                                    // /VALUE2
+                                    //VALUE3
+                                    doc.text(7, 208, "para aprender cómo configurar la app.");
+                                    // /VALUE3
+                                    //VALUE4
+                                    doc.text(7, 217, "También tendrás información de las consultas más habituales.");
+                                    // /VALUE4
+                                    doc.setTextColor(0,120,157);
+                                    //VALUE5
+                                    doc.text(7, 226,"https://bss.com.ar/camaras-de-seguridad");
+                                    
+                                    doc.setTextColor(0,0,0);
+                                    doc.text(7, 235, "Ante cualquier duda escribinos por Whatsapp o Instagram.");
+                                    // /VALUE6
+                                    //doc.setLineWidth(0.1);
+                                    //doc.setDrawColor(199, 199, 199);
+                                    //doc.line(5, 260, 180, 260);
+                                    var imageData2 =""
+                                    //doc.addImage(imageData2, "jpg", 6, 267, 12, 5);
+                                    //doc.setLineWidth(0.1);
+                                    //doc.setDrawColor(233,184,53);
+                                    //doc.setFont('Roboto-Thin');
+                                    //doc.setTextColor(0,0,0);
+                                    //doc.setFontSize(8);  
+                                    //doc.line(22, 262, 22, 274);
+                                    //doc.text(24, 265, "Carlos Calvo 3430 (C1230ABH)");
+                                    //doc.text(24, 269, "Ciudad Autónoma de Buenos Aires /Tel: +5411 5031-1207");
+                                    //doc.text(24, 273, "info@seguridadtass.com.ar / www.seguridadtass.com.ar");
                                     //doc.addPage();
                                     //doc.addPage();
                                     //doc.addPage();
                                     //doc.addPage();
                                     var pageCount = doc.internal.getNumberOfPages(); //Total Page Number
-                                    for(i = 0; i < pageCount; i++) { 
-                                        doc.setPage(i); 
-                                        let pageCurrent = doc.internal.getCurrentPageInfo().pageNumber; //Current Page
-                                        doc.setFont('Roboto-Bold');
-                                        doc.setTextColor(243,184,53);
-                                        doc.setFontSize(20);
-                                        doc.text('| '+pageCurrent, 170, 270);
-                                    }
+                                    //for(i = 0; i < pageCount; i++) { 
+                                    //    doc.setPage(i); 
+                                    //    let pageCurrent = doc.internal.getCurrentPageInfo().pageNumber; //Current Page
+                                    //    doc.setFont('Roboto-Bold');
+                                    //    doc.setTextColor(243,184,53);
+                                    //    doc.setFontSize(20);
+                                    //    doc.text('| '+pageCurrent, 170, 270);
+                                    //}
                                     return doc.output('bloburl');
                                     //doc.save("TASS.pdf");
                                 }

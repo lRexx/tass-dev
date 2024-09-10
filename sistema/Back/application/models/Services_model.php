@@ -33,6 +33,7 @@ class Services_model extends CI_Model {
                 "macAddress"             => $item['macAddress'],
                 "numberLine"             => $item['numberLine'],
                 "numberChip"             => $item['numberChip'],
+                //'addressVpn'             => $item['addressVpn'],
                 //'nroSerieInternal'       => $item['nroSerieInternal'],
                 //'nroSerieManufacturer'   => $item['nroSerieManufacturer'],
             ]
@@ -67,25 +68,29 @@ class Services_model extends CI_Model {
 
         $this->db->set(
             [
-                'idTypeInternetFk'       => $item['idTypeInternetFk'],
-                'idTypeMaintenanceFk'    => $item['idTypeMaintenanceFk'],
-                'idServiceFk'            => $item['idServiceFk'],
-                'idServiceAsociateFk'    => json_encode($item['idServiceAsociateFk']),
-                'idRouterInternetFk'     => $item['idRouterInternetFk'],
-                'userAdmin'              => $item['userAdmin'],
-                'idContracAssociated_SE' => $item['idContracAssociated_SE'],
-                'idInternetCompanyFk'    => $item['idInternetCompanyFk'],
-                'idModemInternetFk'      => $item['idModemInternetFk'],
-                'dateDown'               => $item['dateDown'],
-                'dateUp'                 => $item['dateUp'],
-                'isDown'                 => $item['isDown'],
-                'port'                   => $item['port'],
-                'passAdmin'              => $item['passAdmin'],
-                "userWifi"               => $item['userWifi'],
-                "passWifi"               => $item['passWifi'],
-                "macAddress"             => $item['macAddress'],
-                "numberLine"             => $item['numberLine'],
-                "numberChip"             => $item['numberChip'],
+                'idTypeInternetFk'                  => $item['idTypeInternetFk'],
+                'idTypeMaintenanceFk'               => $item['idTypeMaintenanceFk'],
+                'idServiceFk'                       => $item['idServiceFk'],
+                'idServiceAsociateFk'               => json_encode($item['idServiceAsociateFk']),
+                'idRouterInternetFk'                => $item['idRouterInternetFk'],
+                'userAdmin'                         => $item['userAdmin'],
+                'idContracAssociated_SE'            => $item['idContracAssociated_SE'],
+                'idInternetCompanyFk'               => $item['idInternetCompanyFk'],
+                'idModemInternetFk'                 => $item['idModemInternetFk'],
+                'dateDown'                          => $item['dateDown'],
+                'dateUp'                            => $item['dateUp'],
+                'isDown'                            => $item['isDown'],
+                'port'                              => $item['port'],
+                'passAdmin'                         => $item['passAdmin'],
+                "userWifi"                          => $item['userWifi'],
+                "passWifi"                          => $item['passWifi'],
+                "macAddress"                        => $item['macAddress'],
+                "numberLine"                        => $item['numberLine'],
+                "numberChip"                        => $item['numberChip'],
+                //'addressVpn'                      => $item['addressVpn'],
+                'terminationReason'                 => @$item['terminationReason'],
+                'terminationApprovedByIdUserKf'     => @$item['terminationApprovedByIdUserKf'],
+                'idReasonTypeKf'                    => @$item['reasonType'],
             ]
         )->where("idClientServicesInternet", $item['idClientServicesInternet'])->update("tb_client_services_internet");
 
@@ -167,40 +172,41 @@ class Services_model extends CI_Model {
         $idClientServicesFk = $this->insertService($item, 'tb_client_services_access_control', 'idClientServicesAccessControl'); // CREAMOS EL SERVICIO
 
         $this->db->insert('tb_client_services_access_control', [
-                'idClientServicesFk'     => $idClientServicesFk,
-                'idDoorFk'               => $item['idDoorFk'],
-                'idContracAssociated_SE' => $item['idContracAssociated_SE'],
-                'dateUp'                 => $item['dateUp'],
-                'dateDown'               => $item['dateDown'],
-                'idAccessControlFk'      => $item['idAccessControlFk'],
-                'idInputReaderFk'        => $item['idInputReaderFk'],
-                'locationGabinet'        => $item['locationGabinet'],
-                'idFontFk'               => $item['idFontFk'],
-                'aclaration'             => $item['aclaration'],
-                'idTypeMaintenanceFk'    => $item['idTypeMaintenanceFk'],
-                'lock'                   => $item['lock'],
-                'ouputReader'            => $item['ouputReader'],
-                'ouputButom'             => $item['ouputButom'],
-                'isOuputReader'          => $item['isOuputReader'],
-                'isOuputButom'           => $item['isOuputButom'],
-                'isBlocklingScrew'       => $item['isBlocklingScrew'],
-                'idEmergencyButtonFk'    => $item['idEmergencyButtonFk'],
-                'idShutdownKeyFk'        => $item['idShutdownKeyFk'],
-                'acaration2'             => $item['acaration2'],
+                'idClientServicesFk'      => $idClientServicesFk,
+                'idDoorFk'                => $item['idDoorFk'],
+                'idContracAssociated_SE'  => $item['idContracAssociated_SE'],
+                'dateUp'                  => $item['dateUp'],
+                'dateDown'                => $item['dateDown'],
+                'idAccessControlFk'       => $item['idAccessControlFk'],
+                'idInputReaderFk'         => $item['idInputReaderFk'],
+                'locationGabinet'         => $item['locationGabinet'],
+                'idFontFk'                => $item['idFontFk'],
+                'aclaration'              => $item['aclaration'],
+                'idTypeMaintenanceFk'     => $item['idTypeMaintenanceFk'],
+                'lock'                    => $item['lock'],
+                'ouputReader'             => $item['ouputReader'],
+                'ouputButom'              => $item['ouputButom'],
+                'isOuputReader'           => $item['isOuputReader'],
+                'isOuputButom'            => $item['isOuputButom'],
+                'isBlocklingScrew'        => $item['isBlocklingScrew'],
+                'idEmergencyButtonFk'     => $item['idEmergencyButtonFk'],
+                'idShutdownKeyFk'         => $item['idShutdownKeyFk'],
+                'acaration2'              => $item['acaration2'],
                 //'address'                => $item['address'],
                 //'addressLat'             => $item['addressLat'],
                 //'addressLon'             => $item['addressLon'],
-                'portNumberRouter'       => $item['portNumberRouter'],
-                'addressClient'          => $item['addressClient'],
-                'addressVpn'             => $item['addressVpn'],
+                'portNumberRouter'        => $item['portNumberRouter'],
+                'addressClient'           => $item['addressClient'],
+                'addressVpn'              => $item['addressVpn'],
+                'portVpn'                 => $item['portVpn'],
                 //'addressClientLat'       => $item['addressClientLat'],
                 //'addressClientLon'       => $item['addressClientLon'],
-                'user'                   => $item['user'],
-                'useVpn'                 => $item['useVpn'],
-                'passVpn'                => $item['passVpn'],
-                'pass'                   => $item['pass'],
-                'portHttp'               => $item['portHttp'],
-
+                'user'                    => $item['user'],
+                'useVpn'                  => $item['useVpn'],
+                'passVpn'                 => $item['passVpn'],
+                'pass'                    => $item['pass'],
+                'portHttp'                => $item['portHttp'],
+                'observation'             => $item['observation'],
                 'locationEmergencyButton' => $item['locationEmergencyButton'],
                 'locationOffKey'          => $item['locationOffKey'],
 
@@ -247,35 +253,40 @@ class Services_model extends CI_Model {
 
         $this->db->set(
             [
-                'idDoorFk'                => $item['idDoorFk'],
-                'idContracAssociated_SE'  => $item['idContracAssociated_SE'],
-                'dateUp'                  => $item['dateUp'],
-                'dateDown'                => $item['dateDown'],
-                'idAccessControlFk'       => $item['idAccessControlFk'],
-                'idInputReaderFk'         => $item['idInputReaderFk'],
-                'locationGabinet'         => $item['locationGabinet'],
-                'idFontFk'                => $item['idFontFk'],
-                'aclaration'              => $item['aclaration'],
-                'idTypeMaintenanceFk'     => $item['idTypeMaintenanceFk'],
-                'lock'                    => $item['lock'],
-                'ouputReader'             => $item['ouputReader'],
-                'ouputButom'              => $item['ouputButom'],
-                'isOuputReader'           => $item['isOuputReader'],
-                'isOuputButom'            => $item['isOuputButom'],
-                'isBlocklingScrew'        => $item['isBlocklingScrew'],
-                'idEmergencyButtonFk'     => $item['idEmergencyButtonFk'],
-                'idShutdownKeyFk'         => $item['idShutdownKeyFk'],
-                'acaration2'              => $item['acaration2'],
-                'portNumberRouter'        => $item['portNumberRouter'],
-                'addressClient'           => $item['addressClient'],
-                'addressVpn'              => $item['addressVpn'],
-                'user'                    => $item['user'],
-                'useVpn'                  => $item['useVpn'],
-                'passVpn'                 => $item['passVpn'],
-                'pass'                    => $item['pass'],
-                'portHttp'                => $item['portHttp'],
-                'locationEmergencyButton' => $item['locationEmergencyButton'],
-                'locationOffKey'          => $item['locationOffKey'],
+                'idDoorFk'                          => $item['idDoorFk'],
+                'idContracAssociated_SE'            => $item['idContracAssociated_SE'],
+                'dateUp'                            => $item['dateUp'],
+                'dateDown'                          => $item['dateDown'],
+                'idAccessControlFk'                 => $item['idAccessControlFk'],
+                'idInputReaderFk'                   => $item['idInputReaderFk'],
+                'locationGabinet'                   => $item['locationGabinet'],
+                'idFontFk'                          => $item['idFontFk'],
+                'aclaration'                        => $item['aclaration'],
+                'idTypeMaintenanceFk'               => $item['idTypeMaintenanceFk'],
+                'lock'                              => $item['lock'],
+                'ouputReader'                       => $item['ouputReader'],
+                'ouputButom'                        => $item['ouputButom'],
+                'isOuputReader'                     => $item['isOuputReader'],
+                'isOuputButom'                      => $item['isOuputButom'],
+                'isBlocklingScrew'                  => $item['isBlocklingScrew'],
+                'idEmergencyButtonFk'               => $item['idEmergencyButtonFk'],
+                'idShutdownKeyFk'                   => $item['idShutdownKeyFk'],
+                'acaration2'                        => $item['acaration2'],
+                'portNumberRouter'                  => $item['portNumberRouter'],
+                'addressClient'                     => $item['addressClient'],
+                'addressVpn'                        => $item['addressVpn'],
+                'portVpn'                           => $item['portVpn'],
+                'user'                              => $item['user'],
+                'useVpn'                            => $item['useVpn'],
+                'passVpn'                           => $item['passVpn'],
+                'pass'                              => $item['pass'],
+                'portHttp'                          => $item['portHttp'],
+                'locationEmergencyButton'           => $item['locationEmergencyButton'],
+                'locationOffKey'                    => $item['locationOffKey'],
+                'observation'                       => @$item['observation'],
+                'terminationReason'                 => @$item['terminationReason'],
+                'terminationApprovedByIdUserKf'     => @$item['terminationApprovedByIdUserKf'],
+                'idReasonTypeKf'                    => @$item['reasonType'],
             ]
         )->where("idClientServicesAccessControl", $item['idClientServicesAccessControl'])->update("tb_client_services_access_control");
 
@@ -366,17 +377,20 @@ class Services_model extends CI_Model {
 
         $this->db->set(
             [
-                'name'                    => $item['name'],
-                'idContracAssociated_SE'  => $item['idContracAssociated_SE'],
-                'dateUp'                  => $item['dateUp'],
-                'dateDown'                => $item['dateDown'],
-                'idTypeMaintenanceFk'     => $item['idTypeMaintenanceFk'],
-                'idCompanyMonitorFK'      => $item['idCompanyMonitorFK'],
-                'sucribeNumber'           => $item['sucribeNumber'],
-                'idApplicationFk'         => $item['idApplicationFk'],
-                'passwdApp'               => $item['passwordApp'],
-                'countNewLicense'         => $item['countNewLicense'],
-                'observation'             => $item['observation'],                
+                'name'                              => $item['name'],
+                'idContracAssociated_SE'            => $item['idContracAssociated_SE'],
+                'dateUp'                            => $item['dateUp'],
+                'dateDown'                          => $item['dateDown'],
+                'idTypeMaintenanceFk'               => $item['idTypeMaintenanceFk'],
+                'idCompanyMonitorFK'                => $item['idCompanyMonitorFK'],
+                'sucribeNumber'                     => $item['sucribeNumber'],
+                'idApplicationFk'                   => $item['idApplicationFk'],
+                'passwdApp'                         => $item['passwordApp'],
+                'countNewLicense'                   => $item['countNewLicense'],
+                'observation'                       => $item['observation'],
+                'terminationReason'                 => @$item['terminationReason'],
+                'terminationApprovedByIdUserKf'     => @$item['terminationApprovedByIdUserKf'],
+                'idReasonTypeKf'                    => @$item['reasonType'],                               
             ]
         )->where("idClientServicesSmartPanic", $item['idClientServicesSmartPanic'])->update("tb_client_services_smart_panic");
         $data = $this->db->select("idClientServicesFk")
@@ -482,25 +496,28 @@ class Services_model extends CI_Model {
 
         $this->db->set(
             [
-                'name'                   => $item['name'],
-                'idContracAssociated_SE' => $item['idContracAssociated_SE'],
-                'idTypeMaintenanceFk'    => $item['idTypeMaintenanceFk'],
-                'dateUp'                 => $item['dateUp'],
-                'dateDown'               => $item['dateDown'],
-                'idDvr_nvrFk'            => $item['idDvr_nvrFk'],
-                'location'               => $item['location'],
-                'maxCamera'              => $item['maxCamera'],
-                'numberPortRouter'       => $item['numberPortRouter'],
-                'addressVpn'             => $item['addressVpn'],
-                'nroPort1'               => $item['nroPort1'],
-                'nroPort2'               => $item['nroPort2'],
-                'namePort1'              => $item['namePort1'],
-                'namePort2'              => $item['namePort2'],
-                'observation'            => $item['observation'],
-                'addessClient'           => $item['addessClient'],
-                'portHttp'               => $item['portHttp'],
-                'namePort'               => $item['namePort'],
-                'port'                   => $item['port'],
+                'name'                              => $item['name'],
+                'idContracAssociated_SE'            => $item['idContracAssociated_SE'],
+                'idTypeMaintenanceFk'               => $item['idTypeMaintenanceFk'],
+                'dateUp'                            => $item['dateUp'],
+                'dateDown'                          => $item['dateDown'],
+                'idDvr_nvrFk'                       => $item['idDvr_nvrFk'],
+                'location'                          => $item['location'],
+                'maxCamera'                         => $item['maxCamera'],
+                'numberPortRouter'                  => $item['numberPortRouter'],
+                'addressVpn'                        => $item['addressVpn'],
+                'nroPort1'                          => $item['nroPort1'],
+                'nroPort2'                          => $item['nroPort2'],
+                'namePort1'                         => $item['namePort1'],
+                'namePort2'                         => $item['namePort2'],
+                'observation'                       => $item['observation'],
+                'addessClient'                      => $item['addessClient'],
+                'portHttp'                          => $item['portHttp'],
+                'namePort'                          => $item['namePort'],
+                'port'                              => $item['port'],
+                'terminationReason'                 => @$item['terminationReason'],
+                'terminationApprovedByIdUserKf'     => @$item['terminationApprovedByIdUserKf'],
+                'idReasonTypeKf'                    => @$item['reasonType'],
             ]
         )->where("idClientServicesCamera", $item['idClientServicesCamera'])->update("tb_client_services_camera");
 
@@ -622,28 +639,31 @@ class Services_model extends CI_Model {
 
         $this->db->set(
             [
-                'name'                   => $item['name'],
-                'idContracAssociated_SE' => $item['idContracAssociated_SE'],
-                'dateUp'                 => $item['dateUp'],
-                'idCompanyFk'            => $item['idCompanyFk'],
-                'idDvr_nvrFk'            => $item['idDvr_nvrFk'],
-                'location'               => $item['location'],
-                'maxCamera'              => $item['maxCamera'],
-                'idTotenModelFk'         => $item['idTotenModelFk'],
-                'idTypeMaintenanceFk'    => $item['idTypeMaintenanceFk'],
-                'dateDown'               => $item['dateDown'],
-                'numberPortRouter'       => $item['numberPortRouter'],
-                'addreesVpn'             => $item['addreesVpn'],
-                'namePort1'              => $item['namePort1'],
-                'numberPort1'            => $item['nroPort1'],
-                'namePort2'              => $item['namePort2'],
-                'numberPort2'            => $item['nroPort2'],
-                'addressClientInter'     => $item['addressClientInter'],
-                'portHttpInter'          => $item['portHttpInter'],
-                'namePortInter'          => $item['namePort'],
-                'numberPortInter'        => $item['port'],
-                'observation'            => $item['observation'],
-                'numberAbonado'          => $item['numberAbonado'],
+                'name'                              => $item['name'],
+                'idContracAssociated_SE'            => $item['idContracAssociated_SE'],
+                'dateUp'                            => $item['dateUp'],
+                'idCompanyFk'                       => $item['idCompanyFk'],
+                'idDvr_nvrFk'                       => $item['idDvr_nvrFk'],
+                'location'                          => $item['location'],
+                'maxCamera'                         => $item['maxCamera'],
+                'idTotenModelFk'                    => $item['idTotenModelFk'],
+                'idTypeMaintenanceFk'               => $item['idTypeMaintenanceFk'],
+                'dateDown'                          => $item['dateDown'],
+                'numberPortRouter'                  => $item['numberPortRouter'],
+                'addreesVpn'                        => $item['addreesVpn'],
+                'namePort1'                         => $item['namePort1'],
+                'numberPort1'                       => $item['nroPort1'],
+                'namePort2'                         => $item['namePort2'],
+                'numberPort2'                       => $item['nroPort2'],
+                'addressClientInter'                => $item['addressClientInter'],
+                'portHttpInter'                     => $item['portHttpInter'],
+                'namePortInter'                     => $item['namePort'],
+                'numberPortInter'                   => $item['port'],
+                'observation'                       => $item['observation'],
+                'numberAbonado'                     => $item['numberAbonado'],
+                'terminationReason'                 => @$item['terminationReason'],
+                'terminationApprovedByIdUserKf'     => @$item['terminationApprovedByIdUserKf'],
+                'idReasonTypeKf'                    => @$item['reasonType'],
             ]
         )->where("idClientServicesTotem", $item['idClientServicesTotem'])->update("tb_client_services_totem");
 
@@ -1031,7 +1051,8 @@ class Services_model extends CI_Model {
             $servicios = $this->db->select(" * ")
                 ->from($tabla)
                 ->join('tb_client_services', 'tb_client_services.idClientServices = '.$tabla.'.idClientServicesFk', 'LEFT')
-                ->join('tb_client_type_services', 'tb_client_type_services.idClientTypeServices = tb_client_services.idTipeServiceFk', 'LEFT');
+                ->join('tb_client_type_services', 'tb_client_type_services.idClientTypeServices = tb_client_services.idTipeServiceFk', 'LEFT')
+                ->join('tb_client_service_reason_down', 'tb_client_service_reason_down.idReason = '.$tabla.'.idReasonTypeKf', 'left');
 
             if ($tabla == 'tb_client_services_access_control') {
                 $servicios = $this->db->join('tb_access_control_door', 'tb_access_control_door.idAccessControlDoor = tb_client_services_access_control.idDoorFk', 'LEFT');
@@ -1332,27 +1353,31 @@ class Services_model extends CI_Model {
                                                         //echo $item3[1]."\n";
                                                         //echo $data['idServiceAsociateFk'][0]."\n";
                                                         $i=0;
-                                                        if (count($servicesAssociated)>0){
-                                                            foreach ($servicesAssociated as $idServiceAssociated) {
-                                                                $dataG = $this->db->select(" * ")
-                                                                    ->from($data['idServiceAsociateFk'][0])
-                                                                    ->where($data['idServiceAsociateFk'][1], $idServiceAssociated)
-                                                                    ->get();
-                                                                //return $dataG->result_array();
-                                                                     //var_dump($dataG->result_array());
-                                                                $aux = null;
-                                                                if ($dataG->num_rows() > 0) {
-                                                                    foreach ($dataG->result_array() as $ite2) {
-                                                                        //print_r($ite2);
-                                                                        $aux=$ite2;
+                                                        if (is_array($servicesAssociated) || $servicesAssociated instanceof Countable) {
+                                                            if (count($servicesAssociated)>0){
+                                                                foreach ($servicesAssociated as $idServiceAssociated) {
+                                                                    $dataG = $this->db->select(" * ")
+                                                                        ->from($data['idServiceAsociateFk'][0])
+                                                                        ->where($data['idServiceAsociateFk'][1], $idServiceAssociated)
+                                                                        ->get();
+                                                                    //return $dataG->result_array();
+                                                                        //var_dump($dataG->result_array());
+                                                                    $aux = null;
+                                                                    if ($dataG->num_rows() > 0) {
+                                                                        foreach ($dataG->result_array() as $ite2) {
+                                                                            //print_r($ite2);
+                                                                            $aux=$ite2;
+                                                                        }
                                                                     }
+                                                                    //$item[$id.'_array_'.$i]=$serviceAsociate_arr;
+                                                                    array_push($serviceAsociate_arr,$aux);
+                                                                    $i++;
                                                                 }
-                                                                //$item[$id.'_array_'.$i]=$serviceAsociate_arr;
-                                                                array_push($serviceAsociate_arr,$aux);
-                                                                $i++;
+                                                            //print_r($serviceAsociate_arr);
+                                                            }else{
+                                                                $serviceAsociate_arr=[];
                                                             }
-                                                        //print_r($serviceAsociate_arr);
-                                                        }else{
+                                                        } else {
                                                             $serviceAsociate_arr=[];
                                                         }
                                                         $item[$id.'_array']=$serviceAsociate_arr;
@@ -1753,18 +1778,21 @@ class Services_model extends CI_Model {
 
         $this->db->set(
             [
-                "name"                   => $item['name'],
-                "idContracAssociated_SE" => $item['idContracAssociatedFk'],
-                "idTypeMaintenanceFk"    => $item['idTypeMaintenanceFk'],
-                "dateUp"                 => $item['dateUp'],
-                "dateDown"               => $item['dateDown'],
-                "companyMonitor"         => $item['companyMonitor'],
-                "numberPay"              => $item['numberPay'],
-                "panelAlarm"             => $item['panelAlarm'],     //producto
-                "keyboardAlarm"          => $item['keyboardAlarm'],  //producto
-                "countZoneIntaled"       => $item['countZoneIntaled'],
-                "idTypeConectionRemote"  => $item['idTypeConectionRemote'], // 1, 2, 3
-                "observation"            => $item['observation'],
+                "name"                              => $item['name'],
+                "idContracAssociated_SE"            => $item['idContracAssociatedFk'],
+                "idTypeMaintenanceFk"               => $item['idTypeMaintenanceFk'],
+                "dateUp"                            => $item['dateUp'],
+                "dateDown"                          => $item['dateDown'],
+                "companyMonitor"                    => $item['companyMonitor'],
+                "numberPay"                         => $item['numberPay'],
+                "panelAlarm"                        => $item['panelAlarm'],     //producto
+                "keyboardAlarm"                     => $item['keyboardAlarm'],  //producto
+                "countZoneIntaled"                  => $item['countZoneIntaled'],
+                "idTypeConectionRemote"             => $item['idTypeConectionRemote'], // 1, 2, 3
+                "observation"                       => $item['observation'],
+                'terminationReason'                 => @$item['terminationReason'],
+                'terminationApprovedByIdUserKf'     => @$item['terminationApprovedByIdUserKf'],
+                'idReasonTypeKf'                    => @$item['reasonType'],
             ]
         )->where("idClientServicesAlarms", $item['idClientServicesAlarms'])->update("tb_client_services_alarms");
 
@@ -2135,6 +2163,74 @@ class Services_model extends CI_Model {
 
 		if ($quuery->num_rows() > 0) {
 			return true;
+		}
+		return null;
+
+	}
+    public function checkTicketsActiveByService ($idService)
+	{
+		$quuery = null;
+		$rs     = null;
+
+		//$this->db->select('COUNT(t2.idTicket) as ticket_count');
+        $this->db->select('*');
+        $this->db->from('tb_ticket_keychain_doors td');
+        $this->db->join('tb_access_control_door acd', 'acd.idAccessControlDoor = td.idAccessControlDoorKf', 'left');
+        $this->db->join('tb_contratos tc', 'tc.idContrato = td.idContractKf', 'left');
+        $this->db->join('tb_status tst', 'tst.idStatusTenant = tc.idStatusFk', 'left');
+        $this->db->join('tb_ticket_keychain tkc', 'tkc.id = td.idTicketKeychainKf', 'left');
+        $this->db->join('tb_products tp', 'tp.idProduct = tkc.idProductKf', 'left');
+        $this->db->join('tb_products_classification tpc', 'tpc.idProductClassification = tp.idProductClassificationFk', 'left');
+        $this->db->join('tb_tickets_2 t2', 't2.idTicket = tkc.idTicketKf', 'left');
+        $this->db->join('tb_statusticket st', 'st.idStatus = t2.idStatusTicketKf', 'left');
+        $this->db->where('td.idServiceKf', $idService);
+        $this->db->where_not_in('t2.idStatusTicketKf', [1]);
+        $this->db->group_by('t2.idTicket');
+        $this->db->order_by('t2.created_at', 'DESC');
+		$quuery = $this->db->get();
+        //$rs = $quuery->row()->ticket_count;
+        $rs = $quuery->result_array();
+        
+		if ($quuery->num_rows() > 0) {
+			return $rs;
+		}
+		return null;
+	}
+    public function checkServicesAssociatedByService ($idService)
+	{
+		$quuery = null;
+		$rs     = null;
+
+        $this->db->select('*');
+        $this->db->from('tb_client_services_internet csi');
+        $this->db->join('tb_contratos c ', 'c.idContrato = csi.idContracAssociated_SE', 'left');
+        $this->db->join('tb_tipos_servicios_internet ti', 'ti.idTipoServicioInternet = csi.idTypeInternetFk', 'left');
+        $this->db->join('tb_type_internet tyi', 'tyi.idTypeInternet = csi.idServiceFk', 'left');
+        $this->db->join('tb_internet_company ic', 'ic.idInternetCompany = csi.idInternetCompanyFk', 'left');
+        $this->db->join('tb_products tp1', 'tp1.idProduct = csi.idModemInternetFk', 'left');
+        $this->db->join('tb_products tp2', 'tp2.idProduct = csi.idRouterInternetFk', 'left');
+        $this->db->where('JSON_CONTAINS(csi.idServiceAsociateFk,  \'\"' . $idService . '\"\')', NULL, FALSE);
+        $quuery =  $this->db->where('csi.dateDown', NULL, FALSE)->get();
+        $rs = $quuery->result_array();
+		if ($quuery->num_rows() > 0) {
+            return $rs;
+		}
+		return null;
+
+	}
+    public function checkInternetServicesAssociatedByService ($idService)
+	{
+		$quuery = null;
+		$rs     = null;
+
+        $this->db->select('JSON_LENGTH(csi.idServiceAsociateFk) AS json_length', FALSE);
+        $this->db->from('tb_client_services_internet csi');
+        $this->db->where('csi.idClientServicesFk', $idService);
+        $this->db->where('JSON_LENGTH(csi.idServiceAsociateFk) >=', 1, FALSE);
+        $quuery =  $this->db->where('csi.dateDown', NULL, FALSE)->get();
+        $rs = $quuery->row_array();
+		if ($quuery->num_rows() > 0) {
+            return $rs['json_length'];
 		}
 		return null;
 

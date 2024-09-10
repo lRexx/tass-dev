@@ -39,7 +39,7 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
                     return response;
             });   
           },
-          /*ADD NEW SERVICE */
+          /*ADD A SERVICE */
           addService: function(data) {
             rsCustomerServices.service = data;
             var switchOption = rsCustomerServices.service.idTipeServiceFk;
@@ -75,7 +75,7 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
                   return response;
                 });
           },
-          /*UPDATE NEW SERVICE */
+          /*UPDATE A SERVICE */
           updateService: function(data) {
             rsCustomerServices.service = data;
             var switchOption = rsCustomerServices.service.idClientTypeServices;
@@ -250,5 +250,42 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
             });
           },
 
+          checkTicketsActiveByService: function(id) {
+            console.log("[Service][checkTicketsActiveByService]: Get Ticket Active related By Service ID");
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"services/checkTicketsActiveByService/"+id
+                  }).then(function mySuccess(response) {
+                    return response;
+                  }).catch(function onError(response) {
+                    console.log("Error: "+response.data.error); 
+                    return response;
+            });
+          }, 
+
+          checkServicesAssociatedByService: function(id) {
+            console.log("[Service][checkTicketsActiveByService]: Get Ticket Active related By Service ID");
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"services/checkServicesAssociatedByService/"+id
+                  }).then(function mySuccess(response) {
+                    return response;
+                  }).catch(function onError(response) {
+                    console.log("Error: "+response.data.error); 
+                    return response;
+            });
+          },
+          checkInternetServicesAssociatedByService: function(id) {
+            console.log("[Service][checkTicketsActiveByService]: Get Ticket Active related By Service ID");
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"services/checkInternetServicesAssociatedByService/"+id
+                  }).then(function mySuccess(response) {
+                    return response;
+                  }).catch(function onError(response) {
+                    console.log("Error: "+response.data.error); 
+                    return response;
+            });
+          }, 
       }
 }]);

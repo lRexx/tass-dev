@@ -5388,7 +5388,7 @@ moduleMainApp.controller('MainAppCtrl',  function($route, $scope, Lightbox, $sce
                         $scope.tk.idTypeOfKeysKf     = $scope.dataK;
                         $scope.tk.sendNotify         = $scope.sessionidProfile!=1 ? null : $scope.sendNotify;
                         $scope.tk.isNew              = 1;
-                        $scope.tk.tkToken            = $scope.sysTokenFn(20);
+                        $scope.tk.tkToken            = $scope.dhboard
                         if($scope.sessionidProfile==1){console.log("[newTicket] => [rKeyUp] => $scope.sendNotify: "+$scope.sendNotify);}
                     console.log('[newTicket] => [rKeyUp] =>$scope.tk.idTypeOfKeysKf :'+$scope.tk.idTypeOfKeysKf.length);
                     //console.log($scope.tk);
@@ -18159,68 +18159,4 @@ moduleMainApp.controller('MainAppCtrl',  function($route, $scope, Lightbox, $sce
           if ($scope.isMonitorActive){$scope.fnShowHide('home', 'open');}
       }
      /*MOSTRAR EL MONITOR ACTIVO SIEMPRE AL ENTRAR AL SISTEMA*/
-
-      $scope.fnLoadPhoneMask = function(){
-          /**********************************************
-          *               INPUT PHONE MASK              *
-          **********************************************/
-          $('.input--movil').mask('9999999999999999999999999');
-          $('.input--local').mask('9999999999999999999999999');
-          $('.input--phone').mask('9999999999999999999999999');
-          $('.input--time').mask('00:00');
-          $('.input--dni').mask('99999999');
-          $('.input--number--2').mask('99');
-          $('.input--number').mask('999');
-          $('.input--depto').mask('ZZZ',
-              {
-                translation:{
-                  'Z':{
-                    pattern: /[a-zA-Z0-9]/
-                  }
-                }
-              }
-          );          
-          $('.input--floor').mask('XX',
-              {
-                translation:{
-                  'X':{
-                    pattern: /[a-zA-Z0-9]/
-                  }
-                }
-              }
-          );
-          $('.input--date-number').mask('999999');
-          $('.input--date').mask('00/00/0000', {placeholder: "__/__/____"});
-          $('.input-ipaddr').mask('099.099.099.099', {placeholder: "___.___.___.___"});
-          $('.input-macaddr').mask('ZZ-ZZ-ZZ-ZZ-ZZ-ZZ', 
-              {
-                translation:{
-                  'Z':{
-                    pattern: /[a-zA-Z0-9]/
-                  }
-                },
-                placeholder: "__-__-__-__-__-__"}
-          );
-          $('.input--decimal').mask('999999,99');
-          $('.input--tel.input--dni').on('focus', function () {
-            //console.log($(this).val());
-             if ($(this).val().length === 0) {
-               $(this).val();
-             }
-          });
-          
-          $('.input--tel.input--dni').keydown(function (e) {
-                if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-                     (e.keyCode == 65 && (e.ctrlKey === true || e.metaKey === true)) ||
-                     (e.keyCode == 67 && (e.ctrlKey === true || e.metaKey === true)) ||
-                     (e.keyCode == 88 && (e.ctrlKey === true || e.metaKey === true)) ||
-                     (e.keyCode >= 35 && e.keyCode <= 39)) {
-                        return;
-                }
-
-                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-                    e.preventDefault();
-                }
-            });      
-      }
 }); /*Cierre del JS ANGULAR*/

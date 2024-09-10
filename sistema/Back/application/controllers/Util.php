@@ -278,6 +278,16 @@ class Util extends REST_Controller {
             $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
         }
     }
+    public function typeReasonDownServices_get() {
+
+        $result = $this->util_model->typeReasonDownServices();
+
+        if (! is_null($result)) {
+            $this->response($result, 200);
+        } else {
+            $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
+        }
+    }
 }
 
 ?>

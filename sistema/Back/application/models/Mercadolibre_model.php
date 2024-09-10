@@ -445,7 +445,7 @@ class Mercadolibre_model extends CI_Model
 					if ($queryBuilding->num_rows() > 0) {
 						$building = $queryBuilding->row_array();
 					}
-					$subject="Pedido Alta Llavero :: ".$building['Depto']." :: Link de Pago";
+					$subject="Pedido Llavero :: ".$building['Depto']." :: Link de Pago";
 					//GET USER
 					$this->db->select("*")->from("tb_user");
 					$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');

@@ -1283,6 +1283,11 @@ class Ticket_model extends CI_Model
 					));
 				}
 			}
+			$this->db->set(
+				array(
+					'isHasRefundsOpen' 	  => null
+				)
+			)->where("idTicket" , $ticket['idTicketKf'])->update("tb_tickets_2");
 			$lastTicketUpdatedQuery = null;
 			$lastTicketUpdatedQuery = $this->ticketById($ticket['idTicketKf']);
 				//MAIL
@@ -2262,18 +2267,19 @@ class Ticket_model extends CI_Model
 					return $this->buscar_relaciones_ticket($rsA);
 				}else{
 					return null;
-				}
-				
+				}				
 			}
 		}else if (@$data['idProfileKf']=='4' && !@$data['isHomeSelected']){
 			$this->db->select("*");
 			$this->db->from("tb_tickets_2");
+			$rsA = [];
+			if (@$data['idClientAdminFk']!=''){
+				$this->db->where("idUserRequestBy = " , @$data['idClientAdminFk']);
+			}else if(@$data['idClientCompaniFk']!=''){
+				$this->db->where("idUserRequestBy = " , @$data['idClientCompaniFk']);
+			}
 			if (@$data['idTypeTenantKf']=='1' || @$data['idTypeTenantKf']=='2'){
 				$this->db->where("sendNotify = 1");
-			}
-			//ID USER OF WHO REQUEST THE TICKET
-			if (@$data['idUserRequestBy']!=''){
-				$this->db->where("idUserRequestBy = " , @$data['idUserRequestBy']);
 			}
 			//DATE FROM THE TICKET REQUEST WAS DONE
 			if (@$data['dateCreatedFrom']!='' && @$data['dateCreatedTo']==''){
@@ -2296,6 +2302,10 @@ class Ticket_model extends CI_Model
 			}else if (@$data['dateDeliveredFrom']!='' && @$data['dateDeliveredTo']!=''){
 				$where = "DATE(delivered_at) BETWEEN '".@$data['dateDeliveredFrom']."' AND '".@$data['dateDeliveredTo']."'";
 				$this->db->where($where);
+			}
+			//ID USER OF WHO REQUEST THE TICKET
+			if (@$data['idUserRequestBy']!=''){
+				$this->db->where("idUserRequestBy = " , @$data['idUserRequestBy']);
 			}
 			//ID USER OF WHO MADE THE TICKET
 			if (@$data['idUserMadeBy']!=''){
@@ -2325,6 +2335,7 @@ class Ticket_model extends CI_Model
 				$this->db->where("idTypePaymentKf = " , @$data['idTypePaymentKf']);
 			}
 			if (@$data['codTicket']!=''){
+				//$this->db->where("codTicket = " , @$data['codTicket']);
 				$where = "codTicket LIKE '%".@$data['codTicket']."%'";
 				$this->db->where($where);
 			}
@@ -2332,9 +2343,95 @@ class Ticket_model extends CI_Model
 				$this->db->limit($data['topfilter']);
 			}
 			$quuery = $this->db->order_by("idTicket" , "DESC")->get();
-			if ($quuery->num_rows()){
-				//print_r($quuery->result_array());
-				return $this->buscar_relaciones_ticket($quuery->result_array());
+			if (count($quuery->result_array())>=1){
+				foreach ($quuery->result_array() as $ticket) {
+					array_push($rsA, $ticket);
+				}
+				//$rsA = $quuery->result_array();
+				//print_r($rsA);
+				//return $this->buscar_relaciones_ticket($quuery->result_array());
+			}
+			$rsB=array();
+			$this->db->select("*")->from("tb_clients");
+			if (@$data['idClientAdminFk']!='' && @$data['idBuildingKf']!='' && @$data['idClientCompaniFk']=='' && @$data['idClientBranchFk']==''){
+				$this->db->where("idClient = " , @$data['idBuildingKf']);
+				$buildingList = $this->db->where("idClientAdminFk = " , @$data['idClientAdminFk'])->get();
+			}else if (@$data['idClientAdminFk']!='' && @$data['idBuildingKf']=='' && @$data['idClientCompaniFk']=='' && @$data['idClientBranchFk']==''){
+				$buildingList = $this->db->where("idClientAdminFk = " , @$data['idClientAdminFk'])->get();
+			}
+			if (@$data['idClientCompaniFk']!='' && @$data['idClientBranchFk']!='' && @$data['idClientAdminFk']=='' && @$data['idBuildingKf']==''){
+				$this->db->where("idClient = " , @$data['idClientBranchFk']);
+				$buildingList = $this->db->where("idClientCompaniFk = " , @$data['idClientCompaniFk'])->get();
+			}else if(@$data['idClientCompaniFk']!='' && @$data['idClientBranchFk']=='' && @$data['idClientAdminFk']=='' && @$data['idBuildingKf']==''){
+				$buildingList = $this->db->where("idClientCompaniFk = " , @$data['idClientCompaniFk'])->get();
+			}
+			//print_r($buildingList->result_array());
+			if (count($buildingList->result())>0){
+				$i = 0;
+				foreach ($buildingList->result() as &$row) {
+					//print_r($row->idClient);
+					$quuery = null;
+					$this->db->select("*");
+					$this->db->from("tb_tickets_2");
+					if (@$data['idBuildingKf']!='' || @$data['idBuildingKf']==''){
+						$this->db->where("idBuildingKf = " , $row->idClient);
+					}
+					if (@$data['idUserRequestBy']!=''){
+						$this->db->or_where("idUserRequestBy = " , $row->idClient);
+					}
+					if (@$data['idClientBranchFk']!=''){
+						$this->db->where("idUserRequestBy = " , $row->idClient);
+					}
+					//ID USER OF WHO MADE THE TICKET
+					if (@$data['idUserMadeBy']!=''){
+						$this->db->where("idUserMadeBy = " , @$data['idUserMadeBy']);
+					}
+					//TICKET TYPE
+					if (@$data['idTypeTicketKf']!=''){
+						$this->db->where("idTypeTicketKf = " , @$data['idTypeTicketKf']);
+					}
+					//TICKET STATUS
+					if (@$data['idStatusTicketKf']!=''){
+						if(@$data['idStatusTicketKf']=='10'){
+							$this->db->where("isCancelRequested = " , "1");
+						}else{
+							$this->db->where("idStatusTicketKf = " , @$data['idStatusTicketKf']);
+						}
+					}
+					//TICKET TYPE DELIVERY
+					if (@$data['idTypeDeliveryKf']!=''){
+						$this->db->where("idTypeDeliveryKf = " , @$data['idTypeDeliveryKf']);
+					}
+					//TICKET TYPE OF PAYMENT
+					if (@$data['idTypePaymentKf']!=''){
+						$this->db->where("idTypePaymentKf = " , @$data['idTypePaymentKf']);
+					}
+					if (@$data['codTicket']!=''){
+						//$this->db->where("codTicket = " , @$data['codTicket']);
+						$where = "codTicket LIKE '%".@$data['codTicket']."%'";
+						$this->db->where($where);
+					}
+					if (@$data['topfilter']!=''){
+						$this->db->limit($data['topfilter']);
+					}
+					$quuery = $this->db->order_by("idTicket" , "DESC")->get();
+					//print(count($quuery->result_array())."\n");
+					if (count($quuery->result_array())>=1){
+						//print_r($quuery->result_array());
+						//$rsB[$i] = $quuery->result_array();
+						foreach ($quuery->result_array() as $ticket) {
+							array_push($rsA, $ticket);
+						}
+					}
+					$i++;
+				}
+			}
+			//arsort($rsA);
+			array_multisort(array_unique($rsA, SORT_DESC));
+			if(count($rsA)>0){
+				return $this->buscar_relaciones_ticket($rsA);
+			}else{
+				return null;
 			}
 		}else if ((@$data['idProfileKf']=='3' || @$data['idProfileKf']=='5') || (@$data['idProfileKf']=='4' && @$data['isHomeSelected'] && (@$data['idTypeTenantKf']=='1' || @$data['idTypeTenantKf']=='2'))){
 			$rsA = [];

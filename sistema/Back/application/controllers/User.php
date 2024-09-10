@@ -239,20 +239,20 @@ class User extends REST_Controller {
     /*  CAMBIO DE CLAVE */
     public function updatePass_post() {
         
-                if (!$this->post('user')) {
-                    $this->response(array('error' => "Post Data is Missing"), 404);
-                }
-        
-                $rs = $this->user_model->updatePass($this->post('user'));
-        
-                if (!is_null($rs)) {
+        if (!$this->post('user')) {
+            $this->response(array('error' => "Post Data is Missing"), 404);
+        }
 
-                    //$this->response(array('response' => $rs), 200);
-                    //$this->response(array('response' => "Su Nueva Clave fue enviada a su direccion de correo!"), 200);
-                    $this->response($rs, 200);
-                } else {
-                    $this->response(array('error' => "ERROR INESPERADO"), 500);
-                }
+        $rs = $this->user_model->updatePass($this->post('user'));
+
+        if (!is_null($rs)) {
+
+            //$this->response(array('response' => $rs), 200);
+            //$this->response(array('response' => "Su Nueva Clave fue enviada a su direccion de correo!"), 200);
+            $this->response($rs, 200);
+        } else {
+            $this->response(array('error' => "ERROR INESPERADO"), 500);
+        }
     }
              /*  CAMBIO DE CLAVE */
     public function updateParam_post() {
@@ -505,6 +505,33 @@ class User extends REST_Controller {
             $this->response($lists, 200);
         } else {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
+
+    public function listAuthorizedUsers_get() {
+        $lists=null;
+        $lists = $this->user_model->getAuthorizedUsers();
+        if (!is_null($lists)) {
+            $this->response($lists, 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
+    public function sendGeneratedToken_post() {
+        
+        if (!$this->post('user')) {
+            $this->response(array('error' => "Post Data is Missing"), 404);
+        }
+
+        $rs = $this->user_model->sendGeneratedToken($this->post('user'));
+
+        if (!is_null($rs)) {
+
+            //$this->response(array('response' => $rs), 200);
+            //$this->response(array('response' => "Su Nueva Clave fue enviada a su direccion de correo!"), 200);
+            $this->response($rs, 200);
+        } else {
+            $this->response(array('error' => "ERROR INESPERADO"), 500);
         }
     }
 }

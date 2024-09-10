@@ -489,7 +489,50 @@ class Services extends REST_Controller {
             $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
         }
     }
+    public function checkTicketsActiveByService_get($id) {
+        if (!$id) {
+            $this->response(NULL, 404);
+        }
 
+        $rs = null;
+        $rs = $this->services_model->checkTicketsActiveByService($id);
+
+        if (!is_null($rs)) {
+            $this->response([ 'ticket_active' => $rs ], 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
+
+    public function checkServicesAssociatedByService_get($id) {
+        if (!$id) {
+            $this->response(NULL, 404);
+        }
+
+        $rs = null;
+        $rs = $this->services_model->checkServicesAssociatedByService($id);
+
+        if (!is_null($rs)) {
+            $this->response([ 'service_associated' => $rs ], 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
+
+    public function checkInternetServicesAssociatedByService_get($id) {
+        if (!$id) {
+            $this->response(NULL, 404);
+        }
+
+        $rs = null;
+        $rs = $this->services_model->checkInternetServicesAssociatedByService($id);
+
+        if (!is_null($rs)) {
+            $this->response([ 'service_associated' => $rs ], 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
 
 }
 

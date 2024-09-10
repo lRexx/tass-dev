@@ -6,7 +6,7 @@
             <!--<span ng-click="sort_by('idDepartmentFk')" class="glyphicon sort-icon" ng-show="sortingOrder=='idDepartmentFk'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>-->
           </th>
           <th width="5%" class="media-middle text-center" ><i class="fas fa-users-cog"> </i></th>
-          <th width="5%" class="media-middle text-center" ><i class="fas fa-qrcode"> </i></th>
+          <!--<th width="5%" class="media-middle text-center" ><i class="fas fa-qrcode"> </i></th>-->
           <th width="45%" class="media-middle text-center"><i class="glyphicon glyphicon-user" > </i> Nombres</th>
           <th width="15%" class="media-middle text-center"><i class="glyphicon glyphicon-user" > </i> Usuario</th>
           <th width="15%" class="media-middle text-center"><i class="glyphicon glyphicon-user" > </i> Clave</th> 
@@ -26,10 +26,10 @@
           </span>          
           <span ng-if="!user.idClientFk" style="font-size: 75%;" data-toggle="tooltip" data-placement="top" title="No Registrado" class="text-warning media-middle text-center font-size-18px"><i class="fas fa-lightbulb"></i></span>
         </td>
-        <td class="media-middle text-center">
+        <!--<td class="media-middle text-center">
           <span ng-if="user.qrCode" style="font-size: 75%;" class="btn qrcode btn-xs btn-warning" data-img={{user.qrCode}} title="Codigo QR"><i class="fas fa-eye"></i></span>
           <span ng-if="!user.qrCode" style="font-size: 75%;" data-toggle="tooltip" data-placement="top" title="No QR asociado" class="text-warning media-middle text-center font-size-18px"><i class="fas fa-exclamation-triangle"></i></span>          
-        </td>        
+        </td> -->       
         <!--NAMES -->
         <td ng-click="loadSelectedUserDVRFn(user)" ng-trim="true"> <span class="media-middle font-size-18px"> {{user.name}}</span></td>
         <!--Username -->
@@ -37,7 +37,7 @@
         <!--Password -->
         <td ng-trim="true" class="media-middle text-center"><span class="text-muted text-box">{{user.pass}}</span></td>        
         <td class="media-middle text-center">
-           <button style="font-size: 70%" data-toggle="tooltip" data-placement="top" title="PDF" ng-click="generatePDF(user, service);" class="btn btn-xs btn-success"><i class="fas fa-file-pdf"></i></button>
+           <button style="font-size: 70%" data-toggle="tooltip" data-placement="top" title="PDF" ng-click="selectApp(user, service);" class="btn btn-xs btn-success"><i class="fas fa-file-pdf"></i></button>
           <button style="font-size: 70%" data-toggle="tooltip" data-placement="top" title="Ver" ng-click="loadSelectedUserDVRFn(user);" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i></button>
           <button ng-if="!isListCustomerService" style="font-size: 70%" data-toggle="tooltip" data-placement="top" title="Remover" ng-click="removeServiceUserDetailsFn(user);" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button>
 

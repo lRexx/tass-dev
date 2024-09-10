@@ -758,12 +758,13 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                               });
                           }else{
                               $scope.customerFound={};
+                              $scope.switchKeysFn('list', null);
                           }
                           console.info($scope.listCustomerFound);
                       }
                   }
                   $scope.customerFound={};
-                  $scope.loadCustomerFieldsFn=function(obj){
+                  $scope.loadCustomerFieldsFn=function(obj, generateFile=false){
                       $scope.customerFound={};
                       console.log("===============================");
                       console.log("|  SERVICE CUSTOMER SELECTED  |");
@@ -771,12 +772,19 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                       console.log(obj);
                       $scope.customerFound=obj;
                       $scope.customerSearch.address = obj.name;
+                      $scope.customerSearch.name    = obj.name;
                       if (obj.idClientTypeFk=="2"){
+                        if(generateFile){
                           $scope.keys.file.address.selected=obj;
                           if ($scope.keys.file.mainQttyKeys>0 && $scope.keys.file.products.selected!=undefined)
-                          $timeout(function() {
-                            $scope.generateKeyListFn($scope.keys.file);
-                        }, 700);
+                            $timeout(function() {
+                                $scope.generateKeyListFn($scope.keys.file);
+                            }, 700);
+                        }else{
+                            $scope.getKeyListByBuildingIdFn($scope.customerFound.idClient);
+                        }
+                      }else{
+                        $scope.rsKeyListsData = [];
                       }
                       $scope.listCustomerFound=[];
                   }
@@ -842,6 +850,31 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                         }
                     });
                 };$scope.getAllKeysFn();
+            /**************************************************
+            *                                                 *
+            *    GET KEY LIST BY ID ADDRESS OF BUILDING       *
+            *                                                 *
+            **************************************************/
+                $scope.rsKeyListsData=[];
+                $scope.getKeyListByBuildingIdFn = function (idClient){
+                    if(idClient!=undefined){
+                        $scope.rsKeyListsData=[];
+                        var idStatusFk='-1';
+                        KeysServices.getKeyListByBuildingId(idClient).then(function(response) {
+                            if(response.status==200){
+                                $scope.rsKeyListsData = response.data;
+                                $scope.loadPagination($scope.rsKeyListsData, "idKeychain", "10");
+                                //console.log($scope.keyListByBuildingId)
+                            }else if (response.status==404 || response.status==500){
+                                inform.add('[Info]: No hay llaveros registrados. ',{
+                                    ttl:5000, type: 'info'
+                                    });
+                                    $scope.rsAllKeysData = [];
+                                    $scope.rsKeyListsData = [];
+                            }
+                        });
+                    }
+                };
             /**************************************************
             *                                                 *
             *               KEY MENU FUNCTION                 *
@@ -976,7 +1009,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                     }
                 }
                 $scope.filterCategoryKey = function(item){
-                    return item.idCategory != 1;
+                    return item.idCategory != null;
                 };
         /**************************************************
         *                                                 *
@@ -1167,6 +1200,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             //console.log(cleanFile);
                             $scope.fileListTmp.push(cleanFile);
                             $scope.setPreviewBeforeUploadFile(cleanFile);
+                            $("#uploadKeyFiles").val(null);
                         }else{
                             $scope.fileName=file.name;
                             $scope.fileTypeOf=file.type.slice(file.type.lastIndexOf('/') + 1)
@@ -1205,7 +1239,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                 $scope.uploadFileData={};
                 console.log(file);
                 KeysServices.addMultiKeys(file).then(function(response){
-                    //console.log(response);
+                    console.log(response);
                     if(response.status==200){
                         var fileName=file.name;
                         inform.add('Archivo '+file.name+' ha sido procesado satisfactoriamente. ',{

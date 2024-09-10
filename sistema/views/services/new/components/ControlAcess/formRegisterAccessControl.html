@@ -131,7 +131,7 @@
 						<label style="padding-left: 15px;">Fecha de baja</label>
 						<div class="col-xs-12">
 							<div class="input-group">
-								<span ng-click="open_end_date()" class="input-group-addon"><i ng-click="open_end_date()" class="far fa-calendar-alt"></i></span>
+								<span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
 								<input 
 								ng-click="open_end_date()" 
 								type="text" 
@@ -577,7 +577,7 @@
 						</div>
 						<!-- Control_de_Acceso: puerto http -->
 						<div class="form-group col-md-6" ng-show="service.new.isHasInternetConnect">
-						  <label style="padding-left: 15px;">Puerto http</label>  
+						  <label style="padding-left: 15px;">Puerto http de la placa</label>  
 							  <div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-project-diagram"></i></span>
@@ -587,7 +587,7 @@
 						</div>
 						<!-- Control_de_Acceso: direccion del cliente -->
 						<div class="form-group col-md-12" ng-show="service.new.isHasInternetConnect">
-						  <label style="padding-left: 15px;">Direcci&#243;n del cliente</label>  
+						  <label style="padding-left: 15px;">IP de la placa</label>  
 							  <div class="col-xs-12">
 								<div class="input-group" ng-show="service.new.isHasInternetConnect">
 									<span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
@@ -616,21 +616,31 @@
 							</div>
 						</div>
 						<!-- Control_de_Acceso: direccion vpn -->
-						<div class="form-group col-md-12" ng-show="service.new.isHasInternetConnect">
+						<div class="form-group col-md-6" ng-show="service.new.isHasInternetConnect">
 						  <label style="padding-left: 15px;">Direcci&#243;n VPN</label>  
 							  <div class="col-xs-12">
 								<div class="input-group">
-									<span class="input-group-addon"><i class="fas fa-user-shield"></i></span>
+									<span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
 									<input name="service_address_vpn" type="text" class="form-control" ng-disabled="!service.new.isHasInternetConnect" ng-required="service.new.isHasInternetConnect" ng-model="service.new.addressVpn" />
 							  </div>
 							</div>
 						</div>
+						<!-- Control_de_Acceso: puerto vpn -->
+						<div class="form-group col-md-6" ng-show="service.new.isHasInternetConnect">
+							<label style="padding-left: 15px;">Puerto VPN</label>  
+								<div class="col-xs-12">
+								  <div class="input-group">
+									  <span class="input-group-addon"><i class="fas fa-project-diagram"></i></span>
+									  <input name="service_vpnPort" type="text" class="form-control" ng-disabled="!service.new.isHasInternetConnect" ng-required="service.new.isHasInternetConnect" ng-model="service.new.portVpn" />
+								</div>
+							  </div>
+						  </div>
 						<!-- Control_de_Acceso: usuario -->
 						<div class="form-group col-md-6" ng-show="service.new.isHasInternetConnect">
 						  <label style="padding-left: 15px;">Usuario</label>  
 							  <div class="col-xs-12">
 								<div class="input-group">
-									<span class="input-group-addon"><i class="fas fa-user"></i></span>
+									<span class="input-group-addon"><i class="fas fa-user-shield"></i></span>
 									<input name="service_username_vpn" type="text" class="form-control" ng-disabled="!service.new.isHasInternetConnect" ng-required="service.new.isHasInternetConnect" ng-model="service.new.useVpn" />
 							  </div>
 							</div>
@@ -645,6 +655,11 @@
 							  </div>
 							</div>
 						</div>
+					</div>
+					<!-- Observaciones Generales -->
+					<div class="form-group col-md-12">
+						<label class="col-xs-12" >Observaciones Adicionales</label> 
+						<textarea style="resize: none;" name="ObserGenerales" rows="3" placeholder="indique las Observaciones." class="form-control" ng-model="service.new.generalComments" ></textarea>							
 					</div>
 					</fieldset>
 				</form>

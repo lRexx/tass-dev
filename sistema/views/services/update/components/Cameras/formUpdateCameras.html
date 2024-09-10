@@ -87,13 +87,13 @@
 							<label style="padding-left: 15px;">Fecha de baja</label>  
 							<div class="col-xs-12">
 								<div class="input-group">
-									<span ng-click="open_end_date()" class="input-group-addon"><i ng-click="open_end_date()" class="far fa-calendar-alt"></i></span>
+									<span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
 									<input 
 									ng-click="open_end_date()" 
 									type="text" 
 									name="service_end_date"
 									class="form-control" 
-									uib-datepicker-popup="{{format}}" 
+									uib-datepicker-popup="{{format}}"
 									ng-model="service.update.dateDown" 
 									is-open="popup_end_date.opened"  
 									ng-required="false"
@@ -101,6 +101,7 @@
 									close-text="Cerrar" 
 									clear-text="Borrar"
 									current-text="Hoy"
+									ng-disabled="service.update.dateDown!=null"
 									alt-input-formats="altInputFormats" />
 								</div>
 							</div>
@@ -449,7 +450,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
-                        <button type="submit" ng-click="modalConfirmation('updateService', 0, service.update)" ng-disabled="list_cameras.length<=0" class="btn btn-labeled btn-success">
+                        <button type="submit" ng-click="modalConfirmation('updateService', 0, service.update)" ng-disabled="service.update.dateDown!=null || list_cameras.length<=0" class="btn btn-labeled btn-success">
                             <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
                         <a ng-click="modalConfirmation('closeServiceWindow', 0, service.update)" type="button" class="btn btn-labeled btn-danger">
                             <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
