@@ -289,6 +289,7 @@
 											<tr>
 												<th width="5px" class="dpto-th-head" style="border-right: 1px solid #ddd !important; "> N°</th>
 												<th class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-key"> </i> Llavero</th>
+												<th class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-key"> </i> Codigo</th>
 												<th class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-key"> </i> Codigo Externo</th>
 												<th ng-if="ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Categoria</th>
 												<th class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Asignado</th>
@@ -299,6 +300,7 @@
 											<tr  style="align-content: center; cursor: pointer;" data-ng-repeat="key in keyList">
 												<td style="vertical-align: middle;text-align: center;"><span class="font-size-16px">{{$index+1}}</span></td>
 												<td>{{key.descriptionProduct}}</td>
+												<td class="font-size-16px" style="vertical-align: middle;text-align: center;">{{key.codigo}}</td>
 												<td class="font-size-16px" style="vertical-align: middle;text-align: center;">{{key.codExt}}</td>
 												<td ng-if="ticket.optionTypeSelected.name=='building'" style="vertical-align: middle;text-align: center;">
 													<span class="label label-default">{{key.categoryKeychain}}</span>
@@ -543,7 +545,8 @@
 													<tr>
 														<th width="5px" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "> N°</th>
 														<th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-key"> </i> Llavero</th>
-														<th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-barcode"> </i> Codigo Externo</th>
+														<th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-barcode"> </i> Codigo </th>
+														<th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-barcode"> </i> Codigo Externo </th>
 														<th ng-if="ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Categoria</th>
 														<!--<th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Asignado</th>-->
 													</tr>
@@ -552,6 +555,7 @@
 													<tr  style="align-content: center; cursor: pointer;" data-ng-repeat="tckt in list_keys">
 														<td style="vertical-align: middle;text-align: center;"><span class="font-size-18px">{{$index+1}}</span></td>
 														<td>{{tckt.key.descriptionProduct}}</td>
+														<td style="vertical-align: middle;text-align: center;">{{tckt.key.codigo}}</td>
 														<td style="vertical-align: middle;text-align: center;">{{tckt.key.codExt}}</td>
 														<td ng-if="ticket.optionTypeSelected.name=='building'" style="vertical-align: middle;text-align: center;">
 															<span class="label label-default">{{tckt.key.categoryKeychain}}</span>

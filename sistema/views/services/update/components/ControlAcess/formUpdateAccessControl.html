@@ -459,7 +459,7 @@
 								  			}">
 						<div class="col-md-8"><label style="padding-left: 15px;">Pulsador de Emergencia</label></div>
 						<div class="pull-right col-md-4 n-padding-r"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.emergencyButton.selected, productListType.PULSADOR_EMERG)" ng-disabled="service.emergencyButton.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
-					  <button ng-if="service.emergencyButton.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-disabled="service.update.dateDown!=null" ng-click="removeProductDetailsFn(service.emergencyButton.selected, productListType.PULSADOR_EMERG, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
+					  	<button ng-if="service.emergencyButton.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-disabled="service.update.dateDown!=null" ng-click="removeProductDetailsFn(service.emergencyButton.selected, productListType.PULSADOR_EMERG, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
 					    <div class="col-xs-12 selectContainer">							   
 						    <div class="input-group">
 				              <span class="input-group-addon"><i class="fas fa-square"></i></span>
@@ -589,27 +589,28 @@
 						</div>
 						<!-- Control_de_Acceso: usuario -->
 						<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
-						  <label style="padding-left: 15px;">Usuario</label>  
-							  <div class="col-xs-12">
-								<div class="input-group">
-									<span class="input-group-addon"><i class="fas fa-user"></i></span>
-									<input name="service_username_router" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="service.update.dateDown!=null"  ng-required="false" ng-model="service.update.user" />
+							<label style="padding-left: 15px;">Usuario</label>  
+								<div class="col-xs-12">
+								  <div class="input-group">
+									  <span class="input-group-addon"><i class="fas fa-user-shield"></i></span>
+									  <input name="service_username_vpn" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="service.update.dateDown!=null"  ng-required="service.update.isHasInternetConnect" ng-model="service.update.useVpn" />
+								</div>
 							  </div>
-							</div>
-						</div>
-						<!-- Control_de_Acceso: contraseña -->
-						<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
-						  <label style="padding-left: 15px;">Contraseña</label>  
-							  <div class="col-xs-12">
-								<div class="input-group">
-									<span class="input-group-addon"><i class="fas fa-key"></i></span>
-									<input name="service_userPass_router" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="service.update.dateDown!=null"  ng-required="false" ng-model="service.update.pass" />
+						  </div>
+						  <!-- Control_de_Acceso: contraseña -->
+						  <div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
+							<label style="padding-left: 15px;">Contraseña</label>  
+								<div class="col-xs-12">
+								  <div class="input-group">
+									  <span class="input-group-addon"><i class="fas fa-key"></i></span>
+									  <input name="service_userPass_vpn" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="service.update.dateDown!=null"  ng-required="service.update.isHasInternetConnect" ng-model="service.update.passVpn" />
+								</div>
 							  </div>
-							</div>
-						</div>
+						  </div>
 						<!-- Control_de_Acceso: direccion vpn -->
 						<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
-						  <label style="padding-left: 15px;">Direcci&#243;n VPN</label>  
+						  <label style="padding-left: 15px;">Direcci&#243;n VPN</label> 
+						  <div class="pull-right col-md-4 n-padding-r" ><a ng-disabled="service.update.addressVpn==undefined || service.update.portVpn==undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{service.update.urlVpn}}" class="btn btn-xs btn-warning"><i class="fas fa-link"></i> Abril url</a></div>					
 							  <div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
@@ -628,25 +629,25 @@
 							  </div>
 						  </div>
 						<!-- Control_de_Acceso: usuario -->
-						<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
-						  <label style="padding-left: 15px;">Usuario</label>  
-							  <div class="col-xs-12">
-								<div class="input-group">
-									<span class="input-group-addon"><i class="fas fa-user-shield"></i></span>
-									<input name="service_username_vpn" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="service.update.dateDown!=null"  ng-required="service.update.isHasInternetConnect" ng-model="service.update.useVpn" />
+						<!--<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
+							<label style="padding-left: 15px;">Usuario</label>  
+								<div class="col-xs-12">
+								  <div class="input-group">
+									  <span class="input-group-addon"><i class="fas fa-user"></i></span>
+									  <input name="service_username_router" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="service.update.dateDown!=null"  ng-required="false" ng-model="service.update.user" />
+								</div>
 							  </div>
-							</div>
-						</div>
-						<!-- Control_de_Acceso: contraseña -->
-						<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
-						  <label style="padding-left: 15px;">Contraseña</label>  
-							  <div class="col-xs-12">
-								<div class="input-group">
-									<span class="input-group-addon"><i class="fas fa-key"></i></span>
-									<input name="service_userPass_vpn" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="service.update.dateDown!=null"  ng-required="service.update.isHasInternetConnect" ng-model="service.update.passVpn" />
+						  </div>-->
+						  <!-- Control_de_Acceso: contraseña -->
+						  <!--<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
+							<label style="padding-left: 15px;">Contraseña</label>  
+								<div class="col-xs-12">
+								  <div class="input-group">
+									  <span class="input-group-addon"><i class="fas fa-key"></i></span>
+									  <input name="service_userPass_router" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="service.update.dateDown!=null"  ng-required="false" ng-model="service.update.pass" />
+								</div>
 							  </div>
-							</div>
-						</div>
+						  </div>-->
 					</div>
 					<!-- Observaciones Generales -->
 					<div class="form-group col-md-12">

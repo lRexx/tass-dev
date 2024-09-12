@@ -201,10 +201,10 @@ class Services_model extends CI_Model {
                 'portVpn'                 => $item['portVpn'],
                 //'addressClientLat'       => $item['addressClientLat'],
                 //'addressClientLon'       => $item['addressClientLon'],
-                'user'                    => $item['user'],
+                'user'                    => @$item['user'],
                 'useVpn'                  => $item['useVpn'],
                 'passVpn'                 => $item['passVpn'],
-                'pass'                    => $item['pass'],
+                'pass'                    => @$item['pass'],
                 'portHttp'                => $item['portHttp'],
                 'observation'             => $item['observation'],
                 'locationEmergencyButton' => $item['locationEmergencyButton'],
@@ -276,8 +276,8 @@ class Services_model extends CI_Model {
                 'addressClient'                     => $item['addressClient'],
                 'addressVpn'                        => $item['addressVpn'],
                 'portVpn'                           => $item['portVpn'],
-                'user'                              => $item['user'],
-                'useVpn'                            => $item['useVpn'],
+                'user'                              => @$item['user'],
+                'useVpn'                            => @$item['useVpn'],
                 'passVpn'                           => $item['passVpn'],
                 'pass'                              => $item['pass'],
                 'portHttp'                          => $item['portHttp'],
@@ -2184,7 +2184,7 @@ class Services_model extends CI_Model {
         $this->db->join('tb_tickets_2 t2', 't2.idTicket = tkc.idTicketKf', 'left');
         $this->db->join('tb_statusticket st', 'st.idStatus = t2.idStatusTicketKf', 'left');
         $this->db->where('td.idServiceKf', $idService);
-        $this->db->where_not_in('t2.idStatusTicketKf', [1]);
+        $this->db->where_not_in('t2.idStatusTicketKf', [1,6]);
         $this->db->group_by('t2.idTicket');
         $this->db->order_by('t2.created_at', 'DESC');
 		$quuery = $this->db->get();

@@ -517,19 +517,46 @@ class User extends REST_Controller {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
-    public function sendGeneratedToken_post() {
+    public function addAuthorizationToken_post() {
         
-        if (!$this->post('user')) {
+        if (!$this->post('token')) {
             $this->response(array('error' => "Post Data is Missing"), 404);
         }
 
-        $rs = $this->user_model->sendGeneratedToken($this->post('user'));
+        $rs = $this->user_model->addAuthorizationToken($this->post('token'));
 
         if (!is_null($rs)) {
 
             //$this->response(array('response' => $rs), 200);
             //$this->response(array('response' => "Su Nueva Clave fue enviada a su direccion de correo!"), 200);
-            $this->response($rs, 200);
+            $this->response(array('response' => "Token generated successfully"), 200);
+        } else {
+            $this->response(array('error' => "ERROR INESPERADO"), 500);
+        }
+    }
+    public function listAuthorizationTokenByUserId_get($id) {
+        if (!$id) {
+            $this->response(NULL, 404);
+        }
+        $lists = $this->user_model->listAuthorizationTokenByUserId($id);
+        if (!is_null($lists)) {
+            $this->response($lists, 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
+    public function validateAuthorizationToken_post() {
+
+        if (!$this->post('token')) {
+            $this->response(array('error' => "Post Data is Missing"), 404);
+        }
+
+        $rs = $this->user_model->validateAuthorizationToken($this->post('token'));
+        print($rs);
+        if (!is_null($rs)) {
+            //$this->response(array('response' => $rs), 200);
+            //$this->response(array('response' => "Su Nueva Clave fue enviada a su direccion de correo!"), 200);
+            $this->response(array('response' => "Token is valid"), 200);
         } else {
             $this->response(array('error' => "ERROR INESPERADO"), 500);
         }

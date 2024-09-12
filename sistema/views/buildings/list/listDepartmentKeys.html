@@ -14,6 +14,7 @@
                 <table ng-if="departmentSelected.keys.length>0" class="table table-striped table-bordered table-list table-responsive table-hover fade in" style="border: 0 !important;">
                     <thead class="dpto-t-head">
                         <tr>
+                            <th class="dpto-th-head " style="border-right: 1px solid #ddd !important; ">Codigo</th>
                             <th class="dpto-th-head " style="border-right: 1px solid #ddd !important; ">Codigo Externo</th>
                             <!--<th>ID</th>-->
                             <th class="dpto-th-head " style="border-right: 1px solid #ddd !important; "><i class="fas fa-key"></i> LLavero</th>
@@ -24,6 +25,7 @@
                     <tbody>
                         <tr ng-repeat="key in departmentSelected.keys" style="font-size: 14px;">
                             <td style="width: 5%; padding-right: 10px; vertical-align: middle;text-align: center;" class="td-depto media-middle">
+                                <label style="font-size: 100%; cursor: pointer;" class="label label-default"> {{key.codigo | uppercase}}</label>
                                 <label style="font-size: 100%; cursor: pointer;" class="label label-default"> {{key.codExt | uppercase}}</label>
                             </td>
                             <td style="width: 55% " class="td-depto media-middle">

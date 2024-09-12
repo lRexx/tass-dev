@@ -1047,7 +1047,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 }
                             break;
                             case "closeServiceWindow":
-                                if (obj.idReasonTypeKf!=null && obj.dateDown!=null){
+                                console.log(obj);   
+                                if (obj!=undefined && obj.idReasonTypeKf!=undefined && obj.dateDown!=undefined && obj.idReasonTypeKf!=null && obj.dateDown!=null){
                                     confirm=1;
                                 }
                                 if (confirm==0){
@@ -2979,6 +2980,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.service.TurnOffKey.selected         = service.idShutdownKeyFk==undefined || service.idShutdownKeyFk==null?null:service.idShutdownKeyFk_array[0];
                                         $scope.service.update.idTypeMaintenanceFk  = service.idTypeMaintenanceFk_array[0].idTypeMaintenance;
                                         $scope.service.update.MntType              = service.idTypeMaintenanceFk_array[0].typeMaintenance;
+                                        $scope.service.update.urlVpn               = service.addressVpn!=null && service.portVpn!=null?service.addressVpn+":"+service.portVpn:null;
                                         var isBlocklingScrew                       = service.isBlocklingScrew==0||service.isBlocklingScrew==undefined?false:true;
                                         $scope.service.update.isBlocklingScrew     = service.isBlocklingScrew;
                                         var productIdNumber = 1;
@@ -4067,13 +4069,13 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             console.log(response);
                             if(response.status==200){
                                 console.log("The service is associated with Internet Service.");
-                                inform.add('El Servicio esta asociado a un servicio de Internet activo. ',{
+                                inform.add('El Servicio Tickets activos asociados. ',{
                                     ttl:6000, type: 'warning'
                                 });
                                 $scope.rsTicketData = response.data.ticket_active;
                             }else if(response.status==404){
                                 console.log("Service do not internet service related.");
-                                inform.add('El Servicio no se encuentra asociado a un servicio de internet. ',{
+                                inform.add('El Servicio no tiene tickets activos asociados. ',{
                                     ttl:6000, type: 'success'
                                 });
                                 $scope.rsTicketData = []

@@ -18,45 +18,45 @@ body{
 }
 
 .text-success{
-    color: #5cb85c;
-    border-color: #4cae4c;
+    color: #5cb85c !important;
+    border-color: #4cae4c !important;
 }
 .text-warning{
-    color: #f0ad4e;
-    border-color: #eea236;
+    color: #f0ad4e !important;
+    border-color: #eea236 !important;
 }
 .text-danger{
-    color: #d9534f;
-    border-color: #d43f3a;
+    color: #d9534f !important;
+    border-color: #d43f3a !important;
 }
 .text-primary{
-    color: #337ab7;
-    border-color: #2e6da4;
+    color: #337ab7 !important;
+    border-color: #2e6da4 !important;
 }
 .text-default{
-    color: #777777;
-    border-color: #ccc;
+    color: #777777 !important;
+    border-color: #ccc !important;
 }
 
 .background-success{
-  border: 1px solid #5cb85c;
-  background-color: #4cae4c;
+  border: 1px solid #5cb85c !important;
+  background-color: #4cae4c !important;
 }
 .background-warning{
-  border: 1px solid #f0ad4e;
-  background-color: #eea236;
+  border: 1px solid #f0ad4e !important;
+  background-color: #eea236 !important;
 }
 .background-danger{
-  border: 1px solid #d9534f;
-  background-color: #d43f3a;
+  border: 1px solid #d9534f !important;
+  background-color: #d43f3a !important;
 }
 .background-primary{
-  border: 1px solid #337ab7;
-  background-color: #2e6da4;
+  border: 1px solid #337ab7 !important;
+  background-color: #2e6da4 !important;
 }
 .background-default{
-  border: 1px solid #777777;
-  background-color: #ccc;
+  border: 1px solid #777777 !important;
+  background-color: #ccc !important;
 }
 
 .text-bss{
@@ -64,21 +64,21 @@ body{
   border-color: #0F2A37;
 }
 .thumbnail-success{
-  border: 1px solid #5cb85c;
-  background-color: #5cb85c;
+  border: 1px solid #5cb85c !important;
+  background-color: #5cb85c !important;
 }
 .thumbnail-warning{
-  border: 1px solid #eea236;
-  background-color: #f0ad4e;
+  border: 1px solid #eea236 !important;
+  background-color: #f0ad4e !important;
 }
 .thumbnail-danger{
-  border: 1px solid #d43f3a;
-  background-color: #d9534f;
+  border: 1px solid #d43f3a !important;
+  background-color: #d9534f !important;
 }
 /*UI SELECT FOR NO ITEM FOUND RULE*/
 .ui-select-no-choice { 
-  background-color: #f0ad4e;
-  border-color: #eea236;
+  background-color: #f0ad4e !important;
+  border-color: #eea236 !important;
   padding-left: 10px;
   width: 90.9% !important;
   font-weight: 600;

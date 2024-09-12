@@ -597,24 +597,24 @@
 						</div>
 						<!-- Control_de_Acceso: usuario -->
 						<div class="form-group col-md-6" ng-show="service.new.isHasInternetConnect">
-						  <label style="padding-left: 15px;">Usuario</label>  
-							  <div class="col-xs-12">
-								<div class="input-group">
-									<span class="input-group-addon"><i class="fas fa-user"></i></span>
-									<input name="service_username_router" type="text" class="form-control" ng-disabled="!service.new.isHasInternetConnect" ng-required="false" ng-model="service.new.user" />
-							  </div>
+							<label style="padding-left: 15px;">Usuario</label>  
+								<div class="col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fas fa-user-shield"></i></span>
+										<input name="service_username_vpn" type="text" class="form-control" ng-disabled="!service.new.isHasInternetConnect" ng-required="service.new.isHasInternetConnect" ng-model="service.new.useVpn" />
+								</div>
+								</div>
 							</div>
-						</div>
-						<!-- Control_de_Acceso: contraseña -->
-						<div class="form-group col-md-6" ng-show="service.new.isHasInternetConnect">
-						  <label style="padding-left: 15px;">Contraseña</label>  
-							  <div class="col-xs-12">
-								<div class="input-group">
-									<span class="input-group-addon"><i class="fas fa-key"></i></span>
-									<input name="service_userPass_router" type="text" class="form-control" ng-disabled="!service.new.isHasInternetConnect" ng-required="false" ng-model="service.new.pass" />
-							  </div>
+							<!-- Control_de_Acceso: contraseña -->
+							<div class="form-group col-md-6" ng-show="service.new.isHasInternetConnect">
+							<label style="padding-left: 15px;">Contraseña</label>  
+								<div class="col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fas fa-key"></i></span>
+										<input name="service_userPass_vpn" type="text" class="form-control" ng-disabled="!service.new.isHasInternetConnect" ng-required="service.new.isHasInternetConnect" ng-model="service.new.passVpn" />
+								</div>
+								</div>
 							</div>
-						</div>
 						<!-- Control_de_Acceso: direccion vpn -->
 						<div class="form-group col-md-6" ng-show="service.new.isHasInternetConnect">
 						  <label style="padding-left: 15px;">Direcci&#243;n VPN</label>  
@@ -636,25 +636,25 @@
 							  </div>
 						  </div>
 						<!-- Control_de_Acceso: usuario -->
-						<div class="form-group col-md-6" ng-show="service.new.isHasInternetConnect">
-						  <label style="padding-left: 15px;">Usuario</label>  
-							  <div class="col-xs-12">
-								<div class="input-group">
-									<span class="input-group-addon"><i class="fas fa-user-shield"></i></span>
-									<input name="service_username_vpn" type="text" class="form-control" ng-disabled="!service.new.isHasInternetConnect" ng-required="service.new.isHasInternetConnect" ng-model="service.new.useVpn" />
+						<!--<div class="form-group col-md-6" ng-show="service.new.isHasInternetConnect">
+							<label style="padding-left: 15px;">Usuario</label>  
+								<div class="col-xs-12">
+								  <div class="input-group">
+									  <span class="input-group-addon"><i class="fas fa-user"></i></span>
+									  <input name="service_username_router" type="text" class="form-control" ng-disabled="!service.new.isHasInternetConnect" ng-required="false" ng-model="service.new.user" />
+								</div>
 							  </div>
-							</div>
-						</div>
-						<!-- Control_de_Acceso: contraseña -->
-						<div class="form-group col-md-6" ng-show="service.new.isHasInternetConnect">
-						  <label style="padding-left: 15px;">Contraseña</label>  
-							  <div class="col-xs-12">
-								<div class="input-group">
-									<span class="input-group-addon"><i class="fas fa-key"></i></span>
-									<input name="service_userPass_vpn" type="text" class="form-control" ng-disabled="!service.new.isHasInternetConnect" ng-required="service.new.isHasInternetConnect" ng-model="service.new.passVpn" />
+						  </div>-->
+						  <!-- Control_de_Acceso: contraseña -->
+						  <!--<div class="form-group col-md-6" ng-show="service.new.isHasInternetConnect">
+							<label style="padding-left: 15px;">Contraseña</label>  
+								<div class="col-xs-12">
+								  <div class="input-group">
+									  <span class="input-group-addon"><i class="fas fa-key"></i></span>
+									  <input name="service_userPass_router" type="text" class="form-control" ng-disabled="!service.new.isHasInternetConnect" ng-required="false" ng-model="service.new.pass" />
+								</div>
 							  </div>
-							</div>
-						</div>
+						  </div>-->
 					</div>
 					<!-- Observaciones Generales -->
 					<div class="form-group col-md-12">

@@ -601,7 +601,6 @@ class User_model extends CI_Model
 		return $randomString;
 	}
 
-
 	public function get_the_current_url ()
 	{
 
@@ -1676,6 +1675,138 @@ class User_model extends CI_Model
 		if ($rs == "Enviado"){
 			return $tokenMail;
 		}
+	}
+
+// Función para generar un token único
+	private function generateUniqueToken($length) {
+		do {
+			$token = $this->generateRandomString($length);
+			// Verificar si el token ya existe en la tabla
+			$this->db->where('token', $token);
+			$query = $this->db->get('tb_authorization_token');
+		} while ($query->num_rows() > 0); // Repetir si el token ya existe
+
+		return $token;
+	}
+    public function addAuthorizationToken($item) {
+		$now        = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
+		// Generar un token único
+		$token = $this->generateUniqueToken(5);
+        $this->db->insert('tb_authorization_token', [
+                'token' 				=> $token,
+                'idUserApproverKf' 		=> $item['idUserApproverKf'],
+                'idUserRequestorKf' 	=> $item['idUserRequestorKf'],
+				'created_at' 			=> $now->format('Y-m-d H:i:s'),
+				'expirationTime'  		=> 24,
+				'idTokenStatusKf' 		=> 1
+            ]
+        );
+        if ($this->db->affected_rows() === 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    public function setTokenCompleted($item) {
+        $now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));
+        $this->db->set(
+            [
+				'idTokenStatusKf' 	=> 0,
+				'updated_at' 		=> $now->format('Y-m-d H:i:s'),
+            ]
+        )->where("idToken", $item['idToken'])->update("tb_authorization_token");
+
+        if ($this->db->affected_rows() === 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+    public function setTokenExpired($item) {
+        $now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));
+        $this->db->set(
+            [
+				'idTokenStatusKf' 	=> -1,
+				'updated_at' 		=> $now->format('Y-m-d H:i:s'),
+            ]
+        )->where("idToken", $item['idToken'])->update("tb_authorization_token");
+
+        if ($this->db->affected_rows() === 1) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+	public function listAuthorizationTokenByUserId($idUser) {
+		$rs = [];
+		$this->db->select("*")->from("tb_authorization_token");
+		$this->db->join('tb_token_status', 'tb_token_status.idTokenStatus = tb_authorization_token.idTokenStatusKf', 'left');
+		$this->db->where('tb_authorization_token.idUserApproverKf', $idUser);
+		$query = $this->db->order_by('tb_authorization_token.created_at ASC')->get();
+		$rs = $query->result_array();
+		
+		$updated = false;  // Bandera para determinar si se actualizó algún registro
+	
+		if ($query->num_rows() > 0) {
+			// Recorrer la lista y verificar si cada token ha expirado
+			foreach ($rs as $item) {
+				$createdAt = new DateTime($item['created_at']);
+				$now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));
+				$interval = $now->diff($createdAt);
+	
+				// Verificar si han pasado más de 24 horas
+				if ($interval->h + ($interval->days * 24) >= 24) {
+					// Invocar la función para marcar el token como expirado
+					$this->setTokenExpired($item);
+					$updated = true;  // Marcar que un registro fue actualizado
+				}
+			}
+	
+			// Si se actualizó algún registro, realizar la consulta nuevamente
+			if ($updated) {
+				$this->db->select("*")->from("tb_authorization_token");
+				$this->db->join('tb_token_status', 'tb_token_status.idTokenStatus = tb_authorization_token.idTokenStatusKf', 'left');
+				$this->db->where('tb_authorization_token.idUserApproverKf', $idUser);
+				$query = $this->db->order_by('tb_authorization_token.created_at ASC')->get();
+				$rs = $query->result_array();
+			}
+	
+			return $rs;
+		}
+	
+		return null;
+	}
+	public function validateAuthorizationToken($item) {
+		$rs = [];
+		$this->db->select("*")->from("tb_authorization_token");
+		$this->db->join('tb_token_status', 'tb_token_status.idTokenStatus = tb_authorization_token.idTokenStatusKf', 'left');
+		$this->db->where('tb_authorization_token.token', $item['tokenCode']);
+		$query = $this->db->where('tb_authorization_token.idUserApproverKf', $item['idUserRequestorKf'])->limit(1)->get();
+		$rs = $query->row_array();  // Usar row_array para un solo registro
+		if ($query->num_rows() > 0) {
+			// Verificar si han pasado más de 24 horas desde created_at
+			$createdAt = new DateTime($rs['created_at']);
+			$now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));
+			$interval = $now->diff($createdAt);
+	
+			// Si han pasado más de 24 horas, marcar como expirado y actualizar la consulta
+			if ($interval->h + ($interval->days * 24) >= 24) {
+				$this->setTokenExpired($rs);
+	
+				// Realizar una nueva consulta para obtener el registro actualizado
+				$this->db->select("*")->from("tb_authorization_token");
+				$this->db->join('tb_token_status', 'tb_token_status.idTokenStatus = tb_authorization_token.idTokenStatusKf', 'left');
+				$this->db->where('tb_authorization_token.token', $item['tokenCode']);
+				$this->db->where('tb_authorization_token.idUserRequestorKf', $item['idUserRequestorKf']);
+				$query = $this->db->order_by('tb_authorization_token.created_at ASC')->limit(1)->get();
+				$rs = $query->row_array();  // Obtener el registro actualizado
+			}
+	
+			return $rs;
+		}
+	
+		return null;
 	}
 }
 
