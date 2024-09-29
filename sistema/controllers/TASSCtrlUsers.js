@@ -2533,7 +2533,6 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                             $scope.loadPagination($scope.userList, "idUser", "10");
                             $scope.sysContentList = 'users';
                         }, 1000);
-
                         break;
                         case "owners_tenants":
                           $scope.sysContentList = "";

@@ -132,6 +132,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
     $scope.getSelectedCustomerData = tokenSystem.getTokenStorage(7);
     $scope.formats = ['dd-MM-yyyy', 'dd/MM/yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
     $scope.format = $scope.formats[2];
+    $scope.inputTokenCode = "";
     $scope.tmpVars ={};
     $scope.service = {
         'customer':{},
@@ -242,17 +243,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         var date = moment.tz(current_date, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
                         var newDate = date.toDate();
                         $scope.contract.new.dateOfSign = moment(newDate).format('DD/MM/YYYY');
-                        var day     = current_date.getDate();
-                        var month   = current_date.getMonth() + 1; // Los meses son 0-indexados
-                        var year    = current_date.getFullYear();
-                        // Formatear el día y el mes con dos dígitos
-                        day     = day < 10 ? '0' + day : day;
-                        month   = month < 10 ? '0' + month : month;
-                        // Convertir el año a formato de dos dígitos
-                        var shortYear = year % 100; // Tomar los últimos dos dígitos del año
-                        // Si quieres agregar un prefijo '0' en caso de que el shortYear sea menor a 10
-                        shortYear = shortYear < 10 ? '0' + shortYear : shortYear;
-                        $scope.contract.new.dateCodeDigits=day+month+shortYear;
+                        var parsedDate = moment($scope.contract.new.dateOfSign, 'DD/MM/YYYY');
+                        var short_date = parsedDate.format('DDMMYY');
+                        $scope.contract.new.dateCodeDigits       = short_date;
                         $scope.contract.new.idClientFk=cObj.idClient;
                     break;
                     case "assign_contract_new_service":
@@ -301,6 +294,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         $scope.customerContractFn(cObj, 'disable');
                     break;
                     case "init_terminationContract":
+                        $scope.inputTokenCode = "";
                         blockUI.start('Iniciando verificación del contrato: '+cObj.numeroContrato);
                         $scope.contractSelected = {'idContrato':'','idStatusFk':'','idClientFk':'','numeroContrato':'','services':[], 'maintenanceType':''};
                         $scope.contract.update                      = cObj;
@@ -482,7 +476,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     break;
                     case "init_terminateService":
                         $scope.cleanServiceInputsFn();
+                        $scope.service.update={'terminateDate': undefined,'reasonType': undefined,'terminationReason': undefined};
                         $scope.contractSelected=undefined;
+                        $scope.inputTokenCode = "";
                         blockUI.start('Iniciando verificación del servicio '+cObj.clientTypeServices);
                         $timeout(function() {
                             $scope.serviceDataFn(cObj, 'init_terminateService');
@@ -494,18 +490,27 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             blockUI.stop();
                             $('#requiredInputForServiceTermination').modal({backdrop: 'static', keyboard: false});
                             console.log($scope.service.update);
-                            console.log($scope.service.update.idAccessControlFk_array);
+                            console.log($scope.service.update.idContracAssociated_SE_array);
                         }, 2000);
                     break;
                     case "complete_terminateService":
                         $scope.service.update.terminationApprovedByIdUserKf = $scope.data_param.user.idUser;
                         $scope.service.update.idContratoFk                  = $scope.service.update.idContracAssociated_SE;
+                        $scope.service.update.idContracAssociatedFk         = $scope.service.update.idContracAssociated_SE;
+                        $scope.service.update.tipo_conexion_remoto          = $scope.service.update.tb_tipo_conexion_remoto_array;
+                        $scope.service.update.adicional_alarmar             = $scope.service.update.adicional;
+                        $scope.service.update.sensores_de_alarmas           = $scope.service.update.tb_sensors_alarm_array;
+                        $scope.service.update.baterias_instaladas           = $scope.service.update.tb_alarm_batery_array;
                         blockUI.start('Servicio dado de baja.');
                         $timeout(function() {
                             console.log($scope.service.update);
                             $scope.updateCustomerServiceFn($scope.service.update);
+                            $scope.inputTokenCode = "";
                             blockUI.stop();
                         }, 1500);
+                        $timeout(function() {
+                            $scope.setTokenCompletedFn($scope.token_param.token.tokenCode);
+                        }, 2000);
                     break;
                 }
             break;
@@ -530,52 +535,62 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     break;
                     case "request_approval_code":
                         $scope.data_param={'user':{}};
-                        $scope.data_param.user.idUser       = cObj.idUser;
-                        $scope.data_param.user.emailUser    = cObj.emailUser;
-                        $scope.data_param.user.fullNameUser = cObj.fullNameUser ;
-                        $scope.data_param.user.clientName   = $scope.customerFound.name;
-                        $scope.sendGeneratedTokenFn($scope.data_param);
-                        $timeout(function() {
-                            console.log("Token generated: "+$scope.generatedTokenCode);
-                            blockUI.stop();
-                        }, 2000);
+                        $scope.data_param.user.idUser               = cObj.idUser;
+                        $scope.data_param.user.emailUser            = cObj.emailUser;
+                        $scope.data_param.user.fullNameUser         = cObj.fullNameUser ;
+                        $scope.data_param.user.clientName           = $scope.customerFound.name;
+                        $scope.data_param.user.idUserApproverKf     = cObj.idUser;
+                        $scope.data_param.user.idUserRequestorKf    = $scope.sysLoggedUser.idUser;
+                        $scope.addAuthorizationTokenFn($scope.data_param);
+                        //$timeout(function() {
+                        //    console.log("Token generated: "+$scope.generatedTokenCode);
+                        //    blockUI.stop();
+                        //}, 2000);
                     break;
                     case "approve_termination":
-                        blockUI.start('Se ha enviado un codigo de aprobación a la dirección: '+$scope.data_param.user.emailUser);
+                        blockUI.start('Se ha enviado un codigo de aprobación al usuario: '+$scope.data_param.user.emailUser);
                         $timeout(function() {
                             $('#confirmCodeModal').modal({backdrop: 'static', keyboard: false});
                             $('#confirmCodeModal').on('shown.bs.modal', function () {
+                                $scope.inputTokenCode = "";
                                 $('#checkCode').focus();
                             })
                             blockUI.stop();
                         }, 2000);
                     break;
                     case "validate_token_code":
-                        if (cObj==$scope.generatedTokenCode){
-                            inform.add('Codigo ingresado, ha sido validado satisfactoriamente.',{
-                                ttl:10000, type: 'success'
-                            });
-                            $scope.generatedTokenCode = null;
-                            blockUI.start('Completando baja del servicio');
-                            console.log($scope.contractSelected);
-                            $timeout(function() {
-                                if ($scope.contractSelected==undefined || $scope.contractSelected==null){
-                                    $('#serviceDownDetails').modal('hide');
-                                    $('#requiredInputForServiceTermination').modal('hide');
-                                    $scope.switchCustomersFn('services', null, 'complete_terminateService');
-                                }else{
-                                    $('#contractDownDetails').modal('hide');
-                                    $('#requiredInputForContractTermination').modal('hide');
-                                    $scope.switchCustomersFn('contract', $scope.contract.update, 'complete_terminateContract');
-                                }
-                                $('#confirmCodeModal').modal('hide');
-                                blockUI.stop();
-                            }, 2000);
-                        }else{
-                            inform.add('Codigo ingresado, no es correcto, intente nuevamente.',{
-                                ttl:5000, type: 'warning'
-                            });
-                        }
+                        $scope.token_param={'token':{}};
+                        $scope.token_param.token.tokenCode            = cObj;
+                        $scope.token_param.token.idUserRequestorKf    = $scope.sysLoggedUser.idUser;
+                        userServices.validateAuthorizationToken($scope.token_param).then(function(response){
+                            console.log(response);
+                            if(response.status==200){
+                                inform.add('Codigo ingresado, ha sido validado satisfactoriamente.',{
+                                    ttl:10000, type: 'success'
+                                });
+                                blockUI.start('Completando baja del servicio');
+                                console.log($scope.contractSelected);
+                                $timeout(function() {
+                                    if ($scope.contractSelected==undefined || $scope.contractSelected==null){
+                                        $('#serviceDownDetails').modal('hide');
+                                        $('#requiredInputForServiceTermination').modal('hide');
+                                        $scope.switchCustomersFn('services', null, 'complete_terminateService');
+                                    }else{
+                                        $('#contractDownDetails').modal('hide');
+                                        $('#requiredInputForContractTermination').modal('hide');
+                                        $scope.switchCustomersFn('contract', $scope.contract.update, 'complete_terminateContract');
+                                    }
+                                    $('#confirmCodeModal').modal('hide');
+                                    blockUI.stop();
+                                }, 2000);
+                            }if(response.status==404){
+                                $scope.token_param={'token':{}};
+                                $scope.inputTokenCode = "";
+                                inform.add('Codigo ingresado, no es correcto, intente nuevamente.',{
+                                    ttl:5000, type: 'warning'
+                                });
+                            }
+                        });
                     break;
                 }
             break;
@@ -849,24 +864,38 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     }
                 /**************************************************
                  *                                                 *
-                 *                SET CLIENT IN DEBT               *
+                 *                REQUEST TOKEN CODE               *
                  *                                                 *
                  **************************************************/
-                    $scope.generatedTokenCode = null;
-                    $scope.sendGeneratedTokenFn = function(user){
+                    $scope.addAuthorizationTokenFn = function(user){
                         //console.log(obj);
-                        userServices.sendGeneratedToken(user).then(function(response){
+                        userServices.addAuthorizationToken(user).then(function(response){
                             console.log(response);
                             if(response.status==200){
-                                inform.add('Codigo de seguridad ha sido enviado satisfactoriamente.',{
+                                inform.add('Token de seguridad ha sido generado satisfactoriamente.',{
                                     ttl:10000, type: 'success'
                                 });
                                 $scope.switchCustomersFn('general', $scope.service.update, 'approve_termination');
                                 $('#getApprovedUser').modal('hide');
-                                $scope.generatedTokenCode = response.data;
                             }if(response.status==500){
-                                $scope.generatedTokenCode = [];
                                 inform.add('Ocurrio un error generando y enviando el codigo de seguridad, contacta con soporte.',{
+                                    ttl:15000, type: 'danger'
+                                });
+                            }
+                        });
+                    }
+                /**************************************************
+                 *                                                 *
+                 *                SET TOKEN COMPLETED              *
+                 *                                                 *
+                 **************************************************/
+                    $scope.setTokenCompletedFn = function(token){
+                        //console.log(obj);
+                        userServices.setTokenCompleted(token).then(function(response){
+                            if(response.status==200){
+                                console.log(response.data);
+                            }if(response.status==500){
+                                inform.add('Ocurrio un error en función "setTokenCompletedFn", contacta con soporte.',{
                                     ttl:15000, type: 'danger'
                                 });
                             }
@@ -1975,8 +2004,17 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             case "create": //NEW CUSTOMER CONRACT
                                 $scope.contract.new.services             = $scope.list_services_tmp;
                                 $scope.contract.new.idStatusFk           = 0;
-                                $scope.contract.new.fechaFirmaVigencia   = $scope.contract.new.dateOfSign;
+                                var currentDate        = moment($scope.contract.new.dateOfSign, 'DD/MM/YYYY').format('YYYY-MM-DD');
+                                console.log(typeof currentDate);
+                                var rawDate            = moment(currentDate).toDate();
+                                console.log(typeof rawDate);
+                                var formatedDate       = moment(rawDate).format('YYYY-MM-DD');
+                                console.log(typeof formatedDate);
+                                $scope.contract.new.fechaFirmaVigencia   = formatedDate;
                                 $scope.contract.new.fechaFirmaActivacion = null;
+                                var parsedDate = moment($scope.contract.new.dateOfSign, 'DD/MM/YYYY');
+                                var short_date = parsedDate.format('DDMMYY');
+                                $scope.contract.new.dateCodeDigits       = short_date;
                                 $scope.contract.new.numeroContrato       = $scope.contract.new.idClientFk+"-"+$scope.contract.new.code+"-"+$scope.contract.new.dateCodeDigits;
                                 console.log($scope.contract.new);
                                 $scope.addCustomerContractFn($scope.contract.new);
@@ -2398,7 +2436,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             });                        
                                             for (var key in $scope.rsTypeOfMaintenanceData){
                                                 if ($scope.rsContractServiceData.maintenanceType==$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance){
-                                                    $scope.service.new.idTypeMaintenanceFk           = $scope.rsContractServiceData.maintenanceType=="3"?0:$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    //$scope.service.new.idTypeMaintenanceFk         = $scope.rsContractServiceData.maintenanceType=="3"?0:$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    $scope.service.new.idTypeMaintenanceFk           = $scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
                                                     $scope.service.new.idTypeMaintenanceFkConstract  = $scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
                                                     $scope.service.new.MntType              = $scope.rsTypeOfMaintenanceData[key].typeMaintenance;
                                                 }
@@ -2454,7 +2493,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             });                        
                                             for (var key in $scope.rsTypeOfMaintenanceData){
                                                 if ($scope.rsContractServiceData.maintenanceType==$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance){
-                                                    $scope.service.new.idTypeMaintenanceFk           = $scope.rsContractServiceData.maintenanceType=="3"?0:$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    //$scope.service.new.idTypeMaintenanceFk         = $scope.rsContractServiceData.maintenanceType=="3"?0:$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    $scope.service.new.idTypeMaintenanceFk           = $scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
                                                     $scope.service.new.idTypeMaintenanceFkConstract  = $scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
                                                     $scope.service.new.MntType              = $scope.rsTypeOfMaintenanceData[key].typeMaintenance;
                                                 }
@@ -2510,7 +2550,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             });
                                             for (var key in $scope.rsTypeOfMaintenanceData){
                                                 if ($scope.rsContractServiceData.maintenanceType==$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance){
-                                                    $scope.service.new.idTypeMaintenanceFk           = $scope.rsContractServiceData.maintenanceType=="3"?0:$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    //$scope.service.new.idTypeMaintenanceFk         = $scope.rsContractServiceData.maintenanceType=="3"?0:$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    $scope.service.new.idTypeMaintenanceFk           = $scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
                                                     $scope.service.new.idTypeMaintenanceFkConstract  = $scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
                                                     $scope.service.new.MntType              = $scope.rsTypeOfMaintenanceData[key].typeMaintenance;
                                                 }
@@ -2568,7 +2609,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             });
                                             for (var key in $scope.rsTypeOfMaintenanceData){
                                                 if ($scope.rsContractServiceData.maintenanceType==$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance){
-                                                    $scope.service.new.idTypeMaintenanceFk           = $scope.rsContractServiceData.maintenanceType=="3"?0:$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    //$scope.service.new.idTypeMaintenanceFk         = $scope.rsContractServiceData.maintenanceType=="3"?0:$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    $scope.service.new.idTypeMaintenanceFk           = $scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
                                                     $scope.service.new.idTypeMaintenanceFkConstract  = $scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
                                                     $scope.service.new.MntType              = $scope.rsTypeOfMaintenanceData[key].typeMaintenance;
                                                 }
@@ -2626,7 +2668,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             });
                                             for (var key in $scope.rsTypeOfMaintenanceData){
                                                 if ($scope.rsContractServiceData.maintenanceType==$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance){
-                                                    $scope.service.new.idTypeMaintenanceFk           = $scope.rsContractServiceData.maintenanceType=="3"?0:$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    //$scope.service.new.idTypeMaintenanceFk         = $scope.rsContractServiceData.maintenanceType=="3"?0:$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    $scope.service.new.idTypeMaintenanceFk           = $scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
                                                     $scope.service.new.idTypeMaintenanceFkConstract  = $scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
                                                     $scope.service.new.MntType              = $scope.rsTypeOfMaintenanceData[key].typeMaintenance;
                                                 }
@@ -2691,7 +2734,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             });
                                             for (var key in $scope.rsTypeOfMaintenanceData){
                                                 if ($scope.rsContractServiceData.maintenanceType==$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance){
-                                                    $scope.service.new.idTypeMaintenanceFk           = $scope.rsContractServiceData.maintenanceType=="3"?0:$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    //$scope.service.new.idTypeMaintenanceFk         = $scope.rsContractServiceData.maintenanceType=="3"?0:$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
+                                                    $scope.service.new.idTypeMaintenanceFk           = $scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
                                                     $scope.service.new.idTypeMaintenanceFkConstract  = $scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
                                                     $scope.service.new.MntType              = $scope.rsTypeOfMaintenanceData[key].typeMaintenance;
                                                 }
@@ -3541,20 +3585,20 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         var productIdNumber=0;
                                         blockUI.message('Guardando Servicio '+service.clientTypeServices);
                                         service.idContracAssociated_SE   = service.idContratoFk;
-                                        service.idRouterInternetFk = service.idTypeInternetFk<="2"?$scope.service.router.selected.idProduct:null;
-                                        service.idModemInternetFk  = $scope.service.modem.selected.idProduct;
-                                        service.macAddress         = service.idTypeInternetFk<="2"?service.macAddress:null;
-                                        service.port               = service.idTypeInternetFk<="2"?service.port:null;
-                                        service.userWifi           = service.idTypeInternetFk<="2"?service.userWifi:null;
-                                        service.passWifi           = service.idTypeInternetFk<="2"?service.passWifi:null;
-                                        service.userAdmin          = service.idTypeInternetFk<="2"?service.userAdmin:null;
-                                        service.passAdmin          = service.idTypeInternetFk<="2"?service.passAdmin:null;
-                                        service.numberLine         = service.idTypeInternetFk<="2"?null:service.numberLine;
-                                        service.numberChip         = service.idTypeInternetFk<="2"?null:service.numberChip;
+                                        service.idRouterInternetFk       = service.idTypeInternetFk<="2"?$scope.service.router.selected.idProduct:null;
+                                        service.idModemInternetFk        = $scope.service.modem.selected.idProduct;
+                                        service.macAddress               = service.idTypeInternetFk<="2"?service.macAddress:null;
+                                        service.port                     = service.idTypeInternetFk<="2"?service.port:null;
+                                        service.userWifi                 = service.idTypeInternetFk<="2"?service.userWifi:null;
+                                        service.passWifi                 = service.idTypeInternetFk<="2"?service.passWifi:null;
+                                        service.userAdmin                = service.idTypeInternetFk<="2"?service.userAdmin:null;
+                                        service.passAdmin                = service.idTypeInternetFk<="2"?service.passAdmin:null;
+                                        service.numberLine               = service.idTypeInternetFk<="2"?null:service.numberLine;
+                                        service.numberChip               = service.idTypeInternetFk<="2"?null:service.numberChip;
                                         service.adicional=[];
-                                        var rawDate                = moment(service.dateUp).toDate();
-                                        service.dateUp             = moment(rawDate).format('YYYY-MM-DD');
-                                        service.adicional=$scope.list_productsDetails;
+                                        var rawDate                      = moment(service.dateUp).toDate();
+                                        service.dateUp                   = moment(rawDate).format('YYYY-MM-DD');
+                                        service.adicional                = $scope.list_productsDetails;
                                         blockUI.message('Guardando Servicio '+service.clientTypeServices);
                                         }, 1500);
                                         $timeout(function() {
@@ -3625,22 +3669,22 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         service.clients               = [];
                                         service.clients               = $scope.list_user;
                                         if (service.isHasInternetConnect==undefined || !service.isHasInternetConnect){
-                                        service.numberPortRouter    = null;
-                                        service.portHttpInter       = null;
-                                        service.numberPortInter     = null;
-                                        service.addressClientInter  = null;
-                                        service.addreesVpn          = null;
-                                        service.namePort            = null;
-                                        service.port                = null;
-                                        service.namePort1           = null;
-                                        service.nroPort1            = null;
-                                        service.namePort2           = null;
-                                        service.nroPort2            = null;
+                                            service.numberPortRouter    = null;
+                                            service.portHttpInter       = null;
+                                            service.numberPortInter     = null;
+                                            service.addressClientInter  = null;
+                                            service.addreesVpn          = null;
+                                            service.namePort            = null;
+                                            service.port                = null;
+                                            service.namePort1           = null;
+                                            service.nroPort1            = null;
+                                            service.namePort2           = null;
+                                            service.nroPort2            = null;
                                         }else{
-                                        service.namePortInter       = service.namePort;
-                                        service.numberPortInter     = service.port;
-                                        service.numberPort1         = service.nroPort1;
-                                        service.numberPort2         = service.nroPort2;  
+                                            service.namePortInter       = service.namePort;
+                                            service.numberPortInter     = service.port;
+                                            service.numberPort1         = service.nroPort1;
+                                            service.numberPort2         = service.nroPort2;  
                                         }
                                         var productIdNumber=0;
                                         
@@ -3946,6 +3990,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             $timeout(function() {
                                 console.log($scope.rsServicesListByContractsIdData);
                                 if ($scope.rsServicesListByContractsIdData.length>=1){
+                                    console.log($scope.rsServicesListByContractsIdData);
                                     $scope.rsInternetServiceDataTmp = 0;
                                     var assignedServices = [];
                                     angular.forEach($scope.rsServicesListByContractsIdData,function(serv){
@@ -3954,12 +3999,92 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $timeout(function() {
                                             deferredService.resolve();
                                             serv.terminationApprovedByIdUserKf = $scope.data_param.user.idUser;
-                                            serv.idContratoFk                  = $scope.service.update.idContracAssociated_SE;
+                                            serv.idContratoFk                  = serv.idContracAssociated_SE;
                                             serv.terminationReason             = $scope.contractSelected.terminationReason;
                                             serv.reasonType                    = $scope.contractSelected.reasonType;
+                                            serv.idContracAssociatedFk         = serv.idContracAssociated_SE;
+                                            switch(serv.idClientTypeServices){
+                                                case "1"://CONTROL ACCESS
+                                                    serv.battery_install            = serv.tb_battery_install_access_control_array;
+                                                    serv.adicional                  = serv.adicional;
+                                                    serv.open_devices               = serv.tb_open_devices_access_control_array;
+                                                break;
+                                                case "2"://INTERNET
+                                                    serv.adicional               = serv.adicional;
+                                                break;
+                                                case "3"://TOTEM
+                                                    serv.isHasInternetConnect    = serv.numberPortRouter!=undefined && serv.portHttpInter!=undefined?true: false;
+                                                    serv.backup_energy           = serv.tb_backup_energy_totem_array;
+                                                    serv.cameras                 = serv.tb_cameras_totem_array;
+                                                    serv.clients                 = serv.tb_client_totem_array;
+                                                    serv.adicional               = serv.adicional;
+                                                    if (serv.isHasInternetConnect==undefined || !serv.isHasInternetConnect){
+                                                        serv.numberPortRouter    = serv.numberPortRouter;
+                                                        serv.portHttpInter       = serv.portHttpInter;
+                                                        serv.numberPortInter     = serv.numberPortInter;
+                                                        serv.addressClientInter  = serv.addressClientInter;
+                                                        serv.addreesVpn          = serv.addreesVpn;
+                                                        serv.namePort            = serv.namePort;
+                                                        serv.port                = serv.numberPortInter;
+                                                        serv.namePort1           = serv.namePort1;
+                                                        serv.nroPort1            = serv.nroPort1;
+                                                        serv.namePort2           = serv.namePort2;
+                                                        serv.nroPort2            = serv.nroPort2;
+                                                    }else{
+                                                        serv.namePort            = serv.namePort;
+                                                        serv.port                = serv.numberPortInter;
+                                                        serv.nroPort1            = serv.nroPort1;
+                                                        serv.nroPort2            = serv.nroPort2;  
+                                                    }
+                                                break;
+                                                case "4"://CAMERAS
+                                                    serv.isHasInternetConnect    = serv.numberPortRouter!=undefined && serv.portHttp!=undefined?true: false;
+                                                    serv.backup_energy           = serv.tb_backup_energy_array;
+                                                    serv.cameras                 = serv.tb_cameras_array;
+                                                    serv.adicional               = serv.adicional;
+                                                    serv.clients                 = serv.tb_client_camera_array;
+                                                    if (serv.isHasInternetConnect==undefined || !serv.isHasInternetConnect){
+                                                        serv.numberPortRouter    = serv.numberPortRouter;
+                                                        serv.portHttpInter       = serv.portHttpInter;
+                                                        serv.numberPortInter     = serv.numberPortInter;
+                                                        serv.addressClientInter  = serv.addressClientInter;
+                                                        serv.addreesVpn          = serv.addreesVpn;
+                                                        serv.namePort            = serv.namePort;
+                                                        serv.port                = serv.numberPortInter;
+                                                        serv.namePort1           = serv.namePort1;
+                                                        serv.nroPort1            = serv.nroPort1;
+                                                        serv.namePort2           = serv.namePort2;
+                                                        serv.nroPort2            = serv.nroPort2;
+                                                    }else{
+                                                        serv.namePortInter       = serv.namePort;
+                                                        serv.numberPortInter     = serv.numberPortInter;
+                                                        serv.numberPort1         = serv.nroPort1;
+                                                        serv.numberPort2         = serv.nroPort2;  
+                                                    }
+                                                break;
+                                                case "5"://ALARM
+                                                    serv.idTipoConexionRemoto       = serv.idTypeConectionRemote;
+                                                    serv.tipo_conexion_remoto       = serv.tb_tipo_conexion_remoto_array;
+                                                    serv.adicional_alarmar          = serv.tb_datos_adicionales_alarmas_array;
+                                                    serv.adicional_alarmar[0].franja_horarias                           = serv.tb_datos_adicionales_alarmas_array[0].tb_franja_horaria_alarmas_array;
+                                                    serv.adicional_alarmar[0].personas_para_dar_aviso                   = serv.tb_datos_adicionales_alarmas_array[0].tb_personas_para_dar_aviso_alarmas_array;
+                                                    serv.adicional_alarmar[0].personas_para_verificar_en_el_lugar       = serv.tb_datos_adicionales_alarmas_array[0].tb_personas_para_verificar_en_lugar_array;
+                                                    serv.sensores_de_alarmas        = serv.tb_sensors_alarm_array;
+                                                    serv.baterias_instaladas        = serv.tb_alarm_batery_array;
+                                                    serv.adicional                  = serv.adicional;
+                                                    for (var alarm in serv.sensores_de_alarmas){
+                                                        serv.sensores_de_alarmas[alarm].idSensor = serv.sensores_de_alarmas[alarm].idSensorsAlarm;
+                                                    }
+                                                break;
+                                                case "6"://SMART PANIC
+                                                    serv.licenses                   = serv.tb_user_license_array;
+                                                    serv.passwordApp                = serv.passwdApp;
+                                                break;
+                                            }
+
                                             blockUI.message('Servicio dado de baja.');
                                             $timeout(function() {
-                                                if (serv.dateDown==null){
+                                                if (serv.dateDown==null || serv.dateDown==""){
                                                     serv.dateDown              = $scope.contractSelected.dateDown;
                                                     console.log(serv);
                                                     $scope.updateCustomerServiceFn(serv);
@@ -3980,8 +4105,12 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             console.log($scope.contract.update);
                                             console.log($scope.list_services_tmp);
                                             $scope.customerContractFn($scope.contract, 'update');
+                                            $scope.inputTokenCode = "";
                                             blockUI.stop();
                                         }, 1500);
+                                        $timeout(function() {
+                                            $scope.setTokenCompletedFn($scope.token_param.token.tokenCode);
+                                        }, 2000);
                                     });
                                 }else{
                                     blockUI.start('El Contrato no tiene servicio asociados activos.');
@@ -3997,8 +4126,12 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         console.log($scope.contract.update);
                                         console.log($scope.list_services_tmp);
                                         $scope.customerContractFn($scope.contract, 'update');
+                                        $scope.inputTokenCode = "";
                                         blockUI.stop();
                                     }, 1500);
+                                    $timeout(function() {
+                                        $scope.setTokenCompletedFn($scope.token_param.token.tokenCode);
+                                    }, 2000);
                                 }
                             }, 2500);
                         break;

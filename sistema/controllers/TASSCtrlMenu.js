@@ -706,7 +706,16 @@
                       }
                     }
                   }
-              ); 
+              );
+              $('.input-contract-number').mask('ZZZZZZZZZZZZZZZZ',
+                  {
+                    translation:{
+                      'Z':{
+                        pattern: /[a-zA-Z0-9-]/
+                      }
+                    }
+                  }
+              );               
               $('.input--movil').mask('+54 (####) (15) ####-####',
               {
                 reverse: false,
@@ -858,7 +867,33 @@
               }
             });
           }
-
+        /**************************************************
+        *                                                 *
+        *        REMOVER TENANT DE UN DEPARTAMENTO        *
+        *                                                 *
+        **************************************************/
+          $scope.rsAuthtokenListData = [];
+          $scope.authorizationTokensFn = function(sysLoggedUser){
+            $scope.rsAuthtokenListData = [];
+            console.log(sysLoggedUser);
+            blockUI.start('Obteniendo listado de token para aprobar.');
+            $timeout(function() {
+              userServices.geAuthTokentList(sysLoggedUser.idUser).then(function(response){
+                  //console.log(response);
+                  if(response.status==200){
+                    $scope.rsAuthtokenListData = response.data;
+                    $('#AuthTokenModalUser').modal({backdrop: 'static', keyboard: false});
+                    $('#AuthTokenModalUser').on('shown.bs.modal', function () {
+                    });
+                  }else if(response.status==404){
+                    $scope.rsAuthtokenListData = [];
+                  }else if(response.status==500){
+                    $scope.rsAuthtokenListData = [];
+                  }
+                  blockUI.stop();
+              });
+            }, 1500);
+          } 
         /**************************************************
         *                                                 *
         *             CHECK THE PASSWD STRENG             *

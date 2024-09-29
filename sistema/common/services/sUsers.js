@@ -467,6 +467,32 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                   return response;
                 })
         },
+        geAuthTokentList: function(id) {
+          var rsData = {};
+          console.log("[Service][Getting]--->[geAuthTokentList]");
+          return $http({
+            method : "GET",
+            url : serverHost+serverBackend+"User/listAuthorizationTokenByUserId/"+id
+                }).then(function mySuccess(response) {
+                  return response;
+                }).catch(function onError(response) {
+                  console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                  return response;
+                })
+        },
+        setTokenCompleted: function(id) {
+          var rsData = {};
+          console.log("[Service][Getting]--->[setTokenCompleted]");
+          return $http({
+            method : "GET",
+            url : serverHost+serverBackend+"User/setTokenCompleted/"+id
+                }).then(function mySuccess(response) {
+                  return response;
+                }).catch(function onError(response) {
+                  console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                  return response;
+                })
+        },
         /* GENERATE AND SEND TOKEN CODE */
         sendGeneratedToken: function(user) {
             return $http.post(serverHost+serverBackend+"User/sendGeneratedToken",user, serverHeaders)
@@ -476,6 +502,24 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                   console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                   return response;
                 })
+        },
+        addAuthorizationToken: function(user) {
+          return $http.post(serverHost+serverBackend+"User/addAuthorizationToken",user, serverHeaders)
+            .then(function mySucess(response, status, data) {
+                return response;
+              }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                return response;
+              })
+        },
+        validateAuthorizationToken: function(token) {
+          return $http.post(serverHost+serverBackend+"User/validateAuthorizationToken",token, serverHeaders)
+            .then(function mySucess(response, status, data) {
+                return response;
+              }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                return response;
+              })
         },
       }
 }]);

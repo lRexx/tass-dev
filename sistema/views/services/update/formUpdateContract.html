@@ -59,7 +59,7 @@
 						    	<span class="input-group-addon"><i class="fas fa-screwdriver"></i></span>
 						  		<select name="contract_mnt_type" 
 						  				class="form-control"
-						  				ng-options="item.idTypeMaintenance as item.typeMaintenance for item in rsTypeOfMaintenanceData" 
+						  				ng-options="item.idTypeMaintenance as item.typeMaintenance for item in rsTypeOfMaintenanceData | filter: {idTypeMaintenance: '!3'}" 
 						  				ng-model="contract.update.maintenanceType" ng-change="validateServiceListItemsFn()" ng-disabled="true"  ng-required="true" autofocus >
 								    <option class="text-uppercase" value="">Selecciona un tipo</option>
 							    </select>

@@ -81,7 +81,7 @@
 									</li>
 									<li role="presentation">
 										<div class="divider"></div>
-										<a style="cursor: pointer;" class="clear-lazy-cache text-warning" ng-click="authorizationTokens(sysLoggedUser)" tabindex="-1" role="menuitem"><i class="fas fa-fingerprint text-danger"></i> Autorizaciones</a>
+										<a style="cursor: pointer;" class="clear-lazy-cache text-warning" ng-click="authorizationTokensFn(sysLoggedUser)" tabindex="-1" role="menuitem"><i class="fas fa-fingerprint text-danger"></i> Autorizaciones</a>
 									</li>
 									<li role="presentation">
 										<div class="divider"></div>
@@ -215,6 +215,7 @@
 		<!-- //nav bar end -->
 		<div ng-if="sysToken" ng-include="'views/users/profileUser.html'"></div>
 		<div ng-if="sysToken" ng-include="'views/users/passwordChangeUser.html'"></div>
+		<div ng-if="sysToken" ng-include="'views/users/authToken.html'"></div>
 		<div ng-if="sysToken" ng-include="'views/utilities/modalConfirmationMenu.html'"></div>
 		<div ng-if="sysToken" ng-include="'views/utilities/expirationWarningWindows.html'"></div>
 	</div>

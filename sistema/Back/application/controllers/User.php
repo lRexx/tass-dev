@@ -519,11 +519,11 @@ class User extends REST_Controller {
     }
     public function addAuthorizationToken_post() {
         
-        if (!$this->post('token')) {
+        if (!$this->post('user')) {
             $this->response(array('error' => "Post Data is Missing"), 404);
         }
 
-        $rs = $this->user_model->addAuthorizationToken($this->post('token'));
+        $rs = $this->user_model->addAuthorizationToken($this->post('user'));
 
         if (!is_null($rs)) {
 
@@ -545,6 +545,17 @@ class User extends REST_Controller {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
+    public function setTokenCompleted_get($token) {
+        if (!$token) {
+            $this->response(NULL, 404);
+        }
+        $rs = $this->user_model->setTokenCompleted($token);
+        if (!is_null($rs)) {
+            $this->response(array('response' => "Token is completed"), 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
     public function validateAuthorizationToken_post() {
 
         if (!$this->post('token')) {
@@ -552,13 +563,12 @@ class User extends REST_Controller {
         }
 
         $rs = $this->user_model->validateAuthorizationToken($this->post('token'));
-        print($rs);
         if (!is_null($rs)) {
             //$this->response(array('response' => $rs), 200);
             //$this->response(array('response' => "Su Nueva Clave fue enviada a su direccion de correo!"), 200);
             $this->response(array('response' => "Token is valid"), 200);
         } else {
-            $this->response(array('error' => "ERROR INESPERADO"), 500);
+            $this->response(array('response' => "Token invalid, used or expired"), 404);
         }
     }
 }
