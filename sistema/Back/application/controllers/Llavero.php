@@ -21,8 +21,8 @@ class Llavero extends REST_Controller
 		$obj = $this->llavero_model->add($this->post('llavero'), false);
 
 
-		if ($obj == 1) {
-			$this->response(['response' => "Registro exitoso"], 200);
+		if (!is_null($obj) && $obj != 0 && $obj != 2){
+			$this->response(array('response' => $obj) , 200);
 		} else {
 			if ($obj == 0) {
 				$this->response(['error' => "ERROR INESPERADO"], 500);
@@ -32,8 +32,6 @@ class Llavero extends REST_Controller
 				}
 			}
 		}
-
-
 	}
 
 	public function asignar_post()
@@ -221,6 +219,82 @@ class Llavero extends REST_Controller
             $this->response([ 'keys_assigned' => $rs ], 200);
         } else {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
+
+	public function addProcessEvent_post()
+	{
+		$obj = null;
+		if (!$this->post('processEvent')) {
+			$this->response(null, 404);
+		}
+
+		$obj = $this->llavero_model->addProcess_event($this->post('processEvent'), false);
+
+
+		if (!is_null($obj)){
+			$this->response(array('response' => $obj) , 200);
+		} else {
+			if ($obj == 0) {
+				$this->response(['error' => "ERROR INESPERADO"], 500);
+			} else {
+				if ($obj == 2) {
+					$this->response(['response' => "Elemento ya se encuentra registrado"], 203);
+				}
+			}
+		}
+	}
+
+	public function listAllKeychain_post()
+	{
+		$rs=null;
+        $idClientKf           	= $this->post('idClientKf');
+        $limit                  = $this->post('limit');
+		$create_at 				= $this->post('create_at');
+		$idCategoryKf 			= $this->post('idCategoryKf');
+		$idKeychainStatusKf 	= $this->post('idKeychainStatusKf');
+		$idDepartmenKf 			= $this->post('idDepartmenKf');
+		$idReasonKf 			= $this->post('idReasonKf');
+		$sysLoggedUserProfile 	= $this->post('sysLoggedUserProfile');
+		$codeSearch 			= $this->post('codeSearch');
+        $start                  = $this->post('start');
+		$strict                 = $this->post('strict');
+		$totalCount             = $this->post('totalCount');
+
+		$rs = $this->llavero_model->get_new($idClientKf, $create_at, $idCategoryKf, $idKeychainStatusKf, $idDepartmenKf, $idReasonKf, $sysLoggedUserProfile, $codeSearch, $limit, $start, $strict, $totalCount);
+		if (!is_null($rs)) {
+			$this->response($rs, 200);
+		} else {
+			$this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+		}
+	}
+	public function listAllProcessEvents_post()
+	{
+		$rs=null;
+		$idTypeTicketKf         = $this->post('idTypeTicketKf');
+        $idClientKf           	= $this->post('idClientKf');
+        $limit                  = $this->post('limit');
+		$create_at 				= $this->post('create_at');
+		$idCategoryKf 			= $this->post('idCategoryKf');
+        $start                  = $this->post('start');
+		$strict                 = $this->post('strict');
+		$totalCount             = $this->post('totalCount');
+
+		$rs = $this->llavero_model->get_all_events($idTypeTicketKf, $idClientKf, $create_at, $idCategoryKf, $limit, $start, $strict, $totalCount);
+		if (!is_null($rs)) {
+			$this->response($rs, 200);
+		} else {
+			$this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+		}
+	}
+    public function statusKeychain_get() {
+
+        $result = $this->llavero_model->statusKeychain();
+
+        if (! is_null($result)) {
+            $this->response($result, 200);
+        } else {
+            $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
         }
     }
 

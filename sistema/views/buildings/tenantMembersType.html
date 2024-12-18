@@ -1,0 +1,37 @@
+<!-- Modal Members Type -->
+<div id="TenantMembersType" style="top: 210px;" class="modal fade modal-dialog-centered" role="dialog">
+	<div class="modal-dialog modal-md" >
+	    <div class="modal-content win-d-unit-1x">
+	    	<div class="modal-header">
+          		<button type="button" class="close" ng-click="closeTenantMembersTypeModal();"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+            	<h3 class="modal-title">
+		            <span class="card-depto-span">SELECCIONA UNA OPCIÓN</span>
+            	</h3>
+        	</div>
+	    	<div class="modal-body" style="height: 187px; padding: 0px;">
+				<!-- FORM CONTAINER-->
+				<div class="col-md-12"> 
+					<!-- PROPIETARIO O INQUILINO-->
+				    <div class="col-md-6 card-depto-colum" ng-click="switchBuildingFn('newTenant', selectedDepto);" >
+				        <div class="card-depto cyan white-text">
+				            <div class="card-depto-content">
+                                <i class="fas fa-users" style="padding-left: 0.3em;"></i>
+				            </div>
+				            <span class="card-depto-span" style="margin-left: 20%;">HABITANTE</span>
+				        </div>
+				    </div>
+				    <!-- INVITADO -->
+				    <div class="col-md-6 card-depto-colum" ng-click="switchBuildingFn('newGuest', selectedDepto);" >
+				        <div class="card-depto cyan white-text">
+				            <div class="card-depto-content">
+                                <i class="fas fa-user-clock" style="padding-left: 0.30em;"></i>
+				            </div>
+				             <span class="card-depto-span" style="margin-left: 26%;">INVITADO</span>
+				        </div>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- //Modal Members Type -->

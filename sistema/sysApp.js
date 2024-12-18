@@ -37,6 +37,7 @@ var app = angular.module('systemApp', ["ngRoute", "ngCookies",
                                           "angular.filter",
                                                 "rzSlider",
                                                 "ngLocale",
+                                            "module.Logout",
                                              "angularCSS"]);
 app.config(function(blockUIConfig) {
       // Tell blockUI not to mark the body element as the main block scope.
@@ -103,6 +104,11 @@ app.config(['$routeProvider', '$locationProvider',
             templateUrl: 'views/login/',
             controller: 'LoginCtrl',
             css: 'views/login/style-login.css'
+        })
+        .when('/logout', {
+            templateUrl: 'views/logout/',
+            controller: 'LogoutCtrl',
+            css: 'views/status/style.css'
         })
         .when('/register', {
             templateUrl: 'views/register/',
@@ -224,4 +230,7 @@ app.controller('AppCtrl', function($scope, $location, $window, tokenSystem, APP_
     console.log("App "+APP_SYS.app_name);
     console.log("Version v"+APP_SYS.version);
     console.log("Timezone"+APP_SYS.timezone);
+    var script = document.createElement('script');
+    script.src = 'controllers/TASSCtrlTickets.js?v=' + new Date().getTime(); // Prevents caching
+    document.body.appendChild(script);
 });

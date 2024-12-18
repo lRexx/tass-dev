@@ -51,7 +51,7 @@
 <link rel="shortcut icon" href="favicon.ico">
 </head>
 <body ng-controller="MenuCtrl" ng-init="launchLoader();">
-	<div ng-if="sysToken && (urlPathSelected1!='info' && (urlPathSelected1!='status' && urlPathSelected2!='client'))">
+	<div ng-if="!loggedOut && sysToken && (urlPathSelected1!='info' && (urlPathSelected1!='status' && urlPathSelected2!='client'))">
 		<!-- nav bar start -->
 		<nav class="navbar navbar-inverse navbar-custom navbar-fixed-top" role="navigation">
 			<div class="navbar-inverse navbar-inner m-h-30">
@@ -79,7 +79,7 @@
 									<li role="presentation">
 										<a style="cursor: pointer;" class="clear-lazy-cache" ng-click="passwdModalUserOpen(sysLoggedUser)" tabindex="-1" role="menuitem"><i class="fas fa-user-lock"></i> Cambiar clave</a>
 									</li>
-									<li role="presentation">
+									<li ng-if="sysLoggedUser.idProfileKf=='1' && sysLoggedUser.isSuperAdmin=='1'" role="presentation">
 										<div class="divider"></div>
 										<a style="cursor: pointer;" class="clear-lazy-cache text-warning" ng-click="authorizationTokensFn(sysLoggedUser)" tabindex="-1" role="menuitem"><i class="fas fa-fingerprint text-danger"></i> Autorizaciones</a>
 									</li>
@@ -223,7 +223,7 @@
 	<div id="wLoader" ng-if="wLoader">
 		<div id="loader">&nbsp;</div>
 		<div class="companyName"></div>
-	</div>	
+	</div>
 	<!-- //Loader div -->	
 	<!-- ng-view div -->
 	<div ng-view></div>
@@ -325,7 +325,7 @@
 
 <!--  Seguridad TASS Angular Functions -->
 <script src="controllers/TASSCtrlMenu.js"></script> 
-<script src="controllers/TASSCtrlMonitor.js"></script>
+<script src="controllers/TASSCtrlMonitor.js?v=<?= md5_file(FCPATH . 'controllers/TASSCtrlMonitor'); ?>"></script>
 <script src="controllers/TASSCtrlProducts.js"></script>
 <script src="controllers/TASSCtrlKeys.js"></script>
 <script src="controllers/TASSCtrlTech.js"></script>
@@ -340,6 +340,7 @@
 <script src="controllers/TASSCtrlTickets.js"></script>
 <script src="controllers/TASSCtrlSystem.js"></script>
 <script src="controllers/TASSCtrlLogin.js"></script>
+<script src="controllers/BSSCtrlLogout.js"></script>
 <script src="controllers/TASSCtrlRegister.js"></script>
 <script src="controllers/TASSCtrlforgotPwd.js"></script>
 <script src="controllers/TASSCtrlNewPwd.js"></script>

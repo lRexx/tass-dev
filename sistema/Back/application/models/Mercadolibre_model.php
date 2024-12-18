@@ -97,13 +97,16 @@ class Mercadolibre_model extends CI_Model
 		$data               = json_decode(json_encode($data));
 		$external_reference = $data->idTicket."_".(rand() * 8) . "_" . (time() * 4);
 		$paymentFor = $data->metadata->paymentFor;
+		$MP_TOKEN=BSS_MP_TOKEN;
+
 		try {
+			$authorization 	= "Authorization: Bearer " . $MP_TOKEN;
 			//$uri = 'https://dev.bss.com.ar/mpago/index.php';
 			$uri   = 'https://'.BSS_HOST.'/mpago/index.php'; //solo server
 			$param = [
-				"clienteid" 		 => '8877359900700578' ,
-				"clientesecret" 	 => 'al5TAYSIdZPx2lzzU64DFgSX67SDrhsr' ,
-				#"Authorization" 	 => "Bearer TEST-8877359900700578-012401-cc12a648254efb51f0c30f4b394955f6-1177407195",
+				"clienteid" 		 => BSS_MP_CLIENT_ID ,
+				"clientesecret" 	 => BSS_MP_CLIENT_SECRET ,
+				#"Authorization" 	 => $authorization,
 				"currency_id" 		 => "ARG",
 				"unit_price" 		 => $data->monto ,
 				"id" 				 => $data->idTicket ,
@@ -114,7 +117,7 @@ class Mercadolibre_model extends CI_Model
 				"description" 		 => $data->description,
 				"quantity" 			 => $data->quantity,
 				"external_reference" => $external_reference ,
-				//"back_url" 			 => $data->back_url ,
+				"back_url" 			 => $data->back_url ,
 			];
 			
 			//print_r($param);
@@ -189,7 +192,7 @@ class Mercadolibre_model extends CI_Model
 	public function getPaymentMPDetails($id)
 	{	
 		$ticket2Update = null;
-		$MP_TOKEN="APP_USR-8877359900700578-012401-353b1bedff98a4ab78a54ff57802f64a-1177407195";
+		$MP_TOKEN=BSS_MP_TOKEN;
 		if (!$id) {
            return null;
         }
@@ -318,11 +321,11 @@ class Mercadolibre_model extends CI_Model
 
 	public function getNotificationFromMP($response)
 	{
-		$MP_TOKEN="APP_USR-8877359900700578-012401-353b1bedff98a4ab78a54ff57802f64a-1177407195";
+		//print_r($response);
 		//var_dump($response['api_version']);
 		// ENVIAMOS EL MAIL DE CONFIRMAR REGISTRO //
 		/*MAIL*/
-		if($response['type'] != "test"){
+		if((isset($response['type']) && $response['type'] != "test") || $response['live_mode']){
 			$title = "MercadoPago Webhook Notification ";
 			$subject = "Webhook Payment Notification from MercadoPago to BSS - [". $response['type']."] - ID:".$response['data']['id'];
 			$body='<tr width="100%" bgcolor="#ffffff">';
@@ -335,7 +338,7 @@ class Mercadolibre_model extends CI_Model
 			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Type: <b>'.$response['type'].'</b></td>'; 
 			$body.='</tr>';	
 			$body.='<tr width="100%" bgcolor="#ffffff">';
-			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">App ID: <b>'.$response['application_id'].'</b></td>'; 
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">App ID: <b>'.@$response['application_id'].'</b></td>'; 
 			$body.='</tr>';
 			$body.='<tr width="100%" bgcolor="#ffffff">';
 			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Date: <b>'.$response['date_created'].'</b></td>'; 
@@ -357,7 +360,7 @@ class Mercadolibre_model extends CI_Model
 			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Type: <b>'.$response['type'].'</b></td>'; 
 			$body.='</tr>';	
 			$body.='<tr width="100%" bgcolor="#ffffff">';
-			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">App ID: <b>'.$response['application_id'].'</b></td>'; 
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">App ID: <b>'.@$response['application_id'].'</b></td>'; 
 			$body.='</tr>';
 			$body.='<tr width="100%" bgcolor="#ffffff">';
 			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Date: <b>'.$response['date_created'].'</b></td>'; 
@@ -369,7 +372,7 @@ class Mercadolibre_model extends CI_Model
 		}
 
 		
-		if ($response['type'] == "test"){
+		if ((isset($response['type']) && $response['type'] == "test") || !$response['live_mode']){
 			return true;
 		}else{
 			$paymentDetails  		= $this->getPaymentMPDetails($response['data']['id']);
@@ -397,16 +400,22 @@ class Mercadolibre_model extends CI_Model
 			$this->db->delete('tb_mp_payments' , ['idPayment' => $data['idPayment']]);
 		}
         $this->db->insert('tb_mp_payments', [
-                'mp_preference_id'        => $data['id'],
-                'mp_client_id'   		  => $data['client_id'],
-                'mp_collector_id'         => $data['collector_id'],
-                'mp_date_created'         => $data['date_created'],
-                'mp_expires'              => $data['expires'],
-                'mp_external_reference'   => $data['external_reference'],
-                'mp_prod_init_point'      => $data['init_point'],
-                'mp_dev_init_point'       => $data['sandbox_init_point'],
-                'mp_operation_type'       => $data['operation_type'],
-                'idTicketKf'              => $data['idTicketKf'],
+                'mp_preference_id'        	=> $data['id'],
+                'mp_client_id'   		  	=> $data['client_id'],
+                'mp_collector_id'         	=> $data['collector_id'],
+                'mp_date_created'         	=> $data['date_created'],
+                'mp_expires'              	=> $data['expires'],
+                'mp_external_reference'   	=> $data['external_reference'],
+                'mp_prod_init_point'      	=> $data['init_point'],
+                'mp_dev_init_point'       	=> $data['sandbox_init_point'],
+                'mp_operation_type'       	=> $data['operation_type'],
+                'idTicketKf'              	=> $data['idTicketKf'],
+				'idManualPaymentTypeKf'     => @$data['idManualPaymentTypeKf'],
+				'manualPaymentNumber'       => @$data['manualPaymentNumber'],
+				'manualPaymentDescription'  => @$data['manualPaymentDescription'],
+				'idUserKf'              	=> @$data['idUserKf'],
+				'mp_payment_type' 			=> @$data['mp_payment_type'],
+
 
         ]);
 
@@ -425,6 +434,13 @@ class Mercadolibre_model extends CI_Model
 					)
 				)->where("idTicket", $data['idTicketKf'])->update("tb_tickets_2");
 			}
+			if ($data['isManualPayment']){
+				$this->db->set(
+					array(
+						'isManualPayment' => 1
+					)
+				)->where("idTicket", $data['idTicketKf'])->update("tb_tickets_2");
+			}
 			$lastTicketUpdatedQuery = null;
 			$lastTicketUpdatedQuery = $this->Ticket_model->ticketById($data['idTicketKf']);
 				//MAIL
@@ -435,7 +451,7 @@ class Mercadolibre_model extends CI_Model
 				$body = null;
 				$to = null;
 				$title = "Link de Pago Generado";
-				if ($lastTicketUpdatedQuery[0]['idTypeRequestFor']==1 && ($lastTicketUpdatedQuery[0]['sendNotify']==1 || $lastTicketUpdatedQuery[0]['sendNotify']==null)){
+				if ((! $data['isManualPayment'] || $lastTicketUpdatedQuery[0]['isManualPayment']==0 || is_null($lastTicketUpdatedQuery[0]['isManualPayment'])) && ($lastTicketUpdatedQuery[0]['idTypeRequestFor']==1 && ($lastTicketUpdatedQuery[0]['sendNotify']==1 || $lastTicketUpdatedQuery[0]['sendNotify']==null))){
 					//DEPARTMENT, BUILDING & ADMINISTRATION DETAILS
 					$this->db->select("*,b.idClient as idBuilding, b.name, tb_client_type.ClientType, UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto")->from("tb_client_departament");
 					$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');

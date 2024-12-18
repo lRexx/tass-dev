@@ -53,11 +53,55 @@
       }
     };
   });
-  menu.controller('MenuCtrl', function($scope, $cookies, $location, $routeParams, $document, $interval, blockUI, $timeout, inform, inputService, CustomerServices, userServices, tokenSystem, addressServices, UtilitiesServices, $window, $filter, APP_SYS, APP_REGEX){
+  menu.controller('MenuCtrl', function($scope, $cookies, $http, $location, $routeParams, $document, $interval, blockUI, $timeout, inform, inputService, CustomerServices, userServices, tokenSystem, addressServices, UtilitiesServices, $window, $filter,serverHost, serverBackend, APP_SYS, APP_REGEX){
       //if ($location.path() == "/login"){console.log($location.path());}
       console.log("Bienvenido al sistema de "+APP_SYS.app_name);
       console.log("Version v"+APP_SYS.version);
       console.log("Loading Menu Controller");
+
+      /**********************************************************************************************************************************/
+          // Current versions of the scripts
+          var currentVersions = {
+            TASSCtrlMenu: '<?= md5_file(FCPATH . "TASSCtrlMenu.js"); ?>',
+            TASSCtrlMonitor: '<?= md5_file(FCPATH . "TASSCtrlMonitor.js"); ?>',
+            TASSCtrlProducts: '<?= md5_file(FCPATH . "TASSCtrlProducts.js"); ?>'
+        };
+        console.log(currentVersions);
+        // Function to check for updates
+        function checkForScriptUpdates() {
+            $http.get(serverHost+serverBackend+"/ControllersVersion/get").then(function(response) {
+                var latestVersions = response.data;
+                for (var module in latestVersions) {
+                    if (latestVersions.hasOwnProperty(module)) {
+                        if (latestVersions[module] && latestVersions[module] !== currentVersions[module]) {
+                            console.log('New version detected for:', module);
+                            //loadNewScript(module, latestVersions[module]); // Load the updated script
+                        }
+                    }
+                }
+            }, function(error) {
+                console.error('Failed to fetch script versions:', error);
+            });
+        }
+
+        // Function to dynamically load a new script
+        function loadNewScript(module, version) {
+            var script = document.createElement('script');
+            script.src = 'assets/js/' + module + '.js?v=' + version; // Cache-busting with the version hash
+            document.body.appendChild(script);
+
+            currentVersions[module] = version; // Update the current version
+            console.log('Updated', module, 'to new version:', version);
+        }
+
+        // Poll the backend every 60 seconds
+        var pollInterval = $interval(checkForScriptUpdates, 60000);
+
+        // Clean up the interval when the scope is destroyed
+        $scope.$on('$destroy', function() {
+            $interval.cancel(pollInterval);
+        });
+      /**********************************************************************************************************************************/
       //console.log($location.path());
       //$cookies.put('systemToken', "#$%#%$#%$#&%$&%$&54gdfbg3w44t34tgsdvgsd#$234fvds");
       $scope.sysToken             = tokenSystem.getTokenStorage(1);
@@ -763,6 +807,15 @@
               $('.input--dni').mask('99999999');
               $('.input--number--2').mask('99');
               $('.input--number').mask('999');
+              $('.install-password-alarm').mask('******',
+              {
+                translation:{
+                  '*':{
+                    pattern: /[0-9]/
+                  }
+                }
+              }
+          ); 
               $('.input--depto').mask('ZZZ',
                   {
                     translation:{
@@ -1009,8 +1062,12 @@
             $scope.rsJSON = "";
             tokenSystem.destroyTokenStorage(1);
             $scope.sysToken = false;
-            $scope.sysLoggedUser = false;
-            $location.path("/login");
+            $scope.sysLoggedUser = null;
+            $timeout(function() {
+              $location.path("/logout");
+            }, 1000);
+            //$('#logoutmsgbox').modal('hide');
+            //$window.location.reload();
           };
         /**************************************************
         *                                                 *
@@ -1019,6 +1076,7 @@
         **************************************************/
             // Timeout timer value
             $scope.TimeOutTimeValue   = 900000;//900000; //15 min
+            //$scope.TimeOutTimeValue   = 9000;//900000; //15 min
             //$scope.TimeOutTimeValue   = 90000000;//900000; //15 min
             //$scope.TimeOutTimeValue   = 190000;//900000; //15 min
             $scope.IntervalTimerValue   = (20/100)*$scope.TimeOutTimeValue;
@@ -1028,6 +1086,7 @@
             var timeOutCounter;
             var intervalCounter;
             var TimeOut_Thread;
+            $scope.loggedOut  = false;
             console.log("Inactivity session timer: "+($scope.TimeOutTimeValue/1000/60));
             console.log("User Warning start from the last: "+Math.round(($scope.IntervalTimerValue/1000/60))+" minutes");
             // Start a timeout
@@ -1099,21 +1158,19 @@
                   $interval.cancel(intervalCounter);
                   $scope.warningTimeOut("start_timeout");
                 break;
-                case "close_session":
+                case "close_session": 
                   $timeout.cancel(TimeOut_Thread);
                   $interval.cancel(timeOutCounter);
-                  $interval.cancel(intervalCounter);
-                  sessionStorage.removeItem('sysToken');
-                  sessionStorage.removeItem('sysLoggedUser');
-                  sessionStorage.removeItem('sysLoggedUserModules');
-                  $('#sessionExpiredModal').modal('hide');
-                  blockUI.start('Cerrando session...');
-                  $scope.rsJSON = "";
-                  $scope.sysToken = false;
+                  $interval.cancel(intervalCounter);                  
                   $timeout(function() {
-                    $location.path("/login");
-                    blockUI.stop();
-                  }, 2000);
+                    tokenSystem.destroyTokenStorage(1);
+                    $scope.sysToken = false;
+                    $scope.sysLoggedUser = null;
+                  }, 1000);
+                  $timeout(function() {
+                    $('#sessionExpiredModal').modal('hide');
+                    $location.path("/logout");
+                  }, 1500);
                 break;
               }
             }
@@ -1128,7 +1185,7 @@
             }
             $scope.timeOutFn = function(){
               var currentLocation = $location.path();
-              if (currentLocation!="/login" && currentLocation!="/register" && currentLocation!="/forgotpwd" && currentLocation!="/newpwd" && currentLocation!="/validate" && !currentUrl.match(regexPathValidateUser) && !currentUrl.match(regexPathStatusClient)){
+              if (currentLocation!="/logout" && currentLocation!="/login" && currentLocation!="/register" && currentLocation!="/forgotpwd" && currentLocation!="/newpwd" && currentLocation!="/validate" && !currentUrl.match(regexPathValidateUser) && !currentUrl.match(regexPathStatusClient)){
                   //console.log('starting session timer');
                   $scope.warningTimeOut("start_timeout");
                   //Get the inputs Events of mouse/keyboard to check the activity.
@@ -1149,7 +1206,7 @@
             console.log("$scope.sysLoggedUser: "+$scope.sysLoggedUser);
             console.log("$scope.sysRouteParams:"); 
             console.log($scope.sysRouteParams); 
-      if ($location.path() != "/register" && $location.path() != "/forgotpwd" && $location.path() != "/newpwd" && $location.path() !="/validate" && !currentUrl.match(regexPathValidateUser) && !currentUrl.match(regexPathStatusClient)){
+      if ($location.path() != "/logout" && $location.path() != "/register" && $location.path() != "/forgotpwd" && $location.path() != "/newpwd" && $location.path() !="/validate" && !currentUrl.match(regexPathValidateUser) && !currentUrl.match(regexPathStatusClient)){
         console.log($location.path());
         if (!$scope.sysToken || $scope.sysLoggedUser==undefined || $scope.sysLoggedUserModules==undefined){
           $timeout(function() {
@@ -1181,7 +1238,9 @@
             $scope.timeOutFn();
           }, 620);
           $interval( function(){
-            $scope.updateSysUserLoggedSession($scope.sysLoggedUser.idUser);
+            if ($scope.sysToken && $scope.sysLoggedUser.idUser!=undefined){
+              $scope.updateSysUserLoggedSession($scope.sysLoggedUser.idUser);
+            }
           }, 60000);
           if (($scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=4 && $scope.sysLoggedUser.idProfileKf!=5 && $scope.sysLoggedUser.idProfileKf!=6) && $scope.sysLoggedUser.idTypeTenantKf==null){
             blockUI.start('Cargando...');

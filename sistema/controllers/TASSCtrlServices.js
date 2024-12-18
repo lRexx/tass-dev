@@ -128,6 +128,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
     const sysYear  = sysDate.toLocaleString('es-AR', { year: 'numeric'}).toString().substr(2,2);
     const sysMonth = sysDate.toLocaleString('es-AR', { month: 'numeric'});
     const sysDay   = sysDate.toLocaleString('es-AR', { day: 'numeric'});
+    const regexProtocol = /^(https?:\/\/)/;
+    const regexPort = /:(\d+)$/;
     $scope.customerSearch={'searchFilter':'', 'typeClient':'', 'isInDebt':false, 'isStockInBuilding': false, 'isStockInOffice': false, 'strict':false};
     $scope.getSelectedCustomerData = tokenSystem.getTokenStorage(7);
     $scope.formats = ['dd-MM-yyyy', 'dd/MM/yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
@@ -148,7 +150,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
         'modem':{'selected':undefined}, 
         'router':{'selected':undefined}, 
         'crtlAccess':{'selected':undefined}, 
-        'lockedIt':{'selected':undefined}, 
+        'lockedIt':{'selected':undefined},
+        'lockedIt2':{'selected':undefined},  
         'entranceReader':{'selected':undefined}, 
         'powerSupply':{'selected':undefined}, 
         'exitReader':{'selected':undefined}, 
@@ -609,17 +612,32 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         console.log(cObj);
                         $scope.customer={'update':{}};
                         if(cObj.initial_delivery.length==1){
-                            $scope.customer.update.expirationDate   = cObj.initial_delivery[0].expirationDate;
+                            $scope.customer.update = cObj.initial_delivery[0];
+                            // Convertir la cadena a un objeto Date usando Moment-Timezone
+                            var date = moment.tz(cObj.initial_delivery[0].expirationDate, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
+                            var newDate = date.toDate();
+                            $scope.customer.update.expirationDate   = newDate;
                             $scope.customer.update.initial_qtty     = cObj.initial_delivery[0].initial_qtty;
                             $scope.customer.update.initial_price    = cObj.initial_delivery[0].initial_price;
                         }
                         $('#enableInitialKeys').modal('toggle');
                     break;
                     case "add_enableInitialKeys":
-                        console.log(cObj);
-                        $scope.customer.update.idClientKf = cObj.idClient;
+                        $scope.customer.update.idClientKf           = cObj.idClient;
+                        $scope.customer.update.created_by_idUserKf  = $scope.sysLoggedUser.idUser;
+                        var date_selected   = $scope.customer.update.expirationDate;
+                        var expirationDate  = new Date(date_selected);
+                        $scope.customer.update.expirationDate       = expirationDate.getFullYear()+"-"+(expirationDate.getMonth()+1)+"-"+expirationDate.getDate()+" " +"23:59:59"
                         console.log($scope.customer.update);
                         $scope.addInitialDeliveryFn($scope.customer.update); 
+                    break;
+                    case "update_enableInitialKeys":
+                        $scope.customer.update.updated_by_idUserKf = $scope.sysLoggedUser.idUser;
+                        var date_selected   = $scope.customer.update.expirationDate;
+                        var expirationDate  = new Date(date_selected);
+                        $scope.customer.update.expirationDate     = expirationDate.getFullYear()+"-"+(expirationDate.getMonth()+1)+"-"+expirationDate.getDate()+" " +"23:59:59"
+                        console.log($scope.customer.update);
+                        $scope.updateInitialDeliveryFn($scope.customer.update); 
                     break; 
                 }
             break;
@@ -769,7 +787,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
     ********************************************************************************************************************************************/
           /**************************************************
           *                                                 *
-          *                SET CLIENT IN DEBT               *
+          *                SET INITIAL DELIERY              *
           *                                                 *
           **************************************************/
           $scope.addInitialDeliveryFn = function(obj){
@@ -778,6 +796,27 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                 console.log(response);
                 if(response.status==200){
                       inform.add('Entrega Inicial habilitada satisfactoriamente.',{
+                          ttl:15000, type: 'success'
+                      });
+                      $('#enableInitialKeys').modal('hide');
+                }if(response.status==404 || response.status==500){
+                    inform.add('Ocurrio un error con la Entrega Inicial, contacta al soporte.',{
+                        ttl:15000, type: 'danger'
+                    });
+                }
+            });
+          }
+          /**************************************************
+          *                                                 *
+          *             UPDATE INITIAL DELIERY              *
+          *                                                 *
+          **************************************************/
+          $scope.updateInitialDeliveryFn = function(obj){
+            //console.log(obj);
+            CustomerServices.updateInitialDelivery(obj).then(function(response){
+                console.log(response);
+                if(response.status==200){
+                      inform.add('Entrega Inicial actualizada satisfactoriamente.',{
                           ttl:15000, type: 'success'
                       });
                       $('#enableInitialKeys').modal('hide');
@@ -1370,6 +1409,26 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 }else if (confirm==1){
                                     //console.log($scope.customerDetail);
                                     $scope.switchCustomersFn('customers',$scope.customerDetail,'add_enableInitialKeys');
+                                    $('#confirmRequestModalCustom').modal('hide');
+                                }else if (confirm<0){
+                                    $scope.customer={};
+                                }
+                            break;
+                            case "update_enable_initial_keys":
+                                if (confirm==0){
+                                    $scope.customerDetail=obj;
+                                      $scope.mess2show="Actualizar Datos para Entrega Inicial al Cliente "+obj.name+" ["+obj.ClientType+"].     Confirmar?";
+                                      console.log("============================================================================");
+                                      console.log("Actualizar Entrega Inicial.");
+                                      console.log("============================================================================");
+                                      console.log("ID del Cliente             : "+obj.idClient);
+                                      console.log("Dirección del consorcio    : "+obj.address);
+                                      console.log("============================================================================");
+                                    $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
+                                    //$('#confirmRequestModalCustom').modal('toggle');
+                                }else if (confirm==1){
+                                    //console.log($scope.customerDetail);
+                                    $scope.switchCustomersFn('customers',$scope.customerDetail,'update_enableInitialKeys');
                                     $('#confirmRequestModalCustom').modal('hide');
                                 }else if (confirm<0){
                                     $scope.customer={};
@@ -2966,6 +3025,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.addNewService.countZoneIntaled           = $scope.service.zonesQttyInstalled;
                                         $scope.addNewService.idTypeConectionRemote      = service.idTipoConexionRemoto;
                                         $scope.addNewService.observation                = service.observation==null || service.observation==undefined?null:service.observation;
+                                        $scope.addNewService.installationPassword       = service.installationPassword;
                                         var productIdNumber=0;                      
                                         for (var key in $scope.list_batteries){
                                         $scope.baterias_instaladas.push({'idProductoFk':$scope.list_batteries[key].idBatteryFk, 'nroFabric':$scope.list_batteries[key].numberSerieFabric, 'nroInternal':$scope.list_batteries[key].numberSerieInternal,'dateExpired':$scope.list_batteries[key].dateExpiration, 'isControlSchedule':$scope.list_batteries[key].isControlSchedule});
@@ -3016,7 +3076,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.service.update.idContratoFk         = service.idContracAssociated_SE;
                                         $scope.service.update.numeroContrato       = service.idContracAssociated_SE_array[0].numeroContrato;
                                         $scope.service.crtlAccess.selected         = service.idAccessControlFk==undefined || service.idAccessControlFk==null?null:service.idAccessControlFk_array[0];
-                                        $scope.service.lockedIt.selected           = service.lock==undefined || service.lock==null?null:service.lock_array[0];
+                                        $scope.service.lockedIt.selected           = service.lock==undefined || service.lock==null?undefined:service.lock_array[0];
+                                        $scope.service.lockedIt2.selected          = service.lock2==undefined || service.lock2==null?undefined:service.lock2_array[0];
                                         $scope.service.entranceReader.selected     = service.idInputReaderFk==undefined || service.idInputReaderFk==null?null:service.idInputReaderFk_array[0];
                                         $scope.service.exitReader.selected         = service.ouputReader==undefined || service.ouputReader==null?null:service.ouputReader_array[0];
                                         $scope.service.powerSupply.selected        = service.idFontFk==undefined || service.idFontFk==null?null:service.idFontFk_array[0];
@@ -3024,7 +3085,36 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.service.TurnOffKey.selected         = service.idShutdownKeyFk==undefined || service.idShutdownKeyFk==null?null:service.idShutdownKeyFk_array[0];
                                         $scope.service.update.idTypeMaintenanceFk  = service.idTypeMaintenanceFk_array[0].idTypeMaintenance;
                                         $scope.service.update.MntType              = service.idTypeMaintenanceFk_array[0].typeMaintenance;
-                                        $scope.service.update.urlVpn               = service.addressVpn!=null && service.portVpn!=null?service.addressVpn+":"+service.portVpn:null;
+                                        const itHasHttpProto                       = service.addressVpn!=null && service.addressVpn!=undefined?regexProtocol.test(service.addressVpn):null;
+                                        const itHasPortInURL                       = service.addressVpn!=null && service.addressVpn!=undefined?regexPort.test(service.addressVpn):null;
+                                        const vpnPortDefined                       = service.portVpn!="" && service.portVpn!=null && service.portVpn!=undefined?service.portVpn:"80";
+                                        if (itHasPortInURL && itHasPortInURL!=null){
+                                            const urlVpn = service.addressVpn;
+                                            const matchUrl = urlVpn.match(regexPort);
+                                            console.log(matchUrl);
+                                            const extractedPort = matchUrl[1];
+                                            console.log(extractedPort);
+                                                if (extractedPort != vpnPortDefined) {
+                                                    inform.add("La dirección VPN contiene un puerto ("+extractedPort+") diferente al puerto VPN ("+vpnPortDefined+") especificado en el campo o al puerto por defecto (80).",{
+                                                        ttl:6000, type: 'warning'
+                                                    });
+                                                }
+                                        }
+                                        if (!itHasHttpProto && itHasHttpProto!=null){
+                                            if (!itHasPortInURL || itHasPortInURL==null){
+                                                $scope.service.update.urlVpn           = "http://"+service.addressVpn+":"+vpnPortDefined;
+                                            }else{
+                                                $scope.service.update.urlVpn           = "http://"+service.addressVpn;
+                                            }
+                                        }else if (itHasHttpProto){
+                                            if (!itHasPortInURL || itHasPortInURL==null){
+                                                $scope.service.update.urlVpn           = service.addressVpn+":"+vpnPortDefined;
+                                            }else{
+                                                $scope.service.update.urlVpn           = service.addressVpn;
+                                            }
+                                        }else{
+                                            $scope.service.update.urlVpn = undefined;
+                                        }
                                         var isBlocklingScrew                       = service.isBlocklingScrew==0||service.isBlocklingScrew==undefined?false:true;
                                         $scope.service.update.isBlocklingScrew     = service.isBlocklingScrew;
                                         var productIdNumber = 1;
@@ -3098,14 +3188,14 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     console.log($scope.service.update.idServiceAsociateFk);
                                     $timeout(function() {
                                         $scope.service.update.idContratoFk        = service.idContracAssociated_SE;
-                                        $scope.service.update.numeroContrato      = service.idContracAssociated_SE_array[0].numeroContrato;
-                                        $scope.service.modem.selected             = service.idModemInternetFk_array[0];
+                                        $scope.service.update.numeroContrato      = service.idContracAssociated_SE_array!=null?service.idContracAssociated_SE_array[0].numeroContrato:null;
+                                        $scope.service.modem.selected             = service.idModemInternetFk_array!=undefined?service.idModemInternetFk_array[0]:null;
                                         $scope.service.router.selected            = service.idTypeInternetFk<="2" && service.idRouterInternetFk_array!=undefined && service.idRouterInternetFk_array.length==1?service.idRouterInternetFk_array[0]:null;
-                                        $scope.service.update.idInternetCompanyFk = service.idInternetCompanyFk_array[0].idInternetCompany;
-                                        $scope.service.update.idServiceFk         = service.idServiceFk_array[0].idTypeInternet;
+                                        $scope.service.update.idInternetCompanyFk = service.idInternetCompanyFk_array!=undefined?service.idInternetCompanyFk_array[0].idInternetCompany:null;
+                                        $scope.service.update.idServiceFk         = service.idServiceFk_array!=undefined?service.idServiceFk_array[0].idTypeInternet:null;
                                         $scope.list_productsDetails = [];
-                                        $scope.service.update.idTypeMaintenanceFk = service.idTypeMaintenanceFk_array[0].idTypeMaintenance;
-                                        $scope.service.update.MntType             = service.idTypeMaintenanceFk_array[0].typeMaintenance;
+                                        $scope.service.update.idTypeMaintenanceFk = service.idTypeMaintenanceFk_array!=undefined?service.idTypeMaintenanceFk_array[0].idTypeMaintenance:null;
+                                        $scope.service.update.MntType             = service.idTypeMaintenanceFk_array!=undefined?service.idTypeMaintenanceFk_array[0].typeMaintenance:null;
                                         $scope.service.update.battery_install     = service.tb_battery_install_access_control_array;
                                         $scope.service.update.open_devices        = service.tb_open_devices_access_control_array;
                                         // Convertir la cadena a un objeto Date usando Moment-Timezone
@@ -3352,13 +3442,13 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                                     }
                                                 }
                                                 }else{
-                                                var dvrSelected   = null;
-                                                var portCamera    = null;                            
+                                                    var dvrSelected   = null;
+                                                    var portCamera    = null;                            
                                                 }
                                                 var nroZoneTamper = service.tb_sensors_alarm_array[sensor].nroZoneTamper!=null?parseInt(service.tb_sensors_alarm_array[sensor].nroZoneTamper):null;
                                                 $scope.list_sensors.push({'idSensor':service.tb_sensors_alarm_array[sensor].idSensorProduct,'sensorDetails':sensorSelected,'numberZoneSensor':parseInt(service.tb_sensors_alarm_array[sensor].numberZoneSensor),'area':service.tb_sensors_alarm_array[sensor].area, 'isWirelessSensor':parseInt(service.tb_sensors_alarm_array[sensor].isWirelessSensor), 'nroZoneTamper':nroZoneTamper, 'locationLon':service.tb_sensors_alarm_array[sensor].locationLon, 'idDvr':service.tb_sensors_alarm_array[sensor].idDvr, 'dvrDetails':dvrSelected, 'idCameraFk':service.tb_sensors_alarm_array[sensor].idCameraFk, 'portCamera':portCamera, 'nroInterno':service.tb_sensors_alarm_array[sensor].nroInterno, 'nroFrabric':service.tb_sensors_alarm_array[sensor].nroFrabric});
                                             }
-                                        //console.log($scope.list_sensors);
+                                            console.log($scope.list_sensors);
                                         }else{
                                             inform.add('El servicio no tiene Sensores asociados. ',{
                                             ttl:10000, type: 'info'
@@ -3548,34 +3638,35 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             switch(service.idTipeServiceFk){
                                 case "1": //UPDATE CONTROL ACCESS
                                     $timeout(function() {
-                                        service.idContracAssociated_SE   = service.idContratoFk;
-                                        service.idAccessControlFk        = $scope.service.crtlAccess.selected.idProduct;
-                                        service.lock                     = $scope.service.lockedIt.selected.idProduct;
-                                        service.idInputReaderFk          = $scope.service.entranceReader.selected.idProduct;
-                                        service.ouputReader              = service.isOuputButom==undefined || !service.isOuputButom?$scope.service.exitReader.selected.idProduct:null;
-                                        service.ouputButom               = service.isOuputButom?$scope.service.exitReader.selected.idProduct:null;
-                                        service.idFontFk                 = $scope.service.powerSupply.selected.idProduct;
-                                        service.idEmergencyButtonFk      = $scope.service.emergencyButton.selected.idProduct;
-                                        service.idShutdownKeyFk          = $scope.service.TurnOffKey.selected.idProduct;
-                                        service.isOuputReader            = service.isOuputButom?null:'1';
-                                        service.isOuputButom             = service.isOuputButom?'1':null;
+                                        $scope.service.update.idContracAssociated_SE   = service.idContratoFk;
+                                        $scope.service.update.idAccessControlFk        = $scope.service.crtlAccess.selected.idProduct;
+                                        $scope.service.update.lock                     = $scope.service.lockedIt.selected.idProduct;
+                                        $scope.service.update.lock2                    = $scope.service.lockedIt2.selected!=undefined?$scope.service.lockedIt2.selected.idProduct:null;
+                                        $scope.service.update.idInputReaderFk          = $scope.service.entranceReader.selected.idProduct;
+                                        $scope.service.update.ouputReader              = service.isOuputButom==undefined || !service.isOuputButom?$scope.service.exitReader.selected.idProduct:null;
+                                        $scope.service.update.ouputButom               = service.isOuputButom?$scope.service.exitReader.selected.idProduct:null;
+                                        $scope.service.update.idFontFk                 = $scope.service.powerSupply.selected.idProduct;
+                                        $scope.service.update.idEmergencyButtonFk      = $scope.service.emergencyButton.selected.idProduct;
+                                        $scope.service.update.idShutdownKeyFk          = $scope.service.TurnOffKey.selected.idProduct;
+                                        $scope.service.update.isOuputReader            = service.isOuputButom?null:'1';
+                                        $scope.service.update.isOuputButom             = service.isOuputButom?'1':null;
                                         var rawDate                      = moment(service.dateUp).toDate();
-                                        service.dateUp                   = moment(rawDate).format('YYYY-MM-DD');
+                                        $scope.service.update.dateUp     = moment(rawDate).format('YYYY-MM-DD');
                                         console.log("list_batteries: ");
                                         console.log($scope.list_batteries);
                                         console.log("list_open_devices: ");
                                         console.log($scope.list_open_devices);
-                                        service.battery_install=[];
-                                        service.battery_install= $scope.list_batteries;
-                                        service.adicional=[];
-                                        service.adicional=$scope.list_productsDetails;
-                                        service.open_devices=[];
-                                        service.open_devices=$scope.list_open_devices;
+                                        $scope.service.update.battery_install=[];
+                                        $scope.service.update.battery_install=$scope.list_batteries;
+                                        $scope.service.update.adicional=[];
+                                        $scope.service.update.adicional=$scope.list_productsDetails;
+                                        $scope.service.update.open_devices=[];
+                                        $scope.service.update.open_devices=$scope.list_open_devices;
                                         blockUI.message('Guardando Servicio '+service.clientTypeServices);
                                     }, 1500);
                                     $timeout(function() {
-                                        console.log(service);
-                                        $scope.updateCustomerServiceFn(service);
+                                        console.log($scope.service.update);
+                                        $scope.updateCustomerServiceFn($scope.service.update);
                                     }, 1500);
                                     $('#updateCtrlAccessService').modal('hide');
                                     blockUI.stop();
@@ -4699,20 +4790,21 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         switch(idType){
                         case "1":
                             if (opt=="set"){
-                            $scope.productListType.CONTROL_DE_ACCESOS=idProd;
+                                $scope.productListType.CONTROL_DE_ACCESOS=idProd;
                             //console.log("set: "+idProd+" to $scope.productListType.CONTROL_DE_ACCESOS: "+idProd);
                             }else{
-                            $scope.productListType.CONTROL_DE_ACCESOS=idProd;
-                            $scope.service.crtlAccess.selected=undefined;
+                                $scope.productListType.CONTROL_DE_ACCESOS=idProd;
+                                $scope.service.crtlAccess.selected=undefined;
                             }
                             
                         break;
                         case "2":
                             if (opt=="set"){
-                            $scope.productListType.CERRADURA=idProd;
+                                $scope.productListType.CERRADURA=idProd;
                             }else{
-                            $scope.productListType.CERRADURA=idProd;
-                            $scope.service.lockedIt.selected=undefined;
+                                $scope.productListType.CERRADURA=idProd;
+                                $scope.service.lockedIt.selected=undefined;
+                                $scope.service.lockedIt2.selected=undefined;
                             }
                         break;
                         case "3":
@@ -5298,6 +5390,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         'license_departments':{'selected':undefined},
                                         'crtlAccess':{'selected':undefined},
                                         'lockedIt':{'selected':undefined},
+                                        'lockedIt2':{'selected':undefined}, 
                                         'entranceReader':{'selected':undefined},
                                         'powerSupply':{'selected':undefined},
                                         'exitReader':{'selected':undefined},
@@ -5345,6 +5438,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             'locationOffKey':'',
                                             'portNumberRouter':'',
                                             'idTipoConexionRemoto':'',
+                                            'installationPassword':'',
                                             'user':'',
                                             'pass':'',
                                             'useVpn':'',
@@ -5383,6 +5477,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             'locationOffKey':'',
                                             'portNumberRouter':'',
                                             'idTipoConexionRemoto':'',
+                                            'installationPassword':'',
                                             'user':'',
                                             'pass':'',
                                             'useVpn':'',

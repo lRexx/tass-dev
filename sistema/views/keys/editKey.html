@@ -4,39 +4,31 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" ng-click="modalConfirmation('closeWindow', 0, null)"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
-                <h3 class="modal-title"><i class="product-success fas fa-key"></i> EDITAR LLAVERO <label class="label label-default">{{keys.update.idKeyChain}}</label>
+                <h3 class="modal-title"><i class="product-success fas fa-key"></i> EDITAR LLAVERO - <label class="label label-default">{{keys.update.buildingAddress}}</label> <label class="badge badge-warning font-size-18px">{{keys.update.idKeychainString}}</label>
                 </h3>
             </div>
             <div class="modal-body"  style="overflow-y: scroll;">
                 <!-- FORM CONTAINER-->
                 <form class="form-horizontal" name="fEditKey" novalidate>
                     <fieldset>
-                    <!-- List Address For Users-->
-                    <div class="form-group col-md-12 col-sm-12 col-xs-12"  ng-class="
-                        {	'has-success': 
-                            keys.update.address.selected!=undefined && fEditKey.building_address.$valid,
-                            'has-error':  
-                            (keys.update.address.selected==undefined) && fEditKey.building_address.$touched
+                        <div ng-if="keys.update.categoryKey=='1'" class="form-group col-md-12 col-sm-12 col-xs-12" ng-class="
+                        {	'has-success': (keys.update.department!='' && keys.update.department!=undefined && fEditKey.department.$valid) ||
+                                           (select.department!='' && select.department!=undefined),
+                             'has-error':  
+                            (keys.update.department=='' || keys.update.department==undefined) && fEditKey.department.$touched,
                         }">
-                    <label style="padding-left: 15px;">Direcci&#243n</label>  
+                        <label style="padding-left: 15px;">Departamento</label>  
                         <div class="col-xs-12 selectContainer">
                             <div class="input-group">
-                            <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span> 
-                            <ui-select name="building_address"  
-                                        ng-required="true" 
-                                        ng-disabled="true"
-                                        ng-change="getDeptoListByAddress(keys.update.address.selected.idClient); keys.update.department=null;"
-                                        ng-model="keys.update.address.selected" autofocus>
-                                <ui-select-match  placeholder="Seleccione una opci&#243n">{{$select.selected.address}}</ui-select-match>
-                                    <ui-select-choices repeat="item in buildingCustomerList | filter:filterCustomerByType | filter: $select.search">
-										<div ng-bind-html="item.address | highlight: $select.search"></div>
-                                        <small>Tipo de Cliente: </small><small class="label label-default" ng-bind-html="item.ClientType | highlight: $select.search"></small>
-										<small>Provincia: </small><small class="label label-default"  ng-bind-html="item.province | highlight: $select.search"></small>
-									</ui-select-choices>
-									<ui-select-no-choice>
-										<span ng-if="buildingCustomerList.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay edificios registrados</span>
-									</ui-select-no-choice>
-                                </ui-select>
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                <select name="department" 
+                                        class="form-control text-uppercase"
+                                        ng-disabled="select.department!=undefined && select.department!=''"
+                                        ng-options="item.idClientDepartament as item.floor+'-'+item.departament for item in ListDpto" 
+                                        ng-required="update.building.selected!=undefined" 
+                                        ng-model="keys.update.department" autofocus >
+                                    <option value="">Seleccione una opci&#243n</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -62,30 +54,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- List Department-->
-                    <div ng-if="noAvailable" class="form-group col-md-6 col-sm-6 col-xs-6" ng-class="
-                        {	'has-success': 
-                            keys.update.department!='' &&
-                            keys.update.department!=undefined &&
-                             fEditKey.department.$valid,
-                             'has-error':  
-                            (keys.update.department=='' || keys.update.department==undefined) && fEditKey.department.$touched,
-                        }">
-                        <label style="padding-left: 15px;">Departamento</label>  
-                        <div class="col-xs-12 selectContainer">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                                <select name="department" 
-                                        class="form-control text-uppercase"
-                                        ng-disabled="keys.update.address.selected==undefined || keys.update.categoryKey=='1'"
-                                        ng-options="item.idClientDepartament as item.floor+'-'+item.departament for item in ListDpto" 
-                                        ng-required="keys.update.address.selected!=undefined" 
-                                        ng-model="keys.update.department" autofocus >
-                                    <option value="">Seleccione una opci&#243n</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
                     <!-- List Open Devices Products-->
                     <div  class="form-group col-md-6 col-sm-6 col-xs-6"  ng-class="
                         {	'has-success': 
@@ -101,13 +69,13 @@
                                         ng-required="true"
                                         ng-model="keys.update.products.selected" autofocus>
                                 <ui-select-match  allow-clear="true" placeholder="Seleccione una opci&#243n">{{$select.selected.descriptionProduct}}</ui-select-match>
-                                    <ui-select-choices repeat="item in rsProductsData | filter: {idProductClassificationFk:19}| filter: $select.search">
+                                    <ui-select-choices repeat="item in rsKeyProductsData | filter: {idProductClassificationFk:19}| filter: $select.search">
                                         <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
                                         <small>Modelo: </small><small class="label label-default"  ng-bind-html="item.model | highlight: $select.search"></small>
                                         <small>Tipo: </small><small class="label label-default" ng-bind-html="item.classification | highlight: $select.search"></small>
                                     </ui-select-choices>
                                     <ui-select-no-choice>
-                                        <span ng-if="rsProductsData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay productos cargados</span>
+                                        <span ng-if="rsKeyProductsData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay productos cargados</span>
                                     </ui-select-no-choice>
                                 </ui-select>
                             </div>

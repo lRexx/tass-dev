@@ -155,7 +155,8 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
                 }
               });
             }else{
-              $location.path("/login");
+              //$location.path("/login");
+              $scope.redirectSuccessfull = true;
             }
           }
         });
@@ -254,18 +255,20 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
   *   ASSIGN DEPARTMENT TO THE CURRENT OWNER USER   *
   *                                                 *
   **************************************************/
+  $scope.redirectSuccessfull = false;
     $scope.fnAssignDepto = function(userData){
       DepartmentsServices.assignDepto(userData).then(function(response) {
         if(response.status==200){
-          inform.add('Departamento Asignado y pendiente por aprobacion por la administracion.',{
+          /*inform.add('Departamento Asignado y pendiente por aprobacion por la administracion.',{
             ttl:6000, type: 'success'
-          });
+          });*/
           $timeout(function() {
-            $location.path("/login");
+            //$location.path("/login");
+            $scope.redirectSuccessfull = true;
             blockUI.stop();
           }, 1500);
         }else if (response.status==404){
-          inform.add('Ocurrio un error, contacte al area de soporte de TASS..',{
+          inform.add('Ocurrio un error, contacte al area de soporte de BSS',{
             ttl:3000, type: 'danger'
           });
         }
@@ -454,7 +457,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
               if(response.status==200){
                 $scope.ListDpto = response.data;
               }else if (response.status==404){
-                inform.add('No hay departamentos en esta direccion para ser asociados, contacte al area de soporte de TASS.',{
+                inform.add('No hay departamentos en esta direccion para ser asociados, contacte al area de soporte de BSS.',{
                   ttl:5000, type: 'danger'
                 });
               }

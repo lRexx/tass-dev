@@ -403,8 +403,10 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
         }else{
           $("#tipo_inmueble").focus();
           $("#schedule_info").fadeIn("slow");
+          $("#address_info").fadeIn("slow");
           $timeout(function() {
                     $("#schedule_info").fadeOut("slow");
+                    $("#address_info").fadeOut("slow");
           }, 30000);
         }
         
@@ -488,6 +490,60 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
             break;
           }
         };
+
+      /**************************************************
+      *                                                 *
+      *       LIST CUSTOMER REGISTERED FILTERED         *
+      *                                                 *
+      **************************************************/
+        $scope.searchCustomerFound=false;
+        $scope.customerSearchFiltered = {"name":''};
+        $scope.findCustomerFilteredFn=function(string, typeClient, strict){
+            if(event.keyCode === 8 || event.which === 8){
+                console.log(event.which);
+            }else if(event.keyCode === 1 || event.which === 1 || event.keyCode === 13 || event.which === 13){
+                console.log("Search:");
+                console.log("string: "+string);
+                console.log("typeClient: "+typeClient);
+                console.log("strict: "+strict);
+                var output=[];
+                var i=0;
+                if (string!=undefined && string!=""){
+                    $scope.customerFilteredFound={};
+                    $scope.getCustomerLisServiceFn(string, "0", typeClient, null, null, null, 0, 10, strict, true).then(function(response) {
+                        if(response.status==undefined){
+                        $scope.listCustomerFilteredFound = response.customers;
+                        //$scope.pagination.totalCount = response.customers.length;
+                        console.info($scope.listCustomerFilteredFound);
+                        }else if(response.status==404){
+                        $scope.listCustomerFilteredFound = [];
+                        //$scope.pagination.totalCount  = 0;
+                        } 
+                    }, function(err) {
+                        $scope.listCustomerFilteredFound = [];
+                        //$scope.pagination.totalCount  = 0;
+                    });
+                }else{
+                    $scope.customerFilteredFound={};
+                }
+                console.info($scope.listCustomerFilteredFound);
+            }
+        }
+        $scope.customerFilteredFound={};
+        $scope.loadCustomerFieldsFilteredFn=function(obj){
+            $scope.customerFilteredFound={};
+            console.log("===============================");
+            console.log("|  SERVICE CUSTOMER SELECTED  |");
+            console.log("===============================");
+            console.log(obj);
+            $scope.customerFilteredFound=obj;
+            $scope.select.filterCustomerIdFk.selected = obj;
+            $scope.customerSearchFiltered.name = obj.name;
+            if (obj.idClientTypeFk=="1" || obj.idClientTypeFk=="3"){
+                $scope.getLisOfCustomersByIdFn($scope.customerFilteredFound.idClient);
+            }
+            $scope.listCustomerFilteredFound=[];
+        }
       /**************************************************
       *                                                 *
       *           LIST CUSTOMER REGISTERED              *
@@ -771,7 +827,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                         }
                     }
                     if (qvalue2){
-                      if(customerIsInDebt==1 && (idClientAdminFk == $scope.select.filterCustomerIdFk.selected.idClient || idClientCompaniFk == $scope.select.filterCustomerIdFk.selected.idClient)){
+                      if(customerIsInDebt=="1" && (idClientAdminFk == $scope.select.filterCustomerIdFk.selected.idClient || idClientCompaniFk == $scope.select.filterCustomerIdFk.selected.idClient)){
                           console.log("customerName: "+customerName+" [customerIsInDebt]["+customerIsInDebt+"]");
                           output.push(customer);
                           //console.log(output);
@@ -785,7 +841,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                 $scope.rsCustomerListData = [];
               }
             }else{
-              $scope.getLisOfCustomersByIdFn($scope.select.filterCustomerIdFk.selected.idClient, true);
+              $scope.getLisOfCustomersByIdFn($scope.select.filterCustomerIdFk.selected.idClient);
             }
           };
       /**************************************************
@@ -906,6 +962,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       $('#RegisterModalCustomer').modal('hide');
                       $('#UpdateModalCustomer').modal('hide');
                       $('#changeModalAdmin').modal('hide');
+                      
                       if($scope.sysContent!="" && $scope.sysContent=="registeredCustomers"){
                         $scope.switchCustomersFn('dashboard','', 'registered')
                       }else if($scope.sysContent!="" && $scope.sysContent=="registeredNotCustomers"){
@@ -1473,14 +1530,17 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
               $scope.geoLocation={};
             }
             $scope.setAddressLatLonFn = function(obj){
+              console.log(obj);
               switch(obj.option){
                 case "main":
-                  $scope.customer.new.addressLat=obj.addressLat;
-                  $scope.customer.new.addressLon=obj.addressLon;
+                  $scope.customer.new.addressLat        = obj.addressLat;
+                  $scope.customer.new.addressLon        = obj.addressLon;
+                  $scope.customer.update.addressLat     = obj.addressLat;
+                  $scope.customer.update.addressLon     = obj.addressLon;
                 break;
                 case "particular":
-                  $scope.customer.particular.addressLat=obj.addressLat;
-                  $scope.customer.particular.addressLon=obj.addressLon;
+                  $scope.customer.particular.addressLat = obj.addressLat;
+                  $scope.customer.particular.addressLon = obj.addressLon;
                 break;  
               }
                 inform.add('Coordenadas de Lat:'+obj.addressLat+'/Lon:'+obj.addressLon+' han sido asignadas satisfactoriamente.. ',{
@@ -1767,11 +1827,11 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
           **************************************************/
             $scope.allowedUsers = {}
             $scope.showCurrentUserInfoFn = function(idUser){
-              //console.log("Usuario ID: "+idUser);
+              console.log("Usuario ID: "+idUser);
               $scope.allowedUsers={};
-              for (var key in $scope.rsList.clientUser){
-                if ($scope.rsList.clientUser[key].idUser==idUser){
-                  $scope.allowedUsers=$scope.rsList.clientUser[key];
+              for (var key in $scope.listCustomerUsersData){
+                if ($scope.listCustomerUsersData[key].idUser==idUser){
+                  $scope.allowedUsers=$scope.listCustomerUsersData[key];
                   //console.log($scope.rsList.clientUser[key]);
                 }
               }
@@ -1887,6 +1947,17 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                 }
               });
             }
+            $scope.closeClientPhotosURLFn = function(){
+              $('#setClientPhotosURL').modal('hide');
+              $("#setClientPhotosURL").on('hidden.bs.modal', function () {
+                if($scope.sysContent!="" && $scope.sysContent=="registeredCustomers"){
+                  $scope.switchCustomersFn('dashboard','', 'registered')
+                }else if($scope.sysContent!="" && $scope.sysContent=="registeredNotCustomers"){
+                  $scope.switchCustomersFn('dashboard','', 'unregistered')
+                }
+              });
+            }
+            
           /**************************************************
           *                                                 *
           *           GET SELECTED COMPANY BY ID            *
@@ -3219,28 +3290,36 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                 console.log($scope.customer.particular);
                 switch(obj.typeInmueble){
                   case "1":
-                    var customerisBuilding=obj.isBuilding?1:0;
-                    var department  = customerisBuilding==0?obj.depto.toUpperCase():null;
-                    var depto       = customerisBuilding==0?obj.floor+"-"+obj.depto.toUpperCase():obj.select.depto.Depto;
-                    var floor       = customerisBuilding==0?obj.floor.toUpperCase():null;
-                    var idDepartment= customerisBuilding==0?null:obj.select.depto.idDepto;
-                    var nameAddress = customerisBuilding==0?obj.nameAddress:obj.select.address.selected.address;
-                    var idProvince  = customerisBuilding==0?obj.select.province.selected.idProvince:obj.select.address.selected.idProvinceFk;
-                    var idLocation  = customerisBuilding==0?obj.select.location.selected.idLocation:obj.select.address.selected.idLocationFk;
-                    var addrLatitud = customerisBuilding==0 && !$scope.gobApiAddressNotFound?obj.addressLat:null;
-                    var addrLongitud= customerisBuilding==0 && !$scope.gobApiAddressNotFound?obj.addressLon:null;
-                    addrLatitud     = customerisBuilding==0 && $scope.gobApiAddressNotFound?$scope.customer.particular.addressLat:obj.addressLat;
-                    addrLongitud    = customerisBuilding==0 && $scope.gobApiAddressNotFound?$scope.customer.particular.addressLon:obj.addressLon;
+                    var customerisBuilding  = obj.isBuilding?1:0;
+                    var department          = customerisBuilding==0?obj.depto.toUpperCase():null;
+                    var depto               = customerisBuilding==0?obj.floor+"-"+obj.depto.toUpperCase():obj.select.depto.Depto;
+                    var floor               = customerisBuilding==0?obj.floor.toUpperCase():null;
+                    var idDepartment        = customerisBuilding==0?null:obj.select.depto.idDepto;
+                    var nameAddress         = customerisBuilding==0?obj.nameAddress:obj.select.address.selected.address;
+                    var idProvince          = customerisBuilding==0?obj.select.province.selected.idProvince:obj.select.address.selected.idProvinceFk;
+                    var idLocation          = customerisBuilding==0?obj.select.location.selected.idLocation:obj.select.address.selected.idLocationFk;
+                    var addrLatitud         = customerisBuilding==0 && !$scope.gobApiAddressNotFound?obj.addressLat:null;
+                    var addrLongitud        = customerisBuilding==0 && !$scope.gobApiAddressNotFound?obj.addressLon:null;
+                    addrLatitud             = customerisBuilding==0 && $scope.gobApiAddressNotFound?$scope.customer.particular.addressLat:obj.addressLat;
+                    addrLongitud            = customerisBuilding==0 && $scope.gobApiAddressNotFound?$scope.customer.particular.addressLon:obj.addressLon;
                   break;
                   case "2":
-                    var nameAddress = obj.nameAddress;
-                    var idProvince  = obj.select.province.selected.idProvince;
-                    var idLocation  = obj.select.location.selected.idLocation;
+                    var nameAddress         = obj.nameAddress;
+                    var idProvince          = obj.select.province.selected.idProvince;
+                    var idLocation          = obj.select.location.selected.idLocation;
+                    var addrLatitud         = !$scope.gobApiAddressNotFound?obj.addressLat:null;
+                    var addrLongitud        = !$scope.gobApiAddressNotFound?obj.addressLon:null;
+                    addrLatitud             = $scope.gobApiAddressNotFound?$scope.customer.particular.addressLat:obj.addressLat;
+                    addrLongitud            = $scope.gobApiAddressNotFound?$scope.customer.particular.addressLon:obj.addressLon;
                   break;
                   case "3":
-                    var nameAddress = obj.nameAddress;
-                    var idProvince  = obj.select.province.selected.idProvince;
-                    var idLocation  = obj.select.location.selected.idLocation;
+                    var nameAddress         = obj.nameAddress;
+                    var idProvince          = obj.select.province.selected.idProvince;
+                    var idLocation          = obj.select.location.selected.idLocation;
+                    var addrLatitud         = !$scope.gobApiAddressNotFound?obj.addressLat:null;
+                    var addrLongitud        = !$scope.gobApiAddressNotFound?obj.addressLon:null;
+                    addrLatitud             = $scope.gobApiAddressNotFound?$scope.customer.particular.addressLat:obj.addressLat;
+                    addrLongitud            = $scope.gobApiAddressNotFound?$scope.customer.particular.addressLon:obj.addressLon;
                   break;
                 }
                   var idZonaFk    = $scope.customer.new.idZonaFk!=null && $scope.customer.new.idZonaFk!=undefined && $scope.customer.new.idZonaFk!=''?$scope.customer.new.idZonaFk:$scope.customer.update.idZonaFk;
@@ -3427,6 +3506,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                                 'idCategoryDepartamentFk':'',
                                 'numberUNF':'',
                                 'departmentUnit':'',
+                                'clientPhotosURL':'',
                                 'idZonaFk':'',
                                 'departmentCorrelation':'',
                                 'billing_information_details':{
@@ -3813,10 +3893,20 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                   $scope.isNewCustomer=false;
                   $scope.isUpdateCustomer=false;
                   $scope.isListCustomer=true;
+                  $scope.getUsersByClientIdFn(cObj.idClient);
                   $scope.customerDataFn(cObj,'allowedUsers'); 
                 break;
                 case "allowedUsers_update":
                   $scope.customerDataFn(cObj,'allowedUsers_update'); 
+                break;
+                case "setClientPhotosURL":
+                  $scope.isNewCustomer=false;
+                  $scope.isUpdateCustomer=false;
+                  $scope.isListCustomer=true;
+                  $scope.customerDataFn(cObj,'setClientPhotosURL'); 
+                break;
+                case "setClientPhotosURL_update":
+                  $scope.customerDataFn(cObj,'setClientPhotosURL_update'); 
                 break;
                 case "contactdUsers":
                   $scope.isNewCustomer=false;
@@ -3850,7 +3940,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                 case "newManualAddress":
                   console.log(cObj);
                   var twoNumber_patt=/^(?=(?:\D*\d){2})[a-zA-Z0-9_]+( [a-zA-Z0-9_]+)*$/;
-                  if (twoNumber_patt.test(cObj.nameAddress)){
+                  if (twoNumber_patt.test(cObj.nameAddress) || twoNumber_patt.test(cObj.nameAddress)){
                     switch(opt2){
                       case "main":
                         $scope.customer.new.address=cObj.nameAddress.toUpperCase();
@@ -4702,22 +4792,25 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                         //Getting the authorized user to the new customer
                         $scope.customer.update.list_client_user                          = [];
                         $scope.customer.update.list_client_user                          = $scope.list_client_user;
+                        console.log(obj.address);
+                        console.log(obj.nameAddress);
                         if ($scope.customer.update.idTipoInmuebleFk==1 && $scope.customer.update.isNotClient==true){
                           $scope.customer.update.idClientDepartamentFk                   = $scope.customer.select.main.department;
-                          $scope.customer.update.address                                 = $scope.customer.select.main.address.selected.address;
-                          $scope.customer.update.idProvinceFk                            = $scope.customer.select.main.address.selected.idProvinceFk==undefined?$scope.customer.update.idProvinceFk:$scope.customer.select.main.address.selected.idProvinceFk;
-                          $scope.customer.update.idLocationFk                            = $scope.customer.select.main.address.selected.idLocationFk==undefined?$scope.customer.update.idLocationFk:$scope.customer.select.main.address.selected.idLocationFk;
-                          $scope.customer.update.addressLat                              = $scope.customer.update.addressLat;
-                          $scope.customer.update.addressLon                              = $scope.customer.update.addressLon;
+                          $scope.customer.update.address                                 = $scope.customer.select.main.address.selected.address!=$scope.customer.nameAddress?$scope.customer.nameAddress:$scope.customer.select.main.address.selected.address;
+                          $scope.customer.update.idProvinceFk                            = $scope.customer.select.main.address.selected.idProvinceFk==undefined?obj.idProvinceFk:$scope.customer.select.main.address.selected.idProvinceFk;
+                          $scope.customer.update.idLocationFk                            = $scope.customer.select.main.address.selected.idLocationFk==undefined?obj.idLocationFk:$scope.customer.select.main.address.selected.idLocationFk;
+                          $scope.customer.update.addressLat                              = obj.addressLat;
+                          $scope.customer.update.addressLon                              = obj.addressLon;
 
                         }else{
                           $scope.customer.update.idClientDepartamentFk                   = null;
+                          $scope.customer.update.address                                 = obj.address!=obj.nameAddress?obj.nameAddress:obj.address;
                           $scope.customer.update.idProvinceFk                            = $scope.customer.select.main.province.selected.idProvince;
                           $scope.customer.update.idLocationFk                            = $scope.customer.select.main.location.selected.idLocation;
                           $scope.customer.update.numberUNF                               = null;
                         }
                         $scope.customer.update.billing_information                       = {};
-                        $scope.customer.update.billing_information                       = $scope.customer.update.billing_information_details;
+                        $scope.customer.update.billing_information                       = obj.billing_information_details;
                         $scope.customer.update.billing_information.idProvinceBillingFk   = $scope.customer.select.payment.province.selected.idProvince;
                         $scope.customer.update.billing_information.idLocationBillingFk   = $scope.customer.select.payment.location.selected.idLocation;
                         //Assigning the default value to 0
@@ -5008,6 +5101,37 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                     //Send the customer data to the addcustomer service
                     $scope.updateCustomerFn($scope.customer.info);
                     $('#allowedUsers').modal('hide');
+                  break;
+                  case "setClientPhotosURL":
+                    //USERS
+                    $scope.customer.info    = obj;
+                    $scope.customer.info.billing_information_details=obj.billing_information[0];
+                    //console.info($scope.customer.info);
+                    $scope.customer.info.billing_information_details.nameAddress=$scope.customer.info.billing_information_details.businessAddress;
+                    //console.info($scope.customer.info);
+                    $scope.list_users       = [];
+                    $scope.list_client_user = [];
+                    if (obj.list_client_user.length>0){
+                      for (var user in  obj.list_client_user){
+                        //console.log(obj.list_client_user[key]);
+                        $scope.list_client_user.push({'idUserFk':obj.list_client_user[user].idUser,'idClientFk': obj.list_client_user[user].idClientFk});
+                        $scope.list_users.push({'idUserFk':obj.list_client_user[user].idUser, 'fullNameUser':obj.list_client_user[user].fullNameUser,'idClientFk': obj.list_client_user[user].idClientFk});
+                      }
+                    }
+                    console.info($scope.customer.info);
+                    $('#setClientPhotosURL').modal('toggle');                       
+                  break;
+                  case "setClientPhotosURL_update":
+                    $scope.customer.info.list_client_user                = [];
+                    $scope.customer.info.list_client_user                = $scope.list_client_user;
+                    $scope.customer.info.billing_information             = {};
+                    $scope.customer.info.billing_information             = $scope.customer.info.billing_information_details;
+                    $scope.customer.info.isBillingInformationEmpty       = $scope.customer.info.length==0?1:0;
+                    //Printing the current array before add the customer
+                    console.log($scope.customer.info);
+                    //Send the customer data to the addcustomer service
+                    $scope.updateCustomerFn($scope.customer.info);
+                    $('#setClientPhotosURL').modal('hide');
                   break;
                   case "contactdUsers":
                     //CONTACT USERS
@@ -5892,14 +6016,14 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                 var strict          = strict!=false && strict!=undefined && strict!=null?strict:null;
                 $scope.getCustomersListRs = {'customerList':null, 'totalNumberOfCustomer':0}
                 $scope.customersSearch={
-                "searchFilter":searchFilter,
-                "isNotCliente":isNotCliente,
-                "idClientTypeFk":idClientTypeFk,
-                "isInDebt":isInDebt,
-                "start":start,
-                "limit":limit,
-                "strict":strict,
-                "totalCount":null,
+                  "searchFilter":searchFilter,
+                  "isNotCliente":isNotCliente,
+                  "idClientTypeFk":idClientTypeFk,
+                  "isInDebt":isInDebt,
+                  "start":start,
+                  "limit":limit,
+                  "strict":strict,
+                  "totalCount":null,
                 };
                 console.log($scope.customersSearch);
                 return CustomerServices.getCustomerListLimit($scope.customersSearch).then(function(response){

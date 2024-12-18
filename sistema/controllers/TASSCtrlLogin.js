@@ -47,13 +47,14 @@ login.directive('passwordConfirm', ['$parse', function ($parse) {
 login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams, blockUI, $timeout, DepartmentsServices, inform, inputService, ticketServices, userServices, tokenSystem, serverHost, serverBackend, $window, APP_SYS){
   console.log(APP_SYS.app_name+" Modulo Login User");
   blockUI.stop();
+  $('#logoutmsgbox').modal('hide');
   $scope.launchLoader = function(){
     $scope.wLoader  = true;
     $('#loader').delay(1500).fadeIn(function () {
       $('#wLoader').delay(1500).fadeOut('slow'); 
       $scope.wLoader  = false;
     });
-   }  
+   }
    $('#loginEmail').addClass('active');
    $('#loginEmail').focus();
   $scope.login={"email":'', "passwd":'',"user":{"fullNameUser":'',"passwordUser":''}};
@@ -72,6 +73,7 @@ login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams
   $scope.sysRouteParams       = {};
   $scope.departmentSelected   = {};
   tokenSystem.destroyTokenStorage(4);
+  $scope.loggedOut            = false;
   console.log($routeParams);
   if ($routeParams.Type!=undefined || $routeParams.info!=undefined){
     tokenSystem.setRouteParamsStorage($routeParams);
@@ -81,6 +83,7 @@ login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams
     console.log("Redirecting to menu page....");  
     $location.path($scope.redirect);
   }
+
 
   /**************************************************
   *                                                 *

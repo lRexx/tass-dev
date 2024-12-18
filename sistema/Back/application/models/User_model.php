@@ -1258,7 +1258,7 @@ class User_model extends CI_Model
 		$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
 		$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
 		$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-		$this->db->where('tb_user.idAddresKf', '1566');
+		$this->db->where('tb_user.idAddresKf', $id);
 		$this->db->where('tb_user.idProfileKf', '6');
 		$this->db->group_start() // Start grouping conditions for idTypeTenantKf
 				 ->where('tb_user.idTypeTenantKf IS NULL')
@@ -1274,7 +1274,7 @@ class User_model extends CI_Model
 				$query2 = $this->db->select("*")->from("tb_keychain");
 				$query2 = $this->db->where('idUserKf', $idUser);
 				$query2 = $this->db->get();
-				if ($query2->num_rows() === 0) {
+				if ($query2->num_rows() >= 0) {
 					array_push($atten, $item);
 				}
 			}
@@ -1846,6 +1846,122 @@ class User_model extends CI_Model
 	
 		return null;
 	}
+
+
+	/*BUSCAR USUARIO POR EL DNI*/
+	public function findGuest ($guest)
+	{
+
+		$rs = null;
+		//
+		$this->db->select("*")->from("tb_user_guest");
+		$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_user_guest.idDepartmentKf', 'left');
+		$this->db->join('tb_keychain', 'tb_keychain.idKeychain = tb_user_guest.idKeychainKf', 'left');
+		$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user_guest.idStatusKf', 'left');
+		if (! is_null(@$guest['idStatusKf'])) {
+			$this->db->where('tb_user_guest.idStatusKf', @$guest['idStatusKf']);
+		}else{
+			$this->db->where("tb_user_guest.idStatusKf !=", -1);
+		}
+
+		$this->db->group_start();
+		$this->db->where("tb_user_guest.dni", $guest['dni']);
+		$this->db->or_where("tb_user_guest.idGuest", @$guest['idGuest']);
+		$this->db->group_end();
+		$query = $this->db->order_by("tb_user_guest.idGuest", "ASC")->get();
+
+		if ($query->num_rows() > 0) {
+			$rs = $query->result_array();
+			return $rs;
+		} else {
+			return null;
+		}
+	}
+
+
+    public function addGuest($guest) {
+		$now        = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
+        $user = null;
+		if ($this->findGuest($guest) == null) {
+            $this->db->insert('tb_user_guest', [
+					'names'        			=> $guest['names'],
+					'dni'              		=> $guest['dni'],
+					'emailAddress'          => @$guest['emailAddress'],
+					'phoneNumber' 			=> @$guest['phoneNumber'],
+					'idDepartmentKf'       	=> $guest['idDepartmentKf'],
+					'idKeychainKf'     		=> @$guest['idKeychainKf'],
+					"created_at" 			=> $now->format('Y-m-d H:i:s'),
+					'idStatusKf'			=> 1,
+                ]
+            );
+
+            if ($this->db->affected_rows() === 1) {
+				return true;
+			} else {
+				return null;
+			}
+		}else{
+			return -1;
+		}
+
+    }
+
+    public function updateGuest($guest) {
+		if ($this->findGuest($guest) != null) {
+			$this->db->set(
+				[
+					'names'        			=> $guest['names'],
+					'dni'              		=> $guest['dni'],
+					'emailAddress'          => @$guest['emailAddress'],
+					'phoneNumber' 			=> @$guest['phoneNumber'],
+					'idDepartmentKf'       	=> $guest['idDepartmentKf'],
+					'idKeychainKf'     		=> @$guest['idKeychainKf'],
+				]
+			)->where("idGuest", $guest['idGuest'])->update("tb_user_guest");
+			if ($this->db->affected_rows() === 1) {
+				return true;
+			} else {
+				return false;
+			}
+		}else{
+			return -1;
+		}
+    }
+
+    public function deleteGuest($idGuest) {
+
+        $this->db->set(
+            [ 'idStatusKf' => -1 ])->where("idGuest", $idGuest)->update("tb_user_guest");
+
+        return true;
+
+
+    }
+
+    public function getGuestByIdDepartment($id) {
+        $quuery = null;
+        $rs     = null;
+
+        if (! is_null($id)) {
+			$this->db->select("*")->from("tb_user_guest");
+			$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_user_guest.idDepartmentKf', 'left');
+			$this->db->join('tb_keychain', 'tb_keychain.idKeychain = tb_user_guest.idKeychainKf', 'left');
+			$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user_guest.idStatusKf', 'left');
+			$this->db->where("tb_user_guest.idStatusKf !=", -1);
+			$this->db->where("tb_user_guest.idDepartmentKf =", $id);
+			$quuery = $this->db->order_by("tb_user_guest.idGuest", "ASC")->get();
+			if ($quuery->num_rows() > 0) {
+
+				$rs = $quuery->result_array();
+
+				return $rs;
+			}
+
+			return null;
+        }
+    }
+
+
 }
 
 ?>

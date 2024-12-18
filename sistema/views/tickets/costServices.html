@@ -173,7 +173,7 @@
 							<th>Costo</th>
 					</thead>
 					<tbody >
-						<tr style="align-content: center;" ng-repeat="keys in rsKeyProductsData">
+						<tr style="align-content: center;" ng-repeat="keys in rsKeyProductsData | filter:showNoNullValues">
 						
 							<td>{{$index+1}}</td>
 							<td><span ng-if="keys.item=='Llaveros'"><i class="fas fa-key"> </i></span>

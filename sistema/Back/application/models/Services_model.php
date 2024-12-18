@@ -85,6 +85,7 @@ class Services_model extends CI_Model {
                 "userWifi"                          => $item['userWifi'],
                 "passWifi"                          => $item['passWifi'],
                 "macAddress"                        => $item['macAddress'],
+                "ipAddress"                         => @$item['ipAddress'],
                 "numberLine"                        => $item['numberLine'],
                 "numberChip"                        => $item['numberChip'],
                 //'addressVpn'                      => $item['addressVpn'],
@@ -184,6 +185,7 @@ class Services_model extends CI_Model {
                 'aclaration'              => $item['aclaration'],
                 'idTypeMaintenanceFk'     => $item['idTypeMaintenanceFk'],
                 'lock'                    => $item['lock'],
+                'lock2'                   => @$item['lock2'],
                 'ouputReader'             => $item['ouputReader'],
                 'ouputButom'              => $item['ouputButom'],
                 'isOuputReader'           => $item['isOuputReader'],
@@ -264,6 +266,7 @@ class Services_model extends CI_Model {
                 'aclaration'                        => $item['aclaration'],
                 'idTypeMaintenanceFk'               => $item['idTypeMaintenanceFk'],
                 'lock'                              => $item['lock'],
+                'lock2'                             => @$item['lock2'],
                 'ouputReader'                       => $item['ouputReader'],
                 'ouputButom'                        => $item['ouputButom'],
                 'isOuputReader'                     => $item['isOuputReader'],
@@ -275,7 +278,7 @@ class Services_model extends CI_Model {
                 'portNumberRouter'                  => $item['portNumberRouter'],
                 'addressClient'                     => $item['addressClient'],
                 'addressVpn'                        => $item['addressVpn'],
-                'portVpn'                           => $item['portVpn'],
+                'portVpn'                           => @$item['portVpn'],
                 'user'                              => @$item['user'],
                 'useVpn'                            => @$item['useVpn'],
                 'passVpn'                           => $item['passVpn'],
@@ -952,6 +955,7 @@ class Services_model extends CI_Model {
                 'ouputReader'            => [ 'tb_products', 'idProduct' ],
                 'ouputButom'             => [ 'tb_products', 'idProduct' ],
                 'lock'                   => [ 'tb_products', 'idProduct' ],
+                'lock2'                   => [ 'tb_products', 'idProduct' ],
                 //'idBatteryFk'            => [ 'tb_products', 'idProduct' ],
                 //'idOpenDevice'           => [ 'tb_products', 'idProduct' ],
                 'idTypeMaintenanceFk'    => [ 'tb_type_maintenance', 'idTypeMaintenance'],
@@ -1725,6 +1729,7 @@ class Services_model extends CI_Model {
                 "dateDown"               => $item['dateDown'],
                 "companyMonitor"         => $item['companyMonitor'],
                 "numberPay"              => $item['numberPay'],
+                "installationPassword"   => $item['installationPassword'],
                 "panelAlarm"             => $item['panelAlarm'],  //producto
                 "keyboardAlarm"          => $item['keyboardAlarm'], //producto
                 "countZoneIntaled"       => $item['countZoneIntaled'],
@@ -1785,6 +1790,7 @@ class Services_model extends CI_Model {
                 "dateDown"                          => $item['dateDown'],
                 "companyMonitor"                    => $item['companyMonitor'],
                 "numberPay"                         => $item['numberPay'],
+                "installationPassword"              => $item['installationPassword'],
                 "panelAlarm"                        => $item['panelAlarm'],     //producto
                 "keyboardAlarm"                     => $item['keyboardAlarm'],  //producto
                 "countZoneIntaled"                  => $item['countZoneIntaled'],
@@ -2093,7 +2099,8 @@ class Services_model extends CI_Model {
                 'description'       => $item['description'],
                 'isProtected'       => $item['isProtected'],
                 'idServiceTypeFk'   => $item['idServiceTypeFk'],
-                'idServiceModeFk'   => $item['idServiceModeFk']
+                'idServiceModeFk'   => $item['idServiceModeFk'],
+                'hasStock'          => $item['hasStock']
             ]
         );
         if ($this->db->affected_rows() === 1) {
@@ -2109,7 +2116,8 @@ class Services_model extends CI_Model {
             'description'       => $item['description'],
             'isProtected'       => $item['isProtected'],
             'idServiceTypeFk'   => $item['idServiceTypeFk'],
-            'idServiceModeFk'   => $item['idServiceModeFk']
+            'idServiceModeFk'   => $item['idServiceModeFk'],
+            'hasStock'          => $item['hasStock']
             ]
         )->where("idServiceTechnician", $item['idServiceTechnician'])->update("tb_technician_services");
 

@@ -87,6 +87,20 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 /* SYS CONSTANT TO DEFINE SERVER HOST  */
 
 define('BSS_HOST', 'devbss.sytes.net');
-//define('BSS_HOST', 'dev.bss.com.ar');
-//define('BSS_HOST', 'sistema.bss.com.ar');
+define('BSS_MP_TOKEN', 'APP_USR-8877359900700578-012401-353b1bedff98a4ab78a54ff57802f64a-1177407195');
+define('BSS_MP_CLIENT_ID', '8877359900700578');
+define('BSS_MP_CLIENT_SECRET', 'al5TAYSIdZPx2lzzU64DFgSX67SDrhsr');
+define('BSS_MP_WEBHOOK_SECRET', '54580656d5cde692cdb641e9b883db67cc992d2ac8d7e0b48babf7950d93664c');
 
+//define('BSS_HOST', 'dev.bss.com.ar');
+//define('BSS_MP_TOKEN', 'APP_USR-8877359900700578-012401-353b1bedff98a4ab78a54ff57802f64a-1177407195');
+//define('BSS_MP_CLIENT_ID', '8877359900700578');
+//define('BSS_MP_CLIENT_SECRET', 'al5TAYSIdZPx2lzzU64DFgSX67SDrhsr');
+//define('BSS_MP_WEBHOOK_SECRET', '54580656d5cde692cdb641e9b883db67cc992d2ac8d7e0b48babf7950d93664c');
+
+
+//define('BSS_HOST', 'sistema.bss.com.ar');
+//define('BSS_MP_TOKEN', 'APP_USR-7746070349246045-110411-3596c13de61863ab544a137c8387be8f-1469212359');
+//define('BSS_MP_CLIENT_ID', '7746070349246045');
+//define('BSS_MP_CLIENT_SECRET', 'eouwfrFfVjPNLbbrXs2iNmou5g17BGV6');
+//define('BSS_MP_WEBHOOK_SECRET', 'aec583f7ded6598f8548107537981444727d437588ba666e59396bde1e0039e5');

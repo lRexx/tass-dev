@@ -48,7 +48,7 @@
 					    <div class="col-xs-12">
 						    <div class="input-group">
 						    	<span class="input-group-addon"><i class="far fa-sticky-note"></i></span>
-				    			<input name="service_aclaration" type="text" class="form-control" ng-required="false" ng-disabled="service.update.dateDown!=null" ng-model="service.update.aclaration" />
+				    			<input name="service_aclaration" type="text" class="form-control" ng-required="false" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" ng-model="service.update.aclaration" />
 				    		</div>
 				    	</div>
 					</div>					
@@ -66,7 +66,7 @@
 								<select name="service_contract" 
 								class="form-control" 
 								ng-options="item.idContrato as item.numeroContrato for item in rsCustomerContractListData" ng-model="service.update.idContratoFk"
-								ng-change="switchContractService(service.update);" required="true" ng-disabled="service.update.dateDown!=null" autofocus >
+								ng-change="switchContractService(service.update);" required="true" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" autofocus >
 								    <option class="text-uppercase" value="">Selecciona un contrato</option>
 							    </select>
 						  </div>
@@ -106,7 +106,7 @@
 									close-text="Cerrar" 
 									clear-text="Borrar"
 									current-text="Hoy"
-									ng-disabled="service.update.dateDown!=null"
+									ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
 									alt-input-formats="altInputFormats" />
 							</div>
 						</div>
@@ -130,7 +130,7 @@
 								close-text="Cerrar" 
 								clear-text="Borrar"
 								current-text="Hoy"
-								ng-disabled="service.update.dateDown!=null"
+								ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
 								alt-input-formats="altInputFormats" />
 							</div>
 						</div>
@@ -145,7 +145,7 @@
 								  			}">
 						<div class="col-md-8"><label style="padding-left: 15px;">Control de Acceso</label></div>
 						<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.crtlAccess.selected==undefined" ng-click="compServiceProductDetailsFn(service.crtlAccess.selected, productListType.CONTROL_DE_ACCESOS, null)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
-						  	<button ng-if="service.crtlAccess.selected!=undefined" data-toggle="tooltip" data-placement="right" ng-disabled="service.update.dateDown!=null" title="Remover" ng-click="removeProductDetailsFn(service.crtlAccess.selected, productListType.CONTROL_DE_ACCESOS, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>  
+						  	<button ng-if="service.crtlAccess.selected!=undefined" data-toggle="tooltip" data-placement="right" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" title="Remover" ng-click="removeProductDetailsFn(service.crtlAccess.selected, productListType.CONTROL_DE_ACCESOS, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>  
 						    <div class="col-xs-12 selectContainer">							   
 							    <div class="input-group">
 					              <span class="input-group-addon"><i class="fas fa-door-open"></i></span>
@@ -153,7 +153,7 @@
 					              			 ng-change="compServiceProductDetailsFn(service.crtlAccess.selected, productListType.CONTROL_DE_ACCESOS, null)" 
 					              			 ng-model="service.crtlAccess.selected"
 					              			 ng-required="true"
-					              			 ng-disabled="service.crtlAccess.selected!=undefined || service.update.dateDown!=null"
+					              			 ng-disabled="service.crtlAccess.selected!=undefined || (service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
 					              			 theme="bootstrap" autofocus>
 					                  <ui-select-match placeholder="Selecciona una opci&#243;n">({{$select.selected.brand}}) - {{$select.selected.model}}</ui-select-match>
 					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.CONTROL_DE_ACCESOS | filter: $select.search">
@@ -171,13 +171,13 @@
 						<!-- Control_de_Acceso: lock -->
 						<div class="form-group col-md-6" ng-class="
 								  			{	'has-success': 
-								  				service.lockedIt.selected!=undefined && fCustomerUpdateService.service_locked.$valid,
+								  				service.lockedIt2.selected!=undefined && fCustomerUpdateService.service_locked.$valid,
 								  			 	'has-error':  
-								  				(service.lockedIt.selected==undefined) && fCustomerUpdateService.service_locked.$touched,
+								  				(service.lockedIt2.selected==undefined) && fCustomerUpdateService.service_locked.$touched,
 								  			}">
 						<div class="col-md-8"><label style="padding-left: 15px;">Cerradura </label></div>
 						<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.lockedIt.selected, productListType.CERRADURA)" ng-disabled="service.lockedIt.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
-						  <button ng-if="service.lockedIt.selected!=undefined" data-toggle="tooltip" data-placement="top" ng-disabled="service.update.dateDown!=null" title="Remover" ng-click="removeProductDetailsFn(service.lockedIt.selected, productListType.CERRADURA, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
+						  <button ng-if="service.lockedIt.selected!=undefined" data-toggle="tooltip" data-placement="top" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" title="Remover" ng-click="removeProductDetailsFn(service.lockedIt.selected, productListType.CERRADURA, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
 						    <div class="col-xs-12 selectContainer">							   
 							    <div class="input-group">
 					              <span class="input-group-addon"><i class="fas fa-lock"></i></span>
@@ -185,7 +185,39 @@
 					              			 ng-change="compServiceProductDetailsFn(service.lockedIt.selected, productListType.CERRADURA, null);" 
 					              			 ng-model="service.lockedIt.selected"
 					              			 ng-required="true"
-					              			 ng-disabled="service.lockedIt.selected!=undefined || service.update.dateDown!=null"
+					              			 ng-disabled="service.lockedIt.selected!=undefined || (service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
+					              			 theme="bootstrap" autofocus>
+					                  <ui-select-match placeholder="Selecciona una opci&#243;n">({{$select.selected.brand}}) - {{$select.selected.model}}</ui-select-match>
+					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.CERRADURA | filter: $select.search">
+					                      <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
+					                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
+					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+					                    </ui-select-choices>
+					                    <ui-select-no-choice>
+										    No hay resultados, contacte are de soporte.
+									  	</ui-select-no-choice>
+					                </ui-select>
+					            </div>
+						  	</div>
+						</div>
+						<!-- Control_de_Acceso: lock2 -->
+						<div class="form-group col-md-6" ng-class="
+								  			{	'has-success': 
+								  				service.lockedIt2.selected!=undefined && fCustomerUpdateService.service_locked2.$valid,
+								  			 	'has-error':  
+								  				(service.lockedIt2.selected==undefined) && fCustomerUpdateService.service_locked2.$touched,
+								  			}">
+						<div class="col-md-8"><label style="padding-left: 15px;">Cerradura adicional </label></div>
+						<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.lockedIt2.selected, productListType.CERRADURA)" ng-disabled="service.lockedIt2.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+						  <button ng-if="service.lockedIt2.selected!=undefined" data-toggle="tooltip" data-placement="top" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" title="Remover" ng-click="removeProductDetailsFn(service.lockedIt2.selected, productListType.CERRADURA, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
+						    <div class="col-xs-12 selectContainer">							   
+							    <div class="input-group">
+					              <span class="input-group-addon"><i class="fas fa-lock"></i></span>
+					              <ui-select name="service_locked2"  
+					              			 ng-change="compServiceProductDetailsFn(service.lockedIt2.selected, productListType.CERRADURA, null);" 
+					              			 ng-model="service.lockedIt2.selected"
+					              			 ng-required="false"
+					              			 ng-disabled="service.lockedIt2.selected!=undefined || (service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
 					              			 theme="bootstrap" autofocus>
 					                  <ui-select-match placeholder="Selecciona una opci&#243;n">({{$select.selected.brand}}) - {{$select.selected.model}}</ui-select-match>
 					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.CERRADURA | filter: $select.search">
@@ -209,7 +241,7 @@
 								  			}">
 						<div class="col-md-8"><label style="padding-left: 15px;">Lector de entrada </label></div>
 						<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.entranceReader.selected, productListType.LECTOR_ENT, 'entrance')" ng-disabled="service.entranceReader.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
-						  <button ng-if="service.entranceReader.selected!=undefined" data-toggle="tooltip" data-placement="right" ng-disabled="service.update.dateDown!=null" title="Remover" ng-click="removeProductDetailsFn(service.entranceReader.selected, productListType.LECTOR_ENT, 'entrance')" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
+						  <button ng-if="service.entranceReader.selected!=undefined" data-toggle="tooltip" data-placement="right" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" title="Remover" ng-click="removeProductDetailsFn(service.entranceReader.selected, productListType.LECTOR_ENT, 'entrance')" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
 						    <div class="col-xs-12 selectContainer">							   
 							    <div class="input-group">
 					              <span class="input-group-addon"><i class="fas fa-sim-card"></i></span>
@@ -217,7 +249,7 @@
 					              			 ng-change="compServiceProductDetailsFn(service.entranceReader.selected, productListType.LECTOR_ENT, 'entrance');" 
 					              			 ng-model="service.entranceReader.selected"
 					              			 ng-required="true"
-					              			 ng-disabled="service.entranceReader.selected!=undefined || service.update.dateDown!=null"
+					              			 ng-disabled="service.entranceReader.selected!=undefined || (service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
 					              			 theme="bootstrap" autofocus>
 					                  <ui-select-match placeholder="Selecciona una opci&#243;n">({{$select.selected.brand}}) - {{$select.selected.model}}</ui-select-match>
 					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.LECTOR | filter: $select.search">
@@ -241,7 +273,7 @@
 								  			}">
 						<div class="col-md-8"><label style="padding-left: 15px;">Fuente</label></div>
 						<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.powerSupply.selected, productListType.FUENTE)" ng-disabled="service.powerSupply.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
-						  	<button ng-if="service.powerSupply.selected!=undefined" data-toggle="tooltip" data-placement="top" title="Remover" ng-disabled="service.update.dateDown!=null" ng-click="removeProductDetailsFn(service.powerSupply.selected, productListType.FUENTE, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
+						  	<button ng-if="service.powerSupply.selected!=undefined" data-toggle="tooltip" data-placement="top" title="Remover" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" ng-click="removeProductDetailsFn(service.powerSupply.selected, productListType.FUENTE, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
 						    <div class="col-xs-12 selectContainer">							   
 							    <div class="input-group">
 					              <span class="input-group-addon"><i class="fas fa-plug"></i></span>
@@ -249,7 +281,7 @@
 					              			 ng-change="compServiceProductDetailsFn(service.powerSupply.selected, productListType.FUENTE, null);" 
 					              			 ng-model="service.powerSupply.selected"
 					              			 ng-required="true"
-					              			 ng-disabled="service.powerSupply.selected!=undefined || service.update.dateDown!=null"
+					              			 ng-disabled="service.powerSupply.selected!=undefined || (service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
 					              			 theme="bootstrap" autofocus>
 					                  <ui-select-match placeholder="Selecciona una opci&#243;n">({{$select.selected.brand}}) - {{$select.selected.model}}</ui-select-match>
 					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.FUENTE | filter: $select.search">
@@ -282,7 +314,7 @@
 						    		ng-change="switchProducList(service.update.isOuputButom)" 
 						    		ng-model="service.update.isOuputButom" 
 						    		id="isOuputButom" 
-									ng-disabled="service.update.dateDown!=null"
+									ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
 						    		style="margin: 0px !important; display: inherit !important;">
 									<span class="slider slider-1x flat"></span>
 								</label>
@@ -290,7 +322,7 @@
 							</div>									  			
 							<div class="pull-right col-md-4 n-padding-r">  			
 								<button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.exitReader.selected, productListType.PRODUCT_EXIT, 'exit')" ng-disabled="service.exitReader.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
-								  <button ng-if="service.exitReader.selected!=undefined" data-toggle="tooltip" data-placement="top" ng-disabled="service.update.dateDown!=null" title="Remover" ng-click="removeProductDetailsFn(service.exitReader.selected, productListType.PRODUCT_EXIT, 'exit')" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button>
+								  <button ng-if="service.exitReader.selected!=undefined" data-toggle="tooltip" data-placement="top" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" title="Remover" ng-click="removeProductDetailsFn(service.exitReader.selected, productListType.PRODUCT_EXIT, 'exit')" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button>
 							</div>					
 						    <div class="col-xs-12 selectContainer">							   
 							    <div class="input-group">
@@ -299,7 +331,7 @@
 					              			 ng-change="compServiceProductDetailsFn(service.exitReader.selected, productListType.PRODUCT_EXIT, 'exit');" 
 					              			 ng-model="service.exitReader.selected"
 					              			 ng-required="true"
-					              			 ng-disabled="service.exitReader.selected!=undefined || service.update.dateDown!=null"
+					              			 ng-disabled="service.exitReader.selected!=undefined || (service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
 					              			 theme="bootstrap" autofocus>
 					                  <ui-select-match placeholder="Selecciona una opci&#243;n">({{$select.selected.brand}}) - {{$select.selected.model}}</ui-select-match>
 					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.PRODUCT_EXIT | filter: $select.search">
@@ -325,22 +357,22 @@
 							  <div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-location-arrow"></i></span>
-									<input name="service_rackLocation" type="text" class="form-control" ng-model="service.update.locationGabinet" ng-disabled="service.update.dateDown!=null" ng-required="true" />
+									<input name="service_rackLocation" type="text" class="form-control" ng-model="service.update.locationGabinet" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" ng-required="true" />
 							  </div>
 							</div>
 						</div>
 						<!-- Control_de_Acceso: Open Devices -->
-						<div class="form-group col-md-6" style="margin-left: 15px; padding-right: 45px;">
-							<div class="col-md-8">
+						<div class="form-group col-md-12" style="margin-left: 15px; padding-right: 45px;">
+							<div class="col-md-10">
 								<label class="clf-p-left">Dispositivos de Apertura</label></div>
-							<div class="pull-right col-md-4 n-padding-r" style="padding-bottom: 5px;"><button ng-click="loadDetailModalWindow(service.openDevices.selected)" ng-disabled="service.openDevices.selected==undefined || service.update.dateDown!=null" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</button></div>
+							<div class="pull-right col-md-2 n-padding-r" style="padding-bottom: 5px;"><button ng-click="loadDetailModalWindow(service.openDevices.selected)" ng-disabled="service.openDevices.selected==undefined || (service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</button></div>
 						    <div class="selectContainer">							   
 							    <div class="col-md-12 input-group">
-					              	<span class="input-group-addon"><i class="fas fa-car-battery"></i></span>
+					              	<span class="input-group-addon"><i class="fas fa-key"></i></span>
 					              	<ui-select name="service_openDevices"
 					              			 ng-model="service.openDevices.selected"
 					              			 ng-required="list_open_devices.length==0"
-											 ng-disabled="service.update.dateDown!=null"
+											 ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
 					              			 theme="bootstrap" autofocus>
 					                	<ui-select-match placeholder="Selecciona una opci&#243;n">({{$select.selected.brand}}) - {{$select.selected.model}}</ui-select-match>
 					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.DISP_APERTURA | filter: $select.search">
@@ -359,13 +391,12 @@
 							    	<tr ng-repeat="device in list_open_devices">
 							    		<td style="width: 5%; padding: 0 0px 0 10px;"><label style="font-size: 80%" class="label label-default">{{$index+1}}</label></td>
 							      		 <td style="width: auto"><span style="font-size: 85%" class="text-muted text-uppercase text-box">{{device.classification | uppercase}} </span></td>
-							      		<!--<td style="width: 15%"><span class="text-muted text-box" style="font-size: 85%">Modelo:<label style="font-size: 85%" class="label label-default">{{device.model | uppercase}}</label></span></td>-->
-							      		<td style="width: auto"><label data-toggle="tooltip" data-placement="top" title="Marca" style="font-size: 75%" class="label label-default"><i class="text-warning fas fa-tag"> </i> {{device.brand | uppercase}}</label></td>
-							          	<td style="padding-bottom: 5px;">
-							            	<button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="subItemServiceProductDetailsFn(device)" ng-disabled="!device.idOpenDevice" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i></button>
-						  					<button ng-if="device.idOpenDevice" ng-disabled="service.update.dateDown!=null" data-toggle="tooltip" data-placement="top" title="Remover" ng-click="removeSubItemProductDetailsFn(device)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button>
-
-							          	</td>
+										 <td style="width: auto"><span class="text-muted text-box" style="font-size: 85%">Modelo:<span data-toggle="tooltip" data-placement="top" title="Marca" style="font-size: 75%" class="label label-default"><i class="text-warning fas fa-tag"> </i> {{device.brand | uppercase}}</span></label></td>
+										 <td style="width: 15%"><span class="text-muted text-box" style="font-size: 85%">Marca:<span data-toggle="tooltip" data-placement="top" title="Modelo" style="font-size: 75%" class="label label-default">{{device.model | uppercase}}</span></label></td>
+										 <td style="width: 10%;padding-bottom: 5px;">
+											<div class="col-md-2"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="subItemServiceProductDetailsFn(device)" ng-disabled="!device.idOpenDevice" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i></button></div>
+											<div class="col-md-2"><button ng-if="device.idOpenDevice" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" data-toggle="tooltip" data-placement="top" title="Remover" ng-click="removeSubItemProductDetailsFn(device)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
+										 </td>
 							      	</tr>
 							  	</table>
 							  	<div ng-if="list_open_devices.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay dispositivos de apertura cargados</h5></div>
@@ -384,7 +415,7 @@
 					              	<ui-select name="service_battery"
 					              			 ng-model="service.batteries.selected"
 					              			 ng-required="list_batteries.length==0"
-											 ng-disabled="service.update.dateDown!=null"
+											 ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
 					              			 theme="bootstrap" autofocus>
 					                	<ui-select-match placeholder="Selecciona una opci&#243;n">({{$select.selected.brand}}) - {{$select.selected.model}}</ui-select-match>
 					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.BATERIA | filter: $select.search">
@@ -403,12 +434,11 @@
 							    	<tr ng-repeat="battery in list_batteries">
 							    		<td style="width: 0%; padding: 0 10px 0 10px;"><label style="font-size: 80%" class="label label-default">{{$index+1}}</label></td>
 							      		 <td style="width: 55%"><span style="font-size: 85%" class="text-muted text-uppercase text-box">{{battery.descriptionProduct | uppercase}} </span></td>
-							      		<td style="width: 15%"><span class="text-muted text-box" style="font-size: 85%">Modelo:<label style="font-size: 85%" class="label label-default">{{battery.model | uppercase}}</label></span></td>
-							      		<td style="width: 15%"><span class="text-muted text-box" style="font-size: 85%">Marca:<label style="font-size: 85%" class="label label-default">{{battery.brand | uppercase}}</label></span></td>
-							          	<td style="padding-bottom: 5px; width: 15%">
-							            	<button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="subItemServiceProductDetailsFn(battery)" ng-disabled="!battery.idBatteryFk" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
-						  					<button ng-if="battery.idBatteryFk" data-toggle="tooltip" data-placement="top" title="Remover" ng-disabled="service.update.dateDown!=null" ng-click="removeSubItemProductDetailsFn(battery)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button>
-
+							      		<td style="width: 15%"><span class="text-muted text-box" style="font-size: 85%">Modelo:<label style="font-size: 75%" class="label label-default">{{battery.model | uppercase}}</label></span></td>
+							      		<td style="width: 15%"><span class="text-muted text-box" style="font-size: 85%">Marca:<label style="font-size: 75%" class="label label-default">{{battery.brand | uppercase}}</label></span></td>
+							          	<td style="padding-bottom: 5px; width: 10%">
+							            	<div class="col-md-2"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="subItemServiceProductDetailsFn(battery)" ng-disabled="!battery.idBatteryFk" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i></button></div>
+						  					<div class="col-md-2"><button ng-if="battery.idBatteryFk" data-toggle="tooltip" data-placement="top" title="Remover" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" ng-click="removeSubItemProductDetailsFn(battery)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
 							          	</td>
 							      	</tr>
 							  	</table>
@@ -420,13 +450,13 @@
 			            <div class="form-group col-md-6 col-xs-12">
 			            	<div class="col-md-12 col-xs-5"><label class="clf-size clf-p-left">Tornillo bloqueador</label></div>
 			            	<div class="col-md-3 col-xs-3 col-md-offset-6 col-xs-offset-6">
-			                	<input id="isHasLockingScrewUpdate1" class="radio-2x" type="radio" value="1" name="isHasLockingScrew" ng-model="service.update.isBlocklingScrew" ng-disabled="service.update.dateDown!=null" ng-click="service.update.acaration2Tmp!=undefined && service.update.acaration2Tmp!=null?service.update.acaration2=service.update.acaration2Tmp:''" required autofocus>
+			                	<input id="isHasLockingScrewUpdate1" class="radio-2x" type="radio" value="1" name="isHasLockingScrew" ng-model="service.update.isBlocklingScrew" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" ng-click="service.update.acaration2Tmp!=undefined && service.update.acaration2Tmp!=null?service.update.acaration2=service.update.acaration2Tmp:''" required autofocus>
 			                    <label for="isHasLockingScrewUpdate1" class="radio-2x-label">
 			                      <span>Si</span>
 			                    </label>
 			                </div>
 			                <div class="col-md-3 col-xs-3">
-			                	<input id="isHasLockingScrewUpdate2" class="radio-2x" type="radio" value="0" name="isHasLockingScrew" ng-disabled="service.update.dateDown!=null" ng-click="service.update.acaration2Tmp=service.update.acaration2; service.update.acaration2=''" ng-model="service.update.isBlocklingScrew" required autofocus>
+			                	<input id="isHasLockingScrewUpdate2" class="radio-2x" type="radio" value="0" name="isHasLockingScrew" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" ng-click="service.update.acaration2Tmp=service.update.acaration2; service.update.acaration2=''" ng-model="service.update.isBlocklingScrew" required autofocus>
 			                    <label for="isHasLockingScrewUpdate2" class="radio-2x-label">
 			                      <span>No</span>
 			                    </label> 
@@ -444,7 +474,7 @@
 						    <div class="col-xs-12">
 							    <div class="input-group">
 							    	<span class="input-group-addon"><i class="far fa-sticky-note"></i></span>
-					    			<input name="service_aclaration2" type="text" class="form-control" ng-disabled="service.update.dateDown!=null || service.update.isBlocklingScrew==0 || service.update.isBlocklingScrew==undefined || service.update.isBlocklingScrew==null" 
+					    			<input name="service_aclaration2" type="text" class="form-control" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='') || service.update.isBlocklingScrew==0 || service.update.isBlocklingScrew==undefined || service.update.isBlocklingScrew==null" 
 					    			ng-required="service.update.isBlocklingScrew!=0 && service.update.isBlocklingScrew!=undefined && service.update.isBlocklingScrew!=null" ng-model="service.update.acaration2" />
 					    		</div>
 					    	</div>
@@ -459,7 +489,7 @@
 								  			}">
 						<div class="col-md-8"><label style="padding-left: 15px;">Pulsador de Emergencia</label></div>
 						<div class="pull-right col-md-4 n-padding-r"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.emergencyButton.selected, productListType.PULSADOR_EMERG)" ng-disabled="service.emergencyButton.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
-					  	<button ng-if="service.emergencyButton.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-disabled="service.update.dateDown!=null" ng-click="removeProductDetailsFn(service.emergencyButton.selected, productListType.PULSADOR_EMERG, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
+					  	<button ng-if="service.emergencyButton.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" ng-click="removeProductDetailsFn(service.emergencyButton.selected, productListType.PULSADOR_EMERG, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
 					    <div class="col-xs-12 selectContainer">							   
 						    <div class="input-group">
 				              <span class="input-group-addon"><i class="fas fa-square"></i></span>
@@ -487,7 +517,7 @@
 					    <div class="col-xs-12">
 						    <div class="input-group">
 						    	<span class="input-group-addon"><i class="fas fa-location-arrow"></i></span>
-				    			<input name="service_locationEmergencyButton" type="text" class="form-control" ng-disabled="service.update.dateDown!=null"  ng-model="service.update.locationEmergencyButton" />
+				    			<input name="service_locationEmergencyButton" type="text" class="form-control" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"  ng-model="service.update.locationEmergencyButton" />
 				    		</div>
 				    	</div>
 					</div>
@@ -500,14 +530,14 @@
 								  			}">
 					  	<div class="col-md-8"><label style="padding-left: 15px;">Tecla de apagado</label></div>
 						<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.TurnOffKey.selected, productListType.TECLA_APAG)" ng-disabled="service.TurnOffKey.selected==undefined"  class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
-					  <button ng-if="service.TurnOffKey.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-disabled="service.update.dateDown!=null"  ng-click="removeProductDetailsFn(service.TurnOffKey.selected, productListType.TECLA_APAG, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
+					  <button ng-if="service.TurnOffKey.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"  ng-click="removeProductDetailsFn(service.TurnOffKey.selected, productListType.TECLA_APAG, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
 					    <div class="col-xs-12 selectContainer">							   
 						    <div class="input-group">
 				              <span class="input-group-addon"><i class="fas fa-keyboard"></i></span>
 				              <ui-select name="service_TurnOffKey"  
 				              			 ng-change="compServiceProductDetailsFn(service.TurnOffKey.selected, productListType.TECLA_APAG);" 
 				              			 ng-model="service.TurnOffKey.selected"
-				              			 ng-disabled="service.TurnOffKey.selected!=undefined || service.update.dateDown!=null"
+				              			 ng-disabled="service.TurnOffKey.selected!=undefined || (service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
 				              			 theme="bootstrap" autofocus>
 				                  <ui-select-match placeholder="Selecciona una opci&#243;n">({{$select.selected.brand}}) - {{$select.selected.model}}</ui-select-match>
 				                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.TECLA_APAG | filter: $select.search">
@@ -535,7 +565,7 @@
 					    <div class="col-xs-12">
 						    <div class="input-group">
 						    	<span class="input-group-addon"><i class="fas fa-location-arrow"></i></span>
-				    			<input name="service_locationOffKey" type="text" class="form-control" ng-disabled="service.update.dateDown!=null"  ng-model="service.update.locationOffKey" />
+				    			<input name="service_locationOffKey" type="text" class="form-control" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"  ng-model="service.update.locationOffKey" />
 				    		</div>
 				    	</div>
 					</div>
@@ -551,7 +581,7 @@
 						    		ng-change="" 
 						    		ng-model="service.update.isHasInternetConnect" 
 						    		id="conexionInternet" 
-									ng-disabled="service.update.dateDown!=null" 
+									ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" 
 						    		style="margin: 0px !important; display: inherit !important;">
 									<span class="slider slider-1x flat"></span>
 								</label>
@@ -563,7 +593,7 @@
 							  <div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-ethernet"></i></span>
-									<input name="service_routerPort" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="service.update.dateDown!=null"  ng-required="service.update.isHasInternetConnect" ng-model="service.update.portNumberRouter" />
+									<input name="service_routerPort" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"  ng-required="service.update.isHasInternetConnect" ng-model="service.update.portNumberRouter" />
 							  </div>
 							</div>
 						</div>
@@ -573,7 +603,7 @@
 							  <div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-project-diagram"></i></span>
-									<input name="service_httpPort" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="service.update.dateDown!=null"  ng-required="service.update.isHasInternetConnect" ng-model="service.update.portHttp" />
+									<input name="service_httpPort" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"  ng-required="service.update.isHasInternetConnect" ng-model="service.update.portHttp" />
 							  </div>
 							</div>
 						</div>
@@ -583,7 +613,7 @@
 							  <div class="col-xs-12">
 								<div class="input-group" ng-show="service.update.isHasInternetConnect">
 									<span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
-									<input name="service_clientAddr" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="service.update.dateDown!=null"  ng-required="false" ng-model="service.update.addressClient" />
+									<input name="service_clientAddr" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"  ng-required="false" ng-model="service.update.addressClient" />
 							  </div>
 							</div>
 						</div>
@@ -593,7 +623,7 @@
 								<div class="col-xs-12">
 								  <div class="input-group">
 									  <span class="input-group-addon"><i class="fas fa-user-shield"></i></span>
-									  <input name="service_username_vpn" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="service.update.dateDown!=null"  ng-required="service.update.isHasInternetConnect" ng-model="service.update.useVpn" />
+									  <input name="service_username_vpn" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"  ng-required="service.update.isHasInternetConnect" ng-model="service.update.useVpn" />
 								</div>
 							  </div>
 						  </div>
@@ -603,18 +633,18 @@
 								<div class="col-xs-12">
 								  <div class="input-group">
 									  <span class="input-group-addon"><i class="fas fa-key"></i></span>
-									  <input name="service_userPass_vpn" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="service.update.dateDown!=null"  ng-required="service.update.isHasInternetConnect" ng-model="service.update.passVpn" />
+									  <input name="service_userPass_vpn" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"  ng-required="service.update.isHasInternetConnect" ng-model="service.update.passVpn" />
 								</div>
 							  </div>
 						  </div>
 						<!-- Control_de_Acceso: direccion vpn -->
 						<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
 						  <label style="padding-left: 15px;">Direcci&#243;n VPN</label> 
-						  <div class="pull-right col-md-4 n-padding-r" ><a ng-disabled="service.update.addressVpn==undefined || service.update.portVpn==undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{service.update.urlVpn}}" class="btn btn-xs btn-warning"><i class="fas fa-link"></i> Abril url</a></div>					
+						  <div class="pull-right col-md-4 n-padding-r" ><a ng-disabled="service.update.addressVpn==undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{service.update.urlVpn}}" class="btn btn-xs btn-warning"><i class="fas fa-link"></i> Abril url</a></div>					
 							  <div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
-									<input name="service_address_vpn" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="service.update.dateDown!=null"  ng-required="service.update.isHasInternetConnect" ng-model="service.update.addressVpn" />
+									<input name="service_address_vpn" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"  ng-required="service.update.isHasInternetConnect" ng-model="service.update.addressVpn" />
 							  </div>
 							</div>
 						</div>
@@ -628,13 +658,25 @@
 								</div>
 							  </div>
 						  </div>
+						  <div ng-show="service.update.isHasInternetConnect" class="col-md-12">
+							<div  class="alert alert-info" role="alert">
+								<button type="button" class="close" data-dismiss="alert"><span data-toggle="tooltip" data-placement="top" title="cerrar" aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+								<strong><i class="product-success fas fa-lightbulb"></i>&nbsp </i>INFO: </strong>Si la dirección VPN utilizara el protocolo https este debe ser especificado en el campo <br> ejemplo: https://cliente.bss.com.ar
+							</div>
+						  </div>
+						  <div ng-show="service.update.isHasInternetConnect" class="col-md-12">
+							<div  class="alert alert-info" role="alert">
+								<button type="button" class="close" data-dismiss="alert"><span data-toggle="tooltip" data-placement="top" title="cerrar" aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+								<strong><i class="product-success fas fa-lightbulb"></i>&nbsp </i>INFO: </strong>Si el Puerto VPN no esta definido, por defecto el puerto utilizado sera el 80.
+							</div>
+						  </div>
 						<!-- Control_de_Acceso: usuario -->
 						<!--<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
 							<label style="padding-left: 15px;">Usuario</label>  
 								<div class="col-xs-12">
 								  <div class="input-group">
 									  <span class="input-group-addon"><i class="fas fa-user"></i></span>
-									  <input name="service_username_router" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="service.update.dateDown!=null"  ng-required="false" ng-model="service.update.user" />
+									  <input name="service_username_router" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"  ng-required="false" ng-model="service.update.user" />
 								</div>
 							  </div>
 						  </div>-->
@@ -644,7 +686,7 @@
 								<div class="col-xs-12">
 								  <div class="input-group">
 									  <span class="input-group-addon"><i class="fas fa-key"></i></span>
-									  <input name="service_userPass_router" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="service.update.dateDown!=null"  ng-required="false" ng-model="service.update.pass" />
+									  <input name="service_userPass_router" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"  ng-required="false" ng-model="service.update.pass" />
 								</div>
 							  </div>
 						  </div>-->
@@ -662,7 +704,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
-                        <button type="submit" ng-click="modalConfirmation('updateService', 0, service.update)" ng-disabled="service.update.dateDown!=null || list_batteries.length==0 || list_open_devices.length==0;" class="btn btn-labeled btn-success">
+                        <button type="submit" ng-click="modalConfirmation('updateService', 0, service.update)" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='') || list_batteries.length==0 || list_open_devices.length==0;" class="btn btn-labeled btn-success">
                             <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
                         <a ng-click="modalConfirmation('closeServiceWindow', 0, service.update)" type="button" class="btn btn-labeled btn-danger">
                             <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
