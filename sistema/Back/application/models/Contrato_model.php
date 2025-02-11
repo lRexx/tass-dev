@@ -13,7 +13,8 @@ class Contrato_model extends CI_Model {
         $this->db->insert('tb_contratos', [
                 "idClientFk"           => $client['idClientFk'],
                 "fechaFirmaVigencia"   => $client['fechaFirmaVigencia'],
-                "fechaFirmaActivacion" => $client['fechaFirmaActivacion'],
+                "fechaFirma"           => $client['fechaFirma'],
+                "fechaActivacion"      => $client['fechaActivacion'],
                 "numeroContrato"       => $client['numeroContrato'],
                 "contratoType"         => $client['contratoType'],
                 "maintenanceType"      => $client['maintenanceType'],
@@ -55,7 +56,8 @@ class Contrato_model extends CI_Model {
         $this->db->set([
                 "idClientFk"                        => $client['idClientFk'],
                 "fechaFirmaVigencia"                => $client['fechaFirmaVigencia'],
-                "fechaFirmaActivacion"              => $client['fechaFirmaActivacion'],
+                "fechaFirma"                        => $client['fechaFirma'],
+                "fechaActivacion"                   => $client['fechaActivacion'],
                 "numeroContrato"                    => $client['numeroContrato'],
                 "contratoType"                      => $client['contratoType'],
                 "maintenanceType"                   => $client['maintenanceType'],
@@ -1015,12 +1017,31 @@ class Contrato_model extends CI_Model {
 
         return $contract;
 
-    }    
+    }
+    public function fechaFirmaContrato($contrato) {
+        $now = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
+        $this->db->set([
+                "idClientFk"           => $contrato['idClientFk'],
+                "fechaFirmaVigencia"   => $contrato['fechaFirmaVigencia'],
+                "fechaActivacion"      => $now->format('Y-m-d') ,
+                "numeroContrato"       => $contrato['numeroContrato'],
+                "contratoType"         => $contrato['contratoType'],
+                "maintenanceType"      => $contrato['maintenanceType'],
+                "idStatusFk"           => $contrato['idStatusFk'],
+            ]
+        )->where("idContrato", $contrato['idContrato'])->update("tb_contratos");
+
+        if ($this->db->affected_rows() >= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    } 
     public function fechaActivacionContrato($contrato) {
         $this->db->set([
                 "idClientFk"           => $contrato['idClientFk'],
                 "fechaFirmaVigencia"   => $contrato['fechaFirmaVigencia'],
-                "fechaFirmaActivacion" => $contrato['fechaFirmaActivacion'],
+                "fechaFirma"           => $contrato['fechaFirma'],
                 "numeroContrato"       => $contrato['numeroContrato'],
                 "contratoType"         => $contrato['contratoType'],
                 "maintenanceType"      => $contrato['maintenanceType'],

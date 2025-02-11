@@ -1246,10 +1246,10 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                         console.log("string: "+string_search);
                         if (string_search!=undefined && string_search!=""){
                             $scope.listTickt = [];
-                            $scope.filters.idTypeTicketKf      = 1;
+                            $scope.filters.idTypeTicketKf      = "";
                             $scope.filters.idProfileKf         = $scope.sysLoggedUser.idProfileKf;
-                            $scope.filters.isBillingInitiated  = null;
-                            $scope.filters.isBillingUploaded   = null;
+                            $scope.filters.isBillingInitiated  = 1;
+                            $scope.filters.isBillingUploaded   = 1;
                             $scope.filters.topfilter           = "10";
                             $scope.filters.codTicket           = string_search;
                             ticketServices.all($scope.filters).then(function(response){
@@ -1589,7 +1589,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             $scope.keys.llavero.idDepartmenKf   = obj.idCategoryKf=="1"?obj.idDepartmenKf:null;
                             $scope.keys.llavero.idClientKf      = obj.idClientKf;
                             $scope.keys.llavero.idUserKf        = obj.idUserKf;
-                            $scope.keys.llavero.idCategoryKf    = obj.idCategoryKf;
+                            $scope.keys.llavero.idCategoryKf    = obj.categoryKey;
                             $scope.keys.llavero.isKeyTenantOnly = obj.isKeyTenantOnly;
                             console.log($scope.keys.llavero);
                             $scope.updateKeyFn($scope.keys);

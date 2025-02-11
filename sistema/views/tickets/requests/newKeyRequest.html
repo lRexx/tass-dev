@@ -109,7 +109,7 @@
 									</ul>
 								</div>
 							</div>
-							<!-- Text Address for Admins & TASS
+							<!-- Text Address for Admins & BSS
 							ng-if="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && listOffices.length>0 && (customerSearch.name!='' || customerSearch.name!=undefined || customerSearch.name!=null) "
 						-->
 							<div ng-if="(sysLoggedUser.idProfileKf!=1 && sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && !isHomeSelected && buildingList.length>0) || (sysLoggedUser.idProfileKf==1 && buildingList.length>0)" class="form-group n-padding-l" ng-class="
@@ -271,7 +271,7 @@
 												<div class="col-md-4 col-xs-4 col-xs-offset-2">
 													<input id="typeTenant1" class="radio-custom" type="radio" ng-click="(sysLoggedUser.idProfileKf=='3' || sysLoggedUser.idProfileKf=='5' || (((sysLoggedUser.idProfileKf=='4' && isHomeSelected) || sysLoggedUser.idProfileKf=='6') && (sysLoggedUser.idTypeTenantKf=='1' || sysLoggedUser.idTypeTenantKf=='2')))?mainSwitchFn('selectedRequestKeyOwnerUser', sysLoggedUser, null):mainSwitchFn('list_tenants', null, null); enabledNextBtn();" name="typeTenant" value="1" ng-model="ticket.radioButtonDepartment" required autofocus>
 													<label for="typeTenant1" class="radio-custom-label">
-														<span ng-show="(sysLoggedUser.idProfileKf=='3' || sysLoggedUser.idProfileKf=='5' || ((sysLoggedUser.idProfileKf==4 || sysLoggedUser.idProfileKf==5 || sysLoggedUser.idProfileKf=='6') && (sysLoggedUser.idTypeTenantKf=='1' || sysLoggedUser.idTypeTenantKf=='2')))">{{sysLoggedUser.fullNameUser}}</span>
+														<span ng-show="(sysLoggedUser.idProfileKf=='3' || sysLoggedUser.idProfileKf=='5' || (((sysLoggedUser.idProfileKf==4 && isHomeSelected) || sysLoggedUser.idProfileKf==5 || sysLoggedUser.idProfileKf=='6') && (sysLoggedUser.idTypeTenantKf=='1' || sysLoggedUser.idTypeTenantKf=='2')))">{{sysLoggedUser.fullNameUser}}</span>
 														<span ng-show="(sysLoggedUser.idProfileKf==1) || (sysLoggedUser.idProfileKf==4 && !isHomeSelected)">Propietario 
 															<span ng-if="ticket.radioButtonDepartment==1 && selectedRequestKeyOwnerUser!=undefined" class="label font-size-16px label-custom-1">{{selectedRequestKeyOwnerUser.fullNameUser}} <button ng-if="sysLoggedUser.idProfileKf=='1' || (sysLoggedUser.idProfileKf=='4' && !isHomeSelected)" ng-click="mainSwitchFn('list_tenants', null, null);" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button></span>
 															<span ng-if="ticket.radioButtonDepartment==1 && selectedRequestKeyOwnerUser==undefined" class="label font-size-16px label-custom-2">No asignado <button ng-click="mainSwitchFn('list_tenants', null, null);" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button></span>
@@ -326,7 +326,7 @@
                                         </div>
                                     </div>
                                 </div>
-                               	<!-- Input Amount of keys that will be added to the request Apply Only for TASS -->
+                               	<!-- Input Amount of keys that will be added to the request Apply Only for BSS -->
 							   	<div ng-if="(ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && ticket.radioButtonBuilding!='3'))" class="form-group col-md-2 n-padding-l"  ng-class="
 							   {	'has-success': 
 							   		ticket.keyQtty!=undefined && ticket.keyQtty!=0 && fkeyup.ticket_keyQtty.$valid,
@@ -433,7 +433,7 @@
 										<tr  style="align-content: center; cursor: pointer;" data-ng-repeat="tckt in list_keys">
 											<td style="vertical-align: middle;text-align: center;"><span class="font-size-18px">{{$index+1}}</span></td>
 											<td>{{tckt.key.descriptionProduct}} <span class="badge badge-warning">{{tckt.key.brand}}</span></td>
-											<td style="vertical-align: middle;text-align: right;">$ {{tckt.key.priceFabric | number : 2}}</td>
+											<td style="vertical-align: middle;text-align: right;">$ {{tckt.key.priceFabric | number : 0}}</td>
 											<td ng-if="ticket.optionTypeSelected.name=='building'" style="vertical-align: middle;text-align: center;">
 												<span class="label label-default">{{tckt.key.categoryName}}</span>
 											</td>
@@ -555,11 +555,11 @@
 																<span ng-if="ticket.delivery.idTypeDeliveryKf==2 && ticket.delivery.idDeliveryTo==2 && (ticket.delivery.whoPickUp.id==undefined || ticket.delivery.whoPickUp.id==1)" class="label label-default"> {{ticket.delivery.otherAddress.streetName | uppercase}} {{ticket.delivery.otherAddress.streetNumber}}</span>
 																<span ng-if="ticket.delivery.idTypeDeliveryKf==2 && ticket.delivery.idDeliveryTo==null && ticket.delivery.whoPickUp.id==3" class="label label-default"> {{ticket.delivery.thirdPerson.streetName | uppercase}} {{ticket.delivery.thirdPerson.streetNumber}}</span>
 															</td>
-															<td ng-show="ticket.delivery.deliveryTo.fullNameUser!=undefined" style="padding-right: 5px;">
+															<td ng-show="ticket.delivery.deliveryTo!=null && ticket.delivery.deliveryTo.fullNameUser!=undefined" style="padding-right: 5px;">
 																<span ng-if="ticket.delivery.idTypeDeliveryKf==1"> por </span>
 																<span ng-if="ticket.delivery.idTypeDeliveryKf==2"> a </span>
 															</td>
-															<td ng-show="ticket.delivery.deliveryTo.fullNameUser!=undefined" style="padding-right: 5px;">
+															<td ng-show="ticket.delivery.deliveryTo!=null && ticket.delivery.deliveryTo.fullNameUser!=undefined" style="padding-right: 5px;">
 																<span class="label label-default"> {{ticket.delivery.deliveryTo.fullNameUser}}</span>
 																<span ng-if="ticket.delivery.whoPickUp.id==undefined || ticket.delivery.whoPickUp.id==2" class="badge badge-warning"> {{ticket.delivery.deliveryTo.nameProfile}}</span>
 																<span ng-if="ticket.delivery.whoPickUp.id==3" class="badge badge-warning"> Tercera Persona</span>
@@ -854,7 +854,7 @@
 										</td>
 										<td ng-if="ticket.delivery.idTypeDeliveryKf==null" style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;">Procesado por</td>
 										<td ng-if="ticket.delivery.idTypeDeliveryKf==null">
-											<span class="badge badge-warning">TASS</span>
+											<span class="badge badge-warning">BSS</span>
 										</td>
 									</tr>
 								</tbody>

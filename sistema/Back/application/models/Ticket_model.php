@@ -223,18 +223,18 @@ class Ticket_model extends CI_Model
 								}else{
 									$body.='<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">';
 								}
-								$body.=$lastTicketAddQuery[0]['statusTicket']['statusName'].'</span></td>';
-								$body.='</tr>';	
-								$body.='<tr width="100%" bgcolor="#ffffff">';
-								$body.= '<td width="100%" align="center" valign="middle" style="background-color:#ffffff">'.$ticket['mail'].'</td>';
-								$body.='</tr>';
+								$body.=$lastTicketAddQuery[0]['statusTicket']['statusName'].'</span>';
 								if ($lastTicketAddQuery[0]['idStatusTicketKf']==2 || $lastTicketAddQuery[0]['idStatusTicketKf']=='9'){
 									$secureToken= base64_encode($lastTicketAddQuery[0]['idTicket'].":".$lastTicketAddQuery[0]['urlToken']);
 									$approval_url="https://".BSS_HOST."/login/approve/ticket/up/token/".$secureToken;
-									$body.='<tr width="100%" bgcolor="#ffffff">';
-									$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="'.$approval_url.'" target="_blank" title="Aprobar" style="text-decoration: none; color: #ffffff;">Aprobar pedido</a></span></td>';
-									$body.='</tr>';	
+									$body.= '&nbsp;&nbsp;<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="'.$approval_url.'" target="_blank" title="Aprobar" style="text-decoration: none; color: #ffffff;">Aprobar pedido haciendo click aqui</a></span></td>';
+								}else{
+									$body.='</td>';	
 								}
+								$body.='</tr>';	
+								$body.='<tr width="100%" bgcolor="#ffffff">';
+								$body.= '<td width="100%" align="center" valign="middle" style="background-color:#ffffff;padding-bottom:3%;">'.$ticket['mail'].'</td>';
+								$body.='</tr>';
 
 								//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
 								$this->mail_model->sendMail($title, $to, $body, $subject);
@@ -576,17 +576,26 @@ class Ticket_model extends CI_Model
 	{
 		$idTicketKf  = $ticket['idTicket'];
 		$ticketQuery = null;
+		$ticketObj 	 = null;
 		$ticketQuery = $this->ticketById($idTicketKf);
 		if (($ticketQuery[0]['idStatusTicketKf']!=9 && $ticket['idTypePaymentKf']==2)|| 
 			($ticketQuery[0]['idStatusTicketKf']==9 && $ticket['idTypePaymentKf']==2)){
 			if (! is_null($ticketQuery[0]['paymentDetails']) && (! is_null($ticketQuery[0]['paymentDetails']['mp_payment_id']) && $ticketQuery[0]['paymentDetails']['mp_payment_id']!=0)){
 				$idStatusTicketKf = 8;
+				$ticketObj['history']['idUserKf'] 			= "1";
+				$ticketObj['history']['idTicketKf']  		= $idTicketKf;
+				$ticketObj['history']['descripcion'] 		= "";
+				$ticketObj['history']['idCambiosTicketKf'] 	= "13";
 			}else {
 				$idStatusTicketKf = 3;
 			}
 
 		}else if ($ticket['idTypePaymentKf']==2 && $ticketQuery[0]['idStatusTicketKf']==11){
 			$idStatusTicketKf = 8;
+			$ticketObj['history']['idUserKf'] 			= "1";
+			$ticketObj['history']['idTicketKf']  		= $idTicketKf;
+			$ticketObj['history']['descripcion'] 		= "";
+			$ticketObj['history']['idCambiosTicketKf'] 	= "13";
 		}
 		$this->db->set(
 			array(
@@ -607,6 +616,9 @@ class Ticket_model extends CI_Model
 						"descripcion" 		=> @$key['descripcion'] ,
 						"idCambiosTicketKf" => @$key['idCambiosTicketKf']
 					));
+				}
+				if (isset($ticketObj)){
+					$this->Ticket_model->addTicketTimeline($ticketObj);
 				}
 			}
 			$lastTicketUpdatedQuery = null;
@@ -657,6 +669,8 @@ class Ticket_model extends CI_Model
 							$body.='<tr width="100%" bgcolor="#ffffff">';
 							if($lastTicketUpdatedQuery[0]['idTypePaymentKf']==1){
 								$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Estamos preparando su pedido para '.$deliveryMethod.'</td>';
+							}else if (! is_null($lastTicketUpdatedQuery[0]['paymentDetails']) && (! is_null($lastTicketUpdatedQuery[0]['paymentDetails']['mp_payment_id']) && $lastTicketUpdatedQuery[0]['paymentDetails']['mp_payment_id']!=0)){
+								$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Estamos preparando su pedido para '.$deliveryMethod.'</td>';	
 							}else{
 								$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Recibira un correo con el Link de MercadoPago para efectuar el pago del pedido, una vez efectuado el pago sera preparado su pedido para '.$deliveryMethod.'</td>';	
 							}
@@ -1161,96 +1175,98 @@ class Ticket_model extends CI_Model
 					if ($queryUser->num_rows() > 0) {
 						$user = $queryUser->row_array();
 						if ($lastTicketUpdatedQuery[0]['sendNotify']==1 || $lastTicketUpdatedQuery[0]['sendNotify']==null){
-							#MAIL TO USER
-							$rs = null;
-							$to = $user['emailUser'];
-							$body.='<tr width="100%" bgcolor="#ffffff">';
-							$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hola <b>'.$user['fullNameUser'].'</b>,</td>';
-							$body.='</tr>';
-							$body.='<tr width="100%" bgcolor="#ffffff">';
-							$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Su Pedido N°: <b>'.$lastTicketUpdatedQuery[0]['codTicket'].'</b>, se encuentra <b>'.$lastTicketUpdatedQuery[0]['statusTicket']['statusName'].'</b></td>';
-							$body.='</tr>';
-							$deliveryMethod = null;
-							$deliveredDate 	= null;
-							$deliveredTo 	= null;
-							$deliveredAddr 	= null;
-							$deliveryDate 	= null;
-							$body.='<tr width="100%" bgcolor="#ffffff">';
-							if($lastTicketUpdatedQuery[0]['idTypeDeliveryKf']==1){
-								if ($lastTicketUpdatedQuery[0]['idStatusTicketKf']==7){
-									$deliveryMethod='retirar por nuestras oficinas, Dirección: Carlos Calvo 3430 <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #fff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://www.google.com/maps?ll=-34.623655,-58.414103&z=16&t=m&hl=es-ES&gl=US&mapclient=embed&q=Carlos+Calvo+3430+C1230ABH+CABA" target="_blank" style="text-decoration: none; color: #ffffff;">Ver en el mapa</a></span>';
-									$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Puede pasar a '.$deliveryMethod.'</td>';	
-									$body.='</tr>';
-								}
-								if ($lastTicketUpdatedQuery[0]['idStatusTicketKf']==1){
-									setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
-									date_default_timezone_set('America/Argentina/Buenos_Aires');
-									$deliveredDate =  strftime( "%A %d de %B del %Y", strtotime($ticket['delivered_at']));
-									$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">El Pedido ha sido retirado por <b>'.$lastTicketUpdatedQuery[0]['retiredByFullName'].'</b>, el dia '.$deliveredDate.'</td>';	
-									$body.='</tr>';
-									$body.='<tr width="100%" bgcolor="#ffffff">';
-									$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
-									$body.='</tr>';
-									$body.='<tr width="100%" bgcolor="#ffffff">';
-									$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://bss.com.ar/wp-content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
-									$body.='</tr>';
-								}
-							}else if($lastTicketUpdatedQuery[0]['idTypeDeliveryKf']==2){
-								setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
-								date_default_timezone_set('America/Argentina/Buenos_Aires');
-								if ($lastTicketUpdatedQuery[0]['idStatusTicketKf']==4){
-									$deliveryDate =  strftime( "%A %d de %B del %Y", strtotime($ticket['delivery_schedule_at']));
-									$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">La entrega de su pedido esta programado para el dia  '.$deliveryDate.' en la franja horaria de 15h a 20h.</td>';
-									$body.='</tr>';
-									$body.='<tr width="100%" bgcolor="#ffffff">';
-									$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">En caso de no poder entregar el pedido, se hará un segundo intento al dia siguiente en el mismo horario.</td>';
-									$body.='</tr>';
-								}
-								if ($lastTicketUpdatedQuery[0]['idStatusTicketKf']==1){
-									setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
-									date_default_timezone_set('America/Argentina/Buenos_Aires');
-									$deliveredDate 	=  strftime( "%A %d de %B del %Y", strtotime($ticket['delivered_at']));
-									$deliveredTo 	= null;
-									$deliveredAddr 	= null;
-									$body.='</tr>';
-									$body.='<tr width="100%" bgcolor="#ffffff">';
-									switch($lastTicketUpdatedQuery[0]['idWhoPickUp']){
-										case 1:
-											$deliveredTo=$lastTicketUpdatedQuery[0]['userDelivery']['fullNameUser'];
-											switch($lastTicketUpdatedQuery[0]['idDeliveryTo']){
-												case 1:
-													$deliveredAddr = $lastTicketUpdatedQuery[0]['deliveryAddress']['address'];
-												break;
-												case 2:
-													$deliveredAddr = $lastTicketUpdatedQuery[0]['otherDeliveryAddress']['address']." ".$lastTicketUpdatedQuery[0]['otherDeliveryAddress']['number'];
-												break;
-											}
-											break;
-										case 2:
-											if ($lastTicketUpdatedQuery[0]['idDeliveryTo']==null){
-												$deliveredTo 	=$lastTicketUpdatedQuery[0]['userDelivery']['fullNameUser'];
-												$deliveredAddr 	= $lastTicketUpdatedQuery[0]['building']['address'];
-											}
-											break;
-										case 3:
-											if ($lastTicketUpdatedQuery[0]['idDeliveryTo']==null){
-												$deliveredTo   = $lastTicketUpdatedQuery[0]['thirdPersonDelivery']['fullName'];
-												$deliveredAddr = $lastTicketUpdatedQuery[0]['thirdPersonDelivery']['address']." ".$lastTicketUpdatedQuery[0]['thirdPersonDelivery']['number'];
-											}
-											break;
+							if ($lastTicketUpdatedQuery[0]['idStatusTicketKf']==7 || $lastTicketUpdatedQuery[0]['idStatusTicketKf']==1 || $lastTicketUpdatedQuery[0]['idStatusTicketKf']==5){
+								#MAIL TO USER
+								$rs = null;
+								$to = $user['emailUser'];
+								$body.='<tr width="100%" bgcolor="#ffffff">';
+								$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hola <b>'.$user['fullNameUser'].'</b>,</td>';
+								$body.='</tr>';
+								$body.='<tr width="100%" bgcolor="#ffffff">';
+								$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Su Pedido N°: <b>'.$lastTicketUpdatedQuery[0]['codTicket'].'</b>, se encuentra <b>'.$lastTicketUpdatedQuery[0]['statusTicket']['statusName'].'</b></td>';
+								$body.='</tr>';
+								$deliveryMethod = null;
+								$deliveredDate 	= null;
+								$deliveredTo 	= null;
+								$deliveredAddr 	= null;
+								$deliveryDate 	= null;
+								$body.='<tr width="100%" bgcolor="#ffffff">';
+								if($lastTicketUpdatedQuery[0]['idTypeDeliveryKf']==1){
+									if ($lastTicketUpdatedQuery[0]['idStatusTicketKf']==7){
+										$deliveryMethod='retirar por nuestras oficinas, Dirección: Carlos Calvo 3430 <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #fff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://www.google.com/maps?ll=-34.623655,-58.414103&z=16&t=m&hl=es-ES&gl=US&mapclient=embed&q=Carlos+Calvo+3430+C1230ABH+CABA" target="_blank" style="text-decoration: none; color: #ffffff;">Ver en el mapa</a></span>';
+										$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Puede pasar a '.$deliveryMethod.'</td>';	
+										$body.='</tr>';
 									}
-									$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">El Pedido ha sido entregado a <b>'.$deliveredTo.'</b>, el dia '.$deliveredDate.' en la siguiente dirección: <b>'.$deliveredAddr.'</b></td>';	
-									$body.='</tr>';
-									$body.='<tr width="100%" bgcolor="#ffffff">';
-									$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
-									$body.='</tr>';
-									$body.='<tr width="100%" bgcolor="#ffffff">';
-									$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://bss.com.ar/wp-content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
-									$body.='</tr>';
-								}
-								
-							}					
-							$this->mail_model->sendMail($title, $to, $body, $subject);
+									if ($lastTicketUpdatedQuery[0]['idStatusTicketKf']==1){
+										setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
+										date_default_timezone_set('America/Argentina/Buenos_Aires');
+										$deliveredDate =  strftime( "%A %d de %B del %Y", strtotime($ticket['delivered_at']));
+										$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">El Pedido ha sido retirado por <b>'.$lastTicketUpdatedQuery[0]['retiredByFullName'].'</b>, el dia '.$deliveredDate.'</td>';	
+										$body.='</tr>';
+										$body.='<tr width="100%" bgcolor="#ffffff">';
+										$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+										$body.='</tr>';
+										$body.='<tr width="100%" bgcolor="#ffffff">';
+										$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://bss.com.ar/wp-content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+										$body.='</tr>';
+									}
+								}else if($lastTicketUpdatedQuery[0]['idTypeDeliveryKf']==2){
+									setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
+									date_default_timezone_set('America/Argentina/Buenos_Aires');
+									if ($lastTicketUpdatedQuery[0]['idStatusTicketKf']==5){
+										$deliveryDate =  strftime( "%A %d de %B del %Y", strtotime($ticket['delivery_schedule_at']));
+										$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">La entrega de su pedido esta programado para el dia  '.$deliveryDate.' en la franja horaria de 15h a 20h.</td>';
+										$body.='</tr>';
+										$body.='<tr width="100%" bgcolor="#ffffff">';
+										$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">En caso de no poder entregar el pedido, se hará un segundo intento al dia siguiente en el mismo horario.</td>';
+										$body.='</tr>';
+									}
+									if ($lastTicketUpdatedQuery[0]['idStatusTicketKf']==1){
+										setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
+										date_default_timezone_set('America/Argentina/Buenos_Aires');
+										$deliveredDate 	=  strftime( "%A %d de %B del %Y", strtotime($ticket['delivered_at']));
+										$deliveredTo 	= null;
+										$deliveredAddr 	= null;
+										$body.='</tr>';
+										$body.='<tr width="100%" bgcolor="#ffffff">';
+										switch($lastTicketUpdatedQuery[0]['idWhoPickUp']){
+											case 1:
+												$deliveredTo=$lastTicketUpdatedQuery[0]['userDelivery']['fullNameUser'];
+												switch($lastTicketUpdatedQuery[0]['idDeliveryTo']){
+													case 1:
+														$deliveredAddr = $lastTicketUpdatedQuery[0]['deliveryAddress']['address'];
+													break;
+													case 2:
+														$deliveredAddr = $lastTicketUpdatedQuery[0]['otherDeliveryAddress']['address']." ".$lastTicketUpdatedQuery[0]['otherDeliveryAddress']['number'];
+													break;
+												}
+												break;
+											case 2:
+												if ($lastTicketUpdatedQuery[0]['idDeliveryTo']==null){
+													$deliveredTo 	=$lastTicketUpdatedQuery[0]['userDelivery']['fullNameUser'];
+													$deliveredAddr 	= $lastTicketUpdatedQuery[0]['building']['address'];
+												}
+												break;
+											case 3:
+												if ($lastTicketUpdatedQuery[0]['idDeliveryTo']==null){
+													$deliveredTo   = $lastTicketUpdatedQuery[0]['thirdPersonDelivery']['fullName'];
+													$deliveredAddr = $lastTicketUpdatedQuery[0]['thirdPersonDelivery']['address']." ".$lastTicketUpdatedQuery[0]['thirdPersonDelivery']['number'];
+												}
+												break;
+										}
+										$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">El Pedido ha sido entregado a <b>'.$deliveredTo.'</b>, el dia '.$deliveredDate.' en la siguiente dirección: <b>'.$deliveredAddr.'</b></td>';	
+										$body.='</tr>';
+										$body.='<tr width="100%" bgcolor="#ffffff">';
+										$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+										$body.='</tr>';
+										$body.='<tr width="100%" bgcolor="#ffffff">';
+										$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://bss.com.ar/wp-content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+										$body.='</tr>';
+									}
+									
+								}					
+								$this->mail_model->sendMail($title, $to, $body, $subject);
+							}
 						}
 					}
 				}
@@ -2603,6 +2619,12 @@ class Ticket_model extends CI_Model
 				$where = "(ISNULL(isHasRefundsOpen) OR isHasRefundsOpen = '".@$data['isHasRefundsOpen']."' OR isHasRefundsOpen <> '".@$data['isHasRefundsOpen']."')";
 				$this->db->where($where);
 			}
+			//MP PAYMENT Succeeded
+			if (@$data['isPaymentSucceeded']=='1'){
+				$where = "(ISNULL(isManualPayment) AND idStatusTicketKf!='3' AND idStatusTicketKf!='5' AND idTypePaymentKf = 2 AND idPaymentKf != '' AND tb_mp_payments.mp_payment_id != '' AND tb_mp_payments.mp_status_detail='accredited')";
+				$this->db->join('tb_mp_payments', 'tb_mp_payments.idPayment = tb_tickets_2.idPaymentKf', 'left');
+				$this->db->where($where);
+			}
 			//BILLING INITIATED
 			if (@$data['isBillingInitiated']=='1'){
 				$where = "(ISNULL(isBillingInitiated) OR isBillingInitiated = '".@$data['isBillingInitiated']."')";
@@ -2676,7 +2698,7 @@ class Ticket_model extends CI_Model
 		$this->db->join('tb_client_services_internet', 'tb_client_services_internet.idContracAssociated_SE = tb_contratos.idContrato', 'left');
 		$this->db->join('tb_tipos_servicios_internet', 'tb_tipos_servicios_internet.idTipoServicioInternet = tb_client_services_internet.idTypeInternetFk', 'left');
 		$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
-		$where_string = "tb_contratos.idClientFk = $idClient AND tb_contratos.idStatusFk = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 2 AND tb_client_services_internet.idContracAssociated_SE!=''
+		$where_string = "tb_contratos.idClientFk = $idClient AND tb_contratos.idStatusFk = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 2 AND tb_client_services_internet.idContracAssociated_SE!='' AND (tb_client_services_internet.dateDown = '' OR tb_client_services_internet.dateDown IS NULL)
 		GROUP BY tb_servicios_del_contrato_cuerpo.idAccCrtlDoor,tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_tipos_servicios_internet.idTipoServicioInternet;";
 		$quuery_intservice = $this->db->where($where_string)->get();
 		$servicesAssociated = null;
@@ -2684,26 +2706,37 @@ class Ticket_model extends CI_Model
 			foreach ($quuery_intservice->result_array() as $key => $item) {
 				//Check if the Internet Type if BSS Wifi.
 				//print($ticket['idTypeInternetFk']);
+				//print($item['idTypeInternetFk']);
 				if($item['idTypeInternetFk']==1 || $item['idTypeInternetFk']==2){
 					$rs = $quuery_intservice->result_array();
 					$servicesAssociated=json_decode($item['idServiceAsociateFk']);
+					//print_r($item['idServiceAsociateFk']);
 					if (count($servicesAssociated)>0){
 						$serviceAsociate_arr=[];
 						foreach ($servicesAssociated as $idServiceAssociated) {
 							$aux = null;
 							$this->db->select("*")->from("tb_client_services_access_control");
 							$quuery2 = $this->db->where("tb_client_services_access_control.idClientServicesFk",$idServiceAssociated)->get();
-							//print_r($quuery2->result_array());
+							//print_r($quuery2->num_rows());
 							if ($quuery2->num_rows() > 0) {
 								$aux=$quuery2->result_array();
+								//print_r($quuery2->result_array());
+								array_push($serviceAsociate_arr,$aux);
+								break;
 							}
-							array_push($serviceAsociate_arr,$aux);
+							
 						}
 						$rs[0]['idServiceAsociateFk_array']=$serviceAsociate_arr;
+						break;
 					}
 				}
 			}
+			//print_r($rs[0]['idServiceAsociateFk_array']);
 			// Now perform the checks
+			//print_r(isset($rs[0]['idServiceAsociateFk_array'])."\n");
+			//print_r(is_array($rs[0]['idServiceAsociateFk_array'])."\n");
+			//print_r(count($rs[0]['idServiceAsociateFk_array'])."\n");
+			//print_r($rs[0]['idServiceAsociateFk_array'] !== null);
 			if (
 				isset($rs[0]['idServiceAsociateFk_array']) && // Check if array is set
 				is_array($rs[0]['idServiceAsociateFk_array']) && // Ensure it's an array
@@ -2717,6 +2750,7 @@ class Ticket_model extends CI_Model
 					if (isset($service[0]['idClientServicesAccessControl'])) {
 						return "true";
 					} else {
+						//print_r($service);
 						return "false";
 					}
 				}
@@ -2729,29 +2763,30 @@ class Ticket_model extends CI_Model
 	{
 		//var_dump($todo);
 		foreach ($todo as $key => $ticket) {
+			//print_r($ticket['idTypeRequestFor']);
 			$this->db->select("*")->from("tb_category_keychain");
-			$quuery                       = $this->db->where("idCategory = " , $ticket['idTypeRequestFor'])->get();
+			$quuery                       = $this->db->where("idCategory = " , @$ticket['idTypeRequestFor'])->get();
 			$todo[$key]['typeRequestFor'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_typeticket");
-			$quuery                   = $this->db->where("idTypeTicket = " , $ticket['idTypeTicketKf'])->get();
+			$quuery                   = $this->db->where("idTypeTicket = " , @$ticket['idTypeTicketKf'])->get();
 			$todo[$key]['typeticket'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_clients");
 			$this->db->join('tb_zonas', 'tb_zonas.idZona = tb_clients.idZonaFk', 'left');
             $this->db->join('tb_location', 'tb_location.idLocation = tb_clients.idLocationFk', 'left');
             $this->db->join('tb_province', 'tb_province.idProvince = tb_clients.idProvinceFk', 'left');
-			$quuery                 = $this->db->where("idClient = " , $ticket['idBuildingKf'])->get();
+			$quuery                 = $this->db->where("idClient = " , @$ticket['idBuildingKf'])->get();
 			$todo[$key]['building'] = @$quuery->result_array()[0];
-			if (! is_null($ticket['idBuildingKf'])) {
+			if (! is_null(@$ticket['idBuildingKf'])) {
 				//print($this->checkIsDeviceOnline($ticket['idBuildingKf']));
-				$todo[$key]['building']['isHasInternetOnline']=$this->checkIsDeviceOnline($ticket['idBuildingKf']);
+				$todo[$key]['building']['isHasInternetOnline']=$this->checkIsDeviceOnline(@$ticket['idBuildingKf']);
 			}else{
-				print("No defined");
+				//print("No defined");
 				$todo[$key]['building']['isHasInternetOnline']="false";
 			}
 
-			if ($ticket['idTypeRequestFor']==1){
+			if (@$ticket['idTypeRequestFor']==1){
 
 				$this->db->select("*")->from("tb_client_departament");
 				$quuery                   = $this->db->where("idClientDepartament = " , $ticket['idDepartmentKf'])->get();
@@ -2762,7 +2797,7 @@ class Ticket_model extends CI_Model
 				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
 				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
 				$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-				$quuery                   = $this->db->where("idUser = " , $ticket['idUserMadeBy'])->get();
+				$quuery                   = $this->db->where("idUser = " , @$ticket['idUserMadeBy'])->get();
 				$todo[$key]['userMadeBy'] = @$quuery->result_array()[0];
 
 				$this->db->select("*")->from("tb_user");
@@ -2770,14 +2805,14 @@ class Ticket_model extends CI_Model
 				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
 				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
 				$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-				$quuery                   = $this->db->where("idUser = " , $ticket['idUserRequestBy'])->get();
+				$quuery                   = $this->db->where("idUser = " , @$ticket['idUserRequestBy'])->get();
 				$todo[$key]['userRequestBy'] = @$quuery->result_array()[0];
 
 				$this->db->select("*")->from("tb_clients");
 				$quuery                    = $this->db->where("idClient = " , $todo[$key]['building']['idClientAdminFk'])->get();
 				$todo[$key]['clientAdmin'] = @$quuery->result_array()[0];
 
-			} else if ($ticket['idTypeRequestFor']==2 || $ticket['idTypeRequestFor']==3 || $ticket['idTypeRequestFor']==4 || $ticket['idTypeRequestFor']==5 || $ticket['idTypeRequestFor']==6){
+			} else if (@$ticket['idTypeRequestFor']==2 || @$ticket['idTypeRequestFor']==3 || @$ticket['idTypeRequestFor']==4 || @$ticket['idTypeRequestFor']==5 || @$ticket['idTypeRequestFor']==6){
 
 				$this->db->select("*")->from("tb_user");
 				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
@@ -2798,15 +2833,15 @@ class Ticket_model extends CI_Model
 				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
 				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
 				$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-				$quuery                   = $this->db->where("idUser = " , $ticket['idUserMadeBy'])->get();
+				$quuery                   = $this->db->where("idUser = " , @$ticket['idUserMadeBy'])->get();
 				$todo[$key]['userMadeBy'] = @$quuery->result_array()[0];
 
 				$this->db->select("*")->from("tb_clients");
-				$quuery                      = $this->db->where("idClient = " , $ticket['idUserRequestBy'])->get();
+				$quuery                      = $this->db->where("idClient = " , @$ticket['idUserRequestBy'])->get();
 				$todo[$key]['clientCompani'] = @$quuery->result_array()[0];
 
 				$this->db->select("*")->from("tb_clients");
-				$quuery                    = $this->db->where("idClient = " , $ticket['idUserRequestBy'])->get();
+				$quuery                    = $this->db->where("idClient = " , @$ticket['idUserRequestBy'])->get();
 				$todo[$key]['clientAdmin'] = @$quuery->result_array()[0];
 	
 			}
@@ -2814,7 +2849,7 @@ class Ticket_model extends CI_Model
 			$this->db->join('tb_keychain' , 'tb_keychain.idKeychain = tb_ticket_keychain.idKeychainKf' , 'left');
 			$this->db->join('tb_products' , 'tb_products.idProduct = tb_ticket_keychain.idProductKf' , 'left');
 			$this->db->join('tb_user' , 'tb_user.idUser = tb_ticket_keychain.idUserKf' , 'left');
-			$quuery             = $this->db->where("idTicketKf = " , $ticket['idTicket'])->get();
+			$quuery             = $this->db->where("idTicketKf = " , @$ticket['idTicket'])->get();
 			$todo[$key]['keys'] = @$quuery->result_array();
 				$i=0;
 				foreach ($todo[$key]['keys'] as $item => $keychain) {
@@ -2833,11 +2868,11 @@ class Ticket_model extends CI_Model
 					$i++;
 				}
 			$this->db->select("*")->from("tb_type_delivery");
-			$quuery                    = $this->db->where("idTypeDelivery = " , $ticket['idTypeDeliveryKf'])->get();
+			$quuery                    = $this->db->where("idTypeDelivery = " , @$ticket['idTypeDeliveryKf'])->get();
 			$todo[$key]['typeDeliver'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_pick_receive");
-			$quuery                  = $this->db->where("idWhoPickUp = " , $ticket['idWhoPickUp'])->get();
+			$quuery                  = $this->db->where("idWhoPickUp = " , @$ticket['idWhoPickUp'])->get();
 			$todo[$key]['whoPickUp'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_user");
@@ -2845,20 +2880,20 @@ class Ticket_model extends CI_Model
 			$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
 			$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
 			$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-			$quuery                     = $this->db->where("idUser = " , $ticket['idUserDelivery'])->get();
+			$quuery                     = $this->db->where("idUser = " , @$ticket['idUserDelivery'])->get();
 			$todo[$key]['userDelivery'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_ticket_delivery");
-			$quuery                   = $this->db->where("id = " , $ticket['idDeliveryTo'])->get();
+			$quuery                   = $this->db->where("id = " , @$ticket['idDeliveryTo'])->get();
 			$todo[$key]['deliveryTo'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_clients");
 			$this->db->join('tb_zonas', 'tb_zonas.idZona = tb_clients.idZonaFk', 'left');
             $this->db->join('tb_location', 'tb_location.idLocation = tb_clients.idLocationFk', 'left');
             $this->db->join('tb_province', 'tb_province.idProvince = tb_clients.idProvinceFk', 'left');
-			$quuery                        = $this->db->where("idClient = " , $ticket['idDeliveryAddress'])->get();
+			$quuery                        = $this->db->where("idClient = " , @$ticket['idDeliveryAddress'])->get();
 			$todo[$key]['deliveryAddress'] = @$quuery->result_array()[0];
-			if ($ticket['idTypeDeliveryKf']=='1' && $todo[$key]['deliveryAddress']==null){
+			if (@$ticket['idTypeDeliveryKf']=='1' && $todo[$key]['deliveryAddress']==null){
 				$todo[$key]['deliveryAddress']['address']="Carlos Calvo 3430";
 				$todo[$key]['deliveryAddress']['province']="Ciudad Autonoma de Buenos Aires";
 				$todo[$key]['deliveryAddress']['location']="Boedo";
@@ -2867,30 +2902,30 @@ class Ticket_model extends CI_Model
 			$this->db->select("*")->from("tb_ticket_other_delivery_address");
 			$this->db->join('tb_location', 'tb_location.idLocation = tb_ticket_other_delivery_address.idLocationFk', 'left');
             $this->db->join('tb_province', 'tb_province.idProvince = tb_ticket_other_delivery_address.idProvinceFk', 'left');
-			$quuery                             = $this->db->where("id = " , $ticket['idOtherDeliveryAddressKf'])->get();
+			$quuery                             = $this->db->where("id = " , @$ticket['idOtherDeliveryAddressKf'])->get();
 			$todo[$key]['otherDeliveryAddress'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_ticket_third_person_delivery");
 			$this->db->join('tb_location', 'tb_location.idLocation = tb_ticket_third_person_delivery.idLocationFk', 'left');
             $this->db->join('tb_province', 'tb_province.idProvince = tb_ticket_third_person_delivery.idProvinceFk', 'left');
-			$quuery                            = $this->db->where("id = " , $ticket['idThirdPersonDeliveryKf'])->get();
+			$quuery                            = $this->db->where("id = " , @$ticket['idThirdPersonDeliveryKf'])->get();
 			$todo[$key]['thirdPersonDelivery'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_ticket_payment_type");
-			$quuery                      = $this->db->where("id = " , $ticket['idTypePaymentKf'])->get();
+			$quuery                      = $this->db->where("id = " , @$ticket['idTypePaymentKf'])->get();
 			$todo[$key]['typePaymentKf'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_statusticket");
-			$quuery                     = $this->db->where("idStatus = " , $ticket['idStatusTicketKf'])->get();
+			$quuery                     = $this->db->where("idStatus = " , @$ticket['idStatusTicketKf'])->get();
 			$todo[$key]['statusTicket'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_mp_payments");
 			$this->db->join('tb_ticket_payment_manual_type', 'tb_ticket_payment_manual_type.id = tb_mp_payments.idManualPaymentTypeKf', 'left');
-			$quuery                     = $this->db->where("idPayment = " , $ticket['idPaymentKf'])->get();
+			$quuery                     = $this->db->where("idPayment = " , @$ticket['idPaymentKf'])->get();
 			$todo[$key]['paymentDetails'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_mp_payments");			
-			$quuery                     = $this->db->where("idPayment = " , $ticket['idPaymentDeliveryKf'])->get();
+			$quuery                     = $this->db->where("idPayment = " , @$ticket['idPaymentDeliveryKf'])->get();
 			$todo[$key]['paymentDeliveryDetails'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_ticket_changes_history");
@@ -2900,9 +2935,9 @@ class Ticket_model extends CI_Model
 			$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
 			$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
 			$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-			$quuery                        = $this->db->where("idTicketKf = " , $ticket['idTicket'])->get();
+			$quuery                        = $this->db->where("idTicketKf = " , @$ticket['idTicket'])->get();
 			$todo[$key]['changes_history'] = @$quuery->result_array();
-			if ($ticket['isBillingUploaded']==1){
+			if (@$ticket['isBillingUploaded']==1){
 				$this->db->select("*")->from("tb_ticket_files_list");
 				$quuery                        = $this->db->where("idTicketKf = " , $ticket['idTicket'])->get();
 				$todo[$key]['billingReceiptDetails'] = @$quuery->result_array();
@@ -2910,12 +2945,12 @@ class Ticket_model extends CI_Model
 				$todo[$key]['billingReceiptDetails'] = null;
 			}
 			$this->db->select("*")->from("tb_ticket_delivery_company");
-			$quuery                     = $this->db->where("idDeliveryCompany = " , $ticket['idDeliveryCompanyKf'])->get();
+			$quuery                     = $this->db->where("idDeliveryCompany = " , @$ticket['idDeliveryCompanyKf'])->get();
 			$todo[$key]['deliveryCompanyDetails'] = @$quuery->result_array()[0];
 			
 			$this->db->select("*")->from("tb_tickets_refunds");
 			$this->db->join('tb_tickets_refunds_status', 'tb_tickets_refunds_status.idRefundType = tb_tickets_refunds.idRefundTypeKf', 'left');
-			$quuery                            = $this->db->where("idTicketKf = " , $ticket['idTicket'])->get();
+			$quuery                            = $this->db->where("idTicketKf = " , @$ticket['idTicket'])->get();
 			if ($quuery->num_rows() > 0) {
 				$todo[$key]['refundsDetails'] = @$quuery->result_array();
 			}else{
@@ -2923,13 +2958,15 @@ class Ticket_model extends CI_Model
 			}
 			//INITIAL DELIVERY DATA
 			$this->db->select("*")->from("tb_client_initial_delivery");
-			$quuery = $this->db->where("tb_client_initial_delivery.idClientKf =", $ticket['idBuildingKf'])->get();
+			$quuery = $this->db->where("tb_client_initial_delivery.idClientKf =", @$ticket['idBuildingKf'])->get();
 
 			$rs9            = $quuery->result_array();
 			$todo[$key]['building']['isInitialDeliveryActive'] = $rs9;
+			$todo[$key]['building']['initial_delivery'] = $rs9;
 			if($quuery->num_rows()>0){
 				//print_r($rs['customers'][$i]['initial_delivery'][0]['expirationDate']);
-				$dateString = $todo[$key]['building']['isInitialDeliveryActive'][0]['expirationDate']; 
+				$dateString = $todo[$key]['building']['isInitialDeliveryActive'][0]['expirationDate'];
+				$dateString = $todo[$key]['building']['initial_delivery'][0]['expirationDate'];
 				// Date string to compare
 				// Convert date string to a DateTime object
 				$dateToCompare = new DateTime($dateString);
@@ -2945,8 +2982,10 @@ class Ticket_model extends CI_Model
 				//print("currentDate   : ".$currentDate);
 				if ($currentDateFormatted > $dateToCompareFormatted) {
 					$todo[$key]['building']['isInitialDeliveryActive'][0]['expiration_state'] = true;
+					$todo[$key]['building']['initial_delivery'][0]['expiration_state'] = true;
 				}else{
 					$todo[$key]['building']['isInitialDeliveryActive'][0]['expiration_state'] = false;
+					$todo[$key]['building']['initial_delivery'][0]['expiration_state'] = false;
 				}
 			}
 		}

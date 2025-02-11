@@ -1696,6 +1696,7 @@ class User_model extends CI_Model
                 'token' 				=> $token,
                 'idUserApproverKf' 		=> $user['idUserApproverKf'],
                 'idUserRequestorKf' 	=> $user['idUserRequestorKf'],
+				'idClientKf' 			=> $user['idClientKf'],
 				'created_at' 			=> $now->format('Y-m-d H:i:s'),
 				'expirationTime'  		=> 24,
 				'idTokenStatusKf' 		=> 1
@@ -1774,7 +1775,14 @@ class User_model extends CI_Model
 
 				$rs2 = $qry2->result_array();
 				$rs[$i]['userRequestorKf'] = $rs2;
+				
+				$this->db->select("tb_clients.idClient,tb_clients.name,tb_clients.address,tb_clients.idStatusFk")->from("tb_clients");
+				$qry3 = $this->db->where('tb_clients.idClient', $item['idClientKf'])->get();
+				$rs3 = $qry3->result_array();
+				$rs[$i]['client_details'] = $rs3;
+
 				$i++;
+
 			}
 	
 			// Si se actualizó algún registro, realizar la consulta nuevamente
@@ -1856,7 +1864,6 @@ class User_model extends CI_Model
 		//
 		$this->db->select("*")->from("tb_user_guest");
 		$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_user_guest.idDepartmentKf', 'left');
-		$this->db->join('tb_keychain', 'tb_keychain.idKeychain = tb_user_guest.idKeychainKf', 'left');
 		$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user_guest.idStatusKf', 'left');
 		if (! is_null(@$guest['idStatusKf'])) {
 			$this->db->where('tb_user_guest.idStatusKf', @$guest['idStatusKf']);
@@ -1884,12 +1891,11 @@ class User_model extends CI_Model
         $user = null;
 		if ($this->findGuest($guest) == null) {
             $this->db->insert('tb_user_guest', [
-					'names'        			=> $guest['names'],
+					'names'        			=> $guest['fullname'],
 					'dni'              		=> $guest['dni'],
 					'emailAddress'          => @$guest['emailAddress'],
 					'phoneNumber' 			=> @$guest['phoneNumber'],
 					'idDepartmentKf'       	=> $guest['idDepartmentKf'],
-					'idKeychainKf'     		=> @$guest['idKeychainKf'],
 					"created_at" 			=> $now->format('Y-m-d H:i:s'),
 					'idStatusKf'			=> 1,
                 ]
@@ -1910,12 +1916,11 @@ class User_model extends CI_Model
 		if ($this->findGuest($guest) != null) {
 			$this->db->set(
 				[
-					'names'        			=> $guest['names'],
+					'names'        			=> $guest['fullname'],
 					'dni'              		=> $guest['dni'],
 					'emailAddress'          => @$guest['emailAddress'],
 					'phoneNumber' 			=> @$guest['phoneNumber'],
-					'idDepartmentKf'       	=> $guest['idDepartmentKf'],
-					'idKeychainKf'     		=> @$guest['idKeychainKf'],
+					'idDepartmentKf'       	=> $guest['idDepartmentKf']
 				]
 			)->where("idGuest", $guest['idGuest'])->update("tb_user_guest");
 			if ($this->db->affected_rows() === 1) {
@@ -1931,7 +1936,10 @@ class User_model extends CI_Model
     public function deleteGuest($idGuest) {
 
         $this->db->set(
-            [ 'idStatusKf' => -1 ])->where("idGuest", $idGuest)->update("tb_user_guest");
+            [ 	'idStatusKf'		 => -1,
+				'idDepartmentKf'     => null
+			]
+			)->where("idGuest", $idGuest)->update("tb_user_guest");
 
         return true;
 
@@ -1941,23 +1949,44 @@ class User_model extends CI_Model
     public function getGuestByIdDepartment($id) {
         $quuery = null;
         $rs     = null;
-
+		$guest  = [];
         if (! is_null($id)) {
 			$this->db->select("*")->from("tb_user_guest");
 			$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_user_guest.idDepartmentKf', 'left');
-			$this->db->join('tb_keychain', 'tb_keychain.idKeychain = tb_user_guest.idKeychainKf', 'left');
 			$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user_guest.idStatusKf', 'left');
 			$this->db->where("tb_user_guest.idStatusKf !=", -1);
 			$this->db->where("tb_user_guest.idDepartmentKf =", $id);
 			$quuery = $this->db->order_by("tb_user_guest.idGuest", "ASC")->get();
-			if ($quuery->num_rows() > 0) {
-
-				$rs = $quuery->result_array();
-
-				return $rs;
+			if($quuery->num_rows() > 0){
+				$guest = $quuery->result_array();
+				
+				foreach ($guest as $key => $item) {
+					$idGuest 		= $item['idGuest'];
+					$idDepartmentKf	= $item['idDepartmentKf'];
+					$query2    = null;
+					if (isset($idGuest) && isset($idDepartmentKf)) {
+						$extrawherekey = "tb_keychain.idUserKf=$idGuest AND tb_keychain.idDepartmenKf=$idDepartmentKf";
+						
+						$this->db->select("*")->from("tb_keychain");
+						$this->db->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left');
+						$this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left');
+						$query2 = $this->db->where($extrawherekey)->get();
+						if ($query2->num_rows() === 1) {
+							$keyfound = $query2->row_array();
+							$guest[$key]['myKeys'] = $keyfound;
+						}else{
+							$guest[$key]['myKeys']=null;
+						}
+					}
+					
+				}
+				$rs = array(
+					'guest' => $guest
+				);
+			}else{
+				$rs = null;
 			}
-
-			return null;
+				return $rs;
         }
     }
 

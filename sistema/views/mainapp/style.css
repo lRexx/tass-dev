@@ -16,7 +16,15 @@ body{
 .modal {
   overflow-y:auto;
 }
-
+.montserrat-extended {
+  font-family: 'Montserrat Extended', sans-serif;
+  font-size: 36px;
+  color: white;
+  font-weight: 566;
+  margin-left: 20%;
+  letter-spacing: 2px;
+  line-height: 0.5;
+}
 .text-success{
     color: #5cb85c !important;
     border-color: #4cae4c !important;
@@ -3668,7 +3676,7 @@ img.circle-border {
         width: 100%;
       }
       .padding-panel {
-          margin-top: 70px;
+          margin-top: 90px;
       }
       .nav-side-menu .toggle-btn {
         display: block;
@@ -3793,7 +3801,7 @@ img.circle-border {
         width: 100%;
       }
       .padding-panel {
-          margin-top: 190px;
+          margin-top: 220px;
       }
       .nav-side-menu .toggle-btn {
         display: block;

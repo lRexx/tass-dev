@@ -5,6 +5,7 @@
         <div id="bodyContent"  class="container-fluid show-grid margin-row-1">
             <!-- <div ng-repeat="tk in listTickt | filter: ticketFiltered()" class="row align-items-end row_body row-margin-1">-->
             <div ng-repeat="tk in listTickt" class="row align-items-end row_body row-margin-1">
+                <!-- ng-if="sysLoggedUser.idProfileKf=='1' && ((filters.ticketStatus.idStatus!='3' && filters.ticketStatus.idStatus!='6' && (filters.paymentsType.id=='1' || (filters.paymentsType.id=='2' && filters.isPaymentSucceeded))) || (filters.ticketStatus.idStatus=='8' || filters.ticketStatus.idStatus=='4' || filters.ticketStatus.idStatus=='5'))"-->
                 <div ng-if="sysLoggedUser.idProfileKf=='1' && (filters.ticketStatus.idStatus=='8' || filters.ticketStatus.idStatus=='4' || filters.ticketStatus.idStatus=='5')" class="col-md-1 col-xs-1" style="width: 4%;margin-top: 1.5%;">
                     <input id="ticketSelected-{{tk.idTicket}}" class="radio-custom" type="checkbox" name="isHasLockingScrew" ng-model="tk.selected" ng-click="" autofocus>
                     <label for="ticketSelected-{{tk.idTicket}}" class="radio-custom-label"></label>
@@ -69,6 +70,19 @@
                                 <span ng-if="sysLoggedUser.idProfileKf==1 && tk.sendNotify!=null && tk.sendNotify==0" class="label label-warning">
                                     <i class="fas fa-bell-slash"></i> No notificado al cliente
                                 </span>
+                            </li>
+                            <li><i class="far fa-calendar-alt"></i> Creado: 
+                                <span>{{ tk.created_at | toDate | date:'dd/MM/yyyy' }}</span>
+                            </li>
+                            <li ng-if="tk.idStatusTicketKf==8"><i class="far fa-calendar-alt"></i> {{tk.statusTicket.statusName}} Desde: 
+                                <span ng-if="tk.idStatusTicketKf==8 && event.idCambiosTicketKf=='13'" ng-repeat="event in tk.changes_history | filter: { idCambiosTicketKf: '13' } | limitTo: 1"> {{ event.created_at | toDate | date:'dd/MM/yyyy' }}
+                                </span>
+                            </li>
+                            <li ng-if="tk.idStatusTicketKf==1 && tk.idTypeDeliveryKf=='2'"><i class="far fa-calendar-alt"></i> Entregado el: 
+                                <span>{{ tk.delivered_at | toDate | date:'dd/MM/yyyy' }}</span>
+                            </li>
+                            <li ng-if="tk.idStatusTicketKf==1 && tk.idTypeDeliveryKf=='1'"><i class="far fa-calendar-alt"></i> Retirado el: 
+                                <span>{{ tk.delivered_at | toDate | date:'dd/MM/yyyy' }}</span>
                             </li>
                         </ul>
                     </div>
@@ -182,7 +196,7 @@
                             <i class="glyphicon glyphicon-edit"></i>  
                         </button>
                         <!-- REQUEST CANCEL FOR OWNERS & TENANTS -->
-                        <button ng-if="tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1 && tk.isCancelRequested!=1 && (sysLoggedUser.idProfileKf=='3' || ((sysLoggedUser.idProfileKf=='4' || sysLoggedUser.idProfileKf=='5') && sysLoggedUser.idTypeTenantKf!=null))" type="button" ng-click="modalConfirmation('cancel_user',0, tk)" class="btn btn-xs btn-danger" ng-disabled="(tk.idStatusTicketKf>=5 && tk.idStatusTicketKf<=6)  || tk.idStatusTicketKf==1 || tk.isCancelRequested" data-toggle="tooltip" data-placement="left"  title="Cancelar">
+                        <button ng-if="tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1 && tk.isCancelRequested!=1 && ((sysLoggedUser.idProfileKf=='3' || sysLoggedUser.idProfileKf=='5') && sysLoggedUser.idTypeTenantKf!=null)" type="button" ng-click="modalConfirmation('cancel_user',0, tk)" class="btn btn-xs btn-danger" ng-disabled="(tk.idStatusTicketKf>=5 && tk.idStatusTicketKf<=6)  || tk.idStatusTicketKf==1 || tk.isCancelRequested" data-toggle="tooltip" data-placement="left"  title="Cancelar">
                             <i class="fas fa-ban"></i>
                         </button>
                         <!-- CANCEL ADMIN AND SYSTEM USERS -->
@@ -190,7 +204,7 @@
                             <i class="fas fa-ban"></i>
                         </button>
                         <!-- DELIVERY CHANGE -->
-                        <button ng-if="tk.idTypeTicketKf<2 && tk.isDeliveryHasChanged!=1 && ((tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1) ||  (tk.idStatusTicketKf==10 && tk.isCancelRequested==1))" ng-click="mainSwitchFn('ticket_delivery_change', tk, null)" ng-disabled="(tk.idStatusTicketKf>=5 && tk.idStatusTicketKf<=6) || tk.idStatusTicketKf==1 || tk.isCancelRequested || tk.isChangeDeliverylRequested" type="button" class="btn btn-xs btn-info" data-toggle="tooltip" data-placement="left"  title="Delivery">
+                        <button ng-if="(tk.idTypeTicketKf<2 && tk.isDeliveryHasChanged!=1 && ((tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1) || (tk.idStatusTicketKf==10 && tk.isCancelRequested==1)))" ng-click="mainSwitchFn('ticket_delivery_change', tk, null)" ng-disabled="(tk.idStatusTicketKf>=5 && tk.idStatusTicketKf<=6) || tk.idStatusTicketKf==1 || tk.isCancelRequested || tk.isChangeDeliverylRequested" type="button" class="btn btn-xs btn-info" data-toggle="tooltip" data-placement="left"  title="Delivery">
                             <i style="font-size: 1em" class="fas fa-truck"></i> 
                         </button>
                         <button ng-if="tk.idTypeTicketKf==4 && sysLoggedUser.idProfileKf==1 || !tk.idUserCancelTicket && tk.idTypeTicketKf==4 && sysLoggedUser.idProfileKf==1" ng-click="resolvedTicketFn(tk, 1)" ng-disabled="(tk.idStatusTicketKf!=3)" type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="left"  title="Finalizar">
@@ -205,7 +219,7 @@
                             <i style="font-size: 1em" class="fas fa-sync"></i>
                         </button>
                         <!-- CREATE MP LINK -->
-                        <button ng-if="((tk.idTypeTicketKf=='1' && tk.isManualPayment!='1' && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tk.idTypeRequestFor==1 && tk.idTypePaymentKf==2 && tk.idTypeTicketKf<=2 && tk.idStatusTicketKf!=6 && tk.isCancelRequested!='1' && tk.paymentDetails==null) || (tk.idTypeTicketKf=='1' && tk.isManualPayment!='1' && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tk.idTypeRequestFor==1 && tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1 && (tk.paymentDetails.mp_payment_id==null || tk.paymentDetails.mp_payment_id==0)))" type="button" ng-click="modalConfirmation('createMPLink',0, tk)" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="left"  title="MP" >
+                        <button ng-if="((tk.idTypeTicketKf=='1' && tk.isManualPayment!='1' && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tk.idTypeRequestFor==1 && tk.idTypePaymentKf==2 && tk.idStatusTicketKf!=1 && tk.idStatusTicketKf!=2 && tk.idStatusTicketKf!=6 && tk.isCancelRequested!='1' && tk.paymentDetails==null) || (tk.idTypeTicketKf=='1' && tk.isManualPayment!='1' && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tk.idTypeRequestFor==1 && tk.idStatusTicketKf!=2 && tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1 && (tk.paymentDetails.mp_payment_id==null || tk.paymentDetails.mp_payment_id==0)))" type="button" ng-click="modalConfirmation('createMPLink',0, tk)" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="left"  title="MP" >
                             <i class="fas fa-receipt"></i>  
                         </button>
                         <!-- REGISTER PAYMENT -->

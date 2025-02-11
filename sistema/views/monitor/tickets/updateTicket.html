@@ -95,7 +95,7 @@
                                 <div class="col">
                                   <div class="counter-ticket">
                                     <!-- <i class="fas fa-handshake fa-lg fa-ticket-2x"></i>-->
-                                    <h2 class="timer count-ticket-title count-number" data-to="100" data-speed="1500">{{tkupdate.costService  | number:2}}</h2>
+                                    <h2 class="timer count-ticket-title count-number" data-to="100" data-speed="1500">$ {{tkupdate.costService  | number:0}}</h2>
                                     <p class="count-ticket-text ">Gestion</p>
                                   </div>
                                 </div>
@@ -104,7 +104,7 @@
                                 <div class="col">
                                   <div class="counter-ticket">
                                     <!-- <i class="fas fa-key fa-lg fa-ticket-2x"></i>-->
-                                    <h2 class="timer count-ticket-title count-number" data-to="100" data-speed="1500">{{tkupdate.costKeys  | number:2}}</h2>
+                                    <h2 class="timer count-ticket-title count-number" data-to="100" data-speed="1500">$ {{tkupdate.costKeys  | number:0}}</h2>
                                     <p class="count-ticket-text ">Llaveros</p>
                                   </div>
                                 </div>
@@ -113,7 +113,7 @@
                                 <div class="col">
                                   <div class="counter-ticket">
                                     <!-- <i class="fas fa-truck fa-lg fa-ticket-2x"></i>-->
-                                    <h2 class="timer count-ticket-title count-number" data-to="100" data-speed="1500">{{tkupdate.costDelivery  | number:2}}</h2>
+                                    <h2 class="timer count-ticket-title count-number" data-to="100" data-speed="1500">$ {{tkupdate.costDelivery  | number:0}}</h2>
                                     <p class="count-ticket-text ">Envío</p>
                                   </div>
                                 </div>
@@ -122,7 +122,7 @@
                                 <div class="col">
                                   <div class="counter-ticket">
                                     <!-- <i class="fas fa-file-invoice-dollar fa-lg fa-ticket-2x"></i>-->
-                                    <h2 class="timer count-ticket-title count-number" data-to="100" data-speed="1500">{{tkupdate.total  | number:2}}</h2>
+                                    <h2 class="timer count-ticket-title count-number" data-to="100" data-speed="1500">$ {{tkupdate.total  | number:0}}</h2>
                                     <p class="count-ticket-text ">Total</p>
                                   </div>
                                 </div>
@@ -376,13 +376,13 @@
                             <span class="btn-label" ><i class="fas fa-ban"></i></span>Cancelar</a>
                     </div>-->
                     <div class="col-xs-10 col-sm-10 col-md-10">
-                      <div ng-if="sysLoggedUser.idProfileKf=='1' && tkupdate.idTypePaymentKf=='2' && tkupdate.billingReceiptDetails==null && (tkupdate.isBillingUploaded==null || tkupdate.isBillingUploaded=='0') && (tkupdate.idStatusTicketKf==4 || tkupdate.idStatusTicketKf==5 || tkupdate.idStatusTicketKf==8) && tkupdate.idStatusTicketKf!=6 && tkupdate.isCancelRequested!='1'" class="col-xs-3 col-sm-4 col-md-2">
+                      <div ng-if="sysLoggedUser.idProfileKf=='1' && tkupdate.idTypePaymentKf=='2' && (tkupdate.billingReceiptDetails==undefined || tkupdate.billingReceiptDetails==null) && (tkupdate.isBillingUploaded==undefined || tkupdate.isBillingUploaded==null || tkupdate.isBillingUploaded=='0') && (tkupdate.idStatusTicketKf==1 || tkupdate.idStatusTicketKf==4 || tkupdate.idStatusTicketKf==5 || tkupdate.idStatusTicketKf==8) && tkupdate.idStatusTicketKf!=6 && tkupdate.isCancelRequested!='1'" class="col-xs-3 col-sm-4 col-md-2">
                         <button for="uploadTicketBillingFile" class="btn btn-labeled btn-file btn-warning"><span class="btn-label"><i class="fas fa-file-invoice"></i></span>Subir Factura
                           <input id="uploadTicketBillingFile" name="uploadTicketBillingFile" type="file" class="form-control" accept="*/*" onchange="angular.element(this).scope().loadPDFFilesFn(this)" ng-model="filesInput" />
                         </button>
                       </div>
                       <!-- UPLOAD TICKET BILL -->
-                      <div ng-if="sysLoggedUser.idProfileKf=='1' && tkupdate.billingReceiptDetails!=null && tkupdate.isBillingUploaded!=null && tkupdate.isBillingUploaded=='1' && tkupdate.isCancelRequested!='1'" class="col-xs-3 col-sm-4 col-md-2">
+                      <div ng-if="sysLoggedUser.idProfileKf=='1' && tkupdate.billingReceiptDetails!=undefined && tkupdate.billingReceiptDetails!=null && tkupdate.isBillingUploaded!=undefined && tkupdate.isBillingUploaded!=null && tkupdate.isBillingUploaded=='1' && tkupdate.isCancelRequested!='1'" class="col-xs-3 col-sm-4 col-md-2">
                         <a id="removeBillingFile" ng-click="modalConfirmation('deleteSingleFile', 0, tkupdate.billingReceiptDetails[0])" type="button" class="btn btn-labeled btn-danger">
                           <span class="btn-label"><i class="fas fa-trash-alt"></i></span>Borrar Factura</a>
                       </div>
@@ -397,7 +397,7 @@
                           <span class="btn-label"><i class="fas fa-window-close"></i></span>Rechazar</a>
                       </div>
                       <!-- REQUEST CANCEL -->
-                      <div ng-if="tkupdate.idStatusTicketKf!=6 && tkupdate.idStatusTicketKf!=1 && tkupdate.isCancelRequested!=1 && (sysLoggedUser.idProfileKf=='3') || ((sysLoggedUser.idProfileKf=='4' || sysLoggedUser.idProfileKf=='5') && sysLoggedUser.idTypeTenantKf!=null)" class="col-xs-3 col-sm-4 col-md-2">
+                      <div ng-if="tkupdate.idStatusTicketKf!=6 && tkupdate.idStatusTicketKf!=1 && tkupdate.isCancelRequested!=1 && (sysLoggedUser.idProfileKf=='3') || ((sysLoggedUser.idProfileKf=='5') && sysLoggedUser.idTypeTenantKf!=null)" class="col-xs-3 col-sm-4 col-md-2">
                         <a id="cancelTicket" ng-click="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6)  || tkupdate.idStatusTicketKf==1 || tkupdate.isCancelRequested?'':modalConfirmation('cancel_user',0, tkupdate)" ng-disabled="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6)  || tkupdate.idStatusTicketKf==1 || tkupdate.isCancelRequested" type="button" class="btn btn-labeled btn-danger">
                           <span class="btn-label"><i class="fas fa-ban"></i></span>Cancelar</a>
                       </div>

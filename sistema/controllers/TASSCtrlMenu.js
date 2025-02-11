@@ -1,7 +1,7 @@
   /**
    * Menu Controller
    */
-  var menu = angular.module("module.Menu", ["tokenSystem", "angular.filter", "services.Customers", "services.Address", "services.User", "services.Utilities"]);
+  var menu = angular.module("module.Menu", ["tokenSystem", "angular.filter", "services.Customers", "services.Address", "services.User", "services.Profiles", "services.Utilities"]);
   menu.directive('allowTyping', function () {
     return {
       restrict : 'A',
@@ -53,55 +53,11 @@
       }
     };
   });
-  menu.controller('MenuCtrl', function($scope, $cookies, $http, $location, $routeParams, $document, $interval, blockUI, $timeout, inform, inputService, CustomerServices, userServices, tokenSystem, addressServices, UtilitiesServices, $window, $filter,serverHost, serverBackend, APP_SYS, APP_REGEX){
+  menu.controller('MenuCtrl', function($scope, $cookies, $http, $location, $routeParams, $document, $interval, blockUI, $timeout, inform, inputService, CustomerServices, userServices, ProfileServices, tokenSystem, addressServices, UtilitiesServices, $window, $filter,serverHost, serverBackend, APP_SYS, APP_REGEX){
       //if ($location.path() == "/login"){console.log($location.path());}
       console.log("Bienvenido al sistema de "+APP_SYS.app_name);
       console.log("Version v"+APP_SYS.version);
       console.log("Loading Menu Controller");
-
-      /**********************************************************************************************************************************/
-          // Current versions of the scripts
-          var currentVersions = {
-            TASSCtrlMenu: '<?= md5_file(FCPATH . "TASSCtrlMenu.js"); ?>',
-            TASSCtrlMonitor: '<?= md5_file(FCPATH . "TASSCtrlMonitor.js"); ?>',
-            TASSCtrlProducts: '<?= md5_file(FCPATH . "TASSCtrlProducts.js"); ?>'
-        };
-        console.log(currentVersions);
-        // Function to check for updates
-        function checkForScriptUpdates() {
-            $http.get(serverHost+serverBackend+"/ControllersVersion/get").then(function(response) {
-                var latestVersions = response.data;
-                for (var module in latestVersions) {
-                    if (latestVersions.hasOwnProperty(module)) {
-                        if (latestVersions[module] && latestVersions[module] !== currentVersions[module]) {
-                            console.log('New version detected for:', module);
-                            //loadNewScript(module, latestVersions[module]); // Load the updated script
-                        }
-                    }
-                }
-            }, function(error) {
-                console.error('Failed to fetch script versions:', error);
-            });
-        }
-
-        // Function to dynamically load a new script
-        function loadNewScript(module, version) {
-            var script = document.createElement('script');
-            script.src = 'assets/js/' + module + '.js?v=' + version; // Cache-busting with the version hash
-            document.body.appendChild(script);
-
-            currentVersions[module] = version; // Update the current version
-            console.log('Updated', module, 'to new version:', version);
-        }
-
-        // Poll the backend every 60 seconds
-        var pollInterval = $interval(checkForScriptUpdates, 60000);
-
-        // Clean up the interval when the scope is destroyed
-        $scope.$on('$destroy', function() {
-            $interval.cancel(pollInterval);
-        });
-      /**********************************************************************************************************************************/
       //console.log($location.path());
       //$cookies.put('systemToken', "#$%#%$#%$#&%$&%$&54gdfbg3w44t34tgsdvgsd#$234fvds");
       $scope.sysToken             = tokenSystem.getTokenStorage(1);
@@ -165,6 +121,32 @@
               }
           });
       }
+        /**************************************************
+        *                                                 *
+        *               LIST SYS PROFILE                  *
+        *                                                 *
+        **************************************************/
+        $scope.rsProfileData = [];
+        $scope.getSysProfilesFn = function(search){
+          ProfileServices.listProfiles(search).then(function(data){
+              $scope.rsProfileData = data;
+              $scope.loadPagination($scope.rsProfileData, "idProfiles", "7");
+              //console.log($scope.rsProfileData);
+          });
+        };$scope.getSysProfilesFn("");
+        /**************************************************
+        *                                                 *
+        *                GET SYS MODULES                  *
+        *                                                 *
+        **************************************************/
+        $scope.rsModulesData = {};
+        $scope.getSysModulesFn = function(){
+          $scope.rsModulesData = {};
+          ProfileServices.getSysModules().then(function(data){
+              $scope.rsModulesData = data;
+              //console.log($scope.rsModulesData);
+          });
+        };$scope.getSysModulesFn();
       /**
        * LOAD SYSTEM MODULES AND MENU
        */
@@ -932,7 +914,7 @@
             blockUI.start('Obteniendo listado de token para aprobar.');
             $timeout(function() {
               userServices.geAuthTokentList(sysLoggedUser.idUser).then(function(response){
-                  //console.log(response);
+                  console.log(response);
                   if(response.status==200){
                     $scope.rsAuthtokenListData = response.data;
                     $('#AuthTokenModalUser').modal({backdrop: 'static', keyboard: false});

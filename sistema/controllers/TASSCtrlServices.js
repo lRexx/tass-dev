@@ -542,6 +542,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         $scope.data_param.user.emailUser            = cObj.emailUser;
                         $scope.data_param.user.fullNameUser         = cObj.fullNameUser ;
                         $scope.data_param.user.clientName           = $scope.customerFound.name;
+                        $scope.data_param.user.idClientKf           = $scope.customerFound.idClient;
                         $scope.data_param.user.idUserApproverKf     = cObj.idUser;
                         $scope.data_param.user.idUserRequestorKf    = $scope.sysLoggedUser.idUser;
                         $scope.addAuthorizationTokenFn($scope.data_param);
@@ -1307,7 +1308,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "sign_and_enable_contract":
                                 if (confirm==0){
-                                $scope.mess2show="El contrato "+obj.numeroContrato+" sera Aprobado y Activado en la fecha: "+$scope.contract.tmpFechaFirmaActivacion+".     Confirmar?";
+                                $scope.mess2show="El contrato "+obj.numeroContrato+" sera Aprobado y Activado en la fecha: "+$scope.contract.tmpFechaFirma+".     Confirmar?";
                                 $scope.argObj={};
                                 $scope.argObj = obj;
                                 console.log('Contrato a Aprovar y Activar ID: '+obj.idContrato+' Contrato: '+obj.numeroContrato);
@@ -1319,7 +1320,22 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     $scope.switchCustomersFn('contract', $scope.argObj, 'activateDate');
                                     $('#confirmRequestModal').modal('hide');
                                 }            
-                            break;             
+                            break;
+                            case "activate_and_enable_contract":
+                                if (confirm==0){
+                                $scope.mess2show="El contrato "+obj.numeroContrato+" sera Aprobado y Activado en la fecha: "+$scope.contract.tmpFechaFirma+".     Confirmar?";
+                                $scope.argObj={};
+                                $scope.argObj = obj;
+                                console.log('Contrato a Aprovar y Activar ID: '+obj.idContrato+' Contrato: '+obj.numeroContrato);
+                                console.log("============================================================================")
+                                console.log($scope.argObj);
+                                $('#activationDateContractWindows').modal('hide');
+                                $('#confirmRequestModal').modal('toggle');
+                                }else if (confirm==1){
+                                    $scope.switchCustomersFn('contract', $scope.argObj, 'activateDate');
+                                    $('#confirmRequestModal').modal('hide');
+                                }            
+                            break;  
                             case "contract_enable":
                                 if (confirm==0){
                                 $scope.mess2show="El contrato "+obj.numeroContrato+" sera activado.     Confirmar?";
@@ -2070,7 +2086,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 var formatedDate       = moment(rawDate).format('YYYY-MM-DD');
                                 console.log(typeof formatedDate);
                                 $scope.contract.new.fechaFirmaVigencia   = formatedDate;
-                                $scope.contract.new.fechaFirmaActivacion = null;
+                                $scope.contract.new.fechaFirma = null;
                                 var parsedDate = moment($scope.contract.new.dateOfSign, 'DD/MM/YYYY');
                                 var short_date = parsedDate.format('DDMMYY');
                                 $scope.contract.new.dateCodeDigits       = short_date;
@@ -2110,8 +2126,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 //console.log($scope.contract.update);
                             break;
                             case "activateDate": //ENABLE CUSTOMER CONRACT
-                                contract.idStatusFk=1;
-                                contract.fechaFirmaActivacion=$scope.contract.tmpFechaFirmaActivacion;                
+                                contract.idStatusFk = 1;
+                                contract.fechaFirma = $scope.contract.tmpFechaFirma;                
                                 console.log(contract);
                                 $scope.setSignDateContractFn(contract);
                             break;
@@ -2997,10 +3013,10 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         }
                                         var productIdNumber=0;
                                         for (var item in $scope.list_productsDetails){productIdNumber=($scope.list_productsDetails[item].idProductDetail+1);}  
-                                        for (var key in $scope.list_batteries){
-                                        $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':$scope.list_batteries[key].idBatteryFk, 'numberSerieFabric':$scope.list_batteries[key].numberSerieFabric, 'numberSerieInternal':$scope.list_batteries[key].numberSerieInternal,'dateExpiration':$scope.list_batteries[key].dateExpiration, 'optAux':null});                  
-                                        productIdNumber++;
-                                        }
+                                            for (var key in $scope.list_batteries){
+                                                $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':$scope.list_batteries[key].idBatteryFk, 'numberSerieFabric':$scope.list_batteries[key].numberSerieFabric, 'numberSerieInternal':$scope.list_batteries[key].numberSerieInternal,'dateExpiration':$scope.list_batteries[key].dateExpiration, 'optAux':null});
+                                                productIdNumber++;
+                                            }
                                         $scope.addNewService.adicional=$scope.list_productsDetails;
                                         blockUI.message('Guardando Servicio '+service.serviceName);
                                         }, 1500);
@@ -3127,14 +3143,15 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             for (var prduct in $scope.rsProductsData){
                                             //console.log("Verificando idProductFk Product table:"+$scope.rsProductsData[prduct].idProduct);
                                             if (service.adicional[key].idProductoFk==$scope.rsProductsData[prduct].idProduct){
-                                                $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':service.adicional[key].idProductoFk, 'numberSerieFabric':service.adicional[key].numberSerieFabric, 'numberSerieInternal':service.adicional[key].numberSerieInternal,'dateExpiration':service.adicional[key].dateExpiration, 'optAux':service.adicional[key].optAux});
+                                                const classification = $scope.rsProductsData[prduct].classification!=null && $scope.rsProductsData[prduct].classification!=undefined?$scope.rsProductsData[prduct].classification:null;
+                                                $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':service.adicional[key].idProductoFk, 'classification':classification,'numberSerieFabric':service.adicional[key].numberSerieFabric, 'numberSerieInternal':service.adicional[key].numberSerieInternal,'dateExpiration':service.adicional[key].dateExpiration, 'optAux':service.adicional[key].optAux});
                                                 $scope.typeOfProductsFn("set", $scope.rsProductsData[prduct].idProductClassificationFk, productIdNumber, service.adicional[key].optAux);
                                                 productIdNumber++;
                                                 break;
                                             }
                                             }
                                         }
-                                        //console.log($scope.list_productsDetails);
+                                        console.log($scope.list_productsDetails);
                                         //console.log($scope.productListType);
                                         //LIST BATTERIES INSTALLED
                                         //console.log($scope.list_batteries);
@@ -3207,13 +3224,13 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             for (var prduct in $scope.rsProductsData){
                                                 if (service.adicional[key].idProductoFk==$scope.rsProductsData[prduct].idProduct){
                                                     $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':service.adicional[key].idProductoFk, 'numberSerieFabric':service.adicional[key].numberSerieFabric, 'numberSerieInternal':service.adicional[key].numberSerieInternal,'dateExpiration':service.adicional[key].dateExpiration, 'optAux':service.adicional[key].optAux});
-                                                    $scope.typeOfProductsFn("set", $scope.rsProductsData[prduct].idProductClassificationFk, productIdNumber, service.adicional[key].optAux);
+                                                    $scope.typeOfProductsFn("set", $scope.rsProductsData[prduct].idProductClassification, productIdNumber, service.adicional[key].optAux);
                                                     productIdNumber++;
                                                     break;
                                                 }
                                             }
                                         }
-                                        //console.log($scope.list_productsDetails);
+                                        console.log($scope.list_productsDetails);
                                         //console.log($scope.productListType);
                                         $scope.rsCustomerContractListData          = $scope.rsContractsListByCustomerIdData;
                                         $scope.rsContractItemListData              = $scope.getSelectedServiceByIdContractFn($scope.service.update.idContratoFk, $scope.service.update.idClientTypeServices);
@@ -3251,7 +3268,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     for (var prduct in $scope.rsProductsData){
                                         if (service.adicional[key].idProductoFk==$scope.rsProductsData[prduct].idProduct){
                                         $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':service.adicional[key].idProductoFk, 'numberSerieFabric':service.adicional[key].numberSerieFabric, 'numberSerieInternal':service.adicional[key].numberSerieInternal,'dateExpiration':service.adicional[key].dateExpiration, 'optAux':service.adicional[key].optAux});
-                                        $scope.typeOfProductsFn("set", $scope.rsProductsData[prduct].idProductClassificationFk, productIdNumber, service.adicional[key].optAux);
+                                        $scope.typeOfProductsFn("set", $scope.rsProductsData[prduct].idProductClassification, productIdNumber, service.adicional[key].optAux);
                                         productIdNumber++;
                                         }
                                         for (var batery in service.tb_backup_energy_totem_array){
@@ -3324,7 +3341,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             for (var prduct in $scope.rsProductsData){
                                                 if (service.adicional[key].idProductoFk==$scope.rsProductsData[prduct].idProduct){
                                                     $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':service.adicional[key].idProductoFk, 'numberSerieFabric':service.adicional[key].numberSerieFabric, 'numberSerieInternal':service.adicional[key].numberSerieInternal,'dateExpiration':service.adicional[key].dateExpiration, 'optAux':service.adicional[key].optAux});
-                                                    $scope.typeOfProductsFn("set", $scope.rsProductsData[prduct].idProductClassificationFk, productIdNumber, service.adicional[key].optAux);
+                                                    $scope.typeOfProductsFn("set", $scope.rsProductsData[prduct].idProductClassification, productIdNumber, service.adicional[key].optAux);
                                                     productIdNumber++;
                                                 }
                                                 for (var batery in service.tb_backup_energy_array){
@@ -3402,7 +3419,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         for (var prduct in $scope.rsProductsData){
                                             if (service.adicional[key].idProductoFk==$scope.rsProductsData[prduct].idProduct){
                                             $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':service.adicional[key].idProductoFk, 'numberSerieFabric':service.adicional[key].numberSerieFabric, 'numberSerieInternal':service.adicional[key].numberSerieInternal,'dateExpiration':service.adicional[key].dateExpiration, 'optAux':service.adicional[key].optAux});
-                                            $scope.typeOfProductsFn("set", $scope.rsProductsData[prduct].idProductClassificationFk, productIdNumber, service.adicional[key].optAux);
+                                            $scope.typeOfProductsFn("set", $scope.rsProductsData[prduct].idProductClassification, productIdNumber, service.adicional[key].optAux);
                                             productIdNumber++;
                                             }
                                         }
@@ -4603,11 +4620,11 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
             **************************************************/
                 $scope.rsAppMonitorApplicationListData = [];
                 $scope.getAppMonitorApplicationListFn = function(){
-                UtilitiesServices.appMonitorApplicationList().then(function(response){
-                    if(response.status==200){
-                    $scope.rsAppMonitorApplicationListData = response.data;
-                    }
-                });
+                    UtilitiesServices.appMonitorApplicationList().then(function(response){
+                        if(response.status==200){
+                        $scope.rsAppMonitorApplicationListData = response.data;
+                        }
+                    });
                 };$scope.getAppMonitorApplicationListFn();
             /**************************************************
             *                                                 *
@@ -4616,11 +4633,11 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
             **************************************************/
                 $scope.rsTotemModelListData = [];
                 $scope.getTotemModelListFn = function(){
-                UtilitiesServices.totemModelList().then(function(response){
-                    if(response.status==200){
-                    $scope.rsTotemModelListData = response.data;
-                    }
-                });
+                    UtilitiesServices.totemModelList().then(function(response){
+                        if(response.status==200){
+                        $scope.rsTotemModelListData = response.data;
+                        }
+                    });
                 };$scope.getTotemModelListFn();
             /**************************************************
             *                                                 *
@@ -4629,9 +4646,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
             **************************************************/
                 $scope.rsServiceTypeData = {};
                 $scope.getTypeOfServicesFn = function(){
-                serviceServices.getTypeOfServices().then(function(data){
-                    $scope.rsServiceTypeData = data;
-                });
+                    serviceServices.getTypeOfServices().then(function(data){
+                        $scope.rsServiceTypeData = data;
+                    });
                 };$scope.getTypeOfServicesFn();
             /**************************************************
             *                                                 *
@@ -4662,6 +4679,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                 $scope.productListType={
                     'CONTROL_DE_ACCESOS':null, 
                     'CERRADURA':null,
+                    'CERRADURA2':null,
                     'LECTOR_ENT':null,
                     'LECTOR_SAL':null,
                     'FUENTE':null, 
@@ -4677,17 +4695,19 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                 *     ADD PRODUCT DETAIL SINGLE    *
                 ************************************/ 
                     $scope.addProductDetailsFn = function(obj, optAux){
-                        var numberSerieFabric = obj.numberSerieFabric==undefined || obj.numberSerieFabric==null?null:obj.numberSerieFabric;
+                        console.log(obj);
+                        var numberSerieFabric   = obj.numberSerieFabric==undefined || obj.numberSerieFabric==null?null:obj.numberSerieFabric;
                         var numberSerieInternal = obj.numberSerieInternal==undefined || obj.numberSerieInternal==null?null:obj.numberSerieInternal;
-                        var dateExpiration = obj.dateExpiration==undefined || obj.dateExpiration==null?null:obj.dateExpiration;
-                        var tmpAux=$scope.productSelected.idProductClassificationFk=="3" || $scope.productSelected.idProductClassificationFk=="20"?optAux:null;
+                        var dateExpiration      = obj.dateExpiration==undefined || obj.dateExpiration==null?null:obj.dateExpiration;
+                        var classification      = $scope.productSelected.classification!=undefined && $scope.productSelected.classification!=null && $scope.productSelected.classification!=""?$scope.productSelected.classification:'';
+                        var tmpAux              = $scope.productSelected.idProductClassificationFk=="2" || $scope.productSelected.idProductClassificationFk=="3" || $scope.productSelected.idProductClassificationFk=="20"?optAux:null;
                         if ($scope.list_productsDetails.length==0){
                             var productIdNumber=0; 
                         }else{
                             for (var item in $scope.list_productsDetails){productIdNumber=($scope.list_productsDetails[item].idProductDetail+1);}  
                         }
                         if(!$scope.productDetailsAssigned){
-                            $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':obj.idProductoFk, 'numberSerieFabric':numberSerieFabric, 'numberSerieInternal':numberSerieInternal,'dateExpiration':dateExpiration, 'optAux':tmpAux});
+                            $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':obj.idProductoFk, 'classification':classification, 'numberSerieFabric':numberSerieFabric, 'numberSerieInternal':numberSerieInternal,'dateExpiration':dateExpiration, 'optAux':tmpAux});
                             $("#serviceProductDetails").modal('hide');
                             inform.add("Datos adicionales del producto han sido asociados correctamente.",{
                             ttl:5000, type: 'success'
@@ -4698,15 +4718,15 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             if ($scope.productSelected.idProductClassificationFk=="15" || $scope.productSelected.idProductClassificationFk=="16"){
                             for (var item in $scope.list_productsDetails){
                                 if ((($scope.service.module.ipAlarmModule.selected!=undefined && $scope.service.module.ipAlarmModule.selected.idProduct==$scope.list_productsDetails[item].idProductoFk) || ($scope.service.module.gprsAlarmModule.selected!=undefined && $scope.service.module.gprsAlarmModule.selected.idProduct==$scope.list_productsDetails[item].idProductoFk)) && $scope.list_productsDetails[item].idProductDetail!=null){
-                                $scope.service.module.nroSerieInternal  = $scope.list_productsDetails[item].numberSerieFabric;
-                                $scope.service.module.nroSerieFrabric   = $scope.list_productsDetails[item].numberSerieInternal;
-                                break;
+                                    $scope.service.module.nroSerieInternal  = $scope.list_productsDetails[item].numberSerieFabric;
+                                    $scope.service.module.nroSerieFrabric   = $scope.list_productsDetails[item].numberSerieInternal;
+                                    break;
                                 }
                             }
                             }
                             $scope.service.adicional={};
                             $scope.productSelected={};
-                            //console.log($scope.list_productsDetails);
+                            console.log($scope.list_productsDetails);
                     }
                 /***********************************
                 *   REMOVE PRODUCT DETAIL SINGLE   *
@@ -4714,9 +4734,11 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     $scope.removeProductDetailsFn = function(obj, idProductDetail, optAux){
                         console.log("removeProductDetailsFn");
                         console.log(obj);
+                        console.log($scope.list_productsDetails);
                         console.log(idProductDetail);
+                        console.log(optAux);
                         $scope.productSelected  = obj;
-                        var tmpAux=($scope.productSelected.idProductClassificationFk=="3" || $scope.productSelected.idProductClassification=="3") || ($scope.productSelected.idProductClassificationFk=="20" || $scope.productSelected.idProductClassification=="20")?optAux:null;
+                        var tmpAux=($scope.productSelected.idProductClassificationFk=="2" || $scope.productSelected.idProductClassification=="2") || ($scope.productSelected.idProductClassificationFk=="3" || $scope.productSelected.idProductClassification=="3") || ($scope.productSelected.idProductClassificationFk=="20" || $scope.productSelected.idProductClassification=="20")?optAux:null;
                         var objItem             = $scope.list_productsDetails;        
                         var arrItem             = objItem.map(function(i){return i.idProductDetail;});        
                         var indexItem           = arrItem.indexOf(idProductDetail); 
@@ -4742,195 +4764,217 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     $scope.productSelected={};
                     $scope.productDetailsAssigned=false;
                     $scope.compServiceProductDetailsFn=function(obj, idProductDetail, optAux){
-                        //console.log(obj);
-                        //console.log($scope.list_productsDetails);
-                        //console.log("---------------------");
-                        //console.log($scope.productListType)
-                        //console.log("---------------------");
-                        //console.log("idProductDetail: "+idProductDetail);
-                        //console.log("optAux: "+optAux);
+                        console.log(obj);
+                        console.log($scope.list_productsDetails);
+                        console.log("---------------------");
+                        console.log($scope.productListType)
+                        console.log("---------------------");
+                        console.log("idProductDetail: "+idProductDetail);
+                        console.log("optAux: "+optAux);
                         if ($scope.list_productsDetails.length>0){
+                            console.log($scope.list_productsDetails);
                             for (var item in $scope.list_productsDetails){
-                            if (obj.idProduct==$scope.list_productsDetails[item].idProductoFk && idProductDetail!=null && optAux==$scope.list_productsDetails[item].optAux){
-                                $scope.productSelected=obj;
-                                //console.log($scope.list_productsDetails[item]);
-                                $scope.service.adicional.idProductoFk         = $scope.list_productsDetails[item].idProductoFk;
-                                $scope.service.adicional.numberSerieFabric    = $scope.list_productsDetails[item].numberSerieFabric;
-                                $scope.service.adicional.numberSerieInternal  = $scope.list_productsDetails[item].numberSerieInternal;
-                                $scope.service.adicional.dateExpiration       = $scope.list_productsDetails[item].dateExpiration;
-                                $scope.productDetailsAssigned=true;
-                                //console.log($scope.list_productsDetails);
-                                break;
-                            }else{
-                                $scope.productDetailsAssigned=false;
-                                $scope.service.adicional={};
-                                $scope.productSelected=obj;
-                                $scope.service.adicional={'idProductoFk':''};
-                                $scope.service.adicional.idProductoFk=$scope.productSelected.idProduct;
-                                $scope.service.adicional.optAux=optAux;
-                            }
+                                if (obj.idProduct==$scope.list_productsDetails[item].idProductoFk && idProductDetail!=null && optAux==$scope.list_productsDetails[item].optAux){
+                                    $scope.productSelected=obj;
+                                    $scope.productSelected.classification         = $scope.list_productsDetails[item].classification;
+                                    //console.log($scope.list_productsDetails[item]);
+                                    $scope.service.adicional.idProductoFk         = $scope.list_productsDetails[item].idProductoFk;
+                                    $scope.service.adicional.numberSerieFabric    = $scope.list_productsDetails[item].numberSerieFabric;
+                                    $scope.service.adicional.numberSerieInternal  = $scope.list_productsDetails[item].numberSerieInternal;
+                                    $scope.service.adicional.dateExpiration       = $scope.list_productsDetails[item].dateExpiration;
+                                    $scope.productSelected.optAux                 = optAux;
+                                    $scope.service.adicional.optAux               = optAux;
+                                    $scope.productDetailsAssigned=true;
+                                    //console.log($scope.list_productsDetails);
+                                    break;
+                                }else{
+                                    $scope.productDetailsAssigned           = false;
+                                    $scope.service.adicional                = {};
+                                    $scope.productSelected                  = obj;
+                                    $scope.productSelected.classification   = obj.classification;
+                                    $scope.productSelected.optAux           = optAux;
+                                    $scope.service.adicional                = {'idProductoFk':''};
+                                    $scope.service.adicional.idProductoFk   = $scope.productSelected.idProduct;
+                                    $scope.service.adicional.optAux         = optAux;
+                                }
                             }
                         }else{
-                            $scope.productSelected=obj;
-                            $scope.service.adicional={'idProductoFk':''};
-                            $scope.service.adicional.idProductoFk=$scope.productSelected.idProduct;
-                            $scope.service.adicional.optAux=optAux;
+                            $scope.productSelected                  = obj;
+                            $scope.productSelected.classification   = obj.classification;
+                            $scope.service.adicional                = {'idProductoFk':''};
+                            $scope.service.adicional.idProductoFk   = $scope.productSelected.idProduct;
+                            $scope.service.adicional.optAux         = optAux;
+                            $scope.productSelected.optAux           = optAux;
                         }
                         $("#serviceProductDetails").modal({backdrop: 'static', keyboard: false});
                         $('#serviceProductDetails').on('shown.bs.modal', function () {
                             $('#serviceProductInternalSerial').focus();  
                             //console.log($scope.service.adicional);
+                            //console.log($scope.productSelected);
                         });
                     }
                 /***********************************
                 *     TYPE OF PRODUCT FUNCTION     *
                 ************************************/        
                     $scope.typeOfProductsFn = function(opt, idType, idProd, optAux){
-                    //console.log("opt: '"+opt+"' idType: "+idType+" idProd: "+idProd+" optAux: "+optAux);
+                    console.log("opt: '"+opt+"' idType: "+idType+" idProd: "+idProd+" optAux: "+optAux);
                         switch(idType){
-                        case "1":
-                            if (opt=="set"){
-                                $scope.productListType.CONTROL_DE_ACCESOS=idProd;
-                            //console.log("set: "+idProd+" to $scope.productListType.CONTROL_DE_ACCESOS: "+idProd);
-                            }else{
-                                $scope.productListType.CONTROL_DE_ACCESOS=idProd;
-                                $scope.service.crtlAccess.selected=undefined;
-                            }
-                            
-                        break;
-                        case "2":
-                            if (opt=="set"){
-                                $scope.productListType.CERRADURA=idProd;
-                            }else{
-                                $scope.productListType.CERRADURA=idProd;
-                                $scope.service.lockedIt.selected=undefined;
-                                $scope.service.lockedIt2.selected=undefined;
-                            }
-                        break;
-                        case "3":
-                            if (opt=="set"){
-                            if (optAux=="entrance"){
-                                //onsole.log("set: "+idProd+" to $scope.productListType.LECTOR_ENT: "+idProd);
-                                $scope.productListType.LECTOR_ENT=idProd;
-                            }else{
-                                //console.log("set: "+idProd+" to $scope.productListType.PRODUCT_EXIT: "+idProd);
-                                $scope.productListType.PRODUCT_EXIT=idProd;
-                            }
-                            }else{
-                            if (optAux=="entrance"){
-                                //console.log("remove: "+idProd+" to $scope.productListType.LECTOR_ENT: "+idProd);
-                                $scope.productListType.LECTOR_ENT=idProd;
-                                $scope.service.entranceReader.selected=undefined;
-                            }else{
-                                //console.log("set: "+idProd+" to $scope.productListType.PRODUCT_EXIT: "+idProd);
-                                $scope.productListType.PRODUCT_EXIT=idProd;
-                                $scope.service.exitReader.selected=undefined;
-                            }
-                            }
-                        break;
-                        case "4":
-                            if (opt=="set"){
-                                $scope.productListType.FUENTE=idProd;              
-                            }else{
-                                $scope.productListType.FUENTE=idProd;
-                                $scope.service.powerSupply.selected=undefined;
-                            }
-                        break;
-                        case "5":
-                            $scope.productListType.BATERIA=idProd;
-                        break;
-                        case "6":
-                            if (opt=="set"){
-                                $scope.productListType.PULSADOR_EMERG=idProd;              
-                            }else{
-                                $scope.productListType.PULSADOR_EMERG=idProd;
-                                $scope.service.emergencyButton.selected=undefined;
-                            }          
-                        break;
-                        case "7":
-                            if (opt=="set"){
-                                $scope.productListType.TECLA_APAG=idProd;              
-                            }else{
-                                $scope.productListType.TECLA_APAG=idProd;
-                                $scope.service.TurnOffKey.selected=undefined;
-                            }
-                        break;
-                        case "8":
-                            if (opt=="set"){
-                                $scope.productListType.RECORD_DEVICE=idProd;
-                            }else{
-                                $scope.productListType.RECORD_DEVICE=idProd;
-                                $scope.service.dvr.selected=undefined;
-                            }
-                        break;
-                        case "9":
-                            if (opt=="set"){
-                                $scope.productListType.RECORD_DEVICE=idProd;
-                            }else{
-                                $scope.productListType.RECORD_DEVICE=idProd;
-                                $scope.service.dvr.selected=undefined;
-                            }
-                        break;
-                        case "12":
-                            if (opt=="set"){
-                                $scope.productListType.PANEL_ALARM=idProd;              
-                            }else{
-                                $scope.productListType.PANEL_ALARM=idProd;
-                                $scope.service.alarmPanel.selected=undefined;
-                            }
-                        break;
-                        case "13":
-                            if (opt=="set"){
-                                $scope.productListType.TECLADO_ALARM=idProd;              
-                            }else{
-                                $scope.productListType.TECLADO_ALARM=idProd;
-                                $scope.service.alarmKeyboard.selected=undefined;
-                            }
-                        break;
-                        case "14":
-                        break;
-                        case "15":
-                            if (opt=="set"){
-                                $scope.productListType.MODULO_IP_ALARM=idProd;              
-                            }else{
-                                $scope.productListType.MODULO_IP_ALARM=idProd;
-                                $scope.service.module.ipAlarmModule.selected=undefined;
-                            }
-                        break;
-                        case "16":
-                            if (opt=="set"){
-                                $scope.productListType.MODULO_GPRS_ALARM=idProd;              
-                            }else{
-                                $scope.productListType.MODULO_GPRS_ALARM=idProd;
-                                $scope.service.module.gprsAlarmModule.selected=undefined;
-                            }
-                        break;                
-                        case "17":
-                            if (opt=="set"){
-                                $scope.productListType.ROUTER=idProd;              
-                            }else{
-                                $scope.productListType.ROUTER=idProd;
-                                $scope.service.dvr.selected=undefined;
-                                $scope.service.router.selected=undefined;
-                            }
-                        break;              
-                        case "18":
-                            if (opt=="set"){
-                                $scope.productListType.MODEM=idProd;              
-                            }else{
-                                $scope.productListType.MODEM=idProd;
-                                $scope.service.modem.selected=undefined;
-                            }
-                        break;                
-                        case "20":
-                            if (opt=="set"){
-                                $scope.productListType.PRODUCT_EXIT=idProd;              
-                            }else{
-                                $scope.productListType.PRODUCT_EXIT=idProd;
-                                $scope.service.exitReader.selected=undefined;
-                            }
-                        break;            
+                            case "1":
+                                if (opt=="set"){
+                                    $scope.productListType.CONTROL_DE_ACCESOS=idProd;
+                                //console.log("set: "+idProd+" to $scope.productListType.CONTROL_DE_ACCESOS: "+idProd);
+                                }else{
+                                    $scope.productListType.CONTROL_DE_ACCESOS=idProd;
+                                    $scope.service.crtlAccess.selected=undefined;
+                                }
+                                
+                            break;
+                            case "2":
+                                if (opt=="set"){
+                                    if (optAux=="lockedIt2"){
+                                        //onsole.log("set: "+idProd+" to $scope.productListType.CERRADURA2: "+idProd);
+                                        $scope.productListType.CERRADURA2=idProd;
+                                    }else{
+                                        //console.log("set: "+idProd+" to $scope.productListType.CERRADURA: "+idProd);
+                                        $scope.productListType.CERRADURA=idProd;
+                                    }
+                                }else{
+                                    if (optAux=="lockedIt2"){
+                                        //console.log("remove: "+idProd+" to $scope.productListType.CERRADURA2: "+idProd);
+                                        $scope.productListType.CERRADURA2=idProd;
+                                        $scope.service.lockedIt2.selected=undefined;
+                                    }else{
+                                        //console.log("set: "+idProd+" to $scope.productListType.CERRADURA: "+idProd);
+                                        $scope.productListType.CERRADURA=idProd;
+                                        $scope.service.lockedIt.selected=undefined;
+                                    }
+                                }
+                            break;
+                            case "3":
+                                if (opt=="set"){
+                                    if (optAux=="entrance"){
+                                        //onsole.log("set: "+idProd+" to $scope.productListType.LECTOR_ENT: "+idProd);
+                                        $scope.productListType.LECTOR_ENT=idProd;
+                                    }else{
+                                        //console.log("set: "+idProd+" to $scope.productListType.PRODUCT_EXIT: "+idProd);
+                                        $scope.productListType.PRODUCT_EXIT=idProd;
+                                    }
+                                }else{
+                                    if (optAux=="entrance"){
+                                        //console.log("remove: "+idProd+" to $scope.productListType.LECTOR_ENT: "+idProd);
+                                        $scope.productListType.LECTOR_ENT=idProd;
+                                        $scope.service.entranceReader.selected=undefined;
+                                    }else{
+                                        //console.log("set: "+idProd+" to $scope.productListType.PRODUCT_EXIT: "+idProd);
+                                        $scope.productListType.PRODUCT_EXIT=idProd;
+                                        $scope.service.exitReader.selected=undefined;
+                                    }
+                                }
+                            break;
+                            case "4":
+                                if (opt=="set"){
+                                    $scope.productListType.FUENTE=idProd;              
+                                }else{
+                                    $scope.productListType.FUENTE=idProd;
+                                    $scope.service.powerSupply.selected=undefined;
+                                }
+                            break;
+                            case "5":
+                                $scope.productListType.BATERIA=idProd;
+                            break;
+                            case "6":
+                                if (opt=="set"){
+                                    $scope.productListType.PULSADOR_EMERG=idProd;              
+                                }else{
+                                    $scope.productListType.PULSADOR_EMERG=idProd;
+                                    $scope.service.emergencyButton.selected=undefined;
+                                }          
+                            break;
+                            case "7":
+                                if (opt=="set"){
+                                    $scope.productListType.TECLA_APAG=idProd;              
+                                }else{
+                                    $scope.productListType.TECLA_APAG=idProd;
+                                    $scope.service.TurnOffKey.selected=undefined;
+                                }
+                            break;
+                            case "8":
+                                if (opt=="set"){
+                                    $scope.productListType.RECORD_DEVICE=idProd;
+                                }else{
+                                    $scope.productListType.RECORD_DEVICE=idProd;
+                                    $scope.service.dvr.selected=undefined;
+                                }
+                            break;
+                            case "9":
+                                if (opt=="set"){
+                                    $scope.productListType.RECORD_DEVICE=idProd;
+                                }else{
+                                    $scope.productListType.RECORD_DEVICE=idProd;
+                                    $scope.service.dvr.selected=undefined;
+                                }
+                            break;
+                            case "12":
+                                if (opt=="set"){
+                                    $scope.productListType.PANEL_ALARM=idProd;              
+                                }else{
+                                    $scope.productListType.PANEL_ALARM=idProd;
+                                    $scope.service.alarmPanel.selected=undefined;
+                                }
+                            break;
+                            case "13":
+                                if (opt=="set"){
+                                    $scope.productListType.TECLADO_ALARM=idProd;              
+                                }else{
+                                    $scope.productListType.TECLADO_ALARM=idProd;
+                                    $scope.service.alarmKeyboard.selected=undefined;
+                                }
+                            break;
+                            case "14":
+                            break;
+                            case "15":
+                                if (opt=="set"){
+                                    $scope.productListType.MODULO_IP_ALARM=idProd;              
+                                }else{
+                                    $scope.productListType.MODULO_IP_ALARM=idProd;
+                                    $scope.service.module.ipAlarmModule.selected=undefined;
+                                }
+                            break;
+                            case "16":
+                                if (opt=="set"){
+                                    $scope.productListType.MODULO_GPRS_ALARM=idProd;              
+                                }else{
+                                    $scope.productListType.MODULO_GPRS_ALARM=idProd;
+                                    $scope.service.module.gprsAlarmModule.selected=undefined;
+                                }
+                            break;                
+                            case "17":
+                                if (opt=="set"){
+                                    $scope.productListType.ROUTER=idProd;              
+                                }else{
+                                    $scope.productListType.ROUTER=idProd;
+                                    $scope.service.dvr.selected=undefined;
+                                    $scope.service.router.selected=undefined;
+                                }
+                            break;              
+                            case "18":
+                                if (opt=="set"){
+                                    $scope.productListType.MODEM=idProd;              
+                                }else{
+                                    $scope.productListType.MODEM=idProd;
+                                    $scope.service.modem.selected=undefined;
+                                }
+                            break;                
+                            case "20":
+                                if (opt=="set"){
+                                    $scope.productListType.PRODUCT_EXIT=idProd;              
+                                }else{
+                                    $scope.productListType.PRODUCT_EXIT=idProd;
+                                    $scope.service.exitReader.selected=undefined;
+                                }
+                            break;            
                         }
+                        console.log($scope.productListType);
                     }
             /**************************************************
             *                                                 *
@@ -4940,6 +4984,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     $scope.productListByType={
                     'CONTROL_DE_ACCESOS':[], 
                     'CERRADURA':[],
+                    'CERRADURA2':[],
                     'LECTOR':[],
                     'FUENTE':[], 
                     'BATERIA':[], 
@@ -4955,6 +5000,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             if ($scope.rsProductsList4ServiceData.status==200){
                                 $scope.productListByType.CONTROL_DE_ACCESOS = $scope.rsProductsList4ServiceData.data[0].products;
                                 $scope.productListByType.CERRADURA          = $scope.rsProductsList4ServiceData.data[1].products;
+                                $scope.productListByType.CERRADURA2         = $scope.rsProductsList4ServiceData.data[1].products;
                                 $scope.productListByType.LECTOR             = $scope.rsProductsList4ServiceData.data[2].products;
                                 $scope.productListByType.FUENTE             = $scope.rsProductsList4ServiceData.data[3].products;
                                 $scope.productListByType.BATERIA            = $scope.rsProductsList4ServiceData.data[4].products;
@@ -4991,7 +5037,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     $scope.productListByType.RECORD_DEVICE.push($scope.productListByType.NVR[key]);
                                 }                
                                 //$scope.productListByType.BACKUP_ENERGIA.push({})
-                                //console.log($scope.productListByType);
+                                console.log($scope.productListByType);
                             }else{
                                 console.log("Error verificar servicio.")
                             }
@@ -5002,10 +5048,10 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         //console.log(opt);
                         switch (opt){
                             case false:
-                            $scope.productListByType.PRODUCT_EXIT=$scope.productListByType.LECTOR;
+                                $scope.productListByType.PRODUCT_EXIT=$scope.productListByType.LECTOR;
                             break;
                             case true:
-                            $scope.productListByType.PRODUCT_EXIT=$scope.productListByType.PULSADOR_SALIDA;
+                                $scope.productListByType.PRODUCT_EXIT=$scope.productListByType.PULSADOR_SALIDA;
                             break;
                         }
                     }
