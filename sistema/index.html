@@ -124,6 +124,12 @@
 								<br>Pedidos
 								</a>
 							</li>
+							<li id="m_gestion" ng-class="{ active: getRoute('/ticket_mgmt')}" ng-if="sysModules.idGestion">
+								<a href="/ticket_mgmt">
+								<i style="margin-left: -0.1em;" class="fas fa-tasks icon-4x"></i>
+								<br>Gestión
+								</a>
+							</li>
 							<!--<li id="m_llaveros" ng-class="{ active: getRoute('/keys')}" ng-if="sysModules.idLlaveros">
 								<a href="/keys">
 								<i style="margin-left: 0.1em;" class="icon-file-text icon-4x"></i>
@@ -342,6 +348,7 @@
 <script src="controllers/TASSCtrlUsers.js"></script>
 <script src="controllers/TASSCtrlBuildings.js"></script>
 <script src="controllers/TASSCtrlTickets.js"></script>
+<script src="controllers/BSSCtrlMgmt.js"></script>
 <script src="controllers/TASSCtrlSystem.js"></script>
 <script src="controllers/TASSCtrlLogin.js"></script>
 <script src="controllers/BSSCtrlLogout.js"></script>

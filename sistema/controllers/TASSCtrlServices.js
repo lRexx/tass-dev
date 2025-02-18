@@ -640,6 +640,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         console.log($scope.customer.update);
                         $scope.updateInitialDeliveryFn($scope.customer.update); 
                     break; 
+                    case "list_attendants":
+                        $('#attendantList').modal({backdrop: 'static', keyboard: true});
+                    break;
                 }
             break;
         }
@@ -1679,6 +1682,35 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
              $scope.filterTypeOfMaintenance = function(item){
                       return item.idTypeMaintenance != "3" 
               };
+              /**************************************************
+              *                                                 *
+              *         LIST OF ATTENDANTS BY ID ADDRESS        *
+              *                                                 *
+              **************************************************/
+              $scope.attendantListByClient = [];
+              $scope.getAttendantListFn = function(idClient){
+                  $scope.attendantListByClient = [];
+                  userServices.attendantsOnlyList(idClient).then(function(response) {
+                      if(response.status==200){
+                          $scope.attendantListByClient = response.data;
+                          $scope.attendantFound=true;
+                      }else if (response.status==404){
+                          $scope.attendantFound=false;
+                          $scope.attendantListByClient = [];
+                          if ($scope.isRequest!="costs"){
+                              inform.add('No se encontraron Encargados asociados al consorcio seleccionado. ',{
+                                  ttl:5000, type: 'info'
+                              });
+                          }
+                      }else if (response.status==500){
+                          $scope.attendantFound=false;
+                          inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                              ttl:5000, type: 'danger'
+                          });
+                      }
+                  });
+                  
+              }
             /**************************************************
             *                                                 *
             *                 SEARCH CUSTOMERS                *
@@ -1742,6 +1774,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     ttl:10000, type: 'danger'
                             });
                         }
+                        $timeout(function() {
+                            $scope.getAttendantListFn($scope.customerFound.idClient);
+                        }, 700);
                     }
                     if ($scope.customerFound.idClientType=="4"){
                         if ($scope.customerFound.idClientCompaniFk!=null && $scope.customerFound.idClientCompaniFk!=undefined){

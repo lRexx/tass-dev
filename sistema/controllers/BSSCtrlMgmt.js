@@ -1,7 +1,7 @@
 /**
-* Monitor Controller
+* Management Controller
 **/
-var monitor = angular.module("module.Monitor", ["tokenSystem", "services.Ticket", "services.Address", "services.Ticket", "services.Departments",  "services.Utilities", "services.Customers", "angular.filter", "services.User"]);
+var monitor = angular.module("module.Management", ["tokenSystem", "services.Ticket", "services.Address", "services.Ticket", "services.Departments",  "services.Utilities", "services.Customers", "angular.filter", "services.User"]);
 
 /*************************************************/
 monitor.filter('commaToDecimal', function(){
@@ -23,8 +23,8 @@ monitor.filter('toDate', function() {
     return new Date(items);
   };
 });
-monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location, $routeParams, $q, blockUI, $timeout, inform, ticketServices, DepartmentsServices, serviceServices, UtilitiesServices, addressServices, userServices, CustomerServices, tokenSystem, $window, $filter, serverHost, serverBackend, serverHeaders, APP_SYS){
-  console.log(APP_SYS.app_name+" Modulo monitor pedidos");
+monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $routeParams, $q, blockUI, $timeout, inform, ticketServices, DepartmentsServices, serviceServices, UtilitiesServices, addressServices, userServices, CustomerServices, tokenSystem, $window, $filter, serverHost, serverBackend, serverHeaders, APP_SYS){
+  console.log(APP_SYS.app_name+" Modulo Gestion de pedidos");
     //console.log($scope.sysLoggedUser)
     //console.log($scope.sysToken)
     if (!$scope.sysToken || !$scope.sysLoggedUser ){

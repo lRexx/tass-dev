@@ -150,7 +150,7 @@
       /**
        * LOAD SYSTEM MODULES AND MENU
        */
-        $scope.sysModules = {'idMonitor':false, 'idLlaveros':false, 'idEdificios':false, 'idConfiguracion':false, 'idPerfilUsuario':false, 'idCliente':false, 'idServicio':false, 'idProducto': false, 'idUsers': false};
+        $scope.sysModules = {'idMonitor':false, 'idLlaveros':false, 'idEdificios':false, 'idConfiguracion':false, 'idPerfilUsuario':false, 'idCliente':false, 'idServicio':false, 'idProducto': false, 'idUsers': false, 'idGestion': false};
         $scope.sysLoadModules = function (){
           for (var key in $scope.sysLoggedUserModules){
           switch ($scope.sysLoggedUserModules[key].idModuleFk){
@@ -186,6 +186,9 @@
             break;
             case "11":
               $scope.sysModules.idTechnician=true;
+            break;
+            case "12":
+              $scope.sysModules.idGestion=true;
             break;
             default:
           }

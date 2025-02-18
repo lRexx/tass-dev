@@ -24,6 +24,7 @@ var app = angular.module('systemApp', ["ngRoute", "ngCookies",
                                           "module.Tickets",
                                            "module.System",
                                          "module.Validate",
+                                       "module.Management",
                                                  "blockUI",
                                                   "inform",
                                         //"inform-exception",
@@ -163,6 +164,11 @@ app.config(['$routeProvider', '$locationProvider',
         .when('/keys', {
             templateUrl: 'views/keys/',
             controller: 'KeysCtrl',
+            css: 'views/mainapp/style.css'
+        })
+        .when('/ticket_mgmt', {
+            templateUrl: 'views/management/',
+            controller: 'MgmtCtrl',
             css: 'views/mainapp/style.css'
         })
         .when('/tech', {
