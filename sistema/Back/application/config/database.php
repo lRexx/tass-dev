@@ -75,9 +75,9 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => '192.168.0.214',
-	'username' => 'root',
-	'password' => '',
+	'hostname' => 'localhost',
+	'username' => 'bss',
+	'password' => '1@XCR&4p9Q5$',
 	#TASS
 	#'hostname' => '167.250.5.44',
 	#'username' => 'coferba',
