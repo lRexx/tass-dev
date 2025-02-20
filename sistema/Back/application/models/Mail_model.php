@@ -20,7 +20,7 @@ class Mail_model extends CI_Model
                     'smtp_user'     => $param['0']['value'], 
                     'smtp_pass'     => $param['1']['value'], 
                     //'smtp_port'   => '465',
-                    'smtp_port'     => '465',
+                    'smtp_port'     => '587',
                     'mailtype'      => 'html',
                     'wordwrap'      => TRUE,
                     'charset'       => 'utf-8',
