@@ -16,7 +16,7 @@ class Mail_model extends CI_Model
     			$config = array(
                     'protocol'      => 'smtp',
                     //'smtp_host'   => 'bss.com.ar',
-                    'smtp_host'     => 'ssl://smtp.googlemail.com',
+                    'smtp_host'     => 'smtp.googlemail.com',
                     'smtp_user'     => $param['0']['value'], 
                     'smtp_pass'     => $param['1']['value'], 
                     //'smtp_port'   => '465',
