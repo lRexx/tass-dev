@@ -20,14 +20,14 @@ class Mail_model extends CI_Model
                     'smtp_user'     => $param['0']['value'], 
                     'smtp_pass'     => $param['1']['value'], 
                     //'smtp_port'   => '465',
-                    'smtp_port'     => '587',
+                    'smtp_port'     => 587, // Use 587 for TLS (recommended)
+                    'smtp_crypto'   => 'tls', // TLS is recommended for port 587
                     'mailtype'      => 'html',
                     'wordwrap'      => TRUE,
                     'charset'       => 'utf-8',
                     'smtp_timeout'  => 30,
                     'crlf'          => "\r\n",
-                    'newline'       => "\r\n",
-                    'smtp_crypto'   => 'ssl'
+                    'newline'       => "\r\n"
     			);
     			 //LOCAL
     			#$config = array(
