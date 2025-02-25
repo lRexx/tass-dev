@@ -308,7 +308,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             //console.log(obj);
                     $('#confirmRequestModal').modal('toggle');
                     }else if (confirm==1){
-                        $scope.switchBuildingFn("downloadKeyChainFileList", null);
+                        $scope.switchKeysFn("downloadKeyChainFileList", null);
                     $('#confirmRequestModal').modal('hide');
                     }
                 break;
