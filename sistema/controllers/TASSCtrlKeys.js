@@ -801,7 +801,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                           var i=0;
                           if (string!=undefined && string!=""){
                               $scope.customerFound={};
-                              $scope.getCustomerLisServiceFn(string, "0", "2", null, 0, null, strict).then(function(response){
+                              $scope.getCustomerLisServiceFn(string, "0", "2", null, 0, 25, strict).then(function(response){
                                   if(response.status==undefined){
                                   $scope.listCustomerFound = response.customers;
                                   //$scope.pagination.totalCount = response.customers.length;
