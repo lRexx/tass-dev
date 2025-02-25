@@ -1777,7 +1777,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             $scope.addMultiKeys(obj);
                         break;
                         case "downloadKeyChainFileList":
-                            var idKeychainStatus  = $scope.select.keychainStatus.idKeychainStatus!=undefined?$scope.select.keychainStatus.idKeychainStatus:null;
+                            var idKeychainStatus  = $scope.select.keychainStatus!=undefined?$scope.select.keychainStatus.idKeychainStatus:null;
                             var filterCategoryKey = $scope.select.filterCategoryKey!=undefined?$scope.select.filterCategoryKey:null;
                             var idDepartmenKf     = $scope.select.idDepartmenKf!=undefined?$scope.select.idDepartmenKf!=undefined:null;
                             $scope.setKeyChainListAsArrayFn($scope.customerFound.idClient,null,filterCategoryKey,idKeychainStatus,idDepartmenKf,0,null, false, false);
