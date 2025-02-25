@@ -190,11 +190,11 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-4 pull-right" ng-if="select.filterCategoryKey!='' && select.filterCategoryKey!=undefined && select.buildings.selected!=undefined">
+                      <div class="col-md-4 pull-right" style="margin-top: 2%;" ng-if="select.filterCategoryKey!='' && select.filterCategoryKey!=undefined && select.buildings.selected!=undefined">
                           <!-- New Key button -->
                           <button ng-click="switchKeysFn('newSingle', null)" style="margin-left: 0.5px;" data-toggle="tooltip" data-placement="top" title="Nueva Llave" type="button" class="btn btn-md btn-labeled btn-info"><span class="btn-label"><i class="fas fa-key"></i> </span>Alta Llavero</button> 
                       </div>
-                      <div class="col-md-4 pull-right" ng-if="select.buildings.selected!=undefined">
+                      <div class="col-md-4 pull-right" style="margin-top: 2%;" ng-if="select.buildings.selected!=undefined">
                           <!-- New Key button -->
                           <button ng-click="modalConfirmation('downloadKeyChainFileList', 0, null,null)" style="margin-left: 0.5px;" data-toggle="tooltip" data-placement="top" title="Exportar" type="button" class="btn btn-md btn-labeled btn-info"><span class="btn-label"><i class="fas fa-key"></i> </span>Exportar Listado</button> 
                       </div>
