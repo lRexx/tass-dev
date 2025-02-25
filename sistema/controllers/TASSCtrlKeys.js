@@ -1899,7 +1899,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                         }
 
                         console.log($scope.list_building_keys);
-                        $scope.buildXLS($scope.list_building_keys);
+                        $scope.buildXLS_KeyList($scope.list_building_keys);
                     }
                 });
             }
