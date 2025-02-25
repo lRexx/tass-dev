@@ -73,7 +73,6 @@
                                   <input type="text" class="form-control" ng-keydown="$event.keyCode === 13 && getKeychainListFn(customerFound.idClient,null,select.filterCategoryKey,select.keychainStatus.idKeychainStatus,select.idDepartmenKf, select.reasonKf.idReasonDisabledItem,select.codeSearch,0,pagination.pageSizeSelected, false, true)" ng-model="select.codeSearch" placeholder="Presione Enter para Buscar...">
                                   </div>
                             </div>
-
                             <!-- Building Name-->
                             <div ng-if="sysLoggedUser.idProfileKf=='1' && (sysContent=='listKeys' || sysContent=='listKeysProcess')" class="form-group n-padding-l n-padding-r" ng-class="{'col-md-12': (select.filterCategoryKey==null || select.filterCategoryKey==undefined),'col-md-9':select.buildings.selected!=undefined && select.filterCategoryKey!=undefined && select.filterCategoryKey=='1'}" style="z-index: 1000;">
                                   <div class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-l n-padding-r" style="margin-bottom: 0 !important;">
