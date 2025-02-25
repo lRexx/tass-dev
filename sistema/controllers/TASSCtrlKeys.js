@@ -1885,7 +1885,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                 KeysServices.getKeychainList($scope.keychainSearch).then(function(response){
                     if(response.status==200){
                         for (var key in response.data.tb_keychain){
-                            if ((idKeychainStatusKf==null && response.data.tb_keychain[key].idKeychainStatusKf=="1") || (idKeychainStatusKf!=null && response.data.tb_keychain[key].idKeychainStatusKf==idKeychainStatusKf)){
+                            if ((idKeychainStatusKf==null) || (idKeychainStatusKf!=null && response.data.tb_keychain[key].idKeychainStatusKf==idKeychainStatusKf)){
                                 var Depto = response.data.tb_keychain[key].idCategoryKf!="1"?"-":response.data.tb_keychain[key].Depto
                                 $scope.list_building_keys.push({
                                     'Unidad': response.data.tb_keychain[key].categoryKeychain,
