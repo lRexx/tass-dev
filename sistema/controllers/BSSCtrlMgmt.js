@@ -1946,6 +1946,14 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
           function NaN2Zero(n){
             return isNaN( n ) ? 0 : n; 
           }
+            
+      $scope.resizeSlider = function(){
+        $('#accordion').on('shown.bs.collapse', function () {
+          setTimeout(function () {
+              $(window).trigger('resize');
+          }, 100);
+        });
+      }
     /**************************************************
     *                                                 *
     *            TICKETS MONITOR FUNCTION             *
@@ -1962,11 +1970,6 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $scope.getDeliveryCompaniesFn();
               $scope.getPaymentsTypeFn();
               $scope.getManualPaymentsTypeFn();
-              $('#accordion').on('shown.bs.collapse', function () {
-                setTimeout(function () {
-                    $(window).trigger('resize');
-                }, 100);
-              });
               switch ($scope.sysLoggedUser.idProfileKf){
                 case "1":
                     //$scope.listCompany=[];
