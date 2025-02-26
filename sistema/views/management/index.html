@@ -11,7 +11,7 @@
                     <div class="panel panel-default">
                     <div class="panel-heading">
                         <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="collapsed"><i class="fas fa-filter">&nbsp;</i>Fitlros</a>
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="collapsed"><i class="fas fa-filter">&nbsp;</i>Filtrar pedidos</a>
                         </h4>
                     </div>
                     <div id="collapse1" class="panel-collapse collapse">
@@ -325,7 +325,7 @@
                                 <div ng-if="sysLoggedUser.idProfileKf=='1'" class="row">
                                     <div ng-if="sysLoggedUser.idProfileKf" class="form-group col-md-12 col-xs-12">
                                         <legend style="text-align: left;">Cantidad de pedidos a mostrar</legend>
-                                        <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>
+                                        <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options" style="width: 100% !important; min-width: 200px; /* Adjust as needed */"></rzslider>
                                     </div>
                                     
                                 </div>
