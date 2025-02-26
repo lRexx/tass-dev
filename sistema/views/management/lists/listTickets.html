@@ -18,16 +18,13 @@
     </thead>
     <tbody>
         <tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in listTickt">
-        <td class="media-middle text-center" style="vertical-align: middle;" ng-click="switchCustomersFn('details_customer', item, 'show');">
-        	{{item.idTicket}}
-        </td>
-        <!--NAME -->
-        <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" style="vertical-align: middle;" ng-if="item.idClientTypeFk!=2 && item.idClientTypeFk!=4">{{item.codTicket}}</td>
+        <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" style="vertical-align: middle;" class="media-middle text-center">{{item.idTicket}}</td>
+        <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" style="vertical-align: middle;">{{item.codTicket}}</td>
         <!-- BUSINESS NAME -->
-        <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" style="vertical-align: middle;" ng-if="item.idClientTypeFk!=2 && item.idClientTypeFk!=4 && item.idClientTypeFk!=5">{{item.typeticket.TypeTicketName}}</td>
-        <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" style="vertical-align: middle;" ng-if="item.idClientTypeFk==2 || item.idClientTypeFk==4">{{item.building.address}}</td>
-        <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" style="vertical-align: middle;" ng-if="item.idClientTypeFk!=2 && item.idClientTypeFk!=4 && item.idClientTypeFk!=5">{{item.statusTicket.statusName}}</td>
-        <td ng-if="item.billing_information!=undefined && (item.idClientTypeFk==2 || item.idClientTypeFk==4 || item.idClientTypeFk==5)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" style="vertical-align: middle;">{{item.created_at}}</td>
+        <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" style="vertical-align: middle;">{{item.typeticket.TypeTicketName}}</td>
+        <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" style="vertical-align: middle;">{{item.building.address}}</td>
+        <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" style="vertical-align: middle;">{{item.statusTicket.statusName}}</td>
+        <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" style="vertical-align: middle;">{{item.created_at}}</td>
 
       </tr>
       <!-- Show if there is not ticket are registered -->
