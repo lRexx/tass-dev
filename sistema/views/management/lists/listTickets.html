@@ -19,7 +19,7 @@
           <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.typeticket.TypeTicketName}}</td>
           <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.building.address}}</td>
           <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.statusTicket.statusName}}</td>
-          <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.created_at | date:'dd/MM/yyyy'}}</td>
+          <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.created_at | toDate | date:'dd/MM/yyyy'}}</td>
         </tr>
       <!-- Show if there is not ticket are registered -->
       <tr ng-if="listTickt.length==0" >
