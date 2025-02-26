@@ -23,6 +23,16 @@ monitor.filter('toDate', function() {
     return new Date(items);
   };
 });
+monitor.run(function ($rootScope) {
+  function triggerResize() {
+    setTimeout(function () {
+        $(window).trigger('resize');
+    }, 100);
+  }
+  $rootScope.$on('$locationChangeSuccess', function () {
+      triggerResize();
+  });
+});
 monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $routeParams, $q, blockUI, $timeout, inform, ticketServices, DepartmentsServices, serviceServices, UtilitiesServices, addressServices, userServices, CustomerServices, tokenSystem, $window, $filter, serverHost, serverBackend, serverHeaders, APP_SYS){
   console.log(APP_SYS.app_name+" Modulo Gestion de pedidos");
     //console.log($scope.sysLoggedUser)
