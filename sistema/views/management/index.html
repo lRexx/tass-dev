@@ -601,15 +601,10 @@
                 </div>
             </div>
           </div>
-        <div class="col-md-10 col-xs-12 n-padding-l n-padding-r">
-          <div>
+        <div class="col-md-12 col-xs-12 n-padding-l n-padding-r">
             <div ng-if="sysContent=='home'" class="pull-left col-md-12 col-xs-12 n-padding-l n-padding-r">
-              <div ng-include="'views/buildings/home.html'"></div>
+              <div ng-include="'views/management/lists/listTickets.html'"></div>
             </div>
-            <div ng-if="(sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4') && sysContent=='administration'" class="pull-left col-md-12">
-              <div ng-include="'views/buildings/administration.html'"></div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
