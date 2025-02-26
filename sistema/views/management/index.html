@@ -1,5 +1,5 @@
 <!-- MANAGE REQUESTS-->
-<div class="col-md-12 n-padding-l n-padding-r">
+<div class="col-md-12 n-padding-l n-padding-r" ng-init="mainSwitchFn('dashboard', null);">
     <div class="panel panel-default padding-panel">
       <div class="panel-heading">
         <h3 class="panel-title">GESTION DE PEDIDOS </h3>
@@ -387,7 +387,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div ng-if="sysLoggedUser.idProfileKf=='1'"class="col-md-6" ng-class="
+                                    <div ng-if="sysLoggedUser.idProfileKf=='1' && noshowfornow"class="col-md-6" ng-class="
                                         {	'has-success': 
                                             filters.dateDeliveredFrom!='' && filtersTicket.dateDeliveredFrom.$valid,
                                         }">
@@ -445,7 +445,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-12 col-sm-12 col-xs-12"> 
+                                    <div ng-if="sysLoggedUser.idProfileKf=='1' && noshowfornow" class="col-md-12 col-sm-12 col-xs-12"> 
                                         <!-- EXPORT GENERAL EXCEL LIST -->
                                         <div ng-click="mainSwitchFn('exportExcelList', listTickt, null)" class="col-md-3" data-toggle="tooltip" data-placement="bottom"  title="Listado general" style="margin-bottom: 1em;">
                                             <div class="card-customer">
