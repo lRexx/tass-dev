@@ -1951,6 +1951,11 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
     *            TICKETS MONITOR FUNCTION             *
     *                                                 *
     **************************************************/
+      $('#accordion').on('shown.bs.collapse', function () {
+        setTimeout(function () {
+            $(window).trigger('resize');
+        }, 100);
+      });
       $scope.showCalender = false;
       $scope.monitor={'filters':{},'update':{},'edit':{}};
       $scope.filters={'paymentsType':'', 'typDelivery':'', 'ticketStatus':'', 'typeTicket':'', 'deliveryCompanyKf':'','isPaymentSucceeded': false,'isBillingInitiated':false, 'isHasRefundsOpen':false, 'isInitialDeliveryActive': false,};
@@ -1962,6 +1967,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $scope.getDeliveryCompaniesFn();
               $scope.getPaymentsTypeFn();
               $scope.getManualPaymentsTypeFn();
+
               switch ($scope.sysLoggedUser.idProfileKf){
                 case "1":
                     //$scope.listCompany=[];
