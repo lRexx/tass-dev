@@ -89,45 +89,6 @@
                                 <span ng-if="tkupdate.idTypeDeliveryKf=='2'">Entrega realizada: </span>
                                 <span>{{ tkupdate.delivered_at | toDate | date:'dd-MM-yyyy' }}</span></div>
                             </div>
-                            <div  class="col-md-12 col-xs-12">
-                              <legend style="text-align: left;">Costos</legend>
-                              <div class="col-md-3 col-xs-3 text-center">
-                                <div class="col">
-                                  <div class="counter-ticket">
-                                    <!-- <i class="fas fa-handshake fa-lg fa-ticket-2x"></i>-->
-                                    <h2 class="timer count-ticket-title count-number" data-to="100" data-speed="1500">$ {{tkupdate.costService  | number:0}}</h2>
-                                    <p class="count-ticket-text ">Gestion</p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-md-3 col-xs-3 text-center">
-                                <div class="col">
-                                  <div class="counter-ticket">
-                                    <!-- <i class="fas fa-key fa-lg fa-ticket-2x"></i>-->
-                                    <h2 class="timer count-ticket-title count-number" data-to="100" data-speed="1500">$ {{tkupdate.costKeys  | number:0}}</h2>
-                                    <p class="count-ticket-text ">Llaveros</p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-md-3 col-xs-3 text-center">
-                                <div class="col">
-                                  <div class="counter-ticket">
-                                    <!-- <i class="fas fa-truck fa-lg fa-ticket-2x"></i>-->
-                                    <h2 class="timer count-ticket-title count-number" data-to="100" data-speed="1500">$ {{tkupdate.costDelivery  | number:0}}</h2>
-                                    <p class="count-ticket-text ">Envío</p>
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-md-3 col-xs-3 text-center">
-                                <div class="col">
-                                  <div class="counter-ticket">
-                                    <!-- <i class="fas fa-file-invoice-dollar fa-lg fa-ticket-2x"></i>-->
-                                    <h2 class="timer count-ticket-title count-number" data-to="100" data-speed="1500">$ {{tkupdate.total  | number:0}}</h2>
-                                    <p class="count-ticket-text ">Total</p>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
                             <div ng-if="tkupdate.billingReceiptDetails.length>0" class="col-md-12 col-xs-12" style="margin-top: 20px;">
                               <legend style="text-align: left;">Factura</legend>
                                 <ul class="file-list file-list-5">
