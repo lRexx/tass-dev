@@ -13,13 +13,13 @@
     </thead>
     <tbody>
         <tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in listTickt">
-          <td ng-click="mainSwitchFn('openTicket', item, null) ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;" class="media-middle text-center">{{item.idTicket}}</td>
-          <td ng-click="mainSwitchFn('openTicket', item, null) ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.codTicket}}</td>
+          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;" class="media-middle text-center">{{item.idTicket}}</td>
+          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.codTicket}}</td>
           <!-- BUSINESS NAME -->
-          <td ng-click="mainSwitchFn('openTicket', item, null) ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.typeticket.TypeTicketName}}</td>
-          <td ng-click="mainSwitchFn('openTicket', item, null) ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.building.address}}</td>
-          <td ng-click="mainSwitchFn('openTicket', item, null) ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.statusTicket.statusName}}</td>
-          <td ng-click="mainSwitchFn('openTicket', item, null) ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.created_at | toDate | date:'dd/MM/yyyy'}}</td>
+          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.typeticket.TypeTicketName}}</td>
+          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.building.address}}</td>
+          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.statusTicket.statusName}}</td>
+          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.created_at | toDate | date:'dd/MM/yyyy'}}</td>
         </tr>
       <!-- Show if there is not ticket are registered -->
       <tr ng-if="listTickt.length==0" >
