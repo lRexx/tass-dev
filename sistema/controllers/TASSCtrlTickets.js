@@ -1039,7 +1039,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
         *                                                 *|
         **************************************************/
             $scope.sysCheck4Duplicates = function(value, opt){
-                if(!APP_REGEX.check8Numeric(value)){
+                if(!APP_REGEX.check8Numeric.test(value)){
                     //console.log($scope.users.update.mail);
                     //console.log(value);
                     //console.log(opt);
