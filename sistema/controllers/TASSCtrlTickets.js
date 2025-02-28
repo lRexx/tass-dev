@@ -1039,7 +1039,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
         *                                                 *|
         **************************************************/
             $scope.sysCheck4Duplicates = function(value, opt){
-                if(APP_REGEX.check8Numeric.test(value)){
+                if(value){
                     //console.log($scope.users.update.mail);
                     //console.log(value);
                     //console.log(opt);
@@ -1048,12 +1048,19 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         ((($scope.attendant.new!=undefined && $scope.attendant.tmp.dni!=value && opt=="dni") || ($scope.attendant.new!=undefined && $scope.attendant.tmp.mail!=value && opt=="mail")) ||
                         (($scope.attendant.update!=undefined && $scope.attendant.tmp.dni!=value && opt=="dni") || ($scope.attendant.update!=undefined && $scope.attendant.tmp.mail!=value && opt=="mail")))
                         ){
-                        userServices.findUserByEmail(value).then(function(response) {
-                            console.log(response.data);
-                            console.log($scope.tenant.new);
-                            if(response.status==200){
-                                if(APP_REGEX.checkDNI.test(value)){
-                                    $scope.sysDNIRegistered=true;
+                        if((APP_REGEX.check8Numeric.test(value) && APP_REGEX.checkDNI.test(value) && opt=="dni") || (APP_REGEX.checkEmail.test(value) && opt=="mail")){
+                            userServices.findUserByEmail(value).then(function(response) {
+                                console.log(response.data);
+                                console.log($scope.tenant.new);
+                                if(response.status==200){
+                                    switch (opt){
+                                        case "dni":
+                                            $scope.sysDNIRegistered=true;
+                                        break;
+                                        case "mail":
+                                            $scope.sysEmailRegistered=true;
+                                        break;
+                                    }
                                     //console.log(response.data[0].fullNameUser);
                                     if ($scope.isNewTenant && $scope.tenant.new.idTypeTenantKf!="1"){
                                         $scope.tenant.new.dni=undefined;
@@ -1066,25 +1073,33 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         $scope.tenant.new.phonelocalNumberUser = response.data[0].phoneLocalNumberUser;
                                     }
                                     $scope.attendant.new.dni=undefined;
+                                }else if (response.status==404){
+                                    switch (opt){
+                                        case "dni":
+                                            $scope.sysDNIRegistered=false;
+                                        break;
+                                        case "mail":
+                                            $scope.sysEmailRegistered=false;
+                                        break;
+                                    }
                                 }
-                                if(APP_REGEX.checkEmail.test(value)){
-                                    $scope.sysEmailRegistered=true;
-                                }
-                            }else if (response.status==404){
-                                if(APP_REGEX.checkDNI.test(value)){
-                                    $scope.sysDNIRegistered=false;
-                                }
-                                if(APP_REGEX.checkEmail.test(value)){
-                                    $scope.sysEmailRegistered=false;
-                                }
+                            });
+                        }else{
+                            switch (opt){
+                                case "dni":
+                                    inform.add('El documento ingresado no es valido por favor verifique que el número ingresado sea correcto.',{
+                                        ttl:30000, type: 'danger'
+                                    });
+                                    $scope.tenant.new.dni=undefined;
+                                break;
+                                case "mail":
+                                    inform.add('La dirección de correo ingresada no es valida por favor verifique que la dirección sea correcta.',{
+                                        ttl:30000, type: 'warning'
+                                    });
+                                break;
                             }
-                        });
+                        }
                     }
-                }else{
-                    inform.add('El documento ingresado no es valido por favor verifique que el número ingresado sea correcto.',{
-                        ttl:30000, type: 'danger'
-                    });
-                    $scope.tenant.new.dni=undefined;
                 }
             }
         /**************************************************
