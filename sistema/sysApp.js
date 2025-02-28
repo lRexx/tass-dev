@@ -231,6 +231,7 @@ app.constant('BSS',{
 app.constant('APP_REGEX',{
     'checkEmail':/^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/,
     'checkDNI': /^\d{8}(?:[-\s]\d{4})?$/,
+    'check8Numeric': /^(?!00000000$)\d{8}$/
 })
 app.controller('AppCtrl', function($scope, $location, $window, tokenSystem, APP_SYS, BSS){
     console.log("App "+APP_SYS.app_name);

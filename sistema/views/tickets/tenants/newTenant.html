@@ -64,7 +64,7 @@
                             <div class="col-xs-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                    <input name="emailUser" ng-blur="sysCheck4Duplicates(tenant.new.mail, 'mail');" placeholder="E-Mail" class="form-control" ng-model="tenant.new.mail"  type="email" ng-disable="sysDNIRegistered" required autofocus />
+                                    <input name="emailUser" ng-blur="sysCheck4Duplicates(tenant.new.mail, 'mail');" placeholder="E-Mail" class="form-control" ng-model="tenant.new.mail"  type="email" ng-disabled="sysDNIRegistered" required autofocus />
                                 </div>
                             </div>
                     </div>
@@ -107,7 +107,7 @@
                         <div class="col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input name="fullname" placeholder="Nombres y Apellidos" class="form-control" ng-model="tenant.new.fullname" type="text" ng-disable="sysDNIRegistered" required autofocus />
+                                <input name="fullname" placeholder="Nombres y Apellidos" class="form-control" ng-model="tenant.new.fullname" type="text" ng-disabled="sysDNIRegistered" required autofocus />
                             </div>
                         </div>
                     </div>
@@ -133,7 +133,7 @@
                         <div class="col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                                <input name="phoneLocal" ng-minlength="8" class="form-control input--phone" ng-model="tenant.new.phonelocalNumberUser" type="text" autofocus  ng-keydown="fnLoadPhoneMask();" ng-disable="sysDNIRegistered" ng-required="tenant.new.phoneMovilNumberUser==''" />
+                                <input name="phoneLocal" ng-minlength="8" class="form-control input--phone" ng-model="tenant.new.phonelocalNumberUser" type="text" autofocus  ng-keydown="fnLoadPhoneMask();" ng-disabled="sysDNIRegistered" ng-required="tenant.new.phoneMovilNumberUser==''" />
                             </div>
                         </div>
                     </div>
@@ -150,7 +150,7 @@
                         <div class="col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
-                                <input name="phoneMovil" ng-minlength="8" class="form-control input--phone" ng-model="tenant.new.phoneMovilNumberUser"  type="text"  ng-keydown="fnLoadPhoneMask();" ng-disable="sysDNIRegistered" ng-required="tenant.new.phonelocalNumberUser==''" autofocus />
+                                <input name="phoneMovil" ng-minlength="8" class="form-control input--phone" ng-model="tenant.new.phoneMovilNumberUser"  type="text"  ng-keydown="fnLoadPhoneMask();" ng-disabled="sysDNIRegistered" ng-required="tenant.new.phonelocalNumberUser==''" autofocus />
                             </div>
                         </div>
                     </div>
