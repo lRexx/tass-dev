@@ -799,6 +799,15 @@ input.fileUpload{
    z-index: 999;
 }
 
+
+/***********************************/
+/*        Management module        */
+/***********************************/
+.clickable-header {
+  cursor: pointer; /* Change cursor to pointer to indicate clickability */
+  padding: 10px; /* Add padding for better click area */
+}
+
 /***********************************/
 /*  contract services panel size   */
 /***********************************/

@@ -167,6 +167,16 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
       });
     };
 
+    $('.clickable-header').on('click', function (event) {
+      // Prevent the default behavior (if it's an anchor tag)
+      event.preventDefault();
+  
+      // Get the target collapse element from the data-target attribute
+      var target = $(this).attr('data-target');
+  
+      // Manually toggle the collapse state using Bootstrap's collapse method
+      $(target).collapse('toggle');
+    });
     /************************************************************
     *                                                           *
     *   PARAMETER TO RECEIVED THE PAYMENT FROM MERCADO PAGO     *
