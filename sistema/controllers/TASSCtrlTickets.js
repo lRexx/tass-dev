@@ -1042,7 +1042,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 if(value){
                     //console.log($scope.users.update.mail);
                     //console.log(value);
-                    //console.log(opt);
+                    console.log(opt);
                     if (((($scope.tenant.new!=undefined && $scope.tenant.new.dni!="" && opt=="dni") || ($scope.tenant.new!=undefined && $scope.tenant.new.mail!="" && opt=="mail")) || 
                         (($scope.tenant.update!=undefined && $scope.tenant.tmp.dni!=value && opt=="dni") || ($scope.tenant.update!=undefined && $scope.tenant.tmp.mail!=value && opt=="mail"))) ||
                         ((($scope.attendant.new!=undefined && $scope.attendant.tmp.dni!=value && opt=="dni") || ($scope.attendant.new!=undefined && $scope.attendant.tmp.mail!=value && opt=="mail")) ||
@@ -1056,21 +1056,21 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     switch (opt){
                                         case "dni":
                                             $scope.sysDNIRegistered=true;
+                                            if ($scope.isNewTenant && $scope.tenant.new.idTypeTenantKf=="1"){
+                                                $scope.tenant.new.idUser = response.data[0].idUser;
+                                                $scope.tenant.new.fullname = response.data[0].fullNameUser;
+                                                $scope.tenant.new.dni = response.data[0].dni;
+                                                $scope.tenant.new.mail = response.data[0].emailUser;
+                                                $scope.tenant.new.phoneMovilNumberUser = response.data[0].phoneNumberUser;
+                                                $scope.tenant.new.phonelocalNumberUser = response.data[0].phoneLocalNumberUser;
+                                            }
                                         break;
                                         case "mail":
                                             $scope.sysEmailRegistered=true;
+                                            if ($scope.isNewTenant && $scope.tenant.new.idTypeTenantKf!="1"){
+                                                $scope.tenant.new.dni=undefined;
+                                            }
                                         break;
-                                    }
-                                    //console.log(response.data[0].fullNameUser);
-                                    if ($scope.isNewTenant && $scope.tenant.new.idTypeTenantKf!="1"){
-                                        $scope.tenant.new.dni=undefined;
-                                    }else{
-                                        $scope.tenant.new.idUser = response.data[0].idUser;
-                                        $scope.tenant.new.fullname = response.data[0].fullNameUser;
-                                        $scope.tenant.new.dni = response.data[0].dni;
-                                        $scope.tenant.new.mail = response.data[0].emailUser;
-                                        $scope.tenant.new.phoneMovilNumberUser = response.data[0].phoneNumberUser;
-                                        $scope.tenant.new.phonelocalNumberUser = response.data[0].phoneLocalNumberUser;
                                     }
                                     $scope.attendant.new.dni=undefined;
                                 }else if (response.status==404){
