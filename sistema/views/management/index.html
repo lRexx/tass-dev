@@ -322,13 +322,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col-md-12 col-xs-12">
-                                        <legend style="text-align: left;">Cantidad de pedidos a mostrar</legend>
-                                        <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options" style="width: 100% !important; min-width: 200px; /* Adjust as needed */"></rzslider>
-                                    </div>
-                                    
-                                </div>
                                 <!-- Dates filters -->
                                 <div class="row" >
                                     <div class="col-md-6" >
@@ -601,6 +594,12 @@
                 </div>
             </div>
           </div>
+        <div class="row">
+            <div class="form-group col-md-12 col-xs-12">
+                <legend style="text-align: left;">Cantidad de pedidos a mostrar</legend>
+                <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options" style="width: 100% !important; min-width: 200px; /* Adjust as needed */"></rzslider>
+            </div>
+        </div>
         <div class="col-md-12 col-xs-12 n-padding-l n-padding-r">
             <div class="container-fluid">
               <div ng-include="'views/management/lists/listTickets.html'"></div>
