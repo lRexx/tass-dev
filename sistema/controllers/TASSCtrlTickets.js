@@ -1074,9 +1074,13 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     }
                                     $scope.attendant.new.dni=undefined;
                                 }else if (response.status==404){
+                                    $scope.tenant.new.fullname              = "";
+                                    $scope.tenant.new.phoneMovilNumberUser  = "";
+                                    $scope.tenant.new.phonelocalNumberUser  = "";
                                     switch (opt){
                                         case "dni":
                                             $scope.sysDNIRegistered=false;
+                                            $scope.tenant.new.mail          = "";
                                         break;
                                         case "mail":
                                             $scope.sysEmailRegistered=false;
