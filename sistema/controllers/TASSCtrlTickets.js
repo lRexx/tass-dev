@@ -1107,12 +1107,15 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         ttl:30000, type: 'danger'
                                     });
                                     $scope.tenant.new.dni = undefined;
+                                    $scope.tenant.new.mail = undefined;
+                                    $scope.sysDNIRegistered   = false;
                                 break;
                                 case "mail":
                                     inform.add('La dirección de correo ingresada no es valida por favor verifique que la dirección sea correcta.',{
                                         ttl:30000, type: 'warning'
                                     });
                                     $scope.tenant.new.mail = undefined;
+                                    $scope.sysEmailRegistered=false;
                                 break;
                             }
                         }
