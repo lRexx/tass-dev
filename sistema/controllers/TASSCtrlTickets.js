@@ -1097,17 +1097,21 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 }
                             });
                         }else{
+                            $scope.tenant.new.fullname              = "";
+                            $scope.tenant.new.phoneMovilNumberUser  = "";
+                            $scope.tenant.new.phonelocalNumberUser  = "";
                             switch (opt){
                                 case "dni":
                                     inform.add('El documento ingresado no es valido por favor verifique que el número ingresado sea correcto.',{
                                         ttl:30000, type: 'danger'
                                     });
-                                    $scope.tenant.new.dni=undefined;
+                                    $scope.tenant.new.dni = undefined;
                                 break;
                                 case "mail":
                                     inform.add('La dirección de correo ingresada no es valida por favor verifique que la dirección sea correcta.',{
                                         ttl:30000, type: 'warning'
                                     });
+                                    $scope.tenant.new.mail = undefined;
                                 break;
                             }
                         }
