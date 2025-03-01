@@ -1058,6 +1058,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     switch (opt){
                                         case "dni":
                                             $scope.sysDNIRegistered=true;
+                                            inform.add('La número de documeto ya se encuentra registrado, Verifique por favor los datos en pantalla, si desea asociarlo tambien a este departamento, para completar el proceso haga click en el boton Asociar.',{
+                                                ttl:30000, type: 'warning'
+                                            });
                                             if ($scope.isNewTenant && $scope.tenant.new.idTypeTenantKf=="1"){
                                                 $scope.tenant.new.idUser = response.data[0].idUser;
                                                 $scope.tenant.new.fullname = response.data[0].fullNameUser;
@@ -1069,7 +1072,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         break;
                                         case "mail":
                                             inform.add('La dirección de correo ingresada ya se encuentra registrada, sin embargo puede registrar un nuevo usuario con una dirección de correo existente.',{
-                                                ttl:30000, type: 'info'
+                                                ttl:30000, type: 'warning'
                                             });
                                             $scope.sysEmailRegistered=true;
                                             if ($scope.isNewTenant && $scope.tenant.new.idTypeTenantKf!="1"){
