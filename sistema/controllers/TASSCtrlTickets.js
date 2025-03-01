@@ -1066,6 +1066,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                             }
                                         break;
                                         case "mail":
+                                            inform.add('La dirección de correo ingresada ya se encuentra registrada, sin embargo puede registrar un nuevo usuario con una dirección de correo existente.',{
+                                                ttl:30000, type: 'info'
+                                            });
                                             $scope.sysEmailRegistered=true;
                                             if ($scope.isNewTenant && $scope.tenant.new.idTypeTenantKf!="1"){
                                                 $scope.tenant.new.dni=undefined;
