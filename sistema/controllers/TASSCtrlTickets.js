@@ -1039,8 +1039,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
         *                                                 *|
         **************************************************/
             $scope.sysCheck4Duplicates = function(value, opt){
-                $scope.sysDNIRegistered=false;
-                $scope.sysEmailRegistered=false;
+                console.log("$scope.sysDNIRegistered  : "+$scope.sysDNIRegistered);
+                console.log("$scope.sysEmailRegistered: "+$scope.sysEmailRegistered);
                 if(value){
                     //console.log($scope.users.update.mail);
                     //console.log(value);
