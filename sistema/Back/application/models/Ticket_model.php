@@ -2762,20 +2762,19 @@ class Ticket_model extends CI_Model
 	public function buscar_relaciones_ticket($todo)
 	{
 		//var_dump($todo);
+		$quuery  = $this->db->select("*")->from("tb_statusticket")->get();
+		foreach (@$quuery->result_array() as $item => $status) {
+			print_r(" id: ".strval($status['idStatus'])." status: ".str_replace(' ', '_', $status['statusName'])."\n");
+			$this->db->select("*")->from("tb_tickets");
+			$this->db->where("idStatusTicketKf", strval($status['idStatus']));
+			$count = $this->db->count_all_results();
+			// Replace spaces with underscores
+			$name_status = str_replace(' ', '_', $status['statusName']);
+			$todo['dashboard'][$name_status] = @$count;
+		}
 		foreach ($todo as $key => $ticket) {
 			//print_r($ticket['idTypeRequestFor']);
 			//print_r($ticket['idTypeRequestFor']);
-
-			$quuery  = $this->db->select("*")->from("tb_statusticket")->get();
-			foreach (@$quuery->result_array() as $item => $status) {
-				print_r(" id: ".strval($status['idStatus'])." status: ".str_replace(' ', '_', $status['statusName'])."\n");
-				$this->db->select("*")->from("tb_tickets");
-				$this->db->where("idStatusTicketKf", strval($status['idStatus']));
-				$count = $this->db->count_all_results();
-				// Replace spaces with underscores
-				$name_status = str_replace(' ', '_', $status['statusName']);
-				$todo['dashboard'][$name_status] = @$count;
-			}
 			$this->db->select("*")->from("tb_category_keychain");
 			$quuery                       = $this->db->where("idCategory = " , @$ticket['idTypeRequestFor'])->get();
 			$todo[$key]['typeRequestFor'] = @$quuery->result_array()[0];
