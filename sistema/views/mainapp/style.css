@@ -1555,22 +1555,22 @@ input.fileUpload{
   
 }
 .i-success{
-  color: #5cb85c;
+  color: #5cb85c !important;
 }
 .i-warning{
-  color: #f0ad4e;
+  color: #f0ad4e !important;
 }
 .i-danger{
-  color: #d9534f;
+  color: #d9534f !important;
 }
 .i-default{
-  color: #337ab7;
+  color: #337ab7 !important;
 }
 .i-disable{
-  color: #777;
+  color: #777 !important;
 }
 .i-cancel{
-  color:#dc3545!important;
+  color:#dc3545 !important;
 }
 
 
