@@ -3866,7 +3866,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                       //  }
                       //  console.log($scope.listTickt);
                       }else{
-                        $scope.listTickt  = response.data.response;
+                        $scope.listTickt  = response.data.response.tickets;
                       }
                       
                         $scope.totalTickets = $scope.listTickt.length;

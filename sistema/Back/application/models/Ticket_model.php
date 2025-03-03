@@ -3001,7 +3001,8 @@ class Ticket_model extends CI_Model
 				}
 			}
 		}
-		$todo['dashboard']=$dashboard['dashboard'];
+		$todo['tickets'] 	= $todo;
+		$todo['dashboard']	= $dashboard['dashboard'];
 		return $todo;
 	}
 
