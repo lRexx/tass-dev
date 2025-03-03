@@ -2761,8 +2761,9 @@ class Ticket_model extends CI_Model
 	}
 	public function buscar_relaciones_ticket($todo)
 	{
-		//var_dump($todo);
+		var_dump($todo);
 		$rs_tickets['tickets']=$todo;
+		var_dump($rs_tickets['tickets']);
 		$quuery  = $this->db->select("*")->from("tb_statusticket")->get();
 		$dashboard['dashboard']['total'] = null;
 		foreach (@$quuery->result_array() as $status) {
@@ -2872,7 +2873,7 @@ class Ticket_model extends CI_Model
 			$quuery             = $this->db->where("idTicketKf = " , @$ticket['idTicket'])->get();
 			$todo['tickets'][$key]['keys'] = @$quuery->result_array();
 				$i=0;
-				foreach ($todo['tickets'][$key]['keys'] as $item => $keychain) {
+				foreach ($todo['tickets'][$key]['keys'] as $keychain) {
 					$idKeyChain = $keychain['id'];
 					$this->db->select("tb_contratos.idContrato, tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_access_control_door.*, tb_ticket_keychain_doors.*")->from("tb_ticket_keychain_doors");
 					$this->db->join('tb_ticket_keychain' , 'tb_ticket_keychain.id = tb_ticket_keychain_doors.idTicketKeychainKf' , 'left');
