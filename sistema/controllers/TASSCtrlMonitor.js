@@ -3823,7 +3823,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 $scope.listTickt = [];
                 ticketServices.all(filter).then(function(response){
                   if(response.status==200){
-                      $scope.listTicktTmp =  response.data.response;
+                      $scope.listTicktTmp =  response.data.response.tickets;
                       if (filter.isInitialDeliveryActive==1){ //isInitialDeliveryActive
                         for(var i=0;i<$scope.listTicktTmp.length;i++){
                             //console.log($scope.listTicktTmp[i].building.isInitialDeliveryActive.length);
@@ -3846,7 +3846,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                       //  }
                       //  console.log($scope.listTickt);
                       }else{
-                        $scope.listTickt    =  response.data.response;
+                        $scope.listTickt  = response.data.response.tickets;
                       }
                       
                       $scope.totalTickets = $scope.listTickt.length;
