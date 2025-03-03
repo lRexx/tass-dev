@@ -2769,7 +2769,7 @@ class Ticket_model extends CI_Model
 			$quuery                     = $this->db->select("*")->from("tb_statusticket")->get();
 			foreach (@$quuery->result_array()[0] as $item => $status) {
 				$this->db->select("*")->from("tb_tickets");
-				$this->db->where("idStatusTicketKf", $status['idStatusTicket']);
+				$this->db->where("idStatusTicketKf", $status['idStatus']);
 				$count = $this->db->count_all_results();
 				$todo[$key]['dashboard'][@$status['statusName']] = @$count;
 			}
