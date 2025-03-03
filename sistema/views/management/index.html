@@ -10,10 +10,10 @@
             <div class="col-md-2 col-sm-2 col-xs-4">
                 <div class="col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="bottom" title="PEDIDOS TOTALES" ng-click="">
                     <div class="depto-icon">
-                        <span><i class="default-sys-color fas fa-file-invoice"></i></span>
+                        <span class="registered-customer badge badge-success"> {{dashboard.tickets.total}} </span>
                     </div>
                     <div class="text-badge">
-                        <span class="registered-customer badge badge-light"> PEDIDOS TOTALES </span>&nbsp;<span class="registered-customer badge badge-success"> {{dashboard.tickets.total}} </span>
+                        <span class="registered-customer badge badge-light"> PEDIDOS TOTALES </span>
                     </div>
                 </div>
             </div>
@@ -21,10 +21,10 @@
             <div class="col-md-2 col-sm-2 col-xs-4">
                 <div class="col-xs-12 depto-widget well well-md well-warning" data-toggle="tooltip" data-placement="bottom" title="PEDIDOS PENDIENTE APROBACIÓN" ng-click="">
                     <div class="depto-icon">
-                        <span><i class="i-warning fas fa-file-invoice"></i></span>
+                        <span class="registered-customer badge badge-warning"> {{dashboard.tickets.approval_pending}} </span>
                     </div>
                     <div class="text-badge">
-                        <span class="registered-customer badge badge-light"> PENDIENTE APROBACIÓN </span>&nbsp;<span class="registered-customer badge badge-warning"> {{dashboard.tickets.approval_pending}} </span>
+                        <span class="registered-customer badge badge-light"> PENDIENTE APROBACIÓN </span>
                     </div>
                 </div>
             </div>
@@ -32,10 +32,10 @@
             <div class="col-md-2 col-sm-2 col-xs-4">
                 <div class="col-xs-12 depto-widget well well-md well-warning" data-toggle="tooltip" data-placement="bottom" title="PEDIDOS PENDIENTE PAGO" ng-click="">
                     <div class="depto-icon">
-                        <span><i class="i-warning fas fa-money-bill"></i></span>
+                        <span class="registered-customer badge badge-warning"> {{dashboard.tickets.pyment_pending}} </span>
                     </div>
                     <div class="text-badge">
-                        <span class="registered-customer badge badge-light"> PENDIENTE PAGO </span>&nbsp;<span class="registered-customer badge badge-warning"> {{dashboard.tickets.pyment_pending}} </span>
+                        <span class="registered-customer badge badge-light"> PENDIENTE PAGO </span>
                     </div>
                 </div>
             </div>
@@ -43,10 +43,10 @@
             <div class="col-md-2 col-sm-2 col-xs-4">
                 <div class="col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="bottom" title="PEDIDOS EN PREPARACIÓN" ng-click="">
                     <div class="depto-icon">
-                        <span><i class="default-sys-color fas fa-box-open"></i></span>
+                        <span class="registered-customer badge badge-success"> {{dashboard.tickets.in_progress}} </span>
                     </div>
                     <div class="text-badge">
-                        <span class="registered-customer badge badge-light"> EN PREPARACIÓN </span>&nbsp;<span class="registered-customer badge badge-success"> {{dashboard.tickets.in_progress}} </span>
+                        <span class="registered-customer badge badge-light"> EN PREPARACIÓN </span>
                     </div>
                 </div>
             </div>
@@ -54,10 +54,10 @@
             <div class="col-md-2 col-sm-2 col-xs-4">
                 <div class="col-xs-12 depto-widget well well-md well-warning" data-toggle="tooltip" data-placement="bottom" title="PEDIDOS DE ENVÍO" ng-click="">
                     <div class="depto-icon">
-                        <span><i class="i-warning fas fa-truck-loading"></i></span>
+                        <span class="registered-customer badge badge-warning"> {{dashboard.tickets.delivery_pending}} </span>
                     </div>
                     <div class="text-badge">
-                        <span class="registered-customer badge badge-light"> EN RUTA  </span>&nbsp;<span class="registered-customer badge badge-warning"> {{dashboard.tickets.delivery_pending}} </span>
+                        <span class="registered-customer badge badge-light"> EN RUTA  </span>
                     </div>
                 </div>
             </div>
@@ -65,10 +65,10 @@
             <div class="col-md-2 col-sm-2 col-xs-4">
                 <div class="col-xs-12 depto-widget well well-md well-success" data-toggle="tooltip" data-placement="bottom" title="PEDIDOS COMPLETADOS" ng-click="">
                     <div class="depto-icon">
-                        <span><i class="i-success fas fa-check-circle"></i></span>
+                        <span class="registered-customer badge badge-success"> {{dashboard.tickets.completed}} </span>
                     </div>
                     <div class="text-badge">
-                        <span class="registered-customer badge badge-light"> COMPLETADOS  </span>&nbsp;<span class="registered-customer badge badge-success"> {{dashboard.tickets.completed}} </span>
+                        <span class="registered-customer badge badge-light"> COMPLETADOS  </span>
                     </div>
                 </div>
             </div>
