@@ -2766,12 +2766,13 @@ class Ticket_model extends CI_Model
 		$dashboard['dashboard']['total'] = null;
 		foreach (@$quuery->result_array() as $status) {
 			//print_r(" id: ".strval($status['idStatus'])." status: ".str_replace(' ', '_', $status['statusName'])."\n");
-			$this->db->select("*")->from("tb_tickets_2");
 			if (is_null($dashboard['dashboard']['total'])){
-				$query_dash = $this->db->get();
-				$count = $query_dash->num_rows();
+				$this->db->select("*")->from("tb_tickets_2");
+				$query_total = $this->db->get();
+				$count = $query_total->num_rows();
 				$dashboard['dashboard']['total']=$count;
 			}
+			$this->db->select("*")->from("tb_tickets_2");
 			$this->db->where("idStatusTicketKf", (int)$status['idStatus']);
 			$query_dash = $this->db->get();
 			$count = $query_dash->num_rows();
