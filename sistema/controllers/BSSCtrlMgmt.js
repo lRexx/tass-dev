@@ -678,7 +678,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
     **************************************************/
       $scope.rsContractsListByCustomerIdData=[];
       $scope.rsContractNotFound=false;
-      $scope.getContractsByCustomerIdFn=function(idClient, opt){
+      $scope.getContractsByCustomerIdFn=function(idClient){
           $scope.rsContractsListByCustomerIdData=[];
           ContractServices.getContractListByCustomerId(idClient).then(function(data){
               $scope.rsJsonData = data;
@@ -686,7 +686,6 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               if($scope.rsJsonData.status==200){
                 $scope.rsContractNotFound=false;
                 $scope.rsContractsListByCustomerIdData=$scope.rsJsonData.data;
-                if(opt=="assign"){$scope.customerFound.contratos=$scope.rsContractsListByCustomerIdData;}
               }else{
                 $scope.rsContractsListByCustomerIdData=[];
                 $scope.rsContractNotFound=true;
@@ -715,7 +714,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
             if(response.status==200){
               $scope.rsData.ticket = (response.data[0]);
               $scope.tkupdate = response.data[0];
-              $scope.getContractsByCustomerIdFn($scope.tkupdate.idClient,'assign');
+              $scope.getContractsByCustomerIdFn($scope.tkupdate.idClient);
               console.log($scope.rsData);
             }else if (response.status==404){
                 $scope.rsData = {};
