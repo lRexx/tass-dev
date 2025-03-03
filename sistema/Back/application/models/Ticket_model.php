@@ -2762,7 +2762,7 @@ class Ticket_model extends CI_Model
 	public function buscar_relaciones_ticket($todo)
 	{
 		//var_dump($todo);
-		$rs_tickets=null;
+		$rs_tickets['tickets']=$todo;
 		$quuery  = $this->db->select("*")->from("tb_statusticket")->get();
 		$dashboard['dashboard']['total'] = null;
 		foreach (@$quuery->result_array() as $status) {
