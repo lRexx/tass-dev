@@ -3869,6 +3869,17 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                         $scope.listTickt  = response.data.response.tickets;
                       }
                         console.log($scope.listTickt);
+                        $scope.dashboard = {'tickets':{}};
+                        $scope.dashboard.tickets.total              = response.data.response.dashboard.total;
+                        $scope.dashboard.tickets.approval_pending   = response.data.response.dashboard.Aprobación_Pendiente;
+                        $scope.dashboard.tickets.canceled           = response.data.response.dashboard.Cancelado;
+                        $scope.dashboard.tickets.completed          = response.data.response.dashboard.Entregado;
+                        $scope.dashboard.tickets.pyment_pending     = response.data.response.dashboard.Pago_Pendiente;
+                        $scope.dashboard.tickets.in_progress        = response.data.response.dashboard.En_preparacion;
+                        $scope.dashboard.tickets.delivery_pending   = response.data.response.dashboard.Pendiente_de_envio;
+                        $scope.dashboard.tickets.in_transit         = response.data.response.dashboard.En_Ruta;
+                        $scope.dashboard.tickets.pickup_ready       = response.data.response.dashboard.Listo_para_Retirar;
+                        $scope.dashboard.tickets.canceled           = response.data.response.dashboard.Cancelado;
                         $scope.totalTickets = $scope.listTickt.length;
 
                   }else if (response.status==404){
