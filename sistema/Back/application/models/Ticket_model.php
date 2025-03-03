@@ -2781,7 +2781,7 @@ class Ticket_model extends CI_Model
 			$name_status = str_replace(' ', '_', $status['statusName']);
 			$dashboard['dashboard'][$name_status] = @$count;
 		}
-		foreach ($todo as $key => $ticket) {
+		foreach ($rs_tickets['tickets'] as $key => $ticket) {
 			//print_r($ticket['idTypeRequestFor']);
 			//print_r($ticket['idTypeRequestFor']);
 			$this->db->select("*")->from("tb_category_keychain");
