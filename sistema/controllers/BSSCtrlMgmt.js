@@ -712,6 +712,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
         $scope.editComment=false;
         ticketServices.ticketById(idTicket).then(function(response){
             if(response.status==200){
+              console.log(response.data[0]);
               $scope.rsData.ticket = (response.data[0]);
               $scope.tkupdate = response.data[0];
               $scope.getContractsByCustomerIdFn($scope.tkupdate.idClient);
