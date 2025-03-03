@@ -2766,7 +2766,7 @@ class Ticket_model extends CI_Model
 		foreach (@$quuery->result_array() as $item => $status) {
 			//print_r(" id: ".strval($status['idStatus'])." status: ".str_replace(' ', '_', $status['statusName'])."\n");
 			$this->db->select("*")->from("tb_tickets");
-			$this->db->where("idStatusTicketKf", "1");
+			$this->db->where("idStatusTicketKf", strval($status['idStatus']));
 			$query_dash = $this->db->get();
 			$count = $query_dash->num_rows();
 			// Replace spaces with underscores / strval($status['idStatus'])
