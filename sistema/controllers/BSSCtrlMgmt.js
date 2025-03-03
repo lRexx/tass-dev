@@ -3852,7 +3852,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                               $scope.listTickt.push($scope.listTicktTmp[i]);
                             }
                         }
-                        console.log($scope.listTickt);
+                          console.log($scope.listTickt);
                         //MP PAYMENT Succeeded
                       //}else if (filter.isPaymentSucceeded==1 && filter.idTypePaymentKf=="2"){
                       //  console.log("filter.isPaymentSucceeded: ",filter.isPaymentSucceeded);
@@ -3866,10 +3866,10 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                       //  }
                       //  console.log($scope.listTickt);
                       }else{
-                        $scope.listTickt    =  response.data.response;
+                        $scope.listTickt  = response.data.response;
                       }
                       
-                      $scope.totalTickets = $scope.listTickt.length;
+                        $scope.totalTickets = $scope.listTickt.length;
 
                   }else if (response.status==404){
                       inform.add('No se encontraron resultados verifique el filtro seleccionado o contacte al soporte de BSS.',{

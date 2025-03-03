@@ -2764,6 +2764,15 @@ class Ticket_model extends CI_Model
 		//var_dump($todo);
 		foreach ($todo as $key => $ticket) {
 			//print_r($ticket['idTypeRequestFor']);
+			//print_r($ticket['idTypeRequestFor']);
+
+			$quuery                     = $this->db->select("*")->from("tb_statusticket")->get();
+			foreach (@$quuery->result_array()[0] as $item => $status) {
+				$this->db->select("*")->from("tb_tickets");
+				$this->db->where("idStatusTicketKf", $status['idStatusTicket']);
+				$count = $this->db->count_all_results();
+				$todo[$key]['dashboard'][@$status['statusName']] = @$count;
+			}
 			$this->db->select("*")->from("tb_category_keychain");
 			$quuery                       = $this->db->where("idCategory = " , @$ticket['idTypeRequestFor'])->get();
 			$todo[$key]['typeRequestFor'] = @$quuery->result_array()[0];
