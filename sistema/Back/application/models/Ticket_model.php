@@ -2762,6 +2762,7 @@ class Ticket_model extends CI_Model
 	public function buscar_relaciones_ticket($todo)
 	{
 		//var_dump($todo);
+		$rs_tickets=null;
 		$quuery  = $this->db->select("*")->from("tb_statusticket")->get();
 		$dashboard['dashboard']['total'] = null;
 		foreach (@$quuery->result_array() as $status) {
@@ -3008,8 +3009,9 @@ class Ticket_model extends CI_Model
 				}
 			}
 		}
-		$todo['dashboard']	= $dashboard['dashboard'];
-		return $todo;
+		$rs_tickets['dashboard']	= $dashboard['dashboard'];
+		$rs_tickets['tickets']		= $todo['tickets'];
+		return $rs_tickets;
 	}
 
 	/* GET TICKET BY TOKEN */
