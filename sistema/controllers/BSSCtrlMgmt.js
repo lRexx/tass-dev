@@ -647,6 +647,58 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
       };$scope.getTypeTicketListFn();
     /**************************************************
     *                                                 *
+    *                GET TYPE OF CONTRACTS            *
+    *                                                 *
+    **************************************************/
+      $scope.rsTypeOfContractsData = [];
+      $scope.getTypeOfContractsFn = function(){
+          UtilitiesServices.typeOfContracts().then(function(response){
+              if(response.status==200){
+              $scope.rsTypeOfContractsData = response.data;
+              }
+          });
+      };$scope.getTypeOfContractsFn();
+    /**************************************************
+    *                                                 *
+    *           GET TYPE OF TypeMaintenance           *
+    *                                                 *
+    **************************************************/
+      $scope.rsTypeOfMaintenanceData = [];
+      $scope.getTypeOfMaintenanceFn = function(){
+          UtilitiesServices.typeOfMaintenance().then(function(response){
+              if(response.status==200){
+                  $scope.rsTypeOfMaintenanceData = response.data;
+              }
+          });
+      };$scope.getTypeOfMaintenanceFn();
+    /**************************************************
+    *                                                 *
+    *              GET CUSTOMERS CONTRACT             *
+    *                                                 *
+    **************************************************/
+      $scope.rsContractsListByCustomerIdData=[];
+      $scope.rsContractNotFound=false;
+      $scope.getContractsByCustomerIdFn=function(idClient, opt){
+          $scope.rsContractsListByCustomerIdData=[];
+          ContractServices.getContractListByCustomerId(idClient).then(function(data){
+              $scope.rsJsonData = data;
+              //console.log($scope.rsJsonData);
+              if($scope.rsJsonData.status==200){
+                $scope.rsContractNotFound=false;
+                $scope.rsContractsListByCustomerIdData=$scope.rsJsonData.data;
+                if(opt=="assign"){$scope.customerFound.contratos=$scope.rsContractsListByCustomerIdData;}
+              }else{
+                $scope.rsContractsListByCustomerIdData=[];
+                $scope.rsContractNotFound=true;
+                inform.add('No se existen contratos asociados al cliente. ',{
+                        ttl:2000, type: 'warning'
+                });
+              }
+              //console.log($scope.rsContractsListByCustomerIdData);
+          });
+      }
+    /**************************************************
+    *                                                 *
     *                  OPEN A TICKET                  *
     *                                                 *
     **************************************************/
@@ -663,6 +715,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
             if(response.status==200){
               $scope.rsData.ticket = (response.data[0]);
               $scope.tkupdate = response.data[0];
+              $scope.getContractsByCustomerIdFn($scope.tkupdate.idClient,'assign');
               console.log($scope.rsData);
             }else if (response.status==404){
                 $scope.rsData = {};

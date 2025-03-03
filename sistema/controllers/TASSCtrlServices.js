@@ -1666,15 +1666,15 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                      $scope.rsJsonData = data;
                      //console.log($scope.rsJsonData);
                      if($scope.rsJsonData.status==200){
-                     $scope.rsContractNotFound=false;
-                     $scope.rsContractsListByCustomerIdData=$scope.rsJsonData.data;
-                     if(opt=="assign"){$scope.customerFound.contratos=$scope.rsContractsListByCustomerIdData;}
+                        $scope.rsContractNotFound=false;
+                        $scope.rsContractsListByCustomerIdData=$scope.rsJsonData.data;
+                        if(opt=="assign"){$scope.customerFound.contratos=$scope.rsContractsListByCustomerIdData;}
                      }else{
-                     $scope.rsContractsListByCustomerIdData=[];
-                     $scope.rsContractNotFound=true;
-                     inform.add('No se existen contratos asociados al cliente. ',{
-                             ttl:2000, type: 'warning'
-                     });
+                        $scope.rsContractsListByCustomerIdData=[];
+                        $scope.rsContractNotFound=true;
+                        inform.add('No se existen contratos asociados al cliente. ',{
+                                ttl:2000, type: 'warning'
+                        });
                      }
                      //console.log($scope.rsContractsListByCustomerIdData);
                  });
