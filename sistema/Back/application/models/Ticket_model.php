@@ -2765,21 +2765,24 @@ class Ticket_model extends CI_Model
 		$rs_tickets['tickets']=$todo;
 		$quuery  = $this->db->select("*")->from("tb_statusticket")->get();
 		$dashboard['dashboard']['total'] = null;
-		foreach (@$quuery->result_array() as $status) {
-			//print_r(" id: ".strval($status['idStatus'])." status: ".str_replace(' ', '_', $status['statusName'])."\n");
-			if (is_null($dashboard['dashboard']['total'])){
+		if (strlen($rs_tickets['tickets'])>1){
+			foreach (@$quuery->result_array() as $status) {
+				//print_r(" id: ".strval($status['idStatus'])." status: ".str_replace(' ', '_', $status['statusName'])."\n");
+				if (is_null($dashboard['dashboard']['total'])){
+					$this->db->select("*")->from("tb_tickets_2");
+					$query_total = $this->db->get();
+					$count = $query_total->num_rows();
+					$dashboard['dashboard']['total']=$count;
+				}
 				$this->db->select("*")->from("tb_tickets_2");
-				$query_total = $this->db->get();
-				$count = $query_total->num_rows();
-				$dashboard['dashboard']['total']=$count;
+				$this->db->where("idStatusTicketKf", (int)$status['idStatus']);
+				$query_dash = $this->db->get();
+				$count = $query_dash->num_rows();
+				// Replace spaces with underscores / strval($status['idStatus'])
+				$name_status = str_replace(' ', '_', $status['statusName']);
+				$dashboard['dashboard'][$name_status] = @$count;
 			}
-			$this->db->select("*")->from("tb_tickets_2");
-			$this->db->where("idStatusTicketKf", (int)$status['idStatus']);
-			$query_dash = $this->db->get();
-			$count = $query_dash->num_rows();
-			// Replace spaces with underscores / strval($status['idStatus'])
-			$name_status = str_replace(' ', '_', $status['statusName']);
-			$dashboard['dashboard'][$name_status] = @$count;
+			$rs_tickets['dashboard']	= $dashboard['dashboard'];
 		}
 		foreach ($rs_tickets['tickets'] as $key => $ticket) {
 			//print_r($ticket['idTypeRequestFor']);
@@ -3009,8 +3012,11 @@ class Ticket_model extends CI_Model
 				}
 			}
 		}
-		$rs_tickets['dashboard']	= $dashboard['dashboard'];
-		return $rs_tickets;
+		if (strlen($rs_tickets['tickets'])>1){
+			return $rs_tickets;
+		}else{
+			return $rs_tickets['tickets'];
+		}
 	}
 
 	/* GET TICKET BY TOKEN */
