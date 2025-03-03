@@ -2764,13 +2764,14 @@ class Ticket_model extends CI_Model
 		//var_dump($todo);
 		$quuery  = $this->db->select("*")->from("tb_statusticket")->get();
 		foreach (@$quuery->result_array() as $item => $status) {
-			print_r(" id: ".strval($status['idStatus'])." status: ".str_replace(' ', '_', $status['statusName'])."\n");
+			//print_r(" id: ".strval($status['idStatus'])." status: ".str_replace(' ', '_', $status['statusName'])."\n");
 			$this->db->select("*_")->from("tb_tickets");
-			$this->db->where("idStatusTicketKf", "1");
-			$count = $this->db->count_all_results();
+			$this->db->where("idStatusTicketKf", strval($status['idStatus']));
+			$query_dash = $this->db->get();
+			$count = $query_dash->num_rows();
 			// Replace spaces with underscores / strval($status['idStatus'])
 			$name_status = str_replace(' ', '_', $status['statusName']);
-			$todo['dashboard'][$name_status] = @$count;
+			$dashboard['dashboard'][$name_status] = @$count;
 		}
 		foreach ($todo as $key => $ticket) {
 			//print_r($ticket['idTypeRequestFor']);
@@ -3000,7 +3001,7 @@ class Ticket_model extends CI_Model
 				}
 			}
 		}
-
+		$todo['dashboard']=$dashboard['dashboard'];
 		return $todo;
 	}
 
