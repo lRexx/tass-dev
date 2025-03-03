@@ -2771,7 +2771,7 @@ class Ticket_model extends CI_Model
 				$this->db->select("*")->from("tb_tickets");
 				$this->db->where("idStatusTicketKf", $status['idStatus']);
 				$count = $this->db->count_all_results();
-				$todo[$key]['dashboard'][@$status['statusName']] = @$count;
+				$todo['dashboard'][@$status['statusName']] = @$count;
 			}
 			$this->db->select("*")->from("tb_category_keychain");
 			$quuery                       = $this->db->where("idCategory = " , @$ticket['idTypeRequestFor'])->get();
