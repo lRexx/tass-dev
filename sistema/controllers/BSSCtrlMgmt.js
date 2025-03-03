@@ -3868,7 +3868,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                       }else{
                         $scope.listTickt  = response.data.response.tickets;
                       }
-                      
+                        console.log($scope.listTickt);
                         $scope.totalTickets = $scope.listTickt.length;
 
                   }else if (response.status==404){
