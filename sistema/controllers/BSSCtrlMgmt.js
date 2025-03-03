@@ -3843,7 +3843,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                 $scope.listTickt = [];
                 ticketServices.all(filter).then(function(response){
                   if(response.status==200){
-                      $scope.listTicktTmp =  response.data.response;
+                      $scope.listTicktTmp =  response.data.response.tickets;
                       if (filter.isInitialDeliveryActive==1){ //isInitialDeliveryActive
                         for(var i=0;i<$scope.listTicktTmp.length;i++){
                             //console.log($scope.listTicktTmp[i].building.isInitialDeliveryActive.length);
