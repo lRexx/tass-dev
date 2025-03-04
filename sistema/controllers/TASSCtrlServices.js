@@ -1805,10 +1805,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     $scope.dayDataCollapseFn();
                     $timeout(function() {
                         if ($scope.rsContractsListByCustomerIdData.length>0){
-                        $scope.getListCustomersServicesFn($scope.customerFound.idClient, null);
-                        //SERVICE LIST BY EACH CONTRACT LISTED BY THE CUSTOMER
-                        $scope.rsAllServicesListOfCustomer = $scope.getListContractServices2Fn($scope.rsContractsListByCustomerIdData);
-
+                            $scope.getListCustomersServicesFn($scope.customerFound.idClient, null);
+                            //SERVICE LIST BY EACH CONTRACT LISTED BY THE CUSTOMER
+                            $scope.rsAllServicesListOfCustomer = $scope.getListContractServices2Fn($scope.rsContractsListByCustomerIdData);
                         }
                     }, 1000);
                     $scope.customerFound.zona=zonaInfo.n_zona==undefined?null:zonaInfo;
@@ -4469,9 +4468,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
             *     USED IN CREATE & UPDATE INTERNET SERVICE    *
             **************************************************/
                 $scope.filterAssociatedServices = function(item){
-                //alert($scope.select.idCompanyKf);
-                //console.log(item);
-                return item.idTipeServiceFk != '2';
+                    //alert($scope.select.idCompanyKf);
+                    //console.log(item);
+                    return item.idTipeServiceFk != '2';
                 };
             /**************************************************
             *                                                 *
@@ -4484,10 +4483,10 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         $scope.rsJsonData = data;
                         //console.log($scope.rsJsonData.data);
                         if($scope.rsJsonData.status==200){
-                        $scope.rsServicesListByContractsIdData=$scope.rsJsonData.data;
-                        if(opt=="assign"){$scope.customerFound.contratos=$scope.rsServicesListByContractsIdData;}
+                            $scope.rsServicesListByContractsIdData=$scope.rsJsonData.data;
+                            if(opt=="assign"){$scope.customerFound.contratos=$scope.rsServicesListByContractsIdData;}
                         }else{
-                        $scope.rsServicesListByContractsIdData=[];
+                            $scope.rsServicesListByContractsIdData=[];
                         }
                         //console.log($scope.rsServicesListByContractsIdData);
                     });
@@ -4500,13 +4499,12 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         //console.log(response.data);
                         if(response.status==200){
                             for (var item in response.data){
-                            rsJsonData.push(response.data[item]);
+                                rsJsonData.push(response.data[item]);
                             }              
                         }
                         });
                     }
                     return rsJsonData;
-
                 }
             /**************************************************
             *                                                 *

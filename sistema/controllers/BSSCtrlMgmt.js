@@ -698,6 +698,90 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
       }
     /**************************************************
     *                                                 *
+    *              GET CONTRACT SERVICES              *
+    *                                                 *
+    **************************************************/
+      $scope.rsServicesListByContractsIdData=[];
+      $scope.getListContractServicesFn=function(idContract, opt){
+          serviceServices.getServiceListByIdContract(idContract).then(function(data){
+              $scope.rsJsonData = data;
+              //console.log($scope.rsJsonData.data);
+              if($scope.rsJsonData.status==200){
+                  $scope.rsServicesListByContractsIdData=$scope.rsJsonData.data;
+                  if(opt=="assign"){$scope.customerFound.contratos=$scope.rsServicesListByContractsIdData;}
+              }else{
+                  $scope.rsServicesListByContractsIdData=[];
+              }
+              //console.log($scope.rsServicesListByContractsIdData);
+          });
+      }
+      $scope.getListContractServices2Fn=function(contracts){
+          var rsJsonData = [];
+          for (var contract in contracts){
+              //console.log("Customer Service List by contract id: "+contracts[contract].idContrato)
+              serviceServices.getServiceListByIdContract(contracts[contract].idContrato).then(function(response){
+              //console.log(response.data);
+              if(response.status==200){
+                  for (var item in response.data){
+                      rsJsonData.push(response.data[item]);
+                  }              
+              }
+              });
+          }
+          return rsJsonData;
+      }
+        /**************************************************
+        *                                                 *
+        *                 LIST PRODUCTS                   *
+        *                                                 *
+        **************************************************/
+        $scope.rsKeyProductsData = [];
+        $scope.getKeysAssociatedToACustomerFn = function(idClient){
+            console.log("getKeysAssociatedToACustomerFn-->Service")
+            CustomerServices.getKeysAssociatedToACustomerService(idClient).then(function(response){
+                if(response.status==200){
+                    $scope.rsKeyProductsData = response.data;
+                    console.info($scope.keyList);
+                    $timeout(function() {
+                        $scope.select.products.selected={'idStatusFk':$scope.rsKeyProductsData[0].idStatusFk,'contractStatus':$scope.rsKeyProductsData[0].contractStatus,'serviceName':$scope.rsKeyProductsData[0].serviceName,'idProduct':$scope.rsKeyProductsData[0].idProduct,'descriptionProduct':$scope.rsKeyProductsData[0].descriptionProduct,'codigoFabric':$scope.rsKeyProductsData[0].codigoFabric,'brand':$scope.rsKeyProductsData[0].brand,'model':$scope.rsKeyProductsData[0].model,'idProductClassificationFk':$scope.rsKeyProductsData[0].idProductClassificationFk,'isNumberSerieFabric':$scope.rsKeyProductsData[0].isNumberSerieFabric,'isNumberSerieInternal':$scope.rsKeyProductsData[0].isNumberSerieInternal,'isDateExpiration':$scope.rsKeyProductsData[0].isDateExpiration,'isControlSchedule':$scope.rsKeyProductsData[0].isControlSchedule,'isRequestNumber':$scope.rsKeyProductsData[0].isRequestNumber,'priceFabric':$scope.rsKeyProductsData[0].priceFabric,'classification':$scope.rsKeyProductsData[0].classification};
+                        console.log($scope.select.products.selected);
+                    }, 1700);
+                }else if (response.status==404){
+                    $scope.rsKeyProductsData = [];
+                }else if (response.status==500){
+                    $scope.rsKeyProductsData = [];
+                    inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                        ttl:5000, type: 'danger'
+                    });
+                }
+            });
+            
+        }
+    /**************************************************
+    *                                                 *
+    *                 LIST PRODUCTS                   *
+    *                                                 *
+    **************************************************/
+        $scope.rsCustomerAccessControlDoors = [];
+        $scope.getControlAccessDoorsAssociatedToACustomerFn = function(idClient){
+            $scope.rsCustomerAccessControlDoors = [];
+            //console.log("Getting --> ControlAccessDoorsAssociatedToACustomerFn");
+            CustomerServices.getControlAccessDoorsAssociatedToACustomerServices(idClient).then(function(response){
+                console.log(response.data);
+                if(response.status==200){
+                    $scope.rsCustomerAccessControlDoors = response.data;
+                }else if (response.status==404){
+                    $scope.rsCustomerAccessControlDoors = [];
+                }else if (response.status==500){
+                    inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                        ttl:5000, type: 'danger'
+                    });
+                }
+            });
+            //console.log($scope.rsCustomerAccessControlDoors);
+        }
+    /**************************************************
+    *                                                 *
     *                  OPEN A TICKET                  *
     *                                                 *
     **************************************************/
@@ -716,6 +800,8 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $scope.rsData.ticket = (response.data[0]);
               $scope.tkupdate = response.data[0];
               $scope.getContractsByCustomerIdFn($scope.tkupdate.building.idClient);
+              $scope.getKeysAssociatedToACustomerFn($scope.tkupdate.building.idClient);
+              $scope.getControlAccessDoorsAssociatedToACustomerFn($scope.tkupdate.building.idClient);
               console.log($scope.rsData);
             }else if (response.status==404){
                 $scope.rsData = {};
