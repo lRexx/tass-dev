@@ -685,12 +685,22 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               if(response.status==200){
                 $scope.rsJsonData=null;
                 $scope.rsContractNotFound=false;
+                // Step 1: Create mapping objects for quick lookups
+                var contractTypeMap = {};
+                $scope.rsTypeOfContractsData.forEach(function(contract) {
+                    contractTypeMap[contract.idTypeContrato] = contract.description;
+                });
+
+                var maintenanceTypeMap = {};
+                $scope.typeOfMaintenance.forEach(function(maintenance) {
+                    maintenanceTypeMap[maintenance.idTypeMaintenance] = maintenance.typeMaintenance;
+                });
                 response.data.forEach(function(item) {
                   if (item.idStatusFk == "1"){
-                    var contractTypeMap = {};
-                    $scope.rsTypeOfContractsData.forEach(function(contract) {
-                      item.description = contract.description;
-                    });
+                    // Add contract type description
+                    item.description = contractTypeMap[item.idTypeContrato] || 'Unknown Contract Type';
+                    // Add maintenance type
+                    item.typeMaintenance = maintenanceTypeMap[item.maintenanceType] || 'Unknown Maintenance Type';
                     $scope.rsJsonData = item;
                   }
                 });
