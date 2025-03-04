@@ -690,11 +690,12 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                 $scope.rsTypeOfContractsData.forEach(function(contract) {
                     contractTypeMap[contract.idTypeContrato] = contract.description;
                 });
-
+                console.log(contractTypeMap);
                 var maintenanceTypeMap = {};
                 $scope.typeOfMaintenance.forEach(function(maintenance) {
                     maintenanceTypeMap[maintenance.idTypeMaintenance] = maintenance.typeMaintenance;
                 });
+                console.log(maintenanceTypeMap);
                 response.data.forEach(function(item) {
                   if (item.idStatusFk == "1"){
                     // Add contract type description
@@ -756,6 +757,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
         *                                                 *
         **************************************************/
         $scope.rsKeyProductsData = [];
+        $scope.select={'products':{'selected':{}}};
         $scope.getKeysAssociatedToACustomerFn = function(idClient){
             console.log("getKeysAssociatedToACustomerFn-->Service")
             CustomerServices.getKeysAssociatedToACustomerService(idClient).then(function(response){
