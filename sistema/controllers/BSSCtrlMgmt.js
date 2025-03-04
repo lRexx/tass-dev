@@ -683,19 +683,15 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
           ContractServices.getContractListByCustomerId(idClient).then(function(response){
               console.log(response);
               if(response.status==200){
-                $scope.rsJsonData=response.data;
+                $scope.rsJsonData=null;
                 $scope.rsContractNotFound=false;
-                $scope.rsJsonData.forEach(function(item) {
-                  console.log(item);
+                response.data.forEach(function(item) {
                   if (item.idStatusFk == "1"){
-                      var contractTypeMap = {};
-                      $scope.rsTypeOfContractsData.forEach(function(contract) {
-                          contractTypeMap[contract.idTypeContrato] = contract.description;
-                      });
-                    
-                    $scope.rsJsonData.forEach(function(item) {
-                      item.description =  contractTypeMap[item.idTypeContrato];
+                    var contractTypeMap = {};
+                    $scope.rsTypeOfContractsData.forEach(function(contract) {
+                      item.description = contract.description;
                     });
+                    $scope.rsJsonData = item;
                   }
                 });
                 console.log($scope.rsJsonData);
