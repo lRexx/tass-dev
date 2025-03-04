@@ -683,7 +683,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
           ContractServices.getContractListByCustomerId(idClient).then(function(response){
               console.log(response);
               if(response.status==200){
-                $scope.rsJsonData=null;
+                $scope.rsJsonData = []; // Use an array to store all enriched items
                 $scope.rsContractNotFound=false;
                 // Step 1: Create mapping objects for quick lookups
                 var contractTypeMap = {};
@@ -704,7 +704,8 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                     $scope.rsJsonData = item;
                   }
                 });
-                console.log($scope.rsJsonData);
+                // Push the enriched item to rsJsonData array
+                $scope.rsJsonData.push(item);
               }else{
                 $scope.rsContractsListByCustomerIdData=[];
                 $scope.rsContractNotFound=true;
