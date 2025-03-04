@@ -692,7 +692,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                 });
                 console.log(contractTypeMap);
                 var maintenanceTypeMap = {};
-                $scope.typeOfMaintenance.forEach(function(maintenance) {
+                $scope.rsTypeOfMaintenanceData.forEach(function(maintenance) {
                     maintenanceTypeMap[maintenance.idTypeMaintenance] = maintenance.typeMaintenance;
                 });
                 console.log(maintenanceTypeMap);
