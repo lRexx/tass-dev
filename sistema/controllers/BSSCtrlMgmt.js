@@ -686,6 +686,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                 $scope.rsJsonData=response.data;
                 $scope.rsContractNotFound=false;
                 $scope.rsJsonData.forEach(function(item) {
+                  console.log(item);
                   if (item.idStatusFk == "1"){
                       var contractTypeMap = {};
                       $scope.rsTypeOfContractsData.forEach(function(contract) {
