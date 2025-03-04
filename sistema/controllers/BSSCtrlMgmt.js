@@ -702,11 +702,11 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                     item.description = contractTypeMap[item.idTypeContrato] || 'Unknown Contract Type';
                     // Add maintenance type
                     item.typeMaintenance = maintenanceTypeMap[item.maintenanceType] || 'Unknown Maintenance Type';
-                    $scope.rsJsonData = item;
+                    // Push the enriched item to rsJsonData array
+                    $scope.rsJsonData.push(item);
                   }
                 });
-                // Push the enriched item to rsJsonData array
-                $scope.rsJsonData.push(item);
+                console.log($scope.rsJsonData);                
               }else{
                 $scope.rsContractsListByCustomerIdData=[];
                 $scope.rsContractNotFound=true;
