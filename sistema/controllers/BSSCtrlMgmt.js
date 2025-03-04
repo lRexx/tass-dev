@@ -699,7 +699,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                 response.data.forEach(function(item) {
                   if (item.idStatusFk == "1"){
                     // Add contract type description
-                    item.description = contractTypeMap[item.idTypeContrato] || 'Unknown Contract Type';
+                    //item.description = contractTypeMap[item.idTypeContrato] || 'Unknown Contract Type';
                     // Add maintenance type
                     item.typeMaintenance = maintenanceTypeMap[item.maintenanceType] || 'Unknown Maintenance Type';
                     // Push the enriched item to rsJsonData array
