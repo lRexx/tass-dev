@@ -2877,11 +2877,15 @@ class Ticket_model extends CI_Model
 				$i=0;
 				foreach ($rs_tickets['tickets'][$key]['keys'] as $keychain) {
 					$idKeyChain = $keychain['id'];
-					$this->db->select("tb_contratos.idContrato, tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_access_control_door.*, tb_ticket_keychain_doors.*")->from("tb_ticket_keychain_doors");
+					$this->db->select("tb_contratos.idContrato, tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_type_contrato.description, tb_type_maintenance.typeMaintenance, tb_products.*, tb_access_control_door.*, tb_ticket_keychain_doors.*")->from("tb_ticket_keychain_doors");
 					$this->db->join('tb_ticket_keychain' , 'tb_ticket_keychain.id = tb_ticket_keychain_doors.idTicketKeychainKf' , 'left');
 					$this->db->join('tb_contratos' , 'tb_contratos.idContrato = tb_ticket_keychain_doors.idContractKf' , 'left');
+					$this->db->join('tb_type_contrato' , 'tb_type_contrato.idTypeContrato = tb_contratos.contratoType' , 'left');					
+					$this->db->join('tb_type_maintenance' , 'tb_type_maintenance.idTypeMaintenance = tb_contratos.maintenanceType' , 'left');
 					$this->db->join('tb_servicios_del_contrato_cabecera', 'tb_servicios_del_contrato_cabecera.idContratoFk = tb_contratos.idContrato', 'left');
 					$this->db->join('tb_servicios_del_contrato_cuerpo', 'tb_servicios_del_contrato_cuerpo.idServiciosDelContratoFk = tb_servicios_del_contrato_cabecera.idServiciosDelContrato', 'left');
+					$this->db->join('tb_client_services_access_control' , 'tb_client_services_access_control.idClientServicesAccessControl = tb_ticket_keychain_doors.idServiceKf' , 'left');
+					$this->db->join('tb_products' , 'tb_products.idProduct = tb_client_services_access_control.idAccessControlFk' , 'left');
 					$this->db->join('tb_access_control_door', 'tb_access_control_door.idAccessControlDoor = tb_ticket_keychain_doors.idAccessControlDoorKf', 'left');
 					$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
 					$where_string = "tb_ticket_keychain_doors.idTicketKeychainKf = $idKeyChain AND tb_contratos.idStatusFk = 1 AND tb_ticket_keychain_doors.doorSelected = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 1 
