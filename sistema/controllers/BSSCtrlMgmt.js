@@ -2527,6 +2527,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $scope.ticketKeyDoorList = obj;
               console.log($scope.ticketKeyDoorList);
               $scope.showKeyDoors = true;
+              $('#doorKeysModalDetails').modal('show');
             break;
             case "ticket_user":
               $('#userModalDetails').modal('show');
