@@ -314,11 +314,12 @@
                                   </tr>
                               </tbody>
                           </table>
-                          <div class="col-md-12 col-xs-12 well-checkbox n-margin-l customer-frame">
-                            <span data-ng-repeat="accessDoor in rsCustomerAccessControlDoors" ng-if="rsCustomerAccessControlDoors.length>0" data-toggle="tooltip" data-placement="bottom" title="Puerta {{accessDoor.titulo}}" 
-                              ng-class="{'label label-success':door.idAccessControlDoorKf=='1'}">
-                                {{accessDoor.titulo.charAt(0)}}
-                            </span>{{accessDoor.titulo.substring(1)}}
+                          <div ng-if="rsCustomerAccessControlDoors.length>0" class="col-md-12 col-xs-12 well-checkbox n-margin-l customer-frame">
+                            <div class="col-xs-4 col-md-4" data-ng-repeat="accessDoor in rsCustomerAccessControlDoors" >
+                              <span data-toggle="tooltip" data-placement="bottom" title="Puerta {{accessDoor.titulo}}" >
+                                  {{[accessDoor.titulo.charAt(0)]}}{{accessDoor.titulo.substring(1)}}
+                              </span>
+                            </div>
                           </div>
                       </div>
                     </fieldset>
