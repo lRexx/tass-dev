@@ -315,8 +315,8 @@
                           </table>
                           <div ng-if="rsCustomerAccessControlDoors.length>0" class="col-md-12 col-xs-12 well-checkbox n-margin-l customer-frame" style="padding: 5px !important">
                             <div class="col-xs-4 col-md-4" data-ng-repeat="accessDoor in rsCustomerAccessControlDoors" >
-                              Puertas:&nbsp;<span data-toggle="tooltip" class="font-size-14px label label-success" data-placement="bottom" title="Puerta {{accessDoor.titulo}}" >
-                                  [{{accessDoor.titulo.charAt(0)}}]</span><span class="font-size-12px">{{accessDoor.titulo.substring(1)}}</span>
+                              Puertas:&nbsp;<span data-toggle="tooltip" class="label label-success" data-placement="bottom" title="Puerta {{accessDoor.titulo}}" >
+                                  {{accessDoor.titulo.charAt(0)}}</span><span class="font-size-12px">{{accessDoor.titulo.substring(1)}}</span>
                             </div>
                           </div>
                       </div>
