@@ -306,8 +306,7 @@
                                       <td ng-if="tkupdate.idTypeRequestFor=='6' && key.idUserKf==null && key.idClientKf!=null" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;"><span class="font-size-18px">Consorcio</span></td>
                                       <td ng-if="tkupdate.idTypeRequestFor=='6' && key.idUserKf!=null && key.idClientKf!=null" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;"><span class="font-size-18px">Encargado</span></td>
                                       <td ng-if="tkupdate.idTypeTicketKf=='1'" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">
-                                          <span data-ng-repeat="door in key.doors" ng-if="key.doors.length>0" data-toggle="tooltip" data-placement="bottom" title="Puerta {{door.titulo}}" 
-                                            ng-class="{'label label-success':door.idAccessControlDoorKf=='1'}">
+                                          <span data-ng-repeat="door in key.doors" ng-if="key.doors.length>0" data-toggle="tooltip" data-placement="bottom" class="label label-success" title="Puerta {{door.titulo}}">
                                               {{door.titulo.charAt(0)}}
                                           </span>
                                       </td>
@@ -316,7 +315,7 @@
                           </table>
                           <div ng-if="rsCustomerAccessControlDoors.length>0" class="col-md-12 col-xs-12 well-checkbox n-margin-l customer-frame" style="padding: 5px !important">
                             <div class="col-xs-4 col-md-4" data-ng-repeat="accessDoor in rsCustomerAccessControlDoors" >
-                              <span data-toggle="tooltip" class="font-size-14px" data-placement="bottom" title="Puerta {{accessDoor.titulo}}" >Puertas:&nbsp;
+                              Puertas:&nbsp;<span data-toggle="tooltip" class="font-size-14px label label-success" data-placement="bottom" title="Puerta {{accessDoor.titulo}}" >
                                   [{{accessDoor.titulo.charAt(0)}}]<span class="font-size-12px">{{accessDoor.titulo.substring(1)}}</span>
                               </span>
                             </div>
