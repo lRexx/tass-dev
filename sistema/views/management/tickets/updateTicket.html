@@ -250,13 +250,15 @@
                         </div>
                         <!-- REQUESTED KEYS -->
                         <div class="col-md-12">
+                          <legend style="text-align: left;">Llaveros solicitados</legend>
                           <table ng-if="tkupdate.keys.length>0" class="table table-striped table-bordered table-list table-responsive table-hover fade in">
                               <thead class="dpto-t-head">
                                   <tr>
                                       <th width="5px" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "> N°</th>
                                       <th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-key"> </i> Llavero</th>
-                                      <th ng-if="tkupdate.idTypeTicketKf=='1'" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-dollar-sign"> </i> Precio</th>
-                                      <th ng-if="ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Categoria</th>
+                                      <th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-dollar-sign"> </i> T. Mantenimiento</th>
+                                      <th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-dollar-sign"> </i> Sistema Instalado</th>
+                                      <th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Categoria</th>
                                       <th ng-if="tkupdate.idTypeTicketKf=='2'" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-barcode"> </i> Codigo</th>
                                       <th ng-if="tkupdate.idTypeTicketKf=='2'" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-barcode"> </i> Codigo Externo</th>
                                       <th ng-if="tkupdate.idTypeTicketKf=='2'" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Asignado</th>
@@ -268,12 +270,13 @@
                                   <tr  style="align-content: center; cursor: pointer;" data-ng-repeat="key in tkupdate.keys">
                                       <td ng-click="mainSwitchFn('keyList_doors', key.doors, null)" style="vertical-align: middle;text-align: center;"><span class="font-size-18px">{{$index+1}}</span></td>
                                       <td ng-click="mainSwitchFn('keyList_doors', key.doors, null)">{{key.descriptionProduct}} <span class="badge badge-warning">{{key.brand}}</span></td>
-                                      <td ng-if="tkupdate.idTypeTicketKf=='1'" ng-click="mainSwitchFn('keyList_doors', key.doors, null)" style="vertical-align: middle;text-align: right;">$ {{key.priceFabric | number : 2}}</td>
+                                      <td ng-click="mainSwitchFn('keyList_doors', key.doors, null)" style="vertical-align: middle;text-align: right;">$ {{key.doors[$index].typeMaintenance}}</td>
+                                      <td ng-click="mainSwitchFn('keyList_doors', key.doors, null)" style="vertical-align: middle;text-align: right;">$ {{key.doors[$index].descriptionProduct}} <span class="badge badge-warning">{{key.doors[$index].brand}}</span></td>
                                       <td ng-if="tkupdate.idTypeTicketKf=='2'" style="vertical-align: middle;text-align: center;">{{key.codigo}}</td>
                                       <td ng-if="tkupdate.idTypeTicketKf=='2'" style="vertical-align: middle;text-align: center;">{{key.codExt}}</td>
                                       <td ng-if="tkupdate.idTypeTicketKf=='2'" style="vertical-align: middle;text-align: center;">{{key.fullNameUser}}</td>
-                                      <td ng-click="mainSwitchFn('keyList_doors', key.doors, null)" ng-if="ticket.optionTypeSelected.name=='building'" style="vertical-align: middle;text-align: center;">
-                                          <span class="label label-default">{{key.categoryName}}</span>
+                                      <td ng-click="mainSwitchFn('keyList_doors', key.doors, null)" style="vertical-align: middle;text-align: center;">
+                                          <span class="label label-default">{{tkupdate.typeRequestFor.name}}</span>
                                       </td>
                                       <!--<td style="vertical-align: middle;text-align: center;">
                                           <span ng-if="ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='1'">
