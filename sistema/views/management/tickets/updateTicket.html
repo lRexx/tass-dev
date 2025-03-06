@@ -305,9 +305,9 @@
                                       </td>-->
                                       <td ng-if="tkupdate.idTypeRequestFor=='6' && key.idUserKf==null && key.idClientKf!=null" ng-trim="true" class="media-middle text-center" ng-click="mainSwitchFn('keyList_doors', key.doors, null)" style="vertical-align: middle;text-align: center;"><span class="font-size-18px">Consorcio</span></td>
                                       <td ng-if="tkupdate.idTypeRequestFor=='6' && key.idUserKf!=null && key.idClientKf!=null" ng-trim="true" class="media-middle text-center" ng-click="mainSwitchFn('keyList_doors', key.doors, null)" style="vertical-align: middle;text-align: center;"><span class="font-size-18px">Encargado</span></td>
-                                      <td ng-if="tkupdate.idTypeTicketKf=='1'" ng-trim="true" class="media-middle text-center" ng-click="mainSwitchFn('keyList_doors', key.doors, null)" style="vertical-align: middle;text-align: center;">
+                                      <td ng-if="tkupdate.idTypeTicketKf=='1'" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">
                                           <span data-ng-repeat="door in key.doors" ng-if="key.doors.length>0" data-toggle="tooltip" data-placement="bottom" title="Puerta {{door.titulo}}" 
-                                            ng-class="{door.idAccessControlDoorKf=='1':label label-success}">
+                                            ng-class="{'label label-success':door.idAccessControlDoorKf=='1'}">
                                               {{door.titulo.charAt(0)}}
                                           </span>
                                       </td>
