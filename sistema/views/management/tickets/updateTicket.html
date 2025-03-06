@@ -32,7 +32,7 @@
                 <!-- FORM CONTAINER-->
                 <form class="form-horizontal" name="fUpdateTicket" novalidate>
                     <fieldset>
-                        <div  class="col-md-12 col-xs-12 well-checkbox n-margin-l customer-frame">
+                        <div class="col-md-12 col-xs-12 well-checkbox n-margin-l customer-frame">
                             <!-- LEFT COLUMN -->
                             <div class="col-md-6 col-xs-6 n-padding-l n-padding-r">
                               <div class="col-md-12 col-xs-12">
@@ -267,10 +267,10 @@
                               </thead>
                               <tbody style="overflow: auto;">
                                   <tr  style="align-content: center; cursor: pointer;" data-ng-repeat="key in tkupdate.keys">
-                                      <td ng-click="mainSwitchFn('keyList_doors', key.doors, null)" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;"><span class="font-size-18px">{{$index+1}}</span></td>
-                                      <td ng-click="mainSwitchFn('keyList_doors', key.doors, null)" ng-trim="true" class="media-middle text-center">{{key.descriptionProduct}} <span class="badge badge-warning">{{key.brand}}</span></td>
-                                      <td ng-click="mainSwitchFn('keyList_doors', key.doors, null)" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: right;">{{key.doors[0].typeMaintenance}}</td>
-                                      <td ng-click="mainSwitchFn('keyList_doors', key.doors, null)" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: right;">{{key.doors[0].descriptionProduct}} <span class="badge badge-warning">{{key.doors[0].brand}}</span></td>
+                                      <td ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;"><span class="font-size-18px">{{$index+1}}</span></td>
+                                      <td ng-trim="true" class="media-middle text-center">{{key.descriptionProduct}} <span class="badge badge-warning">{{key.brand}}</span></td>
+                                      <td ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: right;">{{key.doors[0].typeMaintenance}}</td>
+                                      <td ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: right;">{{key.doors[0].descriptionProduct}} <span class="badge badge-warning">{{key.doors[0].brand}}</span></td>
                                       <td ng-if="tkupdate.idTypeTicketKf=='2'" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.codigo}}</td>
                                       <td ng-if="tkupdate.idTypeTicketKf=='2'" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.codExt}}</td>
                                       <td ng-if="tkupdate.idTypeTicketKf=='2'" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.fullNameUser}}</td>
@@ -303,8 +303,8 @@
                                               <i class="fas fa-times-circle"></i>
                                           </span>
                                       </td>-->
-                                      <td ng-if="tkupdate.idTypeRequestFor=='6' && key.idUserKf==null && key.idClientKf!=null" ng-trim="true" class="media-middle text-center" ng-click="mainSwitchFn('keyList_doors', key.doors, null)" style="vertical-align: middle;text-align: center;"><span class="font-size-18px">Consorcio</span></td>
-                                      <td ng-if="tkupdate.idTypeRequestFor=='6' && key.idUserKf!=null && key.idClientKf!=null" ng-trim="true" class="media-middle text-center" ng-click="mainSwitchFn('keyList_doors', key.doors, null)" style="vertical-align: middle;text-align: center;"><span class="font-size-18px">Encargado</span></td>
+                                      <td ng-if="tkupdate.idTypeRequestFor=='6' && key.idUserKf==null && key.idClientKf!=null" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;"><span class="font-size-18px">Consorcio</span></td>
+                                      <td ng-if="tkupdate.idTypeRequestFor=='6' && key.idUserKf!=null && key.idClientKf!=null" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;"><span class="font-size-18px">Encargado</span></td>
                                       <td ng-if="tkupdate.idTypeTicketKf=='1'" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">
                                           <span data-ng-repeat="door in key.doors" ng-if="key.doors.length>0" data-toggle="tooltip" data-placement="bottom" title="Puerta {{door.titulo}}" 
                                             ng-class="{'label label-success':door.idAccessControlDoorKf=='1'}">
@@ -314,49 +314,11 @@
                                   </tr>
                               </tbody>
                           </table>
-                          <div id="doorKeysModalDetails" class="modal fade bd-example-modal-lg" style="top: 170px; z-index: 2151 !important;" role="dialog">
-                            <div class="modal-dialog modal-lg" >
-                              <div class="modal-content">
-                                  <div class="modal-header">
-                                      <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
-                                      <h3 class="modal-title"><i class="fas fa-key"></i> PUERTAS </h3>
-                                  </div>
-                                <div class="modal-body">
-                                  <div class="col-md-12">
-                                      <div class="col-md-12 col-xs-12 form-group n-padding-l n-padding-r">
-                                          <legend style="text-align: center;">Puertas a habilitar</legend>
-                                          <!-- NEW TICKET -->
-                                          <div class="col-md-12 col-xs-12 n-padding-l n-padding-r">
-                                              <div class="form-group col-md-2 col-xs-5 bg-bss" ng-repeat="door in ticketKeyDoorList" style="margin-bottom: 0px !important; margin-left: 5px !important; margin-top: 5px !important;">
-                                                  <div class="col-md-12 col-xs-12 well-door" style="cursor: pointer;">
-                                                      <div class="door-icon">
-                                                          <span><i class="product-success fas " ng-class="{'fa-door-open text-success':door.selected, 'fa-door-closed':!door.selected}"></i></span>
-                                                      </div>
-                                                      <div class="text-badge">
-                                                          <span class="new-customer badge badge-light"> {{door.titulo}} </span><br><br>
-                                                          <label class="switch switch-2x" for="allowDoor-{{door.idAccessControlDoor}}">
-                                                              <input type="checkbox" ng-disabled="true" class="success" ng-change="addDoorOpenList(door)" ng-model="door.selected" id="allowDoor-{{door.idAccessControlDoor}}">
-                                                              <span class="slider slider-2x flat"></span>
-                                                          </label>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                              <div ng-if="ticketKeyDoorList.length==0 " class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay Puertas disponibles</h5></div>
-                                          </div>
-                                      </div>
-                                  </div>
-                                  <div class="clearfix"> </div> 
-                                </div>   
-                                <div class="modal-footer">
-                                    <div class="row">
-                                        <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
-                                            <a id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
-                                                <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
-                                        </div>           
-                                    </div>
-                                </div>
-                            </div>
-                          </div>
+                          <div class="col-md-12 col-xs-12 well-checkbox n-margin-l customer-frame">
+                            <span data-ng-repeat="accessDoor in rsCustomerAccessControlDoors" ng-if="rsCustomerAccessControlDoors.length>0" data-toggle="tooltip" data-placement="bottom" title="Puerta {{accessDoor.titulo}}" 
+                              ng-class="{'label label-success':door.idAccessControlDoorKf=='1'}">
+                                {{accessDoor.titulo.charAt(0)}}
+                            </span>{{accessDoor.titulo.substring(1)}}
                           </div>
                       </div>
                     </fieldset>

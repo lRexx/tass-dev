@@ -821,8 +821,8 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               //console.log(response.data[0]);
               $scope.rsData.ticket = (response.data[0]);
               $scope.tkupdate = response.data[0];
-              $scope.getContractsByCustomerIdFn($scope.tkupdate.building.idClient);
-              $scope.getKeysAssociatedToACustomerFn($scope.tkupdate.building.idClient);
+              //$scope.getContractsByCustomerIdFn($scope.tkupdate.building.idClient);
+              //$scope.getKeysAssociatedToACustomerFn($scope.tkupdate.building.idClient);
               $scope.getControlAccessDoorsAssociatedToACustomerFn($scope.tkupdate.building.idClient);
               console.log($scope.rsData);
             }else if (response.status==404){
