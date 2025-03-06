@@ -258,7 +258,6 @@
                                       <th class="dpto-th-head media-middle text-center" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-key"> </i> Llavero</th>
                                       <th class="dpto-th-head media-middle text-center" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "> T. Mantenimiento</th>
                                       <th class="dpto-th-head media-middle text-center" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "> Sistema Instalado</th>
-                                      <th class="dpto-th-head media-middle text-center" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Categoria</th>
                                       <th ng-if="tkupdate.idTypeTicketKf=='2'" class="dpto-th-head media-middle text-center" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-barcode"> </i> Codigo</th>
                                       <th ng-if="tkupdate.idTypeTicketKf=='2'" class="dpto-th-head media-middle text-center" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-barcode"> </i> Codigo Externo</th>
                                       <th ng-if="tkupdate.idTypeTicketKf=='2'" class="dpto-th-head media-middle text-center" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Asignado</th>
@@ -275,9 +274,6 @@
                                       <td ng-if="tkupdate.idTypeTicketKf=='2'" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.codigo}}</td>
                                       <td ng-if="tkupdate.idTypeTicketKf=='2'" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.codExt}}</td>
                                       <td ng-if="tkupdate.idTypeTicketKf=='2'" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.fullNameUser}}</td>
-                                      <td ng-click="mainSwitchFn('keyList_doors', key.doors, null)" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">
-                                          <span class="label label-default">{{tkupdate.typeRequestFor.name}}</span>
-                                      </td>
                                       <!--<td style="vertical-align: middle;text-align: center;">
                                           <span ng-if="ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='1'">
                                               <span class="font-size-18px" style="color: #5cb85c">
