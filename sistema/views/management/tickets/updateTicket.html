@@ -314,10 +314,10 @@
                                   </tr>
                               </tbody>
                           </table>
-                          <div ng-if="rsCustomerAccessControlDoors.length>0" class="col-md-12 col-xs-12 well-checkbox n-margin-l customer-frame">
+                          <div ng-if="rsCustomerAccessControlDoors.length>0" class="col-md-12 col-xs-12 well-checkbox n-margin-l customer-frame" style="padding: 5px !important">
                             <div class="col-xs-4 col-md-4" data-ng-repeat="accessDoor in rsCustomerAccessControlDoors" >
-                              <span data-toggle="tooltip" class="font-size-12px" data-placement="bottom" title="Puerta {{accessDoor.titulo}}" >
-                                  [{{accessDoor.titulo.charAt(0)}}]{{accessDoor.titulo.substring(1)}}
+                              <span data-toggle="tooltip" class="font-size-14px" data-placement="bottom" title="Puerta {{accessDoor.titulo}}" >Puertas:&nbsp;
+                                  [{{accessDoor.titulo.charAt(0)}}]<span class="font-size-12px">{{accessDoor.titulo.substring(1)}}</span>
                               </span>
                             </div>
                           </div>
