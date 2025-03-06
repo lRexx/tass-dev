@@ -306,8 +306,8 @@
                                       <td ng-if="tkupdate.idTypeRequestFor=='6' && key.idUserKf==null && key.idClientKf!=null" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;"><span class="font-size-18px">Consorcio</span></td>
                                       <td ng-if="tkupdate.idTypeRequestFor=='6' && key.idUserKf!=null && key.idClientKf!=null" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;"><span class="font-size-18px">Encargado</span></td>
                                       <td ng-if="tkupdate.idTypeTicketKf=='1'" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">
-                                          <span data-ng-repeat="door in key.doors" ng-if="key.doors.length>0" data-toggle="tooltip" data-placement="bottom" class="label label-success" title="Puerta {{door.titulo}}">
-                                              {{door.titulo.charAt(0)}}&nbsp;
+                                          <span data-ng-repeat="door in key.doors" ng-if="key.doors.length>0" data-toggle="tooltip" data-placement="bottom" class="label label-success" title="Puerta {{door.titulo}}" style="margin-right: 5px !important;">
+                                              {{door.titulo.charAt(0)}}
                                           </span>
                                       </td>
                                   </tr>
