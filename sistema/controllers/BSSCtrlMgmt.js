@@ -2767,10 +2767,11 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               "strict":null,
               "totalCount":null,
               };
+              console.log($scope.tkupdate.building);
               $scope.select={'filterCategoryKey':'', 'reasonKf':{},'department':'', 'codeSearch':null, 'keychainStatus':{}, 'idTypeTicketKf':null,  
               'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined}, 
               'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
-              $scope.getKeychainListFn($scope.customerFound.idClient,null, "2","1",null,null,null,1,$scope.pagination.pageSizeSelected, false, true);
+              $scope.getKeychainListFn($scope.tkupdate.building.idClient,null, "2","1",null,null,null,1,$scope.pagination.pageSizeSelected, false, true);
             break;
             case "ticket_user":
               $('#userModalDetails').modal('show');
