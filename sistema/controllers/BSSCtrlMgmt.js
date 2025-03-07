@@ -838,7 +838,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
         var elem = angular.element(obj.target);// or angular.element(obj.target);
         console.log(elem)
         switch (elem[0].getAttribute("id")){
-            case "department":
+            case "stock":
                 if ($scope.ticket.keysMethod==undefined){
                     $scope.ticket.keysMethod = elem[0].getAttribute("id");
                     $scope.ticket.optionTypeSelected.obj = elem;
@@ -848,14 +848,14 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                     document.getElementById("typeOption2").checked=false;
                     $scope.ticket.radioButtonBuilding=undefined;
                     $scope.list_keys = [];
-                    var removeElem = document.getElementById("building")
+                    var removeElem = document.getElementById("manual")
                     //console.log(removeElem)
                     $scope.ticket.keysMethod = elem[0].getAttribute("id");
                     $scope.ticket.optionTypeSelected.obj = elem;
                     elem.removeClass('btn-primary').addClass("btn-success");
                 }
             break;
-            case "building":
+            case "manual":
                 if ($scope.ticket.keysMethod==undefined){
                     $scope.ticket.keysMethod = elem[0].getAttribute("id");
                     elem.removeClass('btn-primary').addClass("btn-success");
@@ -866,7 +866,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                     $scope.ticket.idClientDepartament=undefined;
                     $scope.selectedUser=undefined;
                     $scope.list_keys = [];
-                    var removeElem = document.getElementById("department")
+                    var removeElem = document.getElementById("stock")
                     $scope.ticket.keysMethod = elem[0].getAttribute("id");
                     $scope.ticket.optionTypeSelected.obj = elem;
                     elem.removeClass('btn-primary').addClass("btn-success");
