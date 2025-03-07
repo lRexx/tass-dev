@@ -1,7 +1,7 @@
 /**
 * Management Controller
 **/
-var monitor = angular.module("module.Management", ["tokenSystem", "services.Ticket", "services.Address", "services.Ticket", "services.Departments", "services.Contracts",  "services.Utilities", "services.Customers", "angular.filter", "services.User"]);
+var monitor = angular.module("module.Management", ["tokenSystem", "services.Keys", "services.Address", "services.Ticket", "services.Departments", "services.Contracts",  "services.Utilities", "services.Customers", "angular.filter", "services.User"]);
 
 /*************************************************/
 monitor.filter('commaToDecimal', function(){
@@ -33,7 +33,7 @@ monitor.run(function ($rootScope) {
       triggerResize();
   });
 });
-monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $routeParams, $q, blockUI, $timeout, inform, ticketServices, DepartmentsServices, serviceServices, ContractServices, UtilitiesServices, addressServices, userServices, CustomerServices, tokenSystem, $window, $filter, serverHost, serverBackend, serverHeaders, APP_SYS){
+monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $routeParams, $q, blockUI, $timeout, inform, ticketServices, KeysServices, DepartmentsServices, serviceServices, ContractServices, UtilitiesServices, addressServices, userServices, CustomerServices, tokenSystem, $window, $filter, serverHost, serverBackend, serverHeaders, APP_SYS){
   console.log(APP_SYS.app_name+" Modulo Gestion de pedidos");
     //console.log($scope.sysLoggedUser)
     //console.log($scope.sysToken)
@@ -2758,9 +2758,9 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $scope.rsKeyListsData = null;
               $scope.pagination.pageIndex               = 1;
               $scope.keychainSearch={
-              "idClientKf":$scope.customerFound.idClient,
-              "idCategoryKf":"2",
-              "idKeychainStatusKf":"1",
+              "idClientKf":null,
+              "idCategoryKf":null,
+              "idKeychainStatusKf":null,
               "create_at":null,
               "start":null,
               "limit":null,
