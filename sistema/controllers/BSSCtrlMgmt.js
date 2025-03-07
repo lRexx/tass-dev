@@ -2631,6 +2631,8 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               }
             break;
             case "openTicket":
+              $scope.rsAllKeychainListData = [];
+              $scope.ticket.keysMethod.name = undefined;
               $scope.openTicketFn(obj.idTicket);
               $('#UpdateModalTicket').modal({backdrop: 'static', keyboard: false});
             break;
@@ -2766,14 +2768,14 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $scope.rsKeyListsData = null;
               $scope.pagination.pageIndex               = 1;
               $scope.keychainSearch={
-              "idClientKf":null,
-              "idCategoryKf":null,
-              "idKeychainStatusKf":null,
-              "create_at":null,
-              "start":null,
-              "limit":null,
-              "strict":null,
-              "totalCount":null,
+                "idClientKf":null,
+                "idCategoryKf":null,
+                "idKeychainStatusKf":null,
+                "create_at":null,
+                "start":null,
+                "limit":null,
+                "strict":null,
+                "totalCount":null,
               };
               console.log($scope.tkupdate.building);
               $scope.select={'filterCategoryKey':'', 'reasonKf':{},'department':'', 'codeSearch':null, 'keychainStatus':{}, 'idTypeTicketKf':null,  
