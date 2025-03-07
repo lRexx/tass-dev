@@ -67,6 +67,13 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
       $scope.changeStatusTicketSingle=false;
       $scope.changeStatusTicketMulti=false;
       $scope.selectedTicketList = [];
+      $scope.pagination = {
+        'maxSize': 5,     // Limit number for pagination display number.  
+        'totalCount': 0,  // Total number of items in all pages. initialize as a zero  
+        'pageIndex': 1,   // Current page number. First page is 1.-->  
+        'pageSizeSelected': 100, // Maximum number of items per page. 
+        'totalCount':0
+      }
       $scope.open1 = function() {
         $scope.popup1.opened = true;
       };
