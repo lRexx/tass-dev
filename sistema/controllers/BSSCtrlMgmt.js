@@ -823,6 +823,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
         //ticketServices.ticketByToken(obj.urlToken);
         //console.log(obj);
         $scope.editComment=false;
+        $scope.tkupdate = {};
         ticketServices.ticketById(idTicket).then(function(response){
             if(response.status==200){
               //console.log(response.data[0]);
