@@ -824,6 +824,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               //$scope.getContractsByCustomerIdFn($scope.tkupdate.building.idClient);
               //$scope.getKeysAssociatedToACustomerFn($scope.tkupdate.building.idClient);
               $scope.getControlAccessDoorsAssociatedToACustomerFn($scope.tkupdate.building.idClient);
+              $scope.customerFound = $scope.tkupdate.building;
               console.log($scope.rsData);
             }else if (response.status==404){
                 $scope.rsData = {};
@@ -1408,11 +1409,11 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
 
           }
         }
-      /**************************************************
-      *                                                 *
-      *                 Address By Owner id             *
-      *                                                 *
-      **************************************************/
+    /**************************************************
+    *                                                 *
+    *                 Address By Owner id             *
+    *                                                 *
+    **************************************************/
         $scope.ListTenantAddress = [];
         $scope.getAddressByidTenantFn = function(idUser, idTypeTenant, idStatus){
           addressServices.getAddressByidTenant(idUser,idTypeTenant,idStatus).then(function(response){
@@ -1428,11 +1429,11 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                 }
             });
         }
-      /**************************************************
-      *                                                 *
-      *                GET DELIVERY TYPES               *
-      *                                                 *
-      **************************************************/
+    /**************************************************
+    *                                                 *
+    *                GET DELIVERY TYPES               *
+    *                                                 *
+    **************************************************/
         $scope.typedelivery = [];
         $scope.getDeliveryTypesFn = function(){
             $scope.typedelivery = [];
@@ -1625,6 +1626,184 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
             $scope.companiesList = [];
         });
       };
+
+            /**************************************************
+            *                                                 *
+            *                 LIST ALL KEYS                   *
+            *                                                 *
+            **************************************************/
+            $scope.rsAllKeychainListData = [];
+
+            $scope.keychainSearch={
+              "idClientKf":null,
+              "idCategoryKf":null,
+              "idKeychainStatusKf":null,
+              "idDepartmenKf":null,
+              "codeSearch":null,
+              "create_at":null,
+              "start":null,
+              "limit":null,
+              "strict":null,
+              "totalCount":null,
+            };
+          $scope.getKeychainListFn = function(idClientKf,create_at,idCategoryKf,idKeychainStatusKf,idDepartmenKf,idReasonKf,codeSearch,start,limit,strict,totalCount){
+
+              //console.log("idClientKf           : "+idClientKf);
+              //console.log("create_at            : "+create_at);
+              //console.log("idCategoryKf         : "+idCategoryKf);
+              //console.log("idKeychainStatusKf   : "+idKeychainStatusKf);
+              //console.log("idReasonKf           : "+idReasonKf);
+              //console.log("codeSearch            : "+codeSearch);
+              //console.log("start                : "+start);
+              //console.log("limit                : "+limit);
+              //console.log("strict               : "+strict);
+              //console.log("totalCount           : "+totalCount);
+              var idClientKf              = idClientKf!=undefined && idClientKf!=null?idClientKf:null;
+              var idCategoryKf            = idCategoryKf!=undefined && idCategoryKf!="" && idCategoryKf!=null?idCategoryKf:null;
+              var idKeychainStatusKf      = idKeychainStatusKf!=undefined && idKeychainStatusKf!="" && idKeychainStatusKf!=null?idKeychainStatusKf:null;
+              var idDepartmenKf           = idDepartmenKf!=undefined && idDepartmenKf!="" && idDepartmenKf!=null?idDepartmenKf:null;
+              var idReasonKf              = idReasonKf!=undefined && idReasonKf!="" && idReasonKf!=null?idReasonKf:null;
+              var sysLoggedUserProfile    = $scope.sysLoggedUser.idProfileKf;
+              var codeSearch              = codeSearch!=undefined && codeSearch!="" && codeSearch!=null?codeSearch:null;
+              var create_at               = create_at!=undefined && create_at!="" && create_at!=null?create_at:null;
+              var start                   = start!=undefined && start!=null && !strict?start:"";
+              var limit                   = limit!=undefined && limit!=null && !strict?limit:"";
+              var strict                  = strict!=false && strict!=undefined && strict!=null?strict:null;
+              var totalCount              = totalCount!=false && totalCount!=undefined && totalCount!=null?totalCount:null;
+              console.log("=================================================");
+              console.log("                 getKeychainListFn               ");
+              console.log("=================================================");
+              console.log("idClientKf           : "+idClientKf);
+              console.log("create_at            : "+create_at);
+              console.log("idCategoryKf         : "+idCategoryKf);
+              console.log("idKeychainStatusKf   : "+idKeychainStatusKf);
+              console.log("idDepartmenKf        : "+idDepartmenKf);
+              console.log("idReasonKf           : "+idReasonKf);
+              console.log("codeSearch           : "+codeSearch);
+              console.log("sysLoggedUserProfile : "+sysLoggedUserProfile);
+              console.log("start                : "+start);
+              console.log("limit                : "+limit);
+              console.log("strict               : "+strict);
+              console.log("totalCount           : "+totalCount);
+              $scope.keychainSearch={
+                  "idClientKf":idClientKf,
+                  "idCategoryKf":idCategoryKf,
+                  "idKeychainStatusKf":idKeychainStatusKf,
+                  "idDepartmenKf":idDepartmenKf,
+                  "idReasonKf":idReasonKf,
+                  "codeSearch":codeSearch,
+                  "sysLoggedUserProfile":sysLoggedUserProfile,
+                  "create_at":create_at,
+                  "start":start,
+                  "limit":limit,
+                  "strict":strict,
+                  "totalCount":totalCount,
+                };
+              KeysServices.getKeychainList($scope.keychainSearch).then(function(response){
+                  if(response.status==200){
+                      $scope.rsAllKeychainListData   = response.data.tb_keychain;
+                      if (response.data.totalCount!=undefined){
+                          $scope.pagination.totalCount    = response.data.totalCount;
+                      }
+                      console.log(response.data);
+                  }else if(response.status==404){
+                      inform.add('[Info]: No se encontraron registros. ',{
+                          ttl:5000, type: 'info'
+                          });
+                          $scope.rsAllKeychainListData = [];
+                  }else if(response.status==500){
+                      inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                      ttl:5000, type: 'danger'
+                      });
+                      $scope.rsAllKeychainListData = [];
+                  }
+              });
+          };
+          $scope.rsAllKeychainProcessesData = [];
+          $scope.keychainProcessSearch={
+              "idTypeTicketKf":null,
+              "idClientKf":null,
+              "idCategoryKf":null,
+              "create_at":null,
+              "start":null,
+              "limit":null,
+              "strict":null,
+              "totalCount":null,
+            };
+          $scope.getKeychainProcessFn = function(idTypeTicketKf,idClientKf,create_at,idCategoryKf,start,limit,strict,totalCount){
+
+              //console.log("idTypeTicketKf : "+idTypeTicketKf);
+              //console.log("idClientKf     : "+idClientKf);
+              //console.log("create_at      : "+create_at);
+              //console.log("idCategoryKf   : "+idCategoryKf);
+              //console.log("start          : "+start);
+              //console.log("limit          : "+limit);
+              //console.log("strict         : "+strict);
+              //console.log("totalCount     : "+totalCount);
+              var idTypeTicketKf      = idTypeTicketKf!=undefined && idTypeTicketKf!="" && idTypeTicketKf!=null?idTypeTicketKf:null;
+              var idClientKf          = idClientKf!=undefined && idClientKf!=null?idClientKf:null;
+              var create_at           = create_at!=undefined && create_at!="" && create_at!=null?create_at:null;
+              var idCategoryKf        = idCategoryKf!=undefined && idCategoryKf!="" && idCategoryKf!=null?idCategoryKf:null;
+              var start               = start!=undefined && start!=null && !strict?start:"";
+              var limit               = limit!=undefined && limit!=null && !strict?limit:"";
+              var strict              = strict!=false && strict!=undefined && strict!=null?strict:null;
+              var totalCount          = totalCount!=false && totalCount!=undefined && totalCount!=null?totalCount:null;
+              console.log("=================================================");
+              console.log("              getKeychainProcessFn               ");
+              console.log("=================================================");
+              console.log("idTypeTicketKf : "+idTypeTicketKf);
+              console.log("idClientKf     : "+idClientKf);
+              console.log("create_at      : "+create_at);
+              console.log("idCategoryKf   : "+idCategoryKf);
+              console.log("start          : "+start);
+              console.log("limit          : "+limit);
+              console.log("strict         : "+strict);
+              console.log("totalCount     : "+totalCount)
+              $scope.keychainProcessSearch={
+                  "idTypeTicketKf":idTypeTicketKf,
+                  "idClientKf":idClientKf,
+                  "create_at":create_at,
+                  "idCategoryKf":idCategoryKf,
+                  "start":start,
+                  "limit":limit,
+                  "strict":strict,
+                  "totalCount":totalCount,
+                };
+              KeysServices.getKeychainProcess($scope.keychainProcessSearch).then(function(response){
+                  if(response.status==200){
+                      $scope.rsAllKeychainProcessesData   = response.data.tb_keychain_process_events;
+                      if (response.data.totalCount!=undefined){
+                          $scope.pagination.totalCount    = response.data.totalCount;
+                      }
+                      console.log(response.data);
+                  }else if(response.status==404){
+                      inform.add('[Info]: No se encontraron registros. ',{
+                          ttl:5000, type: 'info'
+                          });
+                          $scope.rsAllKeychainProcessesData = [];
+                  }else if(response.status==500){
+                      inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                      ttl:5000, type: 'danger'
+                      });
+                      $scope.rsAllKeychainProcessesData = [];
+                  }
+              });
+          };
+          $scope.pageChanged = function(){
+              console.info($scope.pagination.pageIndex);
+              console.log("$scope.sysContent: "+$scope.sysContent);
+              console.log("$scope.select.codeSearch: "+$scope.select.codeSearch);
+              var pagIndex         = ($scope.pagination.pageIndex-1)*($scope.pagination.pageSizeSelected);
+              var idKeychainStatus = $scope.select.keychainStatus!=undefined && $scope.select.keychainStatus!=null && $scope.select.keychainStatus!=''?$scope.select.keychainStatus.idKeychainStatus:null;
+              var codeSearch       = $scope.select.codeSearch!=undefined && $scope.select.codeSearch!=null && $scope.select.codeSearch!=''?$scope.select.codeSearch:null;
+              var idReasonKf       = $scope.select.keychainStatus!=undefined && $scope.select.keychainStatus!=null && $scope.select.keychainStatus!='' && $scope.select.reasonKf!=undefined && $scope.select.reasonKf!=null && $scope.select.reasonKf!=''?$scope.select.reasonKf.idReasonDisabledItem:null;
+              if ($scope.sysContent=='listKeys'){
+                  $scope.getKeychainListFn($scope.customerFound.idClient,null, $scope.select.filterCategoryKey,idKeychainStatus,$scope.select.idDepartmenKf,idReasonKf,codeSearch,pagIndex,$scope.pagination.pageSizeSelected, false, false);
+              }else{
+                  $scope.getKeychainProcessFn($scope.select.idTypeTicketKf,$scope.customerFound.idClient,null,$scope.select.filterCategoryKey,pagIndex,$scope.pagination.pageSizeSelected, false, false);
+              }
+              
+          }
     /**************************************************
     *            SHOW ONLY ADMIN AND COMPANY          *
     *                 CUSTOMER OPTIONS                *
@@ -2570,6 +2749,28 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               console.log($scope.ticketKeyDoorList);
               $scope.showKeyDoors = true;
               $('#doorKeysModalDetails').modal('show');
+            break;
+            case "keychain_list":
+              $scope.sysContent     = "";
+              $scope.isNewKeySingle = false;
+              $scope.isEditKey      = false;
+              $scope.isNewKeyMulti  = false;
+              $scope.rsKeyListsData = null;
+              $scope.pagination.pageIndex               = 1;
+              $scope.keychainSearch={
+              "idClientKf":$scope.customerFound.idClient,
+              "idCategoryKf":"2",
+              "idKeychainStatusKf":"1",
+              "create_at":null,
+              "start":null,
+              "limit":null,
+              "strict":null,
+              "totalCount":null,
+              };
+              $scope.select={'filterCategoryKey':'', 'reasonKf':{},'department':'', 'codeSearch':null, 'keychainStatus':{}, 'idTypeTicketKf':null,  
+              'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined}, 
+              'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
+              $scope.getKeychainListFn($scope.customerFound.idClient,null, "2","1",null,null,null,1,$scope.pagination.pageSizeSelected, false, true);
             break;
             case "ticket_user":
               $('#userModalDetails').modal('show');

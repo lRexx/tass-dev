@@ -1,6 +1,6 @@
 <!-- KEY LIST-->
 <div id="ticketKeysModalDetails" class="modal fade bd-example-modal-lg" style="top: 170px; z-index: 2151 !important;" role="dialog">
-    <div class="modal-dialog modal-lg" >
+    <div class="modal-dialog modal-xl">
       <div class="modal-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
@@ -13,13 +13,13 @@
                 <div class="col-md-12 col-xs-12" style="padding-bottom: 2em;">
                     <!-- NEW TICKET -->
                     <div class="col-md-6">
-                        <button ng-click="setOptionType($event); mainSwitchFn('autoSelectDoors', null, null);" id="stock" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='stock', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='stock'}">
+                        <button ng-click="setOptionType($event); mainSwitchFn('keychain_list', null, null);" id="stock" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='stock', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='stock'}">
                             <i class="fas fa-cogs"></i> STOCK</button>
                     </div>
                     <!-- //NEW TICKET -->
                     <!-- SERVICES COST -->
                     <div class="col-md-6">
-                        <button ng-click="setOptionType($event); mainSwitchFn('autoSelectDoors', null, null);" id="manual" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='manual', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='manual'}">
+                        <button ng-click="setOptionType($event); mainSwitchFn('keychain_manual', null, null);" id="manual" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='manual', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='manual'}">
                             <i class="fas fa-pencil-alt"></i> MANUAL</button>
                     </div>
                 </div>
@@ -30,6 +30,7 @@
                             <div class="panel-body n-padding-l n-padding-r">
                                 <!--*********KEY STOCK LIST ***********-->
                                 <!-- complete the form -->
+                                <legend style="text-align: left;">Llaveros de Stock</legend>
                                 <div class="col-md-12 n-padding-l n-padding-r" ng-include="'views/management/tickets/lists/listKeys.html'"></div>
                             </div>
                         </div>
