@@ -844,8 +844,8 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                     $scope.ticket.optionTypeSelected.obj = elem;
                     elem.removeClass('btn-primary').addClass("btn-success");
                 }else if ($scope.ticket.keysMethod.name!=elem[0].getAttribute("id")){
-                    document.getElementById("typeOption1").checked=false;
-                    document.getElementById("typeOption2").checked=false;
+                    //document.getElementById("typeOption1").checked=false;
+                    //document.getElementById("typeOption2").checked=false;
                     $scope.ticket.radioButtonBuilding=undefined;
                     $scope.list_keys = [];
                     var removeElem = document.getElementById("manual")
