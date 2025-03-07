@@ -13,13 +13,13 @@
                 <div class="col-md-12 col-xs-12" style="padding-bottom: 2em;">
                     <!-- NEW TICKET -->
                     <div class="col-md-6">
-                        <button ng-click="setOptionType($event); mainSwitchFn('autoSelectDoors', null, null);" id="stock" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='stock', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='department'}">
+                        <button ng-click="setOptionType($event); mainSwitchFn('autoSelectDoors', null, null);" id="stock" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='stock', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='stock'}">
                             <i class="glyphicon glyphicon-home"></i> STOCK</button>
                     </div>
                     <!-- //NEW TICKET -->
                     <!-- SERVICES COST -->
                     <div class="col-md-6">
-                        <button ng-click="setOptionType($event); mainSwitchFn('autoSelectDoors', null, null);" id="manual" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='manual', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='building'}">
+                        <button ng-click="setOptionType($event); mainSwitchFn('autoSelectDoors', null, null);" id="manual" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='manual', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='manual'}">
                             <i class="icon-building"></i> MANUAL</button>
                     </div>
                 </div>
