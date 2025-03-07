@@ -13,18 +13,18 @@
                 <div class="col-md-12 col-xs-12" style="padding-bottom: 2em;">
                     <!-- NEW TICKET -->
                     <div class="col-md-6">
-                        <button ng-click="setOptionType($event); mainSwitchFn('autoSelectDoors', null, null);" id="stock" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod=='stock', 'btn-primary': ticket.keysMethod==undefined || ticket.keysMethod!='department'}">
+                        <button ng-click="setOptionType($event); mainSwitchFn('autoSelectDoors', null, null);" id="stock" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='stock', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='department'}">
                             <i class="glyphicon glyphicon-home"></i> STOCK</button>
                     </div>
                     <!-- //NEW TICKET -->
                     <!-- SERVICES COST -->
                     <div class="col-md-6">
-                        <button ng-click="setOptionType($event); mainSwitchFn('autoSelectDoors', null, null);" id="manual" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod=='manual', 'btn-primary': ticket.keysMethod==undefined || ticket.keysMethod!='building'}">
+                        <button ng-click="setOptionType($event); mainSwitchFn('autoSelectDoors', null, null);" id="manual" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='manual', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='building'}">
                             <i class="icon-building"></i> MANUAL</button>
                     </div>
                 </div>
                 <!-- OPTION STOCK-->
-                <div ng-show="ticket.keysMethod=='stock'">
+                <div ng-show="ticket.keysMethod.name=='stock'">
                     <div class="col-md-12" style="padding: 10px !important;">
                         <div class="well well-md" ng-class="{'well-success': ticket.idClientDepartament!=undefined && ticket.idClientDepartament!='' && ticket.idClientDepartament!=null && ticket.idClientDepartament!=0}">
                             <div class="panel-body n-padding-l n-padding-r">
@@ -36,7 +36,7 @@
                     </div>
                 </div>
                 <!-- OPTION MANUAL-->
-                <div ng-show="ticket.keysMethod=='manual'">
+                <div ng-show="ticket.keysMethod.name=='manual'">
                     <div class="col-md-12" style="padding: 10px !important;">
                         <div class="well well-md" ng-class="{'well-success': ticket.idClientDepartament!=undefined && ticket.idClientDepartament!='' && ticket.idClientDepartament!=null && ticket.idClientDepartament!=0}">
                             <div class="panel-body n-padding-l n-padding-r">

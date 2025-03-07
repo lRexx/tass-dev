@@ -53,7 +53,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
       $scope.listTickt = 0;
       $scope.filters={typeClient:'', typeTicket: '', topDH: '', searchFilter:'', idCompany: '', idAddress: '', ticketStatus: ''};
       $scope.dh = {'filterAddress': '', 'filterSearch': '', 'filterTop': '', 'filterProfile':'', 'filterTenantKf':''};
-      $scope.ticket = {'administration':undefined, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'userRequestBy':{}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':null, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
+      $scope.ticket = {'administration':undefined, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'keysMethod':{}, 'userRequestBy':{}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':null, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
       $scope.getCostByCustomer={'rate':{'idCustomer':null, 'idServiceType':null, 'idServiceTechnician':null}};
       $scope.costs={'keys':{'cost':0, 'manual':false}, 'delivery':{'cost':0, 'manual':false}, 'service':{'cost':0, 'manual':false}, 'total':0};
       $scope.customerSearch={'name':'','searchFilter':'', 'typeClient':'', 'isInDebt':false, 'isStockInBuilding': false, 'isStockInOffice': false, 'strict':false};
@@ -839,27 +839,27 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
         console.log(elem)
         switch (elem[0].getAttribute("id")){
             case "stock":
-                if ($scope.ticket.keysMethod==undefined){
-                    $scope.ticket.keysMethod = elem[0].getAttribute("id");
+                if ($scope.ticket.keysMethod.name==undefined){
+                    $scope.ticket.keysMethod.name = elem[0].getAttribute("id");
                     $scope.ticket.optionTypeSelected.obj = elem;
                     elem.removeClass('btn-primary').addClass("btn-success");
-                }else if ($scope.ticket.keysMethod!=elem[0].getAttribute("id")){
+                }else if ($scope.ticket.keysMethod.name!=elem[0].getAttribute("id")){
                     document.getElementById("typeOption1").checked=false;
                     document.getElementById("typeOption2").checked=false;
                     $scope.ticket.radioButtonBuilding=undefined;
                     $scope.list_keys = [];
                     var removeElem = document.getElementById("manual")
                     //console.log(removeElem)
-                    $scope.ticket.keysMethod = elem[0].getAttribute("id");
+                    $scope.ticket.keysMethod.name = elem[0].getAttribute("id");
                     $scope.ticket.optionTypeSelected.obj = elem;
                     elem.removeClass('btn-primary').addClass("btn-success");
                 }
             break;
             case "manual":
-                if ($scope.ticket.keysMethod==undefined){
-                    $scope.ticket.keysMethod = elem[0].getAttribute("id");
+                if ($scope.ticket.keysMethod.name==undefined){
+                    $scope.ticket.keysMethod.name = elem[0].getAttribute("id");
                     elem.removeClass('btn-primary').addClass("btn-success");
-                }else if ($scope.ticket.keysMethod!=elem[0].getAttribute("id")){
+                }else if ($scope.ticket.keysMethod.name!=elem[0].getAttribute("id")){
                     //document.getElementById("typeTenant1").checked=false;
                     //document.getElementById("typeTenant2").checked=false;
                     $scope.ticket.radioButtonDepartment=undefined;
@@ -867,7 +867,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                     $scope.selectedUser=undefined;
                     $scope.list_keys = [];
                     var removeElem = document.getElementById("stock")
-                    $scope.ticket.keysMethod = elem[0].getAttribute("id");
+                    $scope.ticket.keysMethod.name = elem[0].getAttribute("id");
                     $scope.ticket.optionTypeSelected.obj = elem;
                     elem.removeClass('btn-primary').addClass("btn-success");
                 }
