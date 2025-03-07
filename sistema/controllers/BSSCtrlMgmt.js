@@ -834,6 +834,48 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
             }
         });
       }
+      $scope.setOptionType = function(obj) {
+        var elem = angular.element(obj.target);// or angular.element(obj.target);
+        console.log(elem)
+        switch (elem[0].getAttribute("id")){
+            case "department":
+                if ($scope.ticket.optionTypeSelected.name==undefined){
+                    $scope.ticket.optionTypeSelected.name = elem[0].getAttribute("id");
+                    $scope.ticket.optionTypeSelected.obj = elem;
+                    elem.removeClass('btn-primary').addClass("btn-success");
+                }else if ($scope.ticket.optionTypeSelected.name!=elem[0].getAttribute("id")){
+                    document.getElementById("typeOption1").checked=false;
+                    document.getElementById("typeOption2").checked=false;
+                    $scope.ticket.radioButtonBuilding=undefined;
+                    $scope.list_keys = [];
+                    var removeElem = document.getElementById("building")
+                    //console.log(removeElem)
+                    $scope.ticket.optionTypeSelected.name = elem[0].getAttribute("id");
+                    $scope.ticket.optionTypeSelected.obj = elem;
+                    elem.removeClass('btn-primary').addClass("btn-success");
+                }
+            break;
+            case "building":
+                if ($scope.ticket.optionTypeSelected.name==undefined){
+                    $scope.ticket.optionTypeSelected.name = elem[0].getAttribute("id");
+                    elem.removeClass('btn-primary').addClass("btn-success");
+                }else if ($scope.ticket.optionTypeSelected.name!=elem[0].getAttribute("id")){
+                    //document.getElementById("typeTenant1").checked=false;
+                    //document.getElementById("typeTenant2").checked=false;
+                    $scope.ticket.radioButtonDepartment=undefined;
+                    $scope.ticket.idClientDepartament=undefined;
+                    $scope.selectedUser=undefined;
+                    $scope.list_keys = [];
+                    var removeElem = document.getElementById("department")
+                    $scope.ticket.optionTypeSelected.name = elem[0].getAttribute("id");
+                    $scope.ticket.optionTypeSelected.obj = elem;
+                    elem.removeClass('btn-primary').addClass("btn-success");
+                }
+            break;
+            default:
+        }
+        console.log($scope.ticket);
+     };
     /**************************************************
     *                                                 *
     *                GET DELIVERY TYPES               *
