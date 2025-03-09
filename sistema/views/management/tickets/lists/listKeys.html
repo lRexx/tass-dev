@@ -2,6 +2,7 @@
 <table id="tableKeys" class="table table-striped table-bordered table-condensed table-list table-responsive table-hover table-hover-selected">
     <thead style=" background: #4d5d6f; color: white;">
       <tr style="text-align: center;">
+          <th width="10%" class="dpto-th-head " style="text-align: center;"><i class="fas fa-tasks"> </i> Seleccionar</th>
           <th width="5%"  style="vertical-align: middle;text-align: center;">ID</th>
           <th width="20%" style="vertical-align: middle;text-align: center;"><i class="fas fa-file-alt"> </i> Descripción </th>
           <th width="13%" style="vertical-align: middle;text-align: center;"><i class="fas fa-house-user"> </i> Unidad</th>
@@ -17,6 +18,14 @@
       <!-- Show if there are Keys registered -->
       <tr ng-if="rsAllKeychainListData.length>0"  class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in rsAllKeychainListData">
         <!--<tr class="animate-repeat" style="align-content: center; cursor: pointer;"  dir-paginate="item in rsCustomerListData|orderBy:idClient:reverse|filter:searchboxfilter|itemsPerPage:10">-->
+        <td style="vertical-align: middle;text-align: center;" ng-trim="true">
+          <div class="text-badge">
+            <label class="switch switch-2x" for="removeKey-{{item.idKeychain}}">
+              <input type="checkbox" class="success" ng-change="mainSwitchFn('addKeyToDownList', key, null);" ng-model="item.selected" id="removeKey-{{item.idKeychain}}">
+              <span class="slider slider-2x flat"></span>
+            </label>
+          </div>
+        </td>
         <td class="media-middle text-center" ng-click="switchCustomersFn('details_customer', item, 'show');">
         	{{item.idKeychain}}
         </td>
