@@ -1725,7 +1725,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                         if (response.data.totalCount!=undefined){
                             $scope.pagination.totalCount    = response.data.totalCount;
                         }
-                        console.log(response.data);
+                        console.log($scope.ticket);
                   }else if(response.status==404){
                       inform.add('[Info]: No se encontraron registros. ',{
                           ttl:5000, type: 'info'
