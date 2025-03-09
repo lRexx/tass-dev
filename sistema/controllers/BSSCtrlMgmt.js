@@ -796,7 +796,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
             $scope.rsCustomerAccessControlDoors = [];
             //console.log("Getting --> ControlAccessDoorsAssociatedToACustomerFn");
             CustomerServices.getControlAccessDoorsAssociatedToACustomerServices(idClient).then(function(response){
-                console.log(response.data);
+                //console.log(response.data);
                 if(response.status==200){
                     $scope.rsCustomerAccessControlDoors = response.data;
                 }else if (response.status==404){
@@ -1709,11 +1709,23 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                 };
               KeysServices.getKeychainList($scope.keychainSearch).then(function(response){
                   if(response.status==200){
+                      $scope.ticket.keySource = "stock";
+                      var tk_selected = 0;
                       $scope.rsAllKeychainListData   = response.data.tb_keychain;
-                      if (response.data.totalCount!=undefined){
-                          $scope.pagination.totalCount    = response.data.totalCount;
+                      for (var tkey in $scope.ticket.keys){
+                        for (var stock in $scope.rsAllKeychainListData){
+                          if ($scope.ticket.keys[tkey].idProduct == $scope.rsAllKeychainListData[stock].idProduct && tk_selected<$scope.ticket.keys.length){
+                            $scope.rsAllKeychainListData[stock].selected = true;
+                            tk_selected++;
+                          }else{
+                            $scope.rsAllKeychainListData[stock].selected = false;
+                          }
+                        }
                       }
-                      console.log(response.data);
+                        if (response.data.totalCount!=undefined){
+                            $scope.pagination.totalCount    = response.data.totalCount;
+                        }
+                        console.log(response.data);
                   }else if(response.status==404){
                       inform.add('[Info]: No se encontraron registros. ',{
                           ttl:5000, type: 'info'
