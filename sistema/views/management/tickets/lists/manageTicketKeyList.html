@@ -62,11 +62,10 @@
                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
                                                     <select name="department" 
                                                             class="form-control text-uppercase"
-                                                            ng-disabled="select.department!=undefined && select.department!=''"
+                                                            ng-disabled="keys.new.categoryKey=='1'"
                                                             ng-options="item.idClientDepartament as item.floor+'-'+item.departament for item in ListDpto" 
                                                             ng-required="select.buildings.selected!=undefined" 
-                                                            ng-model="keys.new.department"
-                                                            ng-disabled="true" autofocus >
+                                                            ng-model="keys.new.department" autofocus >
                                                         <option value="">Seleccione una opci&#243n</option>
                                                     </select>
                                                 </div>
@@ -128,7 +127,6 @@
                                                     <select  name="categoryKey" 
                                                             ng-change="select.filterCategoryKey!='1'?keys.new.department=null:''"
                                                             ng-options="item.idCategory as (item.name | uppercase) for item in rsCategoryKeyChainsData | filter:filterCategoryKey"
-                                                            ng-disabled="rsKeyListsData.status==404"
                                                             class="form-control"
                                                             ng-model="keys.new.categoryKey"
                                                             ng-disabled="true">
