@@ -2712,17 +2712,6 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                     $('#uploadKeyFiles').focus();
                 });
             break;
-            case "keyDetails":
-              $scope.isNewKey=false;
-              $scope.isEditKey=false;
-              //console.log(obj);
-              var address=obj.addressA==null?obj.addressB:obj.addressA;
-              var idClient=obj.idClientA==null?obj.idClientB:obj.idClientA;
-              $scope.keys.details=obj;
-              $scope.keys.details.buildingAddress=address;
-              console.log($scope.keys.details);
-              $('#keyDetails').modal({backdrop: 'static', keyboard: false});
-            break;
             case "uploadKeyFile":
                 $scope.addMultiKeys(obj);
             break;
