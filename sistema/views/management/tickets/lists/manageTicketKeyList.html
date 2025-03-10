@@ -6,7 +6,7 @@
               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
               <h3 class="modal-title"><i class="fas fa-key"></i> LLAVEROS A ASIGNAR</h3>
           </div>
-        <div class="modal-body" style="overflow-y: scroll;">
+        <div class="modal-body">
             <!-- SELECT METHOD-->
             <div class="col-md-12"> 
                 <!-- SELECT DE OPTION TYPE TO CONTINUE WITH THE REQUEST-->
@@ -31,7 +31,7 @@
                                 <!--*********KEY STOCK LIST ***********-->
                                 <!-- complete the form -->
                                 <legend style="text-align: left;">Llaveros de Stock</legend>
-                                <div class="col-md-12 n-padding-l n-padding-r" ng-include="'views/management/tickets/lists/listKeys.html'"></div>
+                                <div class="col-md-12 n-padding-l n-padding-r" ng-include="'views/management/tickets/lists/listKeys.html'" style="overflow-y: scroll;"></div>
                             </div>
                         </div>
                     </div>
