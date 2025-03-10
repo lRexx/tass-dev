@@ -1,17 +1,17 @@
 <!-- LIST OF KEYS -->
 <table id="tableKeys" class="table table-striped table-bordered table-condensed table-list table-responsive table-hover table-hover-selected">
-    <thead class="dpto-t-head" style=" background: #4d5d6f; color: white;">
+    <thead class="fixed-head" style=" background: #4d5d6f; color: white;">
       <tr style="text-align: center;">
-          <th width="5%"  class="dpto-th-head" style="vertical-align: middle;text-align: center;"><i class="fas fa-tasks"> </i> Seleccionar</th>
-          <th width="5%"  class="dpto-th-head" style="vertical-align: middle;text-align: center;">ID</th>
-          <th width="33%" class="dpto-th-head" style="vertical-align: middle;text-align: center;"><i class="fas fa-file-alt"> </i> Descripción </th>
-          <th width="7%"  class="dpto-th-head" style="vertical-align: middle;text-align: center;"><i class="fas fa-house-user"> </i> Unidad</th>
-          <th width="8%"  class="dpto-th-head" style="vertical-align: middle;text-align: center;"><i class="fas fa-qrcode"> </i> Codigo</th>
-          <th width="8%"  class="dpto-th-head" style="vertical-align: middle;text-align: center;"><i class="fas fa-qrcode"> </i> Cod Externo</th>
-          <th width="5%"  class="dpto-th-head" style="vertical-align: middle;text-align: center;"><i class="glyphicon icon-flag"> </i> Estatus</th>
+          <th width="5%"  class="th-head" style="vertical-align: middle;text-align: center;"><i class="fas fa-tasks"> </i> Seleccionar</th>
+          <th width="5%"  class="th-head" style="vertical-align: middle;text-align: center;">ID</th>
+          <th width="33%" class="th-head" style="vertical-align: middle;text-align: center;"><i class="fas fa-file-alt"> </i> Descripción </th>
+          <th width="7%"  class="th-head" style="vertical-align: middle;text-align: center;"><i class="fas fa-house-user"> </i> Unidad</th>
+          <th width="8%"  class="th-head" style="vertical-align: middle;text-align: center;"><i class="fas fa-qrcode"> </i> Codigo</th>
+          <th width="8%"  class="th-head" style="vertical-align: middle;text-align: center;"><i class="fas fa-qrcode"> </i> Cod Externo</th>
+          <th width="5%"  class="th-head" style="vertical-align: middle;text-align: center;"><i class="glyphicon icon-flag"> </i> Estatus</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="fixed-body">
       <!-- Show if there are Keys registered -->
       <tr ng-if="rsAllKeychainListData.length>0"  class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in rsAllKeychainListData">
         <!--<tr class="animate-repeat" style="align-content: center; cursor: pointer;"  dir-paginate="item in rsCustomerListData|orderBy:idClient:reverse|filter:searchboxfilter|itemsPerPage:10">-->
