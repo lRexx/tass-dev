@@ -40,7 +40,7 @@
                 <div ng-show="ticket.keysMethod.name=='manual'">
                     <div class="col-md-12" style="padding: 10px !important;">
                         <!-- KEY REGISTER FORM -->
-                        <div class="panel panel-default">
+                        <div class="panel" ng-class="{'panel-success':fNewKey.$valid, 'panel-default': fNewKey.$invalid}">
                             <div class="panel-heading" data-toggle="collapse" data-target="#panelBody" style="cursor: pointer;">
                                 <h3 class="panel-title"><i class="product-success fas fa-key"></i> NUEVO LLAVERO</h3>
                             </div>
@@ -65,7 +65,8 @@
                                                             ng-disabled="select.department!=undefined && select.department!=''"
                                                             ng-options="item.idClientDepartament as item.floor+'-'+item.departament for item in ListDpto" 
                                                             ng-required="select.buildings.selected!=undefined" 
-                                                            ng-model="keys.new.department" autofocus >
+                                                            ng-model="keys.new.department"
+                                                            ng-disabled="true" autofocus >
                                                         <option value="">Seleccione una opci&#243n</option>
                                                     </select>
                                                 </div>
@@ -129,7 +130,8 @@
                                                             ng-options="item.idCategory as (item.name | uppercase) for item in rsCategoryKeyChainsData | filter:filterCategoryKey"
                                                             ng-disabled="rsKeyListsData.status==404"
                                                             class="form-control"
-                                                            ng-model="keys.new.categoryKey">
+                                                            ng-model="keys.new.categoryKey"
+                                                            ng-disabled="true">
                                                         <option value="" >Seleccione una opci&#243n</option>
                                                     </select>
                                                 </div>
