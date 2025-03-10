@@ -1717,6 +1717,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                           if ($scope.tkupdate.keys[tkey].idProduct == $scope.rsAllKeychainListData[stock].idProductKf && tk_selected<$scope.tkupdate.keys.length){
                             $scope.rsAllKeychainListData[stock].selected = true;
                             tk_selected++;
+                            console.log($scope.rsAllKeychainListData[stock]);
                           }else{
                             $scope.rsAllKeychainListData[stock].selected = false;
                           }
