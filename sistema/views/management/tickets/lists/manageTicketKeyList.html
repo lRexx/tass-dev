@@ -45,10 +45,10 @@
                                 <!-- complete the form -->
                                 <!-- KEY REGISTER FORM -->
                                 <div class="panel panel-default">
-                                    <div class="panel-heading">
+                                    <div class="panel-heading" data-toggle="collapse" data-target="#panelBody">
                                         <h3 class="panel-title"><i class="product-success fas fa-key"></i> NUEVO LLAVERO</h3>
                                     </div>
-                                    <div class="panel-body">
+                                    <div id="panelBody" class="panel-body collapse in">
                                         <!-- FORM CONTAINER-->
                                         <form class="form-horizontal" name="fNewKey" novalidate>
                                             <fieldset>
@@ -199,7 +199,7 @@
                                                 <div class="form-group col-md-6 col-xs-12" ng-class="
                                                     {	'has-success': 
                                                         ticketSearch.name!='' && fNewKey.ticketSearch.$valid
-                                                    }">
+                                                    }" style="margin-left: 1em;margin-top: 15px;">
                                                     <div class="form-group col-md-2 col-xs-2 n-padding-l" style="padding-left: 15px;">
                                                       <span ng-if="!keys.new.isForTickets" class="badge badge-warning">Inhabilitado</span>
                                                       <span ng-if="keys.new.isForTickets" class="badge badge-success">Habilitado</span>
