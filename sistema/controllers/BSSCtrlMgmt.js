@@ -2795,6 +2795,16 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
               $scope.getKeychainListFn($scope.tkupdate.building.idClient,null, "2","1",null,null,null,1,$scope.pagination.pageSizeSelected, false, true);
             break;
+            case "keyDetails":
+              $scope.isNewKeySingle = false;
+              $scope.isEditKey      = false;
+              $scope.isNewKeyMulti  = false;
+              //console.log(obj);
+              $scope.keys.details=obj;
+              $scope.keys.details.buildingAddress=obj.address;
+              console.log($scope.keys.details);
+              $('#keyDetails').modal({backdrop: 'static', keyboard: false});
+            break;
             case "ticket_user":
               $('#userModalDetails').modal('show');
             break;
