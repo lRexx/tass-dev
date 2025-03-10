@@ -2799,6 +2799,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $scope.isNewKeySingle = false;
               $scope.isEditKey      = false;
               $scope.isNewKeyMulti  = false;
+              $scope.keys = {};
               //console.log(obj);
               $scope.keys.details=obj;
               $scope.keys.details.buildingAddress=obj.address;
