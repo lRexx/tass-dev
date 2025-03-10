@@ -43,13 +43,12 @@
                             <div class="panel-body n-padding-l n-padding-r">
                                 <!--*********KEY MANUAL***********-->
                                 <!-- complete the form -->
-                                <legend style="text-align: left;">Agregar Llavero Manual</legend>
                                 <!-- KEY REGISTER FORM -->
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h3 class="panel-title"><i class="product-success fas fa-key"></i> NUEVO LLAVERO</h3>
                                     </div>
-                                    <div class="panel-body"  style="overflow-y: scroll;">
+                                    <div class="panel-body">
                                         <!-- FORM CONTAINER-->
                                         <form class="form-horizontal" name="fNewKey" novalidate>
                                             <fieldset>
@@ -194,44 +193,6 @@
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><i class="fas fa-barcode"></i></span>
                                                             <input name="codigoExt" placeholder="Codigo Externo" class="form-control" ng-model="keys.new.codigoExt" type="text" required autofocus />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- List Ticket -->
-                                                <div ng-if="sysLoggedUser.idProfileKf=='1'" class="form-group col-md-12 col-sm-12 col-xs-12" ng-class="
-                                                {	'has-success': 
-                                                    ticketSearch.name!='' && fNewKey.ticketSearch.$valid
-                                                }" style="z-index: 1000;">
-                                                    <div class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-l n-padding-r" >
-                                                        <div class="form-group col-md-2 col-xs-4">
-                                                            <label for="isForTickets" style="cursor: pointer; font-weight: 600; padding-left: 15px;">Pedidos:</label>
-                                                        </div>
-                                                        <div class="form-group col-md-10 col-xs-8">
-                                                            <label class="switch switch-1x">
-                                                                <input type="checkbox" 
-                                                                class="success" 
-                                                                ng-change="" 
-                                                                ng-model="keys.new.isForTickets" 
-                                                                id="isForTickets" 
-                                                                style="margin: 0px !important; display: inherit !important;">
-                                                                <span class="slider slider-1x flat"></span>
-                                                            </label>
-                                                        </div>
-                                                        <div ng-if="keys.new.isForTickets" class="input-group s-ui-width s-ui-m-left">
-                                                            <span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
-                                                            <input type="text" name="ticketSearch" 
-                                                                id="ticketSearch" 
-                                                                ng-model="ticketSearch.name"
-                                                                ng-keydown="findTicketFn(ticketSearch.name);"
-                                                                class="form-control text-uppercase" 
-                                                                move-to-list input-selector="'.input-search'"
-                                                                list-items-selector="'.list-group li'"
-                                                                placeholder="Presione Enter para buscar..."
-                                                                style="border-radius: 4px;border-bottom-left-radius: 0px;border-top-left-radius: 0px;"
-                                                                ng-required="keys.new.isForTickets" />
-                                                            <ul id="ticketList" class="list-group" ng-show="listTickt.length>0 && (ticketSearch.name!=undefined || ticketSearch.name!=null)" style="height: 0px;" >
-                                                                <li tabindex="0" id="ticketList-{{$index}}"  class="list-group-item" ng-repeat="item in listTickt" navigate-list-items ng-class="{'padding-t-38': $index==0}" ng-click="loadTicketsFieldsFn(item, false);" input-selector="'.input-search'" list-items-selector="'.list-group li'" ng-keydown="$event.keyCode === 13 && loadTicketsFieldsFn(item)" ><span class="label label-warning">{{item.typeticket.TypeTicketName}}</span> {{item.codTicket}} - <span class="label label-warning">{{item.statusTicket.statusName}}</span> <span class="label label-default">{{item.created_at | date:'dd/MM/yyyy'}}</span></li>
-                                                            </ul>
                                                         </div>
                                                     </div>
                                                 </div>

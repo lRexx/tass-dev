@@ -766,11 +766,11 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
         $scope.rsKeyProductsData = [];
         $scope.select={'products':{'selected':{}}};
         $scope.getKeysAssociatedToACustomerFn = function(idClient){
-            console.log("getKeysAssociatedToACustomerFn-->Service")
+            //console.log("getKeysAssociatedToACustomerFn-->Service")
             CustomerServices.getKeysAssociatedToACustomerService(idClient).then(function(response){
                 if(response.status==200){
                     $scope.rsKeyProductsData = response.data;
-                    console.info($scope.keyList);
+                    //console.info($scope.keyList);
                     $timeout(function() {
                         $scope.select.products.selected={'idStatusFk':$scope.rsKeyProductsData[0].idStatusFk,'contractStatus':$scope.rsKeyProductsData[0].contractStatus,'serviceName':$scope.rsKeyProductsData[0].serviceName,'idProduct':$scope.rsKeyProductsData[0].idProduct,'descriptionProduct':$scope.rsKeyProductsData[0].descriptionProduct,'codigoFabric':$scope.rsKeyProductsData[0].codigoFabric,'brand':$scope.rsKeyProductsData[0].brand,'model':$scope.rsKeyProductsData[0].model,'idProductClassificationFk':$scope.rsKeyProductsData[0].idProductClassificationFk,'isNumberSerieFabric':$scope.rsKeyProductsData[0].isNumberSerieFabric,'isNumberSerieInternal':$scope.rsKeyProductsData[0].isNumberSerieInternal,'isDateExpiration':$scope.rsKeyProductsData[0].isDateExpiration,'isControlSchedule':$scope.rsKeyProductsData[0].isControlSchedule,'isRequestNumber':$scope.rsKeyProductsData[0].isRequestNumber,'priceFabric':$scope.rsKeyProductsData[0].priceFabric,'classification':$scope.rsKeyProductsData[0].classification};
                         console.log($scope.select.products.selected);
@@ -830,7 +830,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $scope.rsData.ticket = (response.data[0]);
               $scope.tkupdate = response.data[0];
               //$scope.getContractsByCustomerIdFn($scope.tkupdate.building.idClient);
-              //$scope.getKeysAssociatedToACustomerFn($scope.tkupdate.building.idClient);
+              $scope.getKeysAssociatedToACustomerFn($scope.tkupdate.building.idClient);
               $scope.getControlAccessDoorsAssociatedToACustomerFn($scope.tkupdate.building.idClient);
               $scope.customerFound = $scope.tkupdate.building;
               console.log($scope.rsData);
@@ -1634,12 +1634,27 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
             $scope.companiesList = [];
         });
       };
-
-            /**************************************************
-            *                                                 *
-            *                 LIST ALL KEYS                   *
-            *                                                 *
-            **************************************************/
+    /**************************************************
+    *                                                 *
+    *            GET CATEGORY KEYS CHAIN              *
+    *                                                 *
+    **************************************************/
+      $scope.rsCategoryKeyChainsData = [];
+      $scope.getCategoryKeyChainsFn = function(){
+          UtilitiesServices.CategoryKeyChains().then(function(response){
+              if(response.status==200){
+                  $scope.rsCategoryKeyChainsData = response.data;
+              }else{
+                  $scope.rsCategoryKeyChainsData = [];
+              }
+          });
+          //console.log($scope.rsCategoryKeyChainsData);
+      };$scope.getCategoryKeyChainsFn("");
+    /**************************************************
+    *                                                 *
+    *                 LIST ALL KEYS                   *
+    *                                                 *
+    **************************************************/
             $scope.rsAllKeychainListData = [];
 
             $scope.keychainSearch={
