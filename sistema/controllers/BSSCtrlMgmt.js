@@ -832,6 +832,9 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               //$scope.getContractsByCustomerIdFn($scope.tkupdate.building.idClient);
               $scope.getKeysAssociatedToACustomerFn($scope.tkupdate.building.idClient);
               $scope.getControlAccessDoorsAssociatedToACustomerFn($scope.tkupdate.building.idClient);
+              if ($scope.tkupdate.idTypeRequestFor=="1"){
+                $scope.getDeptoListByAddress($scope.tkupdate.building.idClient);
+              }
               $scope.customerFound = $scope.tkupdate.building;
               console.log($scope.rsData);
             }else if (response.status==404){
@@ -1840,6 +1843,27 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               }
               
           }
+        /**************************************************
+        *                                                 *
+        * DEPARTMENT LIST BY SELECTED ADDRESS AND TENANT  *
+        *                                                 *
+        **************************************************/
+          $scope.getDeptoListByAddress = function (idAddress){
+            if(idAddress!=undefined){
+                $scope.ListDpto=[];
+                var idStatusFk='-1';
+                DepartmentsServices.byIdDireccion(idAddress, idStatusFk).then(function(response) {
+                    if(response.status==200){
+                        $scope.ListDpto = response.data;
+                    }else if (response.status==404){
+                        $scope.ListDpto = [];
+                        inform.add('No hay departamentos en esta direccion para ser asociados, contacte al area de soporte de TASS.',{
+                        ttl:5000, type: 'danger'
+                        });
+                    }
+                });
+            }
+          };
     /**************************************************
     *            SHOW ONLY ADMIN AND COMPANY          *
     *                 CUSTOMER OPTIONS                *
@@ -2808,7 +2832,9 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $scope.isEditKey         = false;
               $scope.isNewKeyMulti     = false;
               $scope.rsNewKeychainList = null;
-              //$scope.keys.new.categoryKey = 
+              $scope.keys.new.categoryKey       = $scope.tkupdate.keys[0].idCategory;
+              $scope.keys.new.products.selected = {'idProduct':$scope.tkupdate.keys[0].idProduct,'model':$scope.tkupdate.keys[0].model,'classification':$scope.tkupdate.keys[0].classification,'codigoFabric':$scope.tkupdate.keys[0].codigoFabric,'descriptionProduct':$scope.tkupdate.keys[0].descriptionProduct,'idProductClassification':$scope.tkupdate.keys[0].idProductClassification,'brand':$scope.tkupdate.keys[0].brand,'priceFabric':$scope.tkupdate.keys[0].priceFabric};
+              $scope.keys.new.department = $scope.tkupdate.department.idClientDepartament;
             break;
             case "keyDetails":
               $scope.isNewKeySingle = false;
