@@ -1714,7 +1714,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                       $scope.rsAllKeychainListData   = response.data.tb_keychain;
                       for (var tkey in $scope.tkupdate.keys){
                         for (var stock in $scope.rsAllKeychainListData){
-                          if ($scope.tkupdate.keys[tkey].idProduct == $scope.rsAllKeychainListData[stock].idProduct && tk_selected<$scope.tkupdate.keys.length){
+                          if ($scope.tkupdate.keys[tkey].idProduct == $scope.rsAllKeychainListData[stock].idProductKf && tk_selected<$scope.tkupdate.keys.length){
                             $scope.rsAllKeychainListData[stock].selected = true;
                             tk_selected++;
                           }else{
