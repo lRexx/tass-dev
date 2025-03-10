@@ -2827,14 +2827,14 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $scope.getKeychainListFn($scope.tkupdate.building.idClient,null, "2","1",null,null,null,1,$scope.pagination.pageSizeSelected, false, true);
             break;
             case "keychain_manual":
-              $scope.keys={"new":{}}
-              $scope.isNewKeySingle    = true;
-              $scope.isEditKey         = false;
-              $scope.isNewKeyMulti     = false;
-              $scope.rsNewKeychainList = null;
+              $scope.keys={"new":{'products':{'selected':{}}}}
+              $scope.isNewKeySingle             = true;
+              $scope.isEditKey                  = false;
+              $scope.isNewKeyMulti              = false;
+              $scope.rsNewKeychainList          = null;
               $scope.keys.new.categoryKey       = $scope.tkupdate.keys[0].idCategory;
               $scope.keys.new.products.selected = {'idProduct':$scope.tkupdate.keys[0].idProduct,'model':$scope.tkupdate.keys[0].model,'classification':$scope.tkupdate.keys[0].classification,'codigoFabric':$scope.tkupdate.keys[0].codigoFabric,'descriptionProduct':$scope.tkupdate.keys[0].descriptionProduct,'idProductClassification':$scope.tkupdate.keys[0].idProductClassification,'brand':$scope.tkupdate.keys[0].brand,'priceFabric':$scope.tkupdate.keys[0].priceFabric};
-              $scope.keys.new.department = $scope.tkupdate.department.idClientDepartament;
+              $scope.keys.new.department        = $scope.tkupdate.department.idClientDepartament;
             break;
             case "keyDetails":
               $scope.isNewKeySingle = false;
