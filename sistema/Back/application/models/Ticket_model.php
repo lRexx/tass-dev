@@ -2870,6 +2870,7 @@ class Ticket_model extends CI_Model
 			}
 			$this->db->select("*")->from("tb_ticket_keychain");
 			$this->db->join('tb_keychain' , 'tb_keychain.idKeychain = tb_ticket_keychain.idKeychainKf' , 'left');
+			$this->db->join('tb_category_keychain' , 'tb_category_keychain.idCategory = tb_ticket_keychain.idCategoryKf' , 'left');
 			$this->db->join('tb_products' , 'tb_products.idProduct = tb_ticket_keychain.idProductKf' , 'left');
 			$this->db->join('tb_products_classification' , 'tb_products_classification.idProductClassification = tb_products.idProductClassificationFk' , 'left');
 			$this->db->join('tb_user' , 'tb_user.idUser = tb_ticket_keychain.idUserKf' , 'left');
@@ -2879,8 +2880,7 @@ class Ticket_model extends CI_Model
 				foreach ($rs_tickets['tickets'][$key]['keys'] as $keychain) {
 					$idKeyChain = $keychain['id'];
 					$this->db->select("tb_contratos.idContrato, tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_type_contrato.description, tb_type_maintenance.typeMaintenance, tb_products.*, tb_access_control_door.*, tb_ticket_keychain_doors.*")->from("tb_ticket_keychain_doors");
-					$this->db->join('tb_ticket_keychain' , 'tb_ticket_keychain.id = tb_ticket_keychain_doors.idTicketKeychainKf' , 'left');
-					$this->db->join('tb_category_keychain' , 'tb_category_keychain.idCategory = tb_ticket_keychain.idCategoryKf' , 'left');
+					$this->db->join('tb_ticket_keychain' , 'tb_ticket_keychain.id = tb_ticket_keychain_doors.idTicketKeychainKf' , 'left');					
 					$this->db->join('tb_contratos' , 'tb_contratos.idContrato = tb_ticket_keychain_doors.idContractKf' , 'left');
 					$this->db->join('tb_type_contrato' , 'tb_type_contrato.idTypeContrato = tb_contratos.contratoType' , 'left');					
 					$this->db->join('tb_type_maintenance' , 'tb_type_maintenance.idTypeMaintenance = tb_contratos.maintenanceType' , 'left');
