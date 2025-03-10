@@ -196,14 +196,15 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 col-xs-12" ng-class="
+                                                <div class="form-group col-md-6 col-xs-12" ng-class="
                                                     {	'has-success': 
                                                         ticketSearch.name!='' && fNewKey.ticketSearch.$valid
                                                     }">
                                                     <div class="col-md-2 col-xs-2 n-padding-l" >
-                                                      <span ng-if="!customer.details.IsInDebtTmp">Habilitado:</span>
+                                                      <span ng-if="!keys.new.isForTickets" class="badge badge-warning" style="padding-left: 15px;">Inhabilitado</span>
+                                                      <span ng-if="keys.new.isForTickets" class="badge badge-success" style="padding-left: 15px;">Habilitado</span>
                                                     </div>
-                                                    <div class="col-md-2 col-xs-2">
+                                                    <div class="col-md-4 col-xs-3">
                                                         <label class="switch switch-1x">
                                                             <input type="checkbox" 
                                                             class="success" 
@@ -213,12 +214,6 @@
                                                             style="margin: 0px !important; display: inherit !important;">
                                                             <span class="slider slider-1x flat"></span>
                                                         </label>
-                                                    </div>
-                                                    <div ng-if="keys.new.isForTickets" class="col-md-8 col-xs-8 n-padding-l n-padding-r" style="padding-top: 0.6%;">
-                                                        <label style="cursor: pointer;" class="badge badge-success" >Si</label>
-                                                    </div>
-                                                    <div ng-if="!keys.new.isForTickets" class="col-md-8 col-xs-8 n-padding-l n-padding-r" style="padding-top: 0.6%;">
-                                                        <label style="cursor: pointer;" class="badge badge-warning" >No</label>
                                                     </div>
                                                   </div>
                                             </fieldset>
