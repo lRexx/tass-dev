@@ -1709,12 +1709,12 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                 };
               KeysServices.getKeychainList($scope.keychainSearch).then(function(response){
                   if(response.status==200){
-                      $scope.ticket.keySource = "stock";
+                      $scope.tkupdate.keySource = "stock";
                       var tk_selected = 0;
                       $scope.rsAllKeychainListData   = response.data.tb_keychain;
-                      for (var tkey in $scope.ticket.keys){
+                      for (var tkey in $scope.tkupdate.keys){
                         for (var stock in $scope.rsAllKeychainListData){
-                          if ($scope.ticket.keys[tkey].idProduct == $scope.rsAllKeychainListData[stock].idProduct && tk_selected<$scope.ticket.keys.length){
+                          if ($scope.tkupdate.keys[tkey].idProduct == $scope.rsAllKeychainListData[stock].idProduct && tk_selected<$scope.tkupdate.keys.length){
                             $scope.rsAllKeychainListData[stock].selected = true;
                             tk_selected++;
                           }else{
@@ -1725,7 +1725,8 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                         if (response.data.totalCount!=undefined){
                             $scope.pagination.totalCount    = response.data.totalCount;
                         }
-                        console.log($scope.ticket);
+                        console.log($scope.tkupdate);
+                        console.log($scope.rsAllKeychainListData);
                   }else if(response.status==404){
                       inform.add('[Info]: No se encontraron registros. ',{
                           ttl:5000, type: 'info'
