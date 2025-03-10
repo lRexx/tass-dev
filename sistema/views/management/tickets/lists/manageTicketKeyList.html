@@ -43,7 +43,215 @@
                             <div class="panel-body n-padding-l n-padding-r">
                                 <!--*********KEY MANUAL***********-->
                                 <!-- complete the form -->
-                                 <label class="col-md-4 control-label font-size-18px">MANUAL</label>
+                                <legend style="text-align: left;">Agregar Llavero Manual</legend>
+                                <!-- KEY REGISTER FORM -->
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title"><i class="product-success fas fa-key"></i> NUEVO LLAVERO</h3>
+                                    </div>
+                                    <div class="panel-body"  style="overflow-y: scroll;">
+                                        <!-- FORM CONTAINER-->
+                                        <form class="form-horizontal" name="fNewKey" novalidate>
+                                            <fieldset>
+                                                <!-- List Department-->
+                                                <!-- ng-if="(select.department==undefined || select.department=='') && keys.new.categoryKey=='1'" -->
+                                                <div ng-if="keys.new.categoryKey=='1'" class="form-group col-md-12 col-sm-12 col-xs-12" ng-class="
+                                                    {	'has-success': (keys.new.department!='' && keys.new.department!=undefined && fNewKey.department.$valid) ||
+                                                                    (select.department!='' && select.department!=undefined),
+                                                        'has-error':  
+                                                        (keys.new.department=='' || keys.new.department==undefined) && fNewKey.department.$touched,
+                                                    }">
+                                                    <label style="padding-left: 15px;">Departamento</label>  
+                                                    <div class="col-xs-12 selectContainer">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                                            <select name="department" 
+                                                                    class="form-control text-uppercase"
+                                                                    ng-disabled="select.department!=undefined && select.department!=''"
+                                                                    ng-options="item.idClientDepartament as item.floor+'-'+item.departament for item in ListDpto" 
+                                                                    ng-required="select.buildings.selected!=undefined" 
+                                                                    ng-model="keys.new.department" autofocus >
+                                                                <option value="">Seleccione una opci&#243n</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- List Attendant-->
+                                                <!-- ng-if="(select.department==undefined || select.department=='') && keys.new.categoryKey=='1'" -->
+                                                <div ng-if="keys.new.categoryKey=='6' && select.buildings.selected!=undefined" class="form-group col-md-12 col-sm-12 col-xs-12" ng-class="
+                                                    {	'has-success': (keys.new.attendant.selected!='' && keys.new.attendant.selected!=undefined && fNewKey.attendant.$valid) ||
+                                                                    (keys.new.attendant.selected!='' && keys.new.attendant.selected!=undefined),
+                                                        'has-error':  
+                                                        (keys.new.attendant.selected=='' || keys.new.attendant.selected==undefined) && fNewKey.attendant.$touched,
+                                                    }">
+                                                    <div class="form-group col-md-2 col-xs-4">
+                                                        <label for="isForAttendant" style="cursor: pointer; font-weight: 600; padding-left: 15px;">Encargados:</label>
+                                                    </div>
+                                                    <div class="form-group col-md-10 col-xs-8">
+                                                        <label class="switch switch-1x">
+                                                            <input type="checkbox" 
+                                                            class="success" 
+                                                            ng-change="" 
+                                                            ng-model="keys.new.isForAttendant" 
+                                                            id="isForAttendant" 
+                                                            style="margin: 0px !important; display: inherit !important;">
+                                                            <span class="slider slider-1x flat"></span>
+                                                        </label>
+                                                    </div>
+                                                    <div ng-if="keys.new.isForAttendant" class="col-xs-12 selectContainer">
+                                                        <div class="input-group">
+                                                        <span class="input-group-addon"><i class="fas fa-key"></i></span> 
+                                                        <ui-select name="products"  
+                                                                    ng-required="keys.new.isForAttendant"
+                                                                    ng-model="keys.new.attendant.selected" autofocus>
+                                                            <ui-select-match  allow-clear="true" placeholder="Seleccione una opci&#243n">{{$select.selected.fullNameUser}}</ui-select-match>
+                                                                <ui-select-choices style="z-index: 2000;" repeat="item in attendantListByAddress | filter: {idTypeTenantKf:null} | filter: $select.search">
+                                                                    <div ng-bind-html="item.fullNameUser | highlight: $select.search"></div>
+                                                                    <small>Perfil: </small><small class="label label-default"  ng-bind-html="item.nameProfile | highlight: $select.search"></small>
+                                                                    <small>Tipo: </small><small class="label label-warning" ng-bind-html="item.nameTypeAttendant | highlight: $select.search"></small>
+                                                                </ui-select-choices>
+                                                                <ui-select-no-choice>
+                                                                    <span ng-if="attendantListByAddress.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay Encargados registrados</span>
+                                                                    <span ng-if="attendantListByAddress.length > 0"><i class="fas fa-search"></i>&nbsp;No se encontraron encargados de tipo Titular unicamente.</span>
+                                                                </ui-select-no-choice>
+                                                            </ui-select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- List Category Key Type-->
+                                                <div class="form-group col-md-6 col-sm-6 col-xs-12" ng-class="
+                                                    {	'has-success': 
+                                                        keys.new.categoryKey!=undefined && keys.new.categoryKey!='' && fNewKey.categoryKey.$valid,
+                                                        'has-error':  
+                                                        (keys.new.categoryKey==undefined || keys.new.categoryKey=='') && fNewKey.categoryKey.$touched
+                                                    }">
+                                                    <label style="padding-left: 15px;">Categoria</label>
+                                                    <div class="col-xs-12 selectContainer">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+                                                            <select  name="categoryKey" 
+                                                                    ng-change="select.filterCategoryKey!='1'?keys.new.department=null:''"
+                                                                    ng-options="item.idCategory as (item.name | uppercase) for item in rsCategoryKeyChainsData | filter:filterCategoryKey"
+                                                                    ng-disabled="rsKeyListsData.status==404"
+                                                                    class="form-control"
+                                                                    ng-model="keys.new.categoryKey">
+                                                                <option value="" >Seleccione una opci&#243n</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- List Open Devices Products-->
+                                                <div  class="form-group col-md-6 col-sm-6 col-xs-12"  ng-class="
+                                                    {	'has-success': 
+                                                        keys.new.products.selected!=undefined && keys.new.products.selected!=''  && fNewKey.products.$valid,
+                                                        'has-error':  
+                                                        (keys.new.products.selected==undefined || keys.new.products.selected=='') && fNewKey.products.$touched
+                                                    }">
+                                                    <label style="padding-left: 15px;">Dispositivos de Apertura</label>  
+                                                    <div class="col-xs-12 selectContainer">
+                                                        <div class="input-group">
+                                                        <span class="input-group-addon"><i class="fas fa-key"></i></span> 
+                                                        <ui-select name="products"  
+                                                                    ng-required="true"
+                                                                    ng-model="keys.new.products.selected" autofocus>
+                                                            <ui-select-match  allow-clear="true" placeholder="Seleccione una opci&#243n">{{$select.selected.descriptionProduct}}</ui-select-match>
+                                                                <ui-select-choices repeat="item in rsKeyProductsData | filter: {idProductClassificationFk:19}| filter: $select.search">
+                                                                    <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
+                                                                    <small>Modelo: </small><small class="label label-default"  ng-bind-html="item.model | highlight: $select.search"></small>
+                                                                    <small>Tipo: </small><small class="label label-default" ng-bind-html="item.classification | highlight: $select.search"></small>
+                                                                </ui-select-choices>
+                                                                <ui-select-no-choice>
+                                                                    <span ng-if="rsKeyProductsData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay productos cargados</span>
+                                                                </ui-select-no-choice>
+                                                            </ui-select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- codigo -->
+                                                <div class="form-group col-md-6 col-sm-6 col-xs-12" ng-class="
+                                                {	'has-success': 
+                                                    keys.new.codigo!='' && fNewKey.codigo.$valid,
+                                                    'has-error':  
+                                                    (keys.new.codigo=='' || keys.new.codigo==undefined) && fNewKey.codigo.$touched,
+                                                }">
+                                                <label style="padding-left: 15px;">Codigo</label>  
+                                                    <div class="col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="fas fa-barcode"></i></span>
+                                                            <input  name="codigo" autofocus="true" placeholder="Codigo" class="form-control" ng-model="keys.new.codigo"  type="text" required autofocus/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- codigo ext -->
+                                                <div class="form-group col-md-6 col-sm-6 col-xs-12" ng-class="
+                                                {	'has-success': 
+                                                    keys.new.codigoExt!='' && fNewKey.codigoExt.$valid,
+                                                    'has-error':  
+                                                    (keys.new.codigoExt=='' || keys.new.codigoExt==undefined) && fNewKey.codigoExt.$touched,
+                                                }">
+                                                <label style="padding-left: 15px;" >Codigo Externo</label> 
+                                                    <div class="col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><i class="fas fa-barcode"></i></span>
+                                                            <input name="codigoExt" placeholder="Codigo Externo" class="form-control" ng-model="keys.new.codigoExt" type="text" required autofocus />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- List Ticket -->
+                                                <div ng-if="sysLoggedUser.idProfileKf=='1'" class="form-group col-md-12 col-sm-12 col-xs-12" ng-class="
+                                                {	'has-success': 
+                                                    ticketSearch.name!='' && fNewKey.ticketSearch.$valid
+                                                }" style="z-index: 1000;">
+                                                    <div class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-l n-padding-r" >
+                                                        <div class="form-group col-md-2 col-xs-4">
+                                                            <label for="isForTickets" style="cursor: pointer; font-weight: 600; padding-left: 15px;">Pedidos:</label>
+                                                        </div>
+                                                        <div class="form-group col-md-10 col-xs-8">
+                                                            <label class="switch switch-1x">
+                                                                <input type="checkbox" 
+                                                                class="success" 
+                                                                ng-change="" 
+                                                                ng-model="keys.new.isForTickets" 
+                                                                id="isForTickets" 
+                                                                style="margin: 0px !important; display: inherit !important;">
+                                                                <span class="slider slider-1x flat"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div ng-if="keys.new.isForTickets" class="input-group s-ui-width s-ui-m-left">
+                                                            <span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
+                                                            <input type="text" name="ticketSearch" 
+                                                                id="ticketSearch" 
+                                                                ng-model="ticketSearch.name"
+                                                                ng-keydown="findTicketFn(ticketSearch.name);"
+                                                                class="form-control text-uppercase" 
+                                                                move-to-list input-selector="'.input-search'"
+                                                                list-items-selector="'.list-group li'"
+                                                                placeholder="Presione Enter para buscar..."
+                                                                style="border-radius: 4px;border-bottom-left-radius: 0px;border-top-left-radius: 0px;"
+                                                                ng-required="keys.new.isForTickets" />
+                                                            <ul id="ticketList" class="list-group" ng-show="listTickt.length>0 && (ticketSearch.name!=undefined || ticketSearch.name!=null)" style="height: 0px;" >
+                                                                <li tabindex="0" id="ticketList-{{$index}}"  class="list-group-item" ng-repeat="item in listTickt" navigate-list-items ng-class="{'padding-t-38': $index==0}" ng-click="loadTicketsFieldsFn(item, false);" input-selector="'.input-search'" list-items-selector="'.list-group li'" ng-keydown="$event.keyCode === 13 && loadTicketsFieldsFn(item)" ><span class="label label-warning">{{item.typeticket.TypeTicketName}}</span> {{item.codTicket}} - <span class="label label-warning">{{item.statusTicket.statusName}}</span> <span class="label label-default">{{item.created_at | date:'dd/MM/yyyy'}}</span></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                            <!-- Actions Button -->
+                                            <div class="modal-footer">
+                                                <div class="row">
+                                                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                                                        <button type="submit" ng-click="modalConfirmation('addKey', 0, keys.new)" ng-disabled="fNewKey.$invalid" class="btn btn-labeled btn-success">
+                                                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
+                                                        <a ng-click="modalConfirmation('closeWindow', 0, null)" type="button" class="btn btn-labeled btn-danger">
+                                                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <div class="clearfix"> </div> 
+                                    </div>
+                                </div>
+                                <!-- // KEY REGISTER FORM -->
                             </div>
                         </div>
                     </div>
