@@ -850,6 +850,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
             case "stock":
                 if ($scope.ticket.keysMethod.name==undefined){
                     $scope.ticket.keysMethod.name = elem[0].getAttribute("id");
+                    $scope.tkupdate.keySource = elem[0].getAttribute("id");
                     $scope.ticket.optionTypeSelected.obj = elem;
                     elem.removeClass('btn-primary').addClass("btn-success");
                 }else if ($scope.ticket.keysMethod.name!=elem[0].getAttribute("id")){
@@ -867,6 +868,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
             case "manual":
                 if ($scope.ticket.keysMethod.name==undefined){
                     $scope.ticket.keysMethod.name = elem[0].getAttribute("id");
+                    $scope.tkupdate.keySource = elem[0].getAttribute("id");
                     elem.removeClass('btn-primary').addClass("btn-success");
                 }else if ($scope.ticket.keysMethod.name!=elem[0].getAttribute("id")){
                     //document.getElementById("typeTenant1").checked=false;
@@ -1724,7 +1726,6 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                 };
               KeysServices.getKeychainList($scope.keychainSearch).then(function(response){
                   if(response.status==200){
-                      $scope.tkupdate.keySource = "stock";
                       var tk_selected = 0;
                       $scope.rsAllKeychainListData   = response.data.tb_keychain;
                       for (var tkey in $scope.tkupdate.keys){
@@ -2069,7 +2070,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
       };
       $scope.onSelectCallback = function(){
         $scope.mainSwitchFn('search', null);
-        }
+      }
       /******************************
       *   CREATING MP PAYMENT LINK  *
       ******************************/
@@ -2660,6 +2661,8 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
             case "openTicket":
               $scope.rsAllKeychainListData = [];
               $scope.ticket.keysMethod.name = undefined;
+              $scope.rsNewKeychainList = [];
+              $scope.keys={"new":{}};
               $scope.openTicketFn(obj.idTicket);
               $('#UpdateModalTicket').modal({backdrop: 'static', keyboard: false});
             break;
@@ -2798,6 +2801,14 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined}, 
               'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
               $scope.getKeychainListFn($scope.tkupdate.building.idClient,null, "2","1",null,null,null,1,$scope.pagination.pageSizeSelected, false, true);
+            break;
+            case "keychain_manual":
+              $scope.keys={"new":{}}
+              $scope.isNewKeySingle    = true;
+              $scope.isEditKey         = false;
+              $scope.isNewKeyMulti     = false;
+              $scope.rsNewKeychainList = null;
+              //$scope.keys.new.categoryKey = 
             break;
             case "keyDetails":
               $scope.isNewKeySingle = false;
