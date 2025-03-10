@@ -1718,8 +1718,6 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                             $scope.rsAllKeychainListData[stock].selected = true;
                             tk_selected++;
                             console.log($scope.rsAllKeychainListData[stock]);
-                          }else{
-                            $scope.rsAllKeychainListData[stock].selected = false;
                           }
                         }
                       }
