@@ -1974,7 +1974,7 @@ input:checked + .slider-3x:before {
 }
 .well-success{
   border: 1px solid #3c763d !important;
-  background-color: #dff0d8;
+  background-color: #dff0d8 !important;;
 }
 .icon-bg-success{
   color: #8bc34a;

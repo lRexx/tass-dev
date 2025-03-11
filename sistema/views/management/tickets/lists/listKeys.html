@@ -13,7 +13,7 @@
     </thead>
     <tbody class="fixed-body" style="height: 525px !important;">
       <!-- Show if there are Keys registered -->
-      <tr ng-if="rsAllKeychainListData.length>0"  class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in rsAllKeychainListData">
+      <tr ng-if="rsAllKeychainListData.length>0"  class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in rsAllKeychainListData" ng-class="{'well-success':item.selected}">
         <!--<tr class="animate-repeat" style="align-content: center; cursor: pointer;"  dir-paginate="item in rsCustomerListData|orderBy:idClient:reverse|filter:searchboxfilter|itemsPerPage:10">-->
         <td class="td-depto" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;" ng-trim="true">
           <div class="text-badge">
