@@ -15,7 +15,7 @@
       <!-- Show if there are Keys registered -->
       <tr ng-if="rsAllKeychainListData.length>0"  class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in rsAllKeychainListData">
         <!--<tr class="animate-repeat" style="align-content: center; cursor: pointer;"  dir-paginate="item in rsCustomerListData|orderBy:idClient:reverse|filter:searchboxfilter|itemsPerPage:10">-->
-        <td class="td-depto" style="vertical-align: middle !important;text-align: center !important;" ng-trim="true">
+        <td class="td-depto" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;" ng-trim="true">
           <div class="text-badge">
             <label class="switch switch-2x" for="removeKey-{{item.idKeychain}}">
               <input type="checkbox" class="success" ng-change="mainSwitchFn('addKeyToDownList', item, null);" ng-model="item.selected" id="removeKey-{{item.idKeychain}}">
