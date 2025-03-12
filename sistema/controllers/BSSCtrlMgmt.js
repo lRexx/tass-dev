@@ -2854,7 +2854,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $scope.keys.details=obj;
               $scope.keys.details.buildingAddress=obj.address;
               console.log($scope.keys.details);
-              $('#keyDetails').modal({backdrop: 'static', keyboard: false});
+              $('#keyDetails').modal('show');
             break;
             case "ticket_user":
               $('#userModalDetails').modal('show');
