@@ -57,17 +57,17 @@
                                   <button ng-if="((tkupdate.idStatusTicketKf!=6 && tkupdate.idStatusTicketKf!=1) ||  (tkupdate.idStatusTicketKf==10 && tkupdate.isCancelRequested==1)) && (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4')" ng-click="modalConfirmation('cancel_sys',0, tkupdate)" data-toggle="tooltip" data-placement="bottom" title="Cancelar pedido" type="button" style="margin-left: 0.5%" class="btn btn-sm btn-danger"><i class="fas fa-ban"></i></button>
                                   <button ng-if="sysLoggedUser.idProfileKf!=1 && tkupdate.idTypeTicketKf<=2 && (tkupdate.idStatusTicketKf=='10' && tkupdate.isCancelRequested!='1')" ng-click="modalConfirmation('cancel_user',0, tkupdate)" data-toggle="tooltip" data-placement="bottom" title="Cancelar pedido" type="button" style="margin-left: 0.5%" class="btn btn-sm btn-danger"><i class="fas fa-ban"></i></button>
                               </div>
-                              <div class="col-md-12">
-                                <div class="col-md-3 col-xs-2 n-padding-l" >
+                              <div class="col-md-12" style="padding-top: 0.5% !important">
+                                <div class="col-md-5 n-padding-l n-padding-r" style="width: 36% !important">
                                   <span>Llaveros Habilitados:</span>
                                 </div>
-                                <div class="col-md-2 col-xs-2">
+                                <div class="col-md-2 n-padding-r" style="width: 12% !important">
                                   <label class="switch switch-2x" for="isKeysEnable-set">
                                       <input type="checkbox" class="warning" ng-click="modalConfirmation('isKeysEnable', 0, tkupdate)" ng-model="tkupdate.isKeysEnable" id="isKeysEnable-set">
                                       <span class="slider slider-2x flat"></span>
                                   </label>
                                 </div>
-                                <div class="col-md-8 col-xs-8 n-padding-l n-padding-r" style="padding-top: 0.6%;">
+                                <div class="col-md-2" style="padding-top: 0.6%;">
                                   <span ng-if="!tkupdate.isKeysEnable" class="badge badge-warning">No</span>
                                   <span ng-if="tkupdate.isKeysEnable" class="badge badge-success">Si</span>
                                 </div>
