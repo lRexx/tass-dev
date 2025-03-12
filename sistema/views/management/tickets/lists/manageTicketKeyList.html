@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
           <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <button type="button" class="close" ng-click="modalConfirmation('closeTicketKeysModalDetails', 0, null)"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
               <h3 class="modal-title"><i class="fas fa-key"></i> LLAVEROS A ASIGNAR</h3>
           </div>
         <div class="modal-body">
@@ -332,7 +332,7 @@
         <div class="modal-footer">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
-                    <a id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                    <a id="cancelModalWindow" ng-click="modalConfirmation('closeTicketKeysModalDetails', 0, null)" type="button" class="btn btn-labeled btn-danger">
                         <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
                 </div>           
             </div>
