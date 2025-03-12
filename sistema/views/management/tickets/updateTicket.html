@@ -21,7 +21,6 @@
                         <span>:: Reintegro de &nbsp;</span>
                         <span class="label label-default">{{refund.refundAmount | number:2}} &nbsp;</span>
                         <span ng-class="{'label label-warning': refund.idRefundTypeKf=='1', 'label label-success': refund.idRefundTypeKf=='2' }">{{refund.refundName}}</span>
-                        
                       </a>
                   </ul>
                 </span>
@@ -120,6 +119,21 @@
                                     </div>                  
                                   </li>
                                 </ul>            
+                            </div>
+                            <div class="col-md-12">
+                              <div class="col-md-2 col-xs-2 n-padding-l" >
+                                <span>Llaveros Habilitados:</span>
+                              </div>
+                              <div class="col-md-2 col-xs-2">
+                                <label class="switch switch-2x" for="isKeysEnable-set">
+                                    <input type="checkbox" class="warning" ng-click="modalConfirmation('isKeysEnable', 0, tkupdate)" ng-model="tkupdate.isKeysEnable" id="isKeysEnable-set">
+                                    <span class="slider slider-2x flat"></span>
+                                </label>
+                              </div>
+                              <div class="col-md-8 col-xs-8 n-padding-l n-padding-r" style="padding-top: 0.6%;">
+                                <span ng-if="!tkupdate.isKeysEnable" class="badge badge-warning">No</span>
+                                <span ng-if="tkupdate.isKeysEnable" class="badge badge-success">Si</span>
+                              </div>
                             </div>
                         </div>
                         <div class="col-md-12 col-sm-12 col-xs-12"> 
