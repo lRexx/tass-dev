@@ -288,6 +288,9 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               case "closeTicketKeysModalDetails":
                 $("#ticketKeysModalDetails").modal('hide');
               break;
+              case "closeKeyDetails":
+                $("#keyDetails").modal('hide');
+              break;
               case "update":
                   if (confirm==0){
                       $scope.tenantObj=obj;

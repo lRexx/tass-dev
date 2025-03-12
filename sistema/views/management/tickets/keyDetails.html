@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-xl" >
       <div class="modal-content">
           <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <button type="button" class="close" ng-click="modalConfirmation('closeKeyDetails, 0, null)"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
               <h3 class="modal-title"><i class="product-success fas fa-key"></i> DETALLES DEL LLAVERO :: <span class="label label-default font-size-12px text-uppercase">{{keys.details.categoryKeychain}}</span> 
                 <span class="label font-size-12px text-uppercase" ng-class="{'label-success': keys.details.idKeychainStatus != undefined && keys.details.idKeychainStatus != null && keys.details.idKeychainStatusKf == '1', 'label-warning': keys.details.idKeychainStatus != undefined && keys.details.idKeychainStatus != null && keys.details.idKeychainStatus == '0', 'label-danger': keys.details.idKeychainStatus != undefined && keys.details.idKeychainStatus != null && keys.details.idKeychainStatus != '0' && keys.details.idKeychainStatus != '1', }">{{keys.details.statusKey}}</span>
               </h3>
@@ -97,7 +97,7 @@
         <div class="modal-footer">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
-                    <a id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                    <a id="cancelModalWindow" ng-click="modalConfirmation('closeKeyDetails, 0, null)" type="button" class="btn btn-labeled btn-danger">
                         <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
                 </div>           
             </div>
