@@ -261,7 +261,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               case "closeWindow":
                   if (confirm==0){
                       if ($scope.isEditTicket==true){
-                        $scope.mess2show="Se perderan todos los cambiosque haya realizado en el registro actual, esta seguro que desea cancelar?";
+                        $scope.mess2show="Se perderan todos los cambios que hayas realizado en el registro actual, esta seguro que desea cancelar?";
                       }else if ($scope.isNewUser==true){
                         $scope.mess2show="Se perderan todos los datos cargados del registro actual, esta seguro que desea cancelar?";
                       }else{
