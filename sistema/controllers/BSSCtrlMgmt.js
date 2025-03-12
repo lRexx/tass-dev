@@ -260,7 +260,9 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
           switch ($scope.swMenu){
               case "closeWindow":
                   if (confirm==0){
-                      if ($scope.isNewUser==true){
+                      if ($scope.isEditTicket==true){
+                        $scope.mess2show="Se perderan todos los cambiosque haya realizado en el registro actual, esta seguro que desea cancelar?";
+                      }else if ($scope.isNewUser==true){
                         $scope.mess2show="Se perderan todos los datos cargados del registro actual, esta seguro que desea cancelar?";
                       }else{
                         $scope.mess2show="Se perderan todas las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
@@ -272,6 +274,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                       $("#newSysProfile").modal('hide');
                       $("#updateSysProfile").modal('hide');
                       $("#UpdateUser").modal('hide');
+                      $("#UpdateModalTicket").modal('hide');
                       if ($scope.sysContentList=="users" && ($scope.isNewUser==true || $scope.isUpdateUser==true)){
                         $scope.refreshList();
                       }else if ($scope.isNewProfileRole==true || $scope.isUpdateProfileRole==true){
@@ -817,6 +820,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
       $scope.tkupdate = {};
       $scope.tktmporal = {};
       $scope.rsData = {};
+      $scope.isEditTicket=false;
       $scope.openTicketFn = function(idTicket){
         //$scope.tkupdate  = obj;
         //$scope.tktmporal = obj;
@@ -837,6 +841,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               }
               $scope.customerFound = $scope.tkupdate.building;
               console.log($scope.rsData);
+              $scope.isEditTicket=true;
             }else if (response.status==404){
                 $scope.rsData = {};
                 $scope.tkupdate = {};
@@ -1660,20 +1665,20 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
     *                 LIST ALL KEYS                   *
     *                                                 *
     **************************************************/
-            $scope.rsAllKeychainListData = [];
+          $scope.rsAllKeychainListData = [];
 
-            $scope.keychainSearch={
-              "idClientKf":null,
-              "idCategoryKf":null,
-              "idKeychainStatusKf":null,
-              "idDepartmenKf":null,
-              "codeSearch":null,
-              "create_at":null,
-              "start":null,
-              "limit":null,
-              "strict":null,
-              "totalCount":null,
-            };
+          $scope.keychainSearch={
+            "idClientKf":null,
+            "idCategoryKf":null,
+            "idKeychainStatusKf":null,
+            "idDepartmenKf":null,
+            "codeSearch":null,
+            "create_at":null,
+            "start":null,
+            "limit":null,
+            "strict":null,
+            "totalCount":null,
+          };
           $scope.getKeychainListFn = function(idClientKf,create_at,idCategoryKf,idKeychainStatusKf,idDepartmenKf,idReasonKf,codeSearch,start,limit,strict,totalCount){
 
               //console.log("idClientKf           : "+idClientKf);
@@ -2687,6 +2692,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $scope.ticket.keysMethod.name = undefined;
               $scope.rsNewKeychainList = [];
               $scope.keys={"new":{}};
+              $scope.isEditTicket=false;
               $scope.openTicketFn(obj.idTicket);
               $('#UpdateModalTicket').modal({backdrop: 'static', keyboard: false});
             break;
