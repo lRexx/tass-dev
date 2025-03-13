@@ -2,41 +2,32 @@
 <table id="tableKeys" class="table table-striped table-bordered table-condensed table-list table-responsive table-hover table-hover-selected">
     <thead style=" background: #4d5d6f; color: white;">
       <tr style="text-align: center;">
-          <th width="5%"  style="vertical-align: middle;text-align: center;">ID</th>
-          <th width="33%" style="vertical-align: middle;text-align: center;"><i class="fas fa-file-alt"> </i> Descripción </th>
-          <th width="7%" style="vertical-align: middle;text-align: center;"><i class="fas fa-house-user"> </i> Unidad</th>
-          <!--<th width="20%"><i class="glyphicon glyphicon-envelope"> </i> Emails</th>-->
-          <!--<th width="10%" style="vertical-align: middle;text-align: center;"><i class="glyphicon icon-flag"> </i> Tipo</th>>-->
-          <th width="8%" style="vertical-align: middle;text-align: center;"><i class="fas fa-qrcode"> </i> Codigo</th>
-          <th width="8%" style="vertical-align: middle;text-align: center;"><i class="fas fa-qrcode"> </i> Cod Externo</th>
-          <th width="5%" style="vertical-align: middle;text-align: center;"><i class="glyphicon icon-flag"> </i> Estatus</th>
-          <th width="5%" style="vertical-align: middle;text-align: center;"><i class="glyphicon icon-flag"> </i> Habilitada</th>
-          <!--<th><i class="glyphicon icon-calendar"> </i> Registrado</th>-->
+          <th width="5%" class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 5% !important;">ID</th>
+          <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 38% !important;"><i class="fas fa-file-alt"> </i> Descripción </th>
+          <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 11% !important;"><i class="fas fa-house-user"> </i> Unidad</th>
+          <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;"><i class="fas fa-qrcode"> </i> Codigo</th>
+          <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 12% !important;"><i class="fas fa-qrcode"> </i> Cod Externo</th>
+          <th class="th-head" style="vertical-align: middle !important;text-align: center !important;"><i class="glyphicon icon-flag"> </i> Estatus</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="fixed-body" style="height: 325px !important;">
       <!-- Show if there are Keys registered -->
       <tr ng-if="rsNewKeychainList.length>0"  class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in rsNewKeychainList">
-        <td style="vertical-align: middle;text-align: center;" ng-click="switchCustomersFn('details_customer', item, 'show');">
-        	{{item.idKeychain}}
+        <td class="td-depto" style="vertical-align: middle !important;text-align: center !important;width: 7.2% !important;" ng-click="switchCustomersFn('details_customer', item, 'show');">
+        	{{$index}}
         </td>
         <!--DESCRIPCION -->
-        <td ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle;text-align: center;" ng-if="item.idClientTypeFk!=2 && item.idClientTypeFk!=4">{{item.descriptionProduct | limitTo: 50 }}{{item.descriptionProduct.length > 50 ? '...' : ''}}</td>
+        <td class="td-depto" ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 38.3% !important;font-size: 95%;" ng-if="item.idClientTypeFk!=2 && item.idClientTypeFk!=4">{{item.descriptionProduct | limitTo: 50 }}{{item.descriptionProduct.length > 50 ? '...' : ''}}</td>
         <!-- BUSINESS NAME -->
-        <td ng-click="switchBuildingFn('keyDetails', item);" ng-trim="true" style="vertical-align: middle;text-align: center;"><label class="label label-default text-uppercase">{{item.categoryKeychain}}</label>
+        <td nclass="td-depto" g-click="switchBuildingFn('keyDetails', item);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 11.2% !important;"><label class="label label-default text-uppercase">{{item.categoryKeychain}}</label>
           <label ng-if="item.idCategoryKf=='1'" class="label label-default text-uppercase">{{item.Depto}}</label>
           <label ng-if="item.idCategoryKf!='1'" class="label label-success text-uppercase" data-toggle="tooltip" data-placement="right" title="{{item.address}}" style="cursor: pointer"><i class="fas fa-map-marked-alt"></i></label>
         </td>
         <!--<td ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle;text-align: center;">{{item.categoryKeychain}}</td>-->
         <td ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle;text-align: center;">{{item.codigo}}</td>
         <td ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle;text-align: center;">{{item.codExt}}</td>
-        <td ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle;text-align: center;">
+        <td class="td-depto" ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;">
           <span ng-if="item.idKeychainStatus!=null && item.idKeychainStatus!=undefined" class="label" ng-class="{'label-success': item.idKeychainStatus == '1', 'label-warning': item.idKeychainStatus == '0', 'label-danger': item.idKeychainStatus != null && item.idKeychainStatus != '0' && item.idKeychainStatus != '1', }"> {{item.statusKey}}</span>
-          <span ng-if="item.idKeychainStatus==null && item.idKeychainStatus==undefined" class="label label-success"> Activo</span>
-        </td>
-        <td ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle;text-align: center;">
-          <span ng-if="item.isKeyEnabled" class="label" ng-class="{'label-success': item.isKeyEnabled}">Si</span>
-          <span ng-if="!item.isKeyEnabled" class="label" ng-class="{'label-warning': !item.isKeyEnabled}">No</span>
         </td>
       </tr>
       <tr ng-if="rsNewKeychainList.length==0">
@@ -44,7 +35,7 @@
           <!-- Show if there is not Keys registered -->
           <div class="col-md-12">
             <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning">
-              <h5 class="col-md-offset-4"><i class="fas fa-exclamation-triangle"> </i> <span style="font-size: 18px; font-weight: 600; color: rgba(255, 188, 87, 1);">No hay Llaveros registrados.</span></h5>
+              <h5 class="col-md-offset-4"><i class="fas fa-exclamation-triangle"> </i> <span style="font-size: 18px; font-weight: 600; color: rgba(255, 188, 87, 1);">No hay Llaveros.</span></h5>
             </div>
           </div>
         </td>
