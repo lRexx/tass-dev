@@ -42,7 +42,7 @@
                 </div>
                 <!-- OPTION MANUAL-->
                 <div ng-show="ticket.keysMethod.name=='manual'">
-                    <div class="col-md-12" style="padding: 10px !important;">
+                    <div class="col-md-6" style="padding: 10px !important;">
                         <!-- KEY REGISTER FORM -->
                         <div class="panel" ng-class="{'panel-success':fNewKey.$valid, 'panel-default': fNewKey.$invalid}">
                             <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyForm" style="cursor: pointer;">
@@ -121,7 +121,7 @@
                                             </div>
                                         </div>
                                         <!-- List Category Key Type-->
-                                        <div class="form-group col-md-6 col-sm-6 col-xs-12" ng-class="
+                                        <div class="form-group col-md-12 col-sm-12 col-xs-12" ng-class="
                                             {	'has-success': 
                                                 keys.new.categoryKey!=undefined && keys.new.categoryKey!='' && fNewKey.categoryKey.$valid,
                                                 'has-error':  
@@ -143,7 +143,7 @@
                                             </div>
                                         </div>
                                         <!-- List Open Devices Products-->
-                                        <div  class="form-group col-md-6 col-sm-6 col-xs-12"  ng-class="
+                                        <div  class="form-group col-md-12 col-sm-12 col-xs-12"  ng-class="
                                             {	'has-success': 
                                                 keys.new.products.selected!=undefined && keys.new.products.selected!=''  && fNewKey.products.$valid,
                                                 'has-error':  
@@ -199,7 +199,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group col-md-6 col-xs-12" ng-class="
+                                        <div class="form-group col-md-12 col-xs-12" ng-class="
                                             {	'has-success': 
                                                 ticketSearch.name!='' && fNewKey.ticketSearch.$valid
                                             }" style="margin-left: 1em;margin-top: 15px;">
@@ -235,11 +235,27 @@
                                 <div class="clearfix"> </div> 
                             </div>
                         </div>
+                    </div>
+                    <div class="col-md-6" style="padding: 10px !important;">
+                        <!--*********KEY MANUAL***********-->                          
+                        <div class="panel panel-default">
+                            <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyExistingKeys" style="cursor: pointer;">
+                                <h3 class="panel-title">
+                                    <i class="product-success fas fa-key"></i> LLAVEROS ASIGNADOS A LA UNIDAD
+                                    <i ng-class="{'fa-chevron-up': !isCollapsed, 'fa-chevron-down': isCollapsed}" class="fas pull-right"></i>
+                                </h3>
+                            </div>
+                            <div id="panelBodyExistingKeys" class="panel-body collapse in">
+                                <div class="col-md-12 n-padding-l n-padding-r" ng-include="'views/management/tickets/lists/listNewKeys.html'"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="padding: 10px !important;">
                         <!--*********KEY MANUAL***********-->                          
                         <div class="panel panel-default">
                             <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyNewKeys" style="cursor: pointer;">
                                 <h3 class="panel-title">
-                                    <i class="product-success fas fa-key"></i> LLAVEROS
+                                    <i class="product-success fas fa-key"></i> LISTADO DE NUEVOS LLAVEROS
                                     <i ng-class="{'fa-chevron-up': !isCollapsed, 'fa-chevron-down': isCollapsed}" class="fas pull-right"></i>
                                 </h3>
                             </div>
