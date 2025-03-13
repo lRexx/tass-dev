@@ -246,26 +246,15 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
         };
 
         // Initialize the panel as collapsed
-        $scope.panelBodyKeyStock      = false;
-        $scope.panelBodyForm          = false;
-        $scope.panelBodyExistingKeys  = false;
-        $scope.panelBodyNewKeys       = false;
+        $scope.panels = {
+          panelBodyKeyStock: false,
+          panelBodyForm: false,
+          panelBodyExistingKeys: false,
+          panelBodyNewKeys: false
+        };
         // Function to toggle the panel state
-        $scope.togglePanel = function() {
-          switch ($scope.swMenu){
-            case "panelBodyKeyStock":
-              $scope.panelBodyKeyStock      = $scope.panelBodyKeyStock;
-            break;
-            case "panelBodyForm":
-              $scope.panelBodyForm          = $scope.panelBodyForm;
-            break;
-            case "panelBodyExistingKeys":
-              $scope.panelBodyExistingKeys  = $scope.panelBodyExistingKeys;
-            break;
-            case "panelBodyNewKeys":
-              $scope.panelBodyNewKeys       = $scope.panelBodyNewKeys;
-            break;
-          }
+        $scope.togglePanel = function(panelName) {
+          $scope.panels[panelName] = !$scope.panels[panelName];
         };
     /**************************************************
     *                                                 *
