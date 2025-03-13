@@ -921,7 +921,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
     **************************************************/
       $scope.getKeysByDepartmentId = function(id){
         $scope.rsExistingKeyList = [];
-        KeysServices.getKeyListByDepartmentId($scope.ticket.idClientDepartament.idClientDepartament).then(function(response) {
+        KeysServices.getKeyListByDepartmentId(id).then(function(response) {
           if(response.status==200){
               $scope.tkupdate.existingKeys  = response.data;
               $scope.rsExistingKeyList      = response.data;
