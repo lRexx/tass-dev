@@ -57,14 +57,14 @@
                                     <fieldset>
                                         <!-- List Department-->
                                         <!-- ng-if="(select.department==undefined || select.department=='') && keys.new.categoryKey=='1'" -->
-                                        <div ng-if="keys.new.categoryKey=='1'" class="form-group col-md-12 col-sm-12 col-xs-12" ng-class="
+                                        <div ng-if="keys.new.categoryKey=='1'" class="form-group col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r" ng-class="
                                             {	'has-success': (keys.new.department!='' && keys.new.department!=undefined && fNewKey.department.$valid) ||
                                                             (select.department!='' && select.department!=undefined),
                                                 'has-error':  
                                                 (keys.new.department=='' || keys.new.department==undefined) && fNewKey.department.$touched,
                                             }">
                                             <label style="padding-left: 15px;">Departamento</label>  
-                                            <div class="col-xs-12 selectContainer">
+                                            <div class="col-xs-12 selectContainer n-padding-l n-padding-r">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
                                                     <select name="department" 
@@ -121,14 +121,14 @@
                                             </div>
                                         </div>
                                         <!-- List Category Key Type-->
-                                        <div class="form-group col-md-12 col-sm-12 col-xs-12" ng-class="
+                                        <div class="form-group col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r" ng-class="
                                             {	'has-success': 
                                                 keys.new.categoryKey!=undefined && keys.new.categoryKey!='' && fNewKey.categoryKey.$valid,
                                                 'has-error':  
                                                 (keys.new.categoryKey==undefined || keys.new.categoryKey=='') && fNewKey.categoryKey.$touched
                                             }">
                                             <label style="padding-left: 15px;">Categoria</label>
-                                            <div class="col-xs-12 selectContainer">
+                                            <div class="col-xs-12 selectContainer n-padding-l n-padding-r">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
                                                     <select  name="categoryKey" 
@@ -143,14 +143,14 @@
                                             </div>
                                         </div>
                                         <!-- List Open Devices Products-->
-                                        <div  class="form-group col-md-12 col-sm-12 col-xs-12"  ng-class="
+                                        <div  class="form-group col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r"  ng-class="
                                             {	'has-success': 
                                                 keys.new.products.selected!=undefined && keys.new.products.selected!=''  && fNewKey.products.$valid,
                                                 'has-error':  
                                                 (keys.new.products.selected==undefined || keys.new.products.selected=='') && fNewKey.products.$touched
                                             }">
                                             <label style="padding-left: 15px;">Dispositivos de Apertura</label>  
-                                            <div class="col-xs-12 selectContainer">
+                                            <div class="col-xs-12 selectContainer n-padding-l n-padding-r">
                                                 <div class="input-group">
                                                 <span class="input-group-addon"><i class="fas fa-key"></i></span> 
                                                 <ui-select name="products"  
@@ -170,14 +170,14 @@
                                             </div>
                                         </div>
                                         <!-- codigo -->
-                                        <div class="form-group col-md-6 col-sm-6 col-xs-12" ng-class="
+                                        <div class="form-group col-md-6 col-sm-6 col-xs-12 n-padding-l n-padding-r" ng-class="
                                         {	'has-success': 
                                             keys.new.codigo!='' && fNewKey.codigo.$valid,
                                             'has-error':  
                                             (keys.new.codigo=='' || keys.new.codigo==undefined) && fNewKey.codigo.$touched,
                                         }">
                                         <label style="padding-left: 15px;">Codigo</label>  
-                                            <div class="col-xs-12">
+                                            <div class="col-xs-12 n-padding-l">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fas fa-barcode"></i></span>
                                                     <input  name="codigo" autofocus="true" placeholder="Codigo" class="form-control" ng-model="keys.new.codigo"  type="text" required autofocus/>
@@ -185,21 +185,21 @@
                                             </div>
                                         </div>
                                         <!-- codigo ext -->
-                                        <div class="form-group col-md-6 col-sm-6 col-xs-12" ng-class="
+                                        <div class="form-group col-md-6 col-sm-6 col-xs-12 n-padding-l n-padding-r" ng-class="
                                         {	'has-success': 
                                             keys.new.codigoExt!='' && fNewKey.codigoExt.$valid,
                                             'has-error':  
                                             (keys.new.codigoExt=='' || keys.new.codigoExt==undefined) && fNewKey.codigoExt.$touched,
                                         }">
                                         <label style="padding-left: 15px;" >Codigo Externo</label> 
-                                            <div class="col-xs-12">
+                                            <div class="col-xs-12 n-padding-r">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fas fa-barcode"></i></span>
                                                     <input name="codigoExt" placeholder="Codigo Externo" class="form-control" ng-model="keys.new.codigoExt" type="text" required autofocus />
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group col-md-12 col-xs-12" ng-class="
+                                        <!--<div class="form-group col-md-12 col-xs-12" ng-class="
                                             {	'has-success': 
                                                 ticketSearch.name!='' && fNewKey.ticketSearch.$valid
                                             }" style="margin-left: 1em;margin-top: 15px;">
@@ -218,7 +218,7 @@
                                                     <span class="slider slider-1x flat"></span>
                                                 </label>
                                             </div>
-                                            </div>
+                                            </div>-->
                                     </fieldset>
                                     <!-- Actions Button -->
                                     <div class="modal-footer">
@@ -245,12 +245,12 @@
                                     <i ng-class="{'fa-chevron-up': !isCollapsed, 'fa-chevron-down': isCollapsed}" class="fas pull-right"></i>
                                 </h3>
                             </div>
-                            <div id="panelBodyExistingKeys" class="panel-body collapse in">
+                            <div id="panelBodyExistingKeys" class="panel-body collapse in" style="height: 455.2px !important">
                                 <div class="col-md-12 n-padding-l n-padding-r" ng-include="'views/management/tickets/lists/listNewKeys.html'"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6" style="padding: 10px !important;">
+                    <div class="col-md-12" style="padding: 10px !important;">
                         <!--*********KEY MANUAL***********-->                          
                         <div class="panel panel-default">
                             <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyNewKeys" style="cursor: pointer;">
