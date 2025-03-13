@@ -254,16 +254,16 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
         $scope.togglePanel = function() {
           switch ($scope.swMenu){
             case "panelBodyKeyStock":
-              $scope.panelBodyKeyStock      = !$scope.panelBodyKeyStock;
+              $scope.panelBodyKeyStock      = $scope.panelBodyKeyStock;
             break;
             case "panelBodyForm":
-              $scope.panelBodyForm          = !$scope.panelBodyForm;
+              $scope.panelBodyForm          = $scope.panelBodyForm;
             break;
             case "panelBodyExistingKeys":
-              $scope.panelBodyExistingKeys  = !$scope.panelBodyExistingKeys;
+              $scope.panelBodyExistingKeys  = $scope.panelBodyExistingKeys;
             break;
             case "panelBodyNewKeys":
-              $scope.panelBodyNewKeys       = !$scope.panelBodyNewKeys;
+              $scope.panelBodyNewKeys       = $scope.panelBodyNewKeys;
             break;
           }
         };
