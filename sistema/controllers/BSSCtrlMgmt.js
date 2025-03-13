@@ -912,6 +912,28 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
         }
         console.log($scope.ticket);
      };
+
+
+    /**************************************************
+    *                                                 *
+    *           GET KEYS BY DEPARTMENT ID             *
+    *                                                 *
+    **************************************************/
+      $scope.getKeysByDepartmentId = function(id){
+        $scope.rsExistingKeyList = [];
+        KeysServices.getKeyListByDepartmentId($scope.ticket.idClientDepartament.idClientDepartament).then(function(response) {
+          if(response.status==200){
+              $scope.tkupdate.existingKeys  = response.data;
+              $scope.rsExistingKeyList      = response.data;
+          }else if (response.status==404){
+              $scope.tkupdate.existingKeys  = [];
+              $scope.rsExistingKeyList      = [];
+          }else if (response.status==500){
+            $scope.tkupdate.existingKeys    = [];
+            $scope.rsExistingKeyList        = [];
+          }
+        });
+      }
     /**************************************************
     *                                                 *
     *                GET DELIVERY TYPES               *
@@ -2858,6 +2880,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $scope.keys.new.categoryKey       = $scope.tkupdate.keys[0].idCategory;
               $scope.keys.new.products.selected = {'idProduct':$scope.tkupdate.keys[0].idProduct,'model':$scope.tkupdate.keys[0].model,'classification':$scope.tkupdate.keys[0].classification,'codigoFabric':$scope.tkupdate.keys[0].codigoFabric,'descriptionProduct':$scope.tkupdate.keys[0].descriptionProduct,'idProductClassification':$scope.tkupdate.keys[0].idProductClassification,'brand':$scope.tkupdate.keys[0].brand,'priceFabric':$scope.tkupdate.keys[0].priceFabric};
               $scope.keys.new.department        = $scope.tkupdate.department.idClientDepartament;
+              $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
             break;
             case "keyDetails":
               $scope.isNewKeySingle = false;
