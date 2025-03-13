@@ -245,6 +245,28 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
           //$('#uploadBillingTicketfiles ').trigger('click');
         };
 
+        // Initialize the panel as collapsed
+        $scope.panelBodyKeyStock      = true;
+        $scope.panelBodyForm          = true;
+        $scope.panelBodyExistingKeys  = true;
+        $scope.panelBodyNewKeys       = true;
+        // Function to toggle the panel state
+        $scope.togglePanel = function() {
+          switch ($scope.swMenu){
+            case "panelBodyKeyStock":
+              $scope.panelBodyKeyStock      = !$scope.panelBodyKeyStock;
+            break;
+            case "panelBodyForm":
+              $scope.panelBodyForm          = !$scope.panelBodyForm;
+            break;
+            case "panelBodyExistingKeys":
+              $scope.panelBodyExistingKeys  = !$scope.panelBodyExistingKeys;
+            break;
+            case "panelBodyNewKeys":
+              $scope.panelBodyNewKeys       = !$scope.panelBodyNewKeys;
+            break;
+          }
+        };
     /**************************************************
     *                                                 *
     *                 MODAL CONFIRMATION              *
