@@ -246,10 +246,10 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
         };
 
         // Initialize the panel as collapsed
-        $scope.panelBodyKeyStock      = true;
-        $scope.panelBodyForm          = true;
-        $scope.panelBodyExistingKeys  = true;
-        $scope.panelBodyNewKeys       = true;
+        $scope.panelBodyKeyStock      = false;
+        $scope.panelBodyForm          = false;
+        $scope.panelBodyExistingKeys  = false;
+        $scope.panelBodyNewKeys       = false;
         // Function to toggle the panel state
         $scope.togglePanel = function() {
           switch ($scope.swMenu){
