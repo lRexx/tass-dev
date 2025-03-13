@@ -15,9 +15,9 @@
         	{{item.idKeychain}}
         </td>
         <!--<td ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle;text-align: center;">{{item.categoryKeychain}}</td>-->
-        <td class="td-depto" ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 10.2% !important;">{{item.codigo}}</td>
-        <td class="td-depto" ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 12% !important;">{{item.codExt}}</td>
-        <td class="td-depto" ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;">
+        <td class="td-depto" ng-click="mainSwitchFn('existingKeyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 10.2% !important;">{{item.codigo}}</td>
+        <td class="td-depto" ng-click="mainSwitchFn('existingKeyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 12% !important;">{{item.codExt}}</td>
+        <td class="td-depto" ng-click="mainSwitchFn('existingKeyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;">
           <span ng-if="item.idKeychainStatus!=null && item.idKeychainStatus!=undefined" class="label" ng-class="{'label-success': item.idKeychainStatus == '1', 'label-warning': item.idKeychainStatus == '0', 'label-danger': item.idKeychainStatus != null && item.idKeychainStatus != '0' && item.idKeychainStatus != '1', }"> {{item.statusKey}}</span>
         </td>
       </tr>
@@ -33,5 +33,4 @@
       </tr>
     </tbody>
 </table>
-<div ng-include="'views/management/tickets/keyDetails.html'"></div>
 <!-- LIST OF KEYS -->
