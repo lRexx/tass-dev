@@ -31,7 +31,7 @@
                             <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyKeyStock" ng-click="togglePanel('panelBodyKeyStock')" style="cursor: pointer;">
                                 <h3 class="panel-title">
                                     <i class="product-success fas fa-key"></i> Llaveros de Stock
-                                    <i ng-class="{'fa-chevron-up': !panelBodyKeyStock, 'fa-chevron-down': panelBodyKeyStock}" class="fas pull-right"></i>
+                                    <i ng-class="{'fas fa-chevron-up': !panelBodyKeyStock, 'fas fa-chevron-down': panelBodyKeyStock}" class="pull-right"></i>
                                 </h3>
                             </div>
                             <div id="panelBodyKeyStock" class="panel-body collapse" ng-class="{'in': !panelBodyKeyStock}">
@@ -48,7 +48,7 @@
                             <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyForm" ng-click="togglePanel('panelBodyForm')" style="cursor: pointer;">
                                 <h3 class="panel-title">
                                     <i class="product-success fas fa-key"></i> NUEVO LLAVERO
-                                    <i ng-class="{'fa-chevron-up': !isCollapsed, 'fa-chevron-down': isCollapsed}" class="fas pull-right"></i>
+                                    <i ng-class="{'fa-chevron-up': !panelBodyForm, 'fa-chevron-down': panelBodyForm}" class="fas pull-right"></i>
                                 </h3>
                             </div>
                             <div id="panelBodyForm" class="panel-body collapse"  ng-class="{'in': !panelBodyForm}">
@@ -242,7 +242,7 @@
                             <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyExistingKeys" ng-click="togglePanel('panelBodyExistingKeys')" style="cursor: pointer;">
                                 <h3 class="panel-title">
                                     <i class="product-success fas fa-key"></i> LLAVEROS ASIGNADOS A LA UNIDAD
-                                    <i ng-class="{'fa-chevron-up': !isCollapsed, 'fa-chevron-down': isCollapsed}" class="fas pull-right"></i>
+                                    <i ng-class="{'fa-chevron-up': !panelBodyExistingKeys, 'fa-chevron-down': panelBodyExistingKeys}" class="fas pull-right"></i>
                                 </h3>
                             </div>
                             <div id="panelBodyExistingKeys" class="panel-body collapse " ng-class="{'in': !panelBodyExistingKeys}" style="height: 455.2px !important">
@@ -256,7 +256,7 @@
                             <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyNewKeys" ng-click="togglePanel('panelBodyNewKeys')" style="cursor: pointer;">
                                 <h3 class="panel-title">
                                     <i class="product-success fas fa-key"></i> LISTADO DE NUEVOS LLAVEROS
-                                    <i ng-class="{'fa-chevron-up': !isCollapsed, 'fa-chevron-down': isCollapsed}" class="fas pull-right"></i>
+                                    <i ng-class="{'fa-chevron-up': !panelBodyNewKeys, 'fa-chevron-down': panelBodyNewKeys}" class="fas pull-right"></i>
                                 </h3>
                             </div>
                             <div id="panelBodyNewKeys" class="panel-body collapse " ng-class="{'in': !panelBodyNewKeys}">
