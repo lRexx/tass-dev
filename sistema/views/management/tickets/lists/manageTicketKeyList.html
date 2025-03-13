@@ -26,11 +26,15 @@
                 <!-- OPTION STOCK-->
                 <div ng-show="ticket.keysMethod.name=='stock'">
                     <div class="col-md-12" style="padding: 10px !important;">
-                        <div class="well well-md" ng-class="{'well-success': ticket.idClientDepartament!=undefined && ticket.idClientDepartament!='' && ticket.idClientDepartament!=null && ticket.idClientDepartament!=0}">
-                            <div class="panel-body n-padding-l n-padding-r">
-                                <!--*********KEY STOCK LIST ***********-->
-                                <!-- complete the form -->
-                                <legend style="text-align: left;">Llaveros de Stock</legend>
+                         <!--*********KEY STOCK LIST ***********-->
+                        <div class="panel panel-default">
+                            <div class="panel-heading" data-toggle="collapse" data-target="#panelBody" style="cursor: pointer;">
+                                <h3 class="panel-title">
+                                    <i class="product-success fas fa-key"></i> Llaveros de Stock
+                                    <i ng-class="{'fa-chevron-up': !isCollapsed, 'fa-chevron-down': isCollapsed}" class="fas float-right"></i>
+                                </h3>
+                            </div>
+                            <div id="panelBody" class="panel-body collapse in">
                                 <div class="col-md-12 n-padding-l n-padding-r" ng-include="'views/management/tickets/lists/listKeys.html'" style="height: 550px;"></div>
                             </div>
                         </div>
@@ -42,7 +46,10 @@
                         <!-- KEY REGISTER FORM -->
                         <div class="panel" ng-class="{'panel-success':fNewKey.$valid, 'panel-default': fNewKey.$invalid}">
                             <div class="panel-heading" data-toggle="collapse" data-target="#panelBody" style="cursor: pointer;">
-                                <h3 class="panel-title"><i class="product-success fas fa-key"></i> NUEVO LLAVERO</h3>
+                                <h3 class="panel-title">
+                                    <i class="product-success fas fa-key"></i> NUEVO LLAVERO
+                                    <i ng-class="{'fa-chevron-up': !isCollapsed, 'fa-chevron-down': isCollapsed}" class="fas float-right"></i>
+                                </h3>
                             </div>
                             <div id="panelBody" class="panel-body collapse in">
                                 <!-- FORM CONTAINER-->
@@ -228,10 +235,15 @@
                                 <div class="clearfix"> </div> 
                             </div>
                         </div>
-                        <div class="well well-md" ng-class="{'well-success': ticket.idClientDepartament!=undefined && ticket.idClientDepartament!='' && ticket.idClientDepartament!=null && ticket.idClientDepartament!=0}">
-                                <!-- // KEY REGISTER FORM -->                            
-                            <div class="panel-body n-padding-l n-padding-r">
-                                <!--*********KEY MANUAL***********-->
+                        <!--*********KEY MANUAL***********-->                          
+                        <div class="panel panel-default">
+                            <div class="panel-heading" data-toggle="collapse" data-target="#panelBody" style="cursor: pointer;">
+                                <h3 class="panel-title">
+                                    <i class="product-success fas fa-key"></i> LLAVEROS
+                                    <i ng-class="{'fa-chevron-up': !isCollapsed, 'fa-chevron-down': isCollapsed}" class="fas float-right"></i>
+                                </h3>
+                            </div>
+                            <div id="panelBody" class="panel-body collapse in">
                                 <div class="col-md-12 n-padding-l n-padding-r" ng-include="'views/management/tickets/lists/listNewKeys.html'"></div>
                             </div>
                         </div>
