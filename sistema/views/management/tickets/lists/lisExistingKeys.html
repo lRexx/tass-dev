@@ -5,19 +5,19 @@
           <th width="5%" class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 5% !important;">ID</th>
           <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;"><i class="fas fa-qrcode"> </i> Codigo</th>
           <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 12% !important;"><i class="fas fa-qrcode"> </i> Cod Externo</th>
-          <th class="th-head" style="vertical-align: middle !important;text-align: center !important;"><i class="glyphicon icon-flag"> </i> Estatus</th>
+          <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;""><i class="glyphicon icon-flag"> </i> Estatus</th>
       </tr>
     </thead>
     <tbody class="fixed-body" style="height: 225px !important;">
       <!-- Show if there are Keys registered -->
       <tr ng-if="rsExistingKeyList.length>0"  class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in rsExistingKeyList">
         <td class="td-depto" style="vertical-align: middle !important;text-align: center !important;width: 7.2% !important;" ng-click="switchCustomersFn('details_customer', item, 'show');">
-        	{{$index}}
+        	{{item.idKeychain}}
         </td>
         <!--<td ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle;text-align: center;">{{item.categoryKeychain}}</td>-->
         <td class="td-depto" ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 10.2% !important;">{{item.codigo}}</td>
         <td class="td-depto" ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 12% !important;">{{item.codExt}}</td>
-        <td class="td-depto" ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;">
+        <td class="td-depto" ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 12% !important;">
           <span ng-if="item.idKeychainStatus!=null && item.idKeychainStatus!=undefined" class="label" ng-class="{'label-success': item.idKeychainStatus == '1', 'label-warning': item.idKeychainStatus == '0', 'label-danger': item.idKeychainStatus != null && item.idKeychainStatus != '0' && item.idKeychainStatus != '1', }"> {{item.statusKey}}</span>
         </td>
       </tr>
