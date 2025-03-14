@@ -2836,7 +2836,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                     if ($scope.rsNewKeychainList.length>0){
                       for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
                         if ($scope.rsNewKeychainList[i].codigo==obj.codigo){
-                          inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en el Departamento "+obj.Depto,{
+                          inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en en la nueva lista a asignar en el Departamento "+obj.Depto,{
                             ttl:15000, type: 'warning'
                           });
                           $scope.isCodeNewExist=true;
@@ -2870,6 +2870,8 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                     ttl:15000, type: 'info'
                   });
                 }
+                obj.codigo="";
+                obj.codigoExt="";
                 //update idKeychainKf in tb_ticket_keychain when the key from stock or manual is assigned
             break;
             case "uploadKeyFile":
