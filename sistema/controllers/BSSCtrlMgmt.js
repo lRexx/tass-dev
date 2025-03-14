@@ -2819,12 +2819,10 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                 console.log(obj);
                 if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
                   let deviceOpen = obj.products.selected;
-                  if ($scope.rsNewKeychainList.length==0){
-                    $scope.rsNewKeychainList.push({"idProductKf":deviceOpen.idProduct,"descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":obj.categoryKeychain,"Depto":obj.Depto, "codExt":obj.codigoExt,"codigo":obj.codigo,"idDepartmenKf":obj.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":obj.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "doors":{}});
-                  }else{
+                  if ($scope.rsNewKeychainList.length>=0){
                     for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
-                      if ($scope.rsExistingKeyList[i].codigo==$scope.rsNewKeychainList[i].codigo){
-                        inform.add("El Llavero con el Codigo: ["+$scope.rsNewKeychainList[i].codigo+"], ya ha existe en el Departamento "+$scope.rsNewKeychainList[i].Depto,{
+                      if ($scope.rsExistingKeyList[i].codigo==obj.codigo){
+                        inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya ha existe en el Departamento "+obj.Depto,{
                           ttl:5000, type: 'success'
                         });
                         $scope.isCodeExist=true;
