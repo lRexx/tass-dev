@@ -870,6 +870,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $scope.getControlAccessDoorsAssociatedToACustomerFn($scope.tkupdate.building.idClient);
               if ($scope.tkupdate.idTypeRequestFor=="1"){
                 $scope.getDeptoListByAddress($scope.tkupdate.building.idClient);
+                $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
               }
               $scope.customerFound = $scope.tkupdate.building;
               console.log($scope.rsData);
@@ -2816,6 +2817,16 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
             break;
             case "addKeyManual":
                 console.log(obj);
+                let deviceOpen = obj.products.selected;
+                $scope.rsNewKeychainList.push({"idProductKf":deviceOpen.idProduct,"codExt":obj.codigoExt,"codigo":obj.codigo,"idDepartmenKf":obj.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":obj.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "doors":{}});
+                for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
+                  // Ensure the index exists in rsNewKeychainList
+                  if ($scope.rsNewKeychainList[i]) {
+                      // Set the doors property based on the index
+                      $scope.rsNewKeychainList[i].doors = $scope.tkupdate.keys[i].doors;
+                  }
+              }
+                //update idKeychainKf in tb_ticket_keychain when the key from stock or manual is assigned
             break;
             case "uploadKeyFile":
                 $scope.addMultiKeys(obj);
@@ -2898,7 +2909,6 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $scope.keys.new.categoryKey       = $scope.tkupdate.keys[0].idCategory;
               $scope.keys.new.products.selected = {'idProduct':$scope.tkupdate.keys[0].idProduct,'model':$scope.tkupdate.keys[0].model,'classification':$scope.tkupdate.keys[0].classification,'codigoFabric':$scope.tkupdate.keys[0].codigoFabric,'descriptionProduct':$scope.tkupdate.keys[0].descriptionProduct,'idProductClassification':$scope.tkupdate.keys[0].idProductClassification,'brand':$scope.tkupdate.keys[0].brand,'priceFabric':$scope.tkupdate.keys[0].priceFabric};
               $scope.keys.new.department        = $scope.tkupdate.department.idClientDepartament;
-              $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
             break;
             case "keyDetails":
               $scope.isNewKeySingle = false;
