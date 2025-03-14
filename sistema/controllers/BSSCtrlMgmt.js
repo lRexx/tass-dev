@@ -2839,16 +2839,16 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                           inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en el Departamento "+obj.Depto,{
                             ttl:15000, type: 'warning'
                           });
-                          $scope.isCodeExist=true;
+                          $scope.isCodeNewExist=true;
                           break;
                           //console.log($scope.isMailExist);
                         }else{
-                          $scope.isCodeExist=false;
+                          $scope.isCodeNewExist=false;
                           //console.log($scope.isMailExist);
                         }
                       }
                     }
-                    if(!$scope.isCodeExist){
+                    if(!$scope.isCodeExist && !$scope.isCodeNewExist){
                       console.log("ADD_NO_EXIST");
                       $scope.rsNewKeychainList.push({"idProductKf":deviceOpen.idProduct,"descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":obj.categoryKeychain,"Depto":obj.Depto, "codExt":obj.codigoExt,"codigo":obj.codigo,"idDepartmenKf":obj.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":obj.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "doors":{}});
                     }
