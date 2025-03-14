@@ -2818,7 +2818,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
             case "addKeyManual":
                 console.log(obj);
                 let deviceOpen = obj.products.selected;
-                $scope.rsNewKeychainList.push({"idProductKf":deviceOpen.idProduct,"codExt":obj.codigoExt,"codigo":obj.codigo,"idDepartmenKf":obj.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":obj.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "doors":{}});
+                $scope.rsNewKeychainList.push({"idProductKf":deviceOpen.idProduct,"descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":obj.categoryKeychain,"Depto":obj.Depto, "codExt":obj.codigoExt,"codigo":obj.codigo,"idDepartmenKf":obj.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":obj.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "doors":{}});
                 for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
                   // Ensure the index exists in rsNewKeychainList
                   if ($scope.rsNewKeychainList[i]) {
@@ -2907,8 +2907,10 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $scope.isEditKey                  = false;
               $scope.isNewKeyMulti              = false;
               $scope.keys.new.categoryKey       = $scope.tkupdate.keys[0].idCategory;
+              $scope.keys.new.categoryKeychain  = $scope.tkupdate.keys[0].name;
               $scope.keys.new.products.selected = {'idProduct':$scope.tkupdate.keys[0].idProduct,'model':$scope.tkupdate.keys[0].model,'classification':$scope.tkupdate.keys[0].classification,'codigoFabric':$scope.tkupdate.keys[0].codigoFabric,'descriptionProduct':$scope.tkupdate.keys[0].descriptionProduct,'idProductClassification':$scope.tkupdate.keys[0].idProductClassification,'brand':$scope.tkupdate.keys[0].brand,'priceFabric':$scope.tkupdate.keys[0].priceFabric};
               $scope.keys.new.department        = $scope.tkupdate.department.idClientDepartament;
+              $scope.keys.new.Depto         = $scope.tkupdate.department.floor+"-"+$scope.tkupdate.department.departament
             break;
             case "keyDetails":
               $scope.isNewKeySingle = false;

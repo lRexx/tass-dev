@@ -14,7 +14,7 @@
       <!-- Show if there are Keys registered -->
       <tr ng-if="rsNewKeychainList.length>0"  class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in rsNewKeychainList">
         <td class="td-depto" style="vertical-align: middle !important;text-align: center !important;width: 7.2% !important;" ng-click="switchCustomersFn('details_customer', item, 'show');">
-        	{{$index}}
+        	{{$index+1}}
         </td>
         <!--DESCRIPCION -->
         <td class="td-depto" ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 38.3% !important;font-size: 95%;" ng-if="item.idClientTypeFk!=2 && item.idClientTypeFk!=4">{{item.descriptionProduct | limitTo: 50 }}{{item.descriptionProduct.length > 50 ? '...' : ''}}</td>
@@ -27,7 +27,7 @@
         <td class="td-depto" ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 10.2% !important;">{{item.codigo}}</td>
         <td class="td-depto" ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 12% !important;">{{item.codExt}}</td>
         <td class="td-depto" ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;">
-          <span ng-if="item.idKeychainStatus!=null && item.idKeychainStatus!=undefined" class="label" ng-class="{'label-success': item.idKeychainStatus == '1', 'label-warning': item.idKeychainStatus == '0', 'label-danger': item.idKeychainStatus != null && item.idKeychainStatus != '0' && item.idKeychainStatus != '1', }"> {{item.statusKey}}</span>
+          <span ng-if="item.idKeychainStatusKf!=null && item.idKeychainStatusKf!=undefined" class="label" ng-class="{'label-success': item.idKeychainStatusKf == '1', 'label-warning': item.idKeychainStatusKf == '0', 'label-danger': item.idKeychainStatusKf != null && item.idKeychainStatusKf != '0' && item.idKeychainStatusKf != '1', }"> Inactivo</span>
         </td>
       </tr>
       <tr ng-if="rsNewKeychainList.length==0">
