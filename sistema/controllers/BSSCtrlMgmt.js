@@ -2822,8 +2822,8 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                   if ($scope.rsNewKeychainList.length>=0){
                     for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
                       if ($scope.rsExistingKeyList[i].codigo==obj.codigo){
-                        inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya ha existe en el Departamento "+obj.Depto,{
-                          ttl:5000, type: 'success'
+                        inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en el Departamento "+obj.Depto,{
+                          ttl:15000, type: 'warning'
                         });
                         $scope.isCodeExist=true;
                         break;
@@ -2831,6 +2831,21 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                       }else{
                         $scope.isCodeExist=false;
                         //console.log($scope.isMailExist);
+                      }
+                    }
+                    if ($scope.rsNewKeychainList.length>0){
+                      for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
+                        if ($scope.rsNewKeychainList[i].codigo==obj.codigo){
+                          inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en el Departamento "+obj.Depto,{
+                            ttl:15000, type: 'warning'
+                          });
+                          $scope.isCodeExist=true;
+                          break;
+                          //console.log($scope.isMailExist);
+                        }else{
+                          $scope.isCodeExist=false;
+                          //console.log($scope.isMailExist);
+                        }
                       }
                     }
                     if(!$scope.isCodeExist){
