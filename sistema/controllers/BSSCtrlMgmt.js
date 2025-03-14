@@ -2817,15 +2817,26 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
             break;
             case "addKeyManual":
                 console.log(obj);
-                let deviceOpen = obj.products.selected;
-                $scope.rsNewKeychainList.push({"idProductKf":deviceOpen.idProduct,"descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":obj.categoryKeychain,"Depto":obj.Depto, "codExt":obj.codigoExt,"codigo":obj.codigo,"idDepartmenKf":obj.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":obj.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "doors":{}});
-                for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
-                  // Ensure the index exists in rsNewKeychainList
-                  if ($scope.rsNewKeychainList[i]) {
-                      // Set the doors property based on the index
-                      $scope.rsNewKeychainList[i].doors = $scope.tkupdate.keys[i].doors;
+                if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
+                  let deviceOpen = obj.products.selected;
+                  $scope.rsNewKeychainList.push({"idProductKf":deviceOpen.idProduct,"descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":obj.categoryKeychain,"Depto":obj.Depto, "codExt":obj.codigoExt,"codigo":obj.codigo,"idDepartmenKf":obj.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":obj.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "doors":{}});
+                  for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
+                    // Ensure the index exists in rsNewKeychainList
+                    if ($scope.rsNewKeychainList[i]) {
+                        // Set the doors property based on the index
+                        $scope.rsNewKeychainList[i].doors = $scope.tkupdate.keys[i].doors;
+                    }
                   }
-              }
+                  if ($scope.rsNewKeychainList.length==$scope.tkupdate.keys.length){
+                    inform.add("Ya ha cargado la totalidad de ("+$scope.tkupdate.keys.length+") los llaveros solicitados en el pedido.",{
+                      ttl:15000, type: 'success'
+                    });
+                  }
+                }else{
+                  inform.add("Ya ha cargado los ("+$scope.tkupdate.keys.length+") llaveros solicitados en el pedido.",{
+                    ttl:15000, type: 'info'
+                  });
+                }
                 //update idKeychainKf in tb_ticket_keychain when the key from stock or manual is assigned
             break;
             case "uploadKeyFile":
