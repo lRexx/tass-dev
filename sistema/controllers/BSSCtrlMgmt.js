@@ -317,6 +317,21 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                   $('#confirmRequestModal').modal('hide');
                   }
               break;
+              case "addKey":
+                if (confirm==0){
+                    $scope.keyObj=obj;
+                        console.log(obj)
+                        $scope.mess2show="La llave con el codigo: "+obj.codigo+" sera registrada en el sistema,     Confirmar?";
+                    
+                        console.log("Llave a registrar  : "+obj.codigo);
+                        console.log("============================================================================");
+                        //console.log(obj);
+                $('#confirmRequestModal').modal('toggle');
+                }else if (confirm==1){
+                    $scope.mainSwitchFn("addKeyManual", $scope.keyObj);
+                $('#confirmRequestModal').modal('hide');
+                }
+              break;
               case "approve":
                 if (confirm==0){
                       $scope.mess2show="El Pedido ["+obj.codTicket+"] sera Aprobado,     Confirmar?";
@@ -1887,11 +1902,11 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               }
               
           }
-        /**************************************************
-        *                                                 *
-        * DEPARTMENT LIST BY SELECTED ADDRESS AND TENANT  *
-        *                                                 *
-        **************************************************/
+    /**************************************************
+    *                                                 *
+    * DEPARTMENT LIST BY SELECTED ADDRESS AND TENANT  *
+    *                                                 *
+    **************************************************/
           $scope.getDeptoListByAddress = function (idAddress){
             if(idAddress!=undefined){
                 $scope.ListDpto=[];
@@ -2798,6 +2813,9 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                 $('#attachKeyFile').on('shown.bs.modal', function () {
                     $('#uploadKeyFiles').focus();
                 });
+            break;
+            case "addKeyManual":
+                console.log(obj);
             break;
             case "uploadKeyFile":
                 $scope.addMultiKeys(obj);
