@@ -917,6 +917,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                     var removeElem = document.getElementById("manual")
                     //console.log(removeElem)
                     $scope.ticket.keysMethod.name = elem[0].getAttribute("id");
+                    $scope.tkupdate.keySource = elem[0].getAttribute("id");
                     $scope.ticket.optionTypeSelected.obj = elem;
                     elem.removeClass('btn-primary').addClass("btn-success");
                 }
@@ -935,6 +936,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                     $scope.list_keys = [];
                     var removeElem = document.getElementById("stock")
                     $scope.ticket.keysMethod.name = elem[0].getAttribute("id");
+                    $scope.tkupdate.keySource = elem[0].getAttribute("id");
                     $scope.ticket.optionTypeSelected.obj = elem;
                     elem.removeClass('btn-primary').addClass("btn-success");
                 }
