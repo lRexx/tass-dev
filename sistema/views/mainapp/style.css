@@ -1993,6 +1993,7 @@ input:checked + .slider-3x:before {
 }
 
 .blur-overlay {
+  z-index: 1100 !important;
   position: absolute;
   top: 0;
   left: 0;
