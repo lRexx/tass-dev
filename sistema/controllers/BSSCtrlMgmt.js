@@ -2891,7 +2891,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                 obj.codigoExt="";
                 //update idKeychainKf in tb_ticket_keychain when the key from stock or manual is assigned
             break;
-            case "addNewKeyManual":
+            case "removeNewKey":
               console.log(obj);
               for (var key in  $scope.rsNewKeychainList){
                 if ( $scope.rsNewKeychainList[key].codigo==obj.codigo){
