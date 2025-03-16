@@ -317,7 +317,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                   $('#confirmRequestModal').modal('hide');
                   }
               break;
-              case "addKey":
+              case "addNewKeyManual":
                 if (confirm==0){
                     $scope.keyObj=obj;
                         console.log(obj)
@@ -328,8 +328,23 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                         //console.log(obj);
                 $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
-                    $scope.mainSwitchFn("addKeyManual", $scope.keyObj);
+                    $scope.mainSwitchFn("addNewKeyManual", $scope.keyObj);
                 $('#confirmRequestModal').modal('hide');
+                }
+              break;
+              case "removeNewKey":
+                if (confirm==0){
+                  $scope.keyObj=obj;
+                      console.log(obj)
+                      $scope.mess2show="El Llavero: "+obj.codigo+" sera Eliminado de la lista,     Confirmar?";
+                  
+                      console.log("Llave a eliminar  : "+obj.codigo);
+                      console.log("============================================================================");
+                      //console.log(obj);
+                  $('#confirmRequestModal').modal('toggle');
+                }else if (confirm==1){
+                    $scope.mainSwitchFn("removeNewKey", $scope.keyObj);
+                  $('#confirmRequestModal').modal('hide');
                 }
               break;
               case "approve":
@@ -2815,7 +2830,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                     $('#uploadKeyFiles').focus();
                 });
             break;
-            case "addKeyManual":
+            case "addNewKeyManual":
                 console.log(obj);
                 if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
                   let deviceOpen = obj.products.selected;
