@@ -1639,8 +1639,9 @@ background-color: #f7f7f7;
 .banner-no-rows-warning{
   color: #f0ad4e;
   border: 1px solid #f0ad4e;
-
+  background-color: rgb(241 217 180 / 15%);
 }
+
 .banner-no-rows h1,
 .banner-no-rows h2,
 .banner-no-rows h3,
