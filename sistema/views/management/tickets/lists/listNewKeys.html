@@ -7,7 +7,8 @@
           <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 15% !important;"><i class="fas fa-house-user"> </i> Unidad</th>
           <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 11% !important;"><i class="fas fa-qrcode"> </i> Codigo</th>
           <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 12% !important;"><i class="fas fa-qrcode"> </i> Cod Externo</th>
-          <th class="th-head" style="vertical-align: middle !important;text-align: center !important;"><i class="glyphicon icon-flag"> </i> Estatus</th>
+          <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;"><i class="glyphicon icon-flag"> </i> Estatus</th>
+          <th class="th-head" style="vertical-align: middle !important;text-align: center !important;"><i class="glyphicon icon-flag"> </i> </th>
       </tr>
     </thead>
     <tbody class="fixed-body" style="height: 225px !important;">
@@ -26,8 +27,11 @@
         <!--<td ng-click="mainSwitchFn('keyDetailssss', item, null);" ng-trim="true" style="vertical-align: middle;text-align: center;">{{item.categoryKeychain}}</td>-->
         <td class="td-depto" ng-click="mainSwitchFn('keyDetailssss', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 11% !important;">{{item.codigo}}</td>
         <td class="td-depto" ng-click="mainSwitchFn('keyDetailssss', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 12% !important;">{{item.codExt}}</td>
-        <td class="td-depto" ng-click="mainSwitchFn('keyDetailssss', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;">
+        <td class="td-depto" ng-click="mainSwitchFn('keyDetailssss', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;">
           <span ng-if="item.idKeychainStatusKf!=null && item.idKeychainStatusKf!=undefined" class="label" ng-class="{'label-success': item.idKeychainStatusKf == '1', 'label-warning': item.idKeychainStatusKf == '0', 'label-danger': item.idKeychainStatusKf != null && item.idKeychainStatusKf != '0' && item.idKeychainStatusKf != '1', }"> Inactivo</span>
+        </td>
+        <td class="td-depto" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;">
+          <button ng-click="modalConfirmation('removeNewKey', 0, item)" data-toggle="tooltip" data-placement="right" title="" type="button" class="btn btn-danger btn-xs ng-scope" data-original-title="Eliminar"><i class="fas fa-minus-circle"></i></button>
         </td>
       </tr>
       <tr ng-if="rsNewKeychainList.length==0">
