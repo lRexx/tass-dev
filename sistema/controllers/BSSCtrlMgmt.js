@@ -2761,6 +2761,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $scope.rsAllKeychainListData = [];
               $scope.ticket.keysMethod.name = undefined;
               $scope.rsNewKeychainList = [];
+              $scope.list_new_keys = [];
               $scope.keys={"new":{}};
               $scope.isEditTicket=false;
               $scope.openTicketFn(obj.idTicket);
@@ -2866,6 +2867,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                     if(!$scope.isCodeExist && !$scope.isCodeNewExist){
                       console.log("ADD_NO_EXIST");
                       $scope.rsNewKeychainList.push({"idProductKf":deviceOpen.idProduct,"descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":obj.categoryKeychain,"Depto":obj.Depto, "codExt":obj.codigoExt,"codigo":obj.codigo,"idDepartmenKf":obj.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":obj.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "doors":{}});
+                      $scope.list_new_keys.push({"idProductKf":deviceOpen.idProduct,"descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":obj.categoryKeychain,"Depto":obj.Depto, "codExt":obj.codigoExt,"codigo":obj.codigo,"idDepartmenKf":obj.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":obj.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "doors":{}});
                     }
                   }
                   for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
@@ -2888,6 +2890,15 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                 obj.codigo="";
                 obj.codigoExt="";
                 //update idKeychainKf in tb_ticket_keychain when the key from stock or manual is assigned
+            break;
+            case "addNewKeyManual":
+              console.log(obj);
+              for (var key in  $scope.rsNewKeychainList){
+                if ( $scope.rsNewKeychainList[key].codigo==obj.codigo){
+                    $scope.rsNewKeychainList.splice(key,1);
+                    $scope.list_new_keys.splice(key,1);
+                }
+              }
             break;
             case "uploadKeyFile":
                 $scope.addMultiKeys(obj);
@@ -2964,6 +2975,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
             case "keychain_manual":
               $scope.keys={"new":{'products':{'selected':{}}}}
               $scope.rsNewKeychainList          = [];
+              $scope.list_new_keys              = [];
               $scope.isNewKeySingle             = true;
               $scope.isEditKey                  = false;
               $scope.isNewKeyMulti              = false;
