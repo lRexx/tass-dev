@@ -228,6 +228,7 @@ class Llavero_model extends CI_Model
 			if (!is_null($this->find_by_code($items['codigo'], $idClientKf))) {
 				return 2;
 			} else {
+				$idKeychainStatusKf = !is_null(@$items['idClientAdminKf']) ? $items['idClientAdminKf'] : 1;
 				$this->db->insert('tb_keychain', [
 						"idProductKf" 			=> $items['idProductKf'],
 						"codExt" 				=> $items['codExt'],
@@ -239,7 +240,7 @@ class Llavero_model extends CI_Model
 						"isKeyTenantOnly"		=> $items['isKeyTenantOnly'],
 						"idClientAdminKf" 		=> @$items['idClientAdminKf'],
 						"created_at" 			=> $now->format('Y-m-d H:i:s'),
-						"idKeychainStatusKf" 	=> 1,
+						"idKeychainStatusKf" 	=> $idKeychainStatusKf,
 					]
 				);
 				$response['idKeychainKf'] = $this->db->insert_id();

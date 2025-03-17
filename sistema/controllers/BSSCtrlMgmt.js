@@ -2949,7 +2949,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                         });
                       }
                     }else{
-                      inform.add("Ya ha cargado los ("+$scope.tkupdate.keys.length+") llaveros solicitados en el pedido.",{
+                      inform.add("Ya ha seleccionado los ("+$scope.tkupdate.keys.length+") llaveros solicitados en el pedido.",{
                         ttl:15000, type: 'info'
                       });
                       console.log(obj);
