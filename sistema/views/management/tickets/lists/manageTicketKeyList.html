@@ -1,19 +1,19 @@
 <!-- KEY LIST-->
-<div id="ticketKeysModalDetails" class="modal fade bd-example-modal-lg" style="top: 225px; z-index: 2151 !important;" role="dialog">
+<div id="ticketKeysModalDetails" class="modal fade bd-example-modal-lg" style="top: 185px; z-index: 2151 !important;" role="dialog">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
               <h3 class="modal-title"><i class="fas fa-key"></i> LLAVEROS A ASIGNAR - <span class="badge badge-warning" style="font-size: 24px !important;">{{tkupdate.keys.length}}</span></h3>
           </div>
-        <div class="modal-body">
+        <div class="modal-body n-padding-b">
             <!-- SELECT METHOD-->
             <div class="col-md-12"> 
                 <!-- SELECT DE OPTION TYPE TO CONTINUE WITH THE REQUEST-->
                 <div class="col-md-12 col-xs-12" style="padding-bottom: 2em;">
                     <!-- NEW TICKET -->
                     <div class="col-md-6">
-                        <button ng-click="setOptionType($event); mainSwitchFn('keychain_list', null, null);" id="stock" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='stock', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='stock'}">
+                        <button ng-click="setOptionType($event); mainSwitchFn('keychainMulti', null, null);" id="stock" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='stock', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='stock'}">
                             <i class="fas fa-cogs"></i> STOCK</button>
                     </div>
                     <!-- //NEW TICKET -->
@@ -255,14 +255,14 @@
                     </div>
                     <div class="col-md-12" style="padding: 10px !important;">
                         <!--*********KEY MANUAL***********-->                          
-                        <div class="panel panel-default">
+                        <div class="panel panel-default" style="margin-bottom: 0px !important;">
                             <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyNewKeys" ng-click="togglePanel('panelBodyNewKeys')" style="cursor: pointer;">
                                 <h3 class="panel-title">
                                     <i class="product-success fas fa-key"></i> LISTADO DE NUEVOS LLAVEROS
                                     <i ng-class="{'fa-chevron-up': !panels.panelBodyNewKeys, 'fa-chevron-down': panels.panelBodyNewKeys}" class="fas pull-right"></i>
                                 </h3>
                             </div>
-                            <div id="panelBodyNewKeys" class="panel-body collapse " ng-class="{'in': !panels.panelBodyNewKeys}">
+                            <div id="panelBodyNewKeys" class="panel-body n-padding-b collapse " ng-class="{'in': !panels.panelBodyNewKeys}">
                                 <div class="col-md-12 n-padding-l n-padding-r" ng-include="'views/management/tickets/lists/listNewKeys.html'"></div>
                             </div>
                         </div>
