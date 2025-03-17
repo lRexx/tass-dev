@@ -2895,6 +2895,16 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                     $('#uploadKeyFiles').focus();
                 });
             break;
+            case "addNewKeyMulti":
+                switch (obj.selected){
+                  case "true":
+                    console.log(obj);
+                  break;
+                  case "false":
+                    console.log(obj);
+                  break;
+                }
+            break;
             case "addNewKeyManual":
                 console.log(obj);
                 if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
