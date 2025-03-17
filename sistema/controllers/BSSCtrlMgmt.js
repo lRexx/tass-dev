@@ -1878,6 +1878,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                       if (response.data.totalCount!=undefined){
                           $scope.pagination.totalCount    = response.data.totalCount;
                       }
+                      console.log($scope.rsNewKeychainList);
                       console.log($scope.tkupdate);
                       console.log($scope.rsAllKeychainListData);
                   }else if(response.status==404){
