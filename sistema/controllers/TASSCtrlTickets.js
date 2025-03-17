@@ -4102,22 +4102,22 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     //SET STATUS FOR REQUEST with MercadoPago Payment Method config parameter enable  
                                     //obj.idClientDepartament.idClientDepartament
                                     //obj.userRequestBy.idTypeTenantKf
-                                    if ($scope.new.ticket.total>0 && obj.idClientDepartament.isAprobatedAdmin=="1" && $scope.sysLoggedUser.idProfileKf!="4"){
+                                    if ($scope.new.ticket.total>0 && (obj.idClientDepartament.isAprobatedAdmin!="1" || obj.idClientDepartament.isAprobatedAdmin=="1") && $scope.sysLoggedUser.idProfileKf!="4"){
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
                                         ////$scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"5"});
                                         $scope.new.ticket.status = 9;
-                                    }else if ($scope.new.ticket.total==0 && obj.idClientDepartament.isAprobatedAdmin=="1" && $scope.sysLoggedUser.idProfileKf!="4"){
+                                    }else if ($scope.new.ticket.total==0 && (obj.idClientDepartament.isAprobatedAdmin!="1" || obj.idClientDepartament.isAprobatedAdmin=="1") && $scope.sysLoggedUser.idProfileKf!="4"){
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido aprobado por BSS, automaticamente.', 'idCambiosTicketKf':"2"});
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"4"});
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"13"});
                                         $scope.new.ticket.status = 8;
-                                    }else if ($scope.new.ticket.total>0 && (obj.idClientDepartament.isAprobatedAdmin=="1" || obj.idClientDepartament.isAprobatedAdmin!="1") && $scope.sysLoggedUser.idProfileKf=="4"){
+                                    }else if ($scope.new.ticket.total>0 && (obj.(obj.idClientDepartament.isAprobatedAdmin!="1" || idClientDepartament.isAprobatedAdmin=="1") || obj.idClientDepartament.isAprobatedAdmin!="1") && $scope.sysLoggedUser.idProfileKf=="4"){
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
                                         $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': 'Pedido aprobado por la Administración, automaticamente.', 'idCambiosTicketKf':"2"});
                                         //$scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"5"});
                                         $scope.new.ticket.status = 3;
-                                    }else if ($scope.new.ticket.total==0 && (obj.idClientDepartament.isAprobatedAdmin=="1" || obj.idClientDepartament.isAprobatedAdmin!="1") && $scope.sysLoggedUser.idProfileKf=="4"){
+                                    }else if ($scope.new.ticket.total==0 && (obj.(obj.idClientDepartament.isAprobatedAdmin!="1" || idClientDepartament.isAprobatedAdmin=="1") || obj.idClientDepartament.isAprobatedAdmin!="1") && $scope.sysLoggedUser.idProfileKf=="4"){
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
                                         $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': 'Pedido aprobado por la Administración, automaticamente.', 'idCambiosTicketKf':"2"});
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"4"});
