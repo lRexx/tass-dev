@@ -1832,34 +1832,34 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                                   //});
                                   $scope.isCodeExist=true;
                                   break;
-                                  //console.log($scope.isMailExist);
+                                  //console.log($scope.isCodeExist);
                                 }else{
                                   $scope.isCodeExist=false;
                                   //console.log($scope.isMailExist);
                                 }
                               }
-                              if ($scope.rsNewKeychainList.length>0){
-                                for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
-                                  if ($scope.rsExistingKeyList[i].codigo==$scope.rsAllKeychainListData[stock].codigo){
-                                    //inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en en la nueva lista a asignar en el Departamento "+obj.Depto,{
-                                    //  ttl:15000, type: 'warning'
-                                    //});
-                                    $scope.isCodeNewExist=true;
-                                    break;
-                                    //console.log($scope.isMailExist);
-                                  }else{
-                                    $scope.isCodeNewExist=false;
-                                    //console.log($scope.isMailExist);
-                                  }
+                            }
+                            if ($scope.rsNewKeychainList.length>0){
+                              for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
+                                if ($scope.rsExistingKeyList[i].codigo==$scope.rsAllKeychainListData[stock].codigo){
+                                  //inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en en la nueva lista a asignar en el Departamento "+obj.Depto,{
+                                  //  ttl:15000, type: 'warning'
+                                  //});
+                                  $scope.isCodeNewExist=true;
+                                  break;
+                                  //console.log($scope.isMailExist);
+                                }else{
+                                  $scope.isCodeNewExist=false;
+                                  //console.log($scope.isMailExist);
                                 }
                               }
-                              if(!$scope.isCodeExist && !$scope.isCodeNewExist){
-                                console.log("ADD_NO_EXIST");
-                                $scope.rsNewKeychainList.push({"idKeychain":$scope.rsAllKeychainListData[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListData[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListData[stock].descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":$scope.rsAllKeychainListData[stock].codigoExt,"codigo":$scope.rsAllKeychainListData[stock].codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":$scope.rsAllKeychainListData[stock].idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":"0", "doors":{}});
-                                $scope.list_new_keys.push({"idKeychain":$scope.rsAllKeychainListData[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListData[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListData[stock].descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":$scope.rsAllKeychainListData[stock].codigoExt,"codigo":$scope.rsAllKeychainListData[stock].codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":$scope.rsAllKeychainListData[stock].idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":"0", "doors":{}});
-                                $scope.rsAllKeychainListData[stock].selected = true;
-                                tk_selected++;
-                              }
+                            }
+                            if(!$scope.isCodeExist && !$scope.isCodeNewExist){
+                              console.log("ADD_NO_EXIST");
+                              $scope.rsNewKeychainList.push({"idKeychain":$scope.rsAllKeychainListData[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListData[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListData[stock].descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":$scope.rsAllKeychainListData[stock].codExt,"codigo":$scope.rsAllKeychainListData[stock].codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":$scope.rsAllKeychainListData[stock].idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":"0", "doors":{}});
+                              $scope.list_new_keys.push({"idKeychain":$scope.rsAllKeychainListData[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListData[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListData[stock].descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":$scope.rsAllKeychainListData[stock].codExt,"codigo":$scope.rsAllKeychainListData[stock].codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":$scope.rsAllKeychainListData[stock].idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":"0", "doors":{}});
+                              $scope.rsAllKeychainListData[stock].selected = true;
+                              tk_selected++;
                             }
                             for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
                               // Ensure the index exists in rsNewKeychainList
@@ -2910,26 +2910,26 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                         //console.log($scope.isMailExist);
                       }
                     }
-                    if ($scope.rsNewKeychainList.length>0){
-                      for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
-                        if ($scope.rsNewKeychainList[i].codigo==obj.codigo){
-                          inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en en la nueva lista a asignar en el Departamento "+obj.Depto,{
-                            ttl:15000, type: 'warning'
-                          });
-                          $scope.isCodeNewExist=true;
-                          break;
-                          //console.log($scope.isMailExist);
-                        }else{
-                          $scope.isCodeNewExist=false;
-                          //console.log($scope.isMailExist);
-                        }
+                  }
+                  if ($scope.rsNewKeychainList.length>0){
+                    for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
+                      if ($scope.rsNewKeychainList[i].codigo==obj.codigo){
+                        inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en en la nueva lista a asignar en el Departamento "+obj.Depto,{
+                          ttl:15000, type: 'warning'
+                        });
+                        $scope.isCodeNewExist=true;
+                        break;
+                        //console.log($scope.isMailExist);
+                      }else{
+                        $scope.isCodeNewExist=false;
+                        //console.log($scope.isMailExist);
                       }
                     }
-                    if(!$scope.isCodeExist && !$scope.isCodeNewExist){
-                      console.log("ADD_NO_EXIST");
-                      $scope.rsNewKeychainList.push({"idProductKf":deviceOpen.idProduct,"descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":obj.categoryKeychain,"Depto":obj.Depto, "codExt":obj.codigoExt,"codigo":obj.codigo,"idDepartmenKf":obj.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":obj.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "doors":{}});
-                      $scope.list_new_keys.push({"idProductKf":deviceOpen.idProduct,"descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":obj.categoryKeychain,"Depto":obj.Depto, "codExt":obj.codigoExt,"codigo":obj.codigo,"idDepartmenKf":obj.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":obj.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "doors":{}});
-                    }
+                  }
+                  if(!$scope.isCodeExist && !$scope.isCodeNewExist){
+                    console.log("ADD_NO_EXIST");
+                    $scope.rsNewKeychainList.push({"idProductKf":deviceOpen.idProduct,"descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":obj.categoryKeychain,"Depto":obj.Depto, "codExt":obj.codigoExt,"codigo":obj.codigo,"idDepartmenKf":obj.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":obj.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "doors":{}});
+                    $scope.list_new_keys.push({"idProductKf":deviceOpen.idProduct,"descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":obj.categoryKeychain,"Depto":obj.Depto, "codExt":obj.codigoExt,"codigo":obj.codigo,"idDepartmenKf":obj.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":obj.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "doors":{}});
                   }
                   for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
                     // Ensure the index exists in rsNewKeychainList
