@@ -1751,6 +1751,8 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
             "strict":null,
             "totalCount":null,
           };
+          $scope.isCodeExist      = null;
+          $scope.isCodeNewExist   = null;
           $scope.getKeychainListFn = function(idClientKf,create_at,idCategoryKf,idKeychainStatusKf,idDepartmenKf,idReasonKf,codeSearch,start,limit,strict,totalCount){
 
               //console.log("idClientKf           : "+idClientKf);
@@ -1805,8 +1807,6 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                   "totalCount":totalCount,
                 };
               KeysServices.getKeychainList($scope.keychainSearch).then(function(response){
-                  $scope.isCodeExist      = null;
-                  $scope.isCodeNewExist   = null;
                   if(response.status==200){
                       console.log(response.data);
                       var tk_selected = 0;
