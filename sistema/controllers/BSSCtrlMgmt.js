@@ -2896,11 +2896,12 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                 });
             break;
             case "addNewKeyMulti":
+                console.log(obj);
                 switch (obj.selected){
-                  case "true":
+                  case true:
                     console.log(obj);
                   break;
-                  case "false":
+                  case false:
                     console.log(obj);
                   break;
                 }
