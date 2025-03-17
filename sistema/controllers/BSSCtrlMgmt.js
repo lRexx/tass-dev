@@ -1808,8 +1808,8 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                   if(response.status==200){
                       console.log(response.data);
                       var tk_selected = 0;
-                      var Depto = $scope.tkupdate.departament.floor+"-"+$scope.tkupdate.departament.departament;
-                      console.log("id Department:"+$scope.tkupdate.departament.idClientDepartament);
+                      var Depto = $scope.tkupdate.department.floor+"-"+$scope.tkupdate.department.departament;
+                      console.log("id Department:"+$scope.tkupdate.department.idClientDepartament);
                       console.log("Departamento:"+Depto);
                       $scope.rsAllKeychainListData   = response.data.tb_keychain;
                       //for (var tkey in $scope.tkupdate.keys){
@@ -1855,8 +1855,8 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                               }
                               if(!$scope.isCodeExist && !$scope.isCodeNewExist){
                                 console.log("ADD_NO_EXIST");
-                                $scope.rsNewKeychainList.push({"idKeychain":$scope.rsAllKeychainListData[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListData[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListData[stock].descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":$scope.rsAllKeychainListData[stock].codigoExt,"codigo":$scope.rsAllKeychainListData[stock].codigo,"idDepartmenKf":$scope.tkupdate.departament.idClientDepartament,"idClientKf":$scope.rsAllKeychainListData[stock].idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":"0", "doors":{}});
-                                $scope.list_new_keys.push({"idKeychain":$scope.rsAllKeychainListData[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListData[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListData[stock].descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":$scope.rsAllKeychainListData[stock].codigoExt,"codigo":$scope.rsAllKeychainListData[stock].codigo,"idDepartmenKf":$scope.tkupdate.departament.idClientDepartament,"idClientKf":$scope.rsAllKeychainListData[stock].idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":"0", "doors":{}});
+                                $scope.rsNewKeychainList.push({"idKeychain":$scope.rsAllKeychainListData[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListData[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListData[stock].descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":$scope.rsAllKeychainListData[stock].codigoExt,"codigo":$scope.rsAllKeychainListData[stock].codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":$scope.rsAllKeychainListData[stock].idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":"0", "doors":{}});
+                                $scope.list_new_keys.push({"idKeychain":$scope.rsAllKeychainListData[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListData[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListData[stock].descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":$scope.rsAllKeychainListData[stock].codigoExt,"codigo":$scope.rsAllKeychainListData[stock].codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":$scope.rsAllKeychainListData[stock].idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":"0", "doors":{}});
                                 $scope.rsAllKeychainListData[stock].selected = true;
                                 tk_selected++;
                               }
