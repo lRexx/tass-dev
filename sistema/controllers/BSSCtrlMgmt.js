@@ -1806,6 +1806,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                 };
               KeysServices.getKeychainList($scope.keychainSearch).then(function(response){
                   if(response.status==200){
+                      console.log(response.data);
                       var tk_selected = 0;
                       var Depto = $scope.tkupdate.departament.floor+"-"+$scope.tkupdate.departament.departament;
                       console.log("id Department:"+$scope.tkupdate.departament.idClientDepartament);
