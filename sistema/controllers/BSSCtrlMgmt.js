@@ -1805,6 +1805,8 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                   "totalCount":totalCount,
                 };
               KeysServices.getKeychainList($scope.keychainSearch).then(function(response){
+                  $scope.isCodeExist      = null;
+                  $scope.isCodeNewExist   = null;
                   if(response.status==200){
                       console.log(response.data);
                       var tk_selected = 0;
