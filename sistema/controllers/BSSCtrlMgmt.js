@@ -2904,6 +2904,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                       inform.add("Ya ha cargado los ("+$scope.tkupdate.keys.length+") llaveros solicitados en el pedido.",{
                         ttl:15000, type: 'info'
                       });
+                      obj.selected = false;
                     }else{
                       if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
                         if ($scope.rsNewKeychainList.length==0){
@@ -2940,7 +2941,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                           console.log("ADD_NO_EXIST");
                           $scope.rsNewKeychainList.push({"idKeychain":obj.idKeychain, "idProductKf":obj.idProductKf,"descriptionProduct":obj.descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":obj.codExt,"codigo":obj.codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":obj.idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":"0", "doors":{}});
                           $scope.list_new_keys.push({"idKeychain":obj.idKeychain, "idProductKf":obj.idProductKf,"descriptionProduct":obj.descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":obj.codExt,"codigo":obj.codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":obj.idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":"0", "doors":{}});
-                          obj.selected = true;                                                  
+                          obj.selected = true;
                         }
                         for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
                           // Ensure the index exists in rsNewKeychainList
@@ -2960,6 +2961,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                         });
                       }
                     }
+                    console.log($scope.rsNewKeychainList);
                   break;
                   case false:
                     console.log(obj);
