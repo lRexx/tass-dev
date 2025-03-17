@@ -1824,7 +1824,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                       for (var tkey in $scope.tkupdate.keys){
                         for (var stock in $scope.rsAllKeychainListData){
                           if ($scope.tkupdate.keys[tkey].idProduct == $scope.rsAllKeychainListData[stock].idProductKf && tk_selected<$scope.tkupdate.keys.length){
-                            if ($scope.rsNewKeychainList.length>=0){
+                            if ($scope.rsNewKeychainList.length==0){
                               for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
                                 if ($scope.rsExistingKeyList[i].codigo==$scope.rsAllKeychainListData[stock].codigo){
                                   //inform.add("El Llavero con el Codigo: ["+$scope.rsAllKeychainListData[stock].codigo+"], ya existe en el Departamento "+$scope.rsExistingKeyList[i].Depto,{
@@ -2895,7 +2895,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                 console.log(obj);
                 if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
                   let deviceOpen = obj.products.selected;
-                  if ($scope.rsNewKeychainList.length>=0){
+                  if ($scope.rsNewKeychainList.length==0){
                     for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
                       if ($scope.rsExistingKeyList[i].codigo==obj.codigo){
                         inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en el Departamento "+obj.Depto,{
