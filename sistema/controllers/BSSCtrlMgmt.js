@@ -1841,7 +1841,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                             }
                             if ($scope.rsNewKeychainList.length>0){
                               for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
-                                if ($scope.rsExistingKeyList[i].codigo==$scope.rsAllKeychainListData[stock].codigo){
+                                if ($scope.rsNewKeychainList[i].codigo==$scope.rsAllKeychainListData[stock].codigo){
                                   //inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en en la nueva lista a asignar en el Departamento "+obj.Depto,{
                                   //  ttl:15000, type: 'warning'
                                   //});
@@ -1854,6 +1854,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                                 }
                               }
                             }
+                            console.log("isCodeExis: "+$scope.isCodeExis+" "+"isCodeNewExist: "+$scope.isCodeNewExist)
                             if(!$scope.isCodeExist && !$scope.isCodeNewExist){
                               console.log("ADD_NO_EXIST");
                               $scope.rsNewKeychainList.push({"idKeychain":$scope.rsAllKeychainListData[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListData[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListData[stock].descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":$scope.rsAllKeychainListData[stock].codExt,"codigo":$scope.rsAllKeychainListData[stock].codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":$scope.rsAllKeychainListData[stock].idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":"0", "doors":{}});
