@@ -2899,67 +2899,61 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                 switch (obj.selected){
                   case true:
                     let Depto = $scope.tkupdate.department.floor+"-"+$scope.tkupdate.department.departament;
-                    if ($scope.rsNewKeychainList.length==$scope.tkupdate.keys.length){
-                      console.log(obj);
+                    if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
+                      if ($scope.rsNewKeychainList.length==0){
+                        for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
+                          if ($scope.rsExistingKeyList[i].codigo==obj.codigo){
+                            inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en el Departamento "+Depto,{
+                              ttl:15000, type: 'warning'
+                            });
+                            $scope.isCodeExist=true;
+                            break;
+                            //console.log($scope.isMailExist);
+                          }else{
+                            $scope.isCodeExist=false;
+                            //console.log($scope.isMailExist);
+                          }
+                        }
+                      }
+                      if ($scope.rsNewKeychainList.length>0){
+                        for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
+                          if ($scope.rsNewKeychainList[i].codigo==obj.codigo){
+                            inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en en la nueva lista a asignar en el Departamento "+Depto,{
+                              ttl:15000, type: 'warning'
+                            });
+                            $scope.isCodeNewExist=true;
+                            break;
+                            //console.log($scope.isMailExist);
+                          }else{
+                            $scope.isCodeNewExist=false;
+                            //console.log($scope.isMailExist);
+                          }
+                        }
+                      }
+                      if(!$scope.isCodeExist && !$scope.isCodeNewExist){
+                        console.log("ADD_NO_EXIST");
+                        $scope.rsNewKeychainList.push({"idKeychain":obj.idKeychain, "idProductKf":obj.idProductKf,"descriptionProduct":obj.descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":obj.codExt,"codigo":obj.codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":obj.idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":"0", "doors":{}});
+                        $scope.list_new_keys.push({"idKeychain":obj.idKeychain, "idProductKf":obj.idProductKf,"descriptionProduct":obj.descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":obj.codExt,"codigo":obj.codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":obj.idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":"0", "doors":{}});
+                        obj.selected = true;
+                      }
+                      for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
+                        // Ensure the index exists in rsNewKeychainList
+                        if ($scope.rsNewKeychainList[i]) {
+                            // Set the doors property based on the index
+                            $scope.rsNewKeychainList[i].doors = $scope.tkupdate.keys[i].doors;
+                        }
+                      }
+                      if ($scope.rsNewKeychainList.length==$scope.tkupdate.keys.length){
+                        inform.add("Ya ha seleccionado la totalidad de los ("+$scope.tkupdate.keys.length+") llaveros que fueron solicitados en el pedido.",{
+                          ttl:15000, type: 'success'
+                        });
+                      }
+                    }else{
                       inform.add("Ya ha cargado los ("+$scope.tkupdate.keys.length+") llaveros solicitados en el pedido.",{
                         ttl:15000, type: 'info'
                       });
+                      console.log(obj);
                       obj.selected = false;
-                    }else{
-                      if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
-                        if ($scope.rsNewKeychainList.length==0){
-                          for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
-                            if ($scope.rsExistingKeyList[i].codigo==obj.codigo){
-                              inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en el Departamento "+Depto,{
-                                ttl:15000, type: 'warning'
-                              });
-                              $scope.isCodeExist=true;
-                              break;
-                              //console.log($scope.isMailExist);
-                            }else{
-                              $scope.isCodeExist=false;
-                              //console.log($scope.isMailExist);
-                            }
-                          }
-                        }
-                        if ($scope.rsNewKeychainList.length>0){
-                          for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
-                            if ($scope.rsNewKeychainList[i].codigo==obj.codigo){
-                              inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en en la nueva lista a asignar en el Departamento "+Depto,{
-                                ttl:15000, type: 'warning'
-                              });
-                              $scope.isCodeNewExist=true;
-                              break;
-                              //console.log($scope.isMailExist);
-                            }else{
-                              $scope.isCodeNewExist=false;
-                              //console.log($scope.isMailExist);
-                            }
-                          }
-                        }
-                        if(!$scope.isCodeExist && !$scope.isCodeNewExist){
-                          console.log("ADD_NO_EXIST");
-                          $scope.rsNewKeychainList.push({"idKeychain":obj.idKeychain, "idProductKf":obj.idProductKf,"descriptionProduct":obj.descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":obj.codExt,"codigo":obj.codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":obj.idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":"0", "doors":{}});
-                          $scope.list_new_keys.push({"idKeychain":obj.idKeychain, "idProductKf":obj.idProductKf,"descriptionProduct":obj.descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":obj.codExt,"codigo":obj.codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":obj.idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":"0", "doors":{}});
-                          obj.selected = true;
-                        }
-                        for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
-                          // Ensure the index exists in rsNewKeychainList
-                          if ($scope.rsNewKeychainList[i]) {
-                              // Set the doors property based on the index
-                              $scope.rsNewKeychainList[i].doors = $scope.tkupdate.keys[i].doors;
-                          }
-                        }
-                        if ($scope.rsNewKeychainList.length==$scope.tkupdate.keys.length){
-                          inform.add("Ya ha cargado la totalidad de los ("+$scope.tkupdate.keys.length+") llaveros que fueron solicitados en el pedido.",{
-                            ttl:15000, type: 'success'
-                          });
-                        }
-                      }else{
-                        inform.add("Ya ha cargado los ("+$scope.tkupdate.keys.length+") llaveros solicitados en el pedido.",{
-                          ttl:15000, type: 'info'
-                        });
-                      }
                     }
                     console.log($scope.rsNewKeychainList);
                   break;
