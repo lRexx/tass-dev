@@ -582,6 +582,7 @@ class Contrato_model extends CI_Model {
             $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
             $this->db->join('tb_client_service_reason_down', 'tb_client_service_reason_down.idReason = tb_contratos.idReasonTypeKf', 'left');
             $this->db->where('idClientFk', $idClientFk);
+            
             $rsContract  = $this->db->where("tb_contratos.idStatusFk !=", null)->get();
         $c=0;
         $contract = null;
