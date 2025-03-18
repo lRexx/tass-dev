@@ -14,7 +14,7 @@
                     <!-- NEW TICKET -->
                     <div class="col-md-6">
                         <button ng-click="setOptionType($event); mainSwitchFn('keychainMulti', null, null);" id="stock" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='stock', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='stock'}">
-                            <i class="fas fa-cogs"></i> STOCK <span ng-if="tkupdate.building.isStockInOffice" class="badge badge-warning"> En Oficina</span><span ng-if="tkupdate.building.isStockInBuilding" class="badge badge-warning"> En Edificio</span> </button>
+                            <i class="fas fa-cogs"></i> STOCK <span ng-if="tkupdate.building.isStockInOffice!=undefined && tkupdate.building.isStockInOffice=='1'" class="badge badge-warning"> En Oficina</span><span ng-if="tkupdate.building.isStockInBuilding!=undefined && tkupdate.building.isStockInBuilding=='1'" class="badge badge-warning"> En Edificio</span> </button>
                     </div>
                     <!-- //NEW TICKET -->
                     <!-- SERVICES COST -->

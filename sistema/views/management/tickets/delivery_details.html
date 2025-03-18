@@ -92,7 +92,7 @@
                             <div class="col-xl-12 selectContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fas fa-tag"></i></span>
-                                    <select name="idDeliveryCompanyKf" class="form-control" ng-change="mainSwitchFn('seDeliveryCompany', null)" ng-disabled="tkupdate.building.isHasInternetOnline==0 || tkupdate.building.isHasInternetOnline==null || tkupdate.building.isHasInternetOnline==undefined || !tkupdate.building.isHasInternetOnline"  ng-options="item as item.deliveryCompanyName for item in listDeliveryCompanies_filter"  ng-model="tkupdate.idDeliveryCompanyKf"  >
+                                    <select name="idDeliveryCompanyKf" class="form-control" ng-change="mainSwitchFn('seDeliveryCompany', null)" ng-disabled="tkupdate.building.isHasInternetOnline==0 || tkupdate.building.isHasInternetOnline==null || tkupdate.building.isHasInternetOnline==undefined || !tkupdate.building.isHasInternetOnline"  ng-options="item.idDeliveryCompany as item.deliveryCompanyName for item in listDeliveryCompanies"  ng-model="tkupdate.idDeliveryCompanyKf"  >
                                     <option value="">Todos</option>
                                     </select>
                                 </div>
