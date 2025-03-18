@@ -11,14 +11,14 @@ class Contrato_model extends CI_Model {
     public function add($client) {
 
         $this->db->insert('tb_contratos', [
-                "idClientFk"           => $client['idClientFk'],
-                "fechaFirmaVigencia"   => $client['fechaFirmaVigencia'],
-                "fechaFirma"           => @$client['fechaFirma'],
-                "fechaActivacion"      => @$client['fechaActivacion'],
-                "numeroContrato"       => $client['numeroContrato'],
-                "contratoType"         => $client['contratoType'],
-                "maintenanceType"      => $client['maintenanceType'],
-                "idStatusFk"           => $client['idStatusFk'],
+                "idClientFk"            => $client['idClientFk'],
+                "fechaFirmaVigencia"    => $client['fechaFirmaVigencia'],
+                "fechaFirmaActivacion"  => @$client['fechaFirma'],
+                "fechaActivacion"       => @$client['fechaActivacion'],
+                "numeroContrato"        => $client['numeroContrato'],
+                "contratoType"          => $client['contratoType'],
+                "maintenanceType"       => $client['maintenanceType'],
+                "idStatusFk"            => $client['idStatusFk'],
             ]
         );
         $idContratoFk = $this->db->insert_id();
@@ -57,7 +57,7 @@ class Contrato_model extends CI_Model {
                 "idClientFk"                        => $client['idClientFk'],
                 "fechaFirmaVigencia"                => $client['fechaFirmaVigencia'],
                 "fechaFirma"                        => @$client['fechaFirma'],
-                "fechaActivacion"                   => @$client['fechaActivacion'],
+                "fechaFirmaActivacion"              => @$client['fechaActivacion'],
                 "numeroContrato"                    => $client['numeroContrato'],
                 "contratoType"                      => $client['contratoType'],
                 "maintenanceType"                   => $client['maintenanceType'],
