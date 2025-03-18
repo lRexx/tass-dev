@@ -880,6 +880,11 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               //console.log(response.data[0]);
               $scope.rsData.ticket = (response.data[0]);
               $scope.tkupdate = response.data[0];
+              if ($scope.tkupdate.building.isStockInOffice=='1'){
+                $scope.tkupdate.idDeliveryCompanyKf="2";
+              }else if ($scope.tkupdate.building.isStockInBuilding=='1'){
+                $scope.tkupdate.idDeliveryCompanyKf="1";
+              }
               //$scope.getContractsByCustomerIdFn($scope.tkupdate.building.idClient);
               $scope.getKeysAssociatedToACustomerFn($scope.tkupdate.building.idClient);
               $scope.getControlAccessDoorsAssociatedToACustomerFn($scope.tkupdate.building.idClient);
