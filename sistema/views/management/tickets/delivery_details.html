@@ -8,6 +8,7 @@
           </div>
         <div class="modal-body">
             <div  class="col-md-12 well-checkbox n-margin-l customer-frame">
+                <legend style="text-align: left;">Datos de Envío</legend>
                 <!-- LEFT COLUMN -->
                 <div class="col-md-6 n-padding-l n-padding-r">
                   <div class="col-md-12 col-xs-12">
@@ -76,6 +77,34 @@
                         <span> Telefono:</span>
                         <span ng-if="tkupdate.thirdPersonDelivery.movilPhone!=null || tkupdate.thirdPersonDelivery.movilPhone!=undefined">{{tkupdate.thirdPersonDelivery.movilPhone}}</span>
                         <span style="font-size: 75%;" ng-if="tkupdate.thirdPersonDelivery.movilPhone==null || tkupdate.thirdPersonDelivery.movilPhone==undefined" class="label label-warning text-uppercase">No especificado</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 well-checkbox n-margin-l customer-frame">
+                <legend style="text-align: left;">Empresa de Envío</legend>
+                <div class="col-md-6 n-padding-l n-padding-r">
+                    <div class="col-md-12 col-xs-12" ng-class="
+                        {	'has-success': 
+                            tkupdate.idDeliveryCompanyKf!='',
+                        }">
+                        <div class="form-group col-md-12 col-xs-12">
+                            <label>Empresa de envío</label>
+                            <div class="col-xl-12 selectContainer">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fas fa-tag"></i></span>
+                                    <select name="idDeliveryCompanyKf" class="form-control" ng-change="mainSwitchFn('seDeliveryCompany', null)" ng-disabled="tkupdate.building.isHasInternetOnline==0 || tkupdate.building.isHasInternetOnline==null || tkupdate.building.isHasInternetOnline==undefined || !tkupdate.building.isHasInternetOnline"  ng-options="item as item.deliveryCompanyName for item in listDeliveryCompanies_filter"  ng-model="tkupdate.idDeliveryCompanyKf"  >
+                                    <option value="">Todos</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- RIGHT COLUMN -->
+                <div ng-if="tkupdate.typePaymentKf!=null && tkupdate.typePaymentKf!=undefined && tkupdate.idTypePaymentKf=='2'" class="col-md-6 n-padding-l n-padding-r">
+                    <div class="col-md-12 col-xs-12">
+                        <span>Fecha estimada de entrega: </span>
+                        <span class="label label-default">{{tkupdate.delivery_schedule_at | toDate | date:'dd-MM-yyyy' }}</span>
                     </div>
                 </div>
             </div>
