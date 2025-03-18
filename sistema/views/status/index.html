@@ -52,10 +52,10 @@
               </div>
               <div id="{{contract.numeroContrato}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                 <div class="panel-body">
-                  <div ng-if="checkStatus.services && contract.isSystemUnderLock==1" class="col-md-12 n-padding-l">
-                    <legend>Tipo de Mantenimiento
+                  <div class="col-md-12 n-padding-l">
+                    <legend>Tipo de Mantenimiento</legend>
                   <div class="clearfix"> </div>
-                  <div ng-if="contract.isSystemUnderLock==1"class="form-group col-md-12 n-padding-l col-xs-12 n-padding-r">                        
+                  <div class="form-group col-md-12 n-padding-l col-xs-12 n-padding-r">                        
                     <div class="col-md-12 col-xs-12"><label>{{contract.typeMaintenance | uppercase}}</label>
                     </div>				    
                   </div>
@@ -63,7 +63,7 @@
                   </div>
                   <!-- -->
                   <div ng-if="checkStatus.services && contract.isSystemUnderLock==1" class="col-md-12 n-padding-l">
-                    <legend>Sistema Bajo Llave                     
+                    <legend>Sistema Bajo Llave</legend>
                       <span ng-if="contract.isSystemUnderLock=='1'" data-toggle="tooltip" data-placement="top"  title="Si" class="font-size-18px"><i class="text-success fas fa-check-circle"></i></span>
                       <span ng-if="contract.isSystemUnderLock=='0'" data-toggle="tooltip" data-placement="top"  title="No" class="font-size-18px"><i class="text-danger fas fa-window-close"></i></span></legend> 
 
