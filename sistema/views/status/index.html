@@ -33,7 +33,7 @@
       <div ng-if="checkStatus.services" class="form-group col-md-12 n-padding-l">
         <legend style="text-align: left;">Link de Fotos</legend>
         <a ng-if="customerStatus.clientPhotosURL!=null && customerStatus.clientPhotosURL!=undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{customerStatus.clientPhotosURL}}" class="btn btn-xs btn-success"><i class="fas fa-link"></i> Abrir</a>
-        <a ng-if="customerStatus.clientPhotosURL!=null && customerStatus.clientPhotosURL!=undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{customerStatus.clientPhotosURL}}">{{customerStatus.clientPhotosURL}}</a>
+        <a ng-if="customerStatus.clientPhotosURL!=null && customerStatus.clientPhotosURL!=undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{customerStatus.clientPhotosURL}}">Link de fotos</a>
         <span ng-if="customerStatus.clientPhotosURL==null || customerStatus.clientPhotosURL==undefined"><label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="no asignado" class="label label-warning">Link no definido</label></span>
       </div>
       <div class="clearfix"> </div>
