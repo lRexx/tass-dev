@@ -82,7 +82,7 @@
             </div>
             <div class="col-md-12 well-checkbox n-margin-l customer-frame">
                 <legend style="text-align: left;">Empresa de Envío</legend>
-                <div class="col-md-6 n-padding-l n-padding-r">
+                <div class="col-md-12 n-padding-l n-padding-r">
                     <div class="col-md-12 col-xs-12" ng-class="
                         {	'has-success': 
                             tkupdate.idDeliveryCompanyKf!='',
@@ -98,13 +98,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <!-- RIGHT COLUMN -->
-                <div ng-if="tkupdate.typePaymentKf!=null && tkupdate.typePaymentKf!=undefined && tkupdate.idTypePaymentKf=='2'" class="col-md-6 n-padding-l n-padding-r">
-                    <div class="col-md-12 col-xs-12">
-                        <span>Fecha estimada de entrega: </span>
-                        <span class="label label-default">{{tkupdate.delivery_schedule_at | toDate | date:'dd-MM-yyyy' }}</span>
                     </div>
                 </div>
             </div>
