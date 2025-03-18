@@ -253,8 +253,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     break;
                     case "assign_contract_new_service":
                         $('#newServiceUnit').modal({backdrop: 'static', keyboard: false});
-                        $scope.service.new.serviceItems={};
-                        $scope.service.new.serviceType="";
+                        $scope.service.new={'serviceItems':{},'serviceType':''};
                     break;
                     case "assign_contract_update_service":
                         $('#updateServiceUnit').modal({backdrop: 'static', keyboard: false});
