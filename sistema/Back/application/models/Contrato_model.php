@@ -576,9 +576,10 @@ class Contrato_model extends CI_Model {
     public function getIdClient($idClientFk) {
 
             $this->db->select("*")->from("tb_contratos");
+            $this->db->join('tb_type_contrato', 'tb_type_contrato.idTypeContrato = tb_contratos.idTypeContrato', 'left');
+            $this->db->join('tb_type_maintenance', 'tb_type_maintenance.idTypeMaintenance = tb_contratos.maintenanceType', 'left');
             $this->db->join('tb_systemunderlock', 'tb_systemunderlock.idContratoFk = tb_contratos.idContrato', 'left');
             $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
-            $this->db->join('tb_type_contrato', 'tb_type_contrato.idTypeContrato = tb_contratos.maintenanceType', 'left');
             $this->db->join('tb_client_service_reason_down', 'tb_client_service_reason_down.idReason = tb_contratos.idReasonTypeKf', 'left');
             $this->db->where('idClientFk', $idClientFk);
             $rsContract  = $this->db->where("tb_contratos.idStatusFk !=", null)->get();
