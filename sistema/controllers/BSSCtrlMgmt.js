@@ -2861,6 +2861,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $scope.ticketKeyDoorList = null;
               $scope.ticketKeyList = obj;
               console.log($scope.ticketKeyList);
+              $scope.getKeychainListFn($scope.tkupdate.building.idClient,null, "2","1",null,null,null,1,$scope.pagination.pageSizeSelected, false, true);
               $('#ticketKeysModalDetails').modal('show');
             break;
             case "ticket_refunds":
@@ -3133,8 +3134,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               //console.log(obj);
               $scope.keys.details=obj;
               $scope.keys.details.buildingAddress=obj.address;
-              //console.log($scope.keys.details);
-              $scope.getKeychainListFn($scope.tkupdate.building.idClient,null, "2","1",null,null,null,1,$scope.pagination.pageSizeSelected, false, true);
+              //console.log($scope.keys.details);              
               $('#keyDetails').modal('show');
             break;
             case "ticket_user":
