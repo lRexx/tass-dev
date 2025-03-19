@@ -14,7 +14,7 @@
                     <!-- NEW TICKET -->
                     <div class="col-md-6">
                         <button ng-click="setOptionType($event); mainSwitchFn('keychainMulti', null, null);" id="stock" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='stock', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='stock'}">
-                            <i id="stock" ng-click="setOptionType($event); mainSwitchFn('keychainMulti', null, null);" class="fas fa-cogs"></i> STOCK <span id="stock" ng-click="setOptionType($event); mainSwitchFn('keychainMulti', null, null);" ng-if="tkupdate.building.isStockInOffice!=undefined && tkupdate.building.isStockInOffice=='1'" class="badge badge-warning"> En Oficina</span><span id="stock" ng-click="setOptionType($event); mainSwitchFn('keychainMulti', null, null);" ng-if="tkupdate.building.isStockInBuilding!=undefined && tkupdate.building.isStockInBuilding=='1'" class="badge badge-warning"> En Edificio</span>&nbsp;<span class="badge badge-warning" data-toggle="tooltip" data-placement="right" title="Cantidad de LLaveros">{{rsAllKeychainListData.length}}</span> </button>
+                            <i ng-click="" class="fas fa-cogs"></i> STOCK <span ng-click="" ng-if="tkupdate.building.isStockInOffice!=undefined && tkupdate.building.isStockInOffice=='1'" class="badge badge-warning"> En Oficina</span><span ng-click="" ng-if="tkupdate.building.isStockInBuilding!=undefined && tkupdate.building.isStockInBuilding=='1'" class="badge badge-warning"> En Edificio</span>&nbsp;<span ng-click="" class="badge badge-warning" data-toggle="tooltip" data-placement="right" title="Cantidad de LLaveros">{{rsAllKeychainListData.length}}</span> </button>
                     </div>
                     <!-- //NEW TICKET -->
                     <!-- SERVICES COST -->
@@ -35,7 +35,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyKeyStock" ng-click="togglePanel('panelBodyKeyStock')" style="cursor: pointer;">
                                 <h3 class="panel-title">
-                                    <i class="product-success fas fa-key"></i> Llaveros de Stock
+                                    <i ng-click="" class="product-success fas fa-key"></i> Llaveros de Stock
                                     <i ng-class="{'fas fa-chevron-up': !panels.panelBodyKeyStock, 'fas fa-chevron-down': panels.panelBodyKeyStock}" class="pull-right"></i>
                                 </h3>
                             </div>
