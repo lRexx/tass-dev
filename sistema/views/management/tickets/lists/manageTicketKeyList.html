@@ -13,13 +13,13 @@
                 <div class="col-md-12 col-xs-12" style="padding-bottom: 2em;">
                     <!-- NEW TICKET -->
                     <div class="col-md-6">
-                        <button ng-click="setOptionType($event); mainSwitchFn('keychainMulti', null, null);" id="stock" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='stock', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='stock'}">
+                        <button ng-click="setOptionType($event);" id="stock" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='stock', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='stock'}">
                             <i ng-click="" class="fas fa-cogs"></i> STOCK <span ng-click="" ng-if="tkupdate.building.isStockInOffice!=undefined && tkupdate.building.isStockInOffice=='1'" class="badge badge-warning"> En Oficina</span><span ng-click="" ng-if="tkupdate.building.isStockInBuilding!=undefined && tkupdate.building.isStockInBuilding=='1'" class="badge badge-warning"> En Edificio</span>&nbsp;<span ng-click="" class="badge badge-warning" data-toggle="tooltip" data-placement="right" title="Cantidad de LLaveros">{{rsAllKeychainListData.length}}</span> </button>
                     </div>
                     <!-- //NEW TICKET -->
                     <!-- SERVICES COST -->
                     <div class="col-md-6">
-                        <button ng-click="setOptionType($event); mainSwitchFn('keychain_manual', null, null);" id="manual" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='manual', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='manual'}">
+                        <button ng-click="setOptionType($event);" id="manual" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='manual', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='manual'}">
                             <i class="fas fa-pencil-alt"></i> MANUAL</button>
                     </div>
                     <div ng-if="tkupdate.keySource!='manual' && rsAllKeychainListData.length>=tkupdate.keys.length" class="col-md-12" style="padding-top: 1% !important;">

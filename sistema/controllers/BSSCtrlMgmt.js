@@ -914,6 +914,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                     $scope.tkupdate.keySource = elem[0].getAttribute("id");
                     $scope.ticket.optionTypeSelected.obj = elem;
                     elem.removeClass('btn-primary').addClass("btn-success");
+                    $scope.mainSwitchFn('keychainMulti', null, null);
                 }else if ($scope.ticket.keysMethod.name!=elem[0].getAttribute("id")){
                     //document.getElementById("typeOption1").checked=false;
                     //document.getElementById("typeOption2").checked=false;
@@ -925,6 +926,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                     $scope.tkupdate.keySource = elem[0].getAttribute("id");
                     $scope.ticket.optionTypeSelected.obj = elem;
                     elem.removeClass('btn-primary').addClass("btn-success");
+                    $scope.mainSwitchFn('keychainMulti', null, null);
                 }
             break;
             case "manual":
@@ -932,6 +934,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                     $scope.ticket.keysMethod.name = elem[0].getAttribute("id");
                     $scope.tkupdate.keySource = elem[0].getAttribute("id");
                     elem.removeClass('btn-primary').addClass("btn-success");
+                    $scope.mainSwitchFn('keychain_manual', null, null);
                 }else if ($scope.ticket.keysMethod.name!=elem[0].getAttribute("id")){
                     //document.getElementById("typeTenant1").checked=false;
                     //document.getElementById("typeTenant2").checked=false;
@@ -944,6 +947,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                     $scope.tkupdate.keySource = elem[0].getAttribute("id");
                     $scope.ticket.optionTypeSelected.obj = elem;
                     elem.removeClass('btn-primary').addClass("btn-success");
+                    $scope.mainSwitchFn('keychain_manual', null, null);
                 }
             break;
             default:
