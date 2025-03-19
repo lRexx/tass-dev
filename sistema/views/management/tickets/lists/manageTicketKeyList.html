@@ -4,7 +4,7 @@
       <div class="modal-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
-              <h3 class="modal-title"><i class="fas fa-key"></i> LLAVEROS A ASIGNAR - <span class="badge badge-warning" style="font-size: 24px !important;">{{tkupdate.keys.length}}</span><span style="font-size: 24px !important;" ng-if="tkupdate.keySource!=undefined"> - METODO:</span><span ng-if="tkupdate.keySource!=undefined" class="badge badge-default" style="font-size: 24px !important;">{{tkupdate.keySource | uppercase}}</span></h3>
+              <h3 class="modal-title"><i class="fas fa-key"></i> LLAVEROS A ASIGNAR - <span class="badge badge-warning" style="font-size: 24px !important;">{{tkupdate.keys.length}}</span><span style="font-size: 24px !important;" ng-if="tkupdate.keySource!=undefined"> - METODO: </span><span ng-if="tkupdate.keySource!=undefined" class="badge badge-default" style="font-size: 24px !important;">{{tkupdate.keySource | uppercase}}</span></h3>
           </div>
         <div class="modal-body n-padding-b">
             <!-- SELECT METHOD-->
@@ -13,7 +13,7 @@
                 <div class="col-md-12 col-xs-12" style="padding-bottom: 2em;">
                     <!-- NEW TICKET -->
                     <div class="col-md-6">
-                        <button ng-click="setOptionType($event);" id="stock" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='stock', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='stock'}">
+                        <button ng-click="setOptionType($event);" ng-disabled="rsAllKeychainListData.length==0" id="stock" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='stock', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='stock'}">
                             <i ng-click="" class="fas fa-cogs"></i> STOCK <span ng-click="" ng-if="tkupdate.building.isStockInOffice!=undefined && tkupdate.building.isStockInOffice=='1'" class="badge badge-warning"> En Oficina</span><span ng-click="" ng-if="tkupdate.building.isStockInBuilding!=undefined && tkupdate.building.isStockInBuilding=='1'" class="badge badge-warning"> En Edificio</span>&nbsp;<span ng-click="" class="badge badge-warning" data-toggle="tooltip" data-placement="right" title="Cantidad de LLaveros">{{rsAllKeychainListData.length}}</span> </button>
                     </div>
                     <!-- //NEW TICKET -->

@@ -1895,7 +1895,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                       console.log($scope.tkupdate);
                       console.log($scope.rsAllKeychainListData);
                   }else if(response.status==404){
-                      inform.add('[Info]: No se encontraron registros. ',{
+                      inform.add('[Info]: No se encontraron Llaveros en Stock. ',{
                           ttl:5000, type: 'info'
                           });
                           $scope.rsAllKeychainListData = [];
