@@ -1759,7 +1759,8 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
           $scope.isCodeExist      = null;
           $scope.isCodeNewExist   = null;
           $scope.getKeychainListFn = function(idClientKf,create_at,idCategoryKf,idKeychainStatusKf,idDepartmenKf,idReasonKf,codeSearch,start,limit,strict,totalCount){
-
+              $scope.rsNewKeychainList     = [];
+              $scope.list_new_keys         = [];
               //console.log("idClientKf           : "+idClientKf);
               //console.log("create_at            : "+create_at);
               //console.log("idCategoryKf         : "+idCategoryKf);
