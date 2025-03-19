@@ -2861,7 +2861,9 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $scope.ticketKeyDoorList = null;
               $scope.ticketKeyList = obj;
               console.log($scope.ticketKeyList);
-              $scope.getKeychainListFn($scope.tkupdate.building.idClient,null, "2","1",null,null,null,1,$scope.pagination.pageSizeSelected, false, true);
+              if ($scope.tkupdate.keySource==undefined){
+                $scope.getKeychainListFn($scope.tkupdate.building.idClient,null, "2","1",null,null,null,1,$scope.pagination.pageSizeSelected, false, true);
+              }
               $('#ticketKeysModalDetails').modal('show');
             break;
             case "ticket_refunds":
