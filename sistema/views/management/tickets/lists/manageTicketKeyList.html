@@ -26,7 +26,12 @@
                         <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 alert alert-info">
                           <h5 class="col-md-offset-2"><i class="fas fa-info-circle"> </i> <span style="font-size: 18px; font-weight: 600;">Hay suficientes llaveros en stock para gestionar el pedido.</span></h5>
                         </div>
-                      </div>
+                    </div>
+                    <div ng-if="tkupdate.keySource==undefined && rsAllKeychainListData.length==0" class="col-md-12" style="padding-top: 1% !important;">
+                        <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning">
+                          <h5><i class="fas fa-info-circle"> </i> <span style="font-size: 18px; font-weight: 600;">No Hay suficientes llaveros en stock para gestionar el pedido, por lo que deben ser cargados de forma Manual.</span></h5>
+                        </div>
+                    </div>
                 </div>
                 <!-- OPTION STOCK-->
                 <div ng-show="ticket.keysMethod.name=='stock'">
