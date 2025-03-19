@@ -2828,7 +2828,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
             break;
             case "openTicket":
               $scope.rsAllKeychainListData = [];
-              $scope.ticket.keysMethod.name = undefined;
+              $scope.ticket = {'administration':undefined, 'keysMethod':{'name':undefined}, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'keysMethod':{}, 'userRequestBy':{}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':null, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
               $scope.rsNewKeychainList = [];
               $scope.list_new_keys = [];
               $scope.keys={"new":{}};
