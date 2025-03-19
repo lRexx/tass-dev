@@ -4,7 +4,7 @@
       <div class="modal-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
-              <h3 class="modal-title"><i class="fas fa-truck"></i> DETALLES DE ENVÍO</h3>
+              <h3 class="modal-title"><i class="fas fa-truck"></i> DETALLES DE <h3 ng-if="tkupdate.idTypeDeliveryKf=='1'">ENTREGA</h3><h3 ng-if="tkupdate.idTypeDeliveryKf=='2'">ENVÍO</h3></h3>
           </div>
         <div class="modal-body">
             <div  class="col-md-12 well-checkbox n-margin-l customer-frame">
@@ -80,7 +80,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-12 well-checkbox n-margin-l customer-frame">
+            <div ng-if="tkupdate.idTypeDeliveryKf=='2'" class="col-md-12 well-checkbox n-margin-l customer-frame">
                 <legend style="text-align: left;">Empresa de Envío</legend>
                 <div class="col-md-12 n-padding-l n-padding-r">
                     <div class="col-md-12 col-xs-12" ng-class="
@@ -121,8 +121,10 @@
                     </div>
                 </div>
             </div>
-            <div ng-if="tkupdate.idTypeDeliveryKf!=null && tkupdate.idTypeDeliveryKf!=undefined && tkupdate.idTypeDeliveryKf=='1'" class="map">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.232853486263!2d-58.416303984395746!3d-34.62355548045449!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccafee49fa1b5%3A0x808f35e44a65bc21!2sCarlos+Calvo+3430%2C+C1230ABH+CABA!5e0!3m2!1ses-419!2sar!4v1500993405506" width="1280" height="600" allowfullscreen=""></iframe>	
+            <div ng-if="tkupdate.idTypeDeliveryKf=='1'" class="col-md-12 well-checkbox n-margin-l customer-frame">
+                <div ng-if="tkupdate.idTypeDeliveryKf!=null && tkupdate.idTypeDeliveryKf!=undefined && tkupdate.idTypeDeliveryKf=='1'" class="map">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.232853486263!2d-58.416303984395746!3d-34.62355548045449!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccafee49fa1b5%3A0x808f35e44a65bc21!2sCarlos+Calvo+3430%2C+C1230ABH+CABA!5e0!3m2!1ses-419!2sar!4v1500993405506" width="1280" height="600" allowfullscreen=""></iframe>	
+                </div>
             </div>
             <div class="clearfix"> </div> 
         </div>   
