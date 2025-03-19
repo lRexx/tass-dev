@@ -1637,7 +1637,7 @@ background-color: #f7f7f7;
   padding: 1em;
 }
 .banner-no-rows-warning{
-  color: #f0ad4e;
+  color: rgba(255, 188, 87, 1);
   border: 1px solid #f0ad4e;
   background-color: rgb(241 217 180 / 15%);
 }

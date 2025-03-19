@@ -3087,6 +3087,9 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $('#doorKeysModalDetails').modal('show');
             break;
             case "keychainMulti":
+              $scope.keys                  = {"new":{'products':{'selected':{}}}}
+              $scope.rsNewKeychainList     = [];
+              $scope.list_new_keys         = [];
               $scope.sysContent            = "";
               $scope.isNewKeySingle        = false;
               $scope.isEditKey             = false;
@@ -3110,7 +3113,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $scope.getKeychainListFn($scope.tkupdate.building.idClient,null, "2","1",null,null,null,1,$scope.pagination.pageSizeSelected, false, true);
             break;
             case "keychain_manual":
-              $scope.keys={"new":{'products':{'selected':{}}}}
+              $scope.keys                       = {"new":{'products':{'selected':{}}}}
               $scope.rsNewKeychainList          = [];
               $scope.list_new_keys              = [];
               $scope.isNewKeySingle             = true;
@@ -3120,7 +3123,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $scope.keys.new.categoryKeychain  = $scope.tkupdate.keys[0].name;
               $scope.keys.new.products.selected = {'idProduct':$scope.tkupdate.keys[0].idProduct,'model':$scope.tkupdate.keys[0].model,'classification':$scope.tkupdate.keys[0].classification,'codigoFabric':$scope.tkupdate.keys[0].codigoFabric,'descriptionProduct':$scope.tkupdate.keys[0].descriptionProduct,'idProductClassification':$scope.tkupdate.keys[0].idProductClassification,'brand':$scope.tkupdate.keys[0].brand,'priceFabric':$scope.tkupdate.keys[0].priceFabric};
               $scope.keys.new.department        = $scope.tkupdate.department.idClientDepartament;
-              $scope.keys.new.Depto         = $scope.tkupdate.department.floor+"-"+$scope.tkupdate.department.departament
+              $scope.keys.new.Depto             = $scope.tkupdate.department.floor+"-"+$scope.tkupdate.department.departament
             break;
             case "keyDetails":
               $scope.isNewKeySingle = false;
@@ -3171,7 +3174,6 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               console.log(obj);
               $scope.mp.payment.data.idTicketKf               = obj.selected.idTicket;
               $scope.mp.payment.data.client_id                = "8877359900700578";
-
               $scope.mp.payment.data.collector_id             = null;
               var manualPaymentDate = new Date(obj.manualPaymentDate);
               var date = moment.tz(manualPaymentDate, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
