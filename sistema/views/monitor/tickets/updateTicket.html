@@ -80,7 +80,7 @@
                               <div ng-if="sysLoggedUser.idProfileKf==1" class="col-md-12"><span>Internet: </span>
                                   <!-- It Has internet -->
                                   <span ng-if="tkupdate.building.isHasInternetOnline!=undefined && tkupdate.building.isHasInternetOnline=='true'" data-toggle="tooltip" data-placement="top" title="Si" class="font-size-18px"><i class="text-success fas fa-check-circle"></i></span>
-                                  <span ng-if="tkupdate.building.isHasInternetOnline!=undefined && tkupdate.building.isHasInternetOnline=='false'" data-toggle="tooltip" data-placement="top" title="No" class="font-size-18px"><i class="text-danger fas fa-times-circle"></i></span>
+                                  <span ng-if="tkupdate.building.isHasInternetOnline!=undefined && (tkupdate.isHasInternetOnline==null || tkupdate.building.isHasInternetOnline=='false')" data-toggle="tooltip" data-placement="top" title="No" class="font-size-18px"><i class="text-danger fas fa-times-circle"></i></span>
                                   <span ng-if="tkupdate.building.isHasInternetOnline==undefined" class="label label-default">n/a</span>
                               </div>
                               <div ng-if="tkupdate.delivery_schedule_at!=null" class="col-md-12"><span>Entrega estimada: </span><span>{{ tkupdate.delivery_schedule_at | toDate | date:'dd-MM-yyyy' }}</span></div>
