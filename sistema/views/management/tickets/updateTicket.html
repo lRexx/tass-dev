@@ -149,10 +149,10 @@
                                                     'sticky-warning':  
                                                     rsNewKeychainList.length<tkupdate.keys.length,
                                                   }">
-                                      <span ng-if="tkupdate.keys.length>0">
+                                      <span ng-if="rsNewKeychainList.length==tkupdate.keys.length">
                                         <i class="fas fa-check-circle"></i>
                                       </span>
-                                      <span ng-if="tkupdate.keys.length==0" data-toggle="tooltip" data-placement="top" title="Llaveros pendiente por gestion.">
+                                      <span ng-if="rsNewKeychainList.length<tkupdate.keys.length" data-toggle="tooltip" data-placement="top" title="Llaveros pendiente por gestion.">
                                         <i class="fas fa-exclamation-triangle"></i>
                                       </span>                    
                                     </div>
@@ -224,11 +224,11 @@
                                                     'sticky-warning':  
                                                     tkupdate.idTypePaymentKf=='2' && (tkupdate.paymentDetails==null || tkupdate.mp_payment_id==null) && tkupdate.idStatusTicketKf=='2',
                                                   }">
-                                      <span ng-if="((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2'))">
+                                      <span ng-if="((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.mp_payment_id!=null && tkupdate.idStatusTicketKf!='2') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2'))">
                                         <i class="fas fa-check-circle"></i>
                                       </span>
                                       <span ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails==null && tkupdate.idStatusTicketKf=='2'" data-toggle="tooltip" data-placement="top" title="Pago pendiente por autorización del pedido">
-                                      <span ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf=='3'" data-toggle="tooltip" data-placement="top" title="Pago pendiente"></span>
+                                      <span ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf=='3'" data-toggle="tooltip" data-placement="top" title="Pago pendiente">
                                         <i class="fas fa-exclamation-triangle"></i>
                                       </span>                                       
                                     </div>
