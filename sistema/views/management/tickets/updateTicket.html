@@ -222,7 +222,8 @@
                                                     'sticky-success': 
                                                     ((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.mp_payment_id!=null && tkupdate.idStatusTicketKf!='2') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2')),
                                                     'sticky-warning':  
-                                                    tkupdate.idTypePaymentKf=='2' && (tkupdate.paymentDetails==null || tkupdate.mp_payment_id==null) && tkupdate.idStatusTicketKf=='2',
+                                                    ((tkupdate.idTypePaymentKf=='2' && (tkupdate.paymentDetails==null || tkupdate.mp_payment_id==null) && tkupdate.idStatusTicketKf=='2') ||
+                                                    (tkupdate.idTypePaymentKf=='2' && (tkupdate.paymentDetails!=null && tkupdate.mp_payment_id==null) && tkupdate.idStatusTicketKf=='3')),
                                                   }">
                                       <span ng-if="((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.mp_payment_id!=null && tkupdate.idStatusTicketKf!='2') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2'))">
                                         <i class="fas fa-check-circle"></i>
