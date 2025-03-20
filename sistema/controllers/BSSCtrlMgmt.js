@@ -1,15 +1,15 @@
 /**
 * Management Controller
 **/
-var monitor = angular.module("module.Management", ["tokenSystem", "services.Keys", "services.Address", "services.Ticket", "services.Departments", "services.Contracts",  "services.Utilities", "services.Customers", "angular.filter", "services.User"]);
+var mgmt = angular.module("module.Management", ["tokenSystem", "services.Keys", "services.Address", "services.Ticket", "services.Departments", "services.Contracts",  "services.Utilities", "services.Customers", "angular.filter", "services.User"]);
 
 /*************************************************/
-monitor.filter('commaToDecimal', function(){
+mgmt.filter('commaToDecimal', function(){
     return function(value) {
         return value ? parseFloat(value).toFixed(2).toString().replace('.', ',') : null;
     };
 });
-monitor.filter('startFrom', function () {
+mgmt.filter('startFrom', function () {
   return function (input, start) {
     if (input) {
       start = +start;
@@ -18,12 +18,20 @@ monitor.filter('startFrom', function () {
     return [];
   };
 });
-monitor.filter('toDate', function() {
+mgmt.filter('toDate', function() {
   return function(items) {
     return new Date(items);
   };
 });
-monitor.run(function ($rootScope) {
+mgmt.filter('capitalize', function() {
+  return function(input) {
+    if (input && typeof input === 'string') {
+      return input.charAt(0).toUpperCase() + input.slice(1);
+    }
+    return input;
+  };
+});
+mgmt.run(function ($rootScope) {
   function triggerResize() {
     setTimeout(function () {
         $(window).trigger('resize');
@@ -33,7 +41,7 @@ monitor.run(function ($rootScope) {
       triggerResize();
   });
 });
-monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $routeParams, $q, blockUI, $timeout, inform, ticketServices, KeysServices, DepartmentsServices, serviceServices, ContractServices, UtilitiesServices, addressServices, userServices, CustomerServices, tokenSystem, $window, $filter, serverHost, serverBackend, serverHeaders, APP_SYS){
+mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $routeParams, $q, blockUI, $timeout, inform, ticketServices, KeysServices, DepartmentsServices, serviceServices, ContractServices, UtilitiesServices, addressServices, userServices, CustomerServices, tokenSystem, $window, $filter, serverHost, serverBackend, serverHeaders, APP_SYS){
   console.log(APP_SYS.app_name+" Modulo Gestion de pedidos");
     //console.log($scope.sysLoggedUser)
     //console.log($scope.sysToken)
