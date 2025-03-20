@@ -229,6 +229,8 @@
                                         <i class="fas fa-check-circle"></i>
                                       </span>
                                       <span ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails==null && tkupdate.idStatusTicketKf=='2'" data-toggle="tooltip" data-placement="top" title="Pago pendiente por autorización del pedido">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                      </span>  
                                       <span ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && (tkupdate.paymentDetails.mp_payment_id=='' || tkupdate.paymentDetails.mp_payment_id==undefined || tkupdate.paymentDetails.mp_payment_id==null) && tkupdate.idStatusTicketKf=='3'" data-toggle="tooltip" data-placement="top" title="Pago pendiente">
                                         <i class="fas fa-exclamation-triangle"></i>
                                       </span>                                       
