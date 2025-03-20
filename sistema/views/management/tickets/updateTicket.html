@@ -61,9 +61,11 @@
                                 <div class="col-md-5 n-padding-l n-padding-r" style="width: 36% !important">
                                   <span>Gestion de Llaveros:</span>
                                 </div>
-                                <div class="col-md-4 n-padding-l">
+                                <div class="col-md-5 n-padding-l">
                                   <span ng-if="tkupdate.idKeySourceKf=='2'" class="badge badge-warning">{{tkupdate.keySource.name | capitalize}}</span>
                                   <span ng-if="tkupdate.idKeySourceKf=='1'" class="badge badge-success">{{tkupdate.keySource.name | capitalize}}</span>
+                                  <span ng-if="tkupdate.idKeySourceKf=='1' && tkupdate.building.isStockInOffice!=undefined && tkupdate.building.isStockInOffice=='1'" class="badge badge-warning"> En Oficina</span>
+                                  <span ng-if="tkupdate.idKeySourceKf=='1' && tkupdate.building.isStockInBuilding!=undefined && tkupdate.building.isStockInBuilding=='1'" class="badge badge-warning"> En Edificio</span>
                                 </div>
                               </div>
                               <div ng-if="tkupdate.idKeySourceKf=='2'" class="col-md-12" style="padding-top: 0.5% !important">
