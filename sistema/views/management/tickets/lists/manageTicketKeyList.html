@@ -4,7 +4,7 @@
       <div class="modal-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
-              <h3 class="modal-title"><i class="fas fa-key"></i> LLAVEROS A ASIGNAR - <span class="badge badge-warning" style="font-size: 24px !important;">{{tkupdate.keys.length}}</span><span style="font-size: 24px !important;" ng-if="tkupdate.keySource!=undefined"> - METODO: </span><span ng-if="tkupdate.keySource!=undefined" class="badge badge-default" style="font-size: 24px !important;">{{tkupdate.keySource | uppercase}}</span></h3>
+              <h3 class="modal-title"><i class="fas fa-key"></i> LLAVEROS A ASIGNAR - <span class="badge badge-warning" style="font-size: 24px !important;">{{tkupdate.keys.length}}</span><span style="font-size: 24px !important;" ng-if="tkupdate.idKeySourceKf!=undefined"> - METODO: </span><span ng-if="tkupdate.idKeySourceKf!=undefined" class="badge badge-default" style="font-size: 24px !important;">{{tkupdate.keySource.name | uppercase}}</span></h3>
           </div>
         <div class="modal-body n-padding-b">
             <!-- SELECT METHOD-->
@@ -14,7 +14,7 @@
                     <!-- NEW TICKET -->
                     <div class="col-md-6">
                         <button ng-click="setOptionType($event);" ng-disabled="rsAllKeychainListData.length==0" id="stock" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='stock', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='stock'}">
-                            <i ng-click="" class="fas fa-cogs"></i> STOCK <span ng-click="" ng-if="tkupdate.building.isStockInOffice!=undefined && tkupdate.building.isStockInOffice=='1'" class="badge badge-warning"> En Oficina</span><span ng-click="" ng-if="tkupdate.building.isStockInBuilding!=undefined && tkupdate.building.isStockInBuilding=='1'" class="badge badge-warning"> En Edificio</span>&nbsp;<span ng-click="" class="badge badge-warning" data-toggle="tooltip" data-placement="right" title="Cantidad de LLaveros">{{rsAllKeychainListData.length}}</span> </button>
+                            <i class="fas fa-boxes"></i> STOCK <span ng-click="" ng-if="tkupdate.building.isStockInOffice!=undefined && tkupdate.building.isStockInOffice=='1'" class="badge badge-warning"> En Oficina</span><span ng-click="" ng-if="tkupdate.building.isStockInBuilding!=undefined && tkupdate.building.isStockInBuilding=='1'" class="badge badge-warning"> En Edificio</span>&nbsp;<span ng-click="" class="badge badge-warning" data-toggle="tooltip" data-placement="right" title="Cantidad de LLaveros">{{rsAllKeychainListData.length}}</span> </button>
                     </div>
                     <!-- //NEW TICKET -->
                     <!-- SERVICES COST -->
@@ -22,19 +22,19 @@
                         <button ng-click="setOptionType($event);" id="manual" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='manual', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='manual'}">
                             <i class="fas fa-pencil-alt"></i> MANUAL</button>
                     </div>
-                    <div ng-if="tkupdate.keySource!='manual' && rsAllKeychainListData.length>=tkupdate.keys.length" class="col-md-12" style="padding-top: 1% !important;">
+                    <div ng-if="tkupdate.idKeySourceKf!='manual' && rsAllKeychainListData.length>=tkupdate.keys.length" class="col-md-12" style="padding-top: 1% !important;">
                         <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 alert alert-info">
                           <h5 class="col-md-offset-2"><i class="fas fa-info-circle"> </i> <span style="font-size: 18px; font-weight: 600;">Hay suficientes llaveros en stock para gestionar el pedido.</span></h5>
                         </div>
                     </div>
-                    <div ng-if="tkupdate.keySource==undefined && rsAllKeychainListData.length==0" class="col-md-12" style="padding-top: 1% !important;">
+                    <div ng-if="tkupdate.idKeySourceKf==undefined && rsAllKeychainListData.length==0" class="col-md-12" style="padding-top: 1% !important;">
                         <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning">
                           <h5 class="col-md-offset-1"><i class="fas fa-exclamation-triangle"> </i> <span style="font-size: 18px; font-weight: 600;">No Hay llaveros en stock para gestionar el pedido, realizar la carga manual.</span></h5>
                         </div>
                     </div>
                 </div>
                 <!-- OPTION STOCK-->
-                <div ng-show="ticket.keysMethod.name=='stock'">
+                <div ng-show="tkupdate.idKeySourceKf=='1'">
                     <div class="col-md-12" style="padding: 10px !important;">
                          <!--*********KEY STOCK LIST ***********-->
                         <div class="panel panel-default">
@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <!-- OPTION MANUAL-->
-                <div ng-show="ticket.keysMethod.name=='manual'">
+                <div ng-show="tkupdate.idKeySourceKf=='2'">
                     <div class="col-md-6" style="padding: 10px !important;">
                         <!-- KEY REGISTER FORM -->
                         <div class="panel" ng-class="{'panel-success':fNewKey.$valid, 'panel-default': fNewKey.$invalid}">

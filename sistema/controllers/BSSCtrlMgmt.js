@@ -907,11 +907,13 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
       $scope.setOptionType = function(obj) {
         var elem = angular.element(obj.target);// or angular.element(obj.target);
         console.log(elem)
+        $scope.tkupdate.keySource = {'name':''};
         switch (elem[0].getAttribute("id")){
             case "stock":
                 if ($scope.ticket.keysMethod.name==undefined){
-                    $scope.ticket.keysMethod.name = elem[0].getAttribute("id");
-                    $scope.tkupdate.keySource = elem[0].getAttribute("id");
+                    $scope.ticket.keysMethod.name   = elem[0].getAttribute("id");
+                    $scope.tkupdate.idKeySourceKf   = "1"
+                    $scope.tkupdate.keySource.name  = elem[0].getAttribute("id");
                     $scope.ticket.optionTypeSelected.obj = elem;
                     elem.removeClass('btn-primary').addClass("btn-success");
                     $scope.mainSwitchFn('keychainMulti', null, null);
@@ -922,8 +924,9 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                     $scope.list_keys = [];
                     var removeElem = document.getElementById("manual")
                     //console.log(removeElem)
-                    $scope.ticket.keysMethod.name = elem[0].getAttribute("id");
-                    $scope.tkupdate.keySource = elem[0].getAttribute("id");
+                    $scope.ticket.keysMethod.name   = elem[0].getAttribute("id");
+                    $scope.tkupdate.idKeySourceKf   = "1"
+                    $scope.tkupdate.keySource.name  = elem[0].getAttribute("id");
                     $scope.ticket.optionTypeSelected.obj = elem;
                     elem.removeClass('btn-primary').addClass("btn-success");
                     $scope.mainSwitchFn('keychainMulti', null, null);
@@ -931,8 +934,9 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
             break;
             case "manual":
                 if ($scope.ticket.keysMethod.name==undefined){
-                    $scope.ticket.keysMethod.name = elem[0].getAttribute("id");
-                    $scope.tkupdate.keySource = elem[0].getAttribute("id");
+                    $scope.ticket.keysMethod.name   = elem[0].getAttribute("id");
+                    $scope.tkupdate.idKeySourceKf   = "2"
+                    $scope.tkupdate.keySource.name  = elem[0].getAttribute("id");
                     elem.removeClass('btn-primary').addClass("btn-success");
                     $scope.mainSwitchFn('keychain_manual', null, null);
                 }else if ($scope.ticket.keysMethod.name!=elem[0].getAttribute("id")){
@@ -943,8 +947,9 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
                     $scope.selectedUser=undefined;
                     $scope.list_keys = [];
                     var removeElem = document.getElementById("stock")
-                    $scope.ticket.keysMethod.name = elem[0].getAttribute("id");
-                    $scope.tkupdate.keySource = elem[0].getAttribute("id");
+                    $scope.ticket.keysMethod.name   = elem[0].getAttribute("id");
+                    $scope.tkupdate.idKeySourceKf   = "2"
+                    $scope.tkupdate.keySource.name  = elem[0].getAttribute("id");
                     $scope.ticket.optionTypeSelected.obj = elem;
                     elem.removeClass('btn-primary').addClass("btn-success");
                     $scope.mainSwitchFn('keychain_manual', null, null);
@@ -2866,7 +2871,7 @@ monitor.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $r
               $scope.ticketKeyDoorList = null;
               $scope.ticketKeyList = obj;
               console.log($scope.ticketKeyList);
-              if ($scope.tkupdate.keySource==undefined){
+              if ($scope.tkupdate.idKeySourceKf==undefined){
                 $scope.getKeychainListFn($scope.tkupdate.building.idClient,null, "2","1",null,null,null,1,$scope.pagination.pageSizeSelected, false, true);
               }
               $('#ticketKeysModalDetails').modal('show');
