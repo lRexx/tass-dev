@@ -225,7 +225,7 @@
                                                     ((tkupdate.idTypePaymentKf=='2' && (tkupdate.paymentDetails==null || (tkupdate.paymentDetails.mp_payment_id=='' || tkupdate.paymentDetails.mp_payment_id==null)) && tkupdate.idStatusTicketKf=='2') ||
                                                     (tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && (tkupdate.paymentDetails.mp_payment_id=='' || tkupdate.paymentDetails.mp_payment_id==null) && tkupdate.idStatusTicketKf=='3')),
                                                   }">
-                                      <span ng-if="((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.paymentDetails.mp_payment_id!='' && tkupdate.paymentDetails.mp_payment_id!=null && tkupdate.idStatusTicketKf!='2') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2'))">
+                                      <span ng-if="((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.paymentDetails.mp_payment_id!='' && tkupdate.paymentDetails.mp_payment_id!=null && tkupdate.idStatusTicketKf!='2' && tkupdate.idStatusTicketKf!='3') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2'))">
                                         <i class="fas fa-check-circle"></i>
                                       </span>
                                       <span ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails==null && tkupdate.idStatusTicketKf=='2'" data-toggle="tooltip" data-placement="top" title="Pago pendiente por autorización del pedido">
