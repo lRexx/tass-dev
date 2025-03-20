@@ -94,8 +94,7 @@
                               <div ng-if="sysLoggedUser.idProfileKf==1" class="col-md-12"><span>Internet: </span>
                                   <!-- It Has internet -->
                                   <span ng-if="tkupdate.building.isHasInternetOnline!=undefined && tkupdate.building.isHasInternetOnline=='true'" data-toggle="tooltip" data-placement="top" title="Si" class="font-size-18px"><i class="text-success fas fa-check-circle"></i></span>
-                                  <span ng-if="tkupdate.building.isHasInternetOnline!=undefined && (tkupdate.building.isHasInternetOnline==null || tkupdate.building.isHasInternetOnline=='false')" data-toggle="tooltip" data-placement="top" title="No" class="font-size-18px"><i class="text-danger fas fa-times-circle"></i></span>
-                                  <span ng-if="tkupdate.building.isHasInternetOnline==undefined" class="label label-default">n/a</span>
+                                  <span ng-if="(tkupdate.building.isHasInternetOnline!=undefined || tkupdate.building.isHasInternetOnline==null || tkupdate.building.isHasInternetOnline=='false')" data-toggle="tooltip" data-placement="top" title="No" class="font-size-18px"><i class="text-danger fas fa-times-circle"></i></span>
                               </div>
                               <div ng-if="tkupdate.delivery_schedule_at!=null" class="col-md-12"><span>Entrega estimada: </span><span>{{ tkupdate.delivery_schedule_at | toDate | date:'dd-MM-yyyy' }}</span></div>
                               <div ng-if="tkupdate.delivered_at!=null" class="col-md-12">
@@ -146,14 +145,14 @@
                                     </div>
                                     <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
                                                     'sticky-success': 
-                                                    tkupdate.keys.length>0,
+                                                    rsNewKeychainList.length==tkupdate.keys.length,
                                                     'sticky-warning':  
-                                                    tkupdate.keys.length==0,
+                                                    rsNewKeychainList.length<tkupdate.keys.length,
                                                   }">
                                       <span ng-if="tkupdate.keys.length>0">
                                         <i class="fas fa-check-circle"></i>
                                       </span>
-                                      <span ng-if="tkupdate.keys.length==0" data-toggle="tooltip" data-placement="top" title="No se registran llaveros asociados al pedido">
+                                      <span ng-if="tkupdate.keys.length==0" data-toggle="tooltip" data-placement="top" title="Llaveros pendiente por gestion.">
                                         <i class="fas fa-exclamation-triangle"></i>
                                       </span>                    
                                     </div>
@@ -221,14 +220,15 @@
                                     </div>
                                     <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
                                                     'sticky-success': 
-                                                    ((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2')),
+                                                    ((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.mp_payment_id!=null && tkupdate.idStatusTicketKf!='2') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2')),
                                                     'sticky-warning':  
-                                                    tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails==null && tkupdate.idStatusTicketKf=='2',
+                                                    tkupdate.idTypePaymentKf=='2' && (tkupdate.paymentDetails==null || tkupdate.mp_payment_id==null) && tkupdate.idStatusTicketKf=='2',
                                                   }">
                                       <span ng-if="((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2'))">
                                         <i class="fas fa-check-circle"></i>
                                       </span>
                                       <span ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails==null && tkupdate.idStatusTicketKf=='2'" data-toggle="tooltip" data-placement="top" title="Pago pendiente por autorización del pedido">
+                                      <span ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf=='3'" data-toggle="tooltip" data-placement="top" title="Pago pendiente"></span>
                                         <i class="fas fa-exclamation-triangle"></i>
                                       </span>                                       
                                     </div>
