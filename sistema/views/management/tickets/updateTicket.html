@@ -345,6 +345,32 @@
                               <span class="font-size-14px">[{{accessDoor.titulo.charAt(0)}}]</span><span class="font-size-12px">{{accessDoor.titulo.substring(1)}}</span>
                             </div>
                           </div>
+                          <div ng-if="rsNewKeychainList.length==tkupdate.keys.length" class="col-md-6" style="padding: 10px !important;">                       
+                            <div class="panel panel-default" style="margin-bottom: 0px !important;">
+                              <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyNewKeys" ng-click="togglePanel('panelBodyNewKeys')" style="cursor: pointer;">
+                                  <h3 class="panel-title">
+                                      <i class="product-success fas fa-key"></i> LISTADO DE NUEVOS LLAVEROS
+                                      <i ng-class="{'fa-chevron-up': !panels.panelBodyNewKeys, 'fa-chevron-down': panels.panelBodyNewKeys}" class="fas pull-right"></i>
+                                  </h3>
+                              </div>
+                              <div id="panelBodyNewKeys" class="panel-body n-padding-b collapse " ng-class="{'in': !panels.panelBodyNewKeys}">
+                                  <div class="col-md-12 n-padding-l n-padding-r" ng-include="'views/management/tickets/lists/listNewKeysView.html'"></div>
+                              </div>
+                            </div>
+                          </div>
+                          <div ng-if="rsNewKeychainList.length==tkupdate.keys.length" class="col-md-6" style="padding: 10px !important;">                       
+                            <div class="panel panel-default">
+                                <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyExistingKeys" ng-click="togglePanel('panelBodyExistingKeys')" style="cursor: pointer;">
+                                    <h3 class="panel-title">
+                                        <i class="product-success fas fa-key"></i> LLAVEROS ASIGNADOS A LA UNIDAD
+                                        <i ng-class="{'fa-chevron-up': !panels.panelBodyExistingKeys, 'fa-chevron-down': panels.panelBodyExistingKeys}" class="fas pull-right"></i>
+                                    </h3>
+                                </div>
+                                <div id="panelBodyExistingKeys" class="panel-body collapse " ng-class="{'in': !panels.panelBodyExistingKeys}" style="height: 390px !important;">
+                                    <div class="col-md-12 n-padding-l n-padding-r" ng-include="'views/management/tickets/lists/lisExistingKeys.html'"></div>
+                                </div>
+                            </div>
+                          </div>
                       </div>
                     </fieldset>
                 </form>
@@ -401,10 +427,10 @@
                           <span class="btn-label"><i class="fas fa-ban"></i></span>Cancelar</a>
                       </div>
                       <!-- CHANGE DELIVERY -->
-                      <div ng-if="tkupdate.idTypeTicketKf=='1' && tkupdate.idStatusTicketKf!=1 && tkupdate.idStatusTicketKf!=5 && tkupdate.idStatusTicketKf!=6 && tkupdate.isCancelRequested!=1 && tkupdate.isDeliveryHasChanged!=1" class="col-xs-3 col-sm-4 col-md-2">
+                      <!--<div ng-if="tkupdate.idTypeTicketKf=='1' && tkupdate.idStatusTicketKf!=1 && tkupdate.idStatusTicketKf!=5 && tkupdate.idStatusTicketKf!=6 && tkupdate.isCancelRequested!=1 && tkupdate.isDeliveryHasChanged!=1" class="col-xs-3 col-sm-4 col-md-2">
                         <a id="deliveryChange" ng-click="mainSwitchFn('ticket_delivery_change', tkupdate, null)" type="button" class="btn btn-labeled btn-info">
                           <span class="btn-label"><i class="fas fa-truck"></i></span>Cambiar envío</a>
-                      </div>
+                      </div>-->
                     </div> 
                     <div class="col-xs-2 col-sm-2 col-md-2 pull-right">
                       <div class="col-xs-12 col-sm-12 col-md-12 pull-right">
