@@ -736,7 +736,7 @@
                     }
                   }
               );
-              $('.input-code').mask('ZZZ', {
+              $('.input-code').mask('ZZZZZZZZZZZZZZZZ', {
                 translation: {
                   'Z': {
                     pattern: /[a-zA-Z0-9]/, // Allow only alphanumeric characters
