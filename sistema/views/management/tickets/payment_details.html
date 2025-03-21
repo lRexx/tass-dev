@@ -54,7 +54,7 @@
                         <span ng-if="tkupdate.paymentDetails.mp_payment_type=='deposit'" class="badge badge-default">Deposito bancaria</span>
                     </div>
                     <div class="col-md-12">
-                        <span ng-if="tkupdate.isManualPayment!='1' && (sysLoggedUser.idProfileKf=='3' || sysLoggedUser.idProfileKf=='4' || sysLoggedUser.idProfileKf=='5')"> Link de Pago creado: </span>
+                        <span ng-if="tkupdate.isManualPayment!='1'"> Link de Pago creado: </span>
                         <span ng-if="tkupdate.isManualPayment=='1'"> Pago registrado: </span>
                         <span ng-if="tkupdate.paymentDetails!=undefined && tkupdate.paymentDetails!=null">{{tkupdate.paymentDetails.mp_date_created}}</span>
                     </div>
@@ -66,7 +66,7 @@
                         <span> Pago aprobado:</span>
                         <span>{{tkupdate.paymentDetails.sys_date_updated}}</span>
                     </div>
-                    <div ng-if="tkupdate.isManualPayment!='1' && tkupdate.paymentDetails!=undefined && tkupdate.paymentDetails!=null && (tkupdate.paymentDetails.mp_payment_id==null || tkupdate.paymentDetails.mp_payment_id==0)" class="col-md-12">
+                    <div ng-if="tkupdate.isManualPayment!='1' && tkupdate.paymentDetails!=undefined && tkupdate.paymentDetails!=null && (sysLoggedUser.idProfileKf=='3' || sysLoggedUser.idProfileKf=='4' || sysLoggedUser.idProfileKf=='5') && (tkupdate.paymentDetails.mp_payment_id==null || tkupdate.paymentDetails.mp_payment_id==0)" class="col-md-12">
                         <span> Link de pago:</span>
                         <span class="label label-success"><i class="fas fa-money-check-alt"></i>
                             <a href="{{tkupdate.paymentDetails.mp_prod_init_point}}" target="_blank" type="button" style="text-decoration: none;color: white;" >
