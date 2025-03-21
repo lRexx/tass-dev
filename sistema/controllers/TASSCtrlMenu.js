@@ -736,6 +736,14 @@
                     }
                   }
               );
+              $('.input-code').mask('ZZZ', {
+                translation: {
+                  'Z': {
+                    pattern: /[a-zA-Z0-9]/, // Allow only alphanumeric characters
+                    optional: false // Ensure the character is required
+                  }
+                }
+              });
               $('.input-contract-number').mask('ZZZZZZZZZZZZZZZZ',
                   {
                     translation:{
