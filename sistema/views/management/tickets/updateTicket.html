@@ -279,13 +279,13 @@
                         <!-- REQUESTED KEYS -->
                         <div class="col-md-12">
                           <div class="panel panel-info">
-                            <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyExistingKeys" ng-click="togglePanel('panelBodyExistingKeys')" style="cursor: pointer;">
+                            <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyRequestedKeys" ng-click="togglePanel('panelBodyRequestedKeys')" style="cursor: pointer;">
                                 <h3 class="panel-title">
                                     <i class="product-success fas fa-key"></i> LLAVEROS SOLICITADOS
-                                    <i ng-class="{'fa-chevron-up': !panels.panelBodyExistingKeys, 'fa-chevron-down': panels.panelBodyExistingKeys}" class="fas pull-right"></i>
+                                    <i ng-class="{'fa-chevron-up': !panels.panelBodyRequestedKeys, 'fa-chevron-down': panels.panelBodyRequestedKeys}" class="fas pull-right"></i>
                                 </h3>
                             </div>
-                            <div id="panelBodyExistingKeys" class="panel-body collapse " ng-class="{'in': !panels.panelBodyExistingKeys}" style="padding-bottom: 0px !important;">
+                            <div id="panelBodyRequestedKeys" class="panel-body collapse " ng-class="{'in': !panels.panelBodyRequestedKeys}" style="padding-bottom: 0px !important;">
                                 <table ng-if="tkupdate.keys.length>0" class="table table-striped table-bordered table-list table-responsive table-hover fade in">
                                     <thead class="dpto-t-head" style="background-color: rgba(35, 100, 132, 0.66) !important; color: white !important;">
                                         <tr>
