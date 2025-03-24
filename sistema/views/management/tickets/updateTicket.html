@@ -291,8 +291,8 @@
                                         <tr>
                                             <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 5% !important;"> N°</th>
                                             <th class="th-head" style="vertical-align: middle !important;text-align: center !important;"><i class="fas fa-key"> </i> Llavero</th>
-                                            <th class="th-head" style="vertical-align: middle !important;text-align: center !important;"> T. Mantenimiento</th>
-                                            <th class="th-head" style="vertical-align: middle !important;text-align: center !important;"> Sistema Instalado</th>
+                                            <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 22% !important;"> T. Mantenimiento</th>
+                                            <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 20% !important;"> Sistema Instalado</th>
                                             <th ng-if="tkupdate.idTypeTicketKf=='2'" class="th-head" style="vertical-align: middle !important;text-align: center !important;"><i class="fas fa-barcode"> </i> Codigo</th>
                                             <th ng-if="tkupdate.idTypeTicketKf=='2'" class="th-head" style="vertical-align: middle !important;text-align: center !important;"><i class="fas fa-barcode"> </i> Codigo Externo</th>
                                             <th ng-if="tkupdate.idTypeTicketKf=='2'" class="th-head" style="vertical-align: middle !important;text-align: center !important;"><i class="fas fa-tag"> </i> Asignado</th>
@@ -300,12 +300,12 @@
                                             <th ng-if="tkupdate.idTypeTicketKf=='1'" class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;"><i class="fas fa-door-open"></i>Puertas</th>
                                         </tr>
                                     </thead>
-                                    <tbody style="overflow: auto;" class="fixed-body">
+                                    <tbody style="overflow: auto;height: auto !important;" class="fixed-body">
                                         <tr  style="align-content: center; cursor: pointer;" data-ng-repeat="key in tkupdate.keys">
                                             <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle !important;text-align: center !important;width: 5% !important;"><span class="font-size-18px">{{$index+1}}</span></td>
                                             <td class="td-depto" ng-trim="true" class="media-middle text-center">{{key.descriptionProduct}} <span class="badge badge-warning">{{key.brand}}</span></td>
-                                            <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.doors[0].typeMaintenance}}</td>
-                                            <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.doors[0].descriptionProduct}} <span class="badge badge-warning">{{key.doors[0].brand}}</span></td>
+                                            <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;width: 22% !important;">{{key.doors[0].typeMaintenance}}</td>
+                                            <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;width: 20% !important;">{{key.doors[0].descriptionProduct}} <span class="badge badge-warning">{{key.doors[0].brand}}</span></td>
                                             <td class="td-depto" ng-if="tkupdate.idTypeTicketKf=='2'" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.codigo}}</td>
                                             <td class="td-depto" ng-if="tkupdate.idTypeTicketKf=='2'" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.codExt}}</td>
                                             <td class="td-depto" ng-if="tkupdate.idTypeTicketKf=='2'" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.fullNameUser}}</td>
