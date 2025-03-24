@@ -289,7 +289,7 @@
                                 <table ng-if="tkupdate.keys.length>0" class="table table-striped table-bordered table-list table-responsive table-hover fade in">
                                     <thead class="fixed-head" style="background-color: rgba(35, 100, 132, 0.66); color: white;">
                                         <tr>
-                                            <th width="5px" class="th-head" style="vertical-align: middle !important;text-align: center !important;"> N°</th>
+                                            <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 5% !important;"> N°</th>
                                             <th class="th-head" style="vertical-align: middle !important;text-align: center !important;"><i class="fas fa-key"> </i> Llavero</th>
                                             <th class="th-head" style="vertical-align: middle !important;text-align: center !important;"> T. Mantenimiento</th>
                                             <th class="th-head" style="vertical-align: middle !important;text-align: center !important;"> Sistema Instalado</th>
@@ -302,7 +302,7 @@
                                     </thead>
                                     <tbody style="overflow: auto;" class="fixed-body">
                                         <tr  style="align-content: center; cursor: pointer;" data-ng-repeat="key in tkupdate.keys">
-                                            <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;"><span class="font-size-18px">{{$index+1}}</span></td>
+                                            <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle !important;text-align: center !important;width: 5% !important;"><span class="font-size-18px">{{$index+1}}</span></td>
                                             <td class="td-depto" ng-trim="true" class="media-middle text-center">{{key.descriptionProduct}} <span class="badge badge-warning">{{key.brand}}</span></td>
                                             <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.doors[0].typeMaintenance}}</td>
                                             <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.doors[0].descriptionProduct}} <span class="badge badge-warning">{{key.doors[0].brand}}</span></td>
