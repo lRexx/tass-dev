@@ -345,8 +345,8 @@
                               <span class="font-size-14px">[{{accessDoor.titulo.charAt(0)}}]</span><span class="font-size-12px">{{accessDoor.titulo.substring(1)}}</span>
                             </div>
                           </div>
-                          <div ng-if="rsNewKeychainList.length==tkupdate.keys.length" class="col-md-6" style="padding: 10px !important;">                       
-                            <div class="panel panel-default" style="margin-bottom: 0px !important;">
+                          <div ng-if="rsNewKeychainList.length>0 && rsNewKeychainList.length==tkupdate.keys.length" class="col-md-6" style="padding: 10px !important;">                       
+                            <div class="panel panel-warning" style="margin-bottom: 0px !important;">
                               <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyNewKeys" ng-click="togglePanel('panelBodyNewKeys')" style="cursor: pointer;">
                                   <h3 class="panel-title">
                                       <i class="product-success fas fa-key"></i> LISTADO DE NUEVOS LLAVEROS
@@ -358,8 +358,8 @@
                               </div>
                             </div>
                           </div>
-                          <div ng-if="rsNewKeychainList.length==tkupdate.keys.length" class="col-md-6" style="padding: 10px !important;">                       
-                            <div class="panel panel-default">
+                          <div ng-if="rsExistingKeyList.length>0 && rsNewKeychainList.length==tkupdate.keys.length" class="col-md-6" style="padding: 10px !important;">                       
+                            <div class="panel panel-success">
                                 <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyExistingKeys" ng-click="togglePanel('panelBodyExistingKeys')" style="cursor: pointer;">
                                     <h3 class="panel-title">
                                         <i class="product-success fas fa-key"></i> LLAVEROS ASIGNADOS A LA UNIDAD
