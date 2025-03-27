@@ -2529,6 +2529,20 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
           }
         /**************************************************
         *                                                 *
+        *   ASSIGN DEPARTMENT TO THE CURRENT OWNER USER   *
+        *                                                 *
+        **************************************************/
+          $scope.findKeyByCodeFn = function(code,idClientKf){
+            KeysServices.findKeyByCode(code,idClientKf).then(function(response) {
+                if(response.status==200){
+                    return 1;
+                }else if (response.status==404){
+                  return 0;
+                }
+            });
+          }
+        /**************************************************
+        *                                                 *
         *  APPROVE DEPARTMENT TO AN OWNER OR TENANT USER  *
         *                                                 *
         **************************************************/
@@ -3050,6 +3064,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       }
                     }
                   }
+                  var isCodeExistInBuilding = $scope.findKeyByCodeFn(obj.codigo, $scope.tkupdate.building.idClient);
+                  console.log("isCodeExistInBuilding: "+isCodeExistInBuilding);
                   if(!$scope.isCodeExist && !$scope.isCodeNewExist){
                     console.log("ADD_NO_EXIST");
                     $scope.rsNewKeychainList.push({"idProductKf":deviceOpen.idProduct,"descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":obj.categoryKeychain,"Depto":obj.Depto, "codExt":obj.codigoExt,"codigo":obj.codigo,"idDepartmenKf":obj.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":obj.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "doors":{}});
