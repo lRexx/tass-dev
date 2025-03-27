@@ -3064,7 +3064,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       }
                     }
                   }
-                  var isCodeExistInBuilding = $scope.findKeyByCodeFn(obj.codigo, $scope.tkupdate.building.idClient);
+                  var code = obj.codigo
+                  var isCodeExistInBuilding = $scope.findKeyByCodeFn(code, $scope.tkupdate.building.idClient);
                   console.log("isCodeExistInBuilding: "+isCodeExistInBuilding);
                   if(!$scope.isCodeExist && !$scope.isCodeNewExist){
                     console.log("ADD_NO_EXIST");
