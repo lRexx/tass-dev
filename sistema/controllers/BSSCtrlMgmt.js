@@ -1775,7 +1775,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
           };
           $scope.isCodeExist      = null;
           $scope.isCodeNewExist   = null;
-          $scope.getKeychainListFn = function(idClientKf,create_at,idCategoryKf,idKeychainStatusKf,idDepartmenKf,idReasonKf,codeSearch,start,limit,strict,totalCount){
+          $scope.getKeychainListFn = function(idClientKf,create_at,idCategoryKf,idKeychainStatusKf,idDepartmenKf,idReasonKf,codeSearch,start,limit,strict,totalCount,showFull){
               $scope.rsNewKeychainList     = [];
               $scope.list_new_keys         = [];
               //console.log("idClientKf           : "+idClientKf);
@@ -1800,6 +1800,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               var limit                   = limit!=undefined && limit!=null && !strict?limit:"";
               var strict                  = strict!=false && strict!=undefined && strict!=null?strict:null;
               var totalCount              = totalCount!=false && totalCount!=undefined && totalCount!=null?totalCount:null;
+
               console.log("=================================================");
               console.log("                 getKeychainListFn               ");
               console.log("=================================================");
@@ -1831,6 +1832,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 };
               KeysServices.getKeychainList($scope.keychainSearch).then(function(response){
                   if(response.status==200){
+                    if (showFull){
                       console.log(response.data);
                       var tk_selected = 0;
                       var Depto = $scope.tkupdate.department.floor+"-"+$scope.tkupdate.department.departament;
@@ -1907,6 +1909,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log($scope.rsNewKeychainList);
                       console.log($scope.tkupdate);
                       console.log($scope.rsAllKeychainListData);
+                    }else{
+                      $scope.rsAllKeychainListData   = response.data.tb_keychain;
+                    }
                   }else if(response.status==404){
                       inform.add('[Info]: No se encontraron Llaveros en Stock. ',{
                           ttl:5000, type: 'info'
@@ -2880,9 +2885,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.ticketKeyList = obj;
               console.log($scope.ticketKeyList);
               if ($scope.tkupdate.idKeySourceKf==undefined){
-                $scope.getKeychainListFn($scope.tkupdate.building.idClient,null, "2","1",null,null,null,1,$scope.pagination.pageSizeSelected, false, true);
+                $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,0);
+              }else{
+                $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1);
               }
-              $('#ticketKeysModalDetails').modal('show');
+              $('#ManageTicketKeysList').modal('show');
             break;
             case "ticket_refunds":
               $scope.refundsList = null;
