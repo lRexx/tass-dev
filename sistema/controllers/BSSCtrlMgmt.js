@@ -2534,7 +2534,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
         **************************************************/
           $scope.findKeyByCodeFn = function(code,idClientKf){
             return KeysServices.findKeyByCode(code,idClientKf).then(function(response) {
-                if(response.status==200){
+                if(response.status==200 && response.data.codigo){
                     return 1;
                 }else if (response.status==404){
                   return 0;
