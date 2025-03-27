@@ -3017,7 +3017,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   let deviceOpen = obj.products.selected;
                   if ($scope.rsNewKeychainList.length==0){
                     $scope.findKeyByCodeFn(obj.codigo, $scope.tkupdate.building.idClient).then(function(isCodeExistInBuilding) {
-                      console.log("isCodeExistInBuilding: " + isCodeExistInBuilding);
                       switch (isCodeExistInBuilding){
                         case 1:
                           inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en el Edificio",{
@@ -3027,10 +3026,12 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           $scope.isCodeNewExist=true;
                           obj.codigo="";
                           obj.codigoExt="";
+                          console.log("isCodeExistInBuilding: " + isCodeExistInBuilding);
                         break;
                         case 0:
                           $scope.isCodeExist=false;
                           $scope.isCodeNewExist=false;
+                          console.log("isCodeExistInBuilding: " + isCodeExistInBuilding);
                         break;
                       }
                     });
@@ -3061,9 +3062,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           $scope.isCodeExist=true;
                           obj.codigo="";
                           obj.codigoExt="";
+                          console.log("isCodeExistInBuilding: " + isCodeExistInBuilding);
                         break;
                         case 0:
                           $scope.isCodeExist=false;
+                          console.log("isCodeExistInBuilding: " + isCodeExistInBuilding);
                         break;
                       }
                     });
