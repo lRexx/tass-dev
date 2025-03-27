@@ -3008,6 +3008,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           ttl:15000, type: 'warning'
                         });
                         $scope.isCodeExist=true;
+                        obj.codigo="";
+                        obj.codigoExt="";
                         break;
                         //console.log($scope.isMailExist);
                       }else{
@@ -3023,6 +3025,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           ttl:15000, type: 'warning'
                         });
                         $scope.isCodeNewExist=true;
+                        obj.codigo="";
+                        obj.codigoExt="";
                         break;
                         //console.log($scope.isMailExist);
                       }else{
@@ -3033,7 +3037,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   }
                   if(!$scope.isCodeExist && !$scope.isCodeNewExist){
                     console.log("ADD_NO_EXIST");
-                    $scope.rsNewKeychainList.push({"idProductKf":deviceOpen.idProduct,"descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":obj.categoryKeychain,"Depto":obj.Depto, "codExt":obj.codigoExt,"codigo":obj.codigo,"idDepartmenKf":obj.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":obj.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "doors":{}});
+                    $scope.rsNewKeychainList.push({"idProductKf":deviceOpen.idProduct,"descrsiptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":obj.categoryKeychain,"Depto":obj.Depto, "codExt":obj.codigoExt,"codigo":obj.codigo,"idDepartmenKf":obj.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":obj.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "doors":{}});
                     $scope.list_new_keys.push({"idProductKf":deviceOpen.idProduct,"descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":obj.categoryKeychain,"Depto":obj.Depto, "codExt":obj.codigoExt,"codigo":obj.codigo,"idDepartmenKf":obj.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":obj.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "doors":{}});
                   }
                   for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
@@ -3053,8 +3057,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     ttl:15000, type: 'info'
                   });
                 }
-                obj.codigo="";
-                obj.codigoExt="";
+                console.log($scope.rsNewKeychainList);
                 //update idKeychainKf in tb_ticket_keychain when the key from stock or manual is assigned
             break;
             case "removeNewKey":
