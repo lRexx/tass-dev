@@ -208,7 +208,7 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     return response;
                   }).catch(function onError(response) {
-                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]: "+response.data);
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]: "+response.data.error);
                     return response;
             });   
           },
