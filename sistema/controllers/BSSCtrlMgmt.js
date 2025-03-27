@@ -3013,6 +3013,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             break;
             case "addNewKeyManual":
                 console.log(obj);
+                var code = obj.codigo
+                var isCodeExistInBuilding = $scope.findKeyByCodeFn(code, $scope.tkupdate.building.idClient);
+                console.log("isCodeExistInBuilding: "+isCodeExistInBuilding);
                 if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
                   let deviceOpen = obj.products.selected;
                   if ($scope.rsNewKeychainList.length==0){
@@ -3064,9 +3067,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       }
                     }
                   }
-                  var code = obj.codigo
-                  var isCodeExistInBuilding = $scope.findKeyByCodeFn(code, $scope.tkupdate.building.idClient);
-                  console.log("isCodeExistInBuilding: "+isCodeExistInBuilding);
                   if(!$scope.isCodeExist && !$scope.isCodeNewExist){
                     console.log("ADD_NO_EXIST");
                     $scope.rsNewKeychainList.push({"idProductKf":deviceOpen.idProduct,"descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":obj.categoryKeychain,"Depto":obj.Depto, "codExt":obj.codigoExt,"codigo":obj.codigo,"idDepartmenKf":obj.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":obj.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "doors":{}});
