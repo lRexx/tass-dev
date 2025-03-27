@@ -204,7 +204,7 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
             //console.log("[Key Services]: Get status of keychain");
               return $http({
                     method : "GET",
-                    url : serverHost+serverBackend+"Llavero/findKeyByCode"+code+"/"+idClientKf
+                    url : serverHost+serverBackend+"Llavero/findKeyByCode/"+code+"/"+idClientKf
                   }).then(function mySuccess(response) {
                     rsJson=response;
                     return rsJson;
