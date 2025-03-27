@@ -1816,6 +1816,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.log("limit                : "+limit);
               console.log("strict               : "+strict);
               console.log("totalCount           : "+totalCount);
+              console.log("showFull             : "+showFull);
               $scope.keychainSearch={
                   "idClientKf":idClientKf,
                   "idCategoryKf":idCategoryKf,
