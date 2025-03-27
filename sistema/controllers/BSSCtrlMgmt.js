@@ -2533,7 +2533,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
         *                                                 *
         **************************************************/
           $scope.findKeyByCodeFn = function(code,idClientKf){
-            KeysServices.findKeyByCode(code,idClientKf).then(function(response) {
+            return KeysServices.findKeyByCode(code,idClientKf).then(function(response) {
                 if(response.status==200){
                     return 1;
                 }else if (response.status==404){
@@ -3014,8 +3014,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             case "addNewKeyManual":
                 console.log(obj);
                 var code = obj.codigo
-                var isCodeExistInBuilding = $scope.findKeyByCodeFn(code, $scope.tkupdate.building.idClient);
-                console.log("isCodeExistInBuilding: "+isCodeExistInBuilding);
+                $scope.findKeyByCodeFn(code, $scope.tkupdate.building.idClient).then(function(isCodeExistInBuilding) {
+                  console.log("isCodeExistInBuilding: " + isCodeExistInBuilding);
+                  // Do something with the result here
+                });
                 if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
                   let deviceOpen = obj.products.selected;
                   if ($scope.rsNewKeychainList.length==0){
