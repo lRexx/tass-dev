@@ -305,7 +305,7 @@ class Llavero extends REST_Controller
 
         if (!is_null($rs)) {
            //$this->response(['2'], 200);
-		   $this->response($rs, 200);
+		   $this->response($rs->codigo, 200);
         } else {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
