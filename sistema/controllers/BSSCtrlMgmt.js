@@ -3013,29 +3013,25 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             break;
             case "addNewKeyManual":
                 console.log(obj);
-                var code = obj.codigo
-                $scope.findKeyByCodeFn(code, $scope.tkupdate.building.idClient).then(function(isCodeExistInBuilding) {
-                  console.log("isCodeExistInBuilding: " + isCodeExistInBuilding);
-                  // Do something with the result here
-                });
                 if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
                   let deviceOpen = obj.products.selected;
                   if ($scope.rsNewKeychainList.length==0){
-                    for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
-                      if ($scope.rsExistingKeyList[i].codigo==obj.codigo){
-                        inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en el Edificio",{
-                          ttl:15000, type: 'warning'
-                        });
-                        $scope.isCodeExist=true;
-                        obj.codigo="";
-                        obj.codigoExt="";
+                    $scope.findKeyByCodeFn(obj.codigo, $scope.tkupdate.building.idClient).then(function(isCodeExistInBuilding) {
+                      console.log("isCodeExistInBuilding: " + isCodeExistInBuilding);
+                      switch (isCodeExistInBuilding){
+                        case 1:
+                          inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en el Edificio",{
+                            ttl:15000, type: 'warning'
+                          });
+                          $scope.isCodeExist=true;
+                          obj.codigo="";
+                          obj.codigoExt="";
                         break;
-                        //console.log($scope.isMailExist);
-                      }else{
-                        $scope.isCodeExist=false;
-                        //console.log($scope.isMailExist);
+                        case 0:
+                          $scope.isCodeExist=false;
+                        break;
                       }
-                    }
+                    });
                   }
                   if ($scope.rsNewKeychainList.length>0){
                     for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
@@ -3053,21 +3049,22 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         //console.log($scope.isMailExist);
                       }
                     }
-                    for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
-                      if ($scope.rsExistingKeyList[i].codigo==obj.codigo){
-                        inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en el Edificio",{
-                          ttl:15000, type: 'warning'
-                        });
-                        $scope.isCodeExist=true;
-                        obj.codigo="";
-                        obj.codigoExt="";
+                    $scope.findKeyByCodeFn(obj.codigo, $scope.tkupdate.building.idClient).then(function(isCodeExistInBuilding) {
+                      console.log("isCodeExistInBuilding: " + isCodeExistInBuilding);
+                      switch (isCodeExistInBuilding){
+                        case 1:
+                          inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en el Edificio",{
+                            ttl:15000, type: 'warning'
+                          });
+                          $scope.isCodeExist=true;
+                          obj.codigo="";
+                          obj.codigoExt="";
                         break;
-                        //console.log($scope.isMailExist);
-                      }else{
-                        $scope.isCodeExist=false;
-                        //console.log($scope.isMailExist);
+                        case 0:
+                          $scope.isCodeExist=false;
+                        break;
                       }
-                    }
+                    });
                   }
                   if(!$scope.isCodeExist && !$scope.isCodeNewExist){
                     console.log("ADD_NO_EXIST");
