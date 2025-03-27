@@ -3024,11 +3024,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             ttl:15000, type: 'warning'
                           });
                           $scope.isCodeExist=true;
+                          $scope.isCodeNewExist=true;
                           obj.codigo="";
                           obj.codigoExt="";
                         break;
                         case 0:
                           $scope.isCodeExist=false;
+                          $scope.isCodeNewExist=false;
                         break;
                       }
                     });
