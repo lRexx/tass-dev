@@ -206,10 +206,9 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
                     method : "GET",
                     url : serverHost+serverBackend+"Llavero/findKeyByCode/"+code+"/"+idClientKf
                   }).then(function mySuccess(response) {
-                    rsJson=response;
-                    return rsJson;
+                    return response;
                   }).catch(function onError(response) {
-                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]: "+response.data);
                     return response;
             });   
           },
