@@ -18,7 +18,7 @@
         	{{$index+1}}
         </td>
         <!--DESCRIPCION -->
-        <td class="td-depto" ng-click="mainSwitchFn('keyDetailssss', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 38% !important;font-size: 95%;" ng-if="item.idClientTypeFk!=2 && item.idClientTypeFk!=4">{{item.descriptionProduct | limitTo: 50 }}{{item.descriptionProduct.length > 50 ? '...' : ''}}</td>
+        <td class="td-depto" ng-click="mainSwitchFn('keyDetailssss', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 38% !important;font-size: 95%;">{{item.descriptionProduct | limitTo: 50 }}{{item.descriptionProduct.length > 50 ? '...' : ''}}</td>
         <!-- BUSINESS NAME -->
         <td class="td-depto" g-click="switchBuildingFn('keyDetailssss', item);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 15% !important;"><label class="label label-default text-uppercase">{{item.categoryKeychain}}</label>
           <label ng-if="item.idCategoryKf=='1'" class="label label-default text-uppercase">{{item.Depto}}</label>
