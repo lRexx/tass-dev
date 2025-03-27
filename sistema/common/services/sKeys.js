@@ -200,7 +200,7 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
                     return response;
             });   
           },
-          findKeyByCode: function() {
+          findKeyByCode: function(code,idClientKf) {
             //console.log("[Key Services]: Get status of keychain");
               return $http({
                     method : "GET",
