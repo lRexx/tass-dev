@@ -2413,7 +2413,7 @@ class Client_model extends CI_Model {
                     $service = $this->db->get();
                     if ($service->num_rows()>0) {
                         if (!is_null($ticket['idContrato'])){
-                            print_r($cuerpo->result_array());
+                            print_r($service->result_array());
                             $ticket[$key]=$service->result_array();
                         }
                     }
