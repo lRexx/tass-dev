@@ -2385,7 +2385,7 @@ class Client_model extends CI_Model {
         $rs          = null;
         $where_string= null;
         if (! is_null($idClient)) {
-            $this->db->select("tb_client_services_access_control.idClientServicesAccessControl AS idService,tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_contratos.idContrato, tb_servicios_del_contrato_cuerpo.idServiciosDelContratoCuerpo, tb_servicios_del_contrato_cuerpo.itemAclaracion, tb_access_control_door.*", FALSE)->from("tb_contratos");
+            $this->db->select("tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_contratos.idContrato, tb_servicios_del_contrato_cuerpo.idServiciosDelContratoCuerpo, tb_servicios_del_contrato_cuerpo.itemAclaracion, tb_access_control_door.*", FALSE)->from("tb_contratos");
             $this->db->join('tb_servicios_del_contrato_cabecera', 'tb_servicios_del_contrato_cabecera.idContratoFk = tb_contratos.idContrato', 'left');
             $this->db->join('tb_servicios_del_contrato_cuerpo', 'tb_servicios_del_contrato_cuerpo.idServiciosDelContratoFk = tb_servicios_del_contrato_cabecera.idServiciosDelContrato', 'left');
             $this->db->join('tb_client_services_access_control', 'tb_client_services_access_control.idContracAssociated_SE = tb_contratos.idContrato', 'left');
@@ -2406,15 +2406,15 @@ class Client_model extends CI_Model {
                     if ($cuerpo->num_rows()>0) {
                         if (!is_null($ticket['idAccessControlDoor'])){
                             #print_r($cuerpo->result_array());
-                            $rs[$i]['itemAclaracion']=$cuerpo->result_array();
+                            $rs[$i]['itemAclaracion']=$cuerpo->result_array()[0]['itemAclaracion'];
                         }
                     }
                     #print_r($ticket);
-                    $this->db->select("tb_client_services_access_control.addressClient, tb_client_services_access_control.addressVpn, tb_client_services_access_control.portHttp, tb_client_services_access_control.portVpn, tb_client_services_access_control.passVpn, tb_client_services_access_control.useVpn")->from("tb_client_services_access_control");
-                    $this->db->where('idClientServicesAccessControl', $ticket['idService']);
+                    $this->db->select("tb_client_services_access_control.idClientServicesAccessControl AS idService, tb_client_services_access_control.addressClient, tb_client_services_access_control.addressVpn, tb_client_services_access_control.portHttp, tb_client_services_access_control.portVpn, tb_client_services_access_control.passVpn, tb_client_services_access_control.useVpn")->from("tb_client_services_access_control");
+                    $this->db->where('idContracAssociated_SE', $ticket['idContrato']);
                     $service = $this->db->get();
                     if ($service->num_rows()>0) {
-                        if (!is_null($ticket['idService'])){
+                        if (!is_null($ticket['idContrato'])){
                             //print_r($service->result_array());                            
                             $rs[$i]['controlAccessInternet']=$service->result_array();
                         }
