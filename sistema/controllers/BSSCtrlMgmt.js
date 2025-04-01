@@ -879,18 +879,18 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       }
                       if (!itHasHttpProto && itHasHttpProto!=null){
                           if (!itHasPortInURL || itHasPortInURL==null){
-                              $scope.tkupdate.accessControlDoors.urlVpn           = "http://"+$scope.tkupdate.accessControlDoors[item].addressVpn+":"+vpnPortDefined;
+                              $scope.tkupdate.accessControlDoors[item].urlVpn           = "http://"+$scope.tkupdate.accessControlDoors[item].addressVpn+":"+vpnPortDefined;
                           }else{
-                              $scope.tkupdate.accessControlDoors.urlVpn           = "http://"+$scope.tkupdate.accessControlDoors[item].addressVpn;
+                              $scope.tkupdate.accessControlDoors[item].urlVpn           = "http://"+$scope.tkupdate.accessControlDoors[item].addressVpn;
                           }
                       }else if (itHasHttpProto){
                           if (!itHasPortInURL || itHasPortInURL==null){
-                              $scope.tkupdate.accessControlDoors.urlVpn           = $scope.tkupdate.accessControlDoors[item].addressVpn+":"+vpnPortDefined;
+                              $scope.tkupdate.accessControlDoors[item].urlVpn           = $scope.tkupdate.accessControlDoors[item].addressVpn+":"+vpnPortDefined;
                           }else{
-                              $scope.tkupdate.accessControlDoors.urlVpn           = $scope.tkupdate.accessControlDoors[item].addressVpn;
+                              $scope.tkupdate.accessControlDoors[item].urlVpn           = $scope.tkupdate.accessControlDoors[item].addressVpn;
                           }
                       }else{
-                          $scope.tkupdate.accessControlDoors.urlVpn = undefined;
+                          $scope.tkupdate.accessControlDoors[item].urlVpn = undefined;
                       }
                     }
                 }else if (response.status==404){
