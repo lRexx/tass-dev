@@ -3017,7 +3017,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 console.log(obj);
                 console.log($scope.tmpKey);
                 if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
-                  let deviceOpen = dproducts.selected;
+                  let deviceOpen = $scope.tmpKey.new.products.selected;
 
                   if ($scope.rsNewKeychainList.length>=0){
                     if ($scope.rsNewKeychainList.length==0){
