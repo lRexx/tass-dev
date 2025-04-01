@@ -2412,9 +2412,9 @@ class Client_model extends CI_Model {
                     $this->db->where('idContracAssociated_SE', $ticket['idContrato']);
                     $service = $this->db->get();
                     if ($service->num_rows()>0) {
-                        if (!is_null($ticket['idAccessControlDoor'])){
-                            #print_r($cuerpo->result_array());
-                            $ticket['itemAclaracion']=$service->result_array();
+                        if (!is_null($ticket['idContratoidContrato'])){
+                            print_r($cuerpo->result_array());
+                            $ticket[$key]=$service->result_array();
                         }
                     }
                 }
