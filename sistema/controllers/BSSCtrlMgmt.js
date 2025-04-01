@@ -859,6 +859,38 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 if(response.status==200){
                     $scope.rsCustomerAccessControlDoors = response.data;
                     $scope.tkupdate.accessControlDoors = response.data;
+                      for (var item in $scope.tkupdate.accessControlDoors){
+                      const itHasHttpProto                       = $scope.tkupdate.accessControlDoors[item].addressVpn!=null && $scope.tkupdate.accessControlDoors[item].addressVpn!=undefined?regexProtocol.test($scope.tkupdate.accessControlDoors[item].addressVpn):null;
+                      const itHasPortInURL                       = $scope.tkupdate.accessControlDoors[item].addressVpn!=null && $scope.tkupdate.accessControlDoors[item].addressVpn!=undefined?regexPort.test($scope.tkupdate.accessControlDoors[item].addressVpn):null;
+                      const vpnPortDefined                       = $scope.tkupdate.accessControlDoors[item].portVpn!="" && $scope.tkupdate.accessControlDoors[item].portVpn!=null && $scope.tkupdate.accessControlDoors[item].portVpn!=undefined?$scope.tkupdate.accessControlDoors[item].portVpn:"80";
+                      if (itHasPortInURL && itHasPortInURL!=null){
+                          const urlVpn = $scope.tkupdate.accessControlDoors[item].addressVpn;
+                          const matchUrl = urlVpn.match(regexPort);
+                          console.log(matchUrl);
+                          const extractedPort = matchUrl[1];
+                          console.log(extractedPort);
+                              if (extractedPort != vpnPortDefined) {
+                                  inform.add("La dirección VPN contiene un puerto ("+extractedPort+") diferente al puerto VPN ("+vpnPortDefined+") especificado en el campo o al puerto por defecto (80).",{
+                                      ttl:6000, type: 'warning'
+                                  });
+                              }
+                      }
+                      if (!itHasHttpProto && itHasHttpProto!=null){
+                          if (!itHasPortInURL || itHasPortInURL==null){
+                              $scope.tkupdate.accessControlDoors.urlVpn           = "http://"+$scope.tkupdate.accessControlDoors[item].addressVpn+":"+vpnPortDefined;
+                          }else{
+                              $scope.tkupdate.accessControlDoors.urlVpn           = "http://"+$scope.tkupdate.accessControlDoors[item].addressVpn;
+                          }
+                      }else if (itHasHttpProto){
+                          if (!itHasPortInURL || itHasPortInURL==null){
+                              $scope.tkupdate.accessControlDoors.urlVpn           = $scope.tkupdate.accessControlDoors[item].addressVpn+":"+vpnPortDefined;
+                          }else{
+                              $scope.tkupdate.accessControlDoors.urlVpn           = $scope.tkupdate.accessControlDoors[item].addressVpn;
+                          }
+                      }else{
+                          $scope.tkupdate.accessControlDoors.urlVpn = undefined;
+                      }
+                    }
                 }else if (response.status==404){
                     $scope.rsCustomerAccessControlDoors = [];
                     $scope.tkupdate.accessControlDoors  = [];
