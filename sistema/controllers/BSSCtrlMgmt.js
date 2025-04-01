@@ -3013,6 +3013,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 }
             break;
             case "addNewKeyManual":
+                $scope.tmpKey = {"new":{'products':{'selected':{}}}}
                 $scope.tmpKey.new=obj;
                 console.log(obj);
                 console.log($scope.tmpKey);
@@ -3080,7 +3081,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     ttl:15000, type: 'info'
                   });
                 }
-                $scope.tmpKey = {"new":{'products':{'selected':{}}}}
                 //update idKeychainKf in tb_ticket_keychain when the key from stock or manual is assigned
             break;
             case "removeNewKey":
