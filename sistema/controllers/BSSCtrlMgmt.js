@@ -858,8 +858,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 //console.log(response.data);
                 if(response.status==200){
                     $scope.rsCustomerAccessControlDoors = response.data;
+                    $scope.tkupdate.accessControlDoors = response.data;
                 }else if (response.status==404){
                     $scope.rsCustomerAccessControlDoors = [];
+                    $scope.tkupdate.accessControlDoors  = [];
                 }else if (response.status==500){
                     inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
                         ttl:5000, type: 'danger'
