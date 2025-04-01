@@ -68,6 +68,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
       $scope.keyTotalAllowed=50000;
       $scope.deliveryCostFree=0;
       $scope.update={'ticket':{}, 'user':{}};
+      $scope.tmpKey={'new':{}};
       /*DATE PICKER*/
       $scope.formats = ['dd-MM-yyyy', 'dd/MM/yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
       $scope.format = $scope.formats[1];
