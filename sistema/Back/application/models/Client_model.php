@@ -2405,7 +2405,7 @@ class Client_model extends CI_Model {
                     if ($cuerpo->num_rows()>0) {
                         if (!is_null($ticket['idAccessControlDoor'])){
                             #print_r($cuerpo->result_array());
-                            $rs[$key]['itemAclaracion']=$cuerpo->result_array();
+                            $rs['itemAclaracion']=$cuerpo->result_array();
                         }
                     }
                     #print_r($ticket);
@@ -2415,7 +2415,7 @@ class Client_model extends CI_Model {
                     if ($service->num_rows()>0) {
                         if (!is_null($ticket['idContrato'])){
                             //print_r($service->result_array());                            
-                            $rs[$key]['controlAccessInternet']=$service->result_array();
+                            $rs['controlAccessInternet']=$service->result_array();
                         }
                     }
                 }
