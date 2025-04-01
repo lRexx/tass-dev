@@ -3025,7 +3025,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     if ($scope.rsNewKeychainList.length>=1){
                       for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
                         if ($scope.rsNewKeychainList[i].codigo==$scope.tmpKey.new.codigo){
-                          inform.add("El Llavero con el Codigo: ["+$scope.tmpKey.new.codigo+"], ya existe en en la nueva lista a asignar al Departamento "+tmpKey.new.Depto,{
+                          inform.add("El Llavero con el Codigo: ["+$scope.tmpKey.new.codigo+"], ya existe en en la nueva lista a asignar al Departamento "+$scope.tmpKey.new.Depto,{
                             ttl:15000, type: 'warning'
                           });
                           $scope.isCodeNewExist=true;
