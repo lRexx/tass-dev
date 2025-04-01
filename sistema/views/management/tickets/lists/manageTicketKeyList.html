@@ -22,12 +22,12 @@
                         <button ng-click="setOptionType($event);" id="manual" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='manual', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='manual'}">
                             <i class="fas fa-pencil-alt"></i> MANUAL</button>
                     </div>
-                    <div ng-if="tkupdate.idKeySourceKf!='manual' && rsAllKeychainListData.length>=tkupdate.keys.length" class="col-md-12" style="padding-top: 1% !important;">
+                    <div ng-if="tkupdate.idKeySourceKf!='1' && rsAllKeychainListData.length>=tkupdate.keys.length" class="col-md-12" style="padding-top: 1% !important;">
                         <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 alert alert-info">
                           <h5 class="col-md-offset-2"><i class="fas fa-info-circle"> </i> <span style="font-size: 18px; font-weight: 600;">Hay suficientes llaveros en stock para gestionar el pedido.</span></h5>
                         </div>
                     </div>
-                    <div ng-if="tkupdate.idKeySourceKf==undefined && rsAllKeychainListData.length==0" class="col-md-12" style="padding-top: 1% !important;">
+                    <div ng-if="(tkupdate.idKeySourceKf==undefined || tkupdate.idKeySourceKf=='1') && rsAllKeychainListData.length==0" class="col-md-12" style="padding-top: 1% !important;">
                         <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning">
                           <h5 class="col-md-offset-1"><i class="fas fa-exclamation-triangle"> </i> <span style="font-size: 18px; font-weight: 600;">No Hay llaveros en stock para gestionar el pedido, realizar la carga manual.</span></h5>
                         </div>
