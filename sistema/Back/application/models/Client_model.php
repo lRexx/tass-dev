@@ -2409,8 +2409,7 @@ class Client_model extends CI_Model {
                     }
                     #print_r($ticket);
                     $this->db->select("tb_client_services_access_control.idClientServicesAccessControl AS idService, tb_client_services_access_control.addressClient, tb_client_services_access_control.addressVpn, tb_client_services_access_control.portHttp, tb_client_services_access_control.portVpn, tb_client_services_access_control.passVpn, tb_client_services_access_control.useVpn")->from("tb_client_services_access_control");
-                    $this->db->where('idServiciosDelContratoCuerpo', $ticket['idContrato']);
-                    $this->db->where('dateDown', NULL);
+                    $this->db->where('idContracAssociated_SE', $ticket['idContrato']);
                     $service = $this->db->get();
                     if ($service->num_rows()>0) {
                         if (!is_null($ticket['idAccessControlDoor'])){
