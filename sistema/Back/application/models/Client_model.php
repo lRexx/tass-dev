@@ -2396,6 +2396,7 @@ class Client_model extends CI_Model {
             $quuery = $this->db->where($where_string)->get();
             $rs = $quuery->result_array();
             if ($quuery->num_rows() > 0) {
+                $i = 0;
                 foreach ($quuery->result_array() as $key => $ticket) {
                     #print_r($ticket);
                     $this->db->select("itemAclaracion")->from("tb_servicios_del_contrato_cuerpo");
@@ -2405,7 +2406,7 @@ class Client_model extends CI_Model {
                     if ($cuerpo->num_rows()>0) {
                         if (!is_null($ticket['idAccessControlDoor'])){
                             #print_r($cuerpo->result_array());
-                            $rs['itemAclaracion']=$cuerpo->result_array();
+                            $rs[$i]['itemAclaracion']=$cuerpo->result_array();
                         }
                     }
                     #print_r($ticket);
@@ -2415,9 +2416,10 @@ class Client_model extends CI_Model {
                     if ($service->num_rows()>0) {
                         if (!is_null($ticket['idContrato'])){
                             //print_r($service->result_array());                            
-                            $rs['controlAccessInternet']=$service->result_array();
+                            $rs[$i]['controlAccessInternet']=$service->result_array();
                         }
                     }
+                    $i++;
                 }
                 return $rs;
             }else{
