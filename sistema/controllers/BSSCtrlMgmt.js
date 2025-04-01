@@ -3043,8 +3043,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             ttl:15000, type: 'warning'
                           });
                           $scope.isCodeExist=true;
-                          obj.codigo="";
-                          obj.codigoExt="";
                           console.log("isCodeExistInBuilding: " + isCodeExistInBuilding);
                         break;
                         case 0:
@@ -3056,6 +3054,12 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         console.log("ADD_NO_EXIST");
                         $scope.rsNewKeychainList.push({"idProductKf":deviceOpen.idProduct,"descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":tmpKey.new.categoryKeychain,"Depto":tmpKey.new.Depto, "codExt":$scope.tmpKey.new.codigoExt,"codigo":$scope.tmpKey.new.codigo,"idDepartmenKf":tmpKey.new.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":tmpKey.new.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "doors":{}});
                         $scope.list_new_keys.push({"idProductKf":deviceOpen.idProduct,"descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":tmpKey.new.categoryKeychain,"Depto":tmpKey.new.Depto, "codExt":$scope.tmpKey.new.codigoExt,"codigo":$scope.tmpKey.new.codigo,"idDepartmenKf":tmpKey.new.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":tmpKey.new.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "doors":{}});
+                        console.log($scope.rsNewKeychainList);
+                        obj.codigo="";
+                        obj.codigoExt="";
+                      }else{
+                        obj.codigo="";
+                        obj.codigoExt="";
                       }
                     });
                   }
@@ -3076,9 +3080,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     ttl:15000, type: 'info'
                   });
                 }
-                console.log($scope.rsNewKeychainList);
-                obj.codigo="";
-                obj.codigoExt="";
                 //update idKeychainKf in tb_ticket_keychain when the key from stock or manual is assigned
             break;
             case "removeNewKey":
