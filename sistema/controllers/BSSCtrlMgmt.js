@@ -3013,8 +3013,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 }
             break;
             case "addNewKeyManual":
-                $scope.tmpKey={'new':{}};
                 $scope.tmpKey.new=obj;
+                console.log(obj);
                 console.log(tmpKey);
                 if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
                   let deviceOpen = dproducts.selected;
