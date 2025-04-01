@@ -56,6 +56,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
     const sysMonth        = sysDate.toLocaleString('es-AR', { month: 'numeric'});
     const sysMonth2Digit  = String(sysDate.getMonth() + 1).padStart(2, '0');
     const sysDay          = sysDate.toLocaleString('es-AR', { day: 'numeric'});
+    const regexProtocol = /^(https?:\/\/)/;
+    const regexPort = /:(\d+)$/;
     $scope.filterAddressKf = {'selected':undefined};
     $scope.filterCompanyKf = {'selected':undefined};
       $scope.listTickt = 0;
