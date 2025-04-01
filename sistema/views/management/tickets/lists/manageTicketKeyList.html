@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
           <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <button ng-if="ticket.keysMethod.name==undefined" type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
               <h3 class="modal-title"><i class="fas fa-key"></i> LLAVEROS A ASIGNAR - <span class="badge badge-warning" style="font-size: 24px !important;">{{tkupdate.keys.length}}</span><span style="font-size: 24px !important;" ng-if="tkupdate.idKeySourceKf!=undefined"> - METODO: </span><span ng-if="tkupdate.idKeySourceKf!=undefined" class="badge badge-default" style="font-size: 24px !important;">{{tkupdate.keySource.name | uppercase}}</span></h3>
           </div>
         <div class="modal-body n-padding-b">
@@ -284,8 +284,10 @@
         <div class="modal-footer">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <button type="submit" ng-click="modalConfirmation('assign_ticket_keys',0, tkupdate)" ng-if="ticket.keysMethod.name==undefined || rsNewKeychainList.length<tkupdate.keys.length" class="btn btn-labeled btn-success">
+                        <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Asignar</button>
                     <a id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
-                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
                 </div>           
             </div>
         </div>
