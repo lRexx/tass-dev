@@ -19,11 +19,11 @@
                         <!-- Control_de_Acceso: direccion vpn -->
                         <div class="form-group col-md-6" 
                             <label style="padding-left: 15px;">Direcci&#243;n VPN</label> 
-                            <div class="pull-right col-md-4 n-padding-r" ><a ng-disabled="item.addressVpn==undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{item.urlVpn}}" class="btn btn-xs btn-warning"><i class="fas fa-link"></i> Abril url</a></div>					
+                            <div class="pull-right col-md-4 n-padding-r" ><a ng-disabled="item.controlAccessInternet.addressVpn==undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{item.controlAccessInternet.urlVpn}}" class="btn btn-xs btn-warning"><i class="fas fa-link"></i> Abril url</a></div>					
                                 <div class="col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
-                                        <input name="service_address_vpn" type="text" class="form-control" ng-disabled="true" ng-model="item.addressVpn" />
+                                        <input name="service_address_vpn" type="text" class="form-control" ng-disabled="true" ng-model="item.controlAccessInternet.addressVpn" />
                                 </div>
                                 </div>
                             </div>
@@ -33,7 +33,7 @@
                                 <div class="col-xs-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fas fa-user-shield"></i></span>
-                                    <input name="service_username_vpn" type="text" class="form-control" ng-disabled="true" ng-model="item.useVpn" />
+                                    <input name="service_username_vpn" type="text" class="form-control" ng-disabled="true" ng-model="item.controlAccessInternet.useVpn" />
                                 </div>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                                 <div class="col-xs-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fas fa-key"></i></span>
-                                    <input name="service_userPass_vpn" type="text" class="form-control" ng-disabled="true" ng-model="item.passVpn" />
+                                    <input name="service_userPass_vpn" type="text" class="form-control" ng-disabled="true" ng-model="item.controlAccessInternet.passVpn" />
                                 </div>
                             </div>
                         </div>
