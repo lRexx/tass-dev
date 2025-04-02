@@ -1,116 +1,59 @@
 <!-- Modal Delivery Change -->
-<div id="CtrlAccessConexDetails" style="top: 50px;" style="top: 100px;padding-left: 12px;z-index: 2152 !important;" class="modal fade modal-dialog-centered"  role="dialog">
+<div id="CtrlAccessConexDetails" style="top: 50px;" style="top: 100px;padding-left: 12px;z-index: 2160 !important;" class="modal fade modal-dialog-centered"  role="dialog">
     <div class="modal-dialog modal-lg" >
       <div class="modal-content">
               <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
-                  <h3 class="modal-title"><i class="fas fa-network-wired"></i>DETALLES DE CONEXION ONLINE<span class="label label-success" ><i class="fas fa-check-circle"></i></span></h3>
+                  <h3 class="modal-title"><i class="fas fa-network-wired"></i>DETALLES DE CONEXION ONLINE</h3>
               </div>
           <div class="modal-body">
             <div ng-repeat="item in tkupdate.accessControlDoors" class="panel panel-default" style="margin-bottom: 0px !important;">
                 <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyInternetConnection" ng-click="togglePanel('panelBodyInternetConnection')" style="cursor: pointer;">
                     <h3 class="panel-title">
-                        <i class="product-success fas fa-key"></i> CONTROL DE ACCESO DEPUERTA: <span class="label label-default">{{item.titulo | uppercase}}</span>
+                        <i class="product-success fas fa-key"></i> CONTROL DE ACCESO DE PUERTA: <span class="label label-default">{{item.titulo | uppercase}}</span>&nbsp;<span class="label label-success" ><i class="fas fa-check-circle"></i></span>
                         <i ng-class="{'fa-chevron-up': !panels.panelBodyInternetConnection, 'fa-chevron-down': panels.panelBodyInternetConnection}" class="fas pull-right"></i>
                     </h3>
                 </div>
                 <div id="panelBodyInternetConnection" class="panel-body n-padding-b collapse " ng-class="{'in': !panels.panelBodyInternetConnection}">
                     <div class="well-checkbox form-group col-md-12 n-padding-l n-padding-r">
-                        <div class="form-group col-md-12">
-                            <div class="form-group col-md-3">
-                                <label for="conexionInternet" style="cursor: pointer; font-weight: 600; padding-left: 15px;">Conexion a Internet:</label>
+                        <!-- Control_de_Acceso: direccion vpn -->
+                        <div class="form-group col-md-6" 
+                            <label style="padding-left: 15px;">Direcci&#243;n VPN</label> 
+                            <div class="pull-right col-md-4 n-padding-r" ><a ng-disabled="item.addressVpn==undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{item.urlVpn}}" class="btn btn-xs btn-warning"><i class="fas fa-link"></i> Abril url</a></div>					
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+                                        <input name="service_address_vpn" type="text" class="form-control" ng-disabled="true" ng-model="item.addressVpn" />
+                                </div>
+                                </div>
                             </div>
-                            <div class="form-group col-md-9">
-                                <label class="switch switch-1x">
-                                    <input type="checkbox" 
-                                    class="success" 
-                                    ng-change="" 
-                                    ng-model="service.update.isHasInternetConnect" 
-                                    id="conexionInternet" 
-                                    ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" 
-                                    style="margin: 0px !important; display: inherit !important;">
-                                    <span class="slider slider-1x flat"></span>
-                                </label>
-                            </div>
-                        </div>	
-                        <!-- Control_de_Acceso: numero de puerto de router -->
-                        <div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
-                        <label style="padding-left: 15px;">N° de puerto de router</label>  
-                            <div class="col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fas fa-ethernet"></i></span>
-                                    <input name="service_routerPort" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"  ng-required="service.update.isHasInternetConnect" ng-model="service.update.portNumberRouter" />
-                            </div>
-                            </div>
-                        </div>
-                        <!-- Control_de_Acceso: puerto http -->
-                        <div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
-                        <label style="padding-left: 15px;">Puerto http de la placa</label>  
-                            <div class="col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fas fa-project-diagram"></i></span>
-                                    <input name="service_httpPort" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"  ng-required="service.update.isHasInternetConnect" ng-model="service.update.portHttp" />
-                            </div>
-                            </div>
-                        </div>
-                        <!-- Control_de_Acceso: direccion del cliente -->
-                        <div class="form-group col-md-12" ng-show="service.update.isHasInternetConnect">
-                        <label style="padding-left: 15px;">IP de la placa</label>  
-                            <div class="col-xs-12">
-                                <div class="input-group" ng-show="service.update.isHasInternetConnect">
-                                    <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
-                                    <input name="service_clientAddr" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"  ng-required="false" ng-model="service.update.addressClient" />
-                            </div>
-                            </div>
-                        </div>
                         <!-- Control_de_Acceso: usuario -->
-                        <div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
+                        <div class="form-group col-md-6" 
                             <label style="padding-left: 15px;">Usuario</label>  
                                 <div class="col-xs-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fas fa-user-shield"></i></span>
-                                    <input name="service_username_vpn" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"  ng-required="service.update.isHasInternetConnect" ng-model="service.update.useVpn" />
+                                    <input name="service_username_vpn" type="text" class="form-control" ng-disabled="true" ng-model="item.useVpn" />
                                 </div>
                             </div>
                         </div>
                         <!-- Control_de_Acceso: contraseña -->
-                        <div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
+                        <div class="form-group col-md-6" 
                             <label style="padding-left: 15px;">Contraseña</label>  
                                 <div class="col-xs-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fas fa-key"></i></span>
-                                    <input name="service_userPass_vpn" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"  ng-required="service.update.isHasInternetConnect" ng-model="service.update.passVpn" />
+                                    <input name="service_userPass_vpn" type="text" class="form-control" ng-disabled="true" ng-model="item.passVpn" />
                                 </div>
                             </div>
                         </div>
-                        <!-- Control_de_Acceso: direccion vpn -->
-                        <div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
-                        <label style="padding-left: 15px;">Direcci&#243;n VPN</label> 
-                        <div class="pull-right col-md-4 n-padding-r" ><a ng-disabled="service.update.addressVpn==undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{service.update.urlVpn}}" class="btn btn-xs btn-warning"><i class="fas fa-link"></i> Abril url</a></div>					
-                            <div class="col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
-                                    <input name="service_address_vpn" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"  ng-required="service.update.isHasInternetConnect" ng-model="service.update.addressVpn" />
-                            </div>
-                            </div>
-                        </div>
-                        <!-- Control_de_Acceso: puerto vpn -->
-                        <div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
-                            <label style="padding-left: 15px;">Puerto VPN</label>  
-                                <div class="col-xs-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fas fa-project-diagram"></i></span>
-                                    <input name="service_vpnPort" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-required="service.update.isHasInternetConnect" ng-model="service.update.portVpn" />
-                                </div>
-                            </div>
-                        </div>
-                        <div ng-show="service.update.isHasInternetConnect" class="col-md-12">
+                        <div class="col-md-12">
                             <div  class="alert alert-info" role="alert">
                                 <button type="button" class="close" data-dismiss="alert"><span data-toggle="tooltip" data-placement="top" title="cerrar" aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                 <strong><i class="product-success fas fa-lightbulb"></i>&nbsp </i>INFO: </strong>Si la dirección VPN utilizara el protocolo https este debe ser especificado en el campo <br> ejemplo: https://cliente.bss.com.ar
                             </div>
                         </div>
-                        <div ng-show="service.update.isHasInternetConnect" class="col-md-12">
+                        <div class="col-md-12">
                             <div  class="alert alert-info" role="alert">
                                 <button type="button" class="close" data-dismiss="alert"><span data-toggle="tooltip" data-placement="top" title="cerrar" aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                 <strong><i class="product-success fas fa-lightbulb"></i>&nbsp </i>INFO: </strong>Si el Puerto VPN no esta definido, por defecto el puerto utilizado sera el 80.
