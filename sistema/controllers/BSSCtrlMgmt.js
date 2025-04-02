@@ -3227,6 +3227,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               //console.log($scope.keys.details);              
               $('#keyDetails').modal('show');
             break;
+            case "internetDetails":
+                console.log(obj.accessControlDoors);              
+                $('#CtrlAccessConexDetails').modal('show');
+            break;
             case "ticket_user":
               $('#userModalDetails').modal('show');
             break;
