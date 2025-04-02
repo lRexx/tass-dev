@@ -7,7 +7,7 @@
                   <h3 class="modal-title"><i class="fas fa-network-wired"></i>DETALLES DE CONEXION ONLINE</h3>
               </div>
           <div class="modal-body">
-            <div ng-repeat="item in tkupdate.accessControlDoors" class="panel panel-default" style="margin-bottom: 0px !important;">
+            <div ng-repeat="item in tkupdate.accessControlDoors" class="panel panel-default" style="margin-bottom: 0px !important; padding-bottom: 1% !important;">
                 <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyInternetConnection" ng-click="togglePanel('panelBodyInternetConnection')" style="cursor: pointer;">
                     <h3 class="panel-title">
                         <i class="product-success fas fa-key"></i> CONTROL DE ACCESO DE PUERTA: <span class="label label-default">{{item.titulo | uppercase}}</span>&nbsp;<span class="label label-success" ><i class="fas fa-check-circle"></i></span>
@@ -17,7 +17,7 @@
                 <div id="panelBodyInternetConnection" class="panel-body n-padding-b collapse " ng-class="{'in': !panels.panelBodyInternetConnection}">
                     <div class="well-checkbox form-group col-md-12 n-padding-l n-padding-r">
                         <!-- Control_de_Acceso: direccion vpn -->
-                        <div class="form-group col-md-6" 
+                        <div class="form-group col-md-6" >
                             <label style="padding-left: 15px;">Direcci&#243;n VPN</label> 
                             <div class="pull-right col-md-4 n-padding-r" ><a ng-disabled="item.controlAccessInternet.addressVpn==undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{item.controlAccessInternet.urlVpn}}" class="btn btn-xs btn-warning"><i class="fas fa-link"></i> Abril url</a></div>					
                                 <div class="col-xs-12">
@@ -28,7 +28,7 @@
                                 </div>
                             </div>
                         <!-- Control_de_Acceso: usuario -->
-                        <div class="form-group col-md-6" 
+                        <div class="form-group col-md-6" >
                             <label style="padding-left: 15px;">Usuario</label>  
                                 <div class="col-xs-12">
                                 <div class="input-group">
@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <!-- Control_de_Acceso: contraseña -->
-                        <div class="form-group col-md-6" 
+                        <div class="form-group col-md-6" >
                             <label style="padding-left: 15px;">Contraseña</label>  
                                 <div class="col-xs-12">
                                 <div class="input-group">
@@ -81,6 +81,7 @@
                         </div>-->
                     </div>
                 </div>
+
             </div>
             <!-- Actions Button -->
             <div class="modal-footer">
