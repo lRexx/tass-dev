@@ -3162,6 +3162,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.isNewKeyMulti              = false;
               $scope.tkupdate.idKeySourceKf     = null;
               $scope.tkupdate.keySource         = {'name':''};
+              $scope.ticket.keysMethod.name     = undefined;
             break;
             case "uploadKeyFile":
                 $scope.addMultiKeys(obj);
