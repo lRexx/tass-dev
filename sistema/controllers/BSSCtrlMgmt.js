@@ -321,6 +321,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $('#confirmRequestModal').modal('show');
                 }else if (confirm==1){
                   $('#ManageTicketKeysList').modal('hide');
+                  $('#confirmRequestModal').modal('hide');
                   $scope.mainSwitchFn('CancelSetMgmtKeys',$scope.keyObj)
                 }
               break;
