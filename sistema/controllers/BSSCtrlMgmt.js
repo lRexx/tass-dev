@@ -313,6 +313,17 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               case "closeKeyDetails":
                 $("#keyDetails").modal('hide');
               break;
+              case "CancelSetMgmtKeys":
+                if (confirm==0){
+                  $scope.keyObj=obj;
+                  console.log(obj)                  
+                  $scope.mess2show="Se perderan todos los Llaveros cargados, esta seguro que desea cancelar?";
+                  $('#confirmRequestModal').modal('show');
+                }else if (confirm==1){
+                  $('#ManageTicketKeysList').modal('hide');
+                  $scope.mainSwitchFn('CancelSetMgmtKeys',$scope.keyObj)
+                }
+              break;
               case "update":
                   if (confirm==0){
                       $scope.tenantObj=obj;
@@ -333,7 +344,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.keyObj=obj;
                         console.log(obj)
                         $scope.mess2show="La llave con el codigo: "+obj.codigo+" sera registrada en el sistema,     Confirmar?";
-                    
                         console.log("Llave a registrar  : "+obj.codigo);
                         console.log("============================================================================");
                         //console.log(obj);
@@ -357,6 +367,20 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.mainSwitchFn("removeNewKey", $scope.keyObj);
                   $('#confirmRequestModal').modal('hide');
                 }
+              break;
+              case "confirmSetMgmtKeys":
+                if (confirm==0){
+                    $scope.keyObj=obj;
+                    console.log(obj)
+                    $scope.mess2show="La llave con el codigo: "+obj.codigo+" sera registrada en el sistema,     Confirmar?";
+                    console.log("Llave a registrar  : "+obj.codigo);
+                    console.log("============================================================================");
+                    //console.log(obj);
+                    $('#confirmRequestModal').modal('toggle');
+                  }else if (confirm==1){
+                    $scope.mainSwitchFn("assignMgmtKeys", $scope.keyObj);
+                    $('#confirmRequestModal').modal('hide');
+                  }
               break;
               case "approve":
                 if (confirm==0){
@@ -3230,6 +3254,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             case "internetDetails":
                 console.log(obj.accessControlDoors);              
                 $('#CtrlAccessConexDetails').modal('show');
+            break;
+            case "setMgmtKeys":
+              console.log(obj)
+              //$scope.modalConfirmation('setMgmtKeys',0, tkupdate);
             break;
             case "ticket_user":
               $('#userModalDetails').modal('show');
