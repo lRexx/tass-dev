@@ -313,7 +313,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               case "closeKeyDetails":
                 $("#keyDetails").modal('hide');
               break;
-              case "CancelSetMgmtKeys":
+              case "cancelSetMgmtKeys":
                 if (confirm==0){
                   $scope.keyObj=obj;
                   console.log(obj)                  
@@ -322,7 +322,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 }else if (confirm==1){
                   $('#ManageTicketKeysList').modal('hide');
                   $('#confirmRequestModal').modal('hide');
-                  $scope.mainSwitchFn('CancelSetMgmtKeys',$scope.keyObj)
+                  $scope.mainSwitchFn('cancelSetMgmtKeys',$scope.keyObj)
                 }
               break;
               case "update":
@@ -3153,6 +3153,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 }
               }
             break;
+            case "cancelSetMgmtKeys":
+              $scope.keys                       = {"new":{'products':{'selected':{}}}}
+              $scope.rsNewKeychainList          = [];
+              $scope.list_new_keys              = [];
+              $scope.isNewKeySingle             = false;
+              $scope.isEditKey                  = false;
+              $scope.isNewKeyMulti              = false;
+              $scope.tkupdate.idKeySourceKf     = null;
+              $scope.tkupdate.keySource         = {'name':''};
+            break;
             case "uploadKeyFile":
                 $scope.addMultiKeys(obj);
             break;
@@ -3209,7 +3219,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.sysContent            = "";
               $scope.isNewKeySingle        = false;
               $scope.isEditKey             = false;
-              $scope.isNewKeyMulti         = false;
+              $scope.isNewKeyMulti         = true;
               $scope.rsKeyListsData        = null;
               $scope.pagination.pageIndex  = 1;
               $scope.keychainSearch={
