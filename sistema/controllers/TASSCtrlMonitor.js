@@ -3978,8 +3978,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                             //console.log(data);
                             // Contar las coincidencias del valor de la key "model"
                             let occurrences = 0;
-
-                            console.log("keyModel: " +keyModel);
+                            console.log("j          : " +j);
+                            console.log("keyModel   : " +keyModel);
                             console.log("priceFabric: " +obj[f].keys[key].priceFabric);
                             // Iterar sobre el array de objetos
                             data.forEach(item => {
