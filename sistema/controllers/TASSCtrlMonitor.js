@@ -3952,8 +3952,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                     costService       = parseFloat(obj[f].costService);
                     priceFabric       = parseFloat(obj[f].keys[0].priceFabric);
                     if (obj[f].created_at!=null){
-
-                        /*if(obj[f].keys.length>1){
+                        if(obj[f].isInitialDeliveryActive && obj[f].keys.length>1){
                           var i = 1;
                           var costDelivery = null;
                           var costService  = null;
@@ -4052,7 +4051,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                             i++;
                           }
                           //console.log($scope.list_requests);
-                        }else{*/
+                        }else{
                           if(obj[f].idTypePaymentKf=="1"){
                             $scope.list_requests.push({
                               'idTicket':obj[f].idTicket,
