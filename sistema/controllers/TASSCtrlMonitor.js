@@ -3988,8 +3988,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                                 occurrences++;
                               }
                             });
-                            
-                            console.log("keyModel: " +keyModel);
+                            console.log("occurrences: " +occurrences);
+                            //console.log("keyModel: " +keyModel);
                             //let occurrences = 0;
                             //const obj2 = JSON.parse(keyList);
                             //for (const item in obj2) {
