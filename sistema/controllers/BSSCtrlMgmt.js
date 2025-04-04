@@ -283,7 +283,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               case "closeWindow":
                   if (confirm==0){
                       if ($scope.isEditTicket==true){
-                        $scope.mess2show="Se perderan todos los cambios que hayas realizado en el registro actual, esta seguro que desea cancelar?";
+                        $scope.mess2show="Se perderan todos los cambios realizado en el Pedido actual, esta seguro que desea cancelar?";
                       }else if ($scope.isNewUser==true){
                         $scope.mess2show="Se perderan todos los datos cargados del registro actual, esta seguro que desea cancelar?";
                       }else{
@@ -292,16 +292,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       $("#confirmRequestModal").modal('show');
                   }else if (confirm==1){
                       $("#confirmRequestModal").modal('hide');
-                      $("#RegisterUser").modal('hide');
-                      $("#newSysProfile").modal('hide');
-                      $("#updateSysProfile").modal('hide');
-                      $("#UpdateUser").modal('hide');
                       $("#UpdateModalTicket").modal('hide');
-                      if ($scope.sysContentList=="users" && ($scope.isNewUser==true || $scope.isUpdateUser==true)){
-                        $scope.refreshList();
-                      }else if ($scope.isNewProfileRole==true || $scope.isUpdateProfileRole==true){
-                        $scope.getSysProfilesFn("");
-                      }
                   }
               break;
               case "closeRequest":
