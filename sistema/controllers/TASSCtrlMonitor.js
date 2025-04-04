@@ -3943,7 +3943,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                     var priceFabric   = 0;
                     var floor         = obj[f].idTypeRequestFor=="1"?obj[f].department.floor:"";
                     var depto         = obj[f].idTypeRequestFor=="1"?obj[f].department.departament:obj[f].typeRequestFor.name;
-                    var department    = obj[f].idTypeRequestFor=="1"?floor+" - "+depto.toUpperCase():depto.toUpperCase();
+                    var department    = obj[f].idTypeRequestFor=="1"?floor.toUpperCase()+"-"+depto.toUpperCase():depto.toUpperCase();
                     var codTicket     = obj[f].codTicket;
                     var fileName      = obj[f].idTicket+"_"+codTicket.substr(5)+".pdf";
                     var fullNameUser  = obj[f].idUserRequestBy!=null && obj[f].userRequestBy.fullNameUser!=undefined?obj[f].userRequestBy.fullNameUser:"no asignado";
@@ -4022,8 +4022,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                                   'Departamento':department,
                                   'SolicitadoPor':fullNameUser,
                                   'dniSolicitante':dniUser,
-                                  'CostoEnvio':costDelivery, 
-                                  'CostoGestion':costService,
+                                  'CostoEnvio':parseFloat(costDelivery), 
+                                  'CostoGestion':parseFloat(costService),
                                   'CantidadLlaveros': CantidadLlaveros,
                                   'idProducto':obj[f].keys[key].idProduct,
                                   'Producto': obj[f].keys[key].model,
@@ -4039,8 +4039,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                                   'Departamento':department,
                                   'SolicitadoPor':fullNameUser,
                                   'dniSolicitante':dniUser,
-                                  'CostoEnvio':costDelivery, 
-                                  'CostoGestion':costService,
+                                  'CostoEnvio':parseFloat(costDelivery), 
+                                  'CostoGestion':parseFloat(costService),
                                   'CantidadLlaveros': CantidadLlaveros,
                                   'idProducto':obj[f].keys[key].idProduct,
                                   'Producto': obj[f].keys[key].model,
