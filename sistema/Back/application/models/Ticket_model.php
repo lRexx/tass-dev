@@ -2868,7 +2868,7 @@ class Ticket_model extends CI_Model
 				$rs_tickets['tickets'][$key]['clientAdmin'] = @$quuery->result_array()[0];
 	
 			}
-			$this->db->select("*")->from("tb_ticket_keychain");
+			$this->db->select("tb_products.descriptionProduct, tb_products.codigoFabric, tb_products.brand, tb_products.model, tb_keychain.*, tb_category_keychain.*, tb_products_classification.*, tb_user.*")->from("tb_ticket_keychain");
 			$this->db->join('tb_keychain' , 'tb_keychain.idKeychain = tb_ticket_keychain.idKeychainKf' , 'left');
 			$this->db->join('tb_category_keychain' , 'tb_category_keychain.idCategory = tb_ticket_keychain.idCategoryKf' , 'left');
 			$this->db->join('tb_products' , 'tb_products.idProduct = tb_ticket_keychain.idProductKf' , 'left');
