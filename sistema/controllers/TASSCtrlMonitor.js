@@ -3834,19 +3834,20 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                         }
                         console.log($scope.listTickt);
                         //MP PAYMENT Succeeded
-                      //}else if (filter.isPaymentSucceeded==1 && filter.idTypePaymentKf=="2"){
-                      //  console.log("filter.isPaymentSucceeded: ",filter.isPaymentSucceeded);
-                      //  console.log("filter.idTypePaymentKf   : ",filter.idTypePaymentKf);
-                      //  for(var i=0;i<$scope.listTicktTmp.length;i++){
-                      //      //console.log($scope.listTicktTmp[i].building.isInitialDeliveryActive.length);
-                      //      //console.log($scope.listTicktTmp[i].building.isInitialDeliveryActive[0].expiration_state);
-                      //      if ( $scope.listTicktTmp[i].idTypePaymentKf=='2' && $scope.listTicktTmp[i].idPaymentDeliveryKf==null && $scope.listTicktTmp[i].idStatusTicketKf!='6' && $scope.listTicktTmp[i].idStatusTicketKf!='3' && $scope.listTicktTmp[i].idPaymentKf!=null && $scope.listTicktTmp[i].idPaymentKf!=undefined && $scope.listTicktTmp[i].paymentDetails.mp_payment_id!=undefined && $scope.listTicktTmp[i].paymentDetails.mp_payment_id!=0 && $scope.listTicktTmp[i].paymentDetails.mp_payment_id!=null && $scope.listTicktTmp[i].paymentDetails.mp_status_detail=="accredited"){
-                      //        $scope.listTickt.push($scope.listTicktTmp[i]);
-                      //      }
-                      //  }
-                      //  console.log($scope.listTickt);
+                        //else if (filter.isPaymentSucceeded==1 && filter.idTypePaymentKf=="2")
+                        //  console.log("filter.isPaymentSucceeded: ",filter.isPaymentSucceeded);
+                        //  console.log("filter.idTypePaymentKf   : ",filter.idTypePaymentKf);
+                        //  for(var i=0;i<$scope.listTicktTmp.length;i++){
+                        //      //console.log($scope.listTicktTmp[i].building.isInitialDeliveryActive.length);
+                        //      //console.log($scope.listTicktTmp[i].building.isInitialDeliveryActive[0].expiration_state);
+                        //      if ( $scope.listTicktTmp[i].idTypePaymentKf=='2' && $scope.listTicktTmp[i].idPaymentDeliveryKf==null && $scope.listTicktTmp[i].idStatusTicketKf!='6' && $scope.listTicktTmp[i].idStatusTicketKf!='3' && $scope.listTicktTmp[i].idPaymentKf!=null && $scope.listTicktTmp[i].idPaymentKf!=undefined && $scope.listTicktTmp[i].paymentDetails.mp_payment_id!=undefined && $scope.listTicktTmp[i].paymentDetails.mp_payment_id!=0 && $scope.listTicktTmp[i].paymentDetails.mp_payment_id!=null && $scope.listTicktTmp[i].paymentDetails.mp_status_detail=="accredited"){
+                        //        $scope.listTickt.push($scope.listTicktTmp[i]);
+                        //      }
+                        //  }
+                        //  console.log($scope.listTickt);
                       }else{
                         $scope.listTickt  = response.data.response.tickets;
+                        console.log($scope.listTickt);
                       }
                       
                       $scope.totalTickets = $scope.listTickt.length;
@@ -3864,7 +3865,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                       $scope.listTickt =  [];
                       $scope.totalTickets = 0;
                   }
-                  });
+                });
             }
             $scope.greaterThan = function(prop, val){
                 return function(item){
