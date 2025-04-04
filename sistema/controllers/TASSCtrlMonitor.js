@@ -3958,7 +3958,6 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                           var costService  = null;
                           var CantidadLlaveros = 0;
                           var keyModel = null;
-                          var priceFabric = 0;
                           var keyList = obj[f].keys;
                           for (var key = 0; key < obj[f].keys.length; key++) {
                             costDelivery = i == 1 ?obj[f].costDelivery:0;
@@ -3982,7 +3981,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
 
                             // Iterar sobre el array de objetos
                             data.forEach(item => {
-                              if (item.model === keyModel && item.priceFabric === priceFabric) {
+                              if (item.model === keyModel && item.priceFabric === obj[f].keys[key].priceFabric) {
                                 occurrences++;
                               }
                             });
