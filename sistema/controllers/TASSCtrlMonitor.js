@@ -641,8 +641,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
         $scope.editComment=false;
         ticketServices.ticketById(idTicket).then(function(response){
             if(response.status==200){
-              $scope.rsData.ticket = (response.data.tickets);
-              $scope.tkupdate = response.data.tickets;
+              $scope.rsData.ticket = (response.data.tickets[0]);
+              $scope.tkupdate = response.data.tickets[0];
               console.log($scope.rsData);
             }else if (response.status==404){
                 $scope.rsData = {};
