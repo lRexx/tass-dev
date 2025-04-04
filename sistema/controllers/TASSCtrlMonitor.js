@@ -3979,14 +3979,17 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                             // Contar las coincidencias del valor de la key "model"
                             let occurrences = 0;
 
+                            console.log("keyModel: " +keyModel);
+                            console.log("priceFabric: " +obj[f].keys[key].priceFabric);
                             // Iterar sobre el array de objetos
                             data.forEach(item => {
+                              console.log("item.priceFabric: " +item.priceFabric);
                               if (item.model === keyModel && item.priceFabric === obj[f].keys[key].priceFabric) {
                                 occurrences++;
                               }
                             });
                             
-                            //console.log("keyModel: " +keyModel);
+                            console.log("keyModel: " +keyModel);
                             //let occurrences = 0;
                             //const obj2 = JSON.parse(keyList);
                             //for (const item in obj2) {
@@ -3996,9 +3999,9 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                             //}
                             if (occurrences==1 && j==occurrences){
                               CantidadLlaveros=1
-                              //console.log("j:" +j);
+                              console.log("j:" +j);
                               //console.log("occurrences:" +occurrences);
-                              //console.log("CantidadLlaveros:" +CantidadLlaveros)
+                              console.log("CantidadLlaveros:" +CantidadLlaveros)
                             }else if (occurrences>1 && j<occurrences){
                               CantidadLlaveros=0
                               //console.log("j:" +j);
