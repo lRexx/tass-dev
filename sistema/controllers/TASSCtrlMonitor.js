@@ -4028,12 +4028,12 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                                   'Departamento':department,
                                   'SolicitadoPor':fullNameUser,
                                   'dniSolicitante':dniUser,
-                                  'CostoEnvio':parseFloat(costDelivery).toFixed(2), 
-                                  'CostoGestion':parseFloat(costService).toFixed(2),
+                                  'CostoEnvio':parseFloat(costDelivery).toFixed(0), 
+                                  'CostoGestion':parseFloat(costService).toFixed(0),
                                   'CantidadLlaveros': CantidadLlaveros,
                                   'idProducto':obj[f].keys[key].idProduct,
                                   'Producto': obj[f].keys[key].model,
-                                  'PrecioUnitario':parseFloat(obj[f].keys[key].priceFabric).toFixed(2),
+                                  'PrecioUnitario':parseFloat(obj[f].keys[key].priceFabric).toFixed(0),
                                 });
                             }else{
                                 $scope.list_requests.push({
@@ -4045,12 +4045,12 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                                   'Departamento':department,
                                   'SolicitadoPor':fullNameUser,
                                   'dniSolicitante':dniUser,
-                                  'CostoEnvio':parseFloat(costDelivery).toFixed(2),
-                                  'CostoGestion':parseFloat(costService).toFixed(2),
+                                  'CostoEnvio':parseFloat(costDelivery).toFixed(0),
+                                  'CostoGestion':parseFloat(costService).toFixed(0),
                                   'CantidadLlaveros': CantidadLlaveros,
                                   'idProducto':obj[f].keys[key].idProduct,
                                   'Producto': obj[f].keys[key].model,
-                                  'PrecioUnitario':parseFloat(obj[f].keys[key].priceFabric).toFixed(2),
+                                  'PrecioUnitario':parseFloat(obj[f].keys[key].priceFabric).toFixed(0),
                                   'FacturaNombre':fileName
                                 });
                             }
