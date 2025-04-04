@@ -4034,6 +4034,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                                   'idProducto':obj[f].keys[key].idProduct,
                                   'Producto': obj[f].keys[key].model,
                                   'PrecioUnitario':parseFloat(obj[f].keys[key].priceFabric).toFixed(0),
+                                  'EntregaInicial':"1",
                                 });
                             }else{
                                 $scope.list_requests.push({
@@ -4051,7 +4052,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                                   'idProducto':obj[f].keys[key].idProduct,
                                   'Producto': obj[f].keys[key].model,
                                   'PrecioUnitario':parseFloat(obj[f].keys[key].priceFabric).toFixed(0),
-                                  'FacturaNombre':fileName
+                                  'FacturaNombre':fileName,
+                                  'EntregaInicial':"1",
                                 });
                             }
                             i++;
@@ -4068,12 +4070,13 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                               'Departamento':department,
                               'SolicitadoPor':fullNameUser,
                               'dniSolicitante':dniUser,
-                              'CostoEnvio':parseFloat(costDelivery),
-                              'CostoGestion':parseFloat(costService),
+                              'CostoEnvio':parseFloat(costDelivery).toFixed(0),
+                              'CostoGestion':parseFloat(costService).toFixed(0),
                               'CantidadLlaveros': obj[f].keys.length,
                               'idProducto':obj[f].keys[0].idProduct,
                               'Producto': obj[f].keys[0].model,
-                              'PrecioUnitario':parseFloat(priceFabric).toFixed(2),
+                              'PrecioUnitario':parseFloat(priceFabric).toFixed(0),
+                              'EntregaInicial':"0",
                             });
                           }else{
                             $scope.list_requests.push({
@@ -4085,13 +4088,14 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                               'Departamento':department,
                               'SolicitadoPor':obj[f].userRequestBy.fullNameUser,
                               'dniSolicitante':dniUser,
-                              'CostoEnvio':parseFloat(costDelivery),
-                              'CostoGestion':parseFloat(costService),
+                              'CostoEnvio':parseFloat(costDelivery).toFixed(0),
+                              'CostoGestion':parseFloat(costService).toFixed(0),
                               'CantidadLlaveros': obj[f].keys.length,
                               'idProducto':obj[f].keys[0].idProduct,
                               'Producto': obj[f].keys[0].model,
-                              'PrecioUnitario':parseFloat(priceFabric).toFixed(2),
-                              'FacturaNombre':fileName
+                              'PrecioUnitario':parseFloat(priceFabric).toFixed(0),
+                              'FacturaNombre':fileName,
+                              'EntregaInicial':"0",
                             });
                           }
                        }
