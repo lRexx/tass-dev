@@ -3982,7 +3982,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
 
                             // Iterar sobre el array de objetos
                             data.forEach(item => {
-                              if (item.model === keyModel) {
+                              if (item.model === keyModel && item.priceFabric === priceFabric) {
                                 occurrences++;
                               }
                             });
@@ -4039,7 +4039,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                                   'Departamento':department,
                                   'SolicitadoPor':fullNameUser,
                                   'dniSolicitante':dniUser,
-                                  'CostoEnvio':parseFloat(costDelivery), 
+                                  'CostoEnvio':parseFloat(costDelivery),
                                   'CostoGestion':parseFloat(costService),
                                   'CantidadLlaveros': CantidadLlaveros,
                                   'idProducto':obj[f].keys[key].idProduct,
@@ -4062,8 +4062,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                               'Departamento':department,
                               'SolicitadoPor':fullNameUser,
                               'dniSolicitante':dniUser,
-                              'CostoEnvio':costDelivery, 
-                              'CostoGestion':costService,
+                              'CostoEnvio':parseFloat(costDelivery),
+                              'CostoGestion':parseFloat(costService),
                               'CantidadLlaveros': obj[f].keys.length,
                               'idProducto':obj[f].keys[0].idProduct,
                               'Producto': obj[f].keys[0].model,
@@ -4079,8 +4079,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                               'Departamento':department,
                               'SolicitadoPor':obj[f].userRequestBy.fullNameUser,
                               'dniSolicitante':dniUser,
-                              'CostoEnvio':costDelivery, 
-                              'CostoGestion':costService,
+                              'CostoEnvio':parseFloat(costDelivery),
+                              'CostoGestion':parseFloat(costService),
                               'CantidadLlaveros': obj[f].keys.length,
                               'idProducto':obj[f].keys[0].idProduct,
                               'Producto': obj[f].keys[0].model,
