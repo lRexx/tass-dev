@@ -3824,7 +3824,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 ticketServices.all(filter).then(function(response){
                   if(response.status==200){
                       $scope.listTicktTmp =  response.data.response.tickets;
-                      if (filter.isInitialDeliveryActive==1){ //isInitialDeliveryActive
+                      if (filter.isInitialDeliveryActive_TMP==1){ //isInitialDeliveryActive
                         for(var i=0;i<$scope.listTicktTmp.length;i++){
                             //console.log($scope.listTicktTmp[i].building.isInitialDeliveryActive.length);
                             //console.log($scope.listTicktTmp[i].building.isInitialDeliveryActive[0].expiration_state);

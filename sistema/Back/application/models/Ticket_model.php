@@ -65,32 +65,33 @@ class Ticket_model extends CI_Model
 		/* CREAMOS UN TICKET */
 		
 		$this->db->insert('tb_tickets_2' , array(
-			'codTicket' 				=> trim($codTicket) ,
-			'created_at'				=> $now->format('Y-m-d H:i:s') ,
+			'codTicket' 				=> trim($codTicket),
+			'created_at'				=> $now->format('Y-m-d H:i:s'),
 			'idOtherDeliveryAddressKf' 	=> $idOtherDeliveryAddress ,
 			'idThirdPersonDeliveryKf' 	=> $idThirdPersonDelivery ,
-			'idTypeTicketKf' 			=> @$ticket['idTypeTicketKf'] ,
-			'idTypeRequestFor' 			=> @$ticket['idTypeRequestFor'] ,
-			'idUserMadeBy' 				=> @$ticket['idUserMadeBy'] ,
-			'idUserRequestBy' 			=> @$ticket['idUserRequestBy'] ,
-			'idBuildingKf' 				=> @$ticket['idBuildingKf'] ,
-			'idDepartmentKf' 			=> @$ticket['idDepartmentKf'] ,
-			'idTypeDeliveryKf' 			=> @$ticket['idTypeDeliveryKf'] ,
-			'idWhoPickUp' 				=> @$ticket['idWhoPickUp'] ,
-			'idUserDelivery' 			=> @$ticket['idUserDelivery'] ,
-			'idDeliveryTo' 				=> @$ticket['idDeliveryTo'] ,
-			'idDeliveryAddress' 		=> @$ticket['idDeliveryAddress'] ,
-			'idTypePaymentKf' 			=> @$ticket['idTypePaymentKf'] ,
-			'sendNotify' 				=> @$ticket['sendNotify'] ,
-			'description' 				=> @$ticket['description'] ,
-			'costService' 				=> @$ticket['costService'] ,
-			'costKeys' 					=> @$ticket['costKeys'] ,
-			'costDelivery' 				=> @$ticket['costDelivery'] ,
-			'total' 					=> @$ticket['total'] ,
-			'urlToken' 					=> @$ticket['urlToken'] ,
-			'autoApproved' 				=> @$ticket['autoApproved'] ,
-			'isNew' 					=> @$ticket['isNew'] ,
-			'idStatusTicketKf' 			=> @$ticket['status'] ,
+			'idTypeTicketKf' 			=> @$ticket['idTypeTicketKf'],
+			'idTypeRequestFor' 			=> @$ticket['idTypeRequestFor'],
+			'idUserMadeBy' 				=> @$ticket['idUserMadeBy'],
+			'idUserRequestBy' 			=> @$ticket['idUserRequestBy'],
+			'idBuildingKf' 				=> @$ticket['idBuildingKf'],
+			'idDepartmentKf' 			=> @$ticket['idDepartmentKf'],
+			'idTypeDeliveryKf' 			=> @$ticket['idTypeDeliveryKf'],
+			'idWhoPickUp' 				=> @$ticket['idWhoPickUp'],
+			'idUserDelivery' 			=> @$ticket['idUserDelivery'],
+			'idDeliveryTo' 				=> @$ticket['idDeliveryTo'],
+			'idDeliveryAddress' 		=> @$ticket['idDeliveryAddress'],
+			'idTypePaymentKf' 			=> @$ticket['idTypePaymentKf'],
+			'sendNotify' 				=> @$ticket['sendNotify'],
+			'description' 				=> @$ticket['description'],
+			'costService' 				=> @$ticket['costService'],
+			'costKeys' 					=> @$ticket['costKeys'],
+			'costDelivery' 				=> @$ticket['costDelivery'],
+			'total' 					=> @$ticket['total'],
+			'urlToken' 					=> @$ticket['urlToken'],
+			'autoApproved' 				=> @$ticket['autoApproved'],
+			'isNew' 					=> @$ticket['isNew'],
+			'isInitialDelivery'         => @$ticket['isInitialDelivery'],
+			'idStatusTicketKf' 			=> @$ticket['status']
 
 		));
 		if ($this->db->affected_rows()===1){
@@ -1026,26 +1027,26 @@ class Ticket_model extends CI_Model
 
 		$this->db->set(
 			array(
-				'idTypeTicketKf' 			=> @$ticket['idTypeTicketKf'] ,
-				'idTypeRequestFor' 			=> @$ticket['idTypeRequestFor'] ,
-				'idUserMadeBy' 				=> @$ticket['idUserMadeBy'] ,
-				'idUserRequestBy' 			=> @$ticket['idUserRequestBy'] ,
-				'idBuildingKf' 				=> @$ticket['idBuildingKf'] ,
-				'idDepartmentKf' 			=> @$ticket['idDepartmentKf'] ,
-				'idTypeDeliveryKf' 			=> @$ticket['idTypeDeliveryKf'] ,
-				'idWhoPickUp' 				=> @$ticket['idWhoPickUp'] ,
-				'idUserDelivery' 			=> @$ticket['idUserDelivery'] ,
-				'idDeliveryTo' 				=> @$ticket['idDeliveryTo'] ,
-				'idDeliveryAddress'			=> @$ticket['idDeliveryAddress'] ,
-				'idTypePaymentKf' 			=> @$ticket['idTypePaymentKf'] ,
-				'sendNotify' 				=> @$ticket['sendNotify'] ,
-				'description' 				=> @$ticket['description'] ,
-				'costService' 				=> @$ticket['costService'] ,
-				'costKeys' 					=> @$ticket['costKeys'] ,
-				'costDelivery' 				=> @$ticket['costDelivery'] ,
-				'total' 					=> @$ticket['total'] ,
-				'urlToken' 					=> @$ticket['urlToken'] ,
-				'autoApproved' 				=> @$ticket['autoApproved'] ,
+				'idTypeTicketKf' 			=> @$ticket['idTypeTicketKf'],
+				'idTypeRequestFor' 			=> @$ticket['idTypeRequestFor'],
+				'idUserMadeBy' 				=> @$ticket['idUserMadeBy'],
+				'idUserRequestBy' 			=> @$ticket['idUserRequestBy'],
+				'idBuildingKf' 				=> @$ticket['idBuildingKf'],
+				'idDepartmentKf' 			=> @$ticket['idDepartmentKf'],
+				'idTypeDeliveryKf' 			=> @$ticket['idTypeDeliveryKf'],
+				'idWhoPickUp' 				=> @$ticket['idWhoPickUp'],
+				'idUserDelivery' 			=> @$ticket['idUserDelivery'],
+				'idDeliveryTo' 				=> @$ticket['idDeliveryTo'],
+				'idDeliveryAddress'			=> @$ticket['idDeliveryAddress'],
+				'idTypePaymentKf' 			=> @$ticket['idTypePaymentKf'],
+				'sendNotify' 				=> @$ticket['sendNotify'],
+				'description' 				=> @$ticket['description'],
+				'costService' 				=> @$ticket['costService'],
+				'costKeys' 					=> @$ticket['costKeys'],
+				'costDelivery' 				=> @$ticket['costDelivery'],
+				'total' 					=> @$ticket['total'],
+				'urlToken' 					=> @$ticket['urlToken'],
+				'autoApproved' 				=> @$ticket['autoApproved'],
 				'isNew' 					=> @$ticket['isNew'],
 				'idStatusTicketKf' 			=> @$ticket['idStatusTicketKf'],
 				'idOtherDeliveryAddressKf' 	=> $idOtherDeliveryAddress ,
@@ -2617,6 +2618,14 @@ class Ticket_model extends CI_Model
 				$this->db->where($where);
 			}else{
 				$where = "(ISNULL(isHasRefundsOpen) OR isHasRefundsOpen = '".@$data['isHasRefundsOpen']."' OR isHasRefundsOpen <> '".@$data['isHasRefundsOpen']."')";
+				$this->db->where($where);
+			}
+			//INITIAL DELIVERY INITIATED 
+			if (@$data['isInitialDeliveryActive']=='1'){
+				$where = "(isInitialDeliveryActive = '".@$data['isInitialDeliveryActive']."')";
+				$this->db->where($where);
+			}else{
+				$where = "(ISNULL(isInitialDeliveryActive) OR isInitialDeliveryActive = '".@$data['isInitialDeliveryActive']."' OR isInitialDeliveryActive <> '".@$data['isInitialDeliveryActive']."')";
 				$this->db->where($where);
 			}
 			//MP PAYMENT Succeeded
