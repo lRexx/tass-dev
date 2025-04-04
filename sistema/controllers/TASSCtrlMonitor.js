@@ -3997,22 +3997,26 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                             //      occurrences++;
                             //    }
                             //}
-                            if (occurrences==1 && j==occurrences){
+                            if(obj[f].keys[key].priceFabric!=0){
+                              if (occurrences==1 && j==occurrences){
+                                CantidadLlaveros=1
+                                console.log("j:" +j);
+                                //console.log("occurrences:" +occurrences);
+                                console.log("CantidadLlaveros:" +CantidadLlaveros)
+                              }else if (occurrences>1 && j<occurrences){
+                                CantidadLlaveros=0
+                                //console.log("j:" +j);
+                                //console.log("occurrences:" +occurrences);
+                                //console.log("CantidadLlaveros:" +CantidadLlaveros)
+                                j++;
+                              }else if (occurrences>1 && j==occurrences){
+                                CantidadLlaveros=occurrences
+                                //console.log("j:" +j);
+                                //console.log("occurrences:" +occurrences);
+                                //console.log("CantidadLlaveros:" +CantidadLlaveros);
+                              }
+                            }else{
                               CantidadLlaveros=1
-                              console.log("j:" +j);
-                              //console.log("occurrences:" +occurrences);
-                              console.log("CantidadLlaveros:" +CantidadLlaveros)
-                            }else if (occurrences>1 && j<occurrences){
-                              CantidadLlaveros=0
-                              //console.log("j:" +j);
-                              //console.log("occurrences:" +occurrences);
-                              //console.log("CantidadLlaveros:" +CantidadLlaveros)
-                              j++;
-                            }else if (occurrences>1 && j==occurrences){
-                              CantidadLlaveros=occurrences
-                              //console.log("j:" +j);
-                              //console.log("occurrences:" +occurrences);
-                              //console.log("CantidadLlaveros:" +CantidadLlaveros);
                             }
                             if(obj[f].idTypePaymentKf=="1"){
                                 $scope.list_requests.push({
