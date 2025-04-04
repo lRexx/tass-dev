@@ -3997,7 +3997,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                             //      occurrences++;
                             //    }
                             //}
-                            if (occurrences==1 && j==occurrences){
+                            if (occurrences==1 && j>=occurrences){
                               CantidadLlaveros=1
                               console.log("j:" +j);
                               //console.log("occurrences:" +occurrences);
