@@ -3259,7 +3259,24 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $('#CtrlAccessConexDetails').modal('show');
             break;
             case "setMgmtKeys":
-              console.log(obj)
+              console.info("Source: "+obj.keySource.name);
+              console.info("Delivery: "+obj.typeDeliver.typeDelivery);
+              switch(obj.idKeySourceKf){
+                case "1":
+                  switch(obj.idTypeDeliveryKf){
+                    case "1":
+                      console.log(obj)
+                    break;
+                    case "2":
+                      console.log(obj)
+                    break;
+                  }
+                break;
+                case "2":
+                  console.info("Internet: " + (obj.building.isHasInternetOnline === null ? "No" : "Si"));
+                  console.log(obj)
+                break;
+              }
               //$scope.modalConfirmation('setMgmtKeys',0, tkupdate);
             break;
             case "ticket_user":
