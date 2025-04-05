@@ -100,7 +100,7 @@
                         </div>
                     </div>
                 </div>
-                <div ng-if="rsNewKeychainList.length!=tkupdate.keys.length && (tkupdate.building.isStockInOffice || tkupdate.building.isStockInBuilding)" class="blur-overlay">
+                <div ng-if="rsNewKeychainList.length!=tkupdate.keys.length && ((tkupdate.building.isStockInOffice==null && tkupdate.building.isStockInBuilding==null) || (tkupdate.building.isStockInOffice || tkupdate.building.isStockInBuilding))" class="blur-overlay">
                     <div class="centered-message">Deben cargar todos los llaveros del pedido, antes de asignar la empresa de envío.</div>
                 </div>
             </div>
