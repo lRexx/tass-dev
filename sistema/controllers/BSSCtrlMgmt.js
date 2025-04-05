@@ -941,11 +941,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               //console.log(response.data[0]);
               $scope.rsData.ticket = (response.data.tickets[0]);
               $scope.tkupdate = response.data.tickets[0];
-              if ($scope.tkupdate.building.isStockInOffice=='1'){
-                $scope.tkupdate.idDeliveryCompanyKf="2";
-              }else if ($scope.tkupdate.building.isStockInBuilding=='1'){
-                $scope.tkupdate.idDeliveryCompanyKf="1";
-              }
               //$scope.getContractsByCustomerIdFn($scope.tkupdate.building.idClient);
               $scope.getKeysAssociatedToACustomerFn($scope.tkupdate.building.idClient);
               $scope.getControlAccessDoorsAssociatedToACustomerFn($scope.tkupdate.building.idClient);
@@ -3263,7 +3258,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.info("Delivery: " +obj.typeDeliver.typeDelivery);
               console.info("Internet: " +(obj.building.isHasInternetOnline === null ? "No" : "Si"));
               switch(obj.idKeySourceKf){
-                case "1":
+                case "1": //STOCK
                   switch(obj.idTypeDeliveryKf){
                     case "1":
                       console.log(obj)
@@ -3273,12 +3268,38 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     break;
                   }
                 break;
-                case "2":
-                  console.log(obj)
+                case "2": //MANUAL
+                  $scope.tkupdate.whereKeysAreEnable = obj.building.isHasInternetOnline === null ? "2":"1";
+                  switch(obj.idTypeDeliveryKf){
+                    case "1":
+                      if(obj.building.isHasInternetOnline === null){
+                        $scope.tkupdate.idDeliveryCompanyKf="2";
+                      }else{
+                        $scope.tkupdate.idDeliveryCompanyKf=null;
+                      }
+                      console.log(obj)
+                    break;
+                    case "2":
+                      if(obj.building.isHasInternetOnline === null){
+                        $scope.tkupdate.idDeliveryCompanyKf="2";
+                      }else{
+                        $scope.tkupdate.idDeliveryCompanyKf="1";
+                      }
+                      console.log(obj)
+                    break;
+                  }
                 break;
               }
               $('#ManageTicketKeysList').modal('hide');
               //$scope.modalConfirmation('setMgmtKeys',0, tkupdate);
+              //USAR ESTE CODIGO PARA PEDIDOS DE STOCK
+              /*if(obj.building.isHasInternetOnline === null){
+                if ($scope.tkupdate.building.isStockInOffice=='1'){
+                  $scope.tkupdate.idDeliveryCompanyKf="2";
+                }else if ($scope.tkupdate.building.isStockInBuilding=='1'){
+                  $scope.tkupdate.idDeliveryCompanyKf="1";
+                }
+              }*/
             break;
             case "ticket_user":
               $('#userModalDetails').modal('show');
