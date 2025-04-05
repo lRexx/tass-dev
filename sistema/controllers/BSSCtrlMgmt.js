@@ -3260,21 +3260,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 case "1": //STOCK
                   switch(obj.idTypeDeliveryKf){
                     case "1":
-                      if(obj.building.isHasInternetOnline === null){
-                        $scope.tkupdate.idDeliveryCompanyKf="2";
-                        $scope.msg="El Pedido pasara a \"Listo para Retirar\"";
-                      }else{
-                        $scope.tkupdate.idDeliveryCompanyKf=null;
-                      }
+                      $scope.msg="El Pedido pasara a \"Listo para Retirar\"";
+                      $scope.tkupdate.idDeliveryCompanyKf=null;
                       console.log(obj)
                     break;
                     case "2":
-                      if(obj.building.isHasInternetOnline === null){
-                        $scope.tkupdate.idDeliveryCompanyKf="2";
-                        $scope.msg="El Pedido pasara a \"Pendiente de entrega\"";
-                      }else{
-                        $scope.tkupdate.idDeliveryCompanyKf="1";
-                      }
+                      $scope.tkupdate.idDeliveryCompanyKf="2";
+                      $scope.msg="El Pedido pasara a \"Pendiente de entrega\"";
                       console.log(obj)
                     break;
                   }
