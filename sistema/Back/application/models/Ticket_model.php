@@ -90,7 +90,7 @@ class Ticket_model extends CI_Model
 			'urlToken' 					=> @$ticket['urlToken'],
 			'autoApproved' 				=> @$ticket['autoApproved'],
 			'isNew' 					=> @$ticket['isNew'],
-			'isInitialDelivery'         => @$ticket['isInitialDelivery'],
+			'isInitialDeliveryActive'   => @$ticket['isInitialDeliveryActive'],
 			'idStatusTicketKf' 			=> @$ticket['status']
 
 		));
