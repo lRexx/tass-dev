@@ -871,9 +871,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
         $scope.rsCustomerAccessControlDoors = [];
         $scope.getControlAccessDoorsAssociatedToACustomerFn = function(idClient){
             $scope.rsCustomerAccessControlDoors = [];
-            //console.log("Getting --> ControlAccessDoorsAssociatedToACustomerFn");
+            console.log("Getting --> ControlAccessDoorsAssociatedToACustomerFn");
             CustomerServices.getControlAccessDoorsAssociatedToACustomerServices(idClient).then(function(response){
-                //console.log(response.data);
+                console.log(response.data);
                 if(response.status==200){
                     $scope.rsCustomerAccessControlDoors = response.data;
                     $scope.tkupdate.accessControlDoors = response.data;
