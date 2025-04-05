@@ -142,7 +142,9 @@ class Ticket_model extends CI_Model
 				}
 			}
 				$lastTicketAddQuery = null;
-				$lastTicketAddQuery = $this->ticketById($idTicketKf);
+				
+				$newTicketAdded = $this->ticketById($idTicketKf);
+				$lastTicketAddQuery = $newTicketAdded['tickets'];
 				//print_r($lastTicketAddQuery);
 				//MAIL
 				$user = null;
