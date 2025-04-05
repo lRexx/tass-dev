@@ -3255,7 +3255,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             break;
             case "setMgmtKeys":
               console.info("Source  : " +obj.keySource.name);
-              console.info("Delivery: " +obj.typeDeliver.typeDelivery);
               console.info("Internet: " +(obj.building.isHasInternetOnline === null ? "No" : "Si"));
               switch(obj.idKeySourceKf){
                 case "1": //STOCK
@@ -3286,7 +3285,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     case "1":
                       if(obj.building.isHasInternetOnline === null){
                         $scope.tkupdate.idDeliveryCompanyKf="2";
-                        $scope.msg="El Pedido pasara a \"Pendiente de entrega\"";
+                        $scope.msg="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros.";
                       }else{
                         $scope.tkupdate.idDeliveryCompanyKf=null;
                       }
@@ -3295,7 +3294,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     case "2":
                       if(obj.building.isHasInternetOnline === null){
                         $scope.tkupdate.idDeliveryCompanyKf="2";
-                        $scope.msg="El Pedido pasara a \"Pendiente de entrega\"";
+                        $scope.msg="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros.";
                       }else{
                         $scope.tkupdate.idDeliveryCompanyKf="1";
                       }
@@ -3304,6 +3303,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   }
                 break;
               }
+              console.info("Delivery: " +obj.typeDeliver.typeDelivery);
               console.info("msg: "+$scope.msg);
               $('#ManageTicketKeysList').modal('hide');
               //$scope.modalConfirmation('setMgmtKeys',0, tkupdate);
