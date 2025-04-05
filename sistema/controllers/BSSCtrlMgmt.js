@@ -3304,7 +3304,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   }
                 break;
               }
-              console.info("msg: "+msg);
+              console.info("msg: "+$scope.msg);
               $('#ManageTicketKeysList').modal('hide');
               //$scope.modalConfirmation('setMgmtKeys',0, tkupdate);
               //USAR ESTE CODIGO PARA PEDIDOS DE STOCK
