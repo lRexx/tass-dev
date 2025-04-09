@@ -319,8 +319,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               case "applySetMgmtKeys":
                 if (confirm==0){
                   $scope.keyObj=obj;
-                  console.log(obj)                  
-                  $('#confirmRequestModalCustom').modal('show');
+                  console.log(obj);
+                  $scope.mess2show=obj.mess2show
+                  $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
+                  $('#confirmRequestModalCustom').on('shown.bs.modal', function () {});
                 }else if (confirm==1){
                   $('#ManageTicketKeysList').modal('hide');
                   $('#confirmRequestModalCustom').modal('hide');
@@ -3271,13 +3273,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 case "1": //STOCK
                   switch(obj.idTypeDeliveryKf){
                     case "1"://RETIRO EN OFICINA
-                      $scope.mess2show="El Pedido pasara a \"Listo para Retirar\"";
+                      $scope.tkupdate.mess2show="El Pedido pasara a \"Listo para Retirar\"";
                       $scope.tkupdate.idDeliveryCompanyKf=null;
                       console.log(obj)
                     break;
                     case "2"://RENTREGA EN DOMICILIO
                       $scope.tkupdate.idDeliveryCompanyKf="1";
-                      $scope.mess2show="El Pedido pasara a \"Pendiente de entrega\"";
+                      $scope.tkupdate.mess2show="El Pedido pasara a \"Pendiente de entrega\"";
                       console.log(obj)
                     break;
                   }
@@ -3288,20 +3290,20 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     case "1": //RETIRO EN OFICINA
                       if(obj.building.isHasInternetOnline === null){ //NO INTERNET
                         $scope.tkupdate.idDeliveryCompanyKf="1";
-                        $scope.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros.";
+                        $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros.";
                       }else{
                         $scope.tkupdate.idDeliveryCompanyKf=null;
-                        $scope.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros.";
+                        $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros.";
                       }
                       console.log(obj)
                     break;
                     case "2": //RENTREGA EN DOMICILIO
                       if(obj.building.isHasInternetOnline === null){ //NO INTERNET
                         $scope.tkupdate.idDeliveryCompanyKf="2";
-                        $scope.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros.";
+                        $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros.";
                       }else{
                         $scope.tkupdate.idDeliveryCompanyKf="1";
-                        $scope.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros.";
+                        $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros.";
                       }
                       console.log(obj)
                     break;
