@@ -3265,7 +3265,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log(obj)
                     break;
                     case "2"://RENTREGA EN DOMICILIO
-                      $scope.tkupdate.idDeliveryCompanyKf="2";
+                      $scope.tkupdate.idDeliveryCompanyKf="1";
                       $scope.msg="El Pedido pasara a \"Pendiente de entrega\"";
                       console.log(obj)
                     break;
@@ -3286,10 +3286,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     break;
                     case "2": //RENTREGA EN DOMICILIO
                       if(obj.building.isHasInternetOnline === null){ //NO INTERNET
-                        $scope.tkupdate.idDeliveryCompanyKf="1";
+                        $scope.tkupdate.idDeliveryCompanyKf="2";
                         $scope.msg="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros.";
                       }else{
-                        $scope.tkupdate.idDeliveryCompanyKf="2";
+                        $scope.tkupdate.idDeliveryCompanyKf="1";
                         $scope.msg="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros.";
                       }
                       console.log(obj)
