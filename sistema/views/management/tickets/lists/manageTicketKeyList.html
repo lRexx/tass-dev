@@ -288,7 +288,7 @@
                         <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Asignar</button>
                     <a ng-if="tkupdate.whereKeysAreEnable==undefined && (tkupdate.idDeliveryCompanyKf==null || tkupdate.idDeliveryCompanyKf!=null)" id="cancelModalWindow" type="button" ng-click="modalConfirmation('cancelSetMgmtKeys',0, tkupdate)" class="btn btn-labeled btn-danger">
                         <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
-                    <a ng-if="tkupdate.idKeySourceKf!=undefined && rsNewKeychainList.length==tkupdate.keys.length" id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                    <a ng-if="tkupdate.whereKeysAreEnable!=undefined& (tkupdate.whereKeysAreEnable==null || tkupdate.whereKeysAreEnable!=null ) && tkupdate.idDeliveryCompanyKf!=undefined && (tkupdate.idDeliveryCompanyKf==null || tkupdate.idDeliveryCompanyKf!=null) && tkupdate.idKeySourceKf!=undefined && rsNewKeychainList.length==tkupdate.keys.length" id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
                         <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
                 </div>           
             </div>

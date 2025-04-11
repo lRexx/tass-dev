@@ -3271,6 +3271,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.info("Internet: " +(obj.building.isHasInternetOnline === null ? "No" : "Si"));
               switch(obj.idKeySourceKf){
                 case "1": //STOCK
+                  $scope.tkupdate.whereKeysAreEnable = null;
                   switch(obj.idTypeDeliveryKf){
                     case "1"://RETIRO EN OFICINA
                       $scope.tkupdate.mess2show="El Pedido pasara a \"Listo para Retirar\", por favor,     Confirmar?";
