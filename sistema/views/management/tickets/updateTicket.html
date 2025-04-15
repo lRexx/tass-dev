@@ -73,13 +73,13 @@
                                   <span>Forma de Habilitación:</span>
                                 </div>
                                 <div class="col-md-3 col-xs-6 n-padding-l" style="margin-top: -0.6% !important;">
-                                  <input id="whereKeysAreEnableOnline" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" ng-disabled="tkupdate.building.isHasInternetOnline!=null && tkupdate.building.isHasInternetOnline" type="radio" name="whereKeysAreEnable" value="1" ng-model="tkupdate.whereKeysAreEnable">
+                                  <input id="whereKeysAreEnableOnline" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" ng-disabled="tkupdate.building.isHasInternetOnline!=null && tkupdate.building.isHasInternetOnline" type="radio" name="whereKeysAreEnable" value="1" ng-model="functions.whereKeysAreEnable">
                                   <label for="whereKeysAreEnableOnline" class="radio-2x-label">
                                     <span class="badge badge-success">Online</span>
                                   </label>
                                 </div>
                                 <div class="col-md-3 col-xs-6 n-padding-l" style="margin-top: -0.6% !important;">
-                                    <input id="whereKeysAreEnableBuilding" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" name="whereKeysAreEnable" value="2" ng-model="tkupdate.whereKeysAreEnable">
+                                    <input id="whereKeysAreEnableBuilding" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" name="whereKeysAreEnable" value="2" ng-model="functions.whereKeysAreEnable">
                                     <label for="whereKeysAreEnableBuilding" class="radio-2x-label">
                                     <span class="badge badge-warning">Edificio</span>
                                     </label>
@@ -91,13 +91,13 @@
                                 </div>
                                 <div class="col-md-2 n-padding-r" style="width: 12% !important">
                                   <label class="switch switch-2x" for="isKeysEnable-set">
-                                      <input type="checkbox" class="warning" ng-click="modalConfirmation('isKeysEnable', 0, tkupdate)" ng-model="tkupdate.isKeysEnable" id="isKeysEnable-set">
+                                      <input type="checkbox" class="warning" ng-click="modalConfirmation('isKeysEnable', 0, functions)" ng-model="functions.isKeysEnable" id="isKeysEnable-set">
                                       <span class="slider slider-2x flat"></span>
                                   </label>
                                 </div>
                                 <div class="col-md-2">
-                                  <span ng-if="!tkupdate.isKeysEnable" class="badge badge-warning">No</span>
-                                  <span ng-if="tkupdate.isKeysEnable" class="badge badge-success">Si</span>
+                                  <span ng-if="!functions.isKeysEnable" class="badge badge-warning">No</span>
+                                  <span ng-if="functions.isKeysEnable" class="badge badge-success">Si</span>
                                 </div>
                               </div>
                             </div>
