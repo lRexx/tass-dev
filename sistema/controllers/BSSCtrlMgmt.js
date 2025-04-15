@@ -333,7 +333,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               case "isKeysEnable":
                 if (confirm==0){
                   $scope.keyObj=$scope.tkupdate;
-                  console.log($scope.functions)
+                  console.log($scope.functions);
+                  console.log($scope.keyObj);
                       //console.log(obj)
                       if($scope.functions.isKeysEnable){
                           $scope.mess2show="Los Llaveros han sido habilitados,     Confirmar?";
@@ -355,7 +356,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   }else{
                       $scope.keyObj.isKeysEnable=0;
                   }
-                  console.log($scope.buildingObj);
+                  console.log($scope.keyObj);
+                  console.log($scope.functions);
                   $scope.mainSwitchFn('apply_isKeysEnable',$scope.keyObj)
                 $('#confirmRequestModalCustom').modal('hide');
                 }else if (confirm==null){
@@ -2967,6 +2969,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             case "openTicket":
               $scope.rsAllKeychainListData = [];
               $scope.ticket = {'administration':undefined, 'keysMethod':{'name':undefined}, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'keysMethod':{}, 'userRequestBy':{}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':null, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
+              $scope.functions={'isKeysEnable': false, 'whereKeysAreEnable': null};
               $scope.rsNewKeychainList = [];
               $scope.list_new_keys = [];
               $scope.keys={"new":{}};
