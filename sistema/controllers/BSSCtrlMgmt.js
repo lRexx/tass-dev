@@ -62,6 +62,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
     $scope.filterCompanyKf = {'selected':undefined};
       $scope.listTickt = 0;
       $scope.filters={typeClient:'', typeTicket: '', topDH: '', searchFilter:'', idCompany: '', idAddress: '', ticketStatus: ''};
+      $scope.functions={'isKeysEnable': false, 'whereKeysAreEnable': null};
       $scope.dh = {'filterAddress': '', 'filterSearch': '', 'filterTop': '', 'filterProfile':'', 'filterTenantKf':''};
       $scope.ticket = {'administration':undefined, 'keysMethod':{'name':undefined}, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'keysMethod':{}, 'userRequestBy':{}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':null, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
       $scope.getCostByCustomer={'rate':{'idCustomer':null, 'idServiceType':null, 'idServiceTechnician':null}};
@@ -331,10 +332,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               break;
               case "isKeysEnable":
                 if (confirm==0){
-                  $scope.keyObj=obj;
-                  console.log($scope.keyObj)
+                  $scope.keyObj=$scope.tkupdate;
+                  console.log($scope.functions)
                       //console.log(obj)
-                      if($scope.keyObj.isKeysEnable){
+                      if($scope.functions.isKeysEnable){
                           $scope.mess2show="Los Llaveros han sido habilitados,     Confirmar?";
                           console.log("============================================================================");
                           console.log("Los Llaveros han sido habilitados");
@@ -346,9 +347,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           console.log("============================================================================");
                       }
                       console.log($scope.keyObj);
+                      console.log($scope.functions);
                 $('#confirmRequestModalCustom').modal('toggle');
                 }else if (confirm==1){
-                  if($scope.keyObj.isKeysEnable){
+                  if($scope.functions.isKeysEnable){
                       $scope.keyObj.isKeysEnable=1;
                   }else{
                       $scope.keyObj.isKeysEnable=0;
@@ -358,9 +360,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $('#confirmRequestModalCustom').modal('hide');
                 }else if (confirm==null){
                   if ($scope.keyObj.isKeysEnable==0 || $scope.keyObj.isKeysEnable==null){
-                      $scope.keyObj.isKeysEnable=false
+                      $scope.functions.isKeysEnable=false
                   }else{
-                      $scope.keyObj.isKeysEnable=true
+                      $scope.functions.isKeysEnable=true
                   }
                 }
               break;
@@ -3306,7 +3308,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.info("Internet: " +(obj.building.isHasInternetOnline === null ? "No" : "Si"));
               switch(obj.idKeySourceKf){
                 case "1": //STOCK
-                  $scope.tkupdate.whereKeysAreEnable = null;
+                  $scope.functions.whereKeysAreEnable = null;
                   switch(obj.idTypeDeliveryKf){
                     case "1"://RETIRO EN OFICINA
                       $scope.tkupdate.mess2show="El Pedido pasara a \"Listo para Retirar\", por favor,     Confirmar?";
@@ -3321,7 +3323,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   }
                 break;
                 case "2": //MANUAL
-                  $scope.tkupdate.whereKeysAreEnable = obj.building.isHasInternetOnline === null ? "2":"1";
+                  $scope.functions.whereKeysAreEnable = obj.building.isHasInternetOnline === null ? "2":"1";
                   switch(obj.idTypeDeliveryKf){
                     case "1": //RETIRO EN OFICINA
                       if(obj.building.isHasInternetOnline === null){ //NO INTERNET
