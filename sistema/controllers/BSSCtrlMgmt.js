@@ -337,14 +337,14 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log($scope.keyObj);
                       //console.log(obj)
                       if($scope.functions.isKeysEnable){
+                          $scope.mess2show="Los Llaveros no han sido habilitados,     Confirmar?";
+                          console.log("============================================================================");
+                          console.log("Los Llaveros no han sido habilitados");
+                          console.log("============================================================================");
+                      }else{
                           $scope.mess2show="Los Llaveros han sido habilitados,     Confirmar?";
                           console.log("============================================================================");
                           console.log("Los Llaveros han sido habilitados");
-                          console.log("============================================================================");
-                      }else{
-                          $scope.mess2show="Los Llaveros no han sido habilitados,     Confirmar y Aprobar?";
-                          console.log("============================================================================");
-                          console.log("Los Llaveros no han sido habilitados");
                           console.log("============================================================================");
                       }
                       console.log($scope.keyObj);
