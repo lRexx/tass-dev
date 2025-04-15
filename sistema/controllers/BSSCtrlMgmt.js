@@ -329,6 +329,41 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.mainSwitchFn('applySetMgmtKeys',$scope.keyObj)
                 }
               break;
+              case "apply_isKeysEnable":
+                if (confirm==0){
+                  $scope.keyObj=obj;
+                  console.log($scope.keyObj)
+                      //console.log(obj)
+                      if($scope.keyObj.isKeysEnable){
+                          $scope.mess2show="Los Llaveros han sido habilitados,     Confirmar?";
+                          console.log("============================================================================");
+                          console.log("Los Llaveros han sido habilitados");
+                          console.log("============================================================================");
+                      }else{
+                          $scope.mess2show="Los Llaveros no han sido habilitados,     Confirmar y Aprobar?";
+                          console.log("============================================================================");
+                          console.log("Los Llaveros no han sido habilitados");
+                          console.log("============================================================================");
+                      }
+                      console.log($scope.keyObj);
+                $('#confirmRequestModalCustom').modal('toggle');
+                }else if (confirm==1){
+                  if($scope.keyObj.isKeysEnable){
+                      $scope.keyObj.isKeysEnable=1;
+                  }else{
+                      $scope.keyObj.isKeysEnable=0;
+                  }
+                  console.log($scope.buildingObj);
+                  $scope.mainSwitchFn('apply_isKeysEnable',$scope.keyObj)
+                $('#confirmRequestModalCustom').modal('hide');
+                }else if (confirm==null){
+                  if ($scope.keyObj.isKeysEnable==0 || $scope.keyObj.isKeysEnable==null){
+                      $scope.keyObj.isKeysEnable=false
+                  }else{
+                      $scope.keyObj.isKeysEnable=true
+                  }
+                }
+              break;
               case "update":
                   if (confirm==0){
                       $scope.tenantObj=obj;
@@ -3322,6 +3357,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.tkupdate.idDeliveryCompanyKf="1";
                 }
               }*/
+            break;
+            case "apply_isKeysEnable":
+
             break;
             case "ticket_user":
               $('#userModalDetails').modal('show');
