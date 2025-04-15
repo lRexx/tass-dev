@@ -3359,7 +3359,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               }*/
             break;
             case "apply_isKeysEnable":
-
+              console.log(obj);
             break;
             case "ticket_user":
               $('#userModalDetails').modal('show');
