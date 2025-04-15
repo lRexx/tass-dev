@@ -329,7 +329,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.mainSwitchFn('applySetMgmtKeys',$scope.keyObj)
                 }
               break;
-              case "apply_isKeysEnable":
+              case "isKeysEnable":
                 if (confirm==0){
                   $scope.keyObj=obj;
                   console.log($scope.keyObj)
