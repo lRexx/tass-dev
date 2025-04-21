@@ -67,8 +67,8 @@ class Ticket_model extends CI_Model
 		$this->db->insert('tb_tickets_2' , array(
 			'codTicket' 				=> trim($codTicket),
 			'created_at'				=> $now->format('Y-m-d H:i:s'),
-			'idOtherDeliveryAddressKf' 	=> $idOtherDeliveryAddress ,
-			'idThirdPersonDeliveryKf' 	=> $idThirdPersonDelivery ,
+			'idOtherDeliveryAddressKf' 	=> $idOtherDeliveryAddress,
+			'idThirdPersonDeliveryKf' 	=> $idThirdPersonDelivery,
 			'idTypeTicketKf' 			=> @$ticket['idTypeTicketKf'],
 			'idTypeRequestFor' 			=> @$ticket['idTypeRequestFor'],
 			'idUserMadeBy' 				=> @$ticket['idUserMadeBy'],
@@ -1051,8 +1051,8 @@ class Ticket_model extends CI_Model
 				'autoApproved' 				=> @$ticket['autoApproved'],
 				'isNew' 					=> @$ticket['isNew'],
 				'idStatusTicketKf' 			=> @$ticket['idStatusTicketKf'],
-				'idOtherDeliveryAddressKf' 	=> $idOtherDeliveryAddress ,
-				'idThirdPersonDeliveryKf' 	=> $idThirdPersonDelivery ,
+				'idOtherDeliveryAddressKf' 	=> $idOtherDeliveryAddress,
+				'idThirdPersonDeliveryKf' 	=> $idThirdPersonDelivery,
 				'isDeliveryHasChanged'		=> @$ticket['isDeliveryHasChanged']
 			)
 		)->where("idTicket" , $ticket['idTicket'])->update("tb_tickets_2");
