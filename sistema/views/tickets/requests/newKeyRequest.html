@@ -377,6 +377,17 @@
 							</div>
 							<div ng-if="rsKeyProductsData.length==0" class="container-fluid justify-content-md-center">
 								<legend style="text-align: center;">Llaves disponibles</legend>
+								<div class="col-md-12" ng-if="ticket.building!=undefined && ticket.building.initial_delivery.length==1 && ticket.building.initial_delivery[0].expiration_state!=undefined && !ticket.building.initial_delivery[0].expiration_state">
+									<div class="alert alert-info" role="alert" >
+										<span style="padding: 4px !important;">
+											<strong>INFORMACION IMPORTANTE: </strong><br></span>
+											<ul>
+												<li><span>Se han cargado automaticamente ({{ticket.building.initial_delivery[0].initial_qtty}}) llaveros al pedido con consto $0.</li>
+												<li><span>Si desea agregar uno o más llaveros adicionales tendran un costo de $ {{ticket.building.initial_delivery[0].initial_price | number: 2}}</li>
+											</ul>
+										</span>
+									</div>
+								</div>
 								<div class="col-md-12 col-xs-12 form-group n-padding-l n-padding-r">
 									<div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay Llaves disponibles</h5></div>
 								</div>
