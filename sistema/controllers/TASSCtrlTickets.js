@@ -75,6 +75,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
     $scope.att= {'ownerOption':undefined}
     $scope.update={'user':{'fullNameUser':null, 'emailUser': null, 'phoneNumberUser': null, 'phoneLocalNumberUser': null, 'idAddresKf': null, 'idProfileKf': null, 'idTypeTenantKf': null, 'idCompanyKf': null, 'idTyepeAttendantKf': null, 'descOther': null, 'idDepartmentKf':null, 'isEdit': null, 'requireAuthentication': null, 'dni': null, 'idSysProfileFk': null, 'isCreateByAdmin': null, 'typeTenantChange':false}};
     $scope.thirdPerson = {};
+    $scope.initialLoopExecuted = false;
     $scope.selectedRequestKeyOwnerUser = undefined;
     $scope.selectedUser = undefined;
     $scope.selectSubType = false;
@@ -2517,13 +2518,15 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             ($scope.ticket.building.isStockInBuilding!=null && $scope.ticket.building.isStockInBuilding!='0' && $scope.ticket.building.isStockInBuilding=='1') && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')||
                             ($scope.ticket.building.isStockInOffice!=null && $scope.ticket.building.isStockInOffice!='0' && $scope.ticket.building.isStockInOffice=='1') && ($scope.ticket.building.isStockInBuilding==null || $scope.ticket.building.isStockInBuilding=='0')){
                             $scope.whoPickUpList.push({'id': 2, 'fullNameUser': "Encargado", 'type':"Otros"});
-                            var initialQtty = parseInt($scope.ticket.building.initial_delivery[0].initial_qtty, 10);
-                            console.log(initialQtty);
-                            if (!isNaN(initialQtty)) {
-                                for (let  vQtty = 0; vQtty < initialQtty;) {
-                                    console.log(`Looping: vQtty=${vQtty}, initialQtty=${initialQtty}`);
-                                    $scope.mainSwitchFn('addKeyFieldsToList', $scope.select.products.selected, $scope.rsCustomerAccessControlDoors);
-                                    vQtty++;
+                            if (!$scope.initialLoopExecuted) {
+                                $scope.initialLoopExecuted = true;
+                                var initialQtty = parseInt($scope.ticket.building.initial_delivery[0].initial_qtty, 10);
+                                console.log(initialQtty);
+                                if (!isNaN(initialQtty)) {
+                                    for (let  vQtty = 0; vQtty < initialQtty; vQtty++) {
+                                        console.log(`Looping: vQtty=${vQtty}, initialQtty=${initialQtty}`);
+                                        $scope.mainSwitchFn('addKeyFieldsToList', $scope.select.products.selected, $scope.rsCustomerAccessControlDoors);
+                                    }
                                 }
                             }
                         }
