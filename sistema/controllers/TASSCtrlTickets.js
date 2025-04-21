@@ -2521,7 +2521,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             console.log(initialQtty);
                             if (!isNaN(initialQtty)) {
                                 console.log(`Looping: qtty=${qtty}, initialQtty=${initialQtty}`);
-                                for (var qtty = 0; qtty < initialQtty; qtty++) {
+                                for (let  vQtty = 0; vQtty < initialQtty; vQtty++) {
                                     $scope.mainSwitchFn('addKeyFieldsToList', $scope.select.products.selected, $scope.rsCustomerAccessControlDoors);
                                 }
                             }
