@@ -2519,11 +2519,12 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $scope.whoPickUpList.push({'id': 2, 'fullNameUser': "Encargado", 'type':"Otros"});
                             var initialQtty = parseInt($scope.ticket.building.initial_delivery[0].initial_qtty, 10);
                             console.log(initialQtty);
-                            //if (!isNaN(initialQtty)) {
-                            //    for (var qtty = 0; qtty < initialQtty; qtty++) {
-                            //        $scope.mainSwitchFn('addKeyFieldsToList', $scope.select.products.selected, $scope.rsCustomerAccessControlDoors);
-                            //    }
-                            //}
+                            if (!isNaN(initialQtty)) {
+                                console.log(`Looping: qtty=${qtty}, initialQtty=${initialQtty}`);
+                                for (var qtty = 0; qtty < initialQtty; qtty++) {
+                                    $scope.mainSwitchFn('addKeyFieldsToList', $scope.select.products.selected, $scope.rsCustomerAccessControlDoors);
+                                }
+                            }
                         }
                         if ($scope.ticket.building!=undefined && (($scope.ticket.building.initial_delivery.length==0) || ($scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && $scope.ticket.building.initial_delivery[0].expiration_state))){
                             $scope.whoPickUpList.push({'id': 3, 'fullNameUser': "Tercera Persona", 'type':"Otros"});
