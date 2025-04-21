@@ -2517,8 +2517,11 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             ($scope.ticket.building.isStockInBuilding!=null && $scope.ticket.building.isStockInBuilding!='0' && $scope.ticket.building.isStockInBuilding=='1') && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')||
                             ($scope.ticket.building.isStockInOffice!=null && $scope.ticket.building.isStockInOffice!='0' && $scope.ticket.building.isStockInOffice=='1') && ($scope.ticket.building.isStockInBuilding==null || $scope.ticket.building.isStockInBuilding=='0')){
                             $scope.whoPickUpList.push({'id': 2, 'fullNameUser': "Encargado", 'type':"Otros"});
-                            for (var qtty = 0; qtty<$scope.ticket.building.initial_delivery[0].initial_qtty; qtty++){
-                                $scope.mainSwitchFn('addKeyFieldsToList', $scope.select.products.selected, $scope.rsCustomerAccessControlDoors)
+                            var initialQtty = parseInt($scope.ticket.building.initial_delivery[0].initial_qtty, 10);
+                            if (!isNaN(initialQtty)) {
+                                for (var qtty = 0; qtty < initialQtty; qtty++) {
+                                    $scope.mainSwitchFn('addKeyFieldsToList', $scope.select.products.selected, $scope.rsCustomerAccessControlDoors);
+                                }
                             }
                         }
                         if ($scope.ticket.building!=undefined && (($scope.ticket.building.initial_delivery.length==0) || ($scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && $scope.ticket.building.initial_delivery[0].expiration_state))){
