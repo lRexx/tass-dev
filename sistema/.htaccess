@@ -1,22 +1,23 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
 
-# Filtra Referers permitidos
+    # Soporte para URLs amigables de AngularJS
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.html [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    <FilesMatch "\.(html|js|css)$">
+        Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+        Header set Pragma "no-cache"
+        Header set Expires 0
+    </FilesMatch>
+</IfModule>
+
+# Protección de acceso por Referer
 SetEnvIf Referer "^https?://(www\.)?devbss\.sytes\.net" allowed_referer
 SetEnvIf Referer "^https?://(www\.)?dev\.bss\.com\.ar" allowed_referer
 SetEnvIf Referer "^https?://(www\.)?sistema\.bss\.com\.ar" allowed_referer
 SetEnvIf Referer "^https?://(www\.)?mi\.bss\.com\.ar" allowed_referer
-
-# Puedes usar esta variable (allowed_referer) más adelante si querés hacer restricciones por referer
-
-# 🔥 Evitar caché en archivos HTML, JS y CSS
-<FilesMatch "\.(html|js|css)$">
-    FileETag None
-    <IfModule mod_headers.c>
-        Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
-        Header set Pragma "no-cache"
-        Header set Expires 0
-    </IfModule>
-</FilesMatch>
-
-# (Opcional) Forzar HTTPS si lo deseas
-# RewriteCond %{HTTPS} off
-# RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
