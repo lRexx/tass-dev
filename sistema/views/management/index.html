@@ -197,7 +197,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="clearfix"> </div>
                                     <!-- Address for Onwers/AdminConsorcios/Attendants-->
                                     <div class="form-group col-md-4 col-xs-12 col-sm-4 col-xs-padding" ng-disable="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 || (sysLoggedUser.idProfileKf==6 && sysLoggedUser.idTypeTenantKf==2)" ng-if="sysLoggedUser.idProfileKf==3 || (((sysLoggedUser.idProfileKf==4 && isHomeSelected) || sysLoggedUser.idProfileKf==6) && sysLoggedUser.idTypeTenantKf==1)" style=" margin-left: -1em;">
                                         <label style="padding-left: 15px;">Consorcio</label>
@@ -229,6 +228,7 @@
                                             </label>
                                         </div>
                                     </div>
+                                    <div class="clearfix"> </div>
                                     <!-- Filter Type of Ticket for Company User-->
                                     <div ng-if="sysLoggedUser.idProfileKf==2" class="form-group col-md-4 col-xs-12">
                                         <label>Tipo de Ticket</label>
