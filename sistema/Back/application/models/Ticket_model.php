@@ -2569,7 +2569,7 @@ class Ticket_model extends CI_Model
 				return null;
 			}
 		}else{
-			$this->db->select("*_");
+			$this->db->select("*");
 			$this->db->from("tb_tickets_2");
 			if (@$data['isHasStockInBuilding']=='1'){
 				$this->db->join('tb_clients', 'tb_clients.idClient = tb_tickets_2.idBuildingKf', 'left');
@@ -2644,8 +2644,11 @@ class Ticket_model extends CI_Model
 			if (@$data['isBillingInitiated']=='1'){
 				$where = "(ISNULL(isBillingInitiated) OR isBillingInitiated = '".@$data['isBillingInitiated']."')";
 				$this->db->where($where);
-			}else{
+			}else if (@$data['isBillingInitiated']=='0'){
 				$where = "(ISNULL(isBillingInitiated) OR isBillingInitiated = '".@$data['isBillingInitiated']."')";
+				$this->db->where($where);
+			}else{
+				$where = "(ISNULL(isBillingInitiated) OR isBillingInitiated = '0' OR isBillingInitiated = '1')";
 				$this->db->where($where);
 			}
 			//BILLING UPLOADED
