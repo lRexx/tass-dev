@@ -99,7 +99,7 @@
                                         <label ng-if="!customerSearch.strict" style="cursor: pointer;" class="badge badge-warning">Busquéda exacta</label>
                                         </div>
                                     </div>
-                                    <div ng-if="sysLoggedUser.idProfileKf=='1'" ng-class="col-md-12">
+                                    <div ng-if="sysLoggedUser.idProfileKf=='1'" ng-class="col-md-12" style="padding-bottom: 5% !important;">
                                         <div class="col-md-2 col-xs-6">
                                             <input id="typeClientAll" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" ng-checked="true" name="typeClient" value="" ng-model="customerSearch.typeClient" checked="checked">
                                             <label for="typeClientAll" class="radio-2x-label">
@@ -288,7 +288,7 @@
                                         {	'has-success': 
                                             filters.typDelivery.idTypeDelivery!='' && filtersTicket.typDelivery.$valid,
                                         }">
-                                        <label>Tipo de envio</label>
+                                        <label>Tipo de entrega</label>
                                         <div class="col-xl-12 selectContainer">
                                         <div class="input-group">
                                                 <span class="input-group-addon"><i class="fas fa-tag"></i></span>
