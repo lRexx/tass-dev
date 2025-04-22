@@ -2571,6 +2571,10 @@ class Ticket_model extends CI_Model
 		}else{
 			$this->db->select("*");
 			$this->db->from("tb_tickets_2");
+			if (@$data['isHasStockInBuilding']=='1'){
+				$this->db->join('tb_clients', 'tb_clients.idClient = tb_tickets_2.idBuildingKf', 'left');
+				$this->db->where('tb_clients.isStockInBuilding  IS NOT NULL');
+			}
 			//TICKET TYPE
 			if (@$data['idTypeTicketKf']!=''){
 				$this->db->where("idTypeTicketKf = " , @$data['idTypeTicketKf']);
