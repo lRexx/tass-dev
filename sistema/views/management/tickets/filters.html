@@ -62,7 +62,7 @@
                             </div>
                             </div>
                             <div class="clearfix"> </div>
-                            <div ng-if="sysLoggedUser.idProfileKf=='1'" class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-l n-padding-r" ng-class="{'col-md-6 col-xs-6 col-sm-6': listOffices.length>0}">
+                            <div ng-if="sysLoggedUser.idProfileKf=='1'" class="form-group col-md-8 col-xs-12 col-sm-8 n-padding-l n-padding-r" ng-class="{'col-md-4 col-xs-12 col-sm-4': listOffices.length>0}">
                             <label style="padding-left: 15px" ng-show="listOffices.length>=0">{{customerFound.ClientType}}</label>
                             <div class="input-group s-ui-width s-ui-m-left">
                                 <span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
@@ -101,7 +101,7 @@
                                 </div>
                             </div>-->
                             <!-- Address for Admins/BSS-->
-                            <div ng-if="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && listOffices.length>0 " ng-disable="sysLoggedUser.idProfileKf==3 || sysLoggedUser.idProfileKf==5 || sysLoggedUser.idProfileKf==6" class="form-group col-md-6 col-xs-12 n-padding-r">
+                            <div ng-if="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && listOffices.length>0 " ng-disable="sysLoggedUser.idProfileKf==3 || sysLoggedUser.idProfileKf==5 || sysLoggedUser.idProfileKf==6" class="form-group col-md-4 col-xs-12 n-padding-r">
                                 <label ng-show="sysLoggedUser.idProfileKf==2">Sucursal</label>
                                 <label ng-show="sysLoggedUser.idProfileKf==1">Sucursal o Consorcio</label>
                                 <label ng-show="sysLoggedUser.idProfileKf==4">Consorcio</label> 
@@ -141,6 +141,16 @@
                                             </ui-select-no-choice>
                                         </ui-select>
                                     </div>
+                                </div>
+                            </div>
+                            <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-4 col-xs-12">
+                                <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
+                                <div class="col-md-12 col-xs-12" ><label class="clf-size">Entrega inicial <span class="badge badge-warning">activa</span></label></div>
+                                <div class="col-md-4 col-xs-4">
+                                    <label class="switch switch-2x" for="isInitialDeliveryActive-search">
+                                        <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isInitialDeliveryActive" id="isInitialDeliveryActive-search">
+                                        <span class="slider slider-2x flat"></span>
+                                    </label>
                                 </div>
                             </div>
                             <!-- Filter Type of Ticket for Company User-->
@@ -241,16 +251,6 @@
                                         <option value="">Todos</option>
                                         </select>
                                 </div>
-                                </div>
-                            </div>
-                            <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-4 col-xs-12">
-                                <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
-                                <div class="col-md-12 col-xs-12" ><label class="clf-size">Entrega inicial <span class="badge badge-warning">activa</span></label></div>
-                                <div class="col-md-4 col-xs-4">
-                                    <label class="switch switch-2x" for="isInitialDeliveryActive-search">
-                                        <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isInitialDeliveryActive" id="isInitialDeliveryActive-search">
-                                        <span class="slider slider-2x flat"></span>
-                                    </label>
                                 </div>
                             </div>
                             <!-- Filter Top -->
