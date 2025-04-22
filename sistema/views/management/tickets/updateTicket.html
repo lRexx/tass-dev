@@ -106,10 +106,9 @@
                               <div class="col-md-12 col-xs-12">
                                 <span ng-if="tkupdate.building!=null && tkupdate.building!=undefined"> Administración: {{tkupdate.clientAdmin.name}}</span>
                               </div>
-                              <div class="col-md-12 col-xs-12"><span class="badge badge-default">sistema web</span><span> N° de Cliente : {{tkupdate.building.idClient}}</span></div>
+                              <div class="col-md-12 col-xs-12"><span> N° de Cliente : {{tkupdate.building.idClient}}</span>&nbsp;<span class="badge badge-default">sistema web</span></div>
                               <div class="col-md-12 col-xs-12">
-                                <span class="badge badge-default">sistema de gestion</span>
-                                <span ng-if="tkupdate.building.idClientAssociated_SE!=null"> N° de Cliente : {{tkupdate.building.idClientAssociated_SE}}</span>
+                                <span ng-if="tkupdate.building.idClientAssociated_SE!=null"> N° de Cliente : {{tkupdate.building.idClientAssociated_SE}}</span>&nbsp;<span class="badge badge-default">sistema de gestion</span>
                                 <span ng-if="tkupdate.building.idClientAssociated_SE==null"> N° de Cliente : <label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="no asignado" class="label label-default">n/a</label></span>
                               </div>
                               <div ng-if="tkupdate.building!=null && tkupdate.building!=undefined" class="col-md-12"><span> Consorcio: {{tkupdate.building.name}}</span></div>
