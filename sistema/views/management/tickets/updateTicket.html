@@ -37,6 +37,7 @@
                               <div class="col-md-12 col-xs-12">
                                 <span> N° de Ticket: {{tkupdate.codTicket}}</span>
                               </div>
+                              <div class="col-md-12"><span>Creado: </span><span>{{ tkupdate.created_at | toDate | date:'dd-MM-yyyy HH:mm:ss' }}</span></div>
                               <div class="col-md-12"><span>Realizado por: {{tkupdate.userMadeBy.fullNameUser}}</span> <span data-toggle="tooltip" data-placement="top"  title="Perfil" style="font-size: 85%;" class="badge badge-warning">{{tkupdate.userMadeBy.nameProfile}}</span></div>
                               <div class="col-md-12"><span>Solicitado por: {{tkupdate.userRequestBy.fullNameUser}}</span> <span data-toggle="tooltip" data-placement="top"  title="Perfil" style="font-size: 85%;" class="badge badge-warning">{{tkupdate.userRequestBy.nameProfile}}</span></div>
                               <div class="col-md-12">
@@ -123,7 +124,6 @@
                                 <span style="color:rgb(250, 107, 107);background: #fff;border-radius: 10px;padding-left: 5px; padding-right: 5px; font-size: 18px;" ng-if="tkupdate.total!=null && tkupdate.total!=undefined && tkupdate.total!='NaN'">{{tkupdate.total | number:2}}</span>
                                 <span ng-if="tkupdate.total==null || tkupdate.total==undefined || tkupdate.total=='NaN'" class="label label-default">n/a</span>
                               </div>-->
-                              <div class="col-md-12"><span>Creado: </span><span>{{ tkupdate.created_at | toDate | date:'dd-MM-yyyy HH:mm:ss' }}</span></div>
                               <div ng-if="sysLoggedUser.idProfileKf==1" class="col-md-12"><span>Internet: </span>
                                   <!-- It Has internet -->
                                   <span ng-if="tkupdate.building.isHasInternetOnline!=undefined && tkupdate.building.isHasInternetOnline=='true'" data-toggle="tooltip" data-placement="top" title="Si" class="font-size-18px"><i class="text-success fas fa-check-circle"></i></span>
