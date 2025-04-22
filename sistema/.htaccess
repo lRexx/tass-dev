@@ -1,5 +1,3 @@
-# Activa el motor de reescritura
-RewriteEngine on
 
 # Filtra Referers permitidos
 SetEnvIf Referer "^https?://(www\.)?devbss\.sytes\.net" allowed_referer
