@@ -341,15 +341,15 @@
                                     </div>
                                     <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-4 col-xs-12">
                                         <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
-                                        <div class="col-md-12 col-xs-12" ><label class="clf-size">Pedidos gestionados</label></div>
+                                        <div class="col-md-12 col-xs-12" ><label class="clf-size">Forma de Gestión</label></div>
                                         <div class="col-md-3 col-xs-6 n-padding-l" style="margin-top: -0.6% !important;">
-                                            <input id="mgmtKeyMethod" class="radio-2x" type="radio" ng-change="mainSwitchFn('search', null)" name="whereKeysAreEnable" value="1" ng-model="filters.mgmtKeyMethod">
+                                            <input id="mgmtKeyMethod" class="radio-2x" type="radio" ng-change="mainSwitchFn('search', null)" name="mgmtKeyMethod" value="1" ng-model="filters.mgmtKeyMethod">
                                             <label for="mgmtKeyMethod" class="radio-2x-label">
                                             <span class="badge badge-success">Stock</span>
                                             </label>
                                         </div>
                                         <div class="col-md-3 col-xs-6 n-padding-l" style="margin-top: -0.6% !important;">
-                                            <input id="mgmtKeyMethod" class="radio-2x" type="radio" ng-change="mainSwitchFn('search', null)" name="whereKeysAreEnable" value="2" ng-model="filters.mgmtKeyMethod">
+                                            <input id="mgmtKeyMethod" class="radio-2x" type="radio" ng-change="mainSwitchFn('search', null)" name="mgmtKeyMethod" value="2" ng-model="filters.mgmtKeyMethod">
                                             <label for="mgmtKeyMethod" class="radio-2x-label">
                                             <span class="badge badge-warning">Manual</span>
                                             </label>
