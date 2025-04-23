@@ -702,13 +702,13 @@
         </div>
         <div class="col-md-10 col-sm-10 col-xs-10 " style="margin-top: 1%;">
             <label class="switch switch-2x" for="customer-select-list">
-              <input type="checkbox" class="success" ng-click="mainSwitchFn('customers','checkList', select.checkList.selected)"  ng-model="select.checkList.selected" id="customer-select-list">
+              <input type="checkbox" class="success" ng-click="mainSwitchFn('checkAllList', select.checkList.selected)"  ng-model="select.checkList.selected" id="customer-select-list">
               <span class="slider slider-2x flat"></span>
             </label>
             <span style="cursor: pointer; margin-top: -2.3%;" class="badge ng-scope" ng-class="{'badge-success':select.checkList.selected}">Seleccionar los pedidos de la lista</span>
-            <button ng-if="select.checkList.selected || listItemSelected" style="margin-left: 20px; margin-top: -2em;" type="button" ng-click="mainSwitchFn('ticket','process_list_completed', rsCustomerListData)" ng-disabled="select.checkList.selected || listItemSelected" class="btn btn-labeled btn-success">
+            <button ng-if="select.checkList.selected || listItemSelected" style="margin-left: 20px; margin-top: -2em;" type="button" ng-click="mainSwitchFn('process_list_completed', listTickt)" ng-disabled="select.checkList.selected || listItemSelected" class="btn btn-labeled btn-success">
                 <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Entregados</button>&nbsp;
-            <button ng-if="select.checkList.selected || listItemSelected" style="margin-left: 20px; margin-top: -2em;" type="button" ng-click="mainSwitchFn('ticket','process_list_keysEnabledOnly', rsCustomerListData)" ng-disabled="select.checkList.selected || listItemSelected" class="btn btn-labeled btn-warning">
+            <button ng-if="select.checkList.selected || listItemSelected" style="margin-left: 20px; margin-top: -2em;" type="button" ng-click="mainSwitchFn('process_list_keysEnabledOnly', listTickt)" ng-disabled="select.checkList.selected || listItemSelected" class="btn btn-labeled btn-warning">
                 <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Habilitados</button>
         </div>
         <div class="col-md-12 col-xs-12 n-padding-l n-padding-r">
