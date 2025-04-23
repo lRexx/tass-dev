@@ -3370,6 +3370,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             case "apply_isKeysEnable":
               console.log(obj);
             break;
+            case "check_list_item":
+              for (var key in obj){
+                  if (obj[key].selected){
+                      $scope.listItemSelected=true;
+                      break;
+                  }else{
+                      $scope.listItemSelected=false;
+                  }
+              }
+            break;
             case "ticket_user":
               $('#userModalDetails').modal('show');
             break;
