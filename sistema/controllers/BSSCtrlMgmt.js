@@ -3370,7 +3370,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             case "apply_isKeysEnable":
               console.log(obj);
             break;
-            case "checkList":
+            case "checkAllList":
               console.log($scope.select.checkList.selected);
               if ($scope.select.checkList.selected){
                   for (var key in $scope.listTickt){

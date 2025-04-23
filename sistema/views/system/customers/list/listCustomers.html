@@ -29,7 +29,7 @@
         <!--<tr class="animate-repeat" style="align-content: center; cursor: pointer;"  dir-paginate="item in rsCustomerListData|orderBy:idClient:reverse|filter:searchboxfilter|itemsPerPage:10">-->
         <td class="media-middle text-center" style="vertical-align: middle;">
           <label class="switch switch-2x" for="customer-{{item.idClient}}">
-            <input type="checkbox" class="success" ng-model="item.selected" ng-click="mainSwitchFn('customers','check_list_item', rsCustomerListData)" id="customer-{{item.idClient}}">
+            <input type="checkbox" class="success" ng-model="item.selected" ng-click="mainSwitchFn('check_list_item', rsCustomerListData)" id="customer-{{item.idClient}}">
             <span class="slider slider-2x flat"></span>
           </label>
         </td>
