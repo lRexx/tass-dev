@@ -72,6 +72,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
       $scope.deliveryCostFree=0;
       $scope.update={'ticket':{}, 'user':{}};
       $scope.tmpKey={'new':{}};
+      $scope.select={'checkList':{'selected':undefined}};
       /*DATE PICKER*/
       $scope.formats = ['dd-MM-yyyy', 'dd/MM/yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
       $scope.format = $scope.formats[1];
