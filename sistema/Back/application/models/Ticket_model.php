@@ -2651,6 +2651,11 @@ class Ticket_model extends CI_Model
 				$where = "(ISNULL(isBillingInitiated) OR isBillingInitiated = '0' OR isBillingInitiated = '1')";
 				$this->db->where($where);
 			}
+			//MGMT METHOD
+			if (@$data['idMgmtMethodKf']!='' && @$data['idMgmtMethodKf']!=null){
+				$where = "(idMgmtMethodKf = '".@$data['isBillingInitiated']."')";
+				$this->db->where($where);
+			}
 			//BILLING UPLOADED
 			if (@$data['isBillingUploaded']=='1'){
 				$where = "(ISNULL(isBillingUploaded) OR isBillingUploaded != '".@$data['isBillingUploaded']."')";
