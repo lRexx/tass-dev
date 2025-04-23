@@ -3371,7 +3371,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.log(obj);
             break;
             case "checkList":
-              //console.log($scope.select.checkList.selected);
+              console.log($scope.select.checkList.selected);
               if ($scope.select.checkList.selected){
                   for (var key in $scope.listTickt){
                       $scope.listTickt[key].selected=true;
@@ -3384,6 +3384,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.mainSwitchFn('check_list_item', $scope.listTickt);
           break;
             case "check_list_item":
+              console.log(obj);
               for (var key in obj){
                   if (obj[key].selected){
                       $scope.listItemSelected=true;
