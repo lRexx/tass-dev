@@ -4878,7 +4878,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         $scope.dashboard.tickets.completed          = response.data.response.dashboard.Entregado;
                         $scope.dashboard.tickets.pyment_pending     = response.data.response.dashboard.Pago_Pendiente;
                         $scope.dashboard.tickets.in_progress        = response.data.response.dashboard.En_preparacion;
-                        $scope.dashboard.tickets.delivery_pending   = response.data.response.dashboard.Pendiente_de_envio;
+                        $scope.dashboard.tickets.delivery_pending   = response.data.response.dashboard.Pendiente_de_entrega;
                         $scope.dashboard.tickets.in_transit         = response.data.response.dashboard.En_Ruta;
                         $scope.dashboard.tickets.pickup_ready       = response.data.response.dashboard.Listo_para_Retirar;
                         $scope.dashboard.tickets.canceled           = response.data.response.dashboard.Cancelado;
