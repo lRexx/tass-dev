@@ -2653,7 +2653,7 @@ class Ticket_model extends CI_Model
 			}
 			//MGMT METHOD
 			if (@$data['idMgmtMethodKf']!='' && @$data['idMgmtMethodKf']!=null){
-				$where = "(idMgmtMethodKf = '".@$data['isBillingInitiated']."')";
+				$where = "(idMgmtMethodKf = '".@$data['idMgmtMethodKf']."')";
 				$this->db->where($where);
 			}
 			//BILLING UPLOADED
