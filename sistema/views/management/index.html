@@ -343,6 +343,12 @@
                                         <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
                                         <div class="col-md-12 col-xs-12" ><label class="clf-size">Forma de Gestión</label></div>
                                         <div class="col-md-3 col-xs-6 n-padding-l" style="margin-top: -0.6% !important;">
+                                            <input id="mgmtAllKeyMethod" class="radio-2x" type="radio" ng-change="mainSwitchFn('search', null)" name="mgmtKeyMethod" value="" ng-model="filters.mgmtKeyMethod">
+                                            <label for="mgmtAllKeyMethod" class="radio-2x-label">
+                                            <span class="badge badge-default">Todos</span>
+                                            </label>
+                                        </div>
+                                        <div class="col-md-3 col-xs-6 n-padding-l" style="margin-top: -0.6% !important;">
                                             <input id="mgmtStockKeyMethod" class="radio-2x" type="radio" ng-change="mainSwitchFn('search', null)" name="mgmtKeyMethod" value="1" ng-model="filters.mgmtKeyMethod">
                                             <label for="mgmtStockKeyMethod" class="radio-2x-label">
                                             <span class="badge badge-success">Stock</span>
