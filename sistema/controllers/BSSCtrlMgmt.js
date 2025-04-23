@@ -2742,6 +2742,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.monitor.filter.isBillingUploaded   = null;
                   $scope.monitor.filter.isPaymentSucceeded  = null;
                   $scope.monitor.filter.topfilter           = $scope.filters.topDH;
+                  $scope.monitor.filter.idMgmtMethodKf      = null;
                   $scope.listTickets($scope.monitor.filter);
                 break;
                 case "4":
