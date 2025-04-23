@@ -705,7 +705,7 @@
               <input type="checkbox" class="success" ng-click="mainSwitchFn('customers','checkList', select.checkList.selected)"  ng-model="select.checkList.selected" id="customer-select-list">
               <span class="slider slider-2x flat"></span>
             </label>
-            <span style="cursor: pointer; margin-top: -2.3%;" class="badge ng-scope" ng-class="{'badge-success':select.checkList.selected}">Seleccionar todos los pedidos</span>
+            <span style="cursor: pointer; margin-top: -2.3%;" class="badge ng-scope" ng-class="{'badge-success':select.checkList.selected}">Seleccionar los pedidos de la lista</span>
             <button ng-if="select.checkList.selected || listItemSelected" style="margin-left: 20px; margin-top: -2em;" type="button" ng-click="mainSwitchFn('ticket','process_list_completed', rsCustomerListData)" ng-disabled="select.checkList.selected || listItemSelected" class="btn btn-labeled btn-success">
                 <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Entregados</button>&nbsp;
             <button ng-if="select.checkList.selected || listItemSelected" style="margin-left: 20px; margin-top: -2em;" type="button" ng-click="mainSwitchFn('ticket','process_list_keysEnabledOnly', rsCustomerListData)" ng-disabled="select.checkList.selected || listItemSelected" class="btn btn-labeled btn-warning">
