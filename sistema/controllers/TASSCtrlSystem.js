@@ -590,11 +590,11 @@ system.controller('SystemCtrl', function($scope, $location, $rootScope, $routePa
                     }
                 });
             }
-            $scope.pageChanged = function(){
-                //console.info($scope.pagination.pageIndex);
-                var pagIndex = ($scope.pagination.pageIndex-1)*($scope.pagination.pageSizeSelected);
-                $scope.getCustomersListFn(null, $scope.customersSearch.isNotCliente, $scope.customersSearch.idClientTypeFk, $scope.customerSearch.isInDebt, $scope.customerSearch.isStockInBuilding, $scope.customerSearch.isStockInOffice, pagIndex, $scope.pagination.pageSizeSelected);
-            }
+            //$scope.pageChanged = function(){
+            //    //console.info($scope.pagination.pageIndex);
+            //    var pagIndex = ($scope.pagination.pageIndex-1)*($scope.pagination.pageSizeSelected);
+            //    $scope.getCustomersListFn(null, $scope.customersSearch.isNotCliente, $scope.customersSearch.idClientTypeFk, $scope.customerSearch.isInDebt, $scope.customerSearch.isStockInBuilding, $scope.customerSearch.isStockInOffice, pagIndex, $scope.pagination.pageSizeSelected);
+            //}
         /**************************************************
         *                                                 *
         *           GET CUSTOMER LIST FUNCTION            *
@@ -1304,16 +1304,21 @@ system.controller('SystemCtrl', function($scope, $location, $rootScope, $routePa
                 });
             };
             $scope.pageChanged = function(){
-                console.info($scope.pagination.pageIndex);
-                console.log("$scope.sysContent: "+$scope.sysContent);
-                var pagIndex = ($scope.pagination.pageIndex-1)*($scope.pagination.pageSizeSelected);
-                var idKeychainStatus = 1;
-                if ($scope.sysContent=='listKeys'){
-                    $scope.getKeychainListFn($scope.customerFound.idClient,null, $scope.select.filterCategoryKey,idKeychainStatus,$scope.select.idDepartmenKf,pagIndex,$scope.pagination.pageSizeSelected, false, false);
+                if ($scope.sysContent == 'registeredCustomers'){
+                    //console.info($scope.pagination.pageIndex);
+                    var pagIndex = ($scope.pagination.pageIndex-1)*($scope.pagination.pageSizeSelected);
+                    $scope.getCustomersListFn(null, $scope.customersSearch.isNotCliente, $scope.customersSearch.idClientTypeFk, $scope.customerSearch.isInDebt, $scope.customerSearch.isStockInBuilding, $scope.customerSearch.isStockInOffice, pagIndex, $scope.pagination.pageSizeSelected);
                 }else{
-                    $scope.getKeychainProcessFn($scope.select.idTypeTicketKf,$scope.customerFound.idClient,null,$scope.select.filterCategoryKey,pagIndex,$scope.pagination.pageSizeSelected, false, false);
+                    console.info($scope.pagination.pageIndex);
+                    console.log("$scope.sysContent: "+$scope.sysContent);
+                    var pagIndex = ($scope.pagination.pageIndex-1)*($scope.pagination.pageSizeSelected);
+                    var idKeychainStatus = 1;
+                    if ($scope.sysContent=='listKeys'){
+                        $scope.getKeychainListFn($scope.customerFound.idClient,null, $scope.select.filterCategoryKey,idKeychainStatus,$scope.select.idDepartmenKf,pagIndex,$scope.pagination.pageSizeSelected, false, false);
+                    }else{
+                        $scope.getKeychainProcessFn($scope.select.idTypeTicketKf,$scope.customerFound.idClient,null,$scope.select.filterCategoryKey,pagIndex,$scope.pagination.pageSizeSelected, false, false);
+                    }
                 }
-                
             }
             $scope.slider_keys = {
                 value: 10,
