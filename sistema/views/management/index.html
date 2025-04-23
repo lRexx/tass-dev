@@ -706,9 +706,9 @@
               <span class="slider slider-2x flat"></span>
             </label>
             <span style="cursor: pointer; margin-top: -2.3%;" class="badge ng-scope" ng-class="{'badge-success':select.checkList.selected}">Seleccionar todos los pedidos</span>
-            <button ng-if="select.checkList.selected || listItemSelected" style="margin-left: 20px; margin-top: -2em;" type="button" ng-click="mainSwitchFn('ticket','process_list_completed', rsCustomerListData)" ng-disabled="ticket.keysMethod.name==undefined || rsNewKeychainList.length!=tkupdate.keys.length" class="btn btn-labeled btn-success">
+            <button ng-if="select.checkList.selected || listItemSelected" style="margin-left: 20px; margin-top: -2em;" type="button" ng-click="mainSwitchFn('ticket','process_list_completed', rsCustomerListData)" ng-disabled="select.checkList.selected || listItemSelected" class="btn btn-labeled btn-success">
                 <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Entregados</button>&nbsp;
-            <button ng-if="select.checkList.selected || listItemSelected" style="margin-left: 20px; margin-top: -2em;" type="button" ng-click="mainSwitchFn('ticket','process_list_keysEnabledOnly', rsCustomerListData)" ng-disabled="ticket.keysMethod.name==undefined || rsNewKeychainList.length!=tkupdate.keys.length" class="btn btn-labeled btn-warning">
+            <button ng-if="select.checkList.selected || listItemSelected" style="margin-left: 20px; margin-top: -2em;" type="button" ng-click="mainSwitchFn('ticket','process_list_keysEnabledOnly', rsCustomerListData)" ng-disabled="select.checkList.selected || listItemSelected" class="btn btn-labeled btn-warning">
                 <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Habilitados</button>
         </div>
         <div class="col-md-12 col-xs-12 n-padding-l n-padding-r">
