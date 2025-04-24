@@ -700,12 +700,12 @@
                 <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options" style="width: 100% !important; min-width: 200px;"></rzslider>
             </div>
         </div>
-        <div class="col-md-10 col-sm-10 col-xs-10 " style="margin-top: 1%;">
+        <div ng-if="filters.idDeliveryCompanyKf!=undefined && filters.idDeliveryCompanyKf!='3' && filters.idTypeDeliveryKf!=undefined && filters.idTypeDeliveryKf=='2' && filters.idStatusTicketKf=='4'" class="col-md-10 col-sm-10 col-xs-10 " style="margin-top: 1%;">
             <label class="switch switch-2x" for="customer-select-list">
               <input type="checkbox" class="success" ng-click="mainSwitchFn('checkAllList', select.checkList.selected)"  ng-model="select.checkList.selected" id="customer-select-list">
               <span class="slider slider-2x flat"></span>
             </label>
-            <span ng-if="filters.idDeliveryCompanyKf!=undefined && filters.idDeliveryCompanyKf!='3' && filters.idTypeDeliveryKf!=undefined && filters.idTypeDeliveryKf=='2' && filters.idStatusTicketKf=='4'" style="cursor: pointer; margin-top: -2.3%;" class="badge ng-scope" ng-class="{'badge-success':select.checkList.selected}">Seleccionar los pedidos de la lista</span>
+            <span style="cursor: pointer; margin-top: -2.3%;" class="badge ng-scope" ng-class="{'badge-success':select.checkList.selected}">Seleccionar los pedidos de la lista</span>
             <button ng-if="select.checkList.selected || listItemSelected" style="margin-left: 20px; margin-top: -2em;" type="button" ng-click="mainSwitchFn('process_list_completed', listTickt)" ng-disabled="!select.checkList.selected || !listItemSelected" class="btn btn-labeled btn-success">
                 <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Entregados</button>&nbsp;
             <!--<button ng-if="select.checkList.selected || listItemSelected" style="margin-left: 20px; margin-top: -2em;" type="button" ng-click="mainSwitchFn('process_list_keysEnabledOnly', listTickt)" ng-disabled="!select.checkList.selected || !listItemSelected" class="btn btn-labeled btn-warning">
