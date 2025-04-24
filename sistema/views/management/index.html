@@ -688,7 +688,7 @@
                 <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options" style="width: 100% !important; min-width: 200px;"></rzslider>
             </div>
         </div>
-        <div ng-if="filters.deliveryCompanyKf.idDeliveryCompany!=undefined && filters.deliveryCompanyKf.idDeliveryCompany!='3' && filters.typDelivery.idTypeDelivery!=undefined && filters.typDelivery.idTypeDelivery=='2' && filters.ticketStatus.idStatus=='4'" class="col-md-10 col-sm-10 col-xs-10 " style="margin-top: 1%;">
+        <div ng-if="filters.deliveryCompanyKf.idDeliveryCompany!=undefined && filters.deliveryCompanyKf.idDeliveryCompany!='3' && filters.typDelivery.idTypeDelivery!=undefined && filters.typDelivery.idTypeDelivery=='2' && (filters.ticketStatus.idStatus=='4' || filters.ticketStatus.idStatus=='5')" class="col-md-10 col-sm-10 col-xs-10 " style="margin-top: 1%;">
             <label class="switch switch-2x" for="customer-select-list">
               <input type="checkbox" class="success" ng-click="mainSwitchFn('checkAllList', select.checkList.selected)"  ng-model="select.checkList.selected" id="customer-select-list">
               <span class="slider slider-2x flat"></span>
