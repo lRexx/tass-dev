@@ -229,18 +229,6 @@
                                         </div>
                                     </div>
                                     <div class="clearfix"> </div>
-                                    <!-- Filter Type of Ticket for Company User-->
-                                    <div ng-if="sysLoggedUser.idProfileKf==2" class="form-group col-md-4 col-xs-12">
-                                        <label>Tipo de Ticket</label>
-                                        <div class="col-xl-12 selectContainer">
-                                        <div class="input-group">
-                                                <span class="input-group-addon"><i class="fas fa-tag"></i></span>
-                                                <select name="idTypeTicketKf" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="item as item.TypeTicketName for item in listTypeTicket | filter: greaterThan('item.idTypeTicket', 2)" ng-required="sysLoggedUser.idProfileKf==2" ng-model="filters.typeTicket"  >
-                                                <option value="">Todos</option>
-                                                </select>
-                                        </div>
-                                        </div>
-                                    </div>
                                     <!-- Filter Type of Ticket for Onwer User-->
                                     <div ng-if="sysLoggedUser.idProfileKf!=2 && sysLoggedUser.idProfileKf!=1" class="form-group col-md-6 col-xs-12">
                                         <label>Tipo de Ticket</label>
@@ -300,7 +288,7 @@
                                     </div>
                                     <div ng-if="sysLoggedUser.idProfileKf==1 && filters.typDelivery!=undefined && filters.typDelivery.idTypeDelivery=='2' && (filters.ticketStatus.idStatus=='1' || filters.ticketStatus.idStatus=='4' || filters.ticketStatus.idStatus=='5')" class="col-md-4 col-xs-12 n-padding-l n-padding-r" ng-class="
                                         {	'has-success': 
-                                            filters.idDeliveryCompanyKf.idDeliveryCompany!='' && filtersTicket.idDeliveryCompanyKf.$valid,
+                                            filters.deliveryCompanyKf.idDeliveryCompany!='' && filtersTicket.idDeliveryCompanyKf.$valid,
                                         }">
                                         <div class="form-group col-md-12 col-xs-12">
                                             <label>Empresa de envío</label>
@@ -700,7 +688,7 @@
                 <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options" style="width: 100% !important; min-width: 200px;"></rzslider>
             </div>
         </div>
-        <div ng-if="filters.idDeliveryCompanyKf!=undefined && filters.idDeliveryCompanyKf!='3' && filters.idTypeDeliveryKf!=undefined && filters.idTypeDeliveryKf=='2' && filters.idStatusTicketKf=='4'" class="col-md-10 col-sm-10 col-xs-10 " style="margin-top: 1%;">
+        <div ng-if="filters.deliveryCompanyKf.idDeliveryCompany!=undefined && filters.deliveryCompanyKf.idDeliveryCompany!='3' && filters.typDelivery.idTypeDelivery!=undefined && filters.typDelivery.idTypeDelivery=='2' && filters.ticketStatus.idStatus=='4'" class="col-md-10 col-sm-10 col-xs-10 " style="margin-top: 1%;">
             <label class="switch switch-2x" for="customer-select-list">
               <input type="checkbox" class="success" ng-click="mainSwitchFn('checkAllList', select.checkList.selected)"  ng-model="select.checkList.selected" id="customer-select-list">
               <span class="slider slider-2x flat"></span>
