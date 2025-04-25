@@ -3604,7 +3604,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                         inform.add('La solicitud de pago ha sido registrada Satisfactoriamente. ',{
                                 ttl:5000, type: 'success'
                         });
-                        $scope.addPaymentDetailsFn = response.data;
+                        $scope.addPaymentDetailsFn = response.data.response;
                     }else if(response.status==500){
                         $scope.addPaymentDetailsFn = null;
                         console.log("Payment request has failed, contact administrator");
@@ -3719,7 +3719,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                     });
                     $timeout(function() {
                       if (ticket.idTypePaymentKf=="2" && ticket.idStatusTicketKf!=9 && ticket.idStatusTicketKf!=11){
-                        $scope.mainSwitchFn("linkMP",response.data[0],null);
+                        $scope.mainSwitchFn("linkMP",response.data,null);
                       }
                       $scope.mainSwitchFn('search', null);
                   }, 2500);
@@ -4442,7 +4442,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                           console.info("the ticket id is "+ticketId);
                           ticketServices.ticketById(ticketId).then(function(response){
                             if(response.status==200){
-                              $scope.rsData.ticket = (response.data[0]);
+                              $scope.rsData.ticket = (response.data);
                               //console.log($scope.rsData);
                               ticketServices.billingFileUploaded(ticketId).then(function(response){
                                 if(response.status==404){
@@ -4586,7 +4586,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                             console.info("the ticket id is "+ticketId);
                             ticketServices.ticketById(ticketId).then(function(response){
                               if(response.status==200){
-                                $scope.rsData.ticket = (response.data[0]);
+                                $scope.rsData.ticket = (response.data);
                                 //console.log($scope.rsData);
                                 ticketServices.billingFileUploaded(ticketId).then(function(response){
                                   if(response.status==404){

@@ -4881,11 +4881,11 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         });
                         $('.circle-loader').toggleClass('load-complete');
                         $('.checkmark').toggle();
-                        $scope.ticketRegistered = response.data.response[0];
+                        $scope.ticketRegistered = response.data;
                     }, 2500);
-                    if((response.data.response[0].idStatusTicketKf=="3" || response.data.response[0].idStatusTicketKf=="9") && response.data.response[0].idTypePaymentKf=="2" && response.data.response[0].total>0){
+                    if((response.data.idStatusTicketKf=="3" || response.data.idStatusTicketKf=="9") && response.data.idTypePaymentKf=="2" && response.data.total>0){
                         $timeout(function() {
-                            $scope.mainSwitchFn("linkMP",response.data.response[0],null);
+                            $scope.mainSwitchFn("linkMP",response.data,null);
                         }, 2700);
                     }
                     }else if(response.status==500){
@@ -4915,11 +4915,11 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                        });
                        $('.circle-loader').toggleClass('load-complete');
                        $('.checkmark').toggle();
-                       $scope.ticketRegistered = response.data.response[0];
+                       $scope.ticketRegistered = response.data;
                    }, 2500);
-                   if((response.data.response[0].idStatusTicketKf=="3" || response.data.response[0].idStatusTicketKf=="9") && response.data.response[0].idTypePaymentKf=="2" && response.data.response[0].total>0){
+                   if((response.data.idStatusTicketKf=="3" || response.data.idStatusTicketKf=="9") && response.data.idTypePaymentKf=="2" && response.data.total>0){
                        $timeout(function() {
-                           $scope.mainSwitchFn("linkMP",response.data.response[0],null);
+                           $scope.mainSwitchFn("linkMP",response.data,null);
                        }, 2700);
                    }
                    }else if(response.status==500){
@@ -4993,7 +4993,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         inform.add('La solicitud de pago ha sido registrada Satisfactoriamente. ',{
                                 ttl:5000, type: 'success'
                         });
-                        $scope.addPaymentDetailsFn = response.data.response[0];
+                        $scope.addPaymentDetailsFn = response.data.response;
                     }else if(response.status==500){
                         $scope.addPaymentDetailsFn = null;
                         console.log("Payment request has failed, contact administrator");
