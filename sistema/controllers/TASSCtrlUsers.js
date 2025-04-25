@@ -527,7 +527,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
           $scope.pagedItems    = [];
           $scope.itemPerPage=0;
           $scope.loadPagination = function(item, orderBy, itemsByPage){
-            console.log(item);
+            //console.log(item);
               var rowList=[];
               var rowId=null;
               for (var key in item){
@@ -2464,7 +2464,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
               $scope.rsModulesData = {};
               ProfileServices.getSysModules().then(function(response){
                   $scope.rsModulesData = response.data;
-                  console.log($scope.rsModulesData);
+                  //console.log($scope.rsModulesData);
               });
             };$scope.getSysModulesFn();
 
