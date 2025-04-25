@@ -3509,7 +3509,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                       });
                       $('.circle-loader').toggleClass('load-complete');
                       $('.checkmark').toggle();
-                      $scope.ticketRegistered = response.data.response[0];
+                      $scope.ticketRegistered = response.data;
                       response.data.response[0].createNewMPLinkForDelivery=pedido.ticket.createNewMPLinkForDelivery;
                     }, 2500);
                     if((pedido.ticket.createNewMPLink || pedido.ticket.createNewMPLinkForDelivery) && response.data.response[0].idTypePaymentKf=="2"){
@@ -3632,7 +3632,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                       });
                       $('.circle-loader').toggleClass('load-complete');
                       $('.checkmark').toggle();
-                      $scope.ticketRegistered = response.data[0];
+                      $scope.ticketRegistered = response.data;
                       $scope.openTicketFn($scope.ticketRegistered.idTicket);
                       //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
                       $scope.mainSwitchFn('search', null);
@@ -3665,7 +3665,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                       });
                       $('.circle-loader').toggleClass('load-complete');
                       $('.checkmark').toggle();
-                      $scope.ticketRegistered = response.data[0];
+                      $scope.ticketRegistered = response.data;
                       $scope.openTicketFn(pedido.ticket.idTicket);
                       //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
                       $scope.mainSwitchFn('search', null);
@@ -3727,7 +3727,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
 
                         $('.circle-loader').toggleClass('load-complete');
                         $('.checkmark').toggle();
-                        $scope.ticketRegistered = response.data[0];
+                        $scope.ticketRegistered = response.data;
                         $scope.openTicketFn($scope.ticketRegistered.idTicket);
                         //$scope.filters.ticketStatus.idStatus = $scope.ticketRegistered.idStatusTicketKf;
                         $scope.mainSwitchFn('search', null);
