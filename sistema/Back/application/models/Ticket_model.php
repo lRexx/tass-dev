@@ -583,9 +583,9 @@ class Ticket_model extends CI_Model
 		$lastTicketUpdatedQuery = null;
 		$lastTicketUpdatedQueryTmp = $this->ticketById($idTicketKf);
 		$ticketQuery = $lastTicketUpdatedQueryTmp['tickets'][0];
-		if (($ticketQuery[0]['idStatusTicketKf']!=9 && $ticket['idTypePaymentKf']==2)|| 
-			($ticketQuery[0]['idStatusTicketKf']==9 && $ticket['idTypePaymentKf']==2)){
-			if (! is_null($ticketQuery[0]['paymentDetails']) && (! is_null($ticketQuery[0]['paymentDetails']['mp_payment_id']) && $ticketQuery[0]['paymentDetails']['mp_payment_id']!=0)){
+		if (($ticketQuery['idStatusTicketKf']!=9 && $ticket['idTypePaymentKf']==2)|| 
+			($ticketQuery['idStatusTicketKf']==9 && $ticket['idTypePaymentKf']==2)){
+			if (! is_null($ticketQuery['paymentDetails']) && (! is_null($ticketQuery['paymentDetails']['mp_payment_id']) && $ticketQuery['paymentDetails']['mp_payment_id']!=0)){
 				$idStatusTicketKf = 8;
 				$ticketObj['history']['idUserKf'] 			= "1";
 				$ticketObj['history']['idTicketKf']  		= $idTicketKf;
@@ -595,7 +595,7 @@ class Ticket_model extends CI_Model
 				$idStatusTicketKf = 3;
 			}
 
-		}else if ($ticket['idTypePaymentKf']==2 && $ticketQuery[0]['idStatusTicketKf']==11){
+		}else if ($ticket['idTypePaymentKf']==2 && $ticketQuery['idStatusTicketKf']==11){
 			$idStatusTicketKf = 8;
 			$ticketObj['history']['idUserKf'] 			= "1";
 			$ticketObj['history']['idTicketKf']  		= $idTicketKf;
