@@ -74,7 +74,7 @@
                                   <span>Forma de Habilitación:</span>
                                 </div>
                                 <div class="col-md-3 col-xs-6 n-padding-l" style="margin-top: -0.6% !important;">
-                                  <input id="whereKeysAreEnableOnline" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" ng-disabled="tkupdate.building.isHasInternetOnline!=null && tkupdate.building.isHasInternetOnline" type="radio" name="whereKeysAreEnable" value="1" ng-model="functions.whereKeysAreEnable">
+                                  <input id="whereKeysAreEnableOnline" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" ng-disabled="tkupdate.building.isHasInternetOnline==null || !tkupdate.building.isHasInternetOnline" type="radio" name="whereKeysAreEnable" value="1" ng-model="functions.whereKeysAreEnable">
                                   <label for="whereKeysAreEnableOnline" class="radio-2x-label">
                                     <span class="badge badge-success">Online</span>
                                   </label>
