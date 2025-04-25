@@ -458,7 +458,9 @@ class Mercadolibre_model extends CI_Model
 				)->where("idTicket", $data['idTicketKf'])->update("tb_tickets_2");
 			}
 			$lastTicketUpdatedQuery = null;
-			$lastTicketUpdatedQuery = $this->Ticket_model->ticketById($data['idTicketKf']);
+			$lastTicketUpdatedQueryTmp = $this->Ticket_model->ticketById($data['idTicketKf']);
+			//print_r($lastTicketUpdatedQueryTmp['idTicketKf']);
+			$lastTicketUpdatedQuery = $lastTicketUpdatedQueryTmp['tickets'];
 				//MAIL
 				$user = null;
 				$building = null;
