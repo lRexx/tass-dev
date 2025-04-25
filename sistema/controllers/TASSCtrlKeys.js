@@ -1260,8 +1260,8 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             $scope.listTickt = [];
                             $scope.filters.idTypeTicketKf      = "";
                             $scope.filters.idProfileKf         = $scope.sysLoggedUser.idProfileKf;
-                            $scope.filters.isBillingInitiated  = 1;
-                            $scope.filters.isBillingUploaded   = 1;
+                            $scope.filters.isBillingInitiated  = null;
+                            $scope.filters.isBillingUploaded   = null;
                             $scope.filters.topfilter           = "10";
                             $scope.filters.codTicket           = string_search;
                             ticketServices.all($scope.filters).then(function(response){
