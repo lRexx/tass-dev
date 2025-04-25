@@ -3604,7 +3604,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                         inform.add('La solicitud de pago ha sido registrada Satisfactoriamente. ',{
                                 ttl:5000, type: 'success'
                         });
-                        $scope.addPaymentDetailsFn = response.data.response[0];
+                        $scope.addPaymentDetailsFn = response.data;
                     }else if(response.status==500){
                         $scope.addPaymentDetailsFn = null;
                         console.log("Payment request has failed, contact administrator");

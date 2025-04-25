@@ -580,7 +580,9 @@ class Ticket_model extends CI_Model
 		$idTicketKf  = $ticket['idTicket'];
 		$ticketQuery = null;
 		$ticketObj 	 = null;
-		$ticketQuery = $this->ticketById($idTicketKf);
+		$lastTicketUpdatedQuery = null;
+		$lastTicketUpdatedQueryTmp = $this->ticketById($idTicketKf);
+		$ticketQuery = $lastTicketUpdatedQueryTmp['tickets'][0];
 		if (($ticketQuery[0]['idStatusTicketKf']!=9 && $ticket['idTypePaymentKf']==2)|| 
 			($ticketQuery[0]['idStatusTicketKf']==9 && $ticket['idTypePaymentKf']==2)){
 			if (! is_null($ticketQuery[0]['paymentDetails']) && (! is_null($ticketQuery[0]['paymentDetails']['mp_payment_id']) && $ticketQuery[0]['paymentDetails']['mp_payment_id']!=0)){
