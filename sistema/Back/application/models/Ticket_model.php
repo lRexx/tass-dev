@@ -1154,7 +1154,7 @@ class Ticket_model extends CI_Model
 			$lastTicketUpdatedQuery = null;
 			$lastTicketUpdatedQueryTmp = $this->ticketById($idTicketKf);
 			//print_r($lastTicketUpdatedQueryTmp['idTicketKf']);
-			$lastTicketUpdatedQuery = $lastTicketUpdatedQueryTmp['tickets'];
+			$lastTicketUpdatedQuery = $lastTicketUpdatedQueryTmp['tickets'][0];
 				//MAIL
 				$user = null;
 				$building = null;
