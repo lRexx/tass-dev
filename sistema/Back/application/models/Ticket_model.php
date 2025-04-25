@@ -626,7 +626,7 @@ class Ticket_model extends CI_Model
 			}
 			$lastTicketUpdatedQuery = null;
 			$lastTicketUpdatedQueryTmp = $this->Ticket_model->ticketById($idTicketKf);
-			$lastTicketUpdatedQuery = $lastTicketUpdatedQueryTmp['tickets'];
+			$lastTicketUpdatedQuery = $lastTicketUpdatedQueryTmp['tickets'][0];
 				//MAIL
 				$user = null;
 				$building = null;
@@ -714,7 +714,7 @@ class Ticket_model extends CI_Model
 			}
 			$lastTicketUpdatedQuery = null;
 			$lastTicketUpdatedQueryTmp = $this->Ticket_model->ticketById($idTicketKf);
-			$lastTicketUpdatedQuery = $lastTicketUpdatedQueryTmp['tickets'];
+			$lastTicketUpdatedQuery = $lastTicketUpdatedQueryTmp['tickets'][0];
 			return $lastTicketUpdatedQuery;
 		} else {
 			return false;
@@ -804,7 +804,7 @@ class Ticket_model extends CI_Model
 			}
 			$lastTicketUpdatedQuery = null;
 			$lastTicketUpdatedQueryTmp = $this->ticketById($ticket['idTicket']);
-			$lastTicketUpdatedQuery = $lastTicketUpdatedQueryTmp['tickets'];
+			$lastTicketUpdatedQuery = $lastTicketUpdatedQueryTmp['tickets'][0];
 				//MAIL
 				$user = null;
 				$building = null;
@@ -1095,7 +1095,7 @@ class Ticket_model extends CI_Model
 			}
 				$lastTicketUpdatedQuery = null;
 				$lastTicketUpdatedQueryTmp = $this->Ticket_model->ticketById($idTicketKf);
-				$lastTicketUpdatedQuery = $lastTicketUpdatedQueryTmp['tickets'];
+				$lastTicketUpdatedQuery = $lastTicketUpdatedQueryTmp['tickets'][0];
 			return $lastTicketUpdatedQuery;
 		} else {
 			return false;
@@ -1315,7 +1315,7 @@ class Ticket_model extends CI_Model
 			)->where("idTicket" , $ticket['idTicketKf'])->update("tb_tickets_2");
 			$lastTicketUpdatedQuery = null;
 			$lastTicketUpdatedQueryTmp = $this->ticketById($ticket['idTicketKf']);
-			$lastTicketUpdatedQuery = $lastTicketUpdatedQueryTmp['tickets'];
+			$lastTicketUpdatedQuery = $lastTicketUpdatedQueryTmp['tickets'][0];
 				//MAIL
 				$user = null;
 				$building = null;
