@@ -1267,7 +1267,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             ticketServices.all($scope.filters).then(function(response){
                                 console.log(response);
                                 if(response.status==200){
-                                    $scope.listTickt    =  response.data.response;
+                                    $scope.listTickt    =  response.data.response.tickets;
                                     $scope.totalTickets = $scope.listTickt.length;
                                     console.info($scope.listTickt);
                                 }else if (response.status==404){
