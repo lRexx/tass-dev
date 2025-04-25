@@ -3323,7 +3323,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log(obj)
                     break;
                     case "2"://RENTREGA EN DOMICILIO
-                      $scope.tkupdate.idDeliveryCompanyKf="1";
+                      $scope.tkupdate.idDeliveryCompanyKf="3";
                       $scope.tkupdate.mess2show="El Pedido pasara a \"Pendiente de entrega\", por favor,     Confirmar?";
                       console.log(obj)
                     break;
