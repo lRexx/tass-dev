@@ -429,10 +429,9 @@ class Mercadolibre_model extends CI_Model
 				'idManualPaymentTypeKf'     => @$data['idManualPaymentTypeKf'],
 				'manualPaymentNumber'       => @$data['manualPaymentNumber'],
 				'manualPaymentDescription'  => @$data['manualPaymentDescription'],
+				'manualPaymentDate' 		=> @$data['manualPaymentDate'],
 				'idUserKf'              	=> @$data['idUserKf'],
 				'mp_payment_type' 			=> @$data['mp_payment_type'],
-
-
         ]);
 
 		if ($this->db->affected_rows() === 1) {
