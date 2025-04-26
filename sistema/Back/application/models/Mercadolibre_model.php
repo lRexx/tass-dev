@@ -146,7 +146,7 @@ class Mercadolibre_model extends CI_Model
 			//print_r(json_decode($response, true, JSON_UNESCAPED_SLASHES));
 			//print_r($response);
 			log_message('info',$response);
-			log_message('error',$err);
+			log_message('info',$err);
 			if ($err){
 				return json_encode([
 					'message' => 'Ha ocurrido un error al registrar el pago, cod err 404' ,
