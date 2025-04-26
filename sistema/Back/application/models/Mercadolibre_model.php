@@ -111,9 +111,7 @@ class Mercadolibre_model extends CI_Model
 				"unit_price" 		 => $data->monto ,
 				"id" 				 => $data->idTicket ,
 				"title" 			 => $data->ticket_number ,
-				//"uri"         	 => "http://localhost:8000/api/v1/addInfoPagoMercadoLibre",
 				"notification_url" 	 => $data->linkDeNotificacion ,
-				//"uri"           	 => "http://bioonix.com/libreando/libreando/backend/public/api/v1/addInfoPagoMercadoLibre",  //solo server
 				"description" 		 => $data->description,
 				"quantity" 			 => $data->quantity,
 				"external_reference" => $external_reference ,
@@ -140,12 +138,15 @@ class Mercadolibre_model extends CI_Model
 					"Content-Type: application/x-www-form-urlencoded"
 				] ,
 			]);
+			log_message('info',$curl);
 			//print_r($curl);
 			$response = curl_exec($curl);
 			$err      = curl_error($curl);
 			curl_close($curl);
 			//print_r(json_decode($response, true, JSON_UNESCAPED_SLASHES));
 			//print_r($response);
+			log_message('info',$response);
+			log_message('info',json_decode($response, true, JSON_UNESCAPED_SLASHES));
 			if ($err){
 				return json_encode([
 					'message' => 'Ha ocurrido un error al registrar el pago, cod err 404' ,
