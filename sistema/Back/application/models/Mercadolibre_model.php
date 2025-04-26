@@ -425,6 +425,8 @@ class Mercadolibre_model extends CI_Model
                 'mp_prod_init_point'      	=> $data['init_point'],
                 'mp_dev_init_point'       	=> $data['sandbox_init_point'],
                 'mp_operation_type'       	=> $data['operation_type'],
+				'mp_collection_status'      => $data['mp_collection_status'],
+				'mp_status_detail'         	=> $data['mp_status_detail'],
                 'idTicketKf'              	=> $data['idTicketKf'],
 				'idManualPaymentTypeKf'     => @$data['idManualPaymentTypeKf'],
 				'manualPaymentNumber'       => @$data['manualPaymentNumber'],
