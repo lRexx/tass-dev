@@ -2388,7 +2388,6 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
 
               $scope.mp.payment.data.collector_id             = null;
               var manualPaymentDate = moment.tz(obj.manualPaymentDate, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
-              var newPaymentDate = date.toDate();
               $scope.mp.payment.data.manualPaymentDate        = manualPaymentDate;
               var current_date = new Date();
               var date = moment.tz(current_date, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
