@@ -2387,12 +2387,12 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               $scope.mp.payment.data.client_id                = "8877359900700578";
 
               $scope.mp.payment.data.collector_id             = null;
-              var manualPaymentDate = new Date(obj.manualPaymentDate);
-              var date = moment.tz(manualPaymentDate, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
+              var manualPaymentDate = moment.tz(obj.manualPaymentDate, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
               var newPaymentDate = date.toDate();
-              $scope.mp.payment.data.manualPaymentDate        = obj.manualPaymentDate;
+              $scope.mp.payment.data.manualPaymentDate        = manualPaymentDate;
               var current_date = new Date();
               var date = moment.tz(current_date, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
+              console.log($scope.mp.payment.data);
               var newDate = date.toDate();
               var dateTimeString =
                   String(current_date.getDate()).padStart(2, '0') +      // dd
