@@ -3604,6 +3604,9 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                                 ttl:5000, type: 'success'
                         });
                         $scope.addPaymentDetailsFn = response.data.response;
+                        $timeout(function() {
+                          $scope.openTicketFn(obj.idTicket);
+                        }, 500);
                     }else if(response.status==500){
                         $scope.addPaymentDetailsFn = null;
                         console.log("Payment request has failed, contact administrator");
