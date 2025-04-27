@@ -2264,9 +2264,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     if ($scope.isRequest=="costs"){
                                         var subTotalDelivery = 0;
                                         if ($scope.buildingServiceValue > 0){
-                                            subTotalDelivery            = Number(0);
+                                            subTotalDelivery            = NaN2Zero(normalizeDecimal(0));
                                         }else{
-                                            subTotalDelivery            = Number(obj.valor_envio);
+                                            subTotalDelivery            = NaN2Zero(normalizeDecimal(obj.valor_envio));
                                         }
                                         $scope.buildingDeliveryCost     = formatDecimalLatam(subTotalDelivery);
                                     }else{
