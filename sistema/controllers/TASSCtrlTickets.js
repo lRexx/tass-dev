@@ -2231,7 +2231,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 }, 1700);
                                 $timeout(function() {
                                     if ($scope.isRequest=="costs"){
-                                        var subTotalDelivery = 0;
+                                        var subTotalDelivery = NaN2Zero(normalizeDecimal(0));
                                         if ($scope.buildingServiceValue > 0){
                                             subTotalDelivery            = NaN2Zero(normalizeDecimal(0));
                                         }else{
@@ -2263,7 +2263,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 }, 1700);
                                 $timeout(function() {
                                     if ($scope.isRequest=="costs"){
-                                        var subTotalDelivery = 0;
+                                        var subTotalDelivery = NaN2Zero(normalizeDecimal(0));
                                         if ($scope.buildingServiceValue > 0){
                                             subTotalDelivery            = NaN2Zero(normalizeDecimal(0));
                                         }else{
