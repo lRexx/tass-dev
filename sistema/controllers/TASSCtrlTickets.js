@@ -3593,8 +3593,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                             subTotalService=NaN2Zero(Number($scope.ticket.cost.service));
                                         }
                                     }else{
-                                        $scope.costs.service.cost   = NaN2Zero(Number(subTotalService)).toFixed(2);;
-                                        $scope.ticket.cost.service  = NaN2Zero(Number(subTotalService)).toFixed(2);;
+                                        $scope.costs.service.cost   = NaN2Zero(formatDecimalLatam(subTotalService));
+                                        $scope.ticket.cost.service  = NaN2Zero(formatDecimalLatam(subTotalService));
                                     }
                             }else{
                                 console.info("userNotify: 0");
@@ -3609,9 +3609,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         //TOTAL COST
                         var subTotalCosts = 0;
                         $scope.ticket.cost.total = 0;
-                        console.log("subTotalService "+Number(subTotalService))
-                        console.log("subTotalKeys "+Number(subTotalKeys))
-                        console.log("subTotalDelivery "+Number(subTotalDelivery))
+                        console.log("subTotalService    :"+formatDecimalLatam(subTotalService))
+                        console.log("subTotalKeys       :"+formatDecimalLatam(subTotalKeys))
+                        console.log("subTotalDelivery   :"+formatDecimalLatam(subTotalDelivery))
                         subTotalCosts = (subTotalService + subTotalKeys + subTotalDelivery).toFixed(2);
                         $scope.ticket.cost.total = formatDecimalLatam(subTotalCosts);
                         $scope.costs.total       = formatDecimalLatam(subTotalCosts);
