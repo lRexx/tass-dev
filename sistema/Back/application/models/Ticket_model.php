@@ -2562,7 +2562,7 @@ class Ticket_model extends CI_Model
 						//print_r("entro ". $i);
 						//print_r($quuery->result_array());
 						foreach ($quuery->result_array() as $ticket) {
-							array_push($rsA, $ticket);
+							$rsA[] = $ticket;
 						}
 						//$rsA[$i]=$quuery->result_array();
 						//print_r($rsA);
@@ -2571,8 +2571,10 @@ class Ticket_model extends CI_Model
 					
 				}
 			}
-			array_multisort(array_unique($rsA, SORT_DESC));
 			if(count($rsA)>0){
+				usort($rsA, function($a, $b) {
+					return $b['idTicket'] - $a['idTicket']; // Ordenar de mayor a menor
+				});
 				return $this->buscar_relaciones_ticket($rsA);
 			}else{
 				return null;
