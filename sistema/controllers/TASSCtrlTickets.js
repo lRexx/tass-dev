@@ -4144,7 +4144,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         $scope.new.ticket.status = 9;
                                     }else if ($scope.new.ticket.total==0 && (obj.idClientDepartament.isAprobatedAdmin=="1" || obj.idClientDepartament.isAprobatedAdmin!="1") && ($scope.sysLoggedUser.idProfileKf=="3" || $scope.sysLoggedUser.idProfileKf=="6")){
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
-                                        $scope.new.ticket.status = 3;
+                                        $scope.new.ticket.status = 2;
                                     }else if ($scope.new.ticket.total==0 && (obj.idClientDepartament.isAprobatedAdmin=="1" || obj.idClientDepartament.isAprobatedAdmin!="1") && $scope.sysLoggedUser.idProfileKf!="4" && $scope.sysLoggedUser.idProfileKf!="3"){
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido aprobado por BSS, automaticamente.', 'idCambiosTicketKf':"2"});
