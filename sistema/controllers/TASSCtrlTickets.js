@@ -2237,6 +2237,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         }else{
                                             subTotalDelivery            = NaN2Zero(normalizeDecimal(obj.valor_envio));
                                         }
+                                        console.log("subTotalDelivery : "+subTotalDelivery);
                                         $scope.buildingDeliveryCost     = formatDecimalLatam(subTotalDelivery);
                                     }
                                     //$scope.mainSwitchFn('autoSelectDoors', null, null);
@@ -2268,6 +2269,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         }else{
                                             subTotalDelivery            = NaN2Zero(normalizeDecimal(obj.valor_envio));
                                         }
+                                        console.log("subTotalDelivery : "+subTotalDelivery);
                                         $scope.buildingDeliveryCost     = formatDecimalLatam(subTotalDelivery);
                                     }else{
                                         $scope.mainSwitchFn('autoSelectDoors', null, null);
