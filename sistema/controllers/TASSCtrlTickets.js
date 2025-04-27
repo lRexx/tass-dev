@@ -4892,7 +4892,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 console.log(pedido);
                 $scope.ticketRegistered = null;
                 ticketServices.addUpRequest(pedido).then(function(response){
-                    console.log(response);
+                    //console.log(response);
                     if(response.status==200){
                     $timeout(function() {
                         console.log("Request Successfully Created");
@@ -4903,9 +4903,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $('.checkmark').toggle();
                         $scope.ticketRegistered = response.data.response;
                     }, 2500);
-                    if(($scope.ticketRegistered.idStatusTicketKf=="3" || $scope.ticketRegistered.idStatusTicketKf=="9") && $scope.ticketRegistered.idTypePaymentKf=="2" && $scope.ticketRegistered.total>0){
+                    if((response.data.response.idStatusTicketKf=="3" || response.data.response.idStatusTicketKf=="9") && response.data.response.idTypePaymentKf=="2" && response.data.response.total>0){
                         $timeout(function() {
-                            $scope.mainSwitchFn("linkMP",$scope.ticketRegistered,null);
+                            $scope.mainSwitchFn("linkMP",response.data.response,null);
                         }, 2700);
                     }
                     }else if(response.status==500){
