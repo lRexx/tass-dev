@@ -143,8 +143,8 @@ class Ticket_model extends CI_Model
 			}
 				$lastTicketAddQuery = null;
 				
-				$newTicketAdded = $this->ticketById($idTicketKf);
-				$lastTicketAddQuery = $newTicketAdded['tickets'];
+				$newTicketAdded 	= $this->ticketById($idTicketKf);
+				$lastTicketAddQuery = $newTicketAdded['tickets'][0];
 				//print_r($lastTicketAddQuery);
 				//MAIL
 				$user = null;
@@ -182,16 +182,16 @@ class Ticket_model extends CI_Model
 							$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hola <b>'.$user['fullNameUser'].'</b>,</td>';
 							$body.='</tr>';
 							$body.='<tr width="100%" bgcolor="#ffffff">';
-							$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hemos recibido el Pedido N°: <b>'.$lastTicketAddQuery[0]['codTicket'].'</b> correctamente.</td>';
+							$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hemos recibido el Pedido N°: <b>'.$lastTicketAddQuery['codTicket'].'</b> correctamente.</td>';
 							$body.='</tr>';
 							$body.='<tr width="100%" bgcolor="#ffffff">';
 							$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Estado: ';
-							if ($lastTicketAddQuery[0]['idStatusTicketKf']==2 || $lastTicketAddQuery[0]['idStatusTicketKf']==9 || $lastTicketAddQuery[0]['idStatusTicketKf']==11){
+							if ($lastTicketAddQuery['idStatusTicketKf']==2 || $lastTicketAddQuery['idStatusTicketKf']==9 || $lastTicketAddQuery['idStatusTicketKf']==11){
 								$body.='<span style="background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">';
 							}else{
 								$body.='<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">';
 							}
-							$body.=$lastTicketAddQuery[0]['statusTicket']['statusName'].'</span></td>';
+							$body.=$lastTicketAddQuery['statusTicket']['statusName'].'</span></td>';
 							$body.='</tr>';	
 							$body.='<tr width="100%" bgcolor="#ffffff">';
 							$body.= '<td width="100%" align="center" valign="middle" style="background-color:#ffffff">'.$ticket['mail'].'</td>';
@@ -217,18 +217,18 @@ class Ticket_model extends CI_Model
 								$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">El usuario <b>'.$user['fullNameUser'].'</b>,</td>'; 
 								$body.='</tr>';	
 								$body.='<tr width="100%" bgcolor="#ffffff">';
-								$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha solicitado el Alta de Llavero  N°: <b>'.$lastTicketAddQuery[0]['codTicket'].'</b> para el Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">'.$building['Depto'].'</span> del '.$building['ClientType'].'<b> '.$building['name'].'</b></td>';
+								$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha solicitado el Alta de Llavero  N°: <b>'.$lastTicketAddQuery['codTicket'].'</b> para el Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">'.$building['Depto'].'</span> del '.$building['ClientType'].'<b> '.$building['name'].'</b></td>';
 								$body.='</tr>';
 								$body.='<tr width="100%" bgcolor="#ffffff">';
 								$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Estado: ';
-								if ($lastTicketAddQuery[0]['idStatusTicketKf']==2 || $lastTicketAddQuery[0]['idStatusTicketKf']==9 || $lastTicketAddQuery[0]['idStatusTicketKf']==11){
+								if ($lastTicketAddQuery['idStatusTicketKf']==2 || $lastTicketAddQuery['idStatusTicketKf']==9 || $lastTicketAddQuery['idStatusTicketKf']==11){
 									$body.='<span style="background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">';
 								}else{
 									$body.='<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">';
 								}
-								$body.=$lastTicketAddQuery[0]['statusTicket']['statusName'].'</span>';
-								if ($lastTicketAddQuery[0]['idStatusTicketKf']==2 || $lastTicketAddQuery[0]['idStatusTicketKf']=='9'){
-									$secureToken= base64_encode($lastTicketAddQuery[0]['idTicket'].":".$lastTicketAddQuery[0]['urlToken']);
+								$body.=$lastTicketAddQuery['statusTicket']['statusName'].'</span>';
+								if ($lastTicketAddQuery['idStatusTicketKf']==2 || $lastTicketAddQuery['idStatusTicketKf']=='9'){
+									$secureToken= base64_encode($lastTicketAddQuery['idTicket'].":".$lastTicketAddQuery['urlToken']);
 									$approval_url="https://".BSS_HOST."/login/approve/ticket/up/token/".$secureToken;
 									$body.= '&nbsp;&nbsp;<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="'.$approval_url.'" target="_blank" title="Aprobar" style="text-decoration: none; color: #ffffff;">Aprobar pedido haciendo click aqui</a></span></td>';
 								}else{
@@ -259,26 +259,26 @@ class Ticket_model extends CI_Model
 							#MAIL TO THE BUILDING OR ADMINISTRATION typeRequestFor
 							$to = $buildingAdminMail['mailContact'];
 							$title = "Pedido Alta Llavero";
-							$subject="Pedido Alta Llavero :: ".$lastTicketAddQuery[0]['typeRequestFor']['name'];
+							$subject="Pedido Alta Llavero :: ".$lastTicketAddQuery['typeRequestFor']['name'];
 							$body='<tr width="100%" bgcolor="#ffffff">';
-							$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Hola <b>'.$lastTicketAddQuery[0]['clientAdmin']['name'].'</b>,</td>'; 
+							$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Hola <b>'.$lastTicketAddQuery['clientAdmin']['name'].'</b>,</td>'; 
 							$body.='</tr>';	
 							$body.='<tr width="100%" bgcolor="#ffffff">';
-							$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha solicitado el Alta de Llavero  N°: <b>'.$lastTicketAddQuery[0]['codTicket'].'</b></td>';
+							$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha solicitado el Alta de Llavero  N°: <b>'.$lastTicketAddQuery['codTicket'].'</b></td>';
 							$body.='</tr>';	
 							$body.='<tr width="100%" bgcolor="#ffffff">';
 							$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Estado: ';
-							if ($lastTicketAddQuery[0]['idStatusTicketKf']==2 || $lastTicketAddQuery[0]['idStatusTicketKf']==9 || $lastTicketAddQuery[0]['idStatusTicketKf']==11){
-								$body.='<span style="background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">'.$lastTicketAddQuery[0]['statusTicket']['statusName'].'</span></td>';
+							if ($lastTicketAddQuery['idStatusTicketKf']==2 || $lastTicketAddQuery['idStatusTicketKf']==9 || $lastTicketAddQuery['idStatusTicketKf']==11){
+								$body.='<span style="background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">'.$lastTicketAddQuery['statusTicket']['statusName'].'</span></td>';
 							}else{
-								$body.='<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">'.$lastTicketAddQuery[0]['statusTicket']['statusName'].'</span></td>';
+								$body.='<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">'.$lastTicketAddQuery['statusTicket']['statusName'].'</span></td>';
 							}
 							$body.='</tr>';	
 							$body.='<tr width="100%" bgcolor="#ffffff">';
 							$body.= '<td width="100%" align="center" valign="middle" style="background-color:#ffffff">'.$ticket['mail'].'</td>';
 							$body.='</tr>';
-							if ($lastTicketAddQuery[0]['idStatusTicketKf']==2 || $lastTicketAddQuery[0]['idStatusTicketKf']==9){
-								$secureToken= base64_encode($lastTicketAddQuery[0]['idTicket'].":".$lastTicketAddQuery[0]['urlToken']);
+							if ($lastTicketAddQuery['idStatusTicketKf']==2 || $lastTicketAddQuery['idStatusTicketKf']==9){
+								$secureToken= base64_encode($lastTicketAddQuery['idTicket'].":".$lastTicketAddQuery['urlToken']);
 								$approval_url="https://".BSS_HOST."/login/approve/ticket/up/token/".$secureToken;
 								$body.='<tr width="100%" bgcolor="#ffffff">';
 								$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="'.$approval_url.'" target="_blank" title="Aprobar" style="text-decoration: none; color: #ffffff;">Aprobar pedido</a></span></td>';
@@ -385,8 +385,8 @@ class Ticket_model extends CI_Model
 					));
 				}
 			}
-			$lastTicketAddQuery = null;
-			$lastTicketAddQuery = $this->ticketById($idTicketKf);
+			$newTicketAdded 	= $this->ticketById($idTicketKf);
+			$lastTicketAddQuery = $newTicketAdded['tickets'][0];
 			//print_r($lastTicketAddQuery);
 			//MAIL
 			$user = null;
@@ -424,16 +424,16 @@ class Ticket_model extends CI_Model
 						$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hola <b>'.$user['fullNameUser'].'</b>,</td>';
 						$body.='</tr>';
 						$body.='<tr width="100%" bgcolor="#ffffff">';
-						$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hemos recibido el Pedido N°: <b>'.$lastTicketAddQuery[0]['codTicket'].'</b> correctamente.</td>';
+						$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hemos recibido el Pedido N°: <b>'.$lastTicketAddQuery['codTicket'].'</b> correctamente.</td>';
 						$body.='</tr>';
 						$body.='<tr width="100%" bgcolor="#ffffff">';
 						$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Estado: ';
-						if ($lastTicketAddQuery[0]['idStatusTicketKf']==2 || $lastTicketAddQuery[0]['idStatusTicketKf']==9 || $lastTicketAddQuery[0]['idStatusTicketKf']==11){
+						if ($lastTicketAddQuery['idStatusTicketKf']==2 || $lastTicketAddQuery['idStatusTicketKf']==9 || $lastTicketAddQuery['idStatusTicketKf']==11){
 							$body.='<span style="background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">';
 						}else{
 							$body.='<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">';
 						}
-						$body.=$lastTicketAddQuery[0]['statusTicket']['statusName'].'</span></td>';
+						$body.=$lastTicketAddQuery['statusTicket']['statusName'].'</span></td>';
 						$body.='</tr>';	
 						$body.='<tr width="100%" bgcolor="#ffffff">';
 						$body.= '<td width="100%" align="center" valign="middle" style="background-color:#ffffff">'.$ticket['mail'].'</td>';
@@ -459,22 +459,22 @@ class Ticket_model extends CI_Model
 							$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">El usuario <b>'.$user['fullNameUser'].'</b>,</td>'; 
 							$body.='</tr>';	
 							$body.='<tr width="100%" bgcolor="#ffffff">';
-							$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha solicitado el Baja de Llavero  N°: <b>'.$lastTicketAddQuery[0]['codTicket'].'</b> para el Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">'.$building['Depto'].'</span> del '.$building['ClientType'].'<b> '.$building['name'].'</b></td>';
+							$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha solicitado el Baja de Llavero  N°: <b>'.$lastTicketAddQuery['codTicket'].'</b> para el Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">'.$building['Depto'].'</span> del '.$building['ClientType'].'<b> '.$building['name'].'</b></td>';
 							$body.='</tr>';
 							$body.='<tr width="100%" bgcolor="#ffffff">';
 							$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Estado: ';
-							if ($lastTicketAddQuery[0]['idStatusTicketKf']==2 || $lastTicketAddQuery[0]['idStatusTicketKf']==9 || $lastTicketAddQuery[0]['idStatusTicketKf']==11){
+							if ($lastTicketAddQuery['idStatusTicketKf']==2 || $lastTicketAddQuery['idStatusTicketKf']==9 || $lastTicketAddQuery['idStatusTicketKf']==11){
 								$body.='<span style="background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">';
 							}else{
 								$body.='<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">';
 							}
-							$body.=$lastTicketAddQuery[0]['statusTicket']['statusName'].'</span></td>';
+							$body.=$lastTicketAddQuery['statusTicket']['statusName'].'</span></td>';
 							$body.='</tr>';	
 							$body.='<tr width="100%" bgcolor="#ffffff">';
 							$body.= '<td width="100%" align="center" valign="middle" style="background-color:#ffffff">'.$ticket['mail'].'</td>';
 							$body.='</tr>';
-							if ($lastTicketAddQuery[0]['idStatusTicketKf']==2 || $lastTicketAddQuery[0]['idStatusTicketKf']=='9'){
-								$secureToken= base64_encode($lastTicketAddQuery[0]['idTicket'].":".$lastTicketAddQuery[0]['urlToken']);
+							if ($lastTicketAddQuery['idStatusTicketKf']==2 || $lastTicketAddQuery['idStatusTicketKf']=='9'){
+								$secureToken= base64_encode($lastTicketAddQuery['idTicket'].":".$lastTicketAddQuery['urlToken']);
 								$approval_url="https://".BSS_HOST."/login/approve/ticket/up/token/".$secureToken;
 								$body.='<tr width="100%" bgcolor="#ffffff">';
 								$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="'.$approval_url.'" target="_blank" title="Aprobar" style="text-decoration: none; color: #ffffff;">Aprobar pedido</a></span></td>';
@@ -501,26 +501,26 @@ class Ticket_model extends CI_Model
 						#MAIL TO THE BUILDING OR ADMINISTRATION typeRequestFor
 						$to = $buildingAdminMail['mailContact'];
 						$title = "Pedido Baja Llavero";
-						$subject="Pedido Baja Llavero :: ".$lastTicketAddQuery[0]['typeRequestFor']['name'];
+						$subject="Pedido Baja Llavero :: ".$lastTicketAddQuery['typeRequestFor']['name'];
 						$body='<tr width="100%" bgcolor="#ffffff">';
-						$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Hola <b>'.$lastTicketAddQuery[0]['clientAdmin']['name'].'</b>,</td>'; 
+						$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Hola <b>'.$lastTicketAddQuery['clientAdmin']['name'].'</b>,</td>'; 
 						$body.='</tr>';	
 						$body.='<tr width="100%" bgcolor="#ffffff">';
-						$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha solicitado el Baja de Llavero  N°: <b>'.$lastTicketAddQuery[0]['codTicket'].'</b></td>';
+						$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha solicitado el Baja de Llavero  N°: <b>'.$lastTicketAddQuery['codTicket'].'</b></td>';
 						$body.='</tr>';	
 						$body.='<tr width="100%" bgcolor="#ffffff">';
 						$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Estado: ';
-						if ($lastTicketAddQuery[0]['idStatusTicketKf']==2 || $lastTicketAddQuery[0]['idStatusTicketKf']==9 || $lastTicketAddQuery[0]['idStatusTicketKf']==11){
-							$body.='<span style="background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">'.$lastTicketAddQuery[0]['statusTicket']['statusName'].'</span></td>';
+						if ($lastTicketAddQuery['idStatusTicketKf']==2 || $lastTicketAddQuery['idStatusTicketKf']==9 || $lastTicketAddQuery['idStatusTicketKf']==11){
+							$body.='<span style="background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">'.$lastTicketAddQuery['statusTicket']['statusName'].'</span></td>';
 						}else{
-							$body.='<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">'.$lastTicketAddQuery[0]['statusTicket']['statusName'].'</span></td>';
+							$body.='<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">'.$lastTicketAddQuery['statusTicket']['statusName'].'</span></td>';
 						}
 						$body.='</tr>';	
 						$body.='<tr width="100%" bgcolor="#ffffff">';
 						$body.= '<td width="100%" align="center" valign="middle" style="background-color:#ffffff">'.$ticket['mail'].'</td>';
 						$body.='</tr>';
-						if ($lastTicketAddQuery[0]['idStatusTicketKf']==2 || $lastTicketAddQuery[0]['idStatusTicketKf']==9){
-							$secureToken= base64_encode($lastTicketAddQuery[0]['idTicket'].":".$lastTicketAddQuery[0]['urlToken']);
+						if ($lastTicketAddQuery['idStatusTicketKf']==2 || $lastTicketAddQuery['idStatusTicketKf']==9){
+							$secureToken= base64_encode($lastTicketAddQuery['idTicket'].":".$lastTicketAddQuery['urlToken']);
 							$approval_url="https://".BSS_HOST."/login/approve/ticket/up/token/".$secureToken;
 							$body.='<tr width="100%" bgcolor="#ffffff">';
 							$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="'.$approval_url.'" target="_blank" title="Aprobar" style="text-decoration: none; color: #ffffff;">Aprobar pedido</a></span></td>';

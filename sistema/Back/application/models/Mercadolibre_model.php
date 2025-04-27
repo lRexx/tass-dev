@@ -269,7 +269,7 @@ class Mercadolibre_model extends CI_Model
 					$ticketObj['history']['idCambiosTicketKf'] 	= "4";
 					$this->Ticket_model->addTicketTimeline($ticketObj);
 					$ticket2Update = $this->Ticket_model->ticketById($idTicketKf);
-					if ($ticket2Update[0]['idStatusTicketKf']=="9"){
+					if ($ticket2Update['tickets'][0]['idStatusTicketKf']=="9"){
 						$changeStatusRs = $this->Ticket_model->quickChangueStatus($idTicketKf,"11");
 						if ($changeStatusRs){
 							$ticketObj = null;
