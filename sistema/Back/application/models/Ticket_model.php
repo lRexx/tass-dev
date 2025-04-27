@@ -2557,7 +2557,7 @@ class Ticket_model extends CI_Model
 						$this->db->limit($data['topfilter']);
 					}
 					$quuery = $this->db->order_by("idTicket" , "DESC")->get();
-					print_r($quuery->result_array());
+					//print_r($quuery->result_array());
 					if (count($quuery->result_array())>=1){
 						//print_r("entro ". $i);
 						//print_r($quuery->result_array());
