@@ -3572,6 +3572,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                                 }
                                             }
                                         }else{
+                                            console.log("Deliver cost is not free and set manually by user");
                                             $scope.ticket.cost.delivery = NaN2Zero(Number(subTotalDelivery)).toFixed(2);
                                             $scope.costs.delivery.cost  = NaN2Zero(Number(subTotalDelivery)).toFixed(2);
                                         }
@@ -3609,10 +3610,10 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         //TOTAL COST
                         var subTotalCosts = 0;
                         $scope.ticket.cost.total = 0;
-                        console.log("subTotalService    :"+formatDecimalLatam(subTotalService))
-                        console.log("subTotalKeys       :"+formatDecimalLatam(subTotalKeys))
-                        console.log("subTotalDelivery   :"+formatDecimalLatam(subTotalDelivery))
-                        subTotalCosts = (subTotalService + subTotalKeys + subTotalDelivery).toFixed(2);
+                        console.log("subTotalService    : "+formatDecimalLatam(subTotalService))
+                        console.log("subTotalKeys       : "+formatDecimalLatam(subTotalKeys))
+                        console.log("subTotalDelivery   : "+formatDecimalLatam(subTotalDelivery))
+                        subTotalCosts = subTotalService + subTotalKeys + subTotalDelivery;
                         $scope.ticket.cost.total = formatDecimalLatam(subTotalCosts);
                         $scope.costs.total       = formatDecimalLatam(subTotalCosts);
                         console.log($scope.costs);
