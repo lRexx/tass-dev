@@ -1602,7 +1602,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
             $scope.getServiceCostByCustomerFn = function(data){
                 serviceServices.getServiceCostByCustomer(data).then(function(response) {
                     if(response.status==200){
-                        $scope.ticket.cost.service   = NaN2Zero(normalizeDecimal(response.data.technician_service_cost[0].cost));
+                        $scope.ticket.cost.service   = formatDecimalLatam(response.data.technician_service_cost[0].cost);
                         $scope.buildingServiceValue  = NaN2Zero(normalizeDecimal(response.data.technician_service_cost[0].cost));
                         $scope.customerCosts=true;
                     }else if (response.status==404){
@@ -1610,13 +1610,13 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             ttl:3000, type: 'warning'
                         });
                         $scope.customerCosts=false;
-                        $scope.ticket.cost.service  = NaN2Zero(normalizeDecimal(0));
+                        $scope.ticket.cost.service  = formatDecimalLatam(normalizeDecimal(0));
                         $scope.buildingServiceValue = NaN2Zero(normalizeDecimal(0));
                     }else if (response.status==500){
                         inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
                         ttl:3000, type: 'danger'
                         });
-                        $scope.ticket.cost.service  = NaN2Zero(normalizeDecimal(0));
+                        $scope.ticket.cost.service  = formatDecimalLatam(normalizeDecimal(0));
                         $scope.buildingServiceValue = NaN2Zero(normalizeDecimal(0));
                         $scope.customerCosts=false;
                     }
