@@ -3508,7 +3508,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                       });
                       $('.circle-loader').toggleClass('load-complete');
                       $('.checkmark').toggle();
-                      $scope.ticketRegistered = response.data;
+                      $scope.ticketRegistered = response.data.response;
                       response.data.response[0].createNewMPLinkForDelivery=pedido.ticket.createNewMPLinkForDelivery;
                     }, 2500);
                     if((pedido.ticket.createNewMPLink || pedido.ticket.createNewMPLinkForDelivery) && response.data.response[0].idTypePaymentKf=="2"){
