@@ -2275,6 +2275,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     blockUI.stop();
                                     $scope.enabledNextBtn();
                                     $scope.isDataLoaded=true;
+                                    console.log("$scope.buildingServiceValue :"+$scope.buildingServiceValue);
+                                    console.log("$scope.buildingDeliveryCost :"+$scope.buildingDeliveryCost);
                                 }, 2000);
                             }
                         }else{
