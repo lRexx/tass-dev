@@ -3497,9 +3497,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             var subTotalKeys = 0;
                             var subTotalDelivery = 0;
                             var subTotalService = 0;
-                            $scope.ticket.cost.keys = subTotalKeys.toFixed(2);
-                            $scope.ticket.cost.delivery = subTotalDelivery.toFixed(2);
-                            $scope.ticket.cost.service = subTotalService.toFixed(2);
+                            $scope.ticket.cost.keys = subTotalKeys.toFixed(2).replace('.', ',');;
+                            $scope.ticket.cost.delivery = subTotalDelivery.toFixed(2).replace('.', ',');;
+                            $scope.ticket.cost.service = subTotalService.toFixed(2).replace('.', ',');;
                         }else{
                             if (($scope.ticket.userNotify==null || $scope.ticket.userNotify=="1")){
                                 console.info("userNotify: 1/null");
@@ -3516,8 +3516,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                                 subTotalKeys = NaN2Zero(Number(subTotalKeys))+NaN2Zero(Number(keyCost));
                                             }
                                         }
-                                        $scope.ticket.cost.keys = subTotalKeys.toFixed(2);
-                                        $scope.costs.keys.cost  = subTotalKeys.toFixed(2);
+                                        $scope.ticket.cost.keys = subTotalKeys.toFixed(2).replace('.', ',');;
+                                        $scope.costs.keys.cost  = subTotalKeys.toFixed(2).replace('.', ',');;
                                     }else{
                                         subTotalKeys = NaN2Zero(Number($scope.costs.keys.cost));
                                         subTotalKeys = NaN2Zero(Number($scope.ticket.cost.keys));
@@ -3538,7 +3538,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                                             $scope.ticket.cost.delivery = $scope.ticket.building.valor_envio;
                                                             subTotalDelivery            = NaN2Zero(Number($scope.ticket.building.valor_envio));
                                                         }
-                                                        $scope.costs.delivery.cost  = subTotalDelivery.toFixed(2);
+                                                        $scope.costs.delivery.cost  = subTotalDelivery.toFixed(2).replace('.', ',');;
                                                     }else{
                                                         if(($scope.ticket.delivery.idDeliveryTo==null && $scope.ticket.delivery.whoPickUp.id!=3) || ($scope.ticket.delivery.idDeliveryTo!=null && $scope.ticket.delivery.idDeliveryTo==1 && $scope.ticket.delivery.whoPickUp.idUser!=undefined)){
                                                             console.log("1");
@@ -3555,16 +3555,16 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                                             $scope.ticket.cost.delivery     = $scope.ticket.delivery.zone!=null && $scope.ticket.delivery.zone!=undefined?$scope.ticket.delivery.zone.valor_envio:$scope.ticket.building.valor_envio;
                                                             subTotalDelivery                = NaN2Zero(Number($scope.ticket.cost.delivery));
                                                         }
-                                                        $scope.costs.delivery.cost  = subTotalDelivery.toFixed(2);
+                                                        $scope.costs.delivery.cost  = subTotalDelivery.toFixed(2).replace('.', ',');;
                                                     }
                                                 }else{
-                                                    $scope.ticket.cost.delivery = subTotalDelivery.toFixed(2);
-                                                    $scope.costs.delivery.cost  = subTotalDelivery.toFixed(2);
+                                                    $scope.ticket.cost.delivery = subTotalDelivery.toFixed(2).replace('.', ',');;
+                                                    $scope.costs.delivery.cost  = subTotalDelivery.toFixed(2).replace('.', ',');;
                                                 }
                                             }
                                         }else{
-                                            $scope.ticket.cost.delivery = NaN2Zero(Number(subTotalDelivery)).toFixed(2);
-                                            $scope.costs.delivery.cost  = NaN2Zero(Number(subTotalDelivery)).toFixed(2);
+                                            $scope.ticket.cost.delivery = NaN2Zero(Number(subTotalDelivery)).toFixed(2).replace('.', ',');;
+                                            $scope.costs.delivery.cost  = NaN2Zero(Number(subTotalDelivery)).toFixed(2).replace('.', ',');;
                                         }
                                     }else{
                                         subTotalDelivery=NaN2Zero(Number($scope.costs.delivery.cost));
@@ -3578,23 +3578,23 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                             console.log("$scope.ticket.cost.service: "+$scope.buildingServiceValue);
                                             var subTotalService = 0;
                                             subTotalService             = NaN2Zero(Number($scope.buildingServiceValue));
-                                            $scope.costs.service.cost   = subTotalService.toFixed(2);
+                                            $scope.costs.service.cost   = subTotalService.toFixed(2).replace('.', ',');;
                                         }else{
                                             subTotalService=NaN2Zero(Number($scope.costs.service.cost));
                                             subTotalService=NaN2Zero(Number($scope.ticket.cost.service));
                                         }
                                     }else{
-                                        $scope.costs.service.cost   = NaN2Zero(Number(subTotalService)).toFixed(2);;
-                                        $scope.ticket.cost.service  = NaN2Zero(Number(subTotalService)).toFixed(2);;
+                                        $scope.costs.service.cost   = NaN2Zero(Number(subTotalService)).toFixed(2).replace('.', ',');
+                                        $scope.ticket.cost.service  = NaN2Zero(Number(subTotalService)).toFixed(2).replace('.', ',');
                                     }
                             }else{
                                 console.info("userNotify: 0");
                                 var subTotalKeys = 0;
                                 var subTotalDelivery = 0;
                                 var subTotalService = 0;
-                                $scope.ticket.cost.keys = subTotalKeys.toFixed(2);
-                                $scope.ticket.cost.delivery = subTotalDelivery.toFixed(2);
-                                $scope.ticket.cost.service = subTotalService.toFixed(2);
+                                $scope.ticket.cost.keys = subTotalKeys.toFixed(2).replace('.', ',');;
+                                $scope.ticket.cost.delivery = subTotalDelivery.toFixed(2).replace('.', ',');;
+                                $scope.ticket.cost.service = subTotalService.toFixed(2).replace('.', ',');;
                             }
                         }
                         //TOTAL COST
@@ -3603,7 +3603,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         console.log("subTotalService "+Number(subTotalService))
                         console.log("subTotalKeys "+Number(subTotalKeys))
                         console.log("subTotalDelivery "+Number(subTotalDelivery))
-                        subTotalCosts = (subTotalService + subTotalKeys + subTotalDelivery).toFixed(2);
+                        subTotalCosts = (subTotalService + subTotalKeys + subTotalDelivery).toFixed(2).replace('.', ',');;
                         $scope.ticket.cost.total = subTotalCosts
                         $scope.costs.total       = subTotalCosts
                         console.log($scope.costs);
@@ -3645,7 +3645,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     }
                                 break;
                             }
-                            subTotalCosts = (subTotalService + subTotalKeys + subTotalDelivery).toFixed(2);
+                            subTotalCosts = (subTotalService + subTotalKeys + subTotalDelivery).toFixed(2).replace('.', ',');;
                             
                             $scope.ticket.cost.total = subTotalCosts;
                             $scope.costs.total       = subTotalCosts;
@@ -3655,10 +3655,10 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             var subTotalDelivery    = 0;
                             var subTotalService     = 0;
                             var subTotalCosts       = 0;
-                            $scope.ticket.cost.keys     = subTotalKeys.toFixed(2);
-                            $scope.ticket.cost.delivery = subTotalDelivery.toFixed(2);
-                            $scope.ticket.cost.service  = subTotalService.toFixed(2);
-                            $scope.ticket.cost.total    = subTotalCosts.toFixed(2);
+                            $scope.ticket.cost.keys     = subTotalKeys.toFixed(2).replace('.', ',');
+                            $scope.ticket.cost.delivery = subTotalDelivery.toFixed(2).replace('.', ',');
+                            $scope.ticket.cost.service  = subTotalService.toFixed(2).replace('.', ',');
+                            $scope.ticket.cost.total    = subTotalCosts.toFixed(2).replace('.', ',');
                         }
                     break;
                     case "sendNotification":
