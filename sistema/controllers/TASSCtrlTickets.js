@@ -1584,6 +1584,12 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
             function NaN2Zero(n){
                 return isNaN( n ) ? 0 : n; 
             }
+            function normalizeDecimal(n) {
+                if (typeof n === 'string') {
+                    n = n.replace(',', '.');  // Cambiar coma por punto
+                }
+                return Number(n);
+            }
         /**************************************************
         *                                                 *
         *   GET COST OF SERVICES BY CUSTOMER ID           *
@@ -3610,35 +3616,35 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     break;
                     case "recalculateCosts":
                         if ($scope.ticket.userNotify==null || $scope.ticket.userNotify=="1"){
-                            var subTotalKeys        = NaN2Zero(Number($scope.ticket.cost.keys));
-                            var subTotalService     = NaN2Zero(Number($scope.ticket.cost.service));
-                            var subTotalDelivery    = NaN2Zero(Number($scope.ticket.cost.delivery));
+                            var subTotalKeys        = NaN2Zero(normalizeDecimal($scope.ticket.cost.keys));
+                            var subTotalService     = NaN2Zero(normalizeDecimal($scope.ticket.cost.service));
+                            var subTotalDelivery    = NaN2Zero(normalizeDecimal($scope.ticket.cost.delivery));
                             var subTotalCosts = 0;
-                            console.log("subTotalService  : "+Number(subTotalService))
-                            console.log("subTotalKeys     : "+Number(subTotalKeys))
-                            console.log("subTotalDelivery : "+Number(subTotalDelivery))
-                            console.log("Obj : "+Number(obj))
+                            console.log("subTotalService  : "+subTotalService)
+                            console.log("subTotalKeys     : "+subTotalKeys)
+                            console.log("subTotalDelivery : "+subTotalDelivery)
+                            console.log("Obj : "+NaN2Zero(normalizeDecimal(obj)));
                             var opt2 = obj2;
                             switch (opt2){
                                 case "service":
-                                    if (Number(subTotalService) != Number(obj)){
-                                        subTotalService = NaN2Zero(Number(obj));
-                                        $scope.costs.service.cost  =subTotalService;
-                                        $scope.ticket.cost.service = subTotalService;
-                                        $scope.costs.service.manual=true;
+                                    if (Number(subTotalService) != NaN2Zero(normalizeDecimal(obj))){
+                                        subTotalService = NaN2Zero(NaN2Zero(normalizeDecimal(obj)));
+                                        $scope.costs.service.cost       = subTotalService;
+                                        $scope.ticket.cost.service      = subTotalService;
+                                        $scope.costs.service.manual     =true;
                                     }
                                 break;
                                 case "keys":
-                                    if (Number(subTotalKeys) != Number(obj)){
-                                        subTotalKeys = NaN2Zero(Number(obj));
-                                        $scope.costs.keys.cost      = subTotalKeys;
-                                        $scope.ticket.cost.keys     = subTotalKeys;
-                                        $scope.costs.keys.manual    = true;
+                                    if (Number(subTotalKeys) != NaN2Zero(normalizeDecimal(obj))){
+                                        subTotalKeys = NaN2Zero(NaN2Zero(normalizeDecimal(obj)));
+                                        $scope.costs.keys.cost          = subTotalKeys;
+                                        $scope.ticket.cost.keys         = subTotalKeys;
+                                        $scope.costs.keys.manual        = true;
                                     }
                                 break;
                                 case "delivery":
-                                    if (Number(subTotalDelivery) != Number(obj)){
-                                        subTotalDelivery = NaN2Zero(Number(obj));
+                                    if (Number(subTotalDelivery) != NaN2Zero(normalizeDecimal(obj))){
+                                        subTotalDelivery = NaN2Zero(NaN2Zero(normalizeDecimal(obj)));
                                         $scope.costs.delivery.cost      = subTotalDelivery;
                                         $scope.ticket.cost.delivery     =  subTotalDelivery;
                                         $scope.costs.delivery.manual    = true;
