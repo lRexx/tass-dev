@@ -1027,6 +1027,19 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
             });
         }
         
+
+      function NaN2Zero(n){
+          return isNaN( n ) ? 0 : n; 
+      }
+      function normalizeDecimal(n) {
+          if (typeof n === 'string') {
+              n = n.replace(',', '.');  // Cambiar coma por punto
+          }
+          return Number(n);
+      }
+      function formatDecimalLatam(n) {
+          return Number(n).toFixed(2).replace('.', ',');
+      }
       /**************************************************
       *                                                 *
       *               TICKET FILTER LIST                *
@@ -1943,9 +1956,6 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
             }
           };
 
-          function NaN2Zero(n){
-            return isNaN( n ) ? 0 : n; 
-          }
     /**************************************************
     *                                                 *
     *            TICKETS MONITOR FUNCTION             *
