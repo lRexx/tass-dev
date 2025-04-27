@@ -3572,11 +3572,12 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                                 }
                                             }
                                         }else{
-                                            console.log("Deliver cost is not free and set manually by user");
+                                            console.log("Deliver cost is free");
                                             $scope.ticket.cost.delivery = NaN2Zero(Number(subTotalDelivery)).toFixed(2);
                                             $scope.costs.delivery.cost  = NaN2Zero(Number(subTotalDelivery)).toFixed(2);
                                         }
                                     }else{
+                                        console.log("Deliver cost is manually set by user");
                                         subTotalDelivery=NaN2Zero(Number($scope.costs.delivery.cost));
                                         subTotalDelivery=NaN2Zero(Number($scope.ticket.cost.delivery));
                                     }
