@@ -2494,7 +2494,7 @@ class Ticket_model extends CI_Model
 					//echo $row->idUser . "\n";
 					$quuery = null;
 					$this->db->distinct();
-					$this->db->select("*_");
+					$this->db->select("*");
 					$this->db->from("tb_tickets_2");
 					if (@$data['idTypeTenantKf']=='1' || @$data['idTypeTenantKf']=='2'){
 						$where = "(ISNULL(sendNotify) OR isBillingInitiated = '1')";
@@ -2571,7 +2571,7 @@ class Ticket_model extends CI_Model
 					
 				}
 			}
-			array_multisort(array_unique($rsA, SORT_DESC));
+			array_multisort(array_unique($rsA));
 			if(count($rsA)>0){
 				return $this->buscar_relaciones_ticket($rsA);
 			}else{
