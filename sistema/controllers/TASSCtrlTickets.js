@@ -1964,6 +1964,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.ticket = {'administration':undefined, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':undefined, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
                         $scope.ticket.delivery.thirdPerson={};
                         $scope.costs={'keys':{'cost':formatDecimalLatam(0), 'manual':false}, 'delivery':{'cost':formatDecimalLatam(0), 'manual':false}, 'service':{'cost':formatDecimalLatam(0), 'manual':false}, 'total':formatDecimalLatam(0)};
+                        console.log($scope.costs);
                         $scope.selectedUser = undefined;
                         $scope.ticketRegistered = null;
                         $scope.formValidated=false;
@@ -2009,6 +2010,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.ticket = {'administration':undefined, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'reason':undefined,'optionTypeSelected': {}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':undefined, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
                         $scope.ticket.delivery.thirdPerson={};
                         $scope.costs={'keys':{'cost':formatDecimalLatam(0), 'manual':false}, 'delivery':{'cost':formatDecimalLatam(0), 'manual':false}, 'service':{'cost':formatDecimalLatam(0), 'manual':false}, 'total':formatDecimalLatam(0)};
+                        console.log($scope.costs);
                         $scope.selectedUser = undefined;
                         $scope.formValidated=false;
                         $scope.list_doors = [];
