@@ -4444,7 +4444,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                           console.info("the ticket id is "+ticketId);
                           ticketServices.ticketById(ticketId).then(function(response){
                             if(response.status==200){
-                              $scope.rsData.ticket = (response.data);
+                              $scope.rsData.ticket = (response.data.tickets[0]);
                               //console.log($scope.rsData);
                               ticketServices.billingFileUploaded(ticketId).then(function(response){
                                 if(response.status==404){
@@ -4588,7 +4588,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                             console.info("the ticket id is "+ticketId);
                             ticketServices.ticketById(ticketId).then(function(response){
                               if(response.status==200){
-                                $scope.rsData.ticket = (response.data);
+                                $scope.rsData.ticket = (response.data.tickets[0]);
                                 //console.log($scope.rsData);
                                 ticketServices.billingFileUploaded(ticketId).then(function(response){
                                   if(response.status==404){
