@@ -3622,7 +3622,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             switch (opt2){
                                 case "service":
                                     if (Number(subTotalService) != Number(obj)){
-                                        subTotalService=obj;
+                                        subTotalService = NaN2Zero(Number(obj));
                                         $scope.costs.service.cost  =subTotalService;
                                         $scope.ticket.cost.service = subTotalService;
                                         $scope.costs.service.manual=true;
@@ -3630,7 +3630,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 break;
                                 case "keys":
                                     if (Number(subTotalKeys) != Number(obj)){
-                                        subTotalKeys = obj;
+                                        subTotalKeys = NaN2Zero(Number(obj));
                                         $scope.costs.keys.cost      = subTotalKeys;
                                         $scope.ticket.cost.keys     = subTotalKeys;
                                         $scope.costs.keys.manual    = true;
@@ -3638,17 +3638,17 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 break;
                                 case "delivery":
                                     if (Number(subTotalDelivery) != Number(obj)){
-                                        subTotalDelivery = obj;
+                                        subTotalDelivery = NaN2Zero(Number(obj));
                                         $scope.costs.delivery.cost      = subTotalDelivery;
                                         $scope.ticket.cost.delivery     =  subTotalDelivery;
                                         $scope.costs.delivery.manual    = true;
                                     }
                                 break;
                             }
-                            subTotalCosts = NaN2Zero(Number(subTotalService))+NaN2Zero(Number(subTotalKeys))+NaN2Zero(Number(subTotalDelivery));
+                            subTotalCosts = (subTotalService + subTotalKeys + subTotalDelivery).toFixed(2);
                             
-                            $scope.ticket.cost.total = subTotalCosts.toFixed(2);
-                            $scope.costs.total       = subTotalCosts.toFixed(2);
+                            $scope.ticket.cost.total = subTotalCosts;
+                            $scope.costs.total       = subTotalCosts;
                             console.log($scope.costs);
                         }else{
                             var subTotalKeys        = 0;
