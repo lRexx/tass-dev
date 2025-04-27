@@ -4905,7 +4905,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     }, 2500);
                     if((response.data.idStatusTicketKf=="3" || response.data.idStatusTicketKf=="9") && response.data.idTypePaymentKf=="2" && response.data.total>0){
                         $timeout(function() {
-                            $scope.mainSwitchFn("linkMP",response.data,null);
+                            $scope.mainSwitchFn("linkMP",response.data.response,null);
                         }, 2700);
                     }
                     }else if(response.status==500){
