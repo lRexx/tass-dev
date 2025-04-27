@@ -3719,12 +3719,12 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                     inform.add('Ticket ha sido aprobado satisfactoriamente.',{
                       ttl:3000, type: 'success'
                     });
-                    $timeout(function() {
-                      if (ticket.idTypePaymentKf=="2" && ticket.idStatusTicketKf!=9 && ticket.idStatusTicketKf!=11){
-                        $scope.mainSwitchFn("linkMP",response.data,null);
-                      }
-                      $scope.mainSwitchFn('search', null);
-                  }, 2500);
+                    if(response.data.idTypePaymentKf=="2" && (response.data.idStatusTicketKf!="9" || response.data.idStatusTicketKf!="11") && NaN2Zero(normalizeDecimal(response.data.total))>0){
+                      $timeout(function() {
+                          $scope.mainSwitchFn("linkMP",response.data,null);
+                          $scope.mainSwitchFn('search', null);
+                      }, 2500);
+                    }
                     $timeout(function() {
 
                         $('.circle-loader').toggleClass('load-complete');
