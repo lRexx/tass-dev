@@ -4894,7 +4894,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         });
                         $('.circle-loader').toggleClass('load-complete');
                         $('.checkmark').toggle();
-                        $scope.ticketRegistered = response.data;
+                        $scope.ticketRegistered = response.data.response;
                     }, 2500);
                     if((response.data.idStatusTicketKf=="3" || response.data.idStatusTicketKf=="9") && response.data.idTypePaymentKf=="2" && response.data.total>0){
                         $timeout(function() {
@@ -4928,7 +4928,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                        });
                        $('.circle-loader').toggleClass('load-complete');
                        $('.checkmark').toggle();
-                       $scope.ticketRegistered = response.data;
+                       $scope.ticketRegistered = response.data.response;
                    }, 2500);
                    if((response.data.idStatusTicketKf=="3" || response.data.idStatusTicketKf=="9") && response.data.idTypePaymentKf=="2" && response.data.total>0){
                        $timeout(function() {
