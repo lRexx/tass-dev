@@ -4892,7 +4892,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 console.log(pedido);
                 $scope.ticketRegistered = null;
                 ticketServices.addUpRequest(pedido).then(function(response){
-                    //console.log(response);
+                    console.log(response);
                     if(response.status==200){
                     $timeout(function() {
                         console.log("Request Successfully Created");
