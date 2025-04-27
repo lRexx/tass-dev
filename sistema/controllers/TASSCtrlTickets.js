@@ -1963,7 +1963,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.tenant = {'namesTenant':null, 'addressTenant':null, 'movilPhoneTenant':null, 'localPhoneTenant':null, 'emailTenant':null}
                         $scope.ticket = {'administration':undefined, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':undefined, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
                         $scope.ticket.delivery.thirdPerson={};
-                        $scope.costs={'keys':{'cost':0, 'manual':false}, 'delivery':{'cost':0, 'manual':false}, 'service':{'cost':0, 'manual':false}, 'total':0};
+                        $scope.costs={'keys':{'cost':formatDecimalLatam(0), 'manual':false}, 'delivery':{'cost':formatDecimalLatam(0), 'manual':false}, 'service':{'cost':formatDecimalLatam(0), 'manual':false}, 'total':formatDecimalLatam(0)};
                         $scope.selectedUser = undefined;
                         $scope.ticketRegistered = null;
                         $scope.formValidated=false;
@@ -2008,7 +2008,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.tenant = {'namesTenant':null, 'addressTenant':null, 'movilPhoneTenant':null, 'localPhoneTenant':null, 'emailTenant':null}
                         $scope.ticket = {'administration':undefined, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'reason':undefined,'optionTypeSelected': {}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':undefined, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
                         $scope.ticket.delivery.thirdPerson={};
-                        $scope.costs={'keys':{'cost':0, 'manual':false}, 'delivery':{'cost':0, 'manual':false}, 'service':{'cost':0, 'manual':false}, 'total':0};
+                        $scope.costs={'keys':{'cost':formatDecimalLatam(0), 'manual':false}, 'delivery':{'cost':formatDecimalLatam(0), 'manual':false}, 'service':{'cost':formatDecimalLatam(0), 'manual':false}, 'total':formatDecimalLatam(0)};
                         $scope.selectedUser = undefined;
                         $scope.formValidated=false;
                         $scope.list_doors = [];
@@ -2054,7 +2054,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.select = {'admins':{'selected':undefined}, 'buildings':{'selected':undefined},'depto':undefined,'floor':undefined};
                         $scope.tenant = {'namesTenant':null, 'addressTenant':null, 'movilPhoneTenant':null, 'localPhoneTenant':null, 'emailTenant':null}
                         $scope.ticket = {'administration':undefined, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':null, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
-                        $scope.costs={'keys':{'cost':0, 'manual':false}, 'delivery':{'cost':0, 'manual':false}, 'service':{'cost':0, 'manual':false}, 'total':0};
+                        $scope.costs={'keys':{'cost':formatDecimalLatam(0), 'manual':false}, 'delivery':{'cost':formatDecimalLatam(0), 'manual':false}, 'service':{'cost':formatDecimalLatam(0), 'manual':false}, 'total':formatDecimalLatam(0)};
                         $scope.selectedUser = undefined;
                         $scope.formValidated=false;
                         $scope.list_doors = [];
