@@ -2503,7 +2503,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $scope.otherDeliveryAddress                           = {};
                   $scope.thirdPersonDelivery                            = {};
                   $scope.costDelivery                                   = obj.selected.costDelivery!=null?Number(obj.selected.costDelivery):null;
-                  $scope.subTotalDelivery                               = Number(obj.cost.delivery);
+                  $scope.subTotalDelivery                               = NaN2Zero(normalizeDecimal(obj.cost.delivery));
                   $scope.update.ticket.refund                           = [];
                   switch (obj.selected.idTypePaymentKf){
                     case "1":
@@ -2783,14 +2783,14 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $scope.update.ticket.isNew                  = obj.selected.isNew;
                   $scope.update.ticket.costService            = obj.selected.costService;
                   $scope.update.ticket.costKeys               = obj.selected.costKeys;
-                  var subTotalKeys                            = NaN2Zero(Number(obj.selected.costKeys));
-                  var subTotalService                         = NaN2Zero(Number(obj.selected.costService));
+                  var subTotalKeys                            = NaN2Zero(normalizeDecimal(obj.selected.costKeys));
+                  var subTotalService                         = NaN2Zero(normalizeDecimal(obj.selected.costService));
                   console.log("SE MODIFICA STATUS POR VALOR ACTUA");
                   console.log($scope.update.ticket.idStatusTicketKf);
                   //$scope.update.ticket.idStatusTicketKf     = obj.selected.idStatusTicketKf;
                   $scope.update.ticket.costDelivery           = $scope.subTotalDelivery;
-                  subTotalCosts = NaN2Zero(Number(subTotalService))+NaN2Zero(Number(subTotalKeys))+NaN2Zero(Number($scope.subTotalDelivery));
-                  $scope.update.ticket.total                  = subTotalCosts.toFixed(2);
+                  subTotalCosts = subTotalService + subTotalKeys + $scope.subTotalDelivery;
+                  $scope.update.ticket.total                  = formatDecimalLatam(subTotalCosts);
                   $scope.update.ticket.idPaymentDeliveryKf    = obj.selected.idPaymentDeliveryKf!=null?obj.selected.idPaymentDeliveryKf:null;
                   $scope.update.ticket.isDeliveryHasChanged   = 1;
                   console.log($scope.update);
@@ -3437,17 +3437,17 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 console.log($scope.costs);
             break;
             case "recalculateCosts":
-                var subTotalKeys = $scope.ticket.cost.keys;
-                var subTotalService = $scope.ticket.cost.service;
-                var subTotalDelivery = $scope.ticket.cost.delivery;
+                var subTotalKeys      = $scope.ticket.cost.keys;
+                var subTotalService   = $scope.ticket.cost.service;
+                var subTotalDelivery  = $scope.ticket.cost.delivery;
                 var subTotalCosts = 0;
-                console.log("subTotalService  : "+Number(subTotalService))
-                console.log("subTotalKeys     : "+Number(subTotalKeys))
-                console.log("subTotalDelivery : "+Number(subTotalDelivery))
+                console.log("subTotalService  : "+NaN2Zero(normalizeDecimal(subTotalService)));
+                console.log("subTotalKeys     : "+NaN2Zero(normalizeDecimal(subTotalKeys)));
+                console.log("subTotalDelivery : "+NaN2Zero(normalizeDecimal(subTotalDelivery)));
                 var opt2 = obj2;
                 switch (opt2){
                     case "service":
-                        if (Number(subTotalService) != Number(obj)){
+                        if (NaN2Zero(normalizeDecimal(subTotalService)) != NaN2Zero(normalizeDecimal(obj))){
                             subTotalService=obj;
                             $scope.costs.service.cost   = subTotalService;
                             $scope.ticket.cost.service  = subTotalService;
@@ -3471,7 +3471,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                         }
                     break;
                 }
-                subTotalCosts = NaN2Zero(Number(subTotalService))+NaN2Zero(Number(subTotalKeys))+NaN2Zero(Number(subTotalDelivery));
+                subTotalCosts = NaN2Zero(normalizeDecimal(subTotalService))+NaN2Zero(normalizeDecimal(subTotalKeys))+NaN2Zero(normalizeDecimal(subTotalDelivery));
                 
                 $scope.ticket.cost.total = subTotalCosts.toFixed(2);
                 $scope.costs.total       = subTotalCosts.toFixed(2);
