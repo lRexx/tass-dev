@@ -3605,7 +3605,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                         });
                         $scope.addPaymentDetailsFn = response.data.response;
                         $timeout(function() {
-                          $scope.openTicketFn(obj.idTicket);
+                          $scope.openTicketFn($scope.mp.payment.data.idTicketKf);
                         }, 500);
                     }else if(response.status==500){
                         $scope.addPaymentDetailsFn = null;
