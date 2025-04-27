@@ -2240,6 +2240,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         console.log("subTotalDelivery : "+subTotalDelivery);
                                         $scope.buildingDeliveryCost     = formatDecimalLatam(subTotalDelivery);
                                     }
+                                    console.log("$scope.buildingServiceValue :"+$scope.buildingServiceValue);
+                                    console.log("$scope.buildingDeliveryCost :"+$scope.buildingDeliveryCost);
                                     //$scope.mainSwitchFn('autoSelectDoors', null, null);
                                     blockUI.stop();
                                 }, 2000);
@@ -2277,10 +2279,10 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     blockUI.stop();
                                     $scope.enabledNextBtn();
                                     $scope.isDataLoaded=true;
-
+                                    console.log("$scope.buildingServiceValue :"+$scope.buildingServiceValue);
+                                    console.log("$scope.buildingDeliveryCost :"+$scope.buildingDeliveryCost);
                                 }, 2000);
-                                console.log("$scope.buildingServiceValue :"+$scope.buildingServiceValue);
-                                console.log("$scope.buildingDeliveryCost :"+$scope.buildingDeliveryCost);
+
                             }
                         }else{
                             $scope.clientName=obj.name;
