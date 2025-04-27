@@ -4903,9 +4903,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $('.checkmark').toggle();
                         $scope.ticketRegistered = response.data.response;
                     }, 2500);
-                    if((response.data.idStatusTicketKf=="3" || response.data.idStatusTicketKf=="9") && response.data.idTypePaymentKf=="2" && response.data.total>0){
+                    if(($scope.ticketRegistered.idStatusTicketKf=="3" || $scope.ticketRegistered.idStatusTicketKf=="9") && $scope.ticketRegistered.idTypePaymentKf=="2" && $scope.ticketRegistered.total>0){
                         $timeout(function() {
-                            $scope.mainSwitchFn("linkMP",response.data.response,null);
+                            $scope.mainSwitchFn("linkMP",$scope.ticketRegistered,null);
                         }, 2700);
                     }
                     }else if(response.status==500){
