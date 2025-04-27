@@ -2556,7 +2556,7 @@ class Ticket_model extends CI_Model
 					if (@$data['topfilter']!=''){
 						$this->db->limit($data['topfilter']);
 					}
-					$quuery = $this->db->order_by("idTicket" , "DESC")->get();
+					$quuery = $this->db->order_by("idTicket" , "ASC")->get();
 					//print_r($quuery->result_array());
 					if (count($quuery->result_array())>=1){
 						//print_r("entro ". $i);
@@ -2571,7 +2571,7 @@ class Ticket_model extends CI_Model
 					
 				}
 			}
-			array_multisort(array_unique($rsA));
+			array_multisort(array_unique($rsA, SORT_DESC));
 			if(count($rsA)>0){
 				return $this->buscar_relaciones_ticket($rsA);
 			}else{
