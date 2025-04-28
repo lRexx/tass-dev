@@ -2713,17 +2713,15 @@ class Ticket_model extends CI_Model
 	public function ticketByType($data)
 	{
 		$quuery = null;
-		$rs     = null;
 
-		$this->db->select("*")->from("tb_tickets_2");
+		$this->db->select("COUNT(*)")->from("tb_tickets_2");
 		$this->db->where("idTypeRequestFor = " , $data['idTypeRequestFor']);
 		$this->db->where("idBuildingKf = " , $data['idBuildingKf']);
+		$this->db->where("isInitialDeliveryActive = " , $data['isInitialDeliveryActive']);
 		$this->db->or_where("idDepartmentKf = ", $data['idDepartmentKf']);
 		$quuery = $this->db->get();
-
 		if ($quuery->num_rows() > 0){
-			$todo = $quuery->result_array();
-			return $this->buscar_relaciones_ticket($todo);
+			return true;
 		}
 		return null;
 	}
