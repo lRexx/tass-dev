@@ -2709,6 +2709,24 @@ class Ticket_model extends CI_Model
 		}
 		return null;
 	}
+
+	public function ticketByType($data)
+	{
+		$quuery = null;
+		$rs     = null;
+
+		$this->db->select("*")->from("tb_tickets_2");
+		$this->db->where("idTypeRequestFor = " , $data['idTypeRequestFor']);
+		$this->db->where("idBuildingKf = " , $data['idBuildingKf']);
+		$this->db->or_where("idDepartmentKf = ", $data['idDepartmentKf']);
+		$quuery = $this->db->get();
+
+		if ($quuery->num_rows() > 0){
+			$todo = $quuery->result_array();
+			return $this->buscar_relaciones_ticket($todo);
+		}
+		return null;
+	}
 	/* VERIFY IF BILLING RECEIPT TICKET IS UPLOADED ALREADY BY TICKET ID */
 	public function billingUploaded($id)
 	{
