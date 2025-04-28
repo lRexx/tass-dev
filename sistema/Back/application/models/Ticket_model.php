@@ -174,7 +174,7 @@ class Ticket_model extends CI_Model
 					$queryUser = $this->db->where("idUser =", $ticket['idUserRequestBy'])->get();
 					if ($queryUser->num_rows() > 0) {
 						$user = $queryUser->row_array();
-						if ($ticket['sendNotify']==1 || $ticket['sendNotify']==null){
+						if ($ticket['sendNotify']==1){
 							#MAIL TO USER
 							$rs = null;
 							$to = $user['emailUser'];
@@ -198,7 +198,7 @@ class Ticket_model extends CI_Model
 							$body.='</tr>';
 							$rs = $this->mail_model->sendMail($title, $to, $body, $subject);
 						}
-						if ($rs == "Enviado" || ($ticket['sendNotify'] || !$ticket['sendNotify'])){
+						if ($rs == "Enviado" || $ticket['sendNotify']==1){
 							$this->db->select("tb_client_mails.mailContact")->from("tb_client_mails");
 							$this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
 							$where="tb_client_mails.idTipoDeMailFk = 1 AND tb_client_mails.idClientFk = ".$building['idBuilding'];
@@ -245,7 +245,7 @@ class Ticket_model extends CI_Model
 						}
 					}
 				}else{
-					if ($ticket['sendNotify']==1 || $ticket['sendNotify']==null){
+					if ($ticket['sendNotify']==1){
 						$this->db->select("tb_client_mails.mailContact")->from("tb_client_mails");
 						$this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
 						$where="tb_client_mails.idTipoDeMailFk = 1 AND tb_client_mails.idClientFk = ".$ticket['idBuildingKf'];
@@ -416,7 +416,7 @@ class Ticket_model extends CI_Model
 				$queryUser = $this->db->where("idUser =", $ticket['idUserRequestBy'])->get();
 				if ($queryUser->num_rows() > 0) {
 					$user = $queryUser->row_array();
-					if ($ticket['sendNotify']==1 || $ticket['sendNotify']==null){
+					if ($ticket['sendNotify']==1){
 						#MAIL TO USER
 						$rs = null;
 						$to = $user['emailUser'];
@@ -440,7 +440,7 @@ class Ticket_model extends CI_Model
 						$body.='</tr>';
 						$rs = $this->mail_model->sendMail($title, $to, $body, $subject);
 					}
-					if ($rs == "Enviado" || ($ticket['sendNotify'] || !$ticket['sendNotify'])){
+					if ($rs == "Enviado" || $ticket['sendNotify']==1){
 						$this->db->select("tb_client_mails.mailContact")->from("tb_client_mails");
 						$this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
 						$where="tb_client_mails.idTipoDeMailFk = 1 AND tb_client_mails.idClientFk = ".$building['idBuilding'];
@@ -487,7 +487,7 @@ class Ticket_model extends CI_Model
 					}
 				}
 			}else{
-				if ($ticket['sendNotify']==1 || $ticket['sendNotify']==null){
+				if ($ticket['sendNotify']==1){
 					$this->db->select("tb_client_mails.mailContact")->from("tb_client_mails");
 					$this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
 					$where="tb_client_mails.idTipoDeMailFk = 1 AND tb_client_mails.idClientFk = ".$ticket['idBuildingKf'];
@@ -2497,7 +2497,7 @@ class Ticket_model extends CI_Model
 					$this->db->select("*");
 					$this->db->from("tb_tickets_2");
 					if (@$data['idTypeTenantKf']=='1' || @$data['idTypeTenantKf']=='2'){
-						$where = "(ISNULL(sendNotify) OR isBillingInitiated = '1')";
+						$where = "sendNotify = '1' AND (ISNULL(isBillingInitiated) OR isBillingInitiated = '1')";
 						$this->db->or_where($where);
 					}
 					if (@$data['idProfileKf']=='3' || (@$data['idProfileKf']=='4' && @$data['idTypeTenantKf']=='1' && @$data['isHomeSelected'])){
