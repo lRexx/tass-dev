@@ -2169,6 +2169,21 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 }
                             });
                         }
+                        if ($scope.ticket.idClientDepartament.idClientDepartament!=undefined){
+                            $scope.ticket_find={'idBuildingKf':null,'idDepartmentKf':null};
+                            $scope.ticket.departmentHasTicketsInitialDelivery=false;
+                            $scope.ticket_find.idBuildingKf   = $scope.ticket.idClientDepartament.idClientDepartament
+                            $scope.ticket_find.idDepartmentKf = $scope.ticket.building.idClient
+                            ticketServices.ticketInitialDeliveryActiveByDeptoId($scope.ticket.idClientDepartament.idClientDepartament).then(function(response) {
+                                if(response.status==200){
+                                    $scope.ticket.departmentHasTicketsInitialDelivery=true;
+                                }else if (response.status==404){
+                                    $scope.ticket.departmentHasTicketsInitialDelivery=false;
+                                }else if (response.status==500){
+                                    $scope.ticket.departmentHasTicketsInitialDelivery=false;
+                                }
+                            });
+                        }
                         console.log($scope.ticket);
                     break;
                     case "loadBuildingData":
@@ -2668,7 +2683,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         if ($scope.list_keys.length == 0){
                             $scope.keysTotalPrice=0;
                             var id = 1;
-                            if ($scope.select.buildings.selected.initial_delivery!=undefined && $scope.select.buildings.selected.initial_delivery.length>0 && !$scope.select.buildings.selected.initial_delivery[0].expiration_state && (($scope.list_keys.length+1))<=parseInt($scope.select.buildings.selected.initial_delivery[0].initial_qtty)){
+                            if (!$scope.ticket.departmentHasTicketsInitialDelivery && $scope.select.buildings.selected.initial_delivery!=undefined && $scope.select.buildings.selected.initial_delivery.length>0 && !$scope.select.buildings.selected.initial_delivery[0].expiration_state && (($scope.list_keys.length+1))<=parseInt($scope.select.buildings.selected.initial_delivery[0].initial_qtty)){
                                 productSelected.priceFabric = 0;
                             }else if ($scope.select.buildings.selected.initial_delivery.length>0 && !$scope.select.buildings.selected.initial_delivery[0].expiration_state && (($scope.list_keys.length+1))>parseInt($scope.select.buildings.selected.initial_delivery[0].initial_qtty)){
                                 productSelected.priceFabric = Number($scope.select.buildings.selected.initial_delivery[0].initial_price);
@@ -2696,7 +2711,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 }
                                 if(!$scope.isUserExist){
                                     var id = ($scope.list_keys.length+1);
-                                    if ($scope.select.buildings.selected.initial_delivery.length>0 && !$scope.select.buildings.selected.initial_delivery[0].expiration_state && (($scope.list_keys.length+1))<=parseInt($scope.select.buildings.selected.initial_delivery[0].initial_qtty)){
+                                    if (!$scope.ticket.departmentHasTicketsInitialDelivery && $scope.select.buildings.selected.initial_delivery.length>0 && !$scope.select.buildings.selected.initial_delivery[0].expiration_state && (($scope.list_keys.length+1))<=parseInt($scope.select.buildings.selected.initial_delivery[0].initial_qtty)){
                                         productSelected.priceFabric = 0;
                                     }else if ($scope.select.buildings.selected.initial_delivery.length>0 && !$scope.select.buildings.selected.initial_delivery[0].expiration_state && (($scope.list_keys.length+1))>parseInt($scope.select.buildings.selected.initial_delivery[0].initial_qtty)){
                                         productSelected.priceFabric = Number($scope.select.buildings.selected.initial_delivery[0].initial_price);
