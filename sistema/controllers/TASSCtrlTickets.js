@@ -2171,7 +2171,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }
                         if ($scope.ticket.idClientDepartament!=undefined){
                             $scope.ticket_find={'idBuildingKf':null,'idDepartmentKf':null};
-                            $scope.ticket.departmentHasTicketsInitialDelivery=false;
+                            $scope.ticket.departmentHasTicketsInitialDelivery=null;
                             $scope.ticket_find.idDepartmentKf   = $scope.ticket.idClientDepartament.idClientDepartament
                             $scope.ticket_find.idBuildingKf     = $scope.ticket.building.idClient
                             ticketServices.ticketInitialDeliveryActiveByDeptoId($scope.ticket_find).then(function(response) {
@@ -2426,7 +2426,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $timeout(function() {
                                 if ($scope.ticket.idClientDepartament!=undefined){
                                     $scope.ticket_find={'idBuildingKf':null,'idDepartmentKf':null};
-                                    $scope.ticket.departmentHasTicketsInitialDelivery=false;
+                                    $scope.ticket.departmentHasTicketsInitialDelivery=null;
                                     $scope.ticket_find.idDepartmentKf   = $scope.ticket.idClientDepartament.idClientDepartament
                                     $scope.ticket_find.idBuildingKf     = $scope.ticket.building.idClient
                                     ticketServices.ticketInitialDeliveryActiveByDeptoId($scope.ticket_find).then(function(response) {
@@ -2570,14 +2570,16 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             ($scope.ticket.building.isStockInBuilding!=null && $scope.ticket.building.isStockInBuilding!='0' && $scope.ticket.building.isStockInBuilding=='1') && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')||
                             ($scope.ticket.building.isStockInOffice!=null && $scope.ticket.building.isStockInOffice!='0' && $scope.ticket.building.isStockInOffice=='1') && ($scope.ticket.building.isStockInBuilding==null || $scope.ticket.building.isStockInBuilding=='0')){
                             $scope.whoPickUpList.push({'id': 2, 'fullNameUser': "Encargado", 'type':"Otros"});
-                            if (!$scope.initialLoopExecuted) {
-                                $scope.initialLoopExecuted = true;
-                                var initialQtty = parseInt($scope.ticket.building.initial_delivery[0].initial_qtty, 10);
-                                console.log(initialQtty);
-                                if (!isNaN(initialQtty)) {
-                                    for (let  vQtty = 0; vQtty < initialQtty; vQtty++) {
-                                        console.log(`Looping: vQtty=${vQtty}, initialQtty=${initialQtty}`);
-                                        $scope.mainSwitchFn('addKeyFieldsToList', $scope.select.products.selected, $scope.rsCustomerAccessControlDoors);
+                            if (!$scope.ticket.departmentHasTicketsInitialDelivery){
+                                if (!$scope.initialLoopExecuted) {
+                                    $scope.initialLoopExecuted = true;
+                                    var initialQtty = parseInt($scope.ticket.building.initial_delivery[0].initial_qtty, 10);
+                                    console.log(initialQtty);
+                                    if (!isNaN(initialQtty)) {
+                                        for (let  vQtty = 0; vQtty < initialQtty; vQtty++) {
+                                            console.log(`Looping: vQtty=${vQtty}, initialQtty=${initialQtty}`);
+                                            $scope.mainSwitchFn('addKeyFieldsToList', $scope.select.products.selected, $scope.rsCustomerAccessControlDoors);
+                                        }
                                     }
                                 }
                             }
