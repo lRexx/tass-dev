@@ -2735,6 +2735,7 @@ class Ticket_model extends CI_Model
 		$this->db->where("isInitialDeliveryActive = " , 1);
 		$this->db->where("idDepartmentKf = ", $data['idDepartmentKf']);
 		$quuery = $this->db->get();
+		print_r($quuery->result_array());
 		if ($quuery->num_rows() > 0){
 			return true;
 		}
