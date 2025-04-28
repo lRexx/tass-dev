@@ -2429,6 +2429,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     $scope.ticket_find.idBuildingKf   = $scope.ticket.idClientDepartament.idClientDepartament
                                     $scope.ticket_find.idDepartmentKf = $scope.ticket.building.idClient
                                     ticketServices.ticketInitialDeliveryActiveByDeptoId($scope.ticket_find).then(function(response) {
+                                        console.log(response);
                                         if(response.status==200){
                                             $scope.ticket.departmentHasTicketsInitialDelivery=true;
                                         }else if (response.status==404){
