@@ -2172,8 +2172,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         if ($scope.ticket.idClientDepartament!=undefined){
                             $scope.ticket_find={'idBuildingKf':null,'idDepartmentKf':null};
                             $scope.ticket.departmentHasTicketsInitialDelivery=false;
-                            $scope.ticket_find.idBuildingKf   = $scope.ticket.idClientDepartament.idClientDepartament
-                            $scope.ticket_find.idDepartmentKf = $scope.ticket.building.idClient
+                            $scope.ticket_find.idDepartmentKf   = $scope.ticket.idClientDepartament.idClientDepartament
+                            $scope.ticket_find.idBuildingKf     = $scope.ticket.building.idClient
                             ticketServices.ticketInitialDeliveryActiveByDeptoId($scope.ticket_find).then(function(response) {
                                 console.log(response);
                                 if(response.status==200){
@@ -2427,8 +2427,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 if ($scope.ticket.idClientDepartament!=undefined){
                                     $scope.ticket_find={'idBuildingKf':null,'idDepartmentKf':null};
                                     $scope.ticket.departmentHasTicketsInitialDelivery=false;
-                                    $scope.ticket_find.idBuildingKf   = $scope.ticket.idClientDepartament.idClientDepartament
-                                    $scope.ticket_find.idDepartmentKf = $scope.ticket.building.idClient
+                                    $scope.ticket_find.idDepartmentKf   = $scope.ticket.idClientDepartament.idClientDepartament
+                                    $scope.ticket_find.idBuildingKf     = $scope.ticket.building.idClient
                                     ticketServices.ticketInitialDeliveryActiveByDeptoId($scope.ticket_find).then(function(response) {
                                         console.log(response);
                                         if(response.status==200){
