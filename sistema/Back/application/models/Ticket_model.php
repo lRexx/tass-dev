@@ -2729,13 +2729,13 @@ class Ticket_model extends CI_Model
 	{
 		$quuery = null;
 
-		$this->db->select("COUNT(*)")->from("tb_tickets_2");
+		$this->db->select("*")->from("tb_tickets_2");
 		$this->db->where("idTypeRequestFor = " , 1);
 		$this->db->where("idBuildingKf = " , $data['idBuildingKf']);
 		$this->db->where("isInitialDeliveryActive = " , 1);
 		$this->db->where("idDepartmentKf = ", $data['idDepartmentKf']);
 		$quuery = $this->db->get();
-		print_r($quuery->result_array());
+		//print_r($quuery->result_array());
 		if ($quuery->num_rows() > 0){
 			return true;
 		}
