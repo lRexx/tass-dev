@@ -2718,7 +2718,22 @@ class Ticket_model extends CI_Model
 		$this->db->where("idTypeRequestFor = " , $data['idTypeRequestFor']);
 		$this->db->where("idBuildingKf = " , $data['idBuildingKf']);
 		$this->db->where("isInitialDeliveryActive = " , $data['isInitialDeliveryActive']);
-		$this->db->or_where("idDepartmentKf = ", $data['idDepartmentKf']);
+		$this->db->where("idDepartmentKf = ", $data['idDepartmentKf']);
+		$quuery = $this->db->get();
+		if ($quuery->num_rows() > 0){
+			return true;
+		}
+		return null;
+	}
+	public function ticketInitialDeliveryActiveByDeptoId($data)
+	{
+		$quuery = null;
+
+		$this->db->select("COUNT(*)")->from("tb_tickets_2");
+		$this->db->where("idTypeRequestFor = " , 1);
+		$this->db->where("idBuildingKf = " , $data['idBuildingKf']);
+		$this->db->where("isInitialDeliveryActive = " , 1);
+		$this->db->where("idDepartmentKf = ", $data['idDepartmentKf']);
 		$quuery = $this->db->get();
 		if ($quuery->num_rows() > 0){
 			return true;
