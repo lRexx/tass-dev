@@ -3748,7 +3748,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 $scope.mainSwitchFn('setCosts', null, null);
                             break;
                         }
-
+                        $scope.enabledNextBtn();
                     break;
                     case "up": // SOLOCITUD DE ALTA
                         console.log("---------------------------------------");
