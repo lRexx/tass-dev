@@ -485,8 +485,13 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     case 3: console.log($scope.ticket);
                         if ($scope.fSwitch=="n" && $scope.sysLoggedUser.idProfileKf!=0){
                             //PASO 4: MÉTODO DE PAGO
-                            if ($scope.ticket.cost.idTypePaymentKf==null || $scope.ticket.cost.idTypePaymentKf==undefined){
-                                $scope.formValidated=false;
+                            console.info("ENTRO AL CASE 4 : ALTA DE LLAVE - PASO 4: MÉTODO DE PAGO");
+                            if (($scope.ticket.cost.idTypePaymentKf==null || $scope.ticket.cost.idTypePaymentKf==undefined)){
+                                if ($scope.sysLoggedUser.idProfileKf==1 && ($scope.ticket.userNotify==null || $scope.ticket.userNotify==undefined)){
+                                    $scope.formValidated=false;
+                                }else{
+                                    $scope.formValidated=true;
+                                }
                             }else{
                                 $scope.formValidated=true;
                             }
