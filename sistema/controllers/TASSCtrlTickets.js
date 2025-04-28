@@ -2169,7 +2169,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 }
                             });
                         }
-                        if ($scope.ticket.idClientDepartament.idClientDepartament!=undefined){
+                        if ($scope.ticket.idClientDepartament!=undefined){
                             $scope.ticket_find={'idBuildingKf':null,'idDepartmentKf':null};
                             $scope.ticket.departmentHasTicketsInitialDelivery=false;
                             $scope.ticket_find.idBuildingKf   = $scope.ticket.idClientDepartament.idClientDepartament
@@ -2421,7 +2421,24 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             //   ($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==0 && $scope.ticket.building.isStockInBuilding=='1' && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')) || 
                             //   ($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && $scope.ticket.building.initial_delivery[0].expiration_state && $scope.ticket.building.isStockInBuilding=='1' && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0'))){
                             //    $scope.ticket.delivery.idTypeDeliveryKf="2"
-                            //} 
+                            //}
+                            $timeout(function() {
+                                if ($scope.ticket.idClientDepartament!=undefined){
+                                    $scope.ticket_find={'idBuildingKf':null,'idDepartmentKf':null};
+                                    $scope.ticket.departmentHasTicketsInitialDelivery=false;
+                                    $scope.ticket_find.idBuildingKf   = $scope.ticket.idClientDepartament.idClientDepartament
+                                    $scope.ticket_find.idDepartmentKf = $scope.ticket.building.idClient
+                                    ticketServices.ticketInitialDeliveryActiveByDeptoId($scope.ticket.idClientDepartament.idClientDepartament).then(function(response) {
+                                        if(response.status==200){
+                                            $scope.ticket.departmentHasTicketsInitialDelivery=true;
+                                        }else if (response.status==404){
+                                            $scope.ticket.departmentHasTicketsInitialDelivery=false;
+                                        }else if (response.status==500){
+                                            $scope.ticket.departmentHasTicketsInitialDelivery=false;
+                                        }
+                                    });
+                                }
+                            }, 1000);
                             $scope.keyList = obj.keys;
                             $timeout(function() {
                                 $scope.getCustomerByIdFn(obj.idClientAdminFk, "admin");
@@ -2432,7 +2449,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     });
                                     $scope.enabledNextBtn();
                                 }                               
-                            }, 1000);
+                            }, 1200);
                         }else{
                             $scope.clientName=obj.name;
                             $scope.msg1 = 'El cliente ';
