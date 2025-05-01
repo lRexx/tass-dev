@@ -4869,7 +4869,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $scope.listTickt = [];
                 ticketServices.all(filter).then(function(response){
                   if(response.status==200){
-                      $scope.listTicktTmp =  response.data.response.tickets;
+                      /*$scope.listTicktTmp =  response.data.response.tickets;
                       if (filter.isInitialDeliveryActive==1){ //isInitialDeliveryActive
                         for(var i=0;i<$scope.listTicktTmp.length;i++){
                             //console.log($scope.listTicktTmp[i].building.isInitialDeliveryActive.length);
@@ -4891,9 +4891,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       //      }
                       //  }
                       //  console.log($scope.listTickt);
-                      }else{
+                      }else{*/
                         $scope.listTickt  = response.data.response.tickets;
-                      }
+                      //}
                         console.log($scope.listTickt);
                         $scope.dashboard = {'tickets':{}};
                         $scope.dashboard.tickets.total              = response.data.response.dashboard.total;
