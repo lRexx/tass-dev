@@ -2241,7 +2241,7 @@ class Ticket_model extends CI_Model
 				if (count($buildingList->result())>0){
 					$i = 0;
 					foreach ($buildingList->result() as &$row) {
-						print_r($row->idClient);
+						print_r($row->idClient.'\n');
 						$quuery = null;
 						$this->db->select("*");
 						$this->db->from("tb_tickets_2");
