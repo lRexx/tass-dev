@@ -2472,6 +2472,7 @@ class Ticket_model extends CI_Model
 					$whereD = "(idUserKf = ".$data['idUserRequestBy'].")";
 				}
 				if (@$data['idBuildingKf']!=''){
+					$whereD .= "AND (idBuildingKf = ".$data['idBuildingKf'].")"; 
 					$rsList = $this->db->where($whereD)->get();
 				}else{
 					$rsList = $this->db->where($whereD)->get();
