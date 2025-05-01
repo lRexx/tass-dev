@@ -2224,7 +2224,7 @@ class Ticket_model extends CI_Model
 				}
 
 				$rsB=array();
-				$this->db->select("*")->from("tb_clients");
+				$this->db->select("*_")->from("tb_clients");
 				if (@$data['idClientAdminFk']!='' && @$data['idBuildingKf']!='' && @$data['idClientCompaniFk']=='' && @$data['idClientBranchFk']==''){
 					$this->db->where("idClient = " , @$data['idBuildingKf']);
 					$buildingList = $this->db->where("idClientAdminFk = " , @$data['idClientAdminFk'])->get();
