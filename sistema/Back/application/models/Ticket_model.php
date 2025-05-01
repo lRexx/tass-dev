@@ -2141,6 +2141,10 @@ class Ticket_model extends CI_Model
 				(((@$data['idClientCompaniFk']!='' && @$data['idClientBranchFk']=='') || (@$data['idClientCompaniFk']!='' && @$data['idClientBranchFk']!='')) && @$data['idClientAdminFk']=='' && @$data['idBuildingKf']=='')){
 				$this->db->select("*");
 				$this->db->from("tb_tickets_2");
+				if (@$data['isHasStockInBuilding']=='1'){
+					$this->db->join('tb_clients', 'tb_clients.idClient = tb_tickets_2.idBuildingKf', 'left');
+					$this->db->where('tb_clients.isStockInBuilding  IS NOT NULL');
+				}
 				$rsA = [];
 				if (@$data['idClientAdminFk']!=''){
 					$this->db->where("idUserRequestBy = " , @$data['idClientAdminFk']);
@@ -2256,14 +2260,6 @@ class Ticket_model extends CI_Model
 						if (@$data['idTypeTicketKf']!=''){
 							$this->db->where("idTypeTicketKf = " , @$data['idTypeTicketKf']);
 						}
-						//TICKET STATUS
-						if (@$data['idStatusTicketKf']!=''){
-							if(@$data['idStatusTicketKf']=='10'){
-								$this->db->where("isCancelRequested = " , "1");
-							}else{
-								$this->db->where("idStatusTicketKf = " , @$data['idStatusTicketKf']);
-							}
-						}
 						//TICKET TYPE DELIVERY
 						if (@$data['idTypeDeliveryKf']!=''){
 							$this->db->where("idTypeDeliveryKf = " , @$data['idTypeDeliveryKf']);
@@ -2271,6 +2267,53 @@ class Ticket_model extends CI_Model
 						//TICKET TYPE OF PAYMENT
 						if (@$data['idTypePaymentKf']!=''){
 							$this->db->where("idTypePaymentKf = " , @$data['idTypePaymentKf']);
+						}
+						//REFUND INITIATED 
+						if (@$data['isHasRefundsOpen']=='1'){
+							$where = "(isHasRefundsOpen = '".@$data['isHasRefundsOpen']."')";
+							$this->db->where($where);
+						}else{
+							$where = "(ISNULL(isHasRefundsOpen) OR isHasRefundsOpen = '".@$data['isHasRefundsOpen']."' OR isHasRefundsOpen <> '".@$data['isHasRefundsOpen']."')";
+							$this->db->where($where);
+						}
+						//INITIAL DELIVERY INITIATED 
+						if (@$data['isInitialDeliveryActive']=='1'){
+							$where = "(isInitialDeliveryActive = '".@$data['isInitialDeliveryActive']."')";
+							$this->db->where($where);
+						}else{
+							$where = "(ISNULL(isInitialDeliveryActive) OR isInitialDeliveryActive = '".@$data['isInitialDeliveryActive']."' OR isInitialDeliveryActive <> '".@$data['isInitialDeliveryActive']."')";
+							$this->db->where($where);
+						}
+						//MP PAYMENT Succeeded
+						if (@$data['isPaymentSucceeded']=='1'){
+							$where = "(ISNULL(isManualPayment) AND idStatusTicketKf!='3' AND idStatusTicketKf!='5' AND idTypePaymentKf = 2 AND idPaymentKf != '' AND tb_mp_payments.mp_payment_id != '' AND tb_mp_payments.mp_status_detail='accredited')";
+							$this->db->join('tb_mp_payments', 'tb_mp_payments.idPayment = tb_tickets_2.idPaymentKf', 'left');
+							$this->db->where($where);
+						}
+						//BILLING INITIATED
+						if (@$data['isBillingInitiated']=='1'){
+							$where = "(ISNULL(isBillingInitiated) OR isBillingInitiated = '".@$data['isBillingInitiated']."')";
+							$this->db->where($where);
+						}else if (@$data['isBillingInitiated']=='0'){
+							$where = "(ISNULL(isBillingInitiated) OR isBillingInitiated = '".@$data['isBillingInitiated']."')";
+							$this->db->where($where);
+						}else{
+							$where = "(ISNULL(isBillingInitiated) OR isBillingInitiated = '0' OR isBillingInitiated = '1')";
+							$this->db->where($where);
+						}
+						//MGMT METHOD
+						if (@$data['idMgmtMethodKf']!='' && @$data['idMgmtMethodKf']!=null){
+							$where = "(idMgmtMethodKf = '".@$data['idMgmtMethodKf']."')";
+							$this->db->where($where);
+						}
+						//BILLING UPLOADED
+						if (@$data['isBillingUploaded']=='1'){
+							$where = "(ISNULL(isBillingUploaded) OR isBillingUploaded != '".@$data['isBillingUploaded']."')";
+							$this->db->where($where);
+						}
+						//DELIVERY COMPANY SELECTED 
+						if (@$data['idDeliveryCompanyKf']!=''){
+							$this->db->where("idDeliveryCompanyKf = " , @$data['idDeliveryCompanyKf']);
 						}
 						if (@$data['codTicket']!=''){
 							//$this->db->where("codTicket = " , @$data['codTicket']);
