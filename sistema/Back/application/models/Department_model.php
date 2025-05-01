@@ -252,8 +252,160 @@ class Department_model extends CI_Model
             $quuery = $this->db->where("tb_user.idUser =", $idT)->get();
 
         }
+        $rs=$quuery->result_array();
 		if ($quuery->num_rows() > 0) {
-			return $quuery->result_array();
+            $i = 0;
+            foreach ($quuery->result() as &$row) {
+
+                $this->db->select("*")->from("tb_client_schedule_atention");
+                $quuery = $this->db->where("tb_client_schedule_atention.idClienteFk =", $row->idClient)->get();
+
+                $rs1                              = $quuery->result_array();
+                 $rs[$i]['list_schedule_atention'] = $rs1;
+
+
+                $this->db->select("*")->from("tb_client_phone_contact");
+                $quuery = $this->db->where("tb_client_phone_contact.idClientFk =", $row->idClient)->get();
+
+                $rs2                          = $quuery->result_array();
+                 $rs[$i]['list_phone_contact'] = $rs2;
+
+
+                $this->db->select("*")->from("tb_client_users");
+                $this->db->join('tb_user', 'tb_user.idUser = tb_client_users.idUserFk', 'inner');
+                $quuery = $this->db->where("tb_client_users.idClientFk =", $row->idClient)->get();
+
+                $rs3                        = $quuery->result_array();
+                 $rs[$i]['list_client_user'] = $rs3;
+
+                $this->db->select("*")->from("tb_client_contact_users");
+                $this->db->join('tb_user', 'tb_user.idUser = tb_client_contact_users.idUserFk', 'inner');
+                $quuery = $this->db->where("tb_client_contact_users.idClientFk =", $row->idClient)->get();
+
+                $rs3                        = $quuery->result_array();
+                 $rs[$i]['list_client_contact_users'] = $rs3;
+
+                $this->db->select("*")->from("tb_client_mails");
+                $this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
+                $quuery = $this->db->where("tb_client_mails.idClientFk =", $row->idClient)->get();
+
+                $rs4                   = $quuery->result_array();
+                 $rs[$i]['list_emails'] = $rs4;
+
+
+                // DATOS DE FACTURCION
+                $this->db->select("*")->from("tb_client_billing_information");
+                $this->db->join('tb_tax', 'tb_tax.idTypeTax = tb_client_billing_information.idTypeTaxFk', 'inner');
+                $this->db->join('tb_location', 'tb_location.idLocation = tb_client_billing_information.idLocationBillingFk', 'inner');
+                $this->db->join('tb_province', 'tb_province.idProvince = tb_client_billing_information.idProvinceBillingFk', 'inner');
+                $this->db->join('tb_client_cost_center', 'tb_client_cost_center.idCostCenter = tb_client_billing_information.idCostCenterFk', 'left');
+                $quuery = $this->db->where("tb_client_billing_information.idClientFk =", $row->idClient)->get();
+
+                $rs5                          = $quuery->result_array();
+                 $rs[$i]['billing_information'] = $rs5;
+
+                //DEPARTAMENTOS
+                $this->db->select("*")->from("tb_client_departament");
+                $this->db->where("tb_client_departament.idClientFk =", $row->idClient);
+                $quuery = $this->db->where("tb_client_departament.idStatusFk =", 1)->get();
+                $rs6                        = $quuery->result_array();
+                 $rs[$i]['list_departament'] = $rs6;
+
+                //DIRECCIONES PARTICULAR
+                $this->db->select("*")->from("tb_client_address_particular");
+                $quuery = $this->db->where("tb_client_address_particular.idClientFk =", $row->idClient)->get();
+
+                $rs7                        = $quuery->result_array();
+                 $rs[$i]['list_address_particular'] = $rs7;
+
+                // ARCHIVOS SUBIDOS
+                $this->db->select("*")->from("tb_client_files_list");
+                $quuery = $this->db->where("tb_client_files_list.idClientfK =", $row->idClient)->get();
+
+                $rs8                       = $quuery->result_array();
+                 $rs[$i]['files_uploaded']      = $rs8;
+
+                //INITIAL DELIVERY DATA
+                $this->db->select("*")->from("tb_client_initial_delivery");
+                $quuery = $this->db->where("tb_client_initial_delivery.idClientKf =", $row->idClient)->get();
+
+                $rs9                       = $quuery->result_array();
+                 $rs[$i]['initial_delivery']    = $rs9;
+                if($quuery->num_rows()>0){
+                    //print_r( $rs[$i]['initial_delivery'][0]['expirationDate']);
+                    $dateString =  $rs[$i]['initial_delivery'][0]['expirationDate']; 
+                    // Date string to compare
+                    // Convert date string to a DateTime object
+                    $dateToCompare = new DateTime($dateString);
+                    
+                    // Get the current date as a DateTime object
+                    $now        = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
+
+                    $dateToCompareFormatted = $dateToCompare->format('Y-m-d');
+                    $currentDateFormatted = $now->format('Y-m-d');
+                    //print_r("currentDate   : ".$currentDateFormatted);
+                    //print("dateString    : ".$dateString);
+                    //print("dateToCompare : ".$dateToCompareFormatted);
+                    //print("currentDate   : ".$currentDate);
+                    if ($currentDateFormatted > $dateToCompareFormatted) {
+                         $rs[$i]['initial_delivery'][0]['expiration_state'] = true;
+                         $rs[$i]['isInitialDeliveryActive'] = false;
+                        
+                    }else{
+                         $rs[$i]['initial_delivery'][0]['expiration_state'] = false;
+                         $rs[$i]['isInitialDeliveryActive'] = true;
+                    }
+                }
+                
+                if (! is_null($row->idClientAdminFk)){
+                    $this->db->select("*")->from("tb_clients");
+                    $quuery = $this->db->where("tb_clients.idClient =", $row->idClientAdminFk)->get();
+
+                    if ($quuery->num_rows() > 0) {
+                        $rs10                       = $quuery->result_array();
+                        $rs['customers'][$i]['administration_details']      = $rs10;
+
+                        $this->db->select("*")->from("tb_client_phone_contact");
+                        $quuery = $this->db->where("tb_client_phone_contact.idClientFk =", $row->idClientAdminFk)->get();
+        
+                        $rsTmp1                      = $quuery->result_array();
+                        $rs['customers'][$i]['administration_details'][0]['list_phone_contact'] = $rsTmp1;
+        
+                        $this->db->select("*")->from("tb_client_mails");
+                        $this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
+                        $quuery = $this->db->where("tb_client_mails.idClientFk =", $row->idClientAdminFk)->get();
+        
+                        $rsTmp2               = $quuery->result_array();
+                        $rs['customers'][$i]['administration_details'][0]['list_emails'] = $rsTmp2;
+                    }
+                }
+
+                if (! is_null($row->idClientCompaniFk)){
+                    $this->db->select("*")->from("tb_clients");
+                    $quuery = $this->db->where("tb_clients.idClient =", $row->idClientCompaniFk)->get();
+
+
+                    if ($quuery->num_rows() > 0) {
+                        $rs11                       = $quuery->result_array();
+                        $rs['customers'][$i]['company_details']      = $rs11;
+
+                        $this->db->select("*")->from("tb_client_phone_contact");
+                        $quuery = $this->db->where("tb_client_phone_contact.idClientFk =", $row->idClientCompaniFk)->get();
+        
+                        $rsTmp1                      = $quuery->result_array();
+                        $rs['customers'][$i]['company_details'][0]['list_phone_contact'] = $rsTmp1;
+        
+                        $this->db->select("*")->from("tb_client_mails");
+                        $this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
+                        $quuery = $this->db->where("tb_client_mails.idClientFk =", $row->idClientCompaniFk)->get();
+        
+                        $rsTmp2               = $quuery->result_array();
+                        $rs['customers'][$i]['company_details'][0]['list_emails'] = $rsTmp2;
+                    }
+                }
+                $i++;
+            }
+			return $rs;
 		}
 		return null;
 
