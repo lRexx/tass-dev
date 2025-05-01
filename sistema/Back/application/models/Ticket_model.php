@@ -2241,7 +2241,7 @@ class Ticket_model extends CI_Model
 				if (count($buildingList->result())>0){
 					$i = 0;
 					foreach ($buildingList->result() as &$row) {
-						//print_r($row->idClient);
+						print_r($row->idClient);
 						$quuery = null;
 						$this->db->select("*");
 						$this->db->from("tb_tickets_2");
@@ -2327,7 +2327,7 @@ class Ticket_model extends CI_Model
 						}
 						$quuery = $this->db->order_by("idTicket" , "DESC")->get();
 						//print(count($quuery->result_array())."\n");
-						print_r($quuery->result_array());
+						
 						if (count($quuery->result_array())>=1){
 							//print_r("entro ". $i);
 							//print_r($quuery->result_array());
