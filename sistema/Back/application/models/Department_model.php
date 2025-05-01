@@ -363,20 +363,20 @@ class Department_model extends CI_Model
 
                     if ($quuery->num_rows() > 0) {
                         $rs10                       = $quuery->result_array();
-                        $rs['customers'][$i]['administration_details']      = $rs10;
+                        $rs[$i]['administration_details']      = $rs10;
 
                         $this->db->select("*")->from("tb_client_phone_contact");
                         $quuery = $this->db->where("tb_client_phone_contact.idClientFk =", $row->idClientAdminFk)->get();
         
                         $rsTmp1                      = $quuery->result_array();
-                        $rs['customers'][$i]['administration_details'][0]['list_phone_contact'] = $rsTmp1;
+                        $rs[$i]['administration_details'][0]['list_phone_contact'] = $rsTmp1;
         
                         $this->db->select("*")->from("tb_client_mails");
                         $this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
                         $quuery = $this->db->where("tb_client_mails.idClientFk =", $row->idClientAdminFk)->get();
         
                         $rsTmp2               = $quuery->result_array();
-                        $rs['customers'][$i]['administration_details'][0]['list_emails'] = $rsTmp2;
+                        $rs[$i]['administration_details'][0]['list_emails'] = $rsTmp2;
                     }
                 }
 
@@ -387,20 +387,20 @@ class Department_model extends CI_Model
 
                     if ($quuery->num_rows() > 0) {
                         $rs11                       = $quuery->result_array();
-                        $rs['customers'][$i]['company_details']      = $rs11;
+                        $rs[$i]['company_details']      = $rs11;
 
                         $this->db->select("*")->from("tb_client_phone_contact");
                         $quuery = $this->db->where("tb_client_phone_contact.idClientFk =", $row->idClientCompaniFk)->get();
         
                         $rsTmp1                      = $quuery->result_array();
-                        $rs['customers'][$i]['company_details'][0]['list_phone_contact'] = $rsTmp1;
+                        $rs[$i]['company_details'][0]['list_phone_contact'] = $rsTmp1;
         
                         $this->db->select("*")->from("tb_client_mails");
                         $this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
                         $quuery = $this->db->where("tb_client_mails.idClientFk =", $row->idClientCompaniFk)->get();
         
                         $rsTmp2               = $quuery->result_array();
-                        $rs['customers'][$i]['company_details'][0]['list_emails'] = $rsTmp2;
+                        $rs[$i]['company_details'][0]['list_emails'] = $rsTmp2;
                     }
                 }
                 $i++;
