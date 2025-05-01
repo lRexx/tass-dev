@@ -2214,13 +2214,15 @@ class Ticket_model extends CI_Model
 				}
 				$quuery = $this->db->order_by("idTicket" , "DESC")->get();
 				if (count($quuery->result_array())>=1){
+					//print_r("entro ". $i);
+					//print_r($quuery->result_array());
 					foreach ($quuery->result_array() as $ticket) {
-						array_push($rsA, $ticket);
+						$rsA[] = $ticket;
 					}
-					//$rsA = $quuery->result_array();
+					//$rsA[$i]=$quuery->result_array();
 					//print_r($rsA);
-					//return $this->buscar_relaciones_ticket($quuery->result_array());
 				}
+
 				$rsB=array();
 				$this->db->select("*")->from("tb_clients");
 				if (@$data['idClientAdminFk']!='' && @$data['idBuildingKf']!='' && @$data['idClientCompaniFk']=='' && @$data['idClientBranchFk']==''){
@@ -2326,22 +2328,26 @@ class Ticket_model extends CI_Model
 						$quuery = $this->db->order_by("idTicket" , "DESC")->get();
 						//print(count($quuery->result_array())."\n");
 						if (count($quuery->result_array())>=1){
+							//print_r("entro ". $i);
 							//print_r($quuery->result_array());
-							//$rsB[$i] = $quuery->result_array();
 							foreach ($quuery->result_array() as $ticket) {
-								array_push($rsA, $ticket);
+								$rsA[] = $ticket;
 							}
+							//$rsA[$i]=$quuery->result_array();
+							//print_r($rsA);
 						}
 						$i++;
 					}
 				}
 				//arsort($rsA);
-				array_multisort(array_unique($rsA, SORT_DESC));
 				if(count($rsA)>0){
+					usort($rsA, function($a, $b) {
+						return $b['idTicket'] - $a['idTicket']; // Ordenar de mayor a menor
+					});
 					return $this->buscar_relaciones_ticket($rsA);
 				}else{
 					return null;
-				}				
+				}		
 			}
 		}else if (@$data['idProfileKf']=='4' && !@$data['isHomeSelected']){
 			$this->db->select("*");
@@ -2419,12 +2425,13 @@ class Ticket_model extends CI_Model
 			}
 			$quuery = $this->db->order_by("idTicket" , "DESC")->get();
 			if (count($quuery->result_array())>=1){
+				//print_r("entro ". $i);
+				//print_r($quuery->result_array());
 				foreach ($quuery->result_array() as $ticket) {
-					array_push($rsA, $ticket);
+					$rsA[] = $ticket;
 				}
-				//$rsA = $quuery->result_array();
+				//$rsA[$i]=$quuery->result_array();
 				//print_r($rsA);
-				//return $this->buscar_relaciones_ticket($quuery->result_array());
 			}
 			$rsB=array();
 			$this->db->select("*")->from("tb_clients");
@@ -2492,18 +2499,22 @@ class Ticket_model extends CI_Model
 					$quuery = $this->db->order_by("idTicket" , "DESC")->get();
 					//print(count($quuery->result_array())."\n");
 					if (count($quuery->result_array())>=1){
+						//print_r("entro ". $i);
 						//print_r($quuery->result_array());
-						//$rsB[$i] = $quuery->result_array();
 						foreach ($quuery->result_array() as $ticket) {
-							array_push($rsA, $ticket);
+							$rsA[] = $ticket;
 						}
+						//$rsA[$i]=$quuery->result_array();
+						//print_r($rsA);
 					}
 					$i++;
 				}
 			}
 			//arsort($rsA);
-			array_multisort(array_unique($rsA, SORT_DESC));
 			if(count($rsA)>0){
+				usort($rsA, function($a, $b) {
+					return $b['idTicket'] - $a['idTicket']; // Ordenar de mayor a menor
+				});
 				return $this->buscar_relaciones_ticket($rsA);
 			}else{
 				return null;
