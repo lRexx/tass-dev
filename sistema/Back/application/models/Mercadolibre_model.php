@@ -271,8 +271,8 @@ class Mercadolibre_model extends CI_Model
 					$ticketQuery 	= $this->Ticket_model->ticketById($idTicketKf);
 					$ticket2Update = $ticketQuery['tickets'][0];
 					log_message('info', 'Ticket ID				:' . $ticket2Update['idTicket']);
-					log_message('info', 'idStatusTicketKf		:' . $ticket2Update['idStatusTicketKf']);
 					if ($ticket2Update['idStatusTicketKf']=="9"){
+						log_message('info', 'idStatusTicketKf		:' . $ticket2Update['idStatusTicketKf']);
 						$changeStatusRs = $this->Ticket_model->quickChangueStatus($idTicketKf,"11");
 						if ($changeStatusRs){
 							$ticketObj = null;
@@ -283,6 +283,7 @@ class Mercadolibre_model extends CI_Model
 						}
 						$this->Ticket_model->addTicketTimeline($ticketObj);
 					}else{
+						log_message('info', 'idStatusTicketKf		:' . $ticket2Update['idStatusTicketKf']);
 						$changeStatusRs = $this->Ticket_model->quickChangueStatus($idTicketKf,"8");
 						if ($changeStatusRs){
 							$ticketObj = null;
