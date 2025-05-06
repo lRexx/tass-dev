@@ -3166,7 +3166,7 @@ class Ticket_model extends CI_Model
 			$quuery                     = $this->db->where("idPayment = " , @$ticket['idPaymentDeliveryKf'])->get();
 			$rs_tickets['tickets'][$key]['paymentDeliveryDetails'] = @$quuery->result_array()[0];
 
-			$this->db->select("*")->from("tb_ticket_changes_history");
+			$this->db->select("*,tb_ticket_changes_history.descripcion as description,")->from("tb_ticket_changes_history");
 			$this->db->join('tb_ticket_changes_category' , 'tb_ticket_changes_category.id = tb_ticket_changes_history.idCambiosTicketKf' , 'left');
 			$this->db->join('tb_user', 'tb_user.idUser = tb_ticket_changes_history.idUserKf', 'left');
 			$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
