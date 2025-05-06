@@ -192,7 +192,7 @@ class Mercadolibre_model extends CI_Model
 	public function getPaymentMPDetails($id)
 	{	
 		log_message('info', ':::::::::::::::::getPaymentMPDetails');
-		log_message('info', 'MP_ID				  	  :' . $id);
+		log_message('info', 'MP_ID				  	 :' . $id);
 		$ticket2Update = null;
 		$MP_TOKEN=BSS_MP_TOKEN;
 		if (!$id) {
