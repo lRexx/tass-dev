@@ -260,8 +260,9 @@ class Llavero extends REST_Controller
         $start                  = $this->post('start');
 		$strict                 = $this->post('strict');
 		$totalCount             = $this->post('totalCount');
+		$getTicketKeychainKf    = $this->post('getTicketKeychainKf');
 
-		$rs = $this->llavero_model->get_new($idClientKf, $create_at, $idCategoryKf, $idKeychainStatusKf, $idDepartmenKf, $idReasonKf, $sysLoggedUserProfile, $codeSearch, $limit, $start, $strict, $totalCount);
+		$rs = $this->llavero_model->get_new($idClientKf, $create_at, $idCategoryKf, $idKeychainStatusKf, $idDepartmenKf, $idReasonKf, $sysLoggedUserProfile, $codeSearch, $limit, $start, $strict, $totalCount, $getTicketKeychainKf);
 		if (!is_null($rs)) {
 			$this->response($rs, 200);
 		} else {
