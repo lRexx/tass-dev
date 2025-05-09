@@ -915,25 +915,6 @@ class Llavero_model extends CI_Model
 		if ($quuery->num_rows() > 0) {
 			$query_total = null;
 			$rs['tb_keychain'] = $quuery->result_array();
-			if (! is_null($idCategoryKf)) {
-			    // Convert the comma-separated string to an array
-				$idCategoryKfArray = explode(',', $idCategoryKf);
-
-				// Ensure the array values are trimmed and sanitized if necessary
-				$idCategoryKfArray = array_map('trim', $idCategoryKfArray);
-			
-				// Use where_in with the array of ids
-				$this->db->where_in('tb_keychain.idCategoryKf', $idCategoryKfArray);
-			}
-			if (! is_null($idClientKf)) {
-				$this->db->where('tb_keychain.idClientKf', $idClientKf);
-			}
-			if (! is_null($idDepartmenKf)) {
-				$this->db->where('tb_keychain.idDepartmenKf', $idDepartmenKf);
-			}
-			if (! is_null($idKeychainStatusKf)) {
-				$this->db->where('tb_keychain.idKeychainStatusKf', $idKeychainStatusKf);
-			}
 			foreach ($quuery->result_array() as $key => $item) {
 				$this->db->select("*")->from("tb_ticket_keychain");
 				$this->db->where('tb_ticket_keychain.idTicketKeychain', $item['idTicketKeychainKf']);
