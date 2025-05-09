@@ -1876,7 +1876,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
           };
           $scope.isCodeExist      = null;
           $scope.isCodeNewExist   = null;
-          $scope.getKeychainListFn = function(idClientKf,create_at,idCategoryKf,idKeychainStatusKf,idDepartmenKf,idReasonKf,codeSearch,start,limit,strict,totalCount,showFull){
+          $scope.getKeychainListFn = function(idClientKf,create_at,idCategoryKf,idKeychainStatusKf,idDepartmenKf,idReasonKf,codeSearch,start,limit,strict,totalCount,getTicketKeychainKf){
               $scope.rsNewKeychainList     = [];
               $scope.list_new_keys         = [];
               //console.log("idClientKf           : "+idClientKf);
@@ -1901,6 +1901,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               var limit                   = limit!=undefined && limit!=null && !strict?limit:"";
               var strict                  = strict!=false && strict!=undefined && strict!=null?strict:null;
               var totalCount              = totalCount!=false && totalCount!=undefined && totalCount!=null?totalCount:null;
+              var getTicketKeychainKf     = getTicketKeychainKf!=undefined && getTicketKeychainKf!="" && getTicketKeychainKf!=null?getTicketKeychainKf:null;
 
               console.log("=================================================");
               console.log("                 getKeychainListFn               ");
@@ -1917,7 +1918,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.log("limit                : "+limit);
               console.log("strict               : "+strict);
               console.log("totalCount           : "+totalCount);
-              console.log("showFull             : "+showFull);
+              console.log("getTicketKeychainKf  : "+getTicketKeychainKf);
               $scope.keychainSearch={
                   "idClientKf":idClientKf,
                   "idCategoryKf":idCategoryKf,
@@ -1931,6 +1932,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   "limit":limit,
                   "strict":strict,
                   "totalCount":totalCount,
+                  "getTicketKeychainKf":getTicketKeychainKf
                 };
               KeysServices.getKeychainList($scope.keychainSearch).then(function(response){
                   if(response.status==200){
@@ -3278,6 +3280,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 "limit":null,
                 "strict":null,
                 "totalCount":null,
+                "getTicketKeychainKf":null,
               };
               console.log($scope.tkupdate.building);
               $scope.select={'filterCategoryKey':'', 'reasonKf':{},'department':'', 'codeSearch':null, 'keychainStatus':{}, 'idTypeTicketKf':null,  
