@@ -1935,6 +1935,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   "getTicketKeychainKf":getTicketKeychainKf
                 };
               KeysServices.getKeychainList($scope.keychainSearch).then(function(response){
+                  console.log(response);
                   if(response.status==200){
                     if (showFull){
                       console.log(response.data);
