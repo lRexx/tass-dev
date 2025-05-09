@@ -936,7 +936,6 @@ class Llavero_model extends CI_Model
 			}
 			foreach ($quuery->result_array() as $key => $item) {
 				$this->db->select("*")->from("tb_ticket_keychain");
-				$this->db->join('tb_keychain', 'tb_keychain.idKeychain = tb_keychain_process_events.idKeychainKf', 'left');
 				$this->db->where('tb_ticket_keychain.idTicketKeychain', $item['idTicketKeychainKf']);
 				$quuery_ticket_keychains = $this->db->order_by("tb_ticket_keychain.idTicketKeychain", "ASC")->get();
 				if ($quuery_ticket_keychains->num_rows() > 0) {
