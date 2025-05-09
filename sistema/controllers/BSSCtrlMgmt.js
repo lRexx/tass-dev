@@ -1876,7 +1876,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
           };
           $scope.isCodeExist      = null;
           $scope.isCodeNewExist   = null;
-          $scope.getKeychainListFn = function(idClientKf,create_at,idCategoryKf,idKeychainStatusKf,idDepartmenKf,idReasonKf,codeSearch,start,limit,strict,totalCount,getTicketKeychainKf){
+          $scope.getKeychainListFn = function(idClientKf,create_at,idCategoryKf,idKeychainStatusKf,idDepartmenKf,idReasonKf,codeSearch,start,limit,strict,totalCount,showFull,getTicketKeychainKf){
               $scope.rsNewKeychainList     = [];
               $scope.list_new_keys         = [];
               //console.log("idClientKf           : "+idClientKf);
@@ -1918,6 +1918,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.log("limit                : "+limit);
               console.log("strict               : "+strict);
               console.log("totalCount           : "+totalCount);
+              console.log("showFull             : "+showFull);
               console.log("getTicketKeychainKf  : "+getTicketKeychainKf);
               $scope.keychainSearch={
                   "idClientKf":idClientKf,
@@ -3010,7 +3011,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.ticketKeyList = obj;
               console.log($scope.ticketKeyList);
               if ($scope.tkupdate.idKeySourceKf==undefined){
-                $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1);
+                $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,0,1);
               }
               $('#ManageTicketKeysList').modal('show');
             break;
@@ -3287,7 +3288,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.select={'filterCategoryKey':'', 'reasonKf':{},'department':'', 'codeSearch':null, 'keychainStatus':{}, 'idTypeTicketKf':null,  
               'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined}, 
               'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
-              $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1);
+              $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
             break;
             case "keychain_manual":
               $scope.keys                       = {"new":{'products':{'selected':{}}}}
