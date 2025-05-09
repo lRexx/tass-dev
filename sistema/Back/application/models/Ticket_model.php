@@ -3088,7 +3088,7 @@ class Ticket_model extends CI_Model
 				foreach ($rs_tickets['tickets'][$key]['keys'] as $ticketKeychain) {
 					$idTicketKeychain = $ticketKeychain['idTicketKeychain'];
 					$this->db->select("tb_contratos.idContrato, tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_type_contrato.description, tb_type_maintenance.typeMaintenance, tb_products.idProduct, tb_products.descriptionProduct, tb_products.codigoFabric, tb_products.brand, tb_products.model,  tb_products.idStatusFk, tb_access_control_door.*, tb_ticket_keychain.*, tb_ticket_keychain_doors.*")->from("tb_ticket_keychain_doors");
-					$this->db->join('tb_ticket_keychain' , 'tb_ticket_keychain.id = tb_ticket_keychain_doors.idTicketKeychainKf' , 'left');					
+					$this->db->join('tb_ticket_keychain' , 'tb_ticket_keychain.idTicketKeychain = tb_ticket_keychain_doors.idTicketKeychainKf' , 'left');					
 					$this->db->join('tb_contratos' , 'tb_contratos.idContrato = tb_ticket_keychain_doors.idContractKf' , 'left');
 					$this->db->join('tb_type_contrato' , 'tb_type_contrato.idTypeContrato = tb_contratos.contratoType' , 'left');					
 					$this->db->join('tb_type_maintenance' , 'tb_type_maintenance.idTypeMaintenance = tb_contratos.maintenanceType' , 'left');
