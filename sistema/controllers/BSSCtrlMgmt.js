@@ -3376,8 +3376,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               }*/
             break;
             case "applySetMgmtKeys":
+              $scope.tkupdate.newKeychainList = $scope.rsNewKeychainList
               console.log($scope.tkupdate);
-              console.log($scope.rsNewKeychainList);
+              //console.log($scope.rsNewKeychainList);
             break;
             case "apply_isKeysEnable":
               console.log(obj);
