@@ -3109,7 +3109,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         });
                       }
                     }else{
-                      inform.add("Ya ha seleccionado los ("+$scope.tkupdate.keys.length+") llaveros solicitados en el pedido.",{
+                      inform.add("Ya ha seleccionado los llaveros ("+$scope.tkupdate.keys.length+") solicitados en el pedido.",{
                         ttl:15000, type: 'info'
                       });
                       console.log(obj);
@@ -3374,6 +3374,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.tkupdate.idDeliveryCompanyKf="1";
                 }
               }*/
+            break;
+            case "applySetMgmtKeys":
+              console.log($scope.tkupdate);
+              console.log($scope.rsNewKeychainList);
             break;
             case "apply_isKeysEnable":
               console.log(obj);
