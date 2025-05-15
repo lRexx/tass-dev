@@ -2589,9 +2589,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 if (!$scope.initialLoopExecuted) {
                                     $scope.initialLoopExecuted = true;
                                     var initialQtty     = parseInt($scope.ticket.building.initial_delivery[0].initial_qtty, 10);
-                                    if (userSelected==null || userSelected==undefined){
+                                    if ($scope.ticket.radioButtonBuilding=='1' && (userSelected==null || userSelected==undefined)){
                                         var userSelected    = $scope.selectedUser;
-                                    }else if ($scope.selectedUser==null || $scope.selectedUser==undefined){
+                                    }else if ($scope.ticket.radioButtonBuilding=='1' && ($scope.selectedUser==null || $scope.selectedUser==undefined)){
                                         $scope.selectedUser = userSelected;
                                     }
                                     console.log(initialQtty);
