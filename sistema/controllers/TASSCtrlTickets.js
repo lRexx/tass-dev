@@ -4486,7 +4486,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             }else if (obj.radioButtonBuilding!=undefined && obj.radioButtonBuilding=='2'){
                                 $scope.new.ticket.mail +='<td align="left" valign="middle">Administración</td>';
                             }else if (obj.radioButtonBuilding!=undefined && (obj.radioButtonBuilding!='1' && obj.radioButtonBuilding!='2')){
-                                $scope.new.ticket.mail +='<td align="left" valign="middle">Consorcio</td>';
+                                $scope.new.ticket.mail +='<td align="left" valign="middle">Personal del Edificio</td>';
                             }
                             $scope.new.ticket.mail +='</tr></tbody>';
                             $scope.new.ticket.mail += '<tbody><tr><td align="center" valign="middle" colspan="4" style="background:#427a9d;color:white; padding:0.4%">Detalles - Dirección</td></tr>';
