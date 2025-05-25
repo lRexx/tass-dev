@@ -3487,7 +3487,6 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 console.log(obj);
                 $scope.mp.link={'new':{'data':{}},'url':null}; //codTicket
                 $scope.mp.link.new.data={'idPago': null,'monto':  null,'linkDeNotificacion':  null,'back_url':  null,'metadata': {}};
-                $scope.mp.link.new.data.idPayment             = obj.paymentDetails.idPayment;
                 $scope.mp.link.new.data.idTicket              = obj.idTicket;
                 $scope.mp.link.new.data.ticket_number         = obj.codTicket;
                 $scope.mp.link.new.data.monto                 = obj.createNewMPLinkForDelivery?Number(parseInt(obj.costDelivery)):Number(parseInt(obj.total));
@@ -3556,8 +3555,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                         inform.add('Link de pago generado satisfactoriamente. ',{
                               ttl:5000, type: 'success'
                         });
-                        $scope.mp.link.url      = response.data[0].data.response.sandbox_init_point;
-                        $scope.mp.data          = response.data[0].data.response;
+                        $scope.mp.link.url                        = response.data[0].data.response.sandbox_init_point;
+                        $scope.mp.data                            = response.data[0].data.response;
                         console.log($scope.mp.data);
                         $scope.addPaymentFn(response.data[0].data.response);
                       }else{
@@ -3595,6 +3594,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 console.log($scope.mp);
                 console.log(payment);
                 $scope.mp.payment.data.idTicketKf         = $scope.mp.link.new.data.idTicket;
+                $scope.mp.payment.data.idPayment          = $scope.ticketRegistered.paymentDetails.idPayment;
                 $scope.mp.payment.data.client_id          = payment.client_id;
                 $scope.mp.payment.data.id                 = payment.id;
                 $scope.mp.payment.data.collector_id       = payment.collector_id;
