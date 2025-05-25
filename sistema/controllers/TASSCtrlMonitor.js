@@ -2792,7 +2792,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   //$scope.update.ticket.idStatusTicketKf     = obj.selected.idStatusTicketKf;
                   $scope.update.ticket.costDelivery           = $scope.subTotalDelivery;
                   subTotalCosts = subTotalService + subTotalKeys + $scope.subTotalDelivery;
-                  $scope.update.ticket.total                  = formatDecimalLatam(subTotalCosts);
+                  $scope.update.ticket.total                  = NaN2Zero(normalizeDecimal(subTotalCosts));
                   $scope.update.ticket.idPaymentDeliveryKf    = obj.selected.idPaymentDeliveryKf!=null?obj.selected.idPaymentDeliveryKf:null;
                   $scope.update.ticket.isDeliveryHasChanged   = 1;
                   console.log($scope.update);
