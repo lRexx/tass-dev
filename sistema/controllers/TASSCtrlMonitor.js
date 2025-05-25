@@ -3487,6 +3487,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 console.log(obj);
                 $scope.mp.link={'new':{'data':{}},'url':null}; //codTicket
                 $scope.mp.link.new.data={'idPago': null,'monto':  null,'linkDeNotificacion':  null,'back_url':  null,'metadata': {}};
+                $scope.mp.link.new.data.idPayment             = obj.paymentDetails.idPayment;
                 $scope.mp.link.new.data.idTicket              = obj.idTicket;
                 $scope.mp.link.new.data.ticket_number         = obj.codTicket;
                 $scope.mp.link.new.data.monto                 = obj.createNewMPLinkForDelivery?Number(parseInt(obj.costDelivery)):Number(parseInt(obj.total));
