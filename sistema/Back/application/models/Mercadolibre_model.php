@@ -114,8 +114,9 @@ class Mercadolibre_model extends CI_Model
 				"notification_url" 	 => $data->linkDeNotificacion ,
 				"description" 		 => $data->description,
 				"quantity" 			 => $data->quantity,
-				"external_reference" => $external_reference ,
-				"back_url" 			 => $data->back_url ,
+				"external_reference" => $external_reference,
+				"back_url" 			 => $data->back_url,
+				"metadata" 		 	 => $data->metadata,
 			];
 			
 			//print_r($param);
