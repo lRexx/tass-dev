@@ -3503,7 +3503,9 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 }else{
                   $scope.mp.link.new.data.idPayment           = null;
                 }
-                $scope.mp.link.new.data.metadata.paymentFor   = obj.createNewMPLinkForDelivery?3:1;
+                $scope.mp.link.new.data.metadata.idPayment      = $scope.mp.link.new.data.idPayment;
+                $scope.mp.link.new.data.metadata.ticket_number  = obj.codTicket;
+                $scope.mp.link.new.data.metadata.paymentFor     = obj.createNewMPLinkForDelivery?3:1;
                 console.log($scope.mp.link);
                 $scope.mpCreateLinkFn($scope.mp.link.new);                  
             break;
@@ -3602,7 +3604,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 console.log($scope.update);
                 console.log($scope.ticketRegistered);
                 $scope.mp.payment.data.idTicketKf           = $scope.mp.link.new.data.idTicket;
-                if ($scope.update.ticket.createNewMPLinkForDelivery!=undefined && $scope.update.ticket.createNewMPLinkForDelivery){
+                if (payment.metadata.paymentFor!=undefined && payment.metadata.paymentFor==3){
                   $scope.mp.payment.data.idPayment          = $scope.ticketRegistered.paymentDeliveryDetail.idPayment;
                 }else{
                   $scope.mp.payment.data.idPayment          = $scope.ticketRegistered.paymentDetails.idPayment;

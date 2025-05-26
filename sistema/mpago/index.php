@@ -32,7 +32,9 @@ $preference_data = [
         "installments" => 1,
     ],
     "metadata" =>[
-        "paymentFor" => $json->metadata->{"paymentFor"},
+        "idPayment"     => $json->metadata->{"idPayment"},
+        "ticket_number" => $json->metadata->{"ticket_number"},
+        "paymentFor"    => $json->metadata->{"paymentFor"},
     ],
     #"external_reference" => date('Ymd-His'),
     "notification_url"   => $json->{"notification_url"},
