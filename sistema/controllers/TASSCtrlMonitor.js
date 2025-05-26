@@ -3496,7 +3496,13 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 $scope.mp.link.new.data.back_url              = "";
                 $scope.mp.link.new.data.description           = obj.typeticket.TypeTicketName;
                 $scope.mp.link.new.data.quantity              = obj.keys.length;
-                $scope.mp.link.new.data.idPayment             = obj.idPaymentKf!=null || obj.idPaymentKf!=undefined?obj.idPaymentKf:null;
+                if (obj.createNewMPLinkForDelivery){
+                  $scope.mp.link.new.data.idPayment           = obj.idPaymentDeliveryKf; 
+                }else if(!obj.createNewMPLinkForDelivery && (obj.idPaymentKf!=null || obj.idPaymentKf!=undefined)){
+                  $scope.mp.link.new.data.idPayment           = obj.idPaymentKf
+                }else{
+                  $scope.mp.link.new.data.idPayment           = null;
+                }
                 $scope.mp.link.new.data.metadata.paymentFor   = obj.createNewMPLinkForDelivery?3:1;
                 console.log($scope.mp.link);
                 $scope.mpCreateLinkFn($scope.mp.link.new);                  
@@ -3593,25 +3599,25 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
             $scope.addPaymentFn = function(payment){
                 console.log($scope.mp);
                 console.log(payment);
-                $scope.mp.payment.data.idTicketKf         = $scope.mp.link.new.data.idTicket;
+                $scope.mp.payment.data.idTicketKf           = $scope.mp.link.new.data.idTicket;
                 if ($scope.update.ticket.createNewMPLinkForDelivery){
-                  $scope.mp.payment.data.idPayment          = $scope.ticketRegistered.paymentDeliveryDetail.idPayment;
+                  $scope.mp.payment.data.idPayment          = $scope.ticket.selected.paymentDeliveryDetail.idPayment;
                 }else{
-                  $scope.mp.payment.data.idPayment          = $scope.ticketRegistered.paymentDetails.idPayment;
+                  $scope.mp.payment.data.idPayment          = $scope.ticket.selected.paymentDetails.idPayment;
                 }
-                $scope.mp.payment.data.client_id          = payment.client_id;
-                $scope.mp.payment.data.id                 = payment.id;
-                $scope.mp.payment.data.collector_id       = payment.collector_id;
-                $scope.mp.payment.data.date_created       = payment.date_created;
-                $scope.mp.payment.data.expires            = payment.expires;
-                $scope.mp.payment.data.external_reference = payment.external_reference;
-                $scope.mp.payment.data.init_point         = payment.init_point;
-                $scope.mp.payment.data.sandbox_init_point = payment.sandbox_init_point;
-                $scope.mp.payment.data.operation_type     = payment.operation_type;
-                $scope.mp.payment.data.isManualPayment    = false;
+                $scope.mp.payment.data.client_id            = payment.client_id;
+                $scope.mp.payment.data.id                   = payment.id;
+                $scope.mp.payment.data.collector_id         = payment.collector_id;
+                $scope.mp.payment.data.date_created         = payment.date_created;
+                $scope.mp.payment.data.expires              = payment.expires;
+                $scope.mp.payment.data.external_reference   = payment.external_reference;
+                $scope.mp.payment.data.init_point           = payment.init_point;
+                $scope.mp.payment.data.sandbox_init_point   = payment.sandbox_init_point;
+                $scope.mp.payment.data.operation_type       = payment.operation_type;
+                $scope.mp.payment.data.isManualPayment      = false;
                 console.log($scope.mp.payment.data);
-                $scope.mp.payment.data.paymentForDelivery = $scope.update.ticket.createNewMPLinkForDelivery?$scope.update.ticket.createNewMPLinkForDelivery:false;
-                $scope.addPaymentDetailsFn = null;
+                $scope.mp.payment.data.paymentForDelivery   = $scope.update.ticket.createNewMPLinkForDelivery?$scope.update.ticket.createNewMPLinkForDelivery:false;
+                $scope.addPaymentDetailsFn                  = null;
                 console.log($scope.mp.payment.data);
                 ticketServices.addPayment($scope.mp.payment).then(function(response){
                     //console.log(response);
