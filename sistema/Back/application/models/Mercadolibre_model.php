@@ -189,6 +189,68 @@ class Mercadolibre_model extends CI_Model
 		}
 	}
 
+	public function updateMPExpiration($mp_preference_id)
+	{
+		log_message('info', ':::::::::: updateMPExpiration for preference: ' . $mp_preference_id);
+	
+		$MP_TOKEN = BSS_MP_TOKEN; // Ensure this constant is defined with your access token
+	
+		// Generate current date in MercadoPago format
+		#$expiration_date = date('Y-m-d') . 'T23:59:00.000-00:00';  // Or you can add days using strtotime
+		// Set expiration date to tomorrow at 23:59 UTC
+		#$expiration_date = date('Y-m-d', strtotime('+1 day')) . 'T23:59:00.000-00:00';
+		$expiration_date = date('Y-m-d\TH:i:s.000P', strtotime('+1 hour'));
+	
+		$url = "https://api.mercadopago.com/checkout/preferences/" . $mp_preference_id;
+	
+		$payload = json_encode([
+			"expiration_date_to" => $expiration_date
+		]);
+	
+		$headers = [
+			"Authorization: Bearer " . $MP_TOKEN,
+			"Content-Type: application/json",
+			"Accept: application/json"
+		];
+	
+		$certificates_dir = realpath(APPPATH . '../certificate');
+	
+		$curl = curl_init();
+	
+		curl_setopt_array($curl, [
+			CURLOPT_URL            => $url,
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING       => "",
+			CURLOPT_MAXREDIRS      => 10,
+			CURLOPT_TIMEOUT        => 30,
+			CURLOPT_CUSTOMREQUEST  => "PUT",
+			CURLOPT_POSTFIELDS     => $payload,
+			CURLOPT_CAINFO         => $certificates_dir . "/curl-ca-bundle.crt",
+			CURLOPT_STDERR         => fopen('curl_mp.log', 'a+'),
+			CURLOPT_HTTPHEADER     => $headers
+		]);
+	
+		$response = curl_exec($curl);
+		$err      = curl_error($curl);
+		curl_close($curl);
+	
+		if ($err) {
+			log_message('error', "cURL Error #: " . $err);
+			return [
+				"success" => false,
+				"error" => $err
+			];
+		}
+	
+		log_message('info', "MP Response: " . $response);
+	
+		return [
+			"success" => true,
+			"response" => json_decode($response)
+		];
+	}
+	
+
 	public function getPaymentMPDetails($id)
 	{	
 		log_message('info', ':::::::::::::::::getPaymentMPDetails');

@@ -3594,7 +3594,11 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 console.log($scope.mp);
                 console.log(payment);
                 $scope.mp.payment.data.idTicketKf         = $scope.mp.link.new.data.idTicket;
-                $scope.mp.payment.data.idPayment          = $scope.ticketRegistered.paymentDetails.idPayment;
+                if ($scope.update.ticket.createNewMPLinkForDelivery){
+                  $scope.mp.payment.data.idPayment          = $scope.ticketRegistered.paymentDeliveryDetail.idPayment;
+                }else{
+                  $scope.mp.payment.data.idPayment          = $scope.ticketRegistered.paymentDetails.idPayment;
+                }
                 $scope.mp.payment.data.client_id          = payment.client_id;
                 $scope.mp.payment.data.id                 = payment.id;
                 $scope.mp.payment.data.collector_id       = payment.collector_id;
