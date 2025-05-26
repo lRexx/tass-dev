@@ -3599,6 +3599,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
             $scope.addPaymentFn = function(payment){
                 console.log($scope.mp);
                 console.log(payment);
+                console.log($scope.update);
+                console.log($scope.ticket.selected);
                 $scope.mp.payment.data.idTicketKf           = $scope.mp.link.new.data.idTicket;
                 if ($scope.update.ticket.createNewMPLinkForDelivery){
                   $scope.mp.payment.data.idPayment          = $scope.ticket.selected.paymentDeliveryDetail.idPayment;
