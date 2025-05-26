@@ -3600,12 +3600,12 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 console.log($scope.mp);
                 console.log(payment);
                 console.log($scope.update);
-                console.log($scope.ticket.selected);
+                console.log($scope.ticketRegistered);
                 $scope.mp.payment.data.idTicketKf           = $scope.mp.link.new.data.idTicket;
-                if ($scope.update.ticket.createNewMPLinkForDelivery){
-                  $scope.mp.payment.data.idPayment          = $scope.ticket.selected.paymentDeliveryDetail.idPayment;
+                if ($scope.update.ticket.createNewMPLinkForDelivery!=undefined && $scope.update.ticket.createNewMPLinkForDelivery){
+                  $scope.mp.payment.data.idPayment          = $scope.ticketRegistered.paymentDeliveryDetail.idPayment;
                 }else{
-                  $scope.mp.payment.data.idPayment          = $scope.ticket.selected.paymentDetails.idPayment;
+                  $scope.mp.payment.data.idPayment          = $scope.ticketRegistered.paymentDetails.idPayment;
                 }
                 $scope.mp.payment.data.client_id            = payment.client_id;
                 $scope.mp.payment.data.id                   = payment.id;
