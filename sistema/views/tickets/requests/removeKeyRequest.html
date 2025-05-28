@@ -601,13 +601,13 @@
 																</span>
 																<span class="label label-default">{{tckt.key.fullNameUser}} </span><span class="badge badge-warning">{{tckt.key.nameSysProfile}}</span>
 															</span>
-															<span ng-if="ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && tckt.key.idCategoryKf!=5 && tckt.key.idCategoryKf!=6">
+															<span ng-if="ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && tckt.key.idCategoryKf!=5 && tckt.key.idCategoryKf!=6">
 																<span class="font-size-18px" style="color: #5cb85c">
 																	<i class="text-success icon-building"></i>
 																</span>
 																<span class="label label-default">{{tckt.key.nameClientBuilding}}</span>
 															</span>
-															<span ng-if="ticket.radioButtonBuilding=='2' && tckt.key.idCategoryKf==5">
+															<span ng-if="ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='2' && tckt.key.idCategoryKf==5">
 																<span class="font-size-18px" style="color: #5cb85c">
 																	<i class="text-success fas fa-user-tie"></i>
 																</span>
