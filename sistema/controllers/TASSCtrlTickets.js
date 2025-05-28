@@ -483,7 +483,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }
                     break;
                     case 3: console.log($scope.ticket);
-                        if ($scope.fSwitch=="n" && $scope.sysLoggedUser.idProfileKf!=0){
+                        if (($scope.fSwitch=="n" || $scope.fSwitch=="d") && $scope.sysLoggedUser.idProfileKf!=0){
                             //PASO 4: MÉTODO DE PAGO
                             console.info("ENTRO AL CASE 4 : ALTA DE LLAVE - PASO 4: MÉTODO DE PAGO");
                             if (($scope.ticket.cost.idTypePaymentKf==null || $scope.ticket.cost.idTypePaymentKf==undefined)){
@@ -504,13 +504,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 if ($scope.sysLoggedUser.idProfileKf!=1){
                                     $scope.formValidated=true;
                                 } 
-                            }
-                        }else if ($scope.sysLoggedUser.idProfileKf==3 || ($scope.sysLoggedUser.idProfileKf==3 && $scope.sysLoggedUser.idTypeTenantKf==1)){
-                            //alert("ENTRO");
-                            if (!$scope.ticket.idClientDepartament || $scope.tenant.namesTenant==""){
-                                $scope.formValidated=false;
-                            }else{
-                                $scope.formValidated=true;
                             }
                         }
                     break;
