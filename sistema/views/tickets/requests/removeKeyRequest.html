@@ -594,8 +594,8 @@
 														<td ng-if="ticket.optionTypeSelected.name=='building'" style="vertical-align: middle;text-align: center;">
 															<span class="label label-default">{{tckt.key.categoryKeychain}}</span>
 														</td>
-														<td ng-if="ticket.optionTypeSelected.name=='building'" style="vertical-align: middle;text-align: center;">
-															<span ng-if="ticket.radioButtonBuilding=='1'">
+														<td ng-if="ticket.optionTypeSelected.name=='department' || ticket.optionTypeSelected.name=='building'" style="vertical-align: middle;text-align: center;">
+															<span ng-if="((ticket.radioButtonBuilding!=nul && ticket.radioButtonBuilding=='1') || (ticket.radioButtonDepartment!=nul && (ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2')))">
 																<span class="font-size-18px" style="color: #5cb85c">
 																	<i class="text-success fas fa-house-user"></i>
 																</span>
