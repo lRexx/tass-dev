@@ -340,7 +340,7 @@
 														<span class="font-size-18px" style="color: #5cb85c">
 															<i class="text-success fas fa-house-user"></i>
 														</span>
-														<span class="label label-default">{{key.fullNameUser}} </span><span class="badge badge-warning">{{key.nameProfile}}</span>
+														<span class="label label-default">{{key.fullNameUser}} </span><span class="badge badge-warning">{{key.nameSysProfile}}</span>
 													</span>
 													<span ng-if="ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && key.idCategoryKf!=5 && key.idCategoryKf!=6">
 														<span class="font-size-18px" style="color: #5cb85c">
@@ -582,7 +582,7 @@
 														<th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-barcode"> </i> Codigo </th>
 														<th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-barcode"> </i> Codigo Externo </th>
 														<th ng-if="ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Categoria</th>
-														<!--<th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Asignado</th>-->
+														<th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Asignado</th>
 													</tr>
 												</thead>
 												<tbody style="overflow: auto;">
@@ -599,7 +599,7 @@
 																<span class="font-size-18px" style="color: #5cb85c">
 																	<i class="text-success fas fa-house-user"></i>
 																</span>
-																<span class="label label-default">{{tckt.key.fullNameUser}} </span><span class="badge badge-warning">{{tckt.key.nameProfile}}</span>
+																<span class="label label-default">{{tckt.key.fullNameUser}} </span><span class="badge badge-warning">{{tckt.key.nameSysProfile}}</span>
 															</span>
 															<span ng-if="ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && tckt.key.idCategoryKf!=5 && tckt.key.idCategoryKf!=6">
 																<span class="font-size-18px" style="color: #5cb85c">
