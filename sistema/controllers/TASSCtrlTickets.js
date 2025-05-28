@@ -1746,6 +1746,30 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
             }
         /**************************************************
         *                                                 *
+        *    GET KEY LIST BY ID ADDRESS OF BUILDING       *
+        *                                                 *
+        **************************************************/
+            $scope.getKeyListByBuildingIdFn = function (idClient){
+                if(idClient!=undefined){
+                    KeysServices.getKeyListByBuildingId(idClient).then(function(response) {
+                        if(response_keys.status==200){
+                            $scope.ticket.building.keys=response_keys.data;
+                            $scope.ticket.keys = response_keys.data;
+                            $scope.keyList = response_keys.data;
+                        }else if (response_keys.status==404){
+                            $scope.ticket.building.keys = [];
+                            $scope.ticket.keys = [];
+                            $scope.keyList = [];
+                        }else if (response_keys.status==500){
+                            $scope.ticket.building.keys = [];
+                            $scope.ticket.keys = [];
+                            $scope.keyList = [];
+                        }
+                    });
+                }
+            };
+        /**************************************************
+        *                                                 *
         *               PROVINCE FILTER                   *
         *                                                 *
         **************************************************/  
@@ -2154,6 +2178,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $scope.getUsersByCompanyClientIdFn($scope.select.admins.selected.idClient);
                         }else{
                             $scope.getAttendantListFn($scope.ticket.building.idClient);
+                            $scope.getKeyListByBuildingIdFn($scope.ticket.building.idClient);
                         }
                         console.log($scope.ticket);
                     break;
