@@ -367,7 +367,8 @@
 														<i class="text-success fas fa-check-circle"></i>
 													</span>
 													<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null" class="font-size-16px">{{key.fullNameUser}}</span>
-													<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null" class="badge badge-default">{{key.nameProfile}}</span>
+													<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null && key.idProfileKf!='6'" class="badge badge-default">{{key.nameProfile}}</span>
+													<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null && key.idProfileKf=='6'" class="badge badge-default">{{key.nameSysProfile}}</span>
 													<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null && key.idProfileKf=='6'" class="badge badge-warning">{{key.typeTenantName}}</span>
 													
 													<span ng-if="key.idUserKf==undefined || key.idUserKf==null" data-toggle="tooltip" data-placement="top" title="No asociado" class="text-danger media-middle text-center font-size-18px">
