@@ -2970,11 +2970,13 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             productSelected = null;
                         }
                         $scope.item_added           = false;
- 
+                        var radioButtonDepartment   = $scope.ticket.radioButtonDepartment!=undefined?$scope.ticket.radioButtonDepartment:null;
+                        var radioButtonDepartment   = $scope.ticket.radioButtonDepartment!=undefined?$scope.ticket.radioButtonDepartment:null;
+                        var radioButtonBuilding     = $scope.ticket.radioButtonBuilding!=undefined?$scope.ticket.radioButtonBuilding:null;
                         if ($scope.list_keys.length == 0 && obj.selected==true){
                             $scope.keysTotalPrice=0;
                             var id = 1;
-                            $scope.list_keys.push({'id':id, 'optionTypeSelected':$scope.ticket.optionTypeSelected.name, 'radioButtonDepartment':radioButtonDepartment, 'radioButtonBuilding':radioButtonBuilding, 'key':productSelected, 'user':userSelected, 'selected':obj.selected});
+                            $scope.list_keys.push({'id':id, 'optionTypeSelected':$scope.ticket.optionTypeSelected.name, 'radioButtonDepartment':radioButtonDepartment, 'radioButtonBuilding':radioButtonBuilding, 'key':obj, 'selected':obj.selected});
                             $scope.item_added = true;
                         }else{
                             for (var key in $scope.list_keys){
@@ -2995,7 +2997,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             }
                             if(!$scope.isKeyExist){
                                 var id = ($scope.list_keys.length+1);
-                                $scope.list_keys.push({'id':id, 'optionTypeSelected':$scope.ticket.optionTypeSelected.name, 'radioButtonDepartment':radioButtonDepartment, 'radioButtonBuilding':radioButtonBuilding, 'key':productSelected, 'user':userSelected, 'selected':obj.selected});
+                                $scope.list_keys.push({'id':id, 'optionTypeSelected':$scope.ticket.optionTypeSelected.name, 'radioButtonDepartment':radioButtonDepartment, 'radioButtonBuilding':radioButtonBuilding, 'key':obj, 'selected':obj.selected});
                                 $scope.item_added = true;
                             }
                         }
