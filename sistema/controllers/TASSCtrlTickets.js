@@ -1751,7 +1751,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
         **************************************************/
             $scope.getKeyListByBuildingIdFn = function (idClient){
                 if(idClient!=undefined){
-                    KeysServices.getKeyListByBuildingId(idClient).then(function(response) {
+                    KeysServices.getKeyListByBuildingId(idClient).then(function(response_keys) {
                         if(response_keys.status==200){
                             $scope.ticket.building.keys=response_keys.data;
                             $scope.ticket.keys = response_keys.data;
