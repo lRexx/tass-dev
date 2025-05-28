@@ -367,8 +367,8 @@
 														<i class="text-success fas fa-check-circle"></i>
 													</span>
 													<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null" class="font-size-16px">{{key.fullNameUser}}</span>
-													<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null && key.idProfileKf!='6'" class="badge badge-default">{{key.nameProfile}}</span>
-													<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null && key.idProfileKf=='6'" class="badge badge-default">{{key.nameSysProfile}}</span>
+													<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null && key.idProfileKf!='6'" class="badge badge-warning">{{key.nameProfile}}</span>
+													<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null && key.idProfileKf=='6'" class="badge badge-warning">{{key.nameSysProfile}}</span>
 													<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null && key.idProfileKf=='6'" class="badge badge-warning">{{key.typeTenantName}}</span>
 													
 													<span ng-if="key.idUserKf==undefined || key.idUserKf==null" data-toggle="tooltip" data-placement="top" title="No asociado" class="text-danger media-middle text-center font-size-18px">
@@ -601,7 +601,7 @@
 																	<i class="text-success fas fa-house-user"></i>
 																</span>
 																<span class="label label-default">{{tckt.key.fullNameUser}} </span>
-																<span ng-if="tckt.key.idUserKf!=undefined && tckt.key.idUserKf!=null && tckt.key.idProfileKf!='6'" class="badge badge-default">{{tckt.key.nameProfile}}</span>
+																<span ng-if="tckt.key.idUserKf!=undefined && tckt.key.idUserKf!=null && tckt.key.idProfileKf!='6'" class="badge badge-warning">{{tckt.key.nameProfile}}</span>
 																<span ng-if="tckt.key.idUserKf!=undefined && tckt.key.idUserKf!=null && tckt.key.idProfileKf=='6'" class="badge badge-warning">{{tckt.key.nameSysProfile}}</span>
 																<span ng-if="tckt.key.idUserKf!=undefined && tckt.key.idUserKf!=null && tckt.key.idProfileKf=='6'" class="badge badge-warning">{{tckt.key.typeTenantName}}</span>
 
