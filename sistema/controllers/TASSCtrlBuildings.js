@@ -3155,13 +3155,13 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                 };
                 $scope.filterKeyForTenants = function(item){
                     //console.log(item);
-                    return item.idKeychainStatusKf == '1' && item.idKeychainStatusKf!=null && item.idKeychainStatusKf!=undefined
+                    return item.isKeyTenantOnly == '1' && item.idKeychainStatusKf == '1' && item.idKeychainStatusKf!=null && item.idKeychainStatusKf!=undefined
                 };
                 $scope.filterByTypeTenantLogged = function(item){
-                    if (($scope.sysLoggedUser.idProfileKf=='1' || $scope.sysLoggedUser.idProfileKf=='4') && $scope.sysLoggedUser.idTypeTenantKf=='1'){
-                        return item.idKeychainStatusKf == '1' && item.idKeychainStatusKf!=null && item.idKeychainStatusKf!=undefined && (item.isKeyTenantOnly==null || item.isKeyTenantOnly>="0")
-                    }else if ($scope.sysLoggedUser.idTypeTenantKf=='2' && ((item.idTypeTenantKf!=null && item.idTypeTenantKf==$scope.sysLoggedUser.idTypeTenantKf) || item.idTypeTenantKf==null)){
-                        return item.idKeychainStatusKf == '1' && item.idKeychainStatusKf!=null && item.idKeychainStatusKf!=undefined
+                    if ($scope.sysLoggedUser.idProfileKf=='1' || $scope.sysLoggedUser.idProfileKf=='4' || $scope.sysLoggedUser.idTypeTenantKf=='1'){
+                        return item
+                    }else if ($scope.sysLoggedUser.idTypeTenantKf=='2' && item.idTypeTenantKf==$scope.sysLoggedUser.idTypeTenantKf){
+                        return item
                     }  
                 };
                 $scope.filterKeyByReason = function(item){
