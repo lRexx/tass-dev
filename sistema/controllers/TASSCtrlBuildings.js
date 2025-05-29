@@ -358,6 +358,10 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                         }else{
                             $scope.tenantObj.key=$scope.tenantObj.keyTmp
                         }
+                    }else if (obj.key==null){
+                        inform.add('Selecciona un llavero de la lista, en caso de inconvenientes contacte al area de soporte de BSS.',{
+                            ttl:5000, type: 'warning'
+                        });
                     }
                 break;
                 case "isKeyTenantOnly":
