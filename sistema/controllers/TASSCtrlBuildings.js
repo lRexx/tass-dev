@@ -296,7 +296,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                     }
                 break;
                 case "assignKeyToUser":
-                    if (confirm==0){
+                    if (confirm==0 && obj.key){
                         $scope.tenantObj=obj;
                         console.log(obj);
                         $scope.keyDetailTmp=null;
@@ -500,7 +500,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 console.log("============================================================================");
                             }
                             console.log($scope.buildingObj);
-                    $('#confirmRequestModalCustom').modal('toggle');
+                        $('#confirmRequestModalCustom').modal('toggle');
                     }else if (confirm==1){
                         if($scope.functions.mpPaymentMethod){
                             $scope.buildingObj.client.mpPaymentMethod=1;
@@ -509,7 +509,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                         }
                         console.log($scope.buildingObj);
                         $scope.switchBuildingFn("mpPaymentMethod", $scope.buildingObj);
-                    $('#confirmRequestModalCustom').modal('hide');
+                        $('#confirmRequestModalCustom').modal('hide');
                     }else if (confirm==null){
                         if ($scope.buildingObj.client.mpPaymentMethod==0 || $scope.buildingObj.client.mpPaymentMethod==null){
                             $scope.functions.mpPaymentMethod=false
@@ -3158,10 +3158,10 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                     return item.idKeychainStatusKf == '1' && item.idKeychainStatusKf!=null && item.idKeychainStatusKf!=undefined
                 };
                 $scope.filterByTypeTenantLogged = function(item){
-                    if ($scope.sysLoggedUser.idProfileKf=='1' || $scope.sysLoggedUser.idProfileKf=='4' || $scope.sysLoggedUser.idTypeTenantKf=='1'){
-                        return item
-                    }else if ($scope.sysLoggedUser.idTypeTenantKf=='2' && item.idTypeTenantKf==$scope.sysLoggedUser.idTypeTenantKf){
-                        return item
+                    if (($scope.sysLoggedUser.idProfileKf=='1' || $scope.sysLoggedUser.idProfileKf=='4') && $scope.sysLoggedUser.idTypeTenantKf=='1'){
+                        return item.idKeychainStatusKf == '1' && item.idKeychainStatusKf!=null && item.idKeychainStatusKf!=undefined && (item.isKeyTenantOnly==null || item.isKeyTenantOnly>="0")
+                    }else if ($scope.sysLoggedUser.idTypeTenantKf=='2' && ((item.idTypeTenantKf!=null && item.idTypeTenantKf==$scope.sysLoggedUser.idTypeTenantKf) || item.idTypeTenantKf==null)){
+                        return item.idKeychainStatusKf == '1' && item.idKeychainStatusKf!=null && item.idKeychainStatusKf!=undefined
                     }  
                 };
                 $scope.filterKeyByReason = function(item){
@@ -4675,15 +4675,16 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                         break;
                         case "isKeyTenantOnly":
                             $scope.key={'llavero':{}};
-                            $scope.key.llavero.idKeychain       = obj.idKeychain;
-                            $scope.key.llavero.idProductKf      = obj.idProductKf;
-                            $scope.key.llavero.codExt           = obj.codExt;
-                            $scope.key.llavero.codigo           = obj.codigo;
-                            $scope.key.llavero.idDepartmenKf    = obj.idDepartmenKf;
-                            $scope.key.llavero.idClientKf       = obj.idClientKf;
-                            $scope.key.llavero.idCategoryKf     = obj.idCategoryKf;
-                            $scope.key.llavero.isKeyTenantOnly  = obj.isKeyTenantOnly;
-                            $scope.key.llavero.idUserKf         = obj.idUserKf;
+                            $scope.key.llavero.idKeychain           = obj.idKeychain;
+                            $scope.key.llavero.idProductKf          = obj.idProductKf;
+                            $scope.key.llavero.codExt               = obj.codExt;
+                            $scope.key.llavero.codigo               = obj.codigo;
+                            $scope.key.llavero.idDepartmenKf        = obj.idDepartmenKf;
+                            $scope.key.llavero.idClientKf           = obj.idClientKf;
+                            $scope.key.llavero.idCategoryKf         = obj.idCategoryKf;
+                            $scope.key.llavero.isKeyTenantOnly      = obj.isKeyTenantOnly;
+                            $scope.key.llavero.idUserKf             = obj.idUserKf;
+                            $scope.key.llavero.idKeychainStatusKf   = obj.idKeychainStatusKf;
                             console.log($scope.key);
                             $scope.statusByTenantType = $scope.sysLoggedUser.idTypeTenantKf=='1'?-1:-1;
                             $scope.idDepartmentKfTmp = $scope.sysLoggedUser.idTypeTenantKf=='1'?null:$scope.sysLoggedUser.idDepartmentKf;
