@@ -3077,7 +3077,7 @@ class Ticket_model extends CI_Model
 				$rs_tickets['tickets'][$key]['clientAdmin'] = @$quuery->result_array()[0];
 	
 			}
-			$this->db->select("tb_products.idProduct,tb_products.descriptionProduct, tb_products.codigoFabric, tb_products.brand, tb_products.model, tb_ticket_keychain.*, tb_category_keychain.*, tb_products_classification.*")->from("tb_ticket_keychain");
+			$this->db->select("tb_products.idProduct,tb_products.descriptionProduct, tb_products.codigoFabric, tb_products.brand, tb_products.model, tb_ticket_keychain.*, tb_category_keychain.name AS categoryName, tb_products_classification.*")->from("tb_ticket_keychain");
 			#$this->db->join('tb_keychain' , 'tb_keychain.idKeychain = tb_ticket_keychain.idKeychainKf' , 'left');
 			$this->db->join('tb_category_keychain' , 'tb_category_keychain.idCategory = tb_ticket_keychain.idCategoryKf' , 'left');
 			$this->db->join('tb_products' , 'tb_products.idProduct = tb_ticket_keychain.idProductKf' , 'left');
@@ -3105,7 +3105,7 @@ class Ticket_model extends CI_Model
 					$rs_tickets['tickets'][$key]['keys'][$i]['doors'] = @$quuery->result_array();
 
 					$this->db->select("*")->from("tb_user");
-					$quuery             = $this->db->where("tb_user.idUser = " , @$ticket['idUserKf'])->get();
+					$quuery             = $this->db->where("tb_user.idUser = " , @$ticketKeychain['idUserKf'])->get();
 					$rs_tickets['tickets'][$key]['keys'][$i]['user'] = @$quuery->result_array();
 					$i++;
 				}
