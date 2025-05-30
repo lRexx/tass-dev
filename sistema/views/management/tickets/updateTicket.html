@@ -318,8 +318,8 @@
                                             <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 20% !important;"> Sistema Instalado</th>
                                             <th ng-if="tkupdate.idTypeTicketKf=='2'" class="th-head" style="vertical-align: middle !important;text-align: center !important;"><i class="fas fa-barcode"> </i> Codigo</th>
                                             <th ng-if="tkupdate.idTypeTicketKf=='2'" class="th-head" style="vertical-align: middle !important;text-align: center !important;"><i class="fas fa-barcode"> </i> Codigo Externo</th>
-                                            <th ng-if="tkupdate.idTypeTicketKf=='2'" class="th-head" style="vertical-align: middle !important;text-align: center !important;"><i class="fas fa-tag"> </i> Asignado</th>
-                                            <th ng-if="tkupdate.idTypeRequestFor=='6' && (tkupdate.keys[0].idUserKf==null || tkupdate.keys[0].idUserKf!=null) && tkupdate.keys[0].idClientKf!=null" class="th-head" style="vertical-align: middle !important;text-align: center !important;"><i class="glyphicon glyphicon-user"></i> Tipo </th>
+                                            <th ng-if="(tkupdate.idTypeTicketKf=='2' || tkupdate.idTypeTicketKf=='1' && tkupdate.idTypeRequestFor=='6' && ticketKeyList[0].idUserKf!=null)" class="th-head" style="vertical-align: middle !important;text-align: center !important;"><i class="glyphicon glyphicon-user"> </i> Asignado</th>
+                                            <th ng-if="tkupdate.idTypeRequestFor=='6' && (tkupdate.keys[0].idUserKf==null || tkupdate.keys[0].idUserKf!=null) && tkupdate.keys[0].idClientKf!=null" class="th-head" style="vertical-align: middle !important;text-align: center !important;"><i class="fas fa-tag"></i> Tipo </th>
                                             <th ng-if="tkupdate.idTypeTicketKf=='1'" class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;"><i class="fas fa-door-open"></i>Puertas</th>
                                         </tr>
                                     </thead>
@@ -331,7 +331,7 @@
                                             <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;width: 20% !important;">{{key.doors[0].descriptionProduct}} <span class="badge badge-warning">{{key.doors[0].brand}}</span></td>
                                             <td class="td-depto" ng-if="tkupdate.idTypeTicketKf=='2'" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.codigo}}</td>
                                             <td class="td-depto" ng-if="tkupdate.idTypeTicketKf=='2'" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.codExt}}</td>
-                                            <td class="td-depto" ng-if="tkupdate.idTypeTicketKf=='2'" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.fullNameUser}}</td>
+                                            <td class="td-depto" ng-if="(tkupdate.idTypeTicketKf=='2' || tkupdate.idTypeTicketKf=='1' && tkupdate.idTypeRequestFor=='6' && ticketKeyList[0].idUserKf!=null)" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.user.fullNameUser}}</td>
                                             <!--<td style="vertical-align: middle;text-align: center;">
                                                 <span ng-if="ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='1'">
                                                     <span class="font-size-18px" style="color: #5cb85c">
@@ -360,9 +360,9 @@
                                                 <span ng-if="user==undefined || user==null" data-toggle="tooltip" data-placement="right" title="No asignado" class="text-danger media-middle text-center font-size-18px">
                                                     <i class="fas fa-times-circle"></i>
                                                 </span>
-                                            </td>-->
+                                            </td>
                                             <td class="td-depto" ng-if="tkupdate.idTypeRequestFor=='6' && key.idUserKf==null && key.idClientKf!=null" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;"><span class="font-size-18px">Consorcio</span></td>
-                                            <td class="td-depto" ng-if="tkupdate.idTypeRequestFor=='6' && key.idUserKf!=null && key.idClientKf!=null" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;"><span class="font-size-18px">Encargado</span></td>
+                                            <td class="td-depto" ng-if="tkupdate.idTypeRequestFor=='6' && key.idUserKf!=null && key.idClientKf!=null" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;"><span class="font-size-18px">Encargado</span></td>-->
                                             <td class="td-depto" ng-if="tkupdate.idTypeTicketKf=='1'" ng-trim="true" class="media-middle text-center" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;">
                                                 <span data-ng-repeat="door in key.doors" ng-if="key.doors.length>0" data-toggle="tooltip" data-placement="bottom" class="label label-success" title="Puerta {{door.titulo}}" style="margin-right: 5px !important;">{{door.titulo.charAt(0)}}</span>
                                             </td>
