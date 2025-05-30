@@ -3106,7 +3106,7 @@ class Ticket_model extends CI_Model
 
 					$this->db->select("*")->from("tb_user");
 					$quuery             = $this->db->where("tb_user.idUser = " , @$ticketKeychain['idUserKf'])->get();
-					$rs_tickets['tickets'][$key]['keys'][$i]['user'] = @$quuery->result_array();
+					$rs_tickets['tickets'][$key]['keys'][$i]['user'] = @$quuery->result_array()[0];
 					$i++;
 				}
 			$this->db->select("*")->from("tb_type_delivery");
