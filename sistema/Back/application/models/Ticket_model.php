@@ -3090,14 +3090,13 @@ class Ticket_model extends CI_Model
 				foreach ($rs_tickets['tickets'][$key]['keys'] as $ticketKeychain) {
 					$idTicketKeychain = $ticketKeychain['idTicketKeychain'];
 
-					$this->db->select("tb_contratos.idContrato, tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_type_contrato.description, tb_type_maintenance.typeMaintenance, tb_products.idProduct, tb_products.descriptionProduct, tb_products.codigoFabric, tb_products.brand, tb_products.model,  tb_products.idStatusFk, tb_access_control_door.*, tb_ticket_keychain.*")->from("tb_contratos");
-					$this->db->join('tb_ticket_keychain' , 'tb_ticket_keychain.idTicketKeychain = tb_ticket_keychain_doors.idTicketKeychainKf' , 'left');					
+					$this->db->select("tb_contratos.idContrato, tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_type_contrato.description, tb_type_maintenance.typeMaintenance, tb_products.idProduct, tb_products.descriptionProduct, tb_products.codigoFabric, tb_products.brand, tb_products.model,  tb_products.idStatusFk")->from("tb_contratos");					
 					$this->db->join('tb_type_contrato' , 'tb_type_contrato.idTypeContrato = tb_contratos.contratoType' , 'left');					
 					$this->db->join('tb_type_maintenance' , 'tb_type_maintenance.idTypeMaintenance = tb_contratos.maintenanceType' , 'left');
 					$this->db->join('tb_servicios_del_contrato_cabecera', 'tb_servicios_del_contrato_cabecera.idContratoFk = tb_contratos.idContrato', 'left');
 					$this->db->join('tb_servicios_del_contrato_cuerpo', 'tb_servicios_del_contrato_cuerpo.idServiciosDelContratoFk = tb_servicios_del_contrato_cabecera.idServiciosDelContrato', 'left');
 					$where_string = "tb_contratos.idStatusFk = 1 AND tb_ticket_keychain_doors.doorSelected = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 1 
-					GROUP BY tb_access_control_door.idAccessControlDoor,tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_access_control_door.idAccessControlDoor;";
+					GROUP BY tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_access_control_door.idAccessControlDoor;";
 					$quuery             = $this->db->where($where_string)->get();
 					$rs_tickets['tickets'][$key]['keys'][$i]['contract'] = @$quuery->result_array();
 					$this->db->select("tb_contratos.idContrato, tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_type_contrato.description, tb_type_maintenance.typeMaintenance, tb_products.idProduct, tb_products.descriptionProduct, tb_products.codigoFabric, tb_products.brand, tb_products.model,  tb_products.idStatusFk, tb_access_control_door.*, tb_ticket_keychain.*, tb_ticket_keychain_doors.*")->from("tb_ticket_keychain_doors");
