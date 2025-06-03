@@ -3124,8 +3124,7 @@ class Ticket_model extends CI_Model
 					$this->db->select("tb_access_control_door.*, tb_ticket_keychain.*, tb_ticket_keychain_doors.*")->from("tb_ticket_keychain_doors");
 					$this->db->join('tb_ticket_keychain' , 'tb_ticket_keychain.idTicketKeychain = tb_ticket_keychain_doors.idTicketKeychainKf' , 'left');
 					$this->db->join('tb_access_control_door', 'tb_access_control_door.idAccessControlDoor = tb_ticket_keychain_doors.idAccessControlDoorKf', 'left');
-					$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
-					$where_string = "tb_ticket_keychain_doors.idTicketKeychainKf = $idTicketKeychain AND tb_contratos.idStatusFk = 1 AND tb_ticket_keychain_doors.doorSelected = 1 
+					$where_string = "tb_ticket_keychain_doors.idTicketKeychainKf = $idTicketKeychain AND tb_ticket_keychain_doors.doorSelected = 1 
 					GROUP BY tb_access_control_door.idAccessControlDoor ORDER BY tb_access_control_door.idAccessControlDoor;";
 					$quuery             = $this->db->where($where_string)->get();
 					$rs_tickets['tickets'][$key]['keys'][$i]['doors'] = @$quuery->result_array();
