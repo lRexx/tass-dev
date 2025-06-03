@@ -3079,8 +3079,6 @@ class Ticket_model extends CI_Model
 			}
 			$this->db->select("tb_products.idProduct,tb_products.descriptionProduct, tb_products.codigoFabric, tb_products.brand, tb_products.model, tb_ticket_keychain.*, tb_category_keychain.name AS categoryName, tb_products_classification.*")->from("tb_ticket_keychain");
 			#$this->db->join('tb_keychain' , 'tb_keychain.idKeychain = tb_ticket_keychain.idKeychainKf' , 'left');
-			$this->db->join('tb_open_devices_access_control' , 'tb_open_devices_access_control.idOpenDevice = tb_ticket_keychain.idProductKf' , 'left');
-			$this->db->join('tb_client_services_access_control' , 'tb_client_services_access_control.idClientServicesAccessControl = tb_open_devices_access_control.idOPClientServicesAccessControlFk' , 'left');
 			$this->db->join('tb_category_keychain' , 'tb_category_keychain.idCategory = tb_ticket_keychain.idCategoryKf' , 'left');
 			$this->db->join('tb_products' , 'tb_products.idProduct = tb_ticket_keychain.idProductKf' , 'left');
 			$this->db->join('tb_products_classification' , 'tb_products_classification.idProductClassification = tb_products.idProductClassificationFk' , 'left');
@@ -3096,8 +3094,8 @@ class Ticket_model extends CI_Model
 					$this->db->join('tb_servicios_del_contrato_cabecera', 'tb_servicios_del_contrato_cabecera.idContratoFk = tb_contratos.idContrato', 'left');
 					$this->db->join('tb_servicios_del_contrato_cuerpo', 'tb_servicios_del_contrato_cuerpo.idServiciosDelContratoFk = tb_servicios_del_contrato_cabecera.idServiciosDelContrato', 'left');
 					$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
-					$where_string = "tb_contratos.idClientFk = ".$rs_tickets['tickets'][$key]['building']['idClient']."AND tb_contratos.idStatusFk = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 1 
-					GROUP BY tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_contratos.idContrato;";
+					$where_string = "tb_contratos.idClientFk = ".$rs_tickets['tickets'][$key]['building']['idClient']."
+					 AND tb_contratos.idStatusFk = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 1 GROUP BY tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_contratos.idContrato;";
 					$quuery             = $this->db->where($where_string)->get();
 					$rs_tickets['tickets'][$key]['keys'][$i]['contract'] = @$quuery->result_array();
 
