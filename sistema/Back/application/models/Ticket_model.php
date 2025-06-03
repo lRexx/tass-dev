@@ -3095,6 +3095,7 @@ class Ticket_model extends CI_Model
 					$this->db->join('tb_type_maintenance' , 'tb_type_maintenance.idTypeMaintenance = tb_contratos.maintenanceType' , 'left');
 					$this->db->join('tb_servicios_del_contrato_cabecera', 'tb_servicios_del_contrato_cabecera.idContratoFk = tb_contratos.idContrato', 'left');
 					$this->db->join('tb_servicios_del_contrato_cuerpo', 'tb_servicios_del_contrato_cuerpo.idServiciosDelContratoFk = tb_servicios_del_contrato_cabecera.idServiciosDelContrato', 'left');
+					$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
 					$where_string = "tb_contratos.idStatusFk = 1 AND tb_ticket_keychain_doors.doorSelected = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 1 
 					GROUP BY tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_access_control_door.idAccessControlDoor;";
 					$quuery             = $this->db->where($where_string)->get();
