@@ -3300,8 +3300,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.keys.new.categoryKey       = $scope.tkupdate.keys[0].idCategory;
               $scope.keys.new.categoryKeychain  = $scope.tkupdate.keys[0].name;
               $scope.keys.new.products.selected = {'idProduct':$scope.tkupdate.keys[0].idProduct,'model':$scope.tkupdate.keys[0].model,'classification':$scope.tkupdate.keys[0].classification,'codigoFabric':$scope.tkupdate.keys[0].codigoFabric,'descriptionProduct':$scope.tkupdate.keys[0].descriptionProduct,'idProductClassification':$scope.tkupdate.keys[0].idProductClassification,'brand':$scope.tkupdate.keys[0].brand,'priceFabric':$scope.tkupdate.keys[0].priceFabric};
-              $scope.keys.new.department        = $scope.tkupdate.department.idClientDepartament;
-              $scope.keys.new.Depto             = $scope.tkupdate.department.floor+"-"+$scope.tkupdate.department.departament
+              $scope.keys.new.department        = $scope.tkupdate.idTypeRequestFor=="1"?$scope.tkupdate.department.idClientDepartament:null;
+              $scope.keys.new.Depto             = $scope.tkupdate.idTypeRequestFor=="1"?$scope.tkupdate.department.floor+"-"+$scope.tkupdate.department.departament:null;
             break;
             case "keyDetails":
               $scope.isNewKeySingle = false;
