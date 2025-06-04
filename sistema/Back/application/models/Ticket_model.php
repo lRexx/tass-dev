@@ -3114,12 +3114,12 @@ class Ticket_model extends CI_Model
 					$query = $this->db->get();
 					$rs_tickets['tickets'][$key]['keys'][$i]['contract'] = $query->result_array();
 
-					$this->db->select("tb_products.idProduct, tb_products.descriptionProduct, tb_products.codigoFabric, tb_products.brand, tb_products.model,  tb_products.idStatusFk")->from("tb_client_services_access_control");
-					$this->db->join('tb_open_devices_access_control' , 'tb_open_devices_access_control.idOPClientServicesAccessControlFk = tb_client_services_access_control.idClientServicesAccessControl' , 'left');
-					$this->db->join('tb_products' , 'tb_products.idProduct = tb_client_services_access_control.idAccessControlFk' , 'left');
-					$this->db->join('tb_products_classification' , 'tb_products_classification.idProductClassification = tb_products.idProductClassificationFk' , 'left');
-					$quuery             = $this->db->where("idContracAssociated_SE = " ,$rs_tickets['tickets'][$key]['keys'][$i]['contract']['idContrato'])->get();
-					$rs_tickets['tickets'][$key]['keys'][$i]['access_control'] = @$quuery->result_array();
+					//$this->db->select("tb_products.idProduct, tb_products.descriptionProduct, tb_products.codigoFabric, tb_products.brand, tb_products.model,  tb_products.idStatusFk")->from("tb_client_services_access_control");
+					//$this->db->join('tb_open_devices_access_control' , 'tb_open_devices_access_control.idOPClientServicesAccessControlFk = tb_client_services_access_control.idClientServicesAccessControl' , 'left');
+					//$this->db->join('tb_products' , 'tb_products.idProduct = tb_client_services_access_control.idAccessControlFk' , 'left');
+					//$this->db->join('tb_products_classification' , 'tb_products_classification.idProductClassification = tb_products.idProductClassificationFk' , 'left');
+					//$quuery             = $this->db->where("idContracAssociated_SE = " ,$rs_tickets['tickets'][$key]['keys'][$i]['contract']['idContrato'])->get();
+					//$rs_tickets['tickets'][$key]['keys'][$i]['access_control'] = @$quuery->result_array();
 
 					$this->db->select("tb_access_control_door.*, tb_ticket_keychain.*, tb_ticket_keychain_doors.*")->from("tb_ticket_keychain_doors");
 					$this->db->join('tb_ticket_keychain' , 'tb_ticket_keychain.idTicketKeychain = tb_ticket_keychain_doors.idTicketKeychainKf' , 'left');
