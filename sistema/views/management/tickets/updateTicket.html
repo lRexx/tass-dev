@@ -324,7 +324,7 @@
                                         </tr>
                                     </thead>
                                     <tbody style="overflow: auto;height: auto !important;" class="fixed-body">
-                                        <tr row-span="{{key.doors.length}}"  style="align-content: center; cursor: pointer;" data-ng-repeat="key in tkupdate.keys">
+                                        <tr rowspan="{{key.doors.length}}"  style="align-content: center; cursor: pointer;" data-ng-repeat="key in tkupdate.keys">
                                             <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle !important;text-align: center !important;width: 5% !important;"><span class="font-size-18px">{{$index+1}}</span></td>
                                             <td class="td-depto" ng-trim="true" class="media-middle text-center">{{key.descriptionProduct}} <span class="badge badge-warning">{{key.brand}}</span></td>
                                             <tr style="align-content: center; cursor: pointer;" data-ng-repeat="door in key.doors">
