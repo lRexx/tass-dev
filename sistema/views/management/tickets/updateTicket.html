@@ -324,11 +324,13 @@
                                         </tr>
                                     </thead>
                                     <tbody style="overflow: auto;height: auto !important;" class="fixed-body">
-                                        <tr  style="align-content: center; cursor: pointer;" data-ng-repeat="key in tkupdate.keys">
+                                        <tr row-span="key.doors.length"  style="align-content: center; cursor: pointer;" data-ng-repeat="key in tkupdate.keys">
                                             <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle !important;text-align: center !important;width: 5% !important;"><span class="font-size-18px">{{$index+1}}</span></td>
                                             <td class="td-depto" ng-trim="true" class="media-middle text-center">{{key.descriptionProduct}} <span class="badge badge-warning">{{key.brand}}</span></td>
-                                            <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;width: 22% !important;">{{key.doors[$index].typeMaintenance}}</td>
-                                            <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;width: 20% !important;">{{key.doors[$index].descriptionProduct}} <span class="badge badge-warning">{{key.doors[$index].brand}}</span></td>
+                                            <tr style="align-content: center; cursor: pointer;" data-ng-repeat="door in key.doors">
+                                              <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;width: 22% !important;">{{door.typeMaintenance}}</td>
+                                              <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;width: 20% !important;">{{door.descriptionProduct}} <span class="badge badge-warning">{{door.brand}}</span></td>
+                                            </tr>
                                             <td class="td-depto" ng-if="tkupdate.idTypeTicketKf=='2'" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.codigo}}</td>
                                             <td class="td-depto" ng-if="tkupdate.idTypeTicketKf=='2'" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.codExt}}</td>
                                             <td class="td-depto" ng-if="(tkupdate.idTypeTicketKf=='2' || tkupdate.idTypeTicketKf=='1' && tkupdate.idTypeRequestFor=='6' && ticketKeyList[0].idUserKf!=null)" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.user.fullNameUser}}</td>
