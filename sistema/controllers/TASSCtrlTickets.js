@@ -2251,7 +2251,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 if(($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && !$scope.ticket.building.initial_delivery[0].expiration_state) || 
                                    ($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==0 && $scope.ticket.building.isStockInBuilding=='1' && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')) || 
                                    ($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && $scope.ticket.building.initial_delivery[0].expiration_state && $scope.ticket.building.isStockInBuilding=='1' && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')) ||
-                                   ($scope.ticket.building!=undefined && $scope.ticket.building.isStockInOffice=='0' && $scope.ticket.building.isStockInBuilding=='0')){
+                                   ($scope.ticket.building!=undefined && $scope.ticket.building.isStockInOffice=='0' && $scope.ticket.building.isStockInBuilding=='0')||
+                                   ($scope.ticket.building!=undefined && $scope.ticket.building.allowOfficePickup!='1')){
                                     $scope.ticket.delivery.idTypeDeliveryKf="2"
                                 }
                                 //serviceCostFree
@@ -2276,9 +2277,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     blockUI.stop();
                                     console.log("chargeForExpenses  :"+$scope.ticket.building.chargeForExpenses);
                                     if ($scope.ticket.building.chargeForExpenses=='0' || $scope.ticket.building.chargeForExpenses==null || $scope.ticket.building.chargeForExpenses==undefined){
-                                        $scope.ticket.cost.idTypePaymentKf=2;
+                                        $scope.ticket.cost.idTypePaymentKf="2";
                                     }                               
-                                    
                                 }, 1700);
                                 $timeout(function() {
                                     if ($scope.isRequest=="costs"){
@@ -2311,7 +2311,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     $scope.getAttendantListFn(obj.idClient);
                                     console.log("chargeForExpenses  :"+$scope.ticket.building.chargeForExpenses);
                                     if ($scope.ticket.building.chargeForExpenses=='0' || $scope.ticket.building.chargeForExpenses==null || $scope.ticket.building.chargeForExpenses==undefined){
-                                        $scope.ticket.cost.idTypePaymentKf=2;
+                                        $scope.ticket.cost.idTypePaymentKf="2";
                                     }
                                 }, 1700);
                                 $timeout(function() {
