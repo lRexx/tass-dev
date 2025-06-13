@@ -1781,7 +1781,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                    ($scope.ticket.building!=undefined && $scope.ticket.building.isStockInBuilding=='1' && $scope.ticket.building.isStockInBuilding!=null && $scope.ticket.building.isStockInBuilding!='0' && (
                    $scope.ticket.building.isStockInOffice=='0' || $scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')) || 
                     ($scope.ticket.building!=undefined && $scope.ticket.building.isStockInOffice=='0' && $scope.ticket.building.isStockInBuilding=='0') || 
-                    ( $scope.ticket.building!=undefined && $scope.ticket.building.allowOfficePickup=='1')){
+                    ( $scope.ticket.building!=undefined && $scope.ticket.building.allowOfficePickup!='1')){
                     //console.log(item);
                     return item.idTypeDelivery != "1";
                 }else{
