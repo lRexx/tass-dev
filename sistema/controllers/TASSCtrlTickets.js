@@ -2278,6 +2278,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     console.log("chargeForExpenses  :"+$scope.ticket.building.chargeForExpenses);
                                     if ($scope.ticket.building.chargeForExpenses=='0' || $scope.ticket.building.chargeForExpenses==null || $scope.ticket.building.chargeForExpenses==undefined){
                                         $scope.ticket.cost.idTypePaymentKf=2;
+                                        console.log($scope.ticket.cost);
                                     }                               
 
                                 }, 1700);
@@ -2313,6 +2314,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     console.log("chargeForExpenses  :"+$scope.ticket.building.chargeForExpenses);
                                     if ($scope.ticket.building.chargeForExpenses=='0' || $scope.ticket.building.chargeForExpenses==null || $scope.ticket.building.chargeForExpenses==undefined){
                                         $scope.ticket.cost.idTypePaymentKf=2;
+                                        console.log($scope.ticket.cost);
                                     }
                                 }, 1700);
                                 $timeout(function() {
