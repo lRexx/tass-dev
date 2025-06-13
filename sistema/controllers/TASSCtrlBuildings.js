@@ -4989,11 +4989,12 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.sysSubContent       = 'authorization';
                             $scope.ListDpto            = [];
                             $scope.keyListByBuildingId = [];
-                            $scope.functions={'expensePayment': false, 'autoApproveAll': false, 'autoApproveOwners': false, 'mpPaymentMethod':false};
+                            $scope.functions={'expensePayment': false, 'autoApproveAll': false, 'autoApproveOwners': false, 'mpPaymentMethod':false, 'allowOfficePickup':false};
                             $scope.functions.expensePayment     = obj.chargeForExpenses==1?true:false;
                             $scope.functions.autoApproveAll     = obj.autoApproveAll==1?true:false
                             $scope.functions.autoApproveOwners  = obj.autoApproveOwners==1?true:false;
                             $scope.functions.mpPaymentMethod    = obj.mpPaymentMethod==1?true:false;
+                            $scope.functions.allowOfficePickup  = obj.allowOfficePickup==1?true:false;
                             console.log(obj);
                         break;
                         case "building_keys":
