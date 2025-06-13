@@ -845,7 +845,7 @@
                                     </tr>
                                     <tr>
 										<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;">Método</td>
-										<td ng-if="ticket.delivery.idTypeDeliveryKf=='1' && ticket.building.allowOfficePickup=='1'">Retiro en Oficina</td>
+										<td ng-if="ticket.delivery.idTypeDeliveryKf=='1'">Retiro en Oficina</td>
 										<td ng-if="ticket.delivery.idTypeDeliveryKf=='2'">Entrega en Domicilio 
 											<span ng-if="(ticket.delivery.idTypeDeliveryKf==2 && ticket.delivery.idDeliveryTo==1) || (ticket.delivery.idTypeDeliveryKf==2 && ticket.delivery.whoPickUp.id==2)" class="badge badge-warning">Asociado </span>
 											<span ng-if="(ticket.optionTypeSelected.name=='building' || ticket.optionTypeSelected.name=='department') && ticket.radioButtonBuilding==1 && ticket.delivery.idTypeDeliveryKf==2 && (ticket.delivery.idDeliveryTo==1 || ticket.delivery.whoPickUp.id==2)" class="label label-default"> {{ticket.building.name}}</span>
