@@ -504,7 +504,7 @@
 													{
 														'col-md-offset-2 col-xs-offset-2':(ticket.building!=undefined && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0' || ticket.building.isStockInOffice=='1') && (ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0')),
 														'col-md-offset-4 col-xs-offset-4':
-														((ticket.building!=undefined && ((ticket.building.allowOfficePickup!='1') || (ticket.building.isStockInBuilding=='1' || ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0'))))
+														((ticket.building!=undefined && ticket.building.allowOfficePickup!='1') || (ticket.building!=undefined && (ticket.building.isStockInBuilding=='1' || ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0')))
 													}">
 													<input id="idTypeDeliveryKf-{{item.idTypeDelivery}}" class="radio-custom" type="radio" ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery, null); enabledNextBtn();" name="idTypeDeliveryKf" value="{{item.idTypeDelivery}}" ng-model="ticket.delivery.idTypeDeliveryKf" required autofocus>
 													<label for="idTypeDeliveryKf-{{item.idTypeDelivery}}" class="radio-custom-label">
