@@ -3609,7 +3609,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                     
                 }
                 $scope.categoryFilter = function(item) {
-                    return item.idCategory == "1" || item.idCategory == "5" || item.idCategory == "6";
+                    return item.idCategory == "1" || item.idCategory == "3" || item.idCategory == "5" || item.idCategory == "6";
                 };
             /**************************************************
             *                                                 *
