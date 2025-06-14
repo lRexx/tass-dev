@@ -563,6 +563,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         if ($scope.ticket.optionTypeSelected.name==undefined){
                             $scope.ticket.optionTypeSelected.name = elem[0].getAttribute("id");
                             $scope.ticket.optionTypeSelected.obj = elem;
+                            $scope.ticket.radioButtonBuilding=undefined;
                             elem.removeClass('btn-primary').addClass("btn-success");
                         }else if ($scope.ticket.optionTypeSelected.name!=elem[0].getAttribute("id")){
                             document.getElementById("typeOption1").checked=false;
@@ -580,6 +581,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         if ($scope.ticket.optionTypeSelected.name==undefined){
                             $scope.ticket.optionTypeSelected.name = elem[0].getAttribute("id");
                             elem.removeClass('btn-primary').addClass("btn-success");
+                            $scope.ticket.radioButtonDepartment=undefined;
+                            $scope.ticket.idClientDepartament=undefined;
                         }else if ($scope.ticket.optionTypeSelected.name!=elem[0].getAttribute("id")){
                             //document.getElementById("typeTenant1").checked=false;
                             //document.getElementById("typeTenant2").checked=false;
