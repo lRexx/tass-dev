@@ -3814,7 +3814,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.new.ticket.idUserMadeBy              = $scope.sysLoggedUser.idUser;
                         $scope.new.ticket.idTypeDeliveryKf          = obj.delivery.idTypeDeliveryKf
                         $scope.new.ticket.isInitialDeliveryActive   = obj.building.isInitialDeliveryActive?1:0;
-                        console.log(parseInt(obj.radioButtonDepartment, 10));
                         $scope.new.ticket.keys = [];
                             $scope.new.ticket.mail = '';
                             $scope.new.ticket.mail = '<table width="100%" style="max-width: 768px;min-width: 100%;border-collapse: collapse; padding-top:2%; padding-bottom:2%;font-size:1vw;font-family:sans-serif;color:#555555;padding:2%">';
@@ -3822,7 +3821,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $scope.new.ticket.mail += '<tr><td align="center" valign="middle"style="width: 15%; background-color: #b8c3d2;font-size: 1vw;color: #fff;padding-left: 0.4%">Realizado por</td>';
                             $scope.new.ticket.mail += '<td align="left" valign="middle" style="width: 35%;font-size: 1vw;padding-left: 0.4%">'+$scope.sysLoggedUser.fullNameUser+' <span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+$scope.sysLoggedUser.nameProfile+'</b></span></td>';
                             $scope.new.ticket.mail += '<td align="center" valign="middle" style="width: 15%; background-color: #b8c3d2;font-size: 1vw;color: #fff;padding-left: 0.4%">Solicitado por</td>';
-                            if (obj.optionTypeSelected.name=='department' && parseInt(obj.radioButtonDepartment, 10)!=undefined && (parseInt(obj.radioButtonDepartment, 10)=='1' || parseInt(obj.radioButtonDepartment, 10)=='2')){
+                            if (obj.optionTypeSelected.name=='department' && obj.radioButtonDepartment!=undefined && (obj.radioButtonDepartment=='1' || obj.radioButtonDepartment=='2')){
                                 $scope.new.ticket.mail +='<td align="left" valign="middle">'+$scope.selectedRequestKeyOwnerUser.fullNameUser+' <span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+$scope.selectedRequestKeyOwnerUser.nameProfile+'</b></span>'; 
                                 if ($scope.selectedRequestKeyOwnerUser.idProfileKf!=3 && $scope.selectedRequestKeyOwnerUser.idProfileKf!=5 && $scope.selectedRequestKeyOwnerUser.idTypeTenantKf!=null){
                                     $scope.new.ticket.mail +=' <span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+$scope.selectedRequestKeyOwnerUser.typeTenantName+'</b></span>';
@@ -3838,7 +3837,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             var formatedDate    = requestDate.getDate()+"-"+(requestDate.getMonth()+1)+"-"+requestDate.getFullYear()+ " / " +requestDate.getHours() + ":" + requestDate.getMinutes();
                             $scope.new.ticket.mail += '<td align="left" valign="middle">'+formatedDate+'</td>';
                             $scope.new.ticket.mail +='<td align="center" valign="middle" style="width: 15%; background-color: #b8c3d2;font-size: 1vw;color: #fff;padding-left: 0.4%">Solicitado para</td>';
-                            if (obj.optionTypeSelected.name=='department' && parseInt(obj.radioButtonDepartment, 10)!=undefined && (parseInt(obj.radioButtonDepartment, 10)=='1' || parseInt(obj.radioButtonDepartment, 10)=='2')){
+                            if (obj.optionTypeSelected.name=='department' && obj.radioButtonDepartment!=undefined && (obj.radioButtonDepartment=='1' || obj.radioButtonDepartment=='2')){
                                 $scope.new.ticket.mail +='<td align="left" valign="middle">Departamento <span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+obj.idClientDepartament.Depto+'</b></span></td>';
                             }else if (obj.optionTypeSelected.name=='building' && obj.radioButtonBuilding!=undefined && obj.radioButtonBuilding=='1'){
                                 $scope.new.ticket.mail +='<td align="left" valign="middle">Encargado</td>';
@@ -3896,7 +3895,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 if (obj.optionTypeSelected.name=='building' && obj.radioButtonBuilding=='2' && $scope.list_keys[i].key.idCategoryKf=='5'){
                                     $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>Administracíon</b></span>';
                                 }
-                                if (obj.optionTypeSelected.name=='department' && (parseInt(obj.radioButtonDepartment, 10)==null || parseInt(obj.radioButtonDepartment, 10)=='1' || parseInt(obj.radioButtonDepartment, 10)=='2')){
+                                if (obj.optionTypeSelected.name=='department' && (obj.radioButtonDepartment==null || obj.radioButtonDepartment=='1' || obj.radioButtonDepartment=='2')){
                                     $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+obj.idClientDepartament.Depto+'</b></span>';
                                 }
                                 $scope.new.ticket.mail +='</td>';
@@ -4026,7 +4025,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         switch (obj.optionTypeSelected.name){
                             case "department":
                                 $scope.new.ticket.idTypeRequestFor  = 1;
-                                switch (parseInt(obj.radioButtonDepartment, 10)){
+                                switch (obj.radioButtonDepartment){
                                     case "1":
                                         if ($scope.sysLoggedUser.idProfileKf=="3"){
                                             console.log("[New Ticket] => Propietario haciendo pedido.");
@@ -4492,7 +4491,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $scope.new.ticket.mail += '<tr><td align="center" valign="middle"style="width: 15%; background-color: #b8c3d2;font-size: 1vw;color: #fff;padding-left: 0.4%">Realizado por</td>';
                             $scope.new.ticket.mail += '<td align="left" valign="middle" style="width: 35%;font-size: 1vw;">'+$scope.sysLoggedUser.fullNameUser+' <span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+$scope.sysLoggedUser.nameProfile+'</b></span></td>';
                             $scope.new.ticket.mail += '<td align="center" valign="middle" style="width: 15%; background-color: #b8c3d2;font-size: 1vw;color: #fff;padding-left: 0.4%">Solicitado por</td>';
-                            if (obj.optionTypeSelected.name=='department' && parseInt(obj.radioButtonDepartment, 10)!=undefined && (parseInt(obj.radioButtonDepartment, 10)=='1' || parseInt(obj.radioButtonDepartment, 10)=='2')){
+                            if (obj.optionTypeSelected.name=='department' && obj.radioButtonDepartment!=undefined && (obj.radioButtonDepartment=='1' || obj.radioButtonDepartment=='2')){
                                 $scope.new.ticket.mail +='<td align="left" valign="middle">'+$scope.selectedRequestKeyOwnerUser.fullNameUser+' <span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+$scope.selectedRequestKeyOwnerUser.nameProfile+'</b></span>'; 
                                 if ($scope.selectedRequestKeyOwnerUser.idProfileKf!=3 && $scope.selectedRequestKeyOwnerUser.idProfileKf!=5 && $scope.selectedRequestKeyOwnerUser.idTypeTenantKf!=null){
                                     $scope.new.ticket.mail +=' <span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+$scope.selectedRequestKeyOwnerUser.typeTenantName+'</b></span>';
@@ -4508,7 +4507,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             var formatedDate    = requestDate.getDate()+"-"+(requestDate.getMonth()+1)+"-"+requestDate.getFullYear()+ " / " +requestDate.getHours() + ":" + requestDate.getMinutes();
                             $scope.new.ticket.mail += '<td align="left" valign="middle">'+formatedDate+'</td>';
                             $scope.new.ticket.mail +='<td align="center" valign="middle" style="width: 15%; background-color: #b8c3d2;font-size: 1vw;color: #fff;padding-left: 0.4%">Solicitado para</td>';
-                            if (parseInt(obj.radioButtonDepartment, 10)!=undefined && (parseInt(obj.radioButtonDepartment, 10)=='1' || parseInt(obj.radioButtonDepartment, 10)=='2')){
+                            if (obj.radioButtonDepartment!=undefined && (obj.radioButtonDepartment=='1' || obj.radioButtonDepartment=='2')){
                                 $scope.new.ticket.mail +='<td align="left" valign="middle">Departamento <span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+obj.idClientDepartament.Depto+'</b></span></td>';
                             }else if (obj.radioButtonBuilding!=undefined && obj.radioButtonBuilding=='1'){
                                 $scope.new.ticket.mail +='<td align="left" valign="middle">Encargado</td>';
@@ -4561,7 +4560,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 if (obj.optionTypeSelected.name=='building' && obj.radioButtonBuilding=='2' && $scope.list_keys[i].key.idCategoryKf=='5'){
                                     //$scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>Administracíon</b></span>';
                                 }
-                                if (obj.optionTypeSelected.name=='department' && (parseInt(obj.radioButtonDepartment, 10)==null || parseInt(obj.radioButtonDepartment, 10)=='1' || parseInt(obj.radioButtonDepartment, 10)=='2')){
+                                if (obj.optionTypeSelected.name=='department' && (obj.radioButtonDepartment==null || obj.radioButtonDepartment=='1' || obj.radioButtonDepartment=='2')){
                                     //$scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+obj.idClientDepartament.Depto+'</b></span>';
                                 }
                                 $scope.new.ticket.mail +='</td>';
@@ -4674,7 +4673,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         switch (obj.optionTypeSelected.name){
                             case "department":
                                 $scope.new.ticket.idTypeRequestFor  = 1;
-                                switch (parseInt(obj.radioButtonDepartment, 10)){
+                                switch (obj.radioButtonDepartment){
                                     case "1":
                                         if ($scope.sysLoggedUser.idProfileKf=="3"){
                                             console.log("[New Ticket] => Propietario haciendo pedido.");
