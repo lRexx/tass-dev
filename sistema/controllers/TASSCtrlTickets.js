@@ -3814,7 +3814,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.new.ticket.idUserMadeBy              = $scope.sysLoggedUser.idUser;
                         $scope.new.ticket.idTypeDeliveryKf          = obj.delivery.idTypeDeliveryKf
                         $scope.new.ticket.isInitialDeliveryActive   = obj.building.isInitialDeliveryActive?1:0;
-                        parseInt(obj.radioButtonDepartment, 10);
+                        console.log(parseInt(obj.radioButtonDepartment, 10));
                         $scope.new.ticket.keys = [];
                             $scope.new.ticket.mail = '';
                             $scope.new.ticket.mail = '<table width="100%" style="max-width: 768px;min-width: 100%;border-collapse: collapse; padding-top:2%; padding-bottom:2%;font-size:1vw;font-family:sans-serif;color:#555555;padding:2%">';
