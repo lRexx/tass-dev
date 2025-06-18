@@ -330,14 +330,15 @@
                                             <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;width: 22% !important;">{{key.doors[0].typeMaintenance}}</td>
                                             <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;width: 20% !important;">{{key.doors[0].descriptionProduct}}<span class="badge badge-warning">{{key.doors[0].brand}}</span></td>
                                             <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;width: 10% !important;">{{key.doors[0].titulo}}</td>
-                                            <tr style="align-content: center; cursor: pointer;" ng-repeat="door in key.doors track by $index" ng-if="$index > 0" ng-repeat-end>
-                                              <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;width: 22% !important;">{{door.typeMaintenance}}</td>
-                                              <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;width: 20% !important;">{{door.descriptionProduct}} <span class="badge badge-warning">{{door.brand}}</span></td>
-                                              <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;width: 10% !important;">{{door.titulo}}</td>
-                                            </tr>
                                             <td rowspan="{{key.doors.length}}" class="td-depto" ng-if="tkupdate.idTypeTicketKf=='2'" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.codigo}}</td>
                                             <td rowspan="{{key.doors.length}}" class="td-depto" ng-if="tkupdate.idTypeTicketKf=='2'" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.codExt}}</td>
                                             <td rowspan="{{key.doors.length}}" class="td-depto" ng-if="(tkupdate.idTypeTicketKf=='2' || tkupdate.idTypeTicketKf=='1' && tkupdate.idTypeRequestFor=='6' && ticketKeyList[0].idUserKf!=null)" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;">{{key.user.fullNameUser}}</td>
+                                        </tr>
+                                        <tr style="align-content: center; cursor: pointer;" ng-repeat="door in key.doors track by $index" ng-if="$index > 0" ng-repeat-end>
+                                          <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;width: 22% !important;">{{door.typeMaintenance}}</td>
+                                          <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;width: 20% !important;">{{door.descriptionProduct}} <span class="badge badge-warning">{{door.brand}}</span></td>
+                                          <td class="td-depto" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;text-align: center;width: 10% !important;">{{door.titulo}}</td>
+                                        </tr>
                                             <!--<td style="vertical-align: middle;text-align: center;">
                                                 <span ng-if="ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='1'">
                                                     <span class="font-size-18px" style="color: #5cb85c">
@@ -372,7 +373,6 @@
                                            <!--<td rowspan="{{key.doors.length}}" class="td-depto" ng-if="tkupdate.idTypeTicketKf=='1'" ng-trim="true" class="media-middle text-center" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;">
                                                 <span data-ng-repeat="door in key.doors" ng-if="key.doors.length>0" data-toggle="tooltip" data-placement="bottom" class="label label-success" title="Puerta {{door.titulo}}" style="margin-right: 5px !important;">{{door.titulo.charAt(0)}}</span>
                                             </td>-->
-                                        </tr>
                                     </tbody>
                                 </table>
                                 <legend style="text-align: left;">Puertas</legend>
