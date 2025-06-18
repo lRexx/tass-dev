@@ -28,6 +28,7 @@ class Ticket extends REST_Controller {
 	public function index2_post()
 	{
 		$headers = $this->input->request_headers();
+        log_message('info', '============================ Inicio Pedido de Alta ============================');
 		log_message('info', 'Host               :' . @$headers['Host']);
 		log_message('info', 'User-Agent         :' . @$headers['User-Agent']);
 		log_message('info', 'Accept             :' . @$headers['Accept']);
@@ -40,7 +41,8 @@ class Ticket extends REST_Controller {
 		//log_message('info', 'x-signature        :' . @$headers['x-signature']);
 		//log_message('info', 'x-request-id       :' . @$headers['x-request-id']);
 		$body = file_get_contents('php://input');
-		log_message('info', 'Cuerpo de la notificación: ' . $body);
+		log_message('info', 'Cuerpo del pedido de Alta: ' . $body);
+        log_message('info', '============================ Cierre Pedido de Alta ============================');
 		$rs = $this->ticket_model->add2($this->post('ticket'));
 		if (!is_null($rs)){
 			$this->response(array('response' => $rs) , 200);
