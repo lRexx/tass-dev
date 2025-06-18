@@ -648,8 +648,10 @@ class Llavero_model extends CI_Model
 
 	public function addVarios2($file)
 	{
+		log_message('info', ':::::::::::::::::Uploading XLS Key List' );
 		// Set upload directory
 		$uploaddir = realpath(APPPATH . '../../uploads');
+		log_message('info', 'Directory : '.APPPATH . '../../uploads' );
 		$path = $_FILES['excel']['name'];
 		$ext = pathinfo($path, PATHINFO_EXTENSION);
 		$user_img = time() . rand() . '.' . $ext;
