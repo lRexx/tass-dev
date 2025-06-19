@@ -323,8 +323,8 @@
                                             <th ng-show="tkupdate.idTypeTicketKf=='1'" class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;"><i class="fas fa-door-open"></i>Puerta</th>
                                         </tr>
                                     </thead>
-                                    <tbody style="overflow: auto;height: auto !important;" class="fixed-body">
-                                        <tr ng-repeat-start="key in tkupdate.keys">
+                                    <tbody style="overflow: auto;height: auto !important;" class="fixed-body fixed-body-aux">
+                                        <tr ng-repeat-start="key in tkupdate.keys track by $index">
                                           <td rowspan="{{key.doors.length}}" class="td-depto media-middle text-center">{{$index+1}}</td>
                                           <td rowspan="{{key.doors.length}}" class="td-depto media-middle text-center">
                                             {{key.descriptionProduct}} <span class="badge badge-warning">{{key.brand}}</span>

@@ -2494,6 +2494,9 @@ font-weight: 545;
   text-align: left;
 }
 /*tbody*/
+.fixed-body-aux{
+  display: table-row-group !important; /* no block */
+}
 .fixed-body {
     display:block;
     height:620px;
