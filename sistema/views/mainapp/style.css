@@ -470,8 +470,10 @@ visibility: hidden;
 
 .table-fixed tbody {
   display: block;
-  max-height: 600px; /* altura máxima deseada */
-  overflow-y: auto;
+  display:block;
+  max-height:620px; /* altura máxima deseada */
+  overflow:auto;
+  box-shadow: 0px 4px 5px -2px rgba(0,0,0,.30);
 }
 
 .table-fixed thead{
@@ -2537,9 +2539,6 @@ font-weight: 545;
   text-align: left;
 }
 /*tbody*/
-.fixed-body-aux{
-  display: table-row-group !important; /* no block */
-}
 .fixed-body {
     display:block;
     height:620px;
