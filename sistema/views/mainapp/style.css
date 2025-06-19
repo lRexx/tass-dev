@@ -474,6 +474,15 @@ visibility: hidden;
   overflow-y: auto;
 }
 
+.table-fixed thead{
+  width:100%;
+  background-color: #777;
+  color: #fff;
+  table-layout:fixed;
+  border: 0 !important;
+  border-radius: 10px 10px 0 0;
+}
+
 .table-fixed thead,
 .table-fixed tbody tr {
   display: table;
