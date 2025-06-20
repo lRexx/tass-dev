@@ -3379,7 +3379,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.keys={'llavero':{}};
               $scope.tkupdate.newKeychainList = $scope.rsNewKeychainList
               console.log($scope.tkupdate);
-              //console.log($scope.rsNewKeychainList);
+              console.log($scope.rsNewKeychainList[0]);
               $scope.isNewKeySingle = true;
               $scope.isEditKey      = false;
               $scope.isNewKeyMulti  = false;
