@@ -3383,8 +3383,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.isEditKey      = false;
               $scope.isNewKeyMulti  = false;
               //console.log(obj);
-              $scope.keys.llavero.idProductKf     = $scope.rsNewKeychainList.idProduct;
-              $scope.keys.llavero.codExt          = $scope.rsNewKeychainList.codigoExt;
+              $scope.keys.llavero.idProductKf     = $scope.rsNewKeychainList.idProductKf;
+              $scope.keys.llavero.codExt          = $scope.rsNewKeychainList.codExt;
               $scope.keys.llavero.codigo          = $scope.rsNewKeychainList.codigo;
               $scope.keys.llavero.idDepartmenKf   = $scope.rsNewKeychainList.idDepartmenKf;
               $scope.keys.llavero.idClientKf      = $scope.rsNewKeychainList.idClientKf;
