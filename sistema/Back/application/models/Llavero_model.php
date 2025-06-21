@@ -152,7 +152,7 @@ class Llavero_model extends CI_Model
 		$this->db->join('tb_user', 'tb_user.idUser = tb_keychain.idUserKf', 'left');
 		$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
 		$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
-		$this->db->where('idDepartmenKf', $idDepartmenKf);
+		$this->db->where('tb_keychain.idDepartmenKf', $idDepartmenKf);
 		$quuery = $this->db->order_by("tb_keychain.idKeychain", "ASC")->get();
 
 		if ($quuery->num_rows() > 0) {
