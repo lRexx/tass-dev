@@ -3208,6 +3208,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.rsExistingKeyList.splice(key,1);
                 }
               }
+              $scope.mainSwitchFn('keychain_manual', null, null);
             break;
             case "cancelSetMgmtKeys":
               $scope.keys                       = {"new":{'products':{'selected':{}}}}
