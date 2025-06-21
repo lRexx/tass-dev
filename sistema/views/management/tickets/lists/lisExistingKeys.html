@@ -6,7 +6,7 @@
           <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;"><i class="fas fa-qrcode"> </i> Codigo</th>
           <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 12% !important;"><i class="fas fa-qrcode"> </i> Cod Externo</th>
           <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;"><i class="glyphicon icon-flag"> </i> Estatus</th>
-          <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;""><i class="fas fa-ellipsis-h"> </i> </th>
+          <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 5% !important;"><i class="fas fa-ellipsis-h"> </i> </th>
       </tr>
     </thead>
     <tbody class="fixed-body" style="height: 325px !important;">
@@ -22,7 +22,7 @@
         <td class="td-depto" ng-click="mainSwitchFn('existingKeyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;">
           <span ng-if="item.idKeychainStatusKf!=null && item.idKeychainStatusKf!=undefined" class="label" ng-class="{'label-success': item.idKeychainStatusKf == '1', 'label-warning': item.idKeychainStatusKf == '0', 'label-danger': item.idKeychainStatusKf != null && item.idKeychainStatusKf != '0' && item.idKeychainStatusKf != '1', }"> {{item.statusKey}}</span>
         </td>
-        <td class="td-depto" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;">
+        <td class="td-depto" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 5% !important;">
           <button ng-click="modalConfirmation('removeNewKey', 0, item)" data-toggle="tooltip" data-placement="right" ng-disable="item.idKeychain!=null && item.idKeychain!=undefined" title="" type="button" class="btn btn-danger btn-xs ng-scope" data-original-title="Eliminar"><i class="fas fa-minus-circle"></i></button>
         </td>
       </tr>
