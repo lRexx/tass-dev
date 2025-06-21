@@ -387,7 +387,7 @@
                                 </div>-->
                               </div>
                           </div>
-                          <div ng-if="rsNewKeychainList.length>0 && rsNewKeychainList.length==tkupdate.keys.length" class="col-md-6 n-padding-l">                       
+                          <!--<div ng-if="rsNewKeychainList.length>0 && rsNewKeychainList.length==tkupdate.keys.length" class="col-md-6 n-padding-l">                       
                             <div class="panel panel-warning" style="margin-bottom: 0px !important;">
                               <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyNewKeys" ng-click="togglePanel('panelBodyNewKeys')" style="cursor: pointer;">
                                   <h3 class="panel-title">
@@ -399,12 +399,12 @@
                                   <div class="col-md-12 n-padding-l n-padding-r" ng-include="'views/management/tickets/lists/listNewKeysView.html'"></div>
                               </div>
                             </div>
-                          </div>
+                          </div>-->
                           <div ng-if="rsExistingKeyList.length>0 && rsNewKeychainList.length==tkupdate.keys.length" class="col-md-6 n-padding-r">                       
                             <div class="panel panel-success">
                                 <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyExistingKeys" ng-click="togglePanel('panelBodyExistingKeys')" style="cursor: pointer;">
                                     <h3 class="panel-title">
-                                        <i class="product-success fas fa-key"></i> LLAVEROS ASIGNADOS A LA UNIDAD
+                                        <i class="product-success fas fa-key"></i> LLAVEROS DE LA UNIDAD
                                         <i ng-class="{'fa-chevron-up': !panels.panelBodyExistingKeys, 'fa-chevron-down': panels.panelBodyExistingKeys}" class="fas pull-right"></i>
                                     </h3>
                                 </div>
