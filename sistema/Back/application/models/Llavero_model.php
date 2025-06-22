@@ -235,7 +235,7 @@ class Llavero_model extends CI_Model
 			if (!is_null($this->find_by_code($items['codigo'], $idClientKf))) {
 				return 2;
 			} else {
-				$idKeychainStatusKf = !is_null(@$items['idClientAdminKf']) ? $items['idClientAdminKf'] : 1;
+				$idKeychainStatusKf = !is_null(@$items['idKeychainStatusKf']) ? $items['idKeychainStatusKf'] : 1;
 				$this->db->insert('tb_keychain', [
 						"idProductKf" 			=> $items['idProductKf'],
 						"codExt" 				=> $items['codExt'],
