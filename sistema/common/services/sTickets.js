@@ -6,6 +6,7 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
       var rsJsonTicket = {};
       var rsTicket={'ticket':{}};
       var checkResult =0;
+      var rsKey={'llavero':{}};
       return {
           /* LISTA ALL TICKETS */
           all: function(ticket) {
@@ -500,6 +501,17 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
                 console.log("Error: "+response.data.error); 
                 return response;
               })
+          },
+          updateTicketKeychain: function(data) {
+            rsKey.llavero=data.llavero;           
+            console.log("[Ticket Services] => update Ticket Keychain");
+            return $http.post(serverHost+serverBackend+"Ticket/updateTicketKeychain",rsKey,serverHeaders)
+              .then(function mySuccess(response) {
+                return response;
+              }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                return response;
+              });
           },
       }
 }]);

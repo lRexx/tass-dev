@@ -3405,9 +3405,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.keys.llavero.idTicketKf          = $scope.tkupdate.idTicket;
               $scope.keys.llavero.idTypeTicketKf      = $scope.tkupdate.idTypeTicketKf;
               $scope.keys.llavero.idKeychainStatusKf  = $scope.rsNewKeychainList[0].idKeychainStatusKf;
+              $scope.keys.llavero.idTicketKeychain    = $scope.tkupdate[0].idTicketKeychain;
               
               console.log($scope.keys.llavero);
-              $scope.addKeyFn($scope.keys);
+              //$scope.addKeyFn($scope.keys);
             break;
             case "apply_isKeysEnable":
               console.log(obj);
@@ -4593,11 +4594,22 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             KeysServices.addProcessEvent(llavero).then(function(response_keychain_process){
                                 console.log(response_keychain_process);
                                 if(response_keychain_process.status==200){
-                                    console.log("Key Successfully registered");
-                                    inform.add('El Llavero con el Codigo ('+llavero.llavero.codigo+'), ha sido registrada con exito. ',{
-                                        ttl:4000, type: 'success'
-                                    });
-                                    $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
+                                    ticketServices.updateTicketKeychain(llavero).then(function(response_ticke_keychain){
+                                      console.log(response_ticke_keychain);
+                                      if(response_ticke_keychain.status==200){
+                                          console.log("Key Successfully registered");
+                                          inform.add('El Llavero con el Codigo ('+llavero.llavero.codigo+'), ha sido registrada con exito. ',{
+                                              ttl:4000, type: 'success'
+                                          });
+                                          $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
+                                          //$scope.getKeychainListFn($scope.customerFound.idClient,null,$scope.select.filterCategoryKey,$scope.select.idKeychainStatusKf,$scope.select.idDepartmenKf,$scope.select.reasonKf.idReasonDisabledItem,$scope.select.codeSearch,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
+                                      }else if(response_ticke_keychain.status==500){
+                                          console.log("There was an error adding the key, contact administrator");
+                                          inform.add('Error: [500] Contacta al area de soporte. ',{
+                                              ttl:5000, type: 'danger'
+                                          });
+                                      }
+                                  });
                                     //$scope.getKeychainListFn($scope.customerFound.idClient,null,$scope.select.filterCategoryKey,$scope.select.idKeychainStatusKf,$scope.select.idDepartmenKf,$scope.select.reasonKf.idReasonDisabledItem,$scope.select.codeSearch,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
                                 }else if(response_keychain_process.status==500){
                                     console.log("There was an error adding the key, contact administrator");
