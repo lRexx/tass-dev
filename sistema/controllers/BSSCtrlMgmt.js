@@ -1010,16 +1010,18 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               
               console.log($scope.rsData);
               $scope.isEditTicket=true;
-              if ($scope.tkupdate.idMgmtMethodKf){
-                for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
-                  //rsNewKeychainList
-                  if ($scope.rsExistingKeyList[i].idTicketKf!=null && $scope.rsExistingKeyList[i].idTicketKf == $scope.tkupdate.idTicket){
-                    $scope.rsNewKeychainList.push($scope.rsExistingKeyList[i]);
-                    $scope.list_new_keys.push($scope.rsExistingKeyList[i]);
-                    break;
+              $timeout(function() {
+                if ($scope.tkupdate.idMgmtMethodKf){
+                  for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
+                    //rsNewKeychainList
+                    if ($scope.rsExistingKeyList[i].idTicketKf!=null && $scope.rsExistingKeyList[i].idTicketKf == $scope.tkupdate.idTicket){
+                      $scope.rsNewKeychainList.push($scope.rsExistingKeyList[i]);
+                      $scope.list_new_keys.push($scope.rsExistingKeyList[i]);
+                      break;
+                    }
                   }
                 }
-              }
+              }, 2500);
             }else if (response.status==404){
                 $scope.rsData = {};
                 $scope.tkupdate = {};
