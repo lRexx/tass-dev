@@ -3405,7 +3405,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.keys.llavero.idTicketKf          = $scope.tkupdate.idTicket;
               $scope.keys.llavero.idTypeTicketKf      = $scope.tkupdate.idTypeTicketKf;
               $scope.keys.llavero.idKeychainStatusKf  = $scope.rsNewKeychainList[0].idKeychainStatusKf;
-              $scope.keys.llavero.idTicketKeychain    = $scope.tkupdate[0].idTicketKeychain;
+              $scope.keys.llavero.idTicketKeychain    = $scope.tkupdate.keys[0].idTicketKeychain;
               
               console.log($scope.keys.llavero);
               //$scope.addKeyFn($scope.keys);
