@@ -542,7 +542,7 @@ class Ticket_model extends CI_Model
 	
 		$data = array(
 			"idTicketKf"        => $key['idTicketKf'],
-			"idKeychainKf"    	=> @$key['idKeychainKf'],
+			"idKeychainKf"    	=> $key['idKeychainKf'],
 			"idProductKf"       => @$key['idProductKf'],
 			"idCategoryKf"      => @$key['idCategoryKf'],
 			"idUserKf"          => @$key['idUserKf'],
@@ -553,11 +553,9 @@ class Ticket_model extends CI_Model
 			"priceFabric"       => @$key['priceFabric'],
 			"updated_at"        => $now->format('Y-m-d H:i:s') // si usás updated_at, cambiá aquí
 		);
-	
 		$this->db->where('idTicketKeychain', $key['idTicketKeychain']);
-		return $this->db->update('tb_ticket_keychain', $key);
+		return $this->db->update('tb_ticket_keychain', $data);
 	}
-	
 
 	private function formatCode($value)
 	{
