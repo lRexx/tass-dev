@@ -3341,7 +3341,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             break;
             case "keychain_manual":
               $scope.keys                       = {"new":{'products':{'selected':{}}}}
-              $scope.rsNewKeychainList          = [];
+              if ($scope.tkupdate.idMgmtMethodKf == null){
+                $scope.rsNewKeychainList          = [];
+              }
               $scope.list_new_keys              = [];
               $scope.isNewKeySingle             = true;
               $scope.isEditKey                  = false;
