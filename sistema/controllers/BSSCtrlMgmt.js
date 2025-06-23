@@ -3024,7 +3024,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.mainSwitchFn('keychain_manual', null, null);
                   elem = elemManual;
                 }
-                // Asegúrate de que elem no sea null
+                //check elem is not null
                 if (elem) {
                   elem.classList.remove('btn-primary');
                   elem.classList.add('btn-success');
