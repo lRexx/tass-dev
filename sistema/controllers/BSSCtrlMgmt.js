@@ -1021,7 +1021,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     }
                   }
                 }
-              }, 2500);
+              }, 500);
             }else if (response.status==404){
                 $scope.rsData = {};
                 $scope.tkupdate = {};
