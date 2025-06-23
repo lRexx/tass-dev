@@ -3012,7 +3012,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 }
             break;
             case "mgmtPrecheck":
-              if (idMgmtMethodKf){
+              if ($scope.tkupdate.idMgmtMethodKf){
                 $('#ManageTicketKeysList').modal('show');
                 var elemStock   = document.getElementById("stock");
                 var elemManual  = document.getElementById("manual");
