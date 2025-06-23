@@ -546,11 +546,9 @@ class Ticket_model extends CI_Model
 			"idProductKf"       => @$key['idProductKf'],
 			"idCategoryKf"      => @$key['idCategoryKf'],
 			"idUserKf"          => @$key['idUserKf'],
-			"idDepartmenKf"     => @$key['idDepartmenKf'],
 			"isKeyTenantOnly"   => @$key['isKeyTenantOnly'],
 			"idClientKf"        => @$key['idClientKf'],
 			"idClientAdminKf"   => @$key['idClientAdminKf'],
-			"priceFabric"       => @$key['priceFabric'],
 			"updated_at"        => $now->format('Y-m-d H:i:s') // si usás updated_at, cambiá aquí
 		);
 		$this->db->where('idTicketKeychain', $key['idTicketKeychain']);
