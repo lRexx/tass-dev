@@ -69,7 +69,7 @@ class Ticket extends REST_Controller {
 		$body = file_get_contents('php://input');
 		log_message('info', 'Body: ' . json_encode($body, JSON_PRETTY_PRINT));
         log_message('info', '============================ end updateTicketKeychain ============================');
-		$rs = $this->ticket_model->updateTicketKeychain($this->post('key'));
+		$rs = $this->ticket_model->updateTicketKeychain($this->post('llavero'));
 		if (!is_null($rs)){
 			$this->response(array('response' => $rs) , 200);
 		} else {
