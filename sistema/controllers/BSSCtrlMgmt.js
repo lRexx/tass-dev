@@ -1001,7 +1001,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $scope.getDeptoListByAddress($scope.tkupdate.building.idClient);
                 $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
               }
+              $scope.ticket.selected            = response.data.tickets[0];
+              $scope.ticket.building            = $scope.tkupdate.building;
+              $scope.ticket.administration      = $scope.tkupdate.clientAdmin;
+              $scope.ticket.idClientDepartament = $scope.tkupdate.department
+              $scope.ticket.keysMethod          = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:{'name':''};
               $scope.customerFound = $scope.tkupdate.building;
+              
               console.log($scope.rsData);
               $scope.isEditTicket=true;
             }else if (response.status==404){
@@ -1015,51 +1021,52 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
       }
       $scope.setOptionType = function(obj) {
         var elem = angular.element(obj.target);// or angular.element(obj.target);
-        console.log(elem)
-        $scope.tkupdate.keySource = {'name':''};
+        console.log(elem[0])
+        //$scope.tkupdate.keysMethod = {'name':''};
         switch (elem[0].getAttribute("id")){
             case "stock":
                 if ($scope.ticket.keysMethod.name==undefined){
-                    $scope.ticket.keysMethod.name   = elem[0].getAttribute("id");
-                    $scope.tkupdate.idKeySourceKf   = "1"
-                    $scope.tkupdate.keySource.name  = elem[0].getAttribute("id");
-                    $scope.ticket.optionTypeSelected.obj = elem;
+                    $scope.ticket.keysMethod.name         = elem[0].getAttribute("id");
+                    $scope.tkupdate.idKeySourceKf         = "1"
+                    $scope.tkupdate.keysMethod.name       = elem[0].getAttribute("id");
+                    $scope.ticket.optionTypeSelected.obj  = elem[0].getAttribute("id")
                     elem.removeClass('btn-primary').addClass("btn-success");
                     $scope.mainSwitchFn('keychainMulti', null, null);
                 }else if ($scope.ticket.keysMethod.name!=elem[0].getAttribute("id")){
                     //document.getElementById("typeOption1").checked=false;
                     //document.getElementById("typeOption2").checked=false;
-                    $scope.ticket.radioButtonBuilding=undefined;
-                    $scope.list_keys = [];
-                    var removeElem = document.getElementById("manual")
+                    $scope.ticket.radioButtonBuilding     = undefined;
+                    $scope.list_keys                      = [];
+                    var removeElem                        = document.getElementById("manual")
                     //console.log(removeElem)
-                    $scope.ticket.keysMethod.name   = elem[0].getAttribute("id");
-                    $scope.tkupdate.idKeySourceKf   = "1"
-                    $scope.tkupdate.keySource.name  = elem[0].getAttribute("id");
-                    $scope.ticket.optionTypeSelected.obj = elem;
+                    $scope.ticket.keysMethod.name         = elem[0].getAttribute("id");
+                    $scope.tkupdate.idKeySourceKf         = "1"
+                    $scope.tkupdate.keysMethod.name       = elem[0].getAttribute("id");
+                    $scope.ticket.optionTypeSelected.obj  = elem[0].getAttribute("id")
                     elem.removeClass('btn-primary').addClass("btn-success");
                     $scope.mainSwitchFn('keychainMulti', null, null);
                 }
             break;
             case "manual":
                 if ($scope.ticket.keysMethod.name==undefined){
-                    $scope.ticket.keysMethod.name   = elem[0].getAttribute("id");
-                    $scope.tkupdate.idKeySourceKf   = "2"
-                    $scope.tkupdate.keySource.name  = elem[0].getAttribute("id");
+                    $scope.ticket.keysMethod.name         = elem[0].getAttribute("id");
+                    $scope.tkupdate.idKeySourceKf         = "2"
+                    $scope.tkupdate.keysMethod.name       = elem[0].getAttribute("id");
+                    $scope.ticket.optionTypeSelected.obj  = elem[0].getAttribute("id")
                     elem.removeClass('btn-primary').addClass("btn-success");
                     $scope.mainSwitchFn('keychain_manual', null, null);
                 }else if ($scope.ticket.keysMethod.name!=elem[0].getAttribute("id")){
                     //document.getElementById("typeTenant1").checked=false;
                     //document.getElementById("typeTenant2").checked=false;
-                    $scope.ticket.radioButtonDepartment=undefined;
-                    $scope.ticket.idClientDepartament=undefined;
-                    $scope.selectedUser=undefined;
-                    $scope.list_keys = [];
-                    var removeElem = document.getElementById("stock")
-                    $scope.ticket.keysMethod.name   = elem[0].getAttribute("id");
-                    $scope.tkupdate.idKeySourceKf   = "2"
-                    $scope.tkupdate.keySource.name  = elem[0].getAttribute("id");
-                    $scope.ticket.optionTypeSelected.obj = elem;
+                    $scope.ticket.radioButtonDepartment   = undefined;
+                    $scope.ticket.idClientDepartament     = undefined;
+                    $scope.selectedUser                   = undefined;
+                    $scope.list_keys                      = [];
+                    var removeElem                        = document.getElementById("stock")
+                    $scope.ticket.keysMethod.name         = elem[0].getAttribute("id");
+                    $scope.tkupdate.idKeySourceKf         = "2"
+                    $scope.tkupdate.keysMethod.name       = elem[0].getAttribute("id");
+                    $scope.ticket.optionTypeSelected.obj  = elem[0].getAttribute("id")
                     elem.removeClass('btn-primary').addClass("btn-success");
                     $scope.mainSwitchFn('keychain_manual', null, null);
                 }
@@ -3004,13 +3011,35 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     }, 2500);
                 }
             break;
+            case "mgmtPrecheck":
+              if (idMgmtMethodKf){
+                $('#ManageTicketKeysList').modal('show');
+                var elemStock   = document.getElementById("stock");
+                var elemManual  = document.getElementById("manual");
+                var elem = "";
+                if ($scope.ticket.keysMethod.name == "stock"){
+                  $scope.mainSwitchFn('keychainMulti', null, null);
+                  elem = elemStock;
+                }else{
+                  $scope.mainSwitchFn('keychain_manual', null, null);
+                  elem = elemManual;
+                }
+                // Asegúrate de que elem no sea null
+                if (elem) {
+                  elem.classList.remove('btn-primary');
+                  elem.classList.add('btn-success');
+                }
+              }else{
+                $scope.mainSwitchFn('ticket_keyList', obj, null);
+              }
+            break;
             case "ticket_keyList":
               $scope.showKeyDoors = false;
               $scope.ticketKeyList = null;
               $scope.ticketKeyDoorList = null;
               $scope.ticketKeyList = obj;
               console.log($scope.ticketKeyList);
-              if ($scope.tkupdate.idKeySourceKf==undefined){
+              if ($scope.ticket.keysMethod==undefined || $scope.ticket.keysMethod==null){
                 $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,0,1);
               }
               $('#ManageTicketKeysList').modal('show');
@@ -3090,8 +3119,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       }
                       if(!$scope.isCodeExist && !$scope.isCodeNewExist){
                         console.log("ADD_NO_EXIST");
-                        var idKeychainStatusKf = $scope.tkupdate.idKeySourceKf=='1'?obj.idKeychainStatus:0
-                        var statusKey = $scope.tkupdate.idKeySourceKf=='1'?'Activo':'Inactivo'
+                        var idKeychainStatusKf = $scope.tkupdate.idMgmtMethodKf=='1'?obj.idKeychainStatus:0
+                        var statusKey = $scope.tkupdate.idMgmtMethodKf=='1'?'Activo':'Inactivo'
                         $scope.rsNewKeychainList.push({"idKeychain":obj.idKeychain, "idProductKf":obj.idProductKf,"descriptionProduct":obj.descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":obj.codExt,"codigo":obj.codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":obj.idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":idKeychainStatusKf, "statusKey":statusKey, "doors":{}});
                         $scope.list_new_keys.push({"idKeychain":obj.idKeychain, "idProductKf":obj.idProductKf,"descriptionProduct":obj.descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":obj.codExt,"codigo":obj.codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":obj.idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":idKeychainStatusKf, "statusKey":statusKey, "doors":{}});
                         obj.selected = true;
@@ -3217,8 +3246,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.isNewKeySingle             = false;
               $scope.isEditKey                  = false;
               $scope.isNewKeyMulti              = false;
-              $scope.tkupdate.idKeySourceKf     = null;
-              $scope.tkupdate.keySource         = {'name':''};
+              $scope.tkupdate.idMgmtMethodKf     = null;
+              $scope.tkupdate.keysMethod         = {'name':''};
               $scope.ticket.keysMethod.name     = undefined;
               $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
             break;
@@ -3329,7 +3358,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             case "setMgmtKeys":
               console.info("Source  : " +obj.keySource.name);
               console.info("Internet: " +(obj.building.isHasInternetOnline === null ? "No" : "Si"));
-              switch(obj.idKeySourceKf){
+              switch(obj.idMgmtMethodKf){
                 case "1": //STOCK
                   $scope.functions.whereKeysAreEnable = null;
                   switch(obj.idTypeDeliveryKf){

@@ -58,18 +58,18 @@
                                   <button ng-if="((tkupdate.idStatusTicketKf!=6 && tkupdate.idStatusTicketKf!=1) ||  (tkupdate.idStatusTicketKf==10 && tkupdate.isCancelRequested==1)) && (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4')" ng-click="modalConfirmation('cancel_sys',0, tkupdate)" data-toggle="tooltip" data-placement="bottom" title="Cancelar pedido" type="button" style="margin-left: 0.5%" class="btn btn-sm btn-danger"><i class="fas fa-ban"></i></button>
                                   <button ng-if="sysLoggedUser.idProfileKf!=1 && tkupdate.idTypeTicketKf<=2 && (tkupdate.idStatusTicketKf=='10' && tkupdate.isCancelRequested!='1')" ng-click="modalConfirmation('cancel_user',0, tkupdate)" data-toggle="tooltip" data-placement="bottom" title="Cancelar pedido" type="button" style="margin-left: 0.5%" class="btn btn-sm btn-danger"><i class="fas fa-ban"></i></button>
                               </div>
-                              <div ng-if="tkupdate.idKeySourceKf" class="col-md-12" style="padding-top: 0.5% !important">
+                              <div ng-if="tkupdate.idMgmtMethodKf" class="col-md-12" style="padding-top: 0.5% !important">
                                 <div class="col-md-5 n-padding-l n-padding-r" style="width: 36% !important">
                                   <span>Gestion de Llaveros:</span>
                                 </div>
                                 <div class="col-md-5 n-padding-l">
-                                  <span ng-if="tkupdate.idKeySourceKf=='2'" class="badge badge-warning">{{tkupdate.keySource.name | capitalize}}</span>
-                                  <span ng-if="tkupdate.idKeySourceKf=='1'" class="badge badge-success">{{tkupdate.keySource.name | capitalize}}</span>
-                                  <span ng-if="tkupdate.idKeySourceKf=='1' && tkupdate.building.isStockInOffice!=undefined && tkupdate.building.isStockInOffice=='1'" class="badge badge-warning"> En Oficina</span>
-                                  <span ng-if="tkupdate.idKeySourceKf=='1' && tkupdate.building.isStockInBuilding!=undefined && tkupdate.building.isStockInBuilding=='1'" class="badge badge-warning"> En Edificio</span>
+                                  <span ng-if="tkupdate.idMgmtMethodKf=='2'" class="badge badge-warning">{{tkupdate.keySource.name | capitalize}}</span>
+                                  <span ng-if="tkupdate.idMgmtMethodKf=='1'" class="badge badge-success">{{tkupdate.keySource.name | capitalize}}</span>
+                                  <span ng-if="tkupdate.idMgmtMethodKf=='1' && tkupdate.building.isStockInOffice!=undefined && tkupdate.building.isStockInOffice=='1'" class="badge badge-warning"> En Oficina</span>
+                                  <span ng-if="tkupdate.idMgmtMethodKf=='1' && tkupdate.building.isStockInBuilding!=undefined && tkupdate.building.isStockInBuilding=='1'" class="badge badge-warning"> En Edificio</span>
                                 </div>
                               </div>
-                              <div ng-if="tkupdate.idKeySourceKf=='2'" class="col-md-12" style="padding-top: 0.5% !important">
+                              <div ng-if="tkupdate.idMgmtMethodKf=='2'" class="col-md-12" style="padding-top: 0.5% !important">
                                 <div class="col-md-5 n-padding-l n-padding-r" style="width: 40% !important">
                                   <span>Forma de Habilitación:</span>
                                 </div>
@@ -86,7 +86,7 @@
                                     </label>
                                 </div>
                               </div>
-                              <div ng-if="tkupdate.idKeySourceKf=='2'" class="col-md-12" style="padding-top: 0.5% !important">
+                              <div ng-if="tkupdate.idMgmtMethodKf=='2'" class="col-md-12" style="padding-top: 0.5% !important">
                                 <div class="col-md-5 n-padding-l n-padding-r" style="width: 36% !important">
                                   <span>Llaveros Habilitados:</span>
                                 </div>
@@ -171,7 +171,7 @@
                         </div>
                         <div class="col-md-12 col-sm-12 col-xs-12"> 
                             <!-- KEYS -->
-                              <div ng-click="mainSwitchFn('ticket_keyList', tkupdate.keys, null)" style="margin-bottom: 1em;"
+                              <div ng-click="mainSwitchFn('mgmtPrecheck', tkupdate.keys, null)" style="margin-bottom: 1em;"
                               ng-class="{'col-md-3 col-xs-6':!tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1, 'col-md-2 col-xs-6':tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1}">
                                   <div class="card-customer">
                                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
