@@ -3023,11 +3023,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 }else{
                   $scope.mainSwitchFn('keychain_manual', null, null);
                   elem = elemManual;
-                  for (var i = 0; i < $scope.existingKeys.length; i++) {
+                  for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
                     //rsNewKeychainList
-                    if ($scope.existingKeys[i].idTicketKf == $scope.tkupdate.idTicket){
-                      $scope.rsNewKeychainList.push($scope.existingKeys[i]);
-                      $scope.list_new_keys.push($scope.existingKeys[i]);
+                    if ($scope.rsExistingKeyList[i].idTicketKf!=null && $scope.rsExistingKeyList[i].idTicketKf == $scope.tkupdate.idTicket){
+                      $scope.rsNewKeychainList.push($scope.rsExistingKeyList[i]);
+                      $scope.list_new_keys.push($scope.rsExistingKeyList[i]);
                       break;
                     }
                   }
