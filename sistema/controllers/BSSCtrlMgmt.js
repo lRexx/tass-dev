@@ -1010,6 +1010,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               
               console.log($scope.rsData);
               $scope.isEditTicket=true;
+              if ($scope.tkupdate.idMgmtMethodKf){
+                for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
+                  //rsNewKeychainList
+                  if ($scope.rsExistingKeyList[i].idTicketKf!=null && $scope.rsExistingKeyList[i].idTicketKf == $scope.tkupdate.idTicket){
+                    $scope.rsNewKeychainList.push($scope.rsExistingKeyList[i]);
+                    $scope.list_new_keys.push($scope.rsExistingKeyList[i]);
+                    break;
+                  }
+                }
+              }
             }else if (response.status==404){
                 $scope.rsData = {};
                 $scope.tkupdate = {};
@@ -3023,14 +3033,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 }else{
                   $scope.mainSwitchFn('keychain_manual', null, null);
                   elem = elemManual;
-                  for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
-                    //rsNewKeychainList
-                    if ($scope.rsExistingKeyList[i].idTicketKf!=null && $scope.rsExistingKeyList[i].idTicketKf == $scope.tkupdate.idTicket){
-                      $scope.rsNewKeychainList.push($scope.rsExistingKeyList[i]);
-                      $scope.list_new_keys.push($scope.rsExistingKeyList[i]);
-                      break;
-                    }
-                  }
                 }
                 //check elem is not null
                 if (elem) {
