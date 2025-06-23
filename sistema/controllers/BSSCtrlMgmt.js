@@ -1007,7 +1007,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.ticket.idClientDepartament = $scope.tkupdate.department
               $scope.ticket.keysMethod          = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:{'name':''};
               $scope.customerFound = $scope.tkupdate.building;
-              
+              $scope.functions.whereKeysAreEnable = $scope.tkupdate.building.isHasInternetOnline === null ? "2":"1";
               console.log($scope.rsData);
               $scope.isEditTicket=true;
               $timeout(function() {
@@ -3034,6 +3034,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   elem = elemStock;
                 }else{
                   $scope.mainSwitchFn('keychain_manual', null, null);
+                  $scope.mainSwitchFn('setMgmtKeys', $scope.tkupdate.tkupdate, null)
                   elem = elemManual;
                 }
                 //check elem is not null
@@ -3370,7 +3371,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $('#CtrlAccessConexDetails').modal('show');
             break;
             case "setMgmtKeys":
-              console.info("Source  : " +obj.keySource.name);
+              console.info("Source  : " +obj.keysMethod.name);
               console.info("Internet: " +(obj.building.isHasInternetOnline === null ? "No" : "Si"));
               switch(obj.idMgmtMethodKf){
                 case "1": //STOCK
