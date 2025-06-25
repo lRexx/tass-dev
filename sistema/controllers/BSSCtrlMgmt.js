@@ -3025,7 +3025,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             break;
             case "mgmtPrecheck":
               if ($scope.tkupdate.idMgmtMethodKf){
-                $scope.tkupdate.idMgmtMethodKf=$scope.tkupdate.idMgmtMethodKf;
+                $scope.ticket.idMgmtMethodKf=$scope.tkupdate.idMgmtMethodKf;
                 $('#ManageTicketKeysList').modal('show');
                 var elemStock   = document.getElementById("stock");
                 var elemManual  = document.getElementById("manual");
