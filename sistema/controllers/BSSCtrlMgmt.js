@@ -3025,7 +3025,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             break;
             case "mgmtPrecheck":
               if ($scope.tkupdate.idMgmtMethodKf){
-                $scope.ticket.idMgmtMethodKf=$scope.tkupdate.idMgmtMethodKf;
+                $scope.ticket.idMgmtMethodKf = $scope.tkupdate.idMgmtMethodKf;
                 $('#ManageTicketKeysList').modal('show');
                 var elemStock   = document.getElementById("stock");
                 var elemManual  = document.getElementById("manual");
@@ -3372,10 +3372,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $('#CtrlAccessConexDetails').modal('show');
             break;
             case "setMgmtKeys":
-              console.info("Source  : " +obj.keysMethod.name);
+              console.info("Source  : " +$scope.ticket.keysMethod.name);
               console.info("Internet: " +(obj.building.isHasInternetOnline === null ? "No" : "Si"));
-              switch(obj.idMgmtMethodKf){
+              switch($scope.ticket.idMgmtMethodKf){
                 case "1": //STOCK
+                  $scope.tkupdate.idMgmtMethodKf=$scope.ticket.idMgmtMethodKf;
                   $scope.functions.whereKeysAreEnable = null;
                   switch(obj.idTypeDeliveryKf){
                     case "1"://RETIRO EN OFICINA
@@ -3391,6 +3392,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   }
                 break;
                 case "2": //MANUAL
+                  $scope.tkupdate.idMgmtMethodKf      = $scope.ticket.idMgmtMethodKf;
                   $scope.functions.whereKeysAreEnable = obj.building.isHasInternetOnline === null ? "2":"1";
                   switch(obj.idTypeDeliveryKf){
                     case "1": //RETIRO EN OFICINA
