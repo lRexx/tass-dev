@@ -1039,7 +1039,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             case "stock":
                 if ($scope.ticket.keysMethod.name==undefined){
                     $scope.ticket.keysMethod.name         = elem[0].getAttribute("id");
-                    $scope.tkupdate.idKeySourceKf         = "1"
+                    $scope.tkupdate.idMgmtMethodKf        = "1"
                     $scope.tkupdate.keysMethod.name       = elem[0].getAttribute("id");
                     $scope.ticket.optionTypeSelected.obj  = elem[0].getAttribute("id")
                     elem.removeClass('btn-primary').addClass("btn-success");
@@ -1052,7 +1052,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     var removeElem                        = document.getElementById("manual")
                     //console.log(removeElem)
                     $scope.ticket.keysMethod.name         = elem[0].getAttribute("id");
-                    $scope.tkupdate.idKeySourceKf         = "1"
+                    $scope.tkupdate.idMgmtMethodKf        = "1"
                     $scope.tkupdate.keysMethod.name       = elem[0].getAttribute("id");
                     $scope.ticket.optionTypeSelected.obj  = elem[0].getAttribute("id")
                     elem.removeClass('btn-primary').addClass("btn-success");
@@ -1062,7 +1062,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             case "manual":
                 if ($scope.ticket.keysMethod.name==undefined){
                     $scope.ticket.keysMethod.name         = elem[0].getAttribute("id");
-                    $scope.tkupdate.idKeySourceKf         = "2"
+                    $scope.tkupdate.idMgmtMethodKf        = "2"
                     $scope.tkupdate.keysMethod.name       = elem[0].getAttribute("id");
                     $scope.ticket.optionTypeSelected.obj  = elem[0].getAttribute("id")
                     elem.removeClass('btn-primary').addClass("btn-success");
@@ -1076,7 +1076,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.list_keys                      = [];
                     var removeElem                        = document.getElementById("stock")
                     $scope.ticket.keysMethod.name         = elem[0].getAttribute("id");
-                    $scope.tkupdate.idKeySourceKf         = "2"
+                    $scope.tkupdate.idMgmtMethodKf        = "2"
                     $scope.tkupdate.keysMethod.name       = elem[0].getAttribute("id");
                     $scope.ticket.optionTypeSelected.obj  = elem[0].getAttribute("id")
                     elem.removeClass('btn-primary').addClass("btn-success");
@@ -2009,8 +2009,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             console.log("isCodeExis: "+$scope.isCodeExis+" "+"isCodeNewExist: "+$scope.isCodeNewExist)
                             if(!$scope.isCodeExist && !$scope.isCodeNewExist){
                               console.log("ADD_NO_EXIST");
-                              var idKeychainStatusKf = $scope.tkupdate.idKeySourceKf=='1'?$scope.rsAllKeychainListData[stock].idKeychainStatus:0
-                              var statusKey = $scope.tkupdate.idKeySourceKf=='1'?'Activo':'Inactivo'
+                              var idKeychainStatusKf = $scope.tkupdate.idMgmtMethodKf=='1'?$scope.rsAllKeychainListData[stock].idKeychainStatus:0
+                              var statusKey = $scope.tkupdate.idMgmtMethodKf=='1'?'Activo':'Inactivo'
                               $scope.rsNewKeychainList.push({"idKeychain":$scope.rsAllKeychainListData[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListData[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListData[stock].descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":$scope.rsAllKeychainListData[stock].codExt,"codigo":$scope.rsAllKeychainListData[stock].codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":$scope.rsAllKeychainListData[stock].idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":idKeychainStatusKf, "statusKey":statusKey, "doors":{}});
                               $scope.list_new_keys.push({"idKeychain":$scope.rsAllKeychainListData[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListData[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListData[stock].descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":$scope.rsAllKeychainListData[stock].codExt,"codigo":$scope.rsAllKeychainListData[stock].codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":$scope.rsAllKeychainListData[stock].idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":idKeychainStatusKf, "statusKey":statusKey, "doors":{}});
                               $scope.rsAllKeychainListData[stock].selected = true;
