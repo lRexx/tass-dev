@@ -3376,7 +3376,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.info("Internet: " +(obj.building.isHasInternetOnline === null ? "No" : "Si"));
               switch($scope.ticket.idMgmtMethodKf){
                 case "1": //STOCK
-                  $scope.tkupdate.idMgmtMethodKf=$scope.ticket.idMgmtMethodKf;
                   $scope.functions.whereKeysAreEnable = null;
                   switch(obj.idTypeDeliveryKf){
                     case "1"://RETIRO EN OFICINA
@@ -3392,7 +3391,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   }
                 break;
                 case "2": //MANUAL
-                  $scope.tkupdate.idMgmtMethodKf      = $scope.ticket.idMgmtMethodKf;
                   $scope.functions.whereKeysAreEnable = obj.building.isHasInternetOnline === null ? "2":"1";
                   switch(obj.idTypeDeliveryKf){
                     case "1": //RETIRO EN OFICINA
@@ -3432,12 +3430,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             break;
             case "applySetMgmtKeys":
               $scope.keys={'llavero':{}};
-              $scope.tkupdate.newKeychainList = $scope.rsNewKeychainList
+              $scope.tkupdate.idMgmtMethodKf          = $scope.ticket.idMgmtMethodKf;
+              $scope.tkupdate.newKeychainList         = $scope.rsNewKeychainList
               console.log($scope.tkupdate);
               console.log($scope.rsNewKeychainList[0]);
-              $scope.isNewKeySingle = true;
-              $scope.isEditKey      = false;
-              $scope.isNewKeyMulti  = false;
+              $scope.isNewKeySingle                   = true;
+              $scope.isEditKey                        = false;
+              $scope.isNewKeyMulti                    = false;
               //console.log(obj);
               $scope.keys.llavero.idProductKf         = $scope.rsNewKeychainList[0].idProductKf;
               $scope.keys.llavero.codExt              = $scope.rsNewKeychainList[0].codExt;
