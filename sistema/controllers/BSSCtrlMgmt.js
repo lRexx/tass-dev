@@ -1034,7 +1034,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
       $scope.setOptionType = function(obj) {
         var elem = angular.element(obj.target);// or angular.element(obj.target);
         console.log(elem[0])
-        //$scope.tkupdate.keysMethod = {'name':''};
+        if ($scope.tkupdate.keysMethod===null){$scope.tkupdate.keysMethod = {'name':''};}
         switch (elem[0].getAttribute("id")){
             case "stock":
                 if ($scope.ticket.keysMethod.name==undefined){
