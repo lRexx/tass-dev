@@ -11,10 +11,10 @@
     </thead>
     <tbody class="fixed-body" style="height: 325px !important;">
       <!-- Show if there are Keys registered -->
-      <tr ng-if="rsExistingKeyList.length>0"  class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in rsExistingKeyList">
+      <tr ng-if="rsExistingKeyList.length>0"  class="animate-repeat" ng-clas="{'table-tr-hover-selected':(((item.idKeychain!=null && item.idKeychain!=undefined) && item.idTicketKeychain!=undefined && item.idTicketKf==tkupdate.idTicket) || (item.idKeychain==null || item.idKeychain==undefined))}" style="align-content: center; cursor: pointer;" ng-repeat="item in rsExistingKeyList">
         <td class="td-depto" style="vertical-align: middle !important;text-align: center !important;width: 7.2% !important;" ng-click="switchCustomersFn('details_customer', item, 'show');">
         	<span ng-if="item.idKeychain!=null && item.idKeychain!=undefined">{{item.idKeychain}}</span>
-          <span ng-if="item.idKeychain==null || item.idKeychain==undefined" class="label label-default">-</span>
+          <span ng-if="item.idKeychain!=null && item.idKeychain!=undefined" class="badge badge-warning"> Nuevo</span>
         </td>
         <!--<td ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle;text-align: center;">{{item.categoryKeychain}}</td>-->
         <td class="td-depto" ng-click="mainSwitchFn('existingKeyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 10.2% !important;">{{item.codigo}}</td>
