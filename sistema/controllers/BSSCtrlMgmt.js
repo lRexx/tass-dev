@@ -3438,24 +3438,42 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.isEditKey                        = false;
               $scope.isNewKeyMulti                    = false;
               //console.log(obj);
-              $scope.keys.llavero.idProductKf         = $scope.rsNewKeychainList[0].idProductKf;
-              $scope.keys.llavero.codExt              = $scope.rsNewKeychainList[0].codExt;
-              $scope.keys.llavero.codigo              = $scope.rsNewKeychainList[0].codigo;
-              $scope.keys.llavero.idDepartmenKf       = $scope.rsNewKeychainList[0].idDepartmenKf;
-              $scope.keys.llavero.idClientKf          = $scope.rsNewKeychainList[0].idClientKf;
-              $scope.keys.llavero.idUserKf            = $scope.rsNewKeychainList[0].idUserKf;
-              $scope.keys.llavero.idCategoryKf        = $scope.rsNewKeychainList[0].idCategoryKf;
-              $scope.keys.llavero.isKeyTenantOnly     = $scope.rsNewKeychainList[0].isKeyTenantOnly;
-              $scope.keys.llavero.idClientAdminKf     = $scope.rsNewKeychainList[0].idClientAdminKf!='' && $scope.rsNewKeychainList[0].idClientAdminKf!=null && $scope.rsNewKeychainList[0].idClientAdminKf!=undefined?$scope.rsNewKeychainList[0].idClientAdminKf:null;
-              $scope.keys.llavero.createdBy           = $scope.sysLoggedUser.idUser;
-              $scope.keys.llavero.idTicketKf          = $scope.tkupdate.idTicket;
-              $scope.keys.llavero.idTypeTicketKf      = $scope.tkupdate.idTypeTicketKf;
-              $scope.keys.llavero.idKeychainStatusKf  = $scope.rsNewKeychainList[0].idKeychainStatusKf;
-              $scope.keys.llavero.idTicketKeychain    = $scope.tkupdate.keys[0].idTicketKeychain;
-              console.log("Ticket to Update: ");
-              console.log($scope.tkupdate);
-              console.log("Llavero a agregar: ");
-              console.log($scope.keys.llavero);
+              var i = 0;
+              var assignedKeys = [];
+              angular.forEach($scope.rsNewKeychainList,function(key){
+                var deferredKeys = $q.defer();
+                assignedKeys.push(deferredKeys.promise);
+                //ASSIGN DEPARTMENT SERVICE
+                $timeout(function() {
+                    deferredKeys.resolve();
+                    $scope.keys.llavero.idProductKf         = key.idProductKf;
+                    $scope.keys.llavero.codExt              = key.codExt;
+                    $scope.keys.llavero.codigo              = key.codigo;
+                    $scope.keys.llavero.idDepartmenKf       = key.idDepartmenKf;
+                    $scope.keys.llavero.idClientKf          = key.idClientKf;
+                    $scope.keys.llavero.idUserKf            = key.idUserKf;
+                    $scope.keys.llavero.idCategoryKf        = key.idCategoryKf;
+                    $scope.keys.llavero.isKeyTenantOnly     = key.isKeyTenantOnly;
+                    $scope.keys.llavero.idClientAdminKf     = key.idClientAdminKf!='' && key.idClientAdminKf!=null && key.idClientAdminKf!=undefined?key.idClientAdminKf:null;
+                    $scope.keys.llavero.createdBy           = $scope.sysLoggedUser.idUser;
+                    $scope.keys.llavero.idTicketKf          = $scope.tkupdate.idTicket;
+                    $scope.keys.llavero.idTypeTicketKf      = $scope.tkupdate.idTypeTicketKf;
+                    $scope.keys.llavero.idKeychainStatusKf  = key.idKeychainStatusKf;
+                    $scope.keys.llavero.idTicketKeychain    = $scope.tkupdate.keys[i].idTicketKeychain;
+                    i++;
+                }, 1000);
+                $timeout(function() {
+                  console.log("Llavero a agregar: ");
+                  console.log($scope.keys);
+                }, 1500);
+              });
+              
+              $q.all(assignedKeys).then(function () {
+                console.log("Ticket to Update: ");
+                console.log($scope.tkupdate);
+              });
+
+
               //$scope.addKeyFn($scope.keys);
             break;
             case "apply_isKeysEnable":
