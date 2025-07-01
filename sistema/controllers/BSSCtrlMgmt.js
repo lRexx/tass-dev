@@ -3035,7 +3035,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   elem = elemStock;
                 }else{
                   $scope.mainSwitchFn('keychain_manual', null, null);
-                  $scope.mainSwitchFn('setMgmtKeys', $scope.tkupdate, null);
+                  //$scope.mainSwitchFn('setMgmtKeys', $scope.tkupdate, null);
                   elem = elemManual;
                 }
                 //check elem is not null
