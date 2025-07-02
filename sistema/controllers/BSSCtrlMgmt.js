@@ -3432,8 +3432,14 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.keys={'llavero':{}};
               $scope.tkupdate.idMgmtMethodKf          = $scope.ticket.idMgmtMethodKf;
               $scope.tkupdate.newKeychainList         = $scope.rsNewKeychainList
+
+              $scope.tkupdate.refund                  = [];
+              $scope.tkupdate.history                 = [];
+              $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"28"});
+              $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
+              $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
               console.log($scope.tkupdate);
-              console.log($scope.rsNewKeychainList[0]);
+              console.log($scope.rsNewKeychainList);
               $scope.isNewKeySingle                   = true;
               $scope.isEditKey                        = false;
               $scope.isNewKeyMulti                    = false;
