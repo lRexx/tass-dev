@@ -4,7 +4,7 @@
       <div class="modal-content">
           <div class="modal-header">
               <button ng-click="modalConfirmation('CancelSetMgmtKeys',0, tkupdate)" type="button" class="close"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
-              <h3 class="modal-title"><i class="fas fa-key"></i> LLAVEROS A ASIGNAR - <span class="badge badge-warning" style="font-size: 24px !important;">{{tkupdate.keys.length}}</span><span style="font-size: 24px !important;" ng-if="ticket.idMgmtMethodKf!=undefined"> - METODO: </span><span ng-if="ticket.idMgmtMethodKf!=undefined" class="badge badge-default" style="font-size: 24px !important;">{{tkupdate.keySource.name | uppercase}}</span></h3>
+              <h3 class="modal-title"><i class="fas fa-key"></i> LLAVEROS A ASIGNAR - <span class="badge badge-warning" style="font-size: 24px !important;">{{tkupdate.keys.length}}</span><span style="font-size: 24px !important;" ng-if="ticket.idMgmtMethodKf!=undefined"> - METODO: </span><span ng-if="ticket.idMgmtMethodKf!=undefined" class="badge badge-default" style="font-size: 24px !important;">{{tkupdate.keysMethod.name | uppercase}}</span></h3>
           </div>
         <div class="modal-body n-padding-b">
             <!-- SELECT METHOD-->
