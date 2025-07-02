@@ -3463,7 +3463,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     };
                     console.log("Llavero a agregar: "+keys.codigo);
                     console.log(keys);
-                    $scope.addKeyFn({llavero: llave});
+                    $scope.addKeyFn({llavero: keys});
                     deferredKeys.resolve();
                 }, 1000);
               });
