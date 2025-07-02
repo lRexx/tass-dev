@@ -4,7 +4,7 @@
       <div class="modal-content">
           <div class="modal-header">
               <button ng-click="modalConfirmation('CancelSetMgmtKeys',0, tkupdate)" type="button" class="close"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
-              <h3 class="modal-title"><i class="fas fa-key"></i> LLAVEROS A ASIGNAR - <span class="badge badge-warning" style="font-size: 24px !important;">{{tkupdate.keys.length}}</span><span style="font-size: 24px !important;" ng-if="tkupdate.idMgmtMethodKf!=undefined"> - METODO: </span><span ng-if="tkupdate.idMgmtMethodKf!=undefined" class="badge badge-default" style="font-size: 24px !important;">{{tkupdate.keySource.name | uppercase}}</span></h3>
+              <h3 class="modal-title"><i class="fas fa-key"></i> LLAVEROS A ASIGNAR - <span class="badge badge-warning" style="font-size: 24px !important;">{{tkupdate.keys.length}}</span><span style="font-size: 24px !important;" ng-if="ticket.idMgmtMethodKf!=undefined"> - METODO: </span><span ng-if="ticket.idMgmtMethodKf!=undefined" class="badge badge-default" style="font-size: 24px !important;">{{tkupdate.keySource.name | uppercase}}</span></h3>
           </div>
         <div class="modal-body n-padding-b">
             <!-- SELECT METHOD-->
@@ -22,19 +22,19 @@
                         <button ng-click="setOptionType($event);" id="manual" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='manual', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='manual'}">
                             <i class="fas fa-pencil-alt"></i> MANUAL</button>
                     </div>
-                    <div ng-if="(tkupdate.idMgmtMethodKf==undefined || tkupdate.idMgmtMethodKf=='1') && rsAllKeychainListData.length>=tkupdate.keys.length" class="col-md-12" style="padding-top: 1% !important;">
+                    <div ng-if="(ticket.idMgmtMethodKf==undefined || ticket.idMgmtMethodKf=='1') && rsAllKeychainListData.length>=tkupdate.keys.length" class="col-md-12" style="padding-top: 1% !important;">
                         <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 alert alert-info">
                           <h5 class="col-md-offset-2"><i class="fas fa-info-circle"> </i> <span style="font-size: 18px; font-weight: 600;">Hay suficientes llaveros en stock para gestionar el pedido.</span></h5>
                         </div>
                     </div>
-                    <div ng-if="(tkupdate.idMgmtMethodKf==undefined || tkupdate.idMgmtMethodKf=='1') && rsAllKeychainListData.length==0" class="col-md-12" style="padding-top: 1% !important;">
+                    <div ng-if="(ticket.idMgmtMethodKf==undefined || ticket.idMgmtMethodKf=='1') && rsAllKeychainListData.length==0" class="col-md-12" style="padding-top: 1% !important;">
                         <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning">
                           <h5 class="col-md-offset-1"><i class="fas fa-exclamation-triangle"> </i> <span style="font-size: 18px; font-weight: 600;">No Hay llaveros en stock para gestionar el pedido, realizar la carga manual.</span></h5>
                         </div>
                     </div>
                 </div>
                 <!-- OPTION STOCK-->
-                <div ng-show="tkupdate.idMgmtMethodKf=='1'">
+                <div ng-show="ticket.idMgmtMethodKf=='1'">
                     <div class="col-md-12" style="padding: 10px !important;">
                          <!--*********KEY STOCK LIST ***********-->
                         <div class="panel panel-default">
@@ -51,7 +51,7 @@
                     </div>
                 </div>
                 <!-- OPTION MANUAL-->
-                <div ng-show="tkupdate.idMgmtMethodKf=='2'">
+                <div ng-show="ticket.idMgmtMethodKf=='2'">
                     <div class="col-md-6" style="padding: 10px !important;">
                         <!-- KEY REGISTER FORM -->
                         <div class="panel" ng-class="{'panel-success':fNewKey.$valid, 'panel-default': fNewKey.$invalid}">
@@ -283,12 +283,12 @@
         <div class="modal-footer">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
-                    <button ng-if="functions.whereKeysAreEnable==undefined && (tkupdate.idDeliveryCompanyKf==null || tkupdate.idDeliveryCompanyKf!=null)" type="button" ng-click="mainSwitchFn('setMgmtKeys', tkupdate, null)" ng-disabled="ticket.keysMethod.name==undefined || rsNewKeychainList.length!=tkupdate.keys.length" class="btn btn-labeled btn-success">
+                    <button ng-if="((tkupdate.idMgmtMethodKf==null && rsNewKeychainList.length==tkupdate.keys.length) ||(tkupdate.idMgmtMethodKf!=null && rsNewKeychainList.length!=tkupdate.keys.length))" type="button" ng-click="mainSwitchFn('setMgmtKeys', tkupdate, null)" ng-disabled="ticket.keysMethod.name==undefined || rsNewKeychainList.length!=tkupdate.keys.length" class="btn btn-labeled btn-success">
                         <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Asignar</button>
-                    <a ng-if="functions.whereKeysAreEnable==undefined && (tkupdate.idDeliveryCompanyKf==null || tkupdate.idDeliveryCompanyKf!=null)" id="cancelModalWindow" type="button" ng-click="modalConfirmation('cancelSetMgmtKeys',0, tkupdate)" class="btn btn-labeled btn-danger">
+                    <a ng-if="tkupdate.idMgmtMethodKf==null" id="cancelModalWindow" type="button" ng-click="modalConfirmation('cancelSetMgmtKeys',0, tkupdate)" class="btn btn-labeled btn-danger">
                         <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
-                    <a ng-if="functions.whereKeysAreEnable!=undefined && (functions.whereKeysAreEnable==null || functions.whereKeysAreEnable!=null ) && tkupdate.idDeliveryCompanyKf!=undefined && (tkupdate.idDeliveryCompanyKf==null || tkupdate.idDeliveryCompanyKf!=null) && tkupdate.idMgmtMethodKf!=undefined && rsNewKeychainList.length==tkupdate.keys.length" id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
-                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                    <a ng-if="tkupdate.idMgmtMethodKf!=undefined && rsNewKeychainList.length==tkupdate.keys.length" id="closeModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="fas fa-times-circle"></i></span>Cerrar</a>
                 </div>           
             </div>
         </div>

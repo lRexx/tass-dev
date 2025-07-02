@@ -24,7 +24,7 @@ date_default_timezone_set('America/Argentina/Buenos_Aires');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://apidev2.sytes.net/';
+$config['base_url'] = 'http://apibss.sytes.net/';
 
 /*
 |--------------------------------------------------------------------------

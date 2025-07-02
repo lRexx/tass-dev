@@ -32,7 +32,7 @@ $preference_data = [
         "installments" => 1,
     ],
     "metadata" =>[
-        "idPayment"     => $json->metadata->{"idPayment"},
+        "idTicket"      => $json->metadata->{"idTicket"},
         "ticket_number" => $json->metadata->{"ticket_number"},
         "paymentFor"    => $json->metadata->{"paymentFor"},
     ],

@@ -893,6 +893,10 @@ input.fileUpload{
     background-color: rgba(255, 188, 87, 0.46) !important;
     /*font-weight: bold;*/
 }
+.table-tr-hover-selected {
+  background-color: rgba(255, 188, 87, 0.46) !important;
+  /*font-weight: bold;*/
+}
 /***********************************/
 .margin-top-4em{
   margin-top: -4em;

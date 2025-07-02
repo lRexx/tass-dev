@@ -948,9 +948,9 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
               case "closeCustomerWindow":
                   if (confirm==0){
                       if ($scope.isNewCustomer==true){
-                      $scope.mess2show="Se perderan todos los datos cargados para el registro del cliente, esta seguro que desea cancelar?";
+                        $scope.mess2show="Se perderan todos los datos cargados para el registro del cliente, esta seguro que desea cancelar?";
                       }else{
-                      $scope.mess2show="Se perderan todas las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
+                        $scope.mess2show="Se perderan todas las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
                       }    
                       $('#confirmRequestModal').modal('show');
                   }else if (confirm==1){
