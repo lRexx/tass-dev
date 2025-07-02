@@ -3440,36 +3440,37 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               //console.log(obj);
               var i = 0;
               var assignedKeys = [];
-              angular.forEach($scope.rsNewKeychainList,function(key){
+              angular.forEach($scope.rsNewKeychainList,function(key,i){
                 var deferredKeys = $q.defer();
                 assignedKeys.push(deferredKeys.promise);
-                //ASSIGN DEPARTMENT SERVICE
                 $timeout(function() {
                     deferredKeys.resolve();
-                    $scope.keys.llavero.idProductKf         = key.idProductKf;
-                    $scope.keys.llavero.codExt              = key.codExt;
-                    $scope.keys.llavero.codigo              = key.codigo;
-                    $scope.keys.llavero.idDepartmenKf       = key.idDepartmenKf;
-                    $scope.keys.llavero.idClientKf          = key.idClientKf;
-                    $scope.keys.llavero.idUserKf            = key.idUserKf;
-                    $scope.keys.llavero.idCategoryKf        = key.idCategoryKf;
-                    $scope.keys.llavero.isKeyTenantOnly     = key.isKeyTenantOnly;
-                    $scope.keys.llavero.idClientAdminKf     = key.idClientAdminKf!='' && key.idClientAdminKf!=null && key.idClientAdminKf!=undefined?key.idClientAdminKf:null;
-                    $scope.keys.llavero.createdBy           = $scope.sysLoggedUser.idUser;
-                    $scope.keys.llavero.idTicketKf          = $scope.tkupdate.idTicket;
-                    $scope.keys.llavero.idTypeTicketKf      = $scope.tkupdate.idTypeTicketKf;
-                    $scope.keys.llavero.idKeychainStatusKf  = key.idKeychainStatusKf;
-                    $scope.keys.llavero.idTicketKeychain    = $scope.tkupdate.keys[i].idTicketKeychain;
-                    i++;
-                    console.log("Llavero a agregar: ");
-                    console.log($scope.keys.llavero);
-                    $scope.keys.llavero = {};
+                    var keys = {
+                      idProductKf         : key.idProductKf,
+                      codExt              : key.codExt,
+                      codigo              : key.codigo,
+                      idDepartmenKf       : key.idDepartmenKf,
+                      idClientKf          : key.idClientKf,
+                      idUserKf            : key.idUserKf,
+                      idCategoryKf        : key.idCategoryKf,
+                      isKeyTenantOnly     : key.isKeyTenantOnly,
+                      idClientAdminKf     : key.idClientAdminKf!='' && key.idClientAdminKf!=null && key.idClientAdminKf!=undefined?key.idClientAdminKf:null,
+                      createdBy           : $scope.sysLoggedUser.idUser,
+                      idTicketKf          : $scope.tkupdate.idTicket,
+                      idTypeTicketKf      : $scope.tkupdate.idTypeTicketKf,
+                      idKeychainStatusKf  : key.idKeychainStatusKf,
+                      idTicketKeychain    : $scope.tkupdate.keys[i].idTicketKeychain
+                    };
+                    console.log("Llavero a agregar: "+keys.codigo);
+                    console.log(keys);
+                    //$scope.addKeyFn({llavero: llave});
                     deferredKeys.resolve();
                 }, 1000);
               });
               $q.all(assignedKeys).then(function () {
-                console.log("Ticket to Update: ");
+                console.log("Ticket to Update: "+$scope.tkupdate.codTicket);
                 console.log($scope.tkupdate);
+                $scope.updateUpRequestFn({ticket: $scope.tkupdate});
               });
 
 
