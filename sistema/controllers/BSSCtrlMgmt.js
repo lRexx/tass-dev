@@ -3462,7 +3462,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.keys.llavero.idTicketKeychain    = $scope.tkupdate.keys[i].idTicketKeychain;
                     i++;
                     console.log("Llavero a agregar: ");
-                    console.log($scope.keys);
+                    console.log($scope.keys.llavero);
+                    $scope.keys.llavero = {};
                     deferredKeys.resolve();
                 }, 1000);
               });
