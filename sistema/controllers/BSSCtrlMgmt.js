@@ -3465,11 +3465,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     console.log($scope.keys);
                     deferredKeys.resolve();
                 }, 1000);
-                }, 1000);
-                $timeout(function() {
-                  console.log("Llavero a agregar: ");
-                  console.log($scope.keys);
-                }, 1500);
               });
               $q.all(assignedKeys).then(function () {
                 console.log("Ticket to Update: ");
