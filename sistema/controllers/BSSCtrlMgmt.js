@@ -1008,7 +1008,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.ticket.keysMethod            = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:{'name':''};
               $scope.customerFound                = $scope.tkupdate.building;
               $scope.functions.whereKeysAreEnable = $scope.tkupdate.building.isHasInternetOnline === null ? "2":"1";
-              console.log($scope.rsData);
+              console.log($scope.tkupdate);
+              console.log($scope.rsExistingKeyList);
               $scope.isEditTicket=true;
               $timeout(function() {
                 if ($scope.tkupdate.idMgmtMethodKf!=undefined && $scope.tkupdate.idMgmtMethodKf!=null){
