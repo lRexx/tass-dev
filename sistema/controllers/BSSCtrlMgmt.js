@@ -4643,12 +4643,14 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       });
                       $('.circle-loader').toggleClass('load-complete');
                       $('.checkmark').toggle();
-                      $scope.ticketRegistered = response.data.response[0];
-                      response.data.response[0].createNewMPLinkForDelivery=pedido.ticket.createNewMPLinkForDelivery;
+                      $scope.ticketRegistered = response.data.response;
+                      if (pedido.ticket.createNewMPLinkForDelivery!=undefined){
+                        response.data.response.createNewMPLinkForDelivery=pedido.ticket.createNewMPLinkForDelivery;
+                      }
                     }, 2500);
-                    if((pedido.ticket.createNewMPLink || pedido.ticket.createNewMPLinkForDelivery) && response.data.response[0].idTypePaymentKf=="2"){
+                    if((pedido.ticket.createNewMPLink || pedido.ticket.createNewMPLinkForDelivery) && response.data.response.idTypePaymentKf=="2"){
                       $timeout(function() {
-                          $scope.mainSwitchFn("linkMP",response.data.response[0],null);
+                          $scope.mainSwitchFn("linkMP",response.data.response,null);
                       }, 2700);
                     }else{
                       $scope.mainSwitchFn('search', null);
