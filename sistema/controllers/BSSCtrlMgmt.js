@@ -4653,8 +4653,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           $scope.mainSwitchFn("linkMP",response.data.response,null);
                       }, 2700);
                     }else{
-                      $scope.mainSwitchFn('search', null);
-                      $scope.openTicketFn($scope.ticketRegistered.idTicket);
+                      $scope.openTicketFn(pedido.ticket.idTicket);
+                      $timeout(function() {
+                          $scope.mainSwitchFn('search', null);
+                      }, 2000);
                     }
                     
                   }else if(response.status==500){
