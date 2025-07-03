@@ -1009,9 +1009,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.customerFound                = $scope.tkupdate.building;
               $scope.functions.whereKeysAreEnable = $scope.tkupdate.building.isHasInternetOnline === null ? "2":"1";
               console.log($scope.tkupdate);
-              console.log($scope.rsExistingKeyList);
+              
               $scope.isEditTicket=true;
               $timeout(function() {
+                console.log($scope.rsExistingKeyList);
                 if ($scope.tkupdate.idMgmtMethodKf!=undefined && $scope.tkupdate.idMgmtMethodKf!=null){
                   for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
                     //rsNewKeychainList
@@ -1022,6 +1023,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     }
                   }
                 }
+                console.log("rsNewKeychainList");
+                console.log($scope.rsNewKeychainList);
+                console.log("list_new_keys");
+                console.log($scope.list_new_keys);
               }, 500);
             }else if (response.status==404){
                 $scope.rsData = {};
