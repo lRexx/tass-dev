@@ -1019,7 +1019,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     if ($scope.rsExistingKeyList[i].idTicketKf!=null && $scope.rsExistingKeyList[i].idTicketKf == $scope.tkupdate.idTicket){
                       $scope.rsNewKeychainList.push($scope.rsExistingKeyList[i]);
                       $scope.list_new_keys.push($scope.rsExistingKeyList[i]);
-                      break;
                     }
                   }
                 }
