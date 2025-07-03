@@ -1011,7 +1011,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.log($scope.rsData);
               $scope.isEditTicket=true;
               $timeout(function() {
-                if ($scope.tkupdate.idMgmtMethodKf){
+                if ($scope.tkupdate.idMgmtMethodKf!=undefined && $scope.tkupdate.idMgmtMethodKf!=null){
                   for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
                     //rsNewKeychainList
                     if ($scope.rsExistingKeyList[i].idTicketKf!=null && $scope.rsExistingKeyList[i].idTicketKf == $scope.tkupdate.idTicket){
