@@ -2389,92 +2389,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
       $scope.onSelectCallback = function(){
         $scope.mainSwitchFn('search', null);
       }
-      /******************************
-      *   CREATING MP PAYMENT LINK  *
-      ******************************/
-        $scope.mp={'link':{}, 'payment':{}, 'data':{}}; 
-        $scope.mpCreateLinkFn_old = function(obj){
-          console.log("---------------------------------------");
-          console.log("CREAR LINK DE PAGO PARA MERCADOPAGO");
-          console.log("---------------------------------------");
-          console.log("[New MP Payment Link]");
-          $scope.mp.link={'new':{'data':{}},'url':null}; //codTicket
-          $scope.mp.link.new.data={'idPago': null,'monto':  null,'linkDeNotificacion':  null,'back_url':  null};
-          $scope.mp.link.new.data.idTicket            = obj.idTicket;
-          $scope.mp.link.new.data.ticket_number       = obj.codTicket;
-          $scope.mp.link.new.data.monto               = Number(parseInt(obj.total));
-          $scope.mp.link.new.data.linkDeNotificacion  = serverHost+"/Back/index.php/MercadoLibre/getNotificationOfMP";
-          $scope.mp.link.new.data.back_url            = serverHost+"/monitor";
-          $scope.mp.link.new.data.description         = obj.typeticket.TypeTicketName;
-          $scope.mp.link.new.data.quantity            = obj.keys.length;
-          console.log($scope.mp.link);
-          ticketServices.createMPLink($scope.mp.link.new).then(function(response){
-              //console.log(response);
-              if(response.status==200){
-                  console.log("Request Successfully Created");
-                  inform.add('Link de pago generado satisfactoriamente. ',{
-                        ttl:5000, type: 'success'
-                  });
-                  console.log(response);
-                  //$scope.mp.link.url  = response.data[0].data.response.sandbox_init_point;
-                  //$scope.mp.data      = response.data[0].data.response;
-                  $scope.addPaymentFn(response.data[0].data.response);
-              }else if(response.status==500){
-                  $scope.ticketRegistered = null;
-                console.log("MP Payment Link not Created, contact administrator");
-                inform.add('Error: [500] Contacta al area de soporte. ',{
-                      ttl:5000, type: 'danger'
-                });
-              }
-          });
-        };
-      /****************************
-      *    ADD PAYMENT DETAILS    *
-      ****************************/
-        $scope.mp.payment={"data":{
-          "idTicketKf": null,
-          "client_id":null,
-          "id": null,
-          "collector_id": null,
-          "date_created": null,
-          "expires": null,
-          "external_reference":null,
-          "init_point": null,
-          "sandbox_init_point": null,
-          "operation_type":null
-        }}
-        $scope.addPaymentFn_old = function(payment){
-          console.log($scope.mp);
-          $scope.mp.payment.data.idTicketKf         = $scope.mp.link.new.data.idTicket;
-          $scope.mp.payment.data.client_id          = payment.client_id;
-          $scope.mp.payment.data.id                 = payment.id;
-          $scope.mp.payment.data.collector_id       = payment.collector_id;
-          $scope.mp.payment.data.date_created       = payment.date_created;
-          $scope.mp.payment.data.expires            = payment.expires;
-          $scope.mp.payment.data.external_reference = payment.external_reference;
-          $scope.mp.payment.data.init_point         = payment.init_point;
-          $scope.mp.payment.data.sandbox_init_point = payment.sandbox_init_point;
-          $scope.mp.payment.data.operation_type     = payment.operation_type;
-          $scope.addPaymentDetailsFn = null;
-          console.log($scope.mp.payment.data);
-          ticketServices.addPayment($scope.mp.payment).then(function(response){
-              //console.log(response);
-              if(response.status==200){
-                  console.log("Solicitud de Pago registrada satisfactoriamente");
-                  inform.add('La solicitud de pago ha sido registrada Satisfactoriamente. ',{
-                          ttl:5000, type: 'success'
-                  });
-                  $scope.addPaymentDetailsFn = response.data.response[0];
-                  $scope.mainSwitchFn('search', null);
-              }else if(response.status==500){
-                  $scope.addPaymentDetailsFn = null;
-                  console.log("Payment request has failed, contact administrator");
-                  inform.add('Error: [500] Contacta al area de soporte. ',{
-                          ttl:5000, type: 'danger'
-                  });
-              }
-          });
-        };
+
       /**************************************************
       *                                                 *
       *  SLIDER RANGE FOR THE AMOUNT OF TICKET TO SHOW  *
@@ -3380,12 +3295,15 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   switch(obj.idTypeDeliveryKf){
                     case "1"://RETIRO EN OFICINA
                       $scope.tkupdate.mess2show="El Pedido pasara a \"Listo para Retirar\", por favor,     Confirmar?";
-                      $scope.tkupdate.idDeliveryCompanyKf=null;
+//                      $scope.tkupdate.idDeliveryCompanyKf=null;
                       console.log(obj)
                     break;
                     case "2"://RENTREGA EN DOMICILIO
-                      $scope.tkupdate.idDeliveryCompanyKf="3";
+                      if (obj.building.isStockInOffice == "1"){
+                        $scope.tkupdate.idDeliveryCompanyKf="1";
+                      }
                       $scope.tkupdate.mess2show="El Pedido pasara a \"Pendiente de entrega\", por favor,     Confirmar?";
+                      
                       console.log(obj)
                     break;
                   }
@@ -3395,20 +3313,20 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   switch(obj.idTypeDeliveryKf){
                     case "1": //RETIRO EN OFICINA
                       if(obj.building.isHasInternetOnline === null){ //NO INTERNET
-                        $scope.tkupdate.idDeliveryCompanyKf="1";
+                        //$scope.tkupdate.idDeliveryCompanyKf="1";
                         $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
                       }else{
-                        $scope.tkupdate.idDeliveryCompanyKf=null;
+                        //$scope.tkupdate.idDeliveryCompanyKf=null;
                         $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
                       }
                       console.log(obj)
                     break;
                     case "2": //RENTREGA EN DOMICILIO
                       if(obj.building.isHasInternetOnline === null){ //NO INTERNET
-                        $scope.tkupdate.idDeliveryCompanyKf="2";
+                        //$scope.tkupdate.idDeliveryCompanyKf="2";
                         $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
                       }else{
-                        $scope.tkupdate.idDeliveryCompanyKf="1";
+                        //$scope.tkupdate.idDeliveryCompanyKf="1";
                         $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
                       }
                       console.log(obj)
@@ -3429,7 +3347,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               }*/
             break;
             case "applySetMgmtKeys":
-              $scope.keys={'llavero':{}};
               $scope.tkupdate.idMgmtMethodKf          = $scope.ticket.idMgmtMethodKf;
               $scope.tkupdate.newKeychainList         = $scope.rsNewKeychainList
 
@@ -4735,6 +4652,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       }, 2700);
                     }else{
                       $scope.mainSwitchFn('search', null);
+                      $scope.openTicketFn($scope.ticketRegistered.idTicket);
                     }
                     
                   }else if(response.status==500){
