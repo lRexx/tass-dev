@@ -3354,15 +3354,20 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             case "applySetMgmtKeys":
               $scope.tkupdate.idMgmtMethodKf          = $scope.ticket.idMgmtMethodKf;
               $scope.tkupdate.newKeychainList         = $scope.rsNewKeychainList
-
               $scope.tkupdate.refund                  = [];
               $scope.tkupdate.history                 = [];
-              $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"28"});
+              switch($scope.tkupdate.idMgmtMethodKf){
+                case "1":
+                  $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"28"});
+                break;
+                case "2":
+                  $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"29"});
+                break;
+              }
               $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
               $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
               console.log($scope.tkupdate);
               console.log($scope.rsNewKeychainList);
-              $scope.isNewKeySingle                   = true;
               $scope.isEditKey                        = false;
               $scope.isNewKeyMulti                    = false;
               //console.log(obj);
@@ -3380,7 +3385,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       idDepartmenKf       : key.idDepartmenKf,
                       idClientKf          : key.idClientKf,
                       idUserKf            : key.idUserKf,
-                      idCategoryKf        : key.idCategoryKf,
+                      idCategoryKf        : key.idKeychain!=undefined?"1":key.idCategoryKf,
                       isKeyTenantOnly     : key.isKeyTenantOnly,
                       idClientAdminKf     : key.idClientAdminKf!='' && key.idClientAdminKf!=null && key.idClientAdminKf!=undefined?key.idClientAdminKf:null,
                       createdBy           : $scope.sysLoggedUser.idUser,
@@ -3389,16 +3394,31 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       idKeychainStatusKf  : key.idKeychainStatusKf,
                       idTicketKeychain    : $scope.tkupdate.keys[i].idTicketKeychain
                     };
-                    console.log("Llavero a agregar: "+keys.codigo);
+                    
+                    
+                    switch($scope.tkupdate.idMgmtMethodKf){
+                      case "1":
+                        console.log("Llavero a actualizar");
+                        console.log("idKeychain     : "+keys.idKeychain);
+                        console.log("Codigo         : "+keys.codigo);
+                        console.log("idCategoryKf   : "+keys.idCategoryKf);
+                        //$scope.updateKeyFn({llavero: keys});
+                      break;
+                      case "2":
+                        console.log("Llavero a agregar");
+                        console.log("Codigo         : "+keys.codigo);
+                        console.log("idCategoryKf   : "+keys.idCategoryKf);
+                        //$scope.addKeyFn({llavero: keys});
+                      break;
+                    }
                     console.log(keys);
-                    $scope.addKeyFn({llavero: keys});
                     deferredKeys.resolve();
                 }, 1000);
               });
               $q.all(assignedKeys).then(function () {
                 console.log("Ticket to Update: "+$scope.tkupdate.codTicket);
                 console.log($scope.tkupdate);
-                $scope.updateUpRequestFn({ticket: $scope.tkupdate});
+                //$scope.updateUpRequestFn({ticket: $scope.tkupdate});
               });
 
 
