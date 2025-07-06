@@ -1106,7 +1106,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
         KeysServices.getKeyListByDepartmentId(id).then(function(response) {
           if(response.status==200){
               for (var i = 0; i < response.data; i++) {
-                //rsNewKeychainList
+                //rsExistingKeyList
+                response.data[i]
                 if (response.data[i].idKeychainStatusKf!="-1"){
                   $scope.rsExistingKeyList.push(response.data[i]);
                 }
