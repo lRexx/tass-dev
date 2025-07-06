@@ -3177,6 +3177,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   });
                 }
                 //update idKeychainKf in tb_ticket_keychain when the key from stock or manual is assigned
+                console.info("$scope.thereIsKeyWithoutIdKeychain: "+$scope.thereIsKeyWithoutIdKeychain);
             break;
             case "removeNewKey":
               console.log(obj);
