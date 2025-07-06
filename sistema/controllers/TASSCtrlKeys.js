@@ -1385,7 +1385,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                     });
                 };$scope.getStatusKeychainFn();
                 $scope.excludeIdReasons = function(reason) {
-                    return reason.idReasonDisabledItem !== 4 && reason.idReasonDisabledItem !== 5;
+                    return reason.idReasonDisabledItem !== "4" && reason.idReasonDisabledItem !== "5";
                 };
             /**************************************************
             *                                                 *
