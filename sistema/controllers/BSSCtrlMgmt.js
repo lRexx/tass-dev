@@ -3166,19 +3166,19 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               if (keySelected.idKeychain){
                 keySelected.idReasonKf  = "5";
                 console.log({llavero:keySelected});
-                //$scope.deleteKeyFn({llavero: keySelected});
+                $scope.deleteKeyFn({llavero: keySelected});
               }
-                for (var key in  $scope.rsNewKeychainList){
-                  if ( $scope.rsNewKeychainList[key].codigo==obj.codigo){
-                      $scope.rsNewKeychainList.splice(key,1);
-                      $scope.list_new_keys.splice(key,1);
-                  }
+              for (var key in  $scope.rsNewKeychainList){
+                if ( $scope.rsNewKeychainList[key].codigo==obj.codigo){
+                    $scope.rsNewKeychainList.splice(key,1);
+                    $scope.list_new_keys.splice(key,1);
                 }
-                for (var key in  $scope.rsExistingKeyList){
-                  if ( $scope.rsExistingKeyList[key].codigo==obj.codigo){
-                      $scope.rsExistingKeyList.splice(key,1);
-                  }
+              }
+              for (var key in  $scope.rsExistingKeyList){
+                if ( $scope.rsExistingKeyList[key].codigo==obj.codigo){
+                    $scope.rsExistingKeyList.splice(key,1);
                 }
+              }
               $scope.mainSwitchFn('keychain_manual', null, null);
             break;
             case "cancelSetMgmtKeys":
