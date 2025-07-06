@@ -1005,7 +1005,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.ticket.building              = $scope.tkupdate.building;
               $scope.ticket.administration        = $scope.tkupdate.clientAdmin;
               $scope.ticket.idClientDepartament   = $scope.tkupdate.department
-              $scope.ticket.keysMethod            = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:{'name':''};
+              $scope.ticket.keysMethod            = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:"{'name':''}";
               $scope.customerFound                = $scope.tkupdate.building;
               $scope.functions.whereKeysAreEnable = $scope.tkupdate.building.isHasInternetOnline === null ? "2":"1";
               console.log($scope.tkupdate);
@@ -1022,6 +1022,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     }
                   }
                 }
+                console.log("ticket.keysMethod       : "+$scope.ticket.keysMethod);
                 console.log("tkupdate.keys length    : "+$scope.tkupdate.keys.length);
                 console.log("rsNewKeychainList length: "+$scope.rsNewKeychainList.length);
                 console.log($scope.rsNewKeychainList);
