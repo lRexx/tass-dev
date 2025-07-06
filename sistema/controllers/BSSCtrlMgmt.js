@@ -1022,7 +1022,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     }
                   }
                 }
-                console.log("ticket.keysMethod       : "+$scope.ticket.keysMethod.name);
+                console.log("ticket.keysMethod.name  : "+$scope.ticket.keysMethod.name);
                 console.log("tkupdate.keys length    : "+$scope.tkupdate.keys.length);
                 console.log("rsNewKeychainList length: "+$scope.rsNewKeychainList.length);
                 console.log($scope.rsNewKeychainList);
