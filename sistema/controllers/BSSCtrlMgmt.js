@@ -1107,8 +1107,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
           if(response.status==200){
               for (var i = 0; i < response.data; i++) {
                 //rsNewKeychainList
-                if ($scope.rsExistingKeyList[i].idKeychainStatusKf!="-1"){
-                  $scope.rsExistingKeyList .push($scope.rsExistingKeyList[i]);
+                if (response.data[i].idKeychainStatusKf!="-1"){
+                  $scope.rsExistingKeyList .push(response.data[i]);
                 }
               }
               $scope.rsExistingKeyList      = $scope.rsExistingKeyList
