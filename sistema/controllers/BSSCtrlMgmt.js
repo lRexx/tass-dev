@@ -3165,7 +3165,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               let keySelected = obj;
               if (keySelected.idKeychain){
                 keySelected.idReasonKf  = "5";
-                $scope.deleteKeyFn({llavero: keySelected});
+                console.log({llavero:keySelected});
+                //$scope.deleteKeyFn({llavero: keySelected});
               }
                 for (var key in  $scope.rsNewKeychainList){
                   if ( $scope.rsNewKeychainList[key].codigo==obj.codigo){
