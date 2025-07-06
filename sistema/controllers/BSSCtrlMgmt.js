@@ -1111,7 +1111,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.rsExistingKeyList.push(response.data[i]);
                 }
               }
-              $scope.rsExistingKeyList      = $scope.rsExistingKeyList
+              $scope.tkupdate.existingKeys  = $scope.rsExistingKeyList;
           }else if (response.status==404){
               $scope.tkupdate.existingKeys  = [];
               $scope.rsExistingKeyList      = [];
