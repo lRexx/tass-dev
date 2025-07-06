@@ -2653,6 +2653,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
     *                                                 *
     **************************************************/
       $scope.showCalender = false;
+      $scope.thereIsKeyWithoutIdKeychain=false;
       $scope.monitor={'filters':{},'update':{},'edit':{}};
       $scope.filters={'paymentsType':'', 'typDelivery':'', 'ticketStatus':'', 'typeTicket':'', 'deliveryCompanyKf':'','isPaymentSucceeded': false,'isBillingInitiated':false, 'isHasRefundsOpen':false, 'isInitialDeliveryActive': false, 'isHasStockInBuilding': false, 'mgmtKeyMethod':''};
       $scope.monitor.filter={'idUserRequestBy':'', 'idUserMadeBy':'', 'idBuildingKf':'', 'idClientAdminFk':'', 'idClientCompaniFk':'', 'idClientBranchFk':'', 'topfilter':'', 'idTypeTicketKf':'', 'idStatusTicketKf':'', 'codTicket':'', 'idTypePaymentKf':'', 'idTypeDeliveryKf':'', 'dateCreatedFrom':'', 'dateCreatedTo':'', 'dateDeliveredFrom':'', 'dateDeliveredTo':'', 'isBillingUploaded':null, 'isBillingInitiated':null, 'isHasRefundsOpen':null, 'idDeliveryCompanyKf':'', 'isPaymentSucceeded':'', 'isInitialDeliveryActive':null};
@@ -3162,6 +3163,14 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       ttl:15000, type: 'success'
                     });
                   }
+                  if (!$scope.tkupdate.idMgmtMethodKf){
+                    for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
+                      if ($scope.rsNewKeychainList[i].idKeychain==undefined){
+                        $scope.thereIsKeyWithoutIdKeychain=true;
+                        break;
+                      }
+                    }
+                  }
                 }else{
                   inform.add("Ya ha cargado los ("+$scope.tkupdate.keys.length+") llaveros solicitados en el pedido.",{
                     ttl:15000, type: 'info'
@@ -3438,7 +3447,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $q.all(assignedKeys).then(function () {
                 console.log("Ticket to Update: "+$scope.tkupdate.codTicket);
                 console.log($scope.tkupdate);
-                $scope.updateUpRequestFn({ticket: $scope.tkupdate});
+                if (!$scope.tkupdate.idMgmtMethodKf){
+                  $scope.updateUpRequestFn({ticket: $scope.tkupdate});                  
+                }
               });
 
 
