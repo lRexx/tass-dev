@@ -3163,7 +3163,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       ttl:15000, type: 'success'
                     });
                   }
-                  if (!$scope.tkupdate.idMgmtMethodKf){
+                  if ($scope.tkupdate.idMgmtMethodKf){
                     for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
                       if ($scope.rsNewKeychainList[i].idKeychain==undefined){
                         $scope.thereIsKeyWithoutIdKeychain=true;
