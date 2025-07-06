@@ -3162,17 +3162,22 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             break;
             case "removeNewKey":
               console.log(obj);
-              for (var key in  $scope.rsNewKeychainList){
-                if ( $scope.rsNewKeychainList[key].codigo==obj.codigo){
-                    $scope.rsNewKeychainList.splice(key,1);
-                    $scope.list_new_keys.splice(key,1);
-                }
+              let keySelected = obj;
+              if (keySelected.idKeychain){
+                keySelected.idReasonKf  = "5";
+                $scope.deleteKeyFn({llavero: keySelected});
               }
-              for (var key in  $scope.rsExistingKeyList){
-                if ( $scope.rsExistingKeyList[key].codigo==obj.codigo){
-                    $scope.rsExistingKeyList.splice(key,1);
+                for (var key in  $scope.rsNewKeychainList){
+                  if ( $scope.rsNewKeychainList[key].codigo==obj.codigo){
+                      $scope.rsNewKeychainList.splice(key,1);
+                      $scope.list_new_keys.splice(key,1);
+                  }
                 }
-              }
+                for (var key in  $scope.rsExistingKeyList){
+                  if ( $scope.rsExistingKeyList[key].codigo==obj.codigo){
+                      $scope.rsExistingKeyList.splice(key,1);
+                  }
+                }
               $scope.mainSwitchFn('keychain_manual', null, null);
             break;
             case "cancelSetMgmtKeys":
@@ -3404,13 +3409,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         console.log("idKeychain     : "+keys.idKeychain);
                         console.log("Codigo         : "+keys.codigo);
                         console.log("idCategoryKf   : "+keys.idCategoryKf);
-                        //$scope.updateKeyFn({llavero: keys});
+                        $scope.updateKeyFn({llavero: keys});
                       break;
                       case "2":
                         console.log("Llavero a agregar");
                         console.log("Codigo         : "+keys.codigo);
                         console.log("idCategoryKf   : "+keys.idCategoryKf);
-                        //$scope.addKeyFn({llavero: keys});
+                        $scope.addKeyFn({llavero: keys});
                       break;
                     }
                     console.log(keys);
@@ -3420,7 +3425,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $q.all(assignedKeys).then(function () {
                 console.log("Ticket to Update: "+$scope.tkupdate.codTicket);
                 console.log($scope.tkupdate);
-                //$scope.updateUpRequestFn({ticket: $scope.tkupdate});
+                $scope.updateUpRequestFn({ticket: $scope.tkupdate});
               });
 
 
@@ -4721,8 +4726,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                   inform.add('Los datos del llavero ('+llavero.llavero.codigo+') ha sido Eliminado con exito. ',{
                                       ttl:4000, type: 'success'
                                   });
-                                  $scope.getKeychainListFn($scope.customerFound.idClient,null,$scope.select.filterCategoryKey,$scope.select.idKeychainStatusKf,$scope.select.idDepartmenKf,$scope.select.reasonKf.idReasonDisabledItem,$scope.select.codeSearch,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
-                                  $('#deleteSingleKey').modal('hide');
+                                  $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
                               }else if(response_keychain_process.status==500){
                                   console.log("the key has not been updated, contact administrator");
                                   inform.add('Error: [500] Contacta al area de soporte. ',{
