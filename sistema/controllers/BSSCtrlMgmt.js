@@ -3164,7 +3164,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.log(obj);
               let keySelected = obj;
               if (keySelected.idKeychain){
-                keySelected.idReasonKf  = "5";
+                keySelected.idReasonKf          = "5";
+                keySelected.idKeychainStatusKf  = "-1";
+                keySelected.idTypeTicketKf      = 2;
                 console.log({llavero:keySelected});
                 $scope.deleteKeyFn({llavero: keySelected});
               }
