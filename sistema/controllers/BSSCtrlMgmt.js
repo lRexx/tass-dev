@@ -3167,6 +3167,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 keySelected.idReasonKf          = "5";
                 keySelected.idKeychainStatusKf  = "-1";
                 keySelected.idTypeTicketKf      = 2;
+                keySelected.idTicketKf          = null;
                 console.log({llavero:keySelected});
                 $scope.deleteKeyFn({llavero: keySelected});
               }
@@ -4730,6 +4731,24 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                       ttl:4000, type: 'success'
                                   });
                                   $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
+                                  $timeout(function() {
+                                    console.log($scope.rsExistingKeyList);
+                                    if ($scope.tkupdate.idMgmtMethodKf!=undefined && $scope.tkupdate.idMgmtMethodKf!=null){
+                                      for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
+                                        //rsNewKeychainList
+                                        if ($scope.rsExistingKeyList[i].idTicketKf!=null && $scope.rsExistingKeyList[i].idTicketKf == $scope.tkupdate.idTicket){
+                                          $scope.rsNewKeychainList.push($scope.rsExistingKeyList[i]);
+                                          $scope.list_new_keys.push($scope.rsExistingKeyList[i]);
+                                        }
+                                      }
+                                    }
+                                    console.log("ticket.keysMethod.name  : "+$scope.ticket.keysMethod.name);
+                                    console.log("tkupdate.keys length    : "+$scope.tkupdate.keys.length);
+                                    console.log("rsNewKeychainList length: "+$scope.rsNewKeychainList.length);
+                                    console.log($scope.rsNewKeychainList);
+                                    console.log("list_new_keys");
+                                    console.log($scope.list_new_keys);
+                                  }, 500);
                               }else if(response_keychain_process.status==500){
                                   console.log("the key has not been updated, contact administrator");
                                   inform.add('Error: [500] Contacta al area de soporte. ',{
