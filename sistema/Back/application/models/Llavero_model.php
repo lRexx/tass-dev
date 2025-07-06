@@ -277,6 +277,7 @@ class Llavero_model extends CI_Model
 					"idCategoryKf" 			=> $item['idCategoryKf'],
 					"isKeyTenantOnly" 		=> $item['isKeyTenantOnly'],
 					"idKeychainStatusKf" 	=> @$item['idKeychainStatusKf'],
+					"idTicketKf" 			=> @$item['idTicketKf'],	
 				]
 			)->where("idKeychain", $item['idKeychain'])->update("tb_keychain");
 

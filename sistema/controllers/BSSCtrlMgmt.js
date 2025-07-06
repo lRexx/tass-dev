@@ -1016,7 +1016,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 if ($scope.tkupdate.idMgmtMethodKf!=undefined && $scope.tkupdate.idMgmtMethodKf!=null){
                   for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
                     //rsNewKeychainList
-                    if ($scope.rsExistingKeyList[i].idTicketKf!=null && $scope.rsExistingKeyList[i].idTicketKf == $scope.tkupdate.idTicket){
+                    if ($scope.rsExistingKeyList[i].idTicketKf!=null && $scope.rsExistingKeyList[i].idKeychainStatusKf!="-1" && $scope.rsExistingKeyList[i].idTicketKf == $scope.tkupdate.idTicket){
                       $scope.rsNewKeychainList.push($scope.rsExistingKeyList[i]);
                       $scope.list_new_keys.push($scope.rsExistingKeyList[i]);
                     }
@@ -1093,7 +1093,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             default:
         }
         console.log($scope.ticket);
-     };
+      };
 
 
     /**************************************************
@@ -4733,10 +4733,12 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                   $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
                                   $timeout(function() {
                                     console.log($scope.rsExistingKeyList);
+                                    $scope.rsNewKeychainList = [];
+                                    $scope.list_new_keys = [];
                                     if ($scope.tkupdate.idMgmtMethodKf!=undefined && $scope.tkupdate.idMgmtMethodKf!=null){
                                       for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
                                         //rsNewKeychainList
-                                        if ($scope.rsExistingKeyList[i].idTicketKf!=null && $scope.rsExistingKeyList[i].idTicketKf == $scope.tkupdate.idTicket){
+                                        if ($scope.rsExistingKeyList[i].idTicketKf!=null && $scope.rsExistingKeyList[i].idKeychainStatusKf!="-1" && $scope.rsExistingKeyList[i].idTicketKf == $scope.tkupdate.idTicket){
                                           $scope.rsNewKeychainList.push($scope.rsExistingKeyList[i]);
                                           $scope.list_new_keys.push($scope.rsExistingKeyList[i]);
                                         }
