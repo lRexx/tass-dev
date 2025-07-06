@@ -1105,8 +1105,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
         $scope.rsExistingKeyList = [];
         KeysServices.getKeyListByDepartmentId(id).then(function(response) {
           if(response.status==200){
-              $scope.tkupdate.existingKeys  = response.data;
-              $scope.rsExistingKeyList      = response.data;
+              for (var i = 0; i < response.data; i++) {
+                //rsNewKeychainList
+                if ($scope.rsExistingKeyList[i].idKeychainStatusKf!="-1"){
+                  $scope.rsExistingKeyList .push($scope.rsExistingKeyList[i]);
+                }
+              }
+              $scope.rsExistingKeyList      = $scope.rsExistingKeyList
           }else if (response.status==404){
               $scope.tkupdate.existingKeys  = [];
               $scope.rsExistingKeyList      = [];
