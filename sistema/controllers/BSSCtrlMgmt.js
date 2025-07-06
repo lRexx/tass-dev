@@ -388,7 +388,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 if (confirm==0){
                     $scope.keyObj=obj;
                         console.log(obj)
-                        $scope.mess2show="La llave con el codigo: "+obj.codigo+" sera registrada en el sistema,     Confirmar?";
+                        $scope.mess2show="El llavero codigo: "+obj.codigo+" sera registrado en el sistema,     Confirmar?";
                         console.log("Llave a registrar  : "+obj.codigo);
                         console.log("============================================================================");
                         //console.log(obj);
