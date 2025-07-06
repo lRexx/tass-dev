@@ -1022,7 +1022,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     }
                   }
                 }
-                console.log("rsNewKeychainList");
+                console.log("tkupdate.keys length    : "+$scope.tkupdate.keys.length);
+                console.log("rsNewKeychainList length: "+$scope.rsNewKeychainList.length);
                 console.log($scope.rsNewKeychainList);
                 console.log("list_new_keys");
                 console.log($scope.list_new_keys);
