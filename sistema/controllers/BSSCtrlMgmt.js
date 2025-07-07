@@ -3164,8 +3164,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       ttl:15000, type: 'success'
                     });
                   }
-                  if ($scope.ticket.keysMethodSelected!=null || $scope.ticket.keysMethodSelected!=undefined){
-                    for (var key in  $scope.rsNewKeychainLis){
+                  if ($scope.ticket.keysMethodSelected!=null && $scope.ticket.keysMethodSelected!=undefined){
+                    console.info("$scope.thereIsKeyWithoutIdKeychain: "+$scope.thereIsKeyWithoutIdKeychain);
+                    for (var key in  $scope.rsNewKeychainList){
                       if ($scope.rsNewKeychainList[key].idKeychain==undefined){
                         $scope.thereIsKeyWithoutIdKeychain=true;
                         break;
@@ -3178,7 +3179,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   });
                 }
                 //update idKeychainKf in tb_ticket_keychain when the key from stock or manual is assigned
-                console.info("$scope.thereIsKeyWithoutIdKeychain: "+$scope.thereIsKeyWithoutIdKeychain);
+                
             break;
             case "removeNewKey":
               console.log(obj);
