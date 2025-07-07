@@ -4686,24 +4686,37 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             $scope.addKeyFn = function(llavero){
                 KeysServices.addKey(llavero).then(function(response){
                     if(response.status==200){
-                      llavero.llavero.idKeychainKf = response.data.response.idKeychainKf;
-                      console.log(llavero);
-                      KeysServices.addProcessEvent(llavero).then(function(response_keychain_process){
-                          console.log(response_keychain_process);
-                          if(response_keychain_process.status==200){
-                              console.log("Key Successfully registered");
-                              inform.add('El Llavero con el Codigo ('+llavero.llavero.codigo+'), ha sido registrada con exito. ',{
-                                  ttl:4000, type: 'success'
-                              });
-                              $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
-                              //$scope.getKeychainListFn($scope.customerFound.idClient,null,$scope.select.filterCategoryKey,$scope.select.idKeychainStatusKf,$scope.select.idDepartmenKf,$scope.select.reasonKf.idReasonDisabledItem,$scope.select.codeSearch,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
-                          }else if(response_keychain_process.status==500){
-                              console.log("There was an error adding the key, contact administrator");
-                              inform.add('Error: [500] Contacta al area de soporte. ',{
-                                  ttl:5000, type: 'danger'
-                              });
-                          }
-                      });
+                        if ($scope.isNewKeySingle){
+                            llavero.llavero.idKeychainKf = response.data.response.idKeychainKf;
+                            console.log(llavero);
+                            KeysServices.addProcessEvent(llavero).then(function(response_keychain_process){
+                                console.log(response_keychain_process);
+                                if(response_keychain_process.status==200){
+                                    ticketServices.updateTicketKeychain(llavero).then(function(response_ticke_keychain){
+                                      console.log(response_ticke_keychain);
+                                      if(response_ticke_keychain.status==200){
+                                          console.log("Key Successfully registered");
+                                          inform.add('El Llavero con el Codigo ('+llavero.llavero.codigo+'), ha sido registrada con exito. ',{
+                                              ttl:4000, type: 'success'
+                                          });
+                                          $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
+                                          //$scope.getKeychainListFn($scope.customerFound.idClient,null,$scope.select.filterCategoryKey,$scope.select.idKeychainStatusKf,$scope.select.idDepartmenKf,$scope.select.reasonKf.idReasonDisabledItem,$scope.select.codeSearch,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
+                                      }else if(response_ticke_keychain.status==500){
+                                          console.log("There was an error adding the key, contact administrator");
+                                          inform.add('Error: [500] Contacta al area de soporte. ',{
+                                              ttl:5000, type: 'danger'
+                                          });
+                                      }
+                                  });
+                                    //$scope.getKeychainListFn($scope.customerFound.idClient,null,$scope.select.filterCategoryKey,$scope.select.idKeychainStatusKf,$scope.select.idDepartmenKf,$scope.select.reasonKf.idReasonDisabledItem,$scope.select.codeSearch,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
+                                }else if(response_keychain_process.status==500){
+                                    console.log("There was an error adding the key, contact administrator");
+                                    inform.add('Error: [500] Contacta al area de soporte. ',{
+                                        ttl:5000, type: 'danger'
+                                    });
+                                }
+                            });
+                        }
                     }else if(response.status==203){
                         console.log(response.data);
                         inform.add('Info: [203] El Codigo ('+llavero.llavero.codigo+'), del llavero, ya se encuentra registrado. ',{
