@@ -1111,7 +1111,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               keyDeptoList = response.data
               for (var i in keyDeptoList){
                 //rsExistingKeyList
-                console.log(keyDeptoList[i]);
+                //console.log(keyDeptoList[i]);
                 if (keyDeptoList[i].idKeychainStatusKf!="-1"){
                   $scope.rsExistingKeyList.push(keyDeptoList[i]);
                 }
