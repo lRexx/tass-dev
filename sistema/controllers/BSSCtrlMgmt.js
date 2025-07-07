@@ -3151,16 +3151,18 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         obj.codigoExt="";
                       }
                     });
-                    if ($scope.ticket.keysMethodSelected!=null && $scope.ticket.keysMethodSelected!=undefined){
-                      console.info("$scope.thereIsKeyWithoutIdKeychain: "+$scope.thereIsKeyWithoutIdKeychain);
-                      for (var key in  $scope.rsNewKeychainList){
-                        console.log($scope.rsNewKeychainList[key]);
-                        if ($scope.rsNewKeychainList[key].idKeychain==undefined){
-                          $scope.thereIsKeyWithoutIdKeychain=true;
-                          break;
+                     $timeout(function() {
+                      if ($scope.ticket.keysMethodSelected!=null && $scope.ticket.keysMethodSelected!=undefined){
+                        console.info("$scope.thereIsKeyWithoutIdKeychain: "+$scope.thereIsKeyWithoutIdKeychain);
+                        for (var key in  $scope.rsNewKeychainList){
+                          console.log($scope.rsNewKeychainList[key]);
+                          if ($scope.rsNewKeychainList[key].idKeychain==undefined){
+                            $scope.thereIsKeyWithoutIdKeychain=true;
+                            break;
+                          }
                         }
                       }
-                    }
+                    }, 600);
                   }
                   for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
                     // Ensure the index exists in rsNewKeychainList
