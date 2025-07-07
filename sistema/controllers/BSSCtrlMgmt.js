@@ -3144,6 +3144,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         $scope.rsExistingKeyList.push({"idProductKf":deviceOpen.idProduct,"idTicketKf": $scope.tkupdate.idTicketKf, "descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":$scope.tmpKey.new.categoryKeychain,"Depto":$scope.tmpKey.new.Depto, "codExt":$scope.tmpKey.new.codigoExt,"codigo":$scope.tmpKey.new.codigo,"idDepartmenKf":$scope.tmpKey.new.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":$scope.tmpKey.new.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "statusKey":"Inactivo", "doors":{}});
                         $scope.list_new_keys.push({"idProductKf":deviceOpen.idProduct,"descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":$scope.tmpKey.new.categoryKeychain,"Depto":$scope.tmpKey.new.Depto, "codExt":$scope.tmpKey.new.codigoExt,"codigo":$scope.tmpKey.new.codigo,"idDepartmenKf":$scope.tmpKey.new.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":$scope.tmpKey.new.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "statusKey":"Inactivo", "doors":{}});
                         console.log($scope.rsNewKeychainList);
+                        if ($scope.ticket.keysMethodSelected!=null && $scope.ticket.keysMethodSelected!=undefined){
+                          for (var key in  $scope.rsNewKeychainList){
+                            console.log($scope.rsNewKeychainList[key]);
+                            if ($scope.rsNewKeychainList[key].idKeychain==undefined){
+                              $scope.thereIsKeyWithoutIdKeychain=true;
+                              break;
+                            }
+                          }
+                          console.info("$scope.thereIsKeyWithoutIdKeychain: "+$scope.thereIsKeyWithoutIdKeychain);
+                        }
                         obj.codigo="";
                         obj.codigoExt="";
                       }else{
@@ -3151,18 +3161,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         obj.codigoExt="";
                       }
                     });
-                     $timeout(function() {
-                      if ($scope.ticket.keysMethodSelected!=null && $scope.ticket.keysMethodSelected!=undefined){
-                        console.info("$scope.thereIsKeyWithoutIdKeychain: "+$scope.thereIsKeyWithoutIdKeychain);
-                        for (var key in  $scope.rsNewKeychainList){
-                          console.log($scope.rsNewKeychainList[key]);
-                          if ($scope.rsNewKeychainList[key].idKeychain==undefined){
-                            $scope.thereIsKeyWithoutIdKeychain=true;
-                            break;
-                          }
-                        }
-                      }
-                    }, 600);
                   }
                   for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
                     // Ensure the index exists in rsNewKeychainList
