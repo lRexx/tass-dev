@@ -3165,8 +3165,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     });
                   }
                   if ($scope.ticket.keysMethodSelected!=null || $scope.ticket.keysMethodSelected!=undefined){
-                    for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
-                      if ($scope.rsNewKeychainList[i].idKeychain==undefined){
+                    for (var key in  $scope.rsNewKeychainLis){
+                      if ($scope.rsNewKeychainList[key].idKeychain==undefined){
                         $scope.thereIsKeyWithoutIdKeychain=true;
                         break;
                       }
