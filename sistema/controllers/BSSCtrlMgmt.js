@@ -4686,37 +4686,24 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             $scope.addKeyFn = function(llavero){
                 KeysServices.addKey(llavero).then(function(response){
                     if(response.status==200){
-                        if ($scope.isNewKeySingle){
-                            llavero.llavero.idKeychainKf = response.data.response.idKeychainKf;
-                            console.log(llavero);
-                            KeysServices.addProcessEvent(llavero).then(function(response_keychain_process){
-                                console.log(response_keychain_process);
-                                if(response_keychain_process.status==200){
-                                    ticketServices.updateTicketKeychain(llavero).then(function(response_ticke_keychain){
-                                      console.log(response_ticke_keychain);
-                                      if(response_ticke_keychain.status==200){
-                                          console.log("Key Successfully registered");
-                                          inform.add('El Llavero con el Codigo ('+llavero.llavero.codigo+'), ha sido registrada con exito. ',{
-                                              ttl:4000, type: 'success'
-                                          });
-                                          $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
-                                          //$scope.getKeychainListFn($scope.customerFound.idClient,null,$scope.select.filterCategoryKey,$scope.select.idKeychainStatusKf,$scope.select.idDepartmenKf,$scope.select.reasonKf.idReasonDisabledItem,$scope.select.codeSearch,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
-                                      }else if(response_ticke_keychain.status==500){
-                                          console.log("There was an error adding the key, contact administrator");
-                                          inform.add('Error: [500] Contacta al area de soporte. ',{
-                                              ttl:5000, type: 'danger'
-                                          });
-                                      }
-                                  });
-                                    //$scope.getKeychainListFn($scope.customerFound.idClient,null,$scope.select.filterCategoryKey,$scope.select.idKeychainStatusKf,$scope.select.idDepartmenKf,$scope.select.reasonKf.idReasonDisabledItem,$scope.select.codeSearch,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
-                                }else if(response_keychain_process.status==500){
-                                    console.log("There was an error adding the key, contact administrator");
-                                    inform.add('Error: [500] Contacta al area de soporte. ',{
-                                        ttl:5000, type: 'danger'
-                                    });
-                                }
+                      llavero.llavero.idKeychainKf = response.data.response.idKeychainKf;
+                      console.log(llavero);
+                      ticketServices.updateTicketKeychain(llavero).then(function(response_ticke_keychain){
+                        console.log(response_ticke_keychain);
+                        if(response_ticke_keychain.status==200){
+                            console.log("Key Successfully registered");
+                            inform.add('El Llavero de codigo ('+llavero.llavero.codigo+'), ha sido registrado con exito. ',{
+                                ttl:4000, type: 'success'
+                            });
+                            $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
+                            //$scope.getKeychainListFn($scope.customerFound.idClient,null,$scope.select.filterCategoryKey,$scope.select.idKeychainStatusKf,$scope.select.idDepartmenKf,$scope.select.reasonKf.idReasonDisabledItem,$scope.select.codeSearch,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
+                        }else if(response_ticke_keychain.status==500){
+                            console.log("There was an error adding the key, contact administrator");
+                            inform.add('Error: [500] Contacta al area de soporte. ',{
+                                ttl:5000, type: 'danger'
                             });
                         }
+                      });
                     }else if(response.status==203){
                         console.log(response.data);
                         inform.add('Info: [203] El Codigo ('+llavero.llavero.codigo+'), del llavero, ya se encuentra registrado. ',{
@@ -4741,8 +4728,19 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.updateKeyFn = function(llavero){
                   KeysServices.updateKey(llavero).then(function(response){
                       if(response.status==200){
-                          console.log("Key Successfully updated");
-                          $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
+                        ticketServices.updateTicketKeychain(llavero).then(function(response_ticke_keychain){
+                          console.log(response_ticke_keychain);
+                          if(response_ticke_keychain.status==200){
+                              console.log("Key Successfully updated");
+                              $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
+                              //$scope.getKeychainListFn($scope.customerFound.idClient,null,$scope.select.filterCategoryKey,$scope.select.idKeychainStatusKf,$scope.select.idDepartmenKf,$scope.select.reasonKf.idReasonDisabledItem,$scope.select.codeSearch,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
+                          }else if(response_ticke_keychain.status==500){
+                              console.log("There was an error adding the key, contact administrator");
+                              inform.add('Error: [500] Contacta al area de soporte. ',{
+                                  ttl:5000, type: 'danger'
+                              });
+                          }
+                        });
                       }else if(response.status==404){
                           console.log("not found, contact administrator");
                           inform.add('Error: [404] Contacta al area de soporte. ',{
@@ -4762,10 +4760,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.deleteKeyFn = function(llavero){
                   KeysServices.updateKey(llavero).then(function(response){
                       if(response.status==200){
-                          KeysServices.addProcessEvent(llavero).then(function(response_keychain_process){
-                              if(response_keychain_process.status==200){
+                          ticketServices.updateTicketKeychain(llavero).then(function(response_ticke_keychain){
+                              if(response_ticke_keychain.status==200){
                                   console.log("Key Successfully deleted");
-                                  inform.add('Los datos del llavero ('+llavero.llavero.codigo+') ha sido Eliminado con exito. ',{
+                                  inform.add('Los datos del llavero ('+llavero.llavero.codigo+') han sido Eliminado con exito. ',{
                                       ttl:4000, type: 'success'
                                   });
                                   $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
@@ -4789,7 +4787,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                     console.log("list_new_keys");
                                     console.log($scope.list_new_keys);
                                   }, 500);
-                              }else if(response_keychain_process.status==500){
+                              }else if(response_ticke_keychain.status==500){
                                   console.log("the key has not been updated, contact administrator");
                                   inform.add('Error: [500] Contacta al area de soporte. ',{
                                       ttl:5000, type: 'danger'
@@ -4809,6 +4807,31 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       }
                   });
               };
+          /***********************************
+          *       ADD KEY PROCESS EVENT      *
+          ************************************/
+            $scope.addProcessEventFn = function(llavero){
+                KeysServices.addProcessEvent(llavero).then(function(response){
+                    if(response.status==200){
+                        console.log("Alta de llavero completada satisfactoriamente.")
+                    }else if(response.status==203){
+                        console.log(response.data);
+                        inform.add('Info: [203] El Codigo ('+llavero.llavero.codigo+'), del llavero, ya se encuentra registrado. ',{
+                            ttl:5000, type: 'warning'
+                        });
+                    }else if(response.status==404){
+                        console.log("not found, contact administrator");
+                        inform.add('Error: [404] Contacta al area de soporte. ',{
+                            ttl:5000, type: 'danger'
+                        });
+                    }else if(response.status==500){
+                        console.log("There was an error adding the key, contact administrator");
+                        inform.add('Error: [500] Contacta al area de soporte. ',{
+                            ttl:5000, type: 'danger'
+                        });
+                    }
+                });
+            };
           /******************************
           *       UPDATE  REQUEST       *
           ******************************/
