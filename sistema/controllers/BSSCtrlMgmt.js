@@ -3167,6 +3167,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   if ($scope.ticket.keysMethodSelected!=null && $scope.ticket.keysMethodSelected!=undefined){
                     console.info("$scope.thereIsKeyWithoutIdKeychain: "+$scope.thereIsKeyWithoutIdKeychain);
                     for (var key in  $scope.rsNewKeychainList){
+                      console.log($scope.rsNewKeychainList[key]);
                       if ($scope.rsNewKeychainList[key].idKeychain==undefined){
                         $scope.thereIsKeyWithoutIdKeychain=true;
                         break;
