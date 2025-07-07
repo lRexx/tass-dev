@@ -1006,6 +1006,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.ticket.administration        = $scope.tkupdate.clientAdmin;
               $scope.ticket.idClientDepartament   = $scope.tkupdate.department
               $scope.ticket.keysMethod            = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:"{'name':''}";
+              $scope.ticket.keysMethodSelected    = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:null;
               $scope.customerFound                = $scope.tkupdate.building;
               $scope.functions.whereKeysAreEnable = $scope.tkupdate.building.isHasInternetOnline === null ? "2":"1";
               console.log($scope.tkupdate);
@@ -3163,7 +3164,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       ttl:15000, type: 'success'
                     });
                   }
-                  if ($scope.tkupdate.idMgmtMethodKf){
+                  if ($scope.ticket.keysMethodSelected!=null || $scope.ticket.keysMethodSelected!=undefined){
                     for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
                       if ($scope.rsNewKeychainList[i].idKeychain==undefined){
                         $scope.thereIsKeyWithoutIdKeychain=true;
@@ -3448,7 +3449,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $q.all(assignedKeys).then(function () {
                 console.log("Ticket to Update: "+$scope.tkupdate.codTicket);
                 console.log($scope.tkupdate);
-                if (!$scope.tkupdate.idMgmtMethodKf){
+                if ($scope.ticket.keysMethodSelected==null || $scope.ticket.keysMethodSelected==undefined){
                   $scope.updateUpRequestFn({ticket: $scope.tkupdate});                  
                 }
               });
