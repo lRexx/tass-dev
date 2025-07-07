@@ -247,6 +247,7 @@ class Llavero_model extends CI_Model
 						"isKeyTenantOnly"		=> $items['isKeyTenantOnly'],
 						"idClientAdminKf" 		=> @$items['idClientAdminKf'],
 						"created_at" 			=> $now->format('Y-m-d H:i:s'),
+						"idTicketKf" 			=> @$items['idTicketKf'],
 						"idKeychainStatusKf" 	=> $idKeychainStatusKf,
 					]
 				);
@@ -277,7 +278,7 @@ class Llavero_model extends CI_Model
 					"idCategoryKf" 			=> $item['idCategoryKf'],
 					"isKeyTenantOnly" 		=> $item['isKeyTenantOnly'],
 					"idKeychainStatusKf" 	=> @$item['idKeychainStatusKf'],
-					"idTicketKf" 			=> @$item['idTicketKf'],	
+					"idTicketKf" 			=> @$item['idTicketKf'],
 				]
 			)->where("idKeychain", $item['idKeychain'])->update("tb_keychain");
 

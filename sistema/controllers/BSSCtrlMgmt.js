@@ -3385,6 +3385,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               }*/
             break;
             case "applySetMgmtKeys":
+              $scope.thereIsKeyWithoutIdKeychain      = false;
               $scope.tkupdate.idMgmtMethodKf          = $scope.ticket.idMgmtMethodKf;
               $scope.tkupdate.newKeychainList         = $scope.rsNewKeychainList
               $scope.tkupdate.refund                  = [];
