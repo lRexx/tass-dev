@@ -3151,6 +3151,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         obj.codigoExt="";
                       }
                     });
+                    if ($scope.ticket.keysMethodSelected!=null && $scope.ticket.keysMethodSelected!=undefined){
+                      console.info("$scope.thereIsKeyWithoutIdKeychain: "+$scope.thereIsKeyWithoutIdKeychain);
+                      for (var key in  $scope.rsNewKeychainList){
+                        console.log($scope.rsNewKeychainList[key]);
+                        if ($scope.rsNewKeychainList[key].idKeychain==undefined){
+                          $scope.thereIsKeyWithoutIdKeychain=true;
+                          break;
+                        }
+                      }
+                    }
                   }
                   for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
                     // Ensure the index exists in rsNewKeychainList
@@ -3163,16 +3173,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     inform.add("Ya ha cargado la totalidad de los ("+$scope.tkupdate.keys.length+") llaveros que fueron solicitados en el pedido.",{
                       ttl:15000, type: 'success'
                     });
-                  }
-                  if ($scope.ticket.keysMethodSelected!=null && $scope.ticket.keysMethodSelected!=undefined){
-                    console.info("$scope.thereIsKeyWithoutIdKeychain: "+$scope.thereIsKeyWithoutIdKeychain);
-                    for (var key in  $scope.rsNewKeychainList){
-                      console.log($scope.rsNewKeychainList[key]);
-                      if ($scope.rsNewKeychainList[key].idKeychain==undefined){
-                        $scope.thereIsKeyWithoutIdKeychain=true;
-                        break;
-                      }
-                    }
                   }
                 }else{
                   inform.add("Ya ha cargado los ("+$scope.tkupdate.keys.length+") llaveros solicitados en el pedido.",{
