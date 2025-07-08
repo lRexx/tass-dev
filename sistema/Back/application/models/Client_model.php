@@ -2440,14 +2440,14 @@ class Client_model extends CI_Model {
                 $i = 0;
                 foreach ($quuery->result_array() as $key => $ticket) {
                     #print_r($ticket);
-                    $this->db->select("*tb_client_services_access_control.idClientServicesAccessControl AS idService, tb_client_services_access_control.addressClient, tb_client_services_access_control.addressVpn, tb_client_services_access_control.portHttp, tb_client_services_access_control.portVpn, tb_client_services_access_control.passVpn, tb_client_services_access_control.useVpn")->from("tb_client_services_access_control");
+                    $this->db->select("tb_client_services_access_control.idClientServicesAccessControl AS idService, tb_client_services_access_control.addressClient, tb_client_services_access_control.addressVpn, tb_client_services_access_control.portHttp, tb_client_services_access_control.portVpn, tb_client_services_access_control.passVpn, tb_client_services_access_control.useVpn")->from("tb_client_services_access_control");
                     $this->db->where('idContracAssociated_SE', $ticket['idContrato']);
                     $this->db->where('idDoorFk', $ticket['idAccessControlDoor']);
                     $service = $this->db->get();
                     if ($service->num_rows()>0) {
                         $rs_final[$i] = $rs[$i];
                         if (!is_null($ticket['idContrato'])){
-                            //print_r($service->result_array());                            
+                            print_r($service->result_array());                            
                            $rs_final[$i]['controlAccessInternet']=$service->result_array()[0];
                         }
                         #print_r($ticket);
