@@ -2425,7 +2425,7 @@ class Client_model extends CI_Model {
         $rs          = null;
         $where_string= null;
         if (! is_null($idClient)) {
-            $this->db->select("tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_contratos.idContrato, tb_servicios_del_contrato_cuerpo.idAccCrtlDoor, tb_servicios_del_contrato_cuerpo.idServiciosDelContratoCuerpo, tb_servicios_del_contrato_cuerpo.idServiceTypeFk, tb_access_control_door.*", FALSE)->from("tb_contratos");
+            $this->db->select("*.,tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_contratos.idContrato, tb_servicios_del_contrato_cuerpo.idAccCrtlDoor, tb_servicios_del_contrato_cuerpo.idServiciosDelContratoCuerpo, tb_servicios_del_contrato_cuerpo.idServiceTypeFk, tb_access_control_door.*", FALSE)->from("tb_contratos");
             $this->db->join('tb_servicios_del_contrato_cabecera', 'tb_servicios_del_contrato_cabecera.idContratoFk = tb_contratos.idContrato', 'left');
             $this->db->join('tb_servicios_del_contrato_cuerpo', 'tb_servicios_del_contrato_cuerpo.idServiciosDelContratoFk = tb_servicios_del_contrato_cabecera.idServiciosDelContrato', 'left');
             $this->db->join('tb_access_control_door', 'tb_access_control_door.idAccessControlDoor = tb_servicios_del_contrato_cuerpo.idAccCrtlDoor', 'left');
