@@ -2420,7 +2420,7 @@ class Client_model extends CI_Model {
             return null;
         }
     }
-        public function getControlAccessDoorsAssociatedToACustomerServices($idClient = null) {
+    public function getControlAccessDoorsAssociatedToACustomerServices($idClient = null) {
         $quuery      = null;
         $rs          = null;
         $rs_final    = null;
@@ -2440,7 +2440,7 @@ class Client_model extends CI_Model {
                 $i = 0;
                 foreach ($quuery->result_array() as $key => $ticket) {
                     #print_r($ticket);
-                    $this->db->select("tb_client_services_access_control.idClientServicesAccessControl AS idService, tb_client_services_access_control.addressClient, tb_client_services_access_control.addressVpn, tb_client_services_access_control.portHttp, tb_client_services_access_control.portVpn, tb_client_services_access_control.passVpn, tb_client_services_access_control.useVpn")->from("tb_client_services_access_control");
+                    $this->db->select("*tb_client_services_access_control.idClientServicesAccessControl AS idService, tb_client_services_access_control.addressClient, tb_client_services_access_control.addressVpn, tb_client_services_access_control.portHttp, tb_client_services_access_control.portVpn, tb_client_services_access_control.passVpn, tb_client_services_access_control.useVpn")->from("tb_client_services_access_control");
                     $this->db->where('idContracAssociated_SE', $ticket['idContrato']);
                     $this->db->where('idDoorFk', $ticket['idAccessControlDoor']);
                     $service = $this->db->get();
