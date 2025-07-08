@@ -2445,9 +2445,10 @@ class Client_model extends CI_Model {
                     $this->db->where('idDoorFk', $ticket['idAccessControlDoor']);
                     $service = $this->db->get();
                     if ($service->num_rows()>0) {
+                        $rs_final[$i] = $rs[$i];
                         if (!is_null($ticket['idContrato'])){
                             //print_r($service->result_array());                            
-                            $rs[$i]['controlAccessInternet']=$service->result_array()[0];
+                           $rs_final[$i]['controlAccessInternet']=$service->result_array()[0];
                         }
                         #print_r($ticket);
                         $this->db->select("itemAclaracion")->from("tb_servicios_del_contrato_cuerpo");
@@ -2457,13 +2458,12 @@ class Client_model extends CI_Model {
                         if ($cuerpo->num_rows()>0) {
                             if (!is_null($ticket['idAccessControlDoor'])){
                                 #print_r($cuerpo->result_array());
-                                $rs[$i]['itemAclaracion']=$cuerpo->result_array()[0]['itemAclaracion'];
+                               $rs_final[$i]['itemAclaracion']=$cuerpo->result_array()[0]['itemAclaracion'];
                             }
-                        }                        
+                        }
                     }
                     $i++;
                 }
-                $rs_final = $rs;
                 return $rs_final;
             }else{
                 return null;
