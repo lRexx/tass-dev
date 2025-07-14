@@ -2447,7 +2447,7 @@ class Client_model extends CI_Model {
                     if ($service->num_rows()>0) {
                         $rs_final[$i] = $rs[$i];
                         if (!is_null($ticket['idContrato'])){
-                            print_r($service->result_array());                            
+                            //print_r($service->result_array());                            
                            $rs_final[$i]['controlAccessInternet']=$service->result_array()[0];
                         }
                         #print_r($ticket);
