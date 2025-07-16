@@ -9,7 +9,7 @@ class System extends CI_Controller {
 
     public function clean_old_logs($days = 30)
     {
-        log_message('info', 'Logs Rotation');		
+        log_message('info', ':::::::::::::::::LogsRotation');		
         $log_path = APPPATH . 'logs/';
         $files = scandir($log_path);
         $now = time();
@@ -32,6 +32,6 @@ class System extends CI_Controller {
         }
 
         #echo "Limpieza finalizada.\n";
-        log_message('info', 'Logs Rotation ::: SUCCEEDED');
+        log_message('info', ':::::::::::::::::LogsRotation ::: SUCCEEDED');
     }
 }
