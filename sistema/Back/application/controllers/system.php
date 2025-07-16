@@ -13,7 +13,6 @@ class System extends CI_Controller {
         $log_path = APPPATH . 'logs/';
         $files = scandir($log_path);
         $now = time();
-
         foreach ($files as $file) {
             $full_path = $log_path . $file;
             if (is_file($full_path) && strpos($file, 'log-') === 0) {
