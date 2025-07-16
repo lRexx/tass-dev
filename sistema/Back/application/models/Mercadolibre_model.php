@@ -252,9 +252,9 @@ class Mercadolibre_model extends CI_Model
 				log_message('info', "MP Response: " . $response);
 				log_message('info', ':::::::::: updateMPExpiration :::: SUCCEEDED');
 				return [
-					'status' => 'success',
-					'message' => 'Link inhabilitado correctamente',
-					"error" => $response
+					"status" => 'success',
+					"message" => 'Link inhabilitado correctamente',
+					"data" => json_decode($response, true, JSON_UNESCAPED_SLASHES)
 				];
 			} else {
 				log_message('info', ':::::::::: updateMPExpiration :::: FAILED');
