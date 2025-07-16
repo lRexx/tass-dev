@@ -233,7 +233,7 @@ class Mercadolibre_model extends CI_Model
 				CURLOPT_STDERR         => fopen('curl_mp.log', 'a+'),
 				CURLOPT_HTTPHEADER     => $headers
 			]);
-			print_r($curl);
+			//print_r($curl);
 			log_message('info', $curl);
 			$response = curl_exec($curl);
 			$http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
@@ -246,16 +246,16 @@ class Mercadolibre_model extends CI_Model
 			curl_close($curl);
 		
 		
-			print_r($http_code);
+			//print_r($http_code);
 			// Devolver resultado
 			if ($http_code >= 200 && $http_code < 300) {
 				log_message('info', "MP Response: " . $response);
 				log_message('info', ':::::::::: updateMPExpiration :::: SUCCEEDED');
-				return json_encode([
+				return [
 					'status' => 'success',
 					'message' => 'Link inhabilitado correctamente',
-					'data' => json_decode($response, true, JSON_UNESCAPED_SLASHES)
-				]);
+					"error" => $response
+				];
 			} else {
 				log_message('info', ':::::::::: updateMPExpiration :::: FAILED');
 				return [
