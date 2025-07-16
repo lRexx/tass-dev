@@ -235,23 +235,35 @@ class Mercadolibre_model extends CI_Model
 		]);
 		log_message('info', "cURL: " . $curl);
 		$response = curl_exec($curl);
-		$err      = curl_error($curl);
+		$http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+		// Manejo de error
+		if (curl_errno($curl)) {
+			log_message('error', 'cURL error: ' . curl_error($curl));
+			curl_close($curl);
+			show_error('Error al contactar con Mercado Pago.');
+		}
 		curl_close($curl);
 	
-		if ($err) {
-			log_message('error', "cURL Error #: " . $err);
-			return [
-				"success" => false,
-				"error" => $err
-			];
+		
+
+		// Devolver resultado
+		if ($http_code >= 200 && $http_code < 300) {
+			log_message('info', "MP Response: " . $response);
+			$decoded = json_decode($response, true);
+			log_message('info', ':::::::::: updateMPExpiration :::: SUCCEEDED');
+			return json_encode([
+				'status' => 'success',
+				'message' => 'Link inhabilitado correctamente',
+				'data' => $decoded
+			]);
+		} else {
+			log_message('info', ':::::::::: updateMPExpiration :::: FAILED');
+			return json_encode([
+				'status' => 'error',
+				'message' => 'No se pudo actualizar el link',
+				'response' => $response
+			]);
 		}
-	
-		log_message('info', "MP Response: " . $response);
-		log_message('info', ':::::::::: updateMPExpiration :::: SUCCEEDED');
-		return [
-			"success" => true,
-			"response" => json_decode($response)
-		];
 	}
 	
 
