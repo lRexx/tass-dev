@@ -283,7 +283,7 @@ class MercadoLibre extends REST_Controller
 		$body = file_get_contents('php://input');
 		log_message('info', 'Cuerpo (parcial): ' . substr($body, 0, 500));
 
-		$rs = $this->Mercadolibre_model->updateMPExpiration($this->put());
+		$rs = $this->Mercadolibre_model->updateMPExpiration($this->put($data));
 		if (!is_null($rs)){
 			$this->response(array('response' => $rs) , 200);
 		} else {
