@@ -92,8 +92,7 @@ class Mercadolibre_model extends CI_Model
 	}
 	//https://dev.bss.com.ar/Back/index.php/MercadoLibre/getNotificationOfMP
 	public function createMPLink($data)
-	{	
-		log_message('info', ':::::::::::::::::createMPLink');
+	{
 		$data               = json_decode(json_encode($data));
 		$external_reference = $data->idTicket."_".(rand() * 8) . "_" . (time() * 4);
 		$paymentFor = $data->metadata->paymentFor;
@@ -148,11 +147,13 @@ class Mercadolibre_model extends CI_Model
 			//print_r($response);
 			log_message('info',$response);
 			if ($err){
+				log_message('error', 'Ha ocurrido un error al registrar el pago, cod err 404');
 				return json_encode([
 					'message' => 'Ha ocurrido un error al registrar el pago, cod err 404' ,
 					'status' => 404 ,
 					'data' => $err
 				]);
+				
 			} else if ($response!=null){
 					$ticketObj = null;
 					$ticketObj['history']['idUserKf'] 			= "1";
@@ -161,7 +162,7 @@ class Mercadolibre_model extends CI_Model
 					$ticketObj['history']['idCambiosTicketKf'] 	= $paymentFor==1?"5":"18";
 					//print_r($ticketObj);
 					$this->Ticket_model->addTicketTimeline($ticketObj);
-
+				log_message('info', ':::::::::::::::::createMPLink :::: SUCCEEDED');
 				return json_encode([
 					'message' => 'Datos registrados exitosamente' ,
 					'status' => 200 ,
@@ -175,6 +176,8 @@ class Mercadolibre_model extends CI_Model
 				$ticketObj['history']['idCambiosTicketKf'] 	= "25";
 				//print_r($ticketObj);
 				$this->Ticket_model->addTicketTimeline($ticketObj);
+				
+				log_message('error', 'Ocurrio un error con la Api de MercadoLibre');
 				return json_encode([
 					'message' => 'Ocurrio un error con la Api de MercadoLibre' ,
 					'status' => 500 ,
@@ -244,7 +247,7 @@ class Mercadolibre_model extends CI_Model
 		}
 	
 		log_message('info', "MP Response: " . $response);
-	
+		log_message('info', ':::::::::: updateMPExpiration :::: SUCCEEDED');
 		return [
 			"success" => true,
 			"response" => json_decode($response)
@@ -336,7 +339,7 @@ class Mercadolibre_model extends CI_Model
 					$ticket2Update = $ticketQuery['tickets'][0];
 					log_message('info', 'Ticket ID               :' . $ticket2Update['idTicket']);
 					if ($ticket2Update['idStatusTicketKf']=="9"){
-						log_message('info', 'idStatusTicketKf		 :' . $ticket2Update['idStatusTicketKf']);
+						log_message('info', 'idStatusTicketKf    :' . $ticket2Update['idStatusTicketKf']);
 						$changeStatusRs = $this->Ticket_model->quickChangueStatus($idTicketKf,"11");
 						if ($changeStatusRs){
 							$ticketObj = null;
@@ -347,7 +350,7 @@ class Mercadolibre_model extends CI_Model
 						}
 						$this->Ticket_model->addTicketTimeline($ticketObj);
 					}else{
-						log_message('info', 'idStatusTicketKf		 :' . $ticket2Update['idStatusTicketKf']);
+						log_message('info', 'idStatusTicketKf    :' . $ticket2Update['idStatusTicketKf']);
 						$changeStatusRs = $this->Ticket_model->quickChangueStatus($idTicketKf,"8");
 						if ($changeStatusRs){
 							$ticketObj = null;
@@ -403,7 +406,6 @@ class Mercadolibre_model extends CI_Model
 
 	public function getNotificationFromMP($response)
 	{
-		log_message('info', ':::::::::::::::::getNotificationFromMP' );
 		//print_r($response);
 		log_message('info', 'response: '.$response );
 		//var_dump($response['api_version']);		 
@@ -506,6 +508,7 @@ class Mercadolibre_model extends CI_Model
         ]);
 
 		if ($this->db->affected_rows() === 1) {
+			log_message('info', ':::::::::::::::::addPayment  :::: SUCCEEDED');
 			$idPaymentKf = $this->db->insert_id();
 			if (! $data['paymentForDelivery']){
 				$this->db->set(
@@ -592,7 +595,6 @@ class Mercadolibre_model extends CI_Model
 	public function updatePayment($data) {
 		$idPaymentKf = null;
 		$lastPaymentUpdatedQuery = null;
-		log_message('info', ':::::::::::::::::updatedPayment');
 		log_message('info', 'payment_id              :' .$data['payment_id']);
 		$now        = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
         $this->db->set(
@@ -610,7 +612,7 @@ class Mercadolibre_model extends CI_Model
 		)->where("mp_external_reference", $data['external_reference'])->update("tb_mp_payments");
 		if ($this->db->affected_rows() == 1) {
 			//$lastPaymentUpdatedQuery = $this->paymentById($data['payment_id']);
-			log_message('info', 'payment_id              :' .$data['payment_id'].' :::: UPDATE SUCCEDED');
+			log_message('info', ':::::::::::::::::updatedPayment :::: SUCCEEDED');
 			return true;
 		}else{
 			return null;
