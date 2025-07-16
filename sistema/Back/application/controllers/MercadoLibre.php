@@ -263,23 +263,25 @@ class MercadoLibre extends REST_Controller
 	{
 		log_message('info', ':::::::::::::::::updateMPExpiration');
 		$headers = $this->input->request_headers();
-		foreach ([
-			'Host', 'User-Agent', 'Accept', 'Content-Type',
-			'X-Forwarded-For', 'X-Forwarded-Host',
-			'X-Forwarded-Server', 'Content-Length', 'Connection'
-		] as $key) {
-			log_message('info', "$key: " . ($headers[$key] ?? 'N/A'));
-		}
-
-		$body = file_get_contents('php://input');
-		log_message('info', 'Cuerpo de la notificación: ' . substr($body, 0, 1000));
+		log_message('info', 'Host                :' . ($headers['Host'] ?? 'N/A'));
+		log_message('info', 'User-Agent          :' . @$headers['User-Agent']);
+		log_message('info', 'Accept              :' . @$headers['Accept']);
+		log_message('info', 'Content-Typ         :' . @$headers['Content-Type']);
+		log_message('info', 'X-Forwarded-For     :' . @$headers['X-Forwarded-For']);
+		log_message('info', 'X-Forwarded-Host    :' . @$headers['X-Forwarded-Host']);
+		log_message('info', 'X-Forwarded-Server  :' . @$headers['X-Forwarded-Server']);
+		log_message('info', 'Content-Length      :' . @$headers['Content-Length']);
+		log_message('info', 'Connection          :' . @$headers['Connection']);		
 		$data = $this->put();
 		if (empty($data['preference_id'])) {
 			log_message('error', 'Falta preference_id');
 			$this->response(['error' => 'Falta preference_id'], 400);
 			return;
 		}
-		$rs = $this->Mercadolibre_model->updateMPExpiration($data);
+		$body = file_get_contents('php://input');
+		log_message('info', 'Cuerpo (parcial): ' . substr($body, 0, 500));
+
+		$rs = $this->Mercadolibre_model->updateMPExpiration($data['preference_id']);
 		if (!is_null($rs)){
 			$this->response(array('response' => $rs) , 200);
 		} else {
