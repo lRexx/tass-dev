@@ -233,7 +233,7 @@ class Mercadolibre_model extends CI_Model
 			CURLOPT_STDERR         => fopen('curl_mp.log', 'a+'),
 			CURLOPT_HTTPHEADER     => $headers
 		]);
-	
+		log_message('info', "cURL: " . $curl$err);
 		$response = curl_exec($curl);
 		$err      = curl_error($curl);
 		curl_close($curl);
