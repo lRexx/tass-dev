@@ -15,7 +15,7 @@ class System extends CI_Controller {
         $now = time();
 
         #echo "Limpieza de logs mayores a $days días...\n";
-        log_message('info', 'Limpieza de logs mayores a '. $days .'días');
+        log_message('info', 'Limpieza de logs mayores a '. $days .' días');
         foreach ($files as $file) {
             $full_path = $log_path . $file;
             if (is_file($full_path) && strpos($file, 'log-') === 0) {
