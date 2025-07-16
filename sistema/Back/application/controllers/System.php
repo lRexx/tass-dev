@@ -13,27 +13,30 @@ class System extends CI_Controller {
         $log_path = APPPATH . 'logs/';
         $files = scandir($log_path);
         $now = time();
+        $deleted_any = false;
 
-        #echo "Limpieza de logs mayores a $days días...\n";
-        log_message('info', 'Limpieza de logs mayores a '. $days .' días');
+        log_message('info', 'Limpieza de logs mayores a ' . $days . ' días');
+
         foreach ($files as $file) {
             $full_path = $log_path . $file;
+
             if (is_file($full_path) && strpos($file, 'log-') === 0) {
                 $file_time = filemtime($full_path);
                 if ($now - $file_time > ($days * 86400)) {
                     if (unlink($full_path)) {
-                        #echo "Eliminado: $file\n";
+                        log_message('info', "Archivo eliminado: $file");
+                        $deleted_any = true;
                     } else {
-                        log_message('error', 'ERROR al eliminar'.$file);
-                        #echo "ERROR al eliminar: $file\n";
+                        log_message('error', "ERROR al eliminar: $file");
                     }
-                }else{
-                    log_message('info', 'No hay archivos logs que requieran rotación.');
                 }
             }
         }
 
-        #echo "Limpieza finalizada.\n";
+        if (!$deleted_any) {
+            log_message('info', 'No hay archivos logs que requieran rotación.');
+        }
+
         log_message('info', ':::::::::::::::::LogsRotation ::: SUCCEEDED');
     }
 }
