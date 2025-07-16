@@ -258,10 +258,11 @@ class Mercadolibre_model extends CI_Model
 			]);
 		} else {
 			log_message('info', ':::::::::: updateMPExpiration :::: FAILED');
+			$decoded = json_decode($response, true, JSON_UNESCAPED_SLASHES);
 			return json_encode([
 				'status' => 'error',
 				'message' => 'No se pudo actualizar el link',
-				'response' => $response
+				'response' => $decoded
 			]);
 		}
 	}
