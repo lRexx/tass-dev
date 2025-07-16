@@ -27,6 +27,8 @@ class System extends CI_Controller {
                         log_message('error', 'ERROR al eliminar'.$file);
                         #echo "ERROR al eliminar: $file\n";
                     }
+                }else{
+                    log_message('info', 'No hay archivos logs que requieran rotación.');
                 }
             }
         }
