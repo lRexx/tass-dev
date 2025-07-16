@@ -139,7 +139,7 @@ class Mercadolibre_model extends CI_Model
 				] ,
 			]);
 			log_message('info',$curl);
-			//print_r($curl);
+			print_r($curl);
 			$response = curl_exec($curl);
 			$err      = curl_error($curl);
 			curl_close($curl);
