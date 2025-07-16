@@ -249,7 +249,7 @@ class Mercadolibre_model extends CI_Model
 		// Devolver resultado
 		if ($http_code >= 200 && $http_code < 300) {
 			log_message('info', "MP Response: " . $response);
-			$decoded = json_decode($response, true);
+			$decoded = json_decode($response, true, JSON_UNESCAPED_SLASHES);
 			log_message('info', ':::::::::: updateMPExpiration :::: SUCCEEDED');
 			return json_encode([
 				'status' => 'success',
