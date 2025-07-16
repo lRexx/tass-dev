@@ -203,7 +203,9 @@ class Mercadolibre_model extends CI_Model
 			#$expiration_date = date('Y-m-d') . 'T23:59:00.000-00:00';  // Or you can add days using strtotime
 			// Set expiration date to tomorrow at 23:59 UTC
 			#$expiration_date = date('Y-m-d', strtotime('+1 day')) . 'T23:59:00.000-00:00';
-			$expiration_date = date('Y-m-d\TH:i:s.000P', strtotime('+1 hour'));
+			//$expiration_date = date('Y-m-d\TH:i:s.000P', strtotime('+1 hour'));
+			// Fecha actual en formato ISO 8601 (UTC)
+			$expiration_date = gmdate("Y-m-d\TH:i:s.000\Z");
 		
 			$url = "https://api.mercadopago.com/checkout/preferences/" . $mp_preference_id;
 		
