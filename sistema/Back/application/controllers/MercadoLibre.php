@@ -272,14 +272,12 @@ class MercadoLibre extends REST_Controller
 		log_message('info', 'X-Forwarded-Server  :' . @$headers['X-Forwarded-Server']);
 		log_message('info', 'Content-Length      :' . @$headers['Content-Length']);
 		log_message('info', 'Connection          :' . @$headers['Connection']);		
-		$data = $this->put();
 		if (empty($preference_id)) {
 			log_message('error', 'Falta preference_id');
 			$this->response(['error' => 'Falta preference_id'], 400);
 			return;
 		}
-		$body = file_get_contents('php://input');
-		log_message('info', 'Cuerpo (parcial): ' . substr($body, 0, 500));
+		log_message('info', 'Cuerpo (parcial): ' . substr($preference_id, 0, 500));
 
 		$rs = $this->Mercadolibre_model->updateMPExpiration($preference_id);
 		if (!is_null($rs)){
