@@ -259,7 +259,7 @@ class MercadoLibre extends REST_Controller
 
 	}
 
-	public function updateMPExpiration_put()
+	public function updateMPExpiration_put($preference_id)
 	{
 		log_message('info', ':::::::::::::::::updateMPExpiration');
 		$headers = $this->input->request_headers();
@@ -273,7 +273,7 @@ class MercadoLibre extends REST_Controller
 		log_message('info', 'Content-Length      :' . @$headers['Content-Length']);
 		log_message('info', 'Connection          :' . @$headers['Connection']);		
 		$data = $this->put();
-		if (empty($data['preference_id'])) {
+		if (empty($preference_id)) {
 			log_message('error', 'Falta preference_id');
 			$this->response(['error' => 'Falta preference_id'], 400);
 			return;
@@ -281,7 +281,7 @@ class MercadoLibre extends REST_Controller
 		$body = file_get_contents('php://input');
 		log_message('info', 'Cuerpo (parcial): ' . substr($body, 0, 500));
 
-		$rs = $this->Mercadolibre_model->updateMPExpiration($data['preference_id']);
+		$rs = $this->Mercadolibre_model->updateMPExpiration($preference_id);
 		if (!is_null($rs)){
 			$this->response(array('response' => $rs) , 200);
 		} else {
