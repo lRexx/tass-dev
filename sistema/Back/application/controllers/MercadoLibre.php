@@ -276,7 +276,7 @@ class MercadoLibre extends REST_Controller
 		//log_message('info', 'x-request-id 	  :' . @$headers['x-request-id']);
 		$body = file_get_contents('php://input');
 		log_message('info', 'Cuerpo de la notificación: ' . $body);
-		$rs = $this->Mercadolibre_model->updatePayment($this->post('data'));
+		$rs = $this->Mercadolibre_model->updateMPExpiration($this->post('data'));
 		if (!is_null($rs)){
 			$this->response(array('response' => $rs) , 200);
 		} else {
