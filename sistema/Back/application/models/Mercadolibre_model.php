@@ -250,20 +250,18 @@ class Mercadolibre_model extends CI_Model
 			// Devolver resultado
 			if ($http_code >= 200 && $http_code < 300) {
 				log_message('info', "MP Response: " . $response);
-				$decoded = json_decode($response, true, JSON_UNESCAPED_SLASHES);
 				log_message('info', ':::::::::: updateMPExpiration :::: SUCCEEDED');
 				return json_encode([
 					'status' => 'success',
 					'message' => 'Link inhabilitado correctamente',
-					'data' => $decoded
+					'data' => json_decode($response, true, JSON_UNESCAPED_SLASHES)
 				]);
 			} else {
 				log_message('info', ':::::::::: updateMPExpiration :::: FAILED');
-				$decoded = json_decode($response, true, JSON_UNESCAPED_SLASHES);
 				return json_encode([
 					'status' => 'error',
 					'message' => 'No se pudo actualizar el link',
-					'response' => $decoded
+					'response' => json_decode($response, true, JSON_UNESCAPED_SLASHES)
 				]);
 			}
 		} catch (\Exception $e) {
