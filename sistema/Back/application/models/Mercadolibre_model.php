@@ -503,7 +503,7 @@ class Mercadolibre_model extends CI_Model
 
     public function addPayment($data) {
 		$idPaymentKf = null;
-		if (@$data['previousPayment']['mp_preference_id']){
+		if (!is_null(@$data['previousPayment'])){
 			log_message('info', ':::::::::::::::::disablePreviousMPLink');
 			$this->updateMPExpiration($data['previousPayment']['mp_preference_id']);
 		}
