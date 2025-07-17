@@ -3628,6 +3628,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 $scope.mp.payment.data.sandbox_init_point   = payment.sandbox_init_point;
                 $scope.mp.payment.data.operation_type       = payment.operation_type;
                 $scope.mp.payment.data.isManualPayment      = false;
+                $scope.mp.payment.data.previousPayment      = $scope.ticketRegistered.paymentDetails!=null?$scope.ticketRegistered.paymentDetails:null;
                 console.log($scope.mp.payment.data);
                 $scope.mp.payment.data.paymentForDelivery   = $scope.update.ticket.createNewMPLinkForDelivery?$scope.update.ticket.createNewMPLinkForDelivery:false;
                 $scope.addPaymentDetailsFn                  = null;
