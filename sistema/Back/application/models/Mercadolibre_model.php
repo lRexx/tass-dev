@@ -505,7 +505,7 @@ class Mercadolibre_model extends CI_Model
 		$idPaymentKf = null;
 		if (@$data['mp_preference_id']){
 			log_message('info', ':::::::::::::::::disablePreviousMPLink');
-			$this->db->deleupdateMPExpirationte($data['mp_preference_id']);
+			$this->updateMPExpiration($data['mp_preference_id']);
 		}
 		if (@$data['idPayment']){
 			log_message('info', ':::::::::::::::::deleteOldPayment');
