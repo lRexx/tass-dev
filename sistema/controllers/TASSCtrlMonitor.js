@@ -3513,8 +3513,10 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 $scope.mp.link.new.data.quantity                = obj.keys.length;
                 if (obj.createNewMPLinkForDelivery){
                   $scope.mp.link.new.data.idPayment             = obj.idPaymentDeliveryKf; 
+                  $scope.mp.link.new.data.mp_preference_id      = obj.paymentDetails.mp_preference_id;
                 }else if(!obj.createNewMPLinkForDelivery && (obj.idPaymentKf!=null || obj.idPaymentKf!=undefined)){
                   $scope.mp.link.new.data.idPayment             = obj.idPaymentKf
+                  $scope.mp.link.new.data.mp_preference_id      = obj.paymentDetails.mp_preference_id;
                 }else{
                   $scope.mp.link.new.data.idPayment             = null;
                 }
@@ -3628,7 +3630,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 $scope.mp.payment.data.sandbox_init_point   = payment.sandbox_init_point;
                 $scope.mp.payment.data.operation_type       = payment.operation_type;
                 $scope.mp.payment.data.isManualPayment      = false;
-                $scope.mp.payment.data.previousPayment      = $scope.ticketRegistered.paymentDetails!=null?$scope.ticketRegistered.paymentDetails:null;
+                $scope.mp.payment.data.mp_preference_id     = $scope.mp.link.new.data.mp_preference_id!=null?$scope.mp.link.new.data.mp_preference_id:null;
                 console.log($scope.mp.payment.data);
                 $scope.mp.payment.data.paymentForDelivery   = $scope.update.ticket.createNewMPLinkForDelivery?$scope.update.ticket.createNewMPLinkForDelivery:false;
                 $scope.addPaymentDetailsFn                  = null;
