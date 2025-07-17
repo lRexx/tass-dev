@@ -3511,6 +3511,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 $scope.mp.link.new.data.back_url                = "";
                 $scope.mp.link.new.data.description             = obj.typeticket.TypeTicketName;
                 $scope.mp.link.new.data.quantity                = obj.keys.length;
+                console.log(obj.paymentDetails);
                 if (obj.createNewMPLinkForDelivery){
                   $scope.mp.link.new.data.idPayment             = obj.idPaymentDeliveryKf; 
                   $scope.mp.link.new.data.mp_preference_id      = obj.paymentDetails.mp_preference_id;
