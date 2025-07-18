@@ -171,7 +171,6 @@ class Mercadolibre_model extends CI_Model
 					$ticketObj['history']['idTicketKf']  		= $data->idTicket;
 					$ticketObj['history']['descripcion'] 		= "Link de MP inhabilitado por generación uno nuevo";
 					$ticketObj['history']['idCambiosTicketKf'] 	= "35";
-					//print_r($ticketObj);
 					$this->Ticket_model->addTicketTimeline($ticketObj);
 					/*************************************************************************/
 					$ticketObj = null;
@@ -179,7 +178,6 @@ class Mercadolibre_model extends CI_Model
 					$ticketObj['history']['idTicketKf']  		= $data->idTicket;
 					$ticketObj['history']['descripcion'] 		= "Nuevo link generado para pago de pedido.";
 					$ticketObj['history']['idCambiosTicketKf'] 	= "32";
-					//print_r($ticketObj);
 					$this->Ticket_model->addTicketTimeline($ticketObj);
 				}else if (!is_null($createdBy) && $paymentFor==3){
 					$ticketObj = null;
@@ -187,7 +185,6 @@ class Mercadolibre_model extends CI_Model
 					$ticketObj['history']['idTicketKf']  		= $data->idTicket;
 					$ticketObj['history']['descripcion'] 		= "Nuevo link generado para pago envio.";
 					$ticketObj['history']['idCambiosTicketKf'] 	= "33";
-					//print_r($ticketObj);
 					$this->Ticket_model->addTicketTimeline($ticketObj);
 				}else if (!is_null($newTicket) && $paymentFor==1){
 					$ticketObj = null;
@@ -195,7 +192,6 @@ class Mercadolibre_model extends CI_Model
 					$ticketObj['history']['idTicketKf']  		= $data->idTicket;
 					$ticketObj['history']['descripcion'] 		= "link generado para pago de pedido.";
 					$ticketObj['history']['idCambiosTicketKf'] 	= "34";
-					//print_r($ticketObj);
 					$this->Ticket_model->addTicketTimeline($ticketObj);
 				}
 					$ticketObj = null;
@@ -203,7 +199,6 @@ class Mercadolibre_model extends CI_Model
 					$ticketObj['history']['idTicketKf']  		= $data->idTicket;
 					$ticketObj['history']['descripcion'] 		= "";
 					$ticketObj['history']['idCambiosTicketKf'] 	= $paymentFor==1?"5":"18";
-					//print_r($ticketObj);
 					$this->Ticket_model->addTicketTimeline($ticketObj);
 				log_message('info', ':::::::::::::::::createMPLink :::: SUCCEEDED');
 				return json_encode([
@@ -217,7 +212,6 @@ class Mercadolibre_model extends CI_Model
 				$ticketObj['history']['idTicketKf']  		= $data->idTicket;
 				$ticketObj['history']['descripcion'] 		= "";
 				$ticketObj['history']['idCambiosTicketKf'] 	= "25";
-				//print_r($ticketObj);
 				$this->Ticket_model->addTicketTimeline($ticketObj);
 				
 				log_message('error', 'Ocurrio un error con la Api de MercadoLibre');
@@ -392,14 +386,12 @@ class Mercadolibre_model extends CI_Model
 					log_message('info', 'external_reference      :' . $dataObj['data']['external_reference']);
 					
 					$rsPaymentUpdated = $this->updatePayment($dataObj['data']);
-					$ticketObj = null;
 					$changeStatusRs=null;
 					$ticketObj = null;
 					$ticketObj['history']['idUserKf'] 			= "1";
 					$ticketObj['history']['idTicketKf']  		= $idTicketKf;
 					$ticketObj['history']['descripcion'] 		= "Link de MP inhabilitado, el pago se ha realizado con exito.";
 					$ticketObj['history']['idCambiosTicketKf'] 	= "36";
-					//print_r($ticketObj);
 					$this->Ticket_model->addTicketTimeline($ticketObj);
 					$ticketObj = null;
 					$ticketObj['history']['idUserKf'] 	 		= "1";
