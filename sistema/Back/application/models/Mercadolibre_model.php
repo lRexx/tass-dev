@@ -101,7 +101,11 @@ class Mercadolibre_model extends CI_Model
 		}else{
 			$createdBy = null;
 		}
-		
+		if (isset($data->metadata->newTicket)){
+			$newTicket = $data->metadata->newTicket;
+		}else{
+			$newTicket = null;
+		}
 		$MP_TOKEN=BSS_MP_TOKEN;
 		log_message('info', 'Ticket : '.$data->idTicket);
 		try {
@@ -161,12 +165,28 @@ class Mercadolibre_model extends CI_Model
 				]);
 				
 			} else if ($response!=null){
-				if (!is_null($createdBy)){
+				if (!is_null($createdBy) && $paymentFor==1){
 					$ticketObj = null;
 					$ticketObj['history']['idUserKf'] 			= $createdBy;
 					$ticketObj['history']['idTicketKf']  		= $data->idTicket;
-					$ticketObj['history']['descripcion'] 		= "Nuevo link de Pago ha sido generado.";
+					$ticketObj['history']['descripcion'] 		= "Nuevo link generado para pago de pedido.";
 					$ticketObj['history']['idCambiosTicketKf'] 	= "32";
+					//print_r($ticketObj);
+					$this->Ticket_model->addTicketTimeline($ticketObj);
+				}else if (!is_null($createdBy) && $paymentFor==3){
+					$ticketObj = null;
+					$ticketObj['history']['idUserKf'] 			= $createdBy;
+					$ticketObj['history']['idTicketKf']  		= $data->idTicket;
+					$ticketObj['history']['descripcion'] 		= "Nuevo link generado para pago envio.";
+					$ticketObj['history']['idCambiosTicketKf'] 	= "33";
+					//print_r($ticketObj);
+					$this->Ticket_model->addTicketTimeline($ticketObj);
+				}else if (!is_null($newTicket) && $paymentFor==1){
+					$ticketObj = null;
+					$ticketObj['history']['idUserKf'] 			= "1";
+					$ticketObj['history']['idTicketKf']  		= $data->idTicket;
+					$ticketObj['history']['descripcion'] 		= "link generado para pago de pedido.";
+					$ticketObj['history']['idCambiosTicketKf'] 	= "34";
 					//print_r($ticketObj);
 					$this->Ticket_model->addTicketTimeline($ticketObj);
 				}
