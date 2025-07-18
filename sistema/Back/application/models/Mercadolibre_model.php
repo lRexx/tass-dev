@@ -372,6 +372,8 @@ class Mercadolibre_model extends CI_Model
 					$dataObj['data']['processing_mode'] 	 = $response_decode->processing_mode;
 					$dataObj['data']['merchant_account_id']  = $response_decode->merchant_account_id;
 					$dataObj['data']['external_reference']   = $response_decode->external_reference;
+					$dataObj['data']['mp_preference_id']   	 = $lastPaymentAddedQuery_decode->mp_preference_id;
+					$dataObj['data']['idTicketKf']   	 	 = $lastPaymentAddedQuery_decode->idTicketKf;
 					$idTicketKf = $lastPaymentAddedQuery_decode->idTicketKf;
 					log_message('info', ':::::::::::::::::PAYMENT DETAILS' );
 					log_message('info', 'url                     :' . $uri);
@@ -384,15 +386,10 @@ class Mercadolibre_model extends CI_Model
 					log_message('info', 'processing_mode         :' . $dataObj['data']['processing_mode']);
 					log_message('info', 'merchant_account_id     :' . $dataObj['data']['merchant_account_id']);
 					log_message('info', 'external_reference      :' . $dataObj['data']['external_reference']);
-					
+					log_message('info', 'mp_preference_id        :' . $dataObj['data']['mp_preference_id']);
+					log_message('info', 'idTicketKf      		 :' . $dataObj['data']['idTicketKf']);
 					$rsPaymentUpdated = $this->updatePayment($dataObj['data']);
 					$changeStatusRs=null;
-					$ticketObj = null;
-					$ticketObj['history']['idUserKf'] 			= "1";
-					$ticketObj['history']['idTicketKf']  		= $idTicketKf;
-					$ticketObj['history']['descripcion'] 		= "Link de MP inhabilitado, el pago se ha realizado con exito.";
-					$ticketObj['history']['idCambiosTicketKf'] 	= "36";
-					$this->Ticket_model->addTicketTimeline($ticketObj);
 					$ticketObj = null;
 					$ticketObj['history']['idUserKf'] 	 		= "1";
 					$ticketObj['history']['idTicketKf']  		= $idTicketKf;
@@ -665,6 +662,18 @@ class Mercadolibre_model extends CI_Model
 
 	public function updatePayment($data) {
 		$idPaymentKf = null;
+		if (!is_null(@$data['mp_preference_id'])){
+			log_message('info', ':::::::::::::::::disablePaidMPLink');
+			log_message('info', 'Paid Preference ID: '.$data['mp_preference_id']);
+			$ticketObj = null;
+			$ticketObj['history']['idUserKf'] 			= "1";
+			$ticketObj['history']['idTicketKf']  		= $data['idTicketKf'];
+			$ticketObj['history']['descripcion'] 		= "Link de MP inhabilitado, el pago se ha realizado con exito.";
+			$ticketObj['history']['idCambiosTicketKf'] 	= "36";
+			$this->Ticket_model->addTicketTimeline($ticketObj);
+			$updateMPExpirationRs = null;
+			$updateMPExpirationRs = $this->updateMPExpiration($data['mp_preference_id']);
+		}
 		$lastPaymentUpdatedQuery = null;
 		log_message('info', 'payment_id              :' .$data['payment_id']);
 		$now        = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
