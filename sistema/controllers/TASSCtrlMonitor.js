@@ -3515,9 +3515,10 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 if (obj.createNewMPLinkForDelivery){
                   $scope.mp.link.new.data.idPayment             = obj.idPaymentDeliveryKf; 
                   $scope.mp.link.new.data.mp_preference_id      = obj.paymentDetails.mp_preference_id;
-                }else if(!obj.createNewMPLinkForDelivery && (obj.idPaymentKf!=null || obj.idPaymentKf!=undefined)){
+                }else if(!obj.createNewMPLinkForDelivery && (obj.idPaymentKf!=null && obj.idPaymentKf!=undefined)){
                   $scope.mp.link.new.data.idPayment             = obj.idPaymentKf
                   $scope.mp.link.new.data.mp_preference_id      = obj.paymentDetails.mp_preference_id;
+                  $scope.mp.link.new.data.metadata.createdBy    = $scope.sysLoggedUser.idUser;
                 }else{
                   $scope.mp.link.new.data.idPayment             = null;
                 }

@@ -96,6 +96,12 @@ class Mercadolibre_model extends CI_Model
 		$data               = json_decode(json_encode($data));
 		$external_reference = $data->idTicket."_".(rand() * 8) . "_" . (time() * 4);
 		$paymentFor = $data->metadata->paymentFor;
+		if (isset($data->metadata->createdBy)){
+			$createdBy = $data->metadata->createdBy;
+		}else{
+			$createdBy = null;
+		}
+		
 		$MP_TOKEN=BSS_MP_TOKEN;
 		log_message('info', 'Ticket : '.$data->idTicket);
 		try {
@@ -155,6 +161,15 @@ class Mercadolibre_model extends CI_Model
 				]);
 				
 			} else if ($response!=null){
+				if (!is_null($createdBy)){
+					$ticketObj = null;
+					$ticketObj['history']['idUserKf'] 			= $createdBy;
+					$ticketObj['history']['idTicketKf']  		= $data->idTicket;
+					$ticketObj['history']['descripcion'] 		= "Nuevo link de Pago ha sido generado.";
+					$ticketObj['history']['idCambiosTicketKf'] 	= "32";
+					//print_r($ticketObj);
+					$this->Ticket_model->addTicketTimeline($ticketObj);
+				}
 					$ticketObj = null;
 					$ticketObj['history']['idUserKf'] 			= "1";
 					$ticketObj['history']['idTicketKf']  		= $data->idTicket;
