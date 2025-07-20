@@ -1978,6 +1978,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 
 
             }
+            $scope.excludeIdReasons = function(reason) {
+                return reason.idReasonDisabledItem !== "4" && reason.idReasonDisabledItem !== "5";
+            };
         /**************************************************
         *                                                 *
         *            TICKETS MENU FUNCTION                *
