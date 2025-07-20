@@ -327,7 +327,7 @@
 											</tr>
 										</thead>
 										<tbody style="overflow: auto;">
-											<tr  style="align-content: center; cursor: pointer;" data-ng-repeat="key in keyList">
+											<tr  style="align-content: center; cursor: pointer;" data-ng-repeat="key in keyList | filter: selectedCategoryKeychain">
 												<td style="vertical-align: middle;text-align: center;"><span class="font-size-16px">{{$index+1}}</span></td>
 												<td>{{key.descriptionProduct}}</td>
 												<td class="font-size-16px" style="vertical-align: middle;text-align: center;">{{key.codigo}}</td>
