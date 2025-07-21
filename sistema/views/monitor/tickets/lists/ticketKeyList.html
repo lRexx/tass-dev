@@ -27,8 +27,8 @@
                             <td ng-click="mainSwitchFn('keyList_doors', key.doors, null)" style="vertical-align: middle;text-align: center;"><span class="font-size-18px">{{$index+1}}</span></td>
                             <td ng-click="mainSwitchFn('keyList_doors', key.doors, null)">{{key.descriptionProduct}} <span class="badge badge-warning">{{key.brand}}</span></td>
                             <td ng-if="tkupdate.idTypeTicketKf=='1'" ng-click="mainSwitchFn('keyList_doors', key.doors, null)" style="vertical-align: middle;text-align: right;">$ {{key.priceFabric | number : 2}}</td>
-                            <td ng-if="tkupdate.idTypeTicketKf=='2'" style="vertical-align: middle;text-align: center;">{{key.codigo}}</td>
-                            <td ng-if="tkupdate.idTypeTicketKf=='2'" style="vertical-align: middle;text-align: center;">{{key.codExt}}</td>
+                            <td ng-if="tkupdate.idTypeTicketKf=='2'" style="vertical-align: middle;text-align: center;">{{key.keychain.codigo}}</td>
+                            <td ng-if="tkupdate.idTypeTicketKf=='2'" style="vertical-align: middle;text-align: center;">{{key.keychain.codExt}}</td>
                             <td ng-if="(tkupdate.idTypeTicketKf=='2' || tkupdate.idTypeTicketKf=='1' && tkupdate.idTypeRequestFor=='6' && ticketKeyList[0].idUserKf!=null)" style="vertical-align: middle;text-align: center;">{{key.user.fullNameUser}}</td>
                             <td ng-click="mainSwitchFn('keyList_doors', key.doors, null)" ng-if="tkupdate.idTypeRequestFor!='1'" style="vertical-align: middle;text-align: center;">
                                 <span class="label label-default">{{key.categoryName}}</span>
