@@ -136,7 +136,26 @@ class Llavero extends REST_Controller
 			}
 		}
 	}
+	public function delete_delete()
+	{
+		$llavero = $this->delete('llavero');
 
+		if (!$llavero) {
+			return $this->response(['error' => 'Parámetro llavero requerido'], 400);
+		}
+
+		$result = $this->llavero_model->delete($llavero);
+
+		if ($result === 1) {
+			return $this->response(['response' => 'Eliminación exitosa'], 200);
+		} elseif ($result === 0) {
+			return $this->response(['error' => 'ERROR INESPERADO'], 500);
+		} elseif ($result === 3) {
+			return $this->response(['error' => 'El elemento no existe'], 404);
+		} else {
+			return $this->response(['error' => 'Resultado desconocido'], 500);
+		}
+	}
 	public function index_get()
 	{
 

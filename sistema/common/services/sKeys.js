@@ -34,6 +34,16 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
                   return response;
                 })  
           },
+          deleteKey: function(data) {
+            console.log("[Key Services] => delete: ", data.llavero);
+            return $http.delete(serverHost + serverBackend + "Llavero/delete/" + encodeURIComponent(data.llavero), serverHeaders)
+              .then(function onSuccess(response) {
+                return response;
+              }).catch(function onError(response) {
+                console.log(response); 
+                return response;
+              });
+          },
           addProcessEvent: function(data) {
             rsKey.processEvent=data.llavero;
             //console.log("[Key Services] => add: ");
