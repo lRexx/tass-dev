@@ -289,9 +289,9 @@ class Llavero_model extends CI_Model
 			return 3;
 		}
 	}
-	public function delete($item)
+	public function delete($idKeychain)
 	{
-		$this->db->delete('tb_keychain' , ['idKeychain' => $item['idKeychain']]);
+		$this->db->delete('tb_keychain' , ['idKeychain' => $idKeychain]);
 	}
 //ya no se usa
 	public function addVarios($file)
