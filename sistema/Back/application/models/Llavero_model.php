@@ -291,7 +291,16 @@ class Llavero_model extends CI_Model
 	}
 	public function delete($idKeychain)
 	{
-		$this->db->delete('tb_keychain' , ['idKeychain' => $idKeychain]);
+		// Ejecutar el delete
+		$this->db->where('idKeychain', $idKeychain);
+		$this->db->delete('tb_keychain');
+
+		// Verificar si alguna fila fue afectada
+		if ($this->db->affected_rows() > 0) {
+			return 1; // Eliminación exitosa
+		} else {
+			return 3; // No existía el registro
+		}
 	}
 //ya no se usa
 	public function addVarios($file)
