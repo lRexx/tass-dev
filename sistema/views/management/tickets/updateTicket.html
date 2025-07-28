@@ -92,7 +92,7 @@
                                 </div>
                                 <div class="col-md-2 n-padding-r" style="width: 12% !important">
                                   <label class="switch switch-2x" for="isKeysEnable-set">
-                                      <input type="checkbox" class="warning" ng-click="modalConfirmation('isKeysEnable', 0, functions)" ng-model="functions.isKeysEnable" id="isKeysEnable-set">
+                                      <input type="checkbox" class="warning" ng-click="modalConfirmation('isKeysEnable', 0, functions)" ng-model="functions.isKeysEnable" ng-disabled="rsNewKeychainList.length!=tkupdate.keys.length" id="isKeysEnable-set">
                                       <span class="slider slider-2x flat"></span>
                                   </label>
                                 </div>
