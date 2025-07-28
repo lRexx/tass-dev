@@ -136,15 +136,13 @@ class Llavero extends REST_Controller
 			}
 		}
 	}
-	public function delete_delete()
+	public function delete_delete($idKeychain)
 	{
-		$llavero = $this->delete('llavero');
-
-		if (!$llavero) {
+		if (!$idKeychain) {
 			return $this->response(['error' => 'Parámetro llavero requerido'], 400);
 		}
 
-		$result = $this->llavero_model->delete($llavero);
+		$result = $this->llavero_model->delete($idKeychain);
 
 		if ($result === 1) {
 			return $this->response(['response' => 'Eliminación exitosa'], 200);
