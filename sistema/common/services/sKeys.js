@@ -36,7 +36,7 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
           },
           deleteKey: function(data) {
             console.log("[Key Services] => delete: ", data.llavero.idKeychain);
-            return $http.delete(serverHost + serverBackend + "Llavero/delete/" + encodeURIComponent(data.llavero.idKeychain), serverHeaders)
+            return $http.delete(serverHost + serverBackend + "Llavero/delete/"+data.llavero.idKeychain, serverHeaders)
               .then(function onSuccess(response) {
                 return response;
               }).catch(function onError(response) {
