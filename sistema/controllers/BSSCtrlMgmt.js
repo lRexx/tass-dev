@@ -1029,7 +1029,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 console.log($scope.rsNewKeychainList);
                 console.log("list_new_keys");
                 console.log($scope.list_new_keys);
-              }, 500);
+              }, 1000);
             }else if (response.status==404){
                 $scope.rsData = {};
                 $scope.tkupdate = {};
