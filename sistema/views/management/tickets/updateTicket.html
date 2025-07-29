@@ -41,15 +41,15 @@
                               <div class="col-md-12"><span>Realizado por: {{tkupdate.userMadeBy.fullNameUser}}</span> <span data-toggle="tooltip" data-placement="top"  title="Perfil" style="font-size: 85%;" class="badge badge-warning">{{tkupdate.userMadeBy.nameProfile}}</span></div>
                               <div class="col-md-12"><span>Solicitado por: {{tkupdate.userRequestBy.fullNameUser}}</span> <span data-toggle="tooltip" data-placement="top"  title="Perfil" style="font-size: 85%;" class="badge badge-warning">{{tkupdate.userRequestBy.nameProfile}}</span></div>
                               <div class="col-md-12">
-                                  <span>Estado: 
-                                  <span ng-if="tkupdate.isCancelRequested=='1' || tkupdate.isCancelRequested!='1'" class="label" ng-class="{  
-                                    'label-default': 
+                                  <span>Estado:
+                                  <span ng-if="tkupdate.isCancelRequested=='1' || tkupdate.isCancelRequested!='1'" class="label" ng-class="{
+                                    'label-default':
                                     tkupdate.idStatusTicketKf=='8',
-                                    'label-success':  
+                                    'label-success':
                                     tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='5',
-                                    'label-warning':  
+                                    'label-warning':
                                     tkupdate.idStatusTicketKf=='3' || tkupdate.idStatusTicketKf=='4' || tkupdate.idStatusTicketKf=='10' || tkupdate.idStatusTicketKf=='2' || tkupdate.idStatusTicketKf=='7' || tkupdate.idStatusTicketKf=='9' || tkupdate.idStatusTicketKf=='11' || tkupdate.idStatusTicketKf=='12',
-                                    'label-danger':  
+                                    'label-danger':
                                     tkupdate.idStatusTicketKf=='6',
                                   }">{{tkupdate.statusTicket.statusName}}</span>
                                   </span>
@@ -143,14 +143,14 @@
                                 <ul class="file-list file-list-5">
                                   <li ng-repeat="file in tkupdate.billingReceiptDetails">
                                     <a data-toggle="tooltip" data-placement="top" title="{{file.title | limitTo: 20 }}{{file.title.length > 20 ? '...' : ''}}" ng-if="file.typeFile.substr(0,5)=='image'" class="thumbnail" ng-click="openLightboxModal(customer.files.files_uploaded, $index)">
-                                      <img ng-src="{{file.urlFile}}" />               
+                                      <img ng-src="{{file.urlFile}}" />
                                     </a>
                                     <!--<a data-toggle="tooltip" data-placement="top" title="{{file.title | limitTo: 20 }}{{file.title.length > 20 ? '...' : ''}}" ng-if="file.typeFile=='application/pdf'" ng-click="openPDFViewerModal(file.urlFile)" class="thumbnail">
                                       <img src="images/pdf-thumb.png" ng-if="file.typeFile=='application/pdf'"/>
                                     </a>-->
                                     <a data-toggle="tooltip" data-placement="top" title="{{file.title | limitTo: 20 }}{{file.title.length > 20 ? '...' : ''}}" ng-if="file.typeFile.substr(0,5)!='image' && file.typeFile!='application/pdf'" class="thumbnail">
                                       <img src="images/doc-thumb.png" ng-if="file.typeFile=='application/vnd.openxmlformats-officedocument.wordprocessingml.document' || file.typeFile=='application/msword'"/>
-                                      <img src="images/excel-thumb.png" ng-if="file.typeFile=='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.typeFile=='application/vnd.ms-excel'"/>                 
+                                      <img src="images/excel-thumb.png" ng-if="file.typeFile=='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.typeFile=='application/vnd.ms-excel'"/>
                                     </a>
                                     <div class="caption">
                                       <span class="label label-default">{{file.title | limitTo: 20 }}{{file.title.length > 20 ? '...' : ''}}</span><br/><br/>
@@ -166,12 +166,12 @@
                                       <button ng-if="sysLoggedUser.idProfileKf=='1' && tkupdate.billingReceiptDetails!=null && tkupdate.isBillingUploaded!=null && tkupdate.isBillingUploaded=='1'" type="button" data-toggle="tooltip" data-placement="bottom" title="Eliminar archivo" class="btn btn-danger btn-xs" ng-click="modalConfirmation('deleteSingleFile', 0, tkupdate.billingReceiptDetails[0])" >
                                           <i class="fas fa-trash-alt"></i>
                                       </button>
-                                    </div>                  
+                                    </div>
                                   </li>
-                                </ul>            
+                                </ul>
                             </div>
                         </div>
-                        <div class="col-md-12 col-sm-12 col-xs-12"> 
+                        <div class="col-md-12 col-sm-12 col-xs-12">
                             <!-- KEYS -->
                               <div ng-click="mainSwitchFn('mgmtPrecheck', tkupdate.keys, null)" style="margin-bottom: 1em;"
                               ng-class="{'col-md-3 col-xs-6':!tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1, 'col-md-2 col-xs-6':tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1}">
@@ -179,10 +179,10 @@
                                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                         <i class="fas fa-key"></i>
                                     </div>
-                                    <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
-                                                    'sticky-success': 
+                                    <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
+                                                    'sticky-success':
                                                     rsNewKeychainList.length==tkupdate.keys.length,
-                                                    'sticky-warning':  
+                                                    'sticky-warning':
                                                     rsNewKeychainList.length<tkupdate.keys.length,
                                                   }">
                                       <span ng-if="rsNewKeychainList.length==tkupdate.keys.length">
@@ -190,24 +190,24 @@
                                       </span>
                                       <span ng-if="rsNewKeychainList.length<tkupdate.keys.length" data-toggle="tooltip" data-placement="top" title="Llaveros pendiente por gestion.">
                                         <i class="fas fa-exclamation-triangle"></i>
-                                      </span>                    
+                                      </span>
                                     </div>
                                     <div class="col-md-12 card-title">
                                       <h4 class="text-uppercase right">Llaveros</h4>
                                     </div>
                                   </div>
-                              </div>          
+                              </div>
                             <!-- USER -->
                               <div ng-show="tkupdate.idTypeRequestFor=='1'" ng-click="mainSwitchFn('ticket_user', tkupdate, null)" style="margin-bottom: 1em;"
                               ng-class="{'col-md-3 col-xs-6':!tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1, 'col-md-2 col-xs-6':tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1}">
                                   <div class="card-customer">
                                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
-                                        <i class="fas fas fa-user"></i> 
+                                        <i class="fas fas fa-user"></i>
                                     </div>
-                                    <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
-                                                    'sticky-success': 
+                                    <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
+                                                    'sticky-success':
                                                     tkupdate.userRequestBy!=null && tkupdate.userMadeBy!=null,
-                                                    'sticky-warning':  
+                                                    'sticky-warning':
                                                     tkupdate.userRequestBy==null,
                                                   }">
                                       <span ng-if="tkupdate.userRequestBy!=null && tkupdate.userMadeBy!=null">
@@ -229,10 +229,10 @@
                                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                         <i class="fas fa-truck"></i>
                                     </div>
-                                    <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
-                                                    'sticky-success': 
+                                    <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
+                                                    'sticky-success':
                                                     tkupdate.userDelivery!=null || tkupdate.deliveryAddress!=null || tkupdate.otherDeliveryAddress!=null || tkupdate.thirdPersonDelivery!=null,
-                                                    'sticky-warning': 
+                                                    'sticky-warning':
                                                     tkupdate.userDelivery==null && tkupdate.deliveryAddress==null && tkupdate.otherDeliveryAddress==null && tkupdate.thirdPersonDelivery==null,
                                                   }">
                                       <span ng-if="tkupdate.userDelivery!=null || tkupdate.deliveryAddress!=null || tkupdate.otherDeliveryAddress!=null || tkupdate.thirdPersonDelivery!=null">
@@ -240,7 +240,7 @@
                                       </span>
                                       <span ng-if="tkupdate.userDelivery==null && tkupdate.deliveryAddress==null && tkupdate.otherDeliveryAddress==null && tkupdate.thirdPersonDelivery==null" data-toggle="tooltip" data-placement="top" title="Faltan datos de envío.">
                                         <i class="fas fa-exclamation-triangle"></i>
-                                      </span>                                    
+                                      </span>
                                     </div>
                                     <div class="col-md-12 card-title">
                                       <h4 class="text-uppercase right">Envío</h4>
@@ -254,8 +254,8 @@
                                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                         <i class="fas fa-receipt"></i>
                                     </div>
-                                    <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
-                                                    'sticky-success': 
+                                    <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
+                                                    'sticky-success':
                                                     ((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.paymentDetails.mp_payment_id!='' && tkupdate.paymentDetails.mp_payment_id!=undefined && tkupdate.paymentDetails.mp_payment_id!=null && tkupdate.idStatusTicketKf!='2') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2')),
                                                     'sticky-warning':
                                                     ((tkupdate.idTypePaymentKf=='2' && (tkupdate.paymentDetails==null || (tkupdate.paymentDetails.mp_payment_id=='' || tkupdate.paymentDetails.mp_payment_id==null)) && tkupdate.idStatusTicketKf=='2') ||
@@ -266,10 +266,10 @@
                                       </span>
                                       <span ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails==null && tkupdate.idStatusTicketKf=='2'" data-toggle="tooltip" data-placement="top" title="Pago pendiente por autorización del pedido">
                                         <i class="fas fa-exclamation-triangle"></i>
-                                      </span>  
+                                      </span>
                                       <span ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && (tkupdate.paymentDetails.mp_payment_id=='' || tkupdate.paymentDetails.mp_payment_id==undefined || tkupdate.paymentDetails.mp_payment_id==null) && tkupdate.idStatusTicketKf=='3'" data-toggle="tooltip" data-placement="top" title="Pago pendiente">
                                         <i class="fas fa-exclamation-triangle"></i>
-                                      </span>                                       
+                                      </span>
                                     </div>
                                     <div class="col-md-12 card-title">
                                       <h4 class="text-uppercase right">Pago</h4>
@@ -282,10 +282,10 @@
                                 <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                     <i class="fas fa-hand-holding-usd"></i>
                                 </div>
-                                <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
-                                                'sticky-success': 
+                                <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
+                                                'sticky-success':
                                                 (tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2' && (tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1)),
-                                                'sticky-warning':  
+                                                'sticky-warning':
                                                 tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails==null && tkupdate.idStatusTicketKf=='2',
                                               }">
                                   <span ng-if="((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2'))">
@@ -293,7 +293,7 @@
                                   </span>
                                   <span ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails==null && !tkupdate.isHasRefundsOpen" data-toggle="tooltip" data-placement="top" title="">
                                     <i class="fas fa-exclamation-triangle"></i>
-                                  </span>                                       
+                                  </span>
                                 </div>
                                 <div class="col-md-12 card-title">
                                   <h4 class="text-uppercase right">Reintegro</h4>
@@ -365,7 +365,7 @@
                                                     <span class="label label-default">{{ticket.idClientDepartament.Depto}}</span>
                                                 </span>
                                             </td>-->
-                                        <!--<td ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" style="vertical-align: middle;text-align: center;"> 
+                                        <!--<td ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" style="vertical-align: middle;text-align: center;">
                                                 <span ng-if="user!=undefined && user!=null" data-toggle="tooltip" data-placement="right" title="Asignado" class="font-size-18px" style="color: #5cb85c">
                                                     <i class="text-success fas fa-check-circle"></i>
                                                 </span>
@@ -389,7 +389,7 @@
                                 </div>-->
                               </div>
                           </div>
-                          <!--<div ng-if="rsNewKeychainList.length>0 && rsNewKeychainList.length==tkupdate.keys.length" class="col-md-6 n-padding-l">                       
+                          <!--<div ng-if="rsNewKeychainList.length>0 && rsNewKeychainList.length==tkupdate.keys.length" class="col-md-6 n-padding-l">
                             <div class="panel panel-warning" style="margin-bottom: 0px !important;">
                               <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyNewKeys" ng-click="togglePanel('panelBodyNewKeys')" style="cursor: pointer;">
                                   <h3 class="panel-title">
@@ -402,7 +402,7 @@
                               </div>
                             </div>
                           </div>-->
-                          <div ng-if="rsExistingKeyList.length>0 && rsNewKeychainList.length==tkupdate.keys.length" class="col-md-12 n-padding-r">                       
+                          <div ng-if="rsExistingKeyList.length>0 && rsNewKeychainList.length==tkupdate.keys.length" class="col-md-12 n-padding-r">
                             <div class="panel panel-success">
                                 <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyExistingKeys" ng-click="togglePanel('panelBodyExistingKeys')" style="cursor: pointer;">
                                     <h3 class="panel-title">
@@ -420,11 +420,11 @@
                 </form>
                 <!-- TIMELINE TICKET HISTORY -->
                 <div class="col-xs-12 col-sm-12"><div ng-include="'views/monitor/tickets/timeline_history.html'"></div></div>
-                <div class="clearfix"> </div> 
+                <div class="clearfix"> </div>
             </div>
             <!-- Actions Button -->
             <div class="modal-footer">
-                <div class="row">
+              <div class="modal-footer-flex">
                     <!--<div ng-if="!tkupdate.idUserApprovedTicket" class="col-xs-6 col-sm-3 col-md-2">
                         <!--button type="submit" ng-click="sysUpdateFn()" ng-disabled="fUpdateUser.$invalid || ownerFound || emailFound" class="btn btn-labeled btn-success">
                             <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Actualizar</button>
@@ -439,7 +439,7 @@
                         <a ng-if="tkupdate.idStatusTicketKf!=5 && tkupdate.idStatusTicketKf!=6" data-dismiss="modal" type="button" ng-click="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6) || tkupdate.idStatusTicketKf==1 || tkupdate.idUserCancelTicket || tkupdate.isCancelRequested ? null : openTicketFn(tkupdate, 2);"  class="btn btn-labeled btn-danger" ng-disabled="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6) || tkupdate.idStatusTicketKf==1 || tkupdate.idUserCancelTicket || tkupdate.isCancelRequested || tkupdate.isChangeDeliverylRequested">
                             <span class="btn-label" ><i class="fas fa-ban"></i></span>Cancelar</a>
                     </div>-->
-                    <div class="col-xs-10 col-sm-10 col-md-10">
+                    <div class="btn-group-left">
                       <div ng-if="sysLoggedUser.idProfileKf=='1' && tkupdate.idTypePaymentKf=='2' && (tkupdate.billingReceiptDetails==undefined || tkupdate.billingReceiptDetails==null) && (tkupdate.isBillingUploaded==undefined || tkupdate.isBillingUploaded==null || tkupdate.isBillingUploaded=='0') && (tkupdate.idStatusTicketKf==1 || tkupdate.idStatusTicketKf==4 || tkupdate.idStatusTicketKf==5 || tkupdate.idStatusTicketKf==8) && tkupdate.idStatusTicketKf!=6 && tkupdate.isCancelRequested!='1'" class="col-xs-3 col-sm-4 col-md-2">
                         <button for="uploadTicketBillingFile" class="btn btn-labeled btn-file btn-warning"><span class="btn-label"><i class="fas fa-file-invoice"></i></span>Subir Factura
                           <input id="uploadTicketBillingFile" name="uploadTicketBillingFile" type="file" class="form-control" accept="*/*" onchange="angular.element(this).scope().loadPDFFilesFn(this)" ng-model="filesInput" />
@@ -475,16 +475,14 @@
                         <a id="deliveryChange" ng-click="mainSwitchFn('ticket_delivery_change', tkupdate, null)" type="button" class="btn btn-labeled btn-info">
                           <span class="btn-label"><i class="fas fa-truck"></i></span>Cambiar envío</a>
                       </div>-->
-                    </div> 
-                    <div class="col-xs-2 col-sm-2 col-md-2 pull-right">
-                      <div class="col-xs-12 col-sm-12 col-md-12 pull-right">
-                        <button type="button" ng-click="modalConfirmation('saveTicketChanges', 0, tkupdate)" class="btn btn-labeled btn-success">
-                        <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Guardar</button>
-                        <a id="cancelModalWindow" ng-click="modalConfirmation('closeWindow', 0, null)" type="button" class="btn btn-labeled btn-danger">
-                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
-                      </div>
-                    </div> 
-                </div>
+                    </div>
+                    <div class="btn-group-right">
+                      <button type="button" ng-click="modalConfirmation('saveTicketChanges', 0, tkupdate)" class="btn btn-labeled btn-success">
+                      <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Guardar</button>
+                      <a id="cancelModalWindow" ng-click="modalConfirmation('closeWindow', 0, null)" type="button" class="btn btn-labeled btn-danger">
+                          <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                    </div>
+              </div>
             </div>
         </div>
     </div>
