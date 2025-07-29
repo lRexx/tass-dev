@@ -440,36 +440,24 @@
                             <span class="btn-label" ><i class="fas fa-ban"></i></span>Cancelar</a>
                     </div>-->
                      <div class="btn-group-left d-flex flex-wrap" style="gap: 10px;">
-                      <div ng-if="sysLoggedUser.idProfileKf=='1' && tkupdate.idTypePaymentKf=='2' && (tkupdate.billingReceiptDetails==undefined || tkupdate.billingReceiptDetails==null) && (tkupdate.isBillingUploaded==undefined || tkupdate.isBillingUploaded==null || tkupdate.isBillingUploaded=='0') && (tkupdate.idStatusTicketKf==1 || tkupdate.idStatusTicketKf==4 || tkupdate.idStatusTicketKf==5 || tkupdate.idStatusTicketKf==8) && tkupdate.idStatusTicketKf!=6 && tkupdate.isCancelRequested!='1'" class="col-xs-3 col-sm-4 col-md-2">
-                        <button for="uploadTicketBillingFile" class="btn btn-labeled btn-file btn-warning"><span class="btn-label"><i class="fas fa-file-invoice"></i></span>Subir Factura
+                        <button ng-if="sysLoggedUser.idProfileKf=='1' && tkupdate.idTypePaymentKf=='2' && (tkupdate.billingReceiptDetails==undefined || tkupdate.billingReceiptDetails==null) && (tkupdate.isBillingUploaded==undefined || tkupdate.isBillingUploaded==null || tkupdate.isBillingUploaded=='0') && (tkupdate.idStatusTicketKf==1 || tkupdate.idStatusTicketKf==4 || tkupdate.idStatusTicketKf==5 || tkupdate.idStatusTicketKf==8) && tkupdate.idStatusTicketKf!=6 && tkupdate.isCancelRequested!='1'" for="uploadTicketBillingFile" class="btn btn-labeled btn-file btn-warning"><span class="btn-label"><i class="fas fa-file-invoice"></i></span>Subir Factura
                           <input id="uploadTicketBillingFile" name="uploadTicketBillingFile" type="file" class="form-control" accept="*/*" onchange="angular.element(this).scope().loadPDFFilesFn(this)" ng-model="filesInput" />
                         </button>
-                      </div>
                       <!-- UPLOAD TICKET BILL -->
-                      <div ng-if="sysLoggedUser.idProfileKf=='1' && tkupdate.billingReceiptDetails!=undefined && tkupdate.billingReceiptDetails!=null && tkupdate.isBillingUploaded!=undefined && tkupdate.isBillingUploaded!=null && tkupdate.isBillingUploaded=='1' && tkupdate.isCancelRequested!='1'" class="col-xs-3 col-sm-4 col-md-2">
-                        <a id="removeBillingFile" ng-click="modalConfirmation('deleteSingleFile', 0, tkupdate.billingReceiptDetails[0])" type="button" class="btn btn-labeled btn-danger">
+                        <a ng-if="sysLoggedUser.idProfileKf=='1' && tkupdate.billingReceiptDetails!=undefined && tkupdate.billingReceiptDetails!=null && tkupdate.isBillingUploaded!=undefined && tkupdate.isBillingUploaded!=null && tkupdate.isBillingUploaded=='1' && tkupdate.isCancelRequested!='1'" id="removeBillingFile" ng-click="modalConfirmation('deleteSingleFile', 0, tkupdate.billingReceiptDetails[0])" type="button" class="btn btn-labeled btn-danger">
                           <span class="btn-label"><i class="fas fa-trash-alt"></i></span>Borrar Factura</a>
-                      </div>
                       <!-- APPROVE TICKET -->
-                      <div ng-if="(tkupdate.idStatusTicketKf==2 || tkupdate.idStatusTicketKf==9 || tkupdate.idStatusTicketKf==11) && (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4') && tkupdate.isCancelRequested!='1'" class="col-xs-3 col-sm-4 col-md-2 ">
-                        <a id="approveTicket" ng-click="tkupdate.isCancelRequested?'':mainSwitchFn('approveTicket', tkupdate)" type="button" class="btn btn-labeled btn-success">
+                        <a ng-if="(tkupdate.idStatusTicketKf==2 || tkupdate.idStatusTicketKf==9 || tkupdate.idStatusTicketKf==11) && (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4') && tkupdate.isCancelRequested!='1'" id="approveTicket" ng-click="tkupdate.isCancelRequested?'':mainSwitchFn('approveTicket', tkupdate)" type="button" class="btn btn-labeled btn-success">
                           <span class="btn-label"><i class="fas fa-check"></i></span>Aprobar</a>
-                      </div>
                       <!-- REJECT CANCEL REQUEST -->
-                      <div ng-if="(sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tkupdate.idTypeTicketKf<2 && tkupdate.idStatusTicketKf!=6 && tkupdate.isCancelRequested=='1'" class="col-xs-3 col-sm-4 col-md-2">
-                        <a id="cancelTicket" ng-click="modalConfirmation('reject_cancel_user',0, tkupdate)" type="button" class="btn btn-labeled btn-warning">
+                        <a ng-if="(sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tkupdate.idTypeTicketKf<2 && tkupdate.idStatusTicketKf!=6 && tkupdate.isCancelRequested=='1'" id="cancelTicket" ng-click="modalConfirmation('reject_cancel_user',0, tkupdate)" type="button" class="btn btn-labeled btn-warning">
                           <span class="btn-label"><i class="fas fa-window-close"></i></span>Rechazar</a>
-                      </div>
                       <!-- REQUEST CANCEL -->
-                      <div ng-if="tkupdate.idStatusTicketKf!=6 && tkupdate.idStatusTicketKf!=1 && tkupdate.isCancelRequested!=1 && (sysLoggedUser.idProfileKf=='3') || ((sysLoggedUser.idProfileKf=='5') && sysLoggedUser.idTypeTenantKf!=null)" class="col-xs-3 col-sm-4 col-md-2">
-                        <a id="cancelTicket" ng-click="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6)  || tkupdate.idStatusTicketKf==1 || tkupdate.isCancelRequested?'':modalConfirmation('cancel_user',0, tkupdate)" ng-disabled="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6)  || tkupdate.idStatusTicketKf==1 || tkupdate.isCancelRequested" type="button" class="btn btn-labeled btn-danger">
+                        <a ng-if="tkupdate.idStatusTicketKf!=6 && tkupdate.idStatusTicketKf!=1 && tkupdate.isCancelRequested!=1 && (sysLoggedUser.idProfileKf=='3') || ((sysLoggedUser.idProfileKf=='5') && sysLoggedUser.idTypeTenantKf!=null)" id="cancelTicket" ng-click="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6)  || tkupdate.idStatusTicketKf==1 || tkupdate.isCancelRequested?'':modalConfirmation('cancel_user',0, tkupdate)" ng-disabled="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6)  || tkupdate.idStatusTicketKf==1 || tkupdate.isCancelRequested" type="button" class="btn btn-labeled btn-danger">
                           <span class="btn-label"><i class="fas fa-ban"></i></span>Cancelar</a>
-                      </div>
                       <!-- CANCEL TICKET -->
-                      <div ng-if="((tkupdate.idStatusTicketKf!=6 && tkupdate.idStatusTicketKf!=1) ||  (tkupdate.idStatusTicketKf==10 && tkupdate.isCancelRequested==1)) && (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4')" class="col-xs-3 col-sm-4 col-md-2">
-                        <a id="cancelTicket" ng-click="modalConfirmation('cancel_sys',0, tkupdate)" type="button" class="btn btn-labeled btn-danger">
+                        <a ng-if="((tkupdate.idStatusTicketKf!=6 && tkupdate.idStatusTicketKf!=1) ||  (tkupdate.idStatusTicketKf==10 && tkupdate.isCancelRequested==1)) && (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4')" id="cancelTicket" ng-click="modalConfirmation('cancel_sys',0, tkupdate)" type="button" class="btn btn-labeled btn-danger">
                           <span class="btn-label"><i class="fas fa-ban"></i></span>Cancelar</a>
-                      </div>
                       <!-- CHANGE DELIVERY -->
                       <!--<div ng-if="tkupdate.idTypeTicketKf=='1' && tkupdate.idStatusTicketKf!=1 && tkupdate.idStatusTicketKf!=5 && tkupdate.idStatusTicketKf!=6 && tkupdate.isCancelRequested!=1 && tkupdate.isDeliveryHasChanged!=1" class="col-xs-3 col-sm-4 col-md-2">
                         <a id="deliveryChange" ng-click="mainSwitchFn('ticket_delivery_change', tkupdate, null)" type="button" class="btn btn-labeled btn-info">
