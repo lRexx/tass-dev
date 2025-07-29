@@ -461,16 +461,28 @@ visibility: hidden;
 
 .modal-footer-flex {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  flex-wrap: wrap;
-  width: 100%;
-}
-.btn-group-left, .btn-group-right {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  align-items: center;
+  gap: 10px;
 }
 
+.btn-group-left,
+.btn-group-right {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.d-flex {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.flex-wrap {
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
 .table-fixed thead th {
   position: sticky;
   top: 0;

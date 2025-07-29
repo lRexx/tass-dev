@@ -439,7 +439,7 @@
                         <a ng-if="tkupdate.idStatusTicketKf!=5 && tkupdate.idStatusTicketKf!=6" data-dismiss="modal" type="button" ng-click="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6) || tkupdate.idStatusTicketKf==1 || tkupdate.idUserCancelTicket || tkupdate.isCancelRequested ? null : openTicketFn(tkupdate, 2);"  class="btn btn-labeled btn-danger" ng-disabled="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6) || tkupdate.idStatusTicketKf==1 || tkupdate.idUserCancelTicket || tkupdate.isCancelRequested || tkupdate.isChangeDeliverylRequested">
                             <span class="btn-label" ><i class="fas fa-ban"></i></span>Cancelar</a>
                     </div>-->
-                    <div class="btn-group-left">
+                     <div class="btn-group-left d-flex flex-wrap" style="gap: 10px;">
                       <div ng-if="sysLoggedUser.idProfileKf=='1' && tkupdate.idTypePaymentKf=='2' && (tkupdate.billingReceiptDetails==undefined || tkupdate.billingReceiptDetails==null) && (tkupdate.isBillingUploaded==undefined || tkupdate.isBillingUploaded==null || tkupdate.isBillingUploaded=='0') && (tkupdate.idStatusTicketKf==1 || tkupdate.idStatusTicketKf==4 || tkupdate.idStatusTicketKf==5 || tkupdate.idStatusTicketKf==8) && tkupdate.idStatusTicketKf!=6 && tkupdate.isCancelRequested!='1'" class="col-xs-3 col-sm-4 col-md-2">
                         <button for="uploadTicketBillingFile" class="btn btn-labeled btn-file btn-warning"><span class="btn-label"><i class="fas fa-file-invoice"></i></span>Subir Factura
                           <input id="uploadTicketBillingFile" name="uploadTicketBillingFile" type="file" class="form-control" accept="*/*" onchange="angular.element(this).scope().loadPDFFilesFn(this)" ng-model="filesInput" />
@@ -476,7 +476,7 @@
                           <span class="btn-label"><i class="fas fa-truck"></i></span>Cambiar envío</a>
                       </div>-->
                     </div>
-                    <div class="btn-group-right">
+                    <div class="btn-group-right d-flex flex-wrap" style="gap: 10px;">
                       <button type="button" ng-click="modalConfirmation('saveTicketChanges', 0, tkupdate)" class="btn btn-labeled btn-success">
                       <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Guardar</button>
                       <a id="cancelModalWindow" ng-click="modalConfirmation('closeWindow', 0, null)" type="button" class="btn btn-labeled btn-danger">
