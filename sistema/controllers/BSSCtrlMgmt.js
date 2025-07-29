@@ -1008,7 +1008,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.ticket.keysMethod            = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:"{'name':''}";
               $scope.ticket.keysMethodSelected    = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:null;
               $scope.customerFound                = $scope.tkupdate.building;
-              if ($scope.ticket.whereKeysAreEnable === null){
+              if ($scope.tkupdate.whereKeysAreEnable === null){
                 if ($scope.tkupdate.building.isHasInternetOnline === null){
                   $scope.functions.whereKeysAreEnable = "2";
                   $scope.ticket.whereKeysAreEnable    = "2";
