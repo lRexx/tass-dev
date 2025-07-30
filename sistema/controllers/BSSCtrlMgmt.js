@@ -337,7 +337,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log($scope.functions);
                   console.log($scope.keyObj);
                       //console.log(obj)
-                      if($scope.functions.isKeysEnable){
+                      if($scope.functions.isKeysEnable=='1'){
                           $scope.mess2show="Los Llaveros han sido habilitados,     Confirmar?";
                           console.log("============================================================================");
                           console.log("Los Llaveros han sido habilitados");
