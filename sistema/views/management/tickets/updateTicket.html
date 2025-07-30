@@ -91,13 +91,13 @@
                                   <span>Llaveros Habilitados:</span>
                                 </div>
                                 <div class="col-md-3 col-xs-6 n-padding-l" style="margin-top: -0.6% !important;">
-                                  <input id="isKeysEnableYes" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" name="isKeysEnable" value="1" ng-model="functions.isKeysEnable">
+                                  <input id="isKeysEnableYes" ng-click="modalConfirmation('isKeysEnable', 0, functions)" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" name="isKeysEnable" value="1" ng-model="functions.isKeysEnable">
                                   <label for="isKeysEnableYes" class="radio-2x-label">
                                     <span class="badge badge-success">Si</span>
                                   </label>
                                 </div>
                                 <div class="col-md-3 col-xs-6 n-padding-l" style="margin-top: -0.6% !important;">
-                                    <input id="isKeysEnableNo" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" name="isKeysEnable" value="0" ng-model="functions.isKeysEnable">
+                                    <input id="isKeysEnableNo" ng-click="modalConfirmation('isKeysEnable', 0, functions)" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" name="isKeysEnable" value="0" ng-model="functions.isKeysEnable">
                                     <label for="isKeysEnableNo" class="radio-2x-label">
                                     <span class="badge badge-warning">No</span>
                                     </label>
