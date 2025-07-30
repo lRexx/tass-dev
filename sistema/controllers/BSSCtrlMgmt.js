@@ -361,7 +361,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log($scope.functions);
                 $('#confirmRequestModalCustom').modal('toggle');
                 }else if (confirm==1){
-                  if($scope.functions.isKeysEnable){
+                  if($scope.functions.isKeysEnable=='1'){
                       $scope.keyObj.isKeysEnable=1;
                   }else{
                       $scope.keyObj.isKeysEnable=0;
