@@ -338,16 +338,24 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log($scope.keyObj);
                       //console.log(obj)
                       if($scope.functions.isKeysEnable=='1'){
-                          $scope.mess2show="Los Llaveros han sido habilitados,     Confirmar?";
+                        if ($scope.functions.whereKeysAreEnable=='1'){
+                          $scope.mess2show="Los Llaveros han sido habilitados de forma online,     Confirmar?";
+                        }else{
+                          $scope.mess2show="Los Llaveros han sido habilitados en el edificio,     Confirmar?";
+                        }
                           console.log("============================================================================");
                           console.log("Los Llaveros han sido habilitados");
                           console.log("============================================================================");
                       }else{
-                          $scope.mess2show="Los Llaveros no han sido habilitados, seran habilitados en el Edificio,     Confirmar?";
+                        if ($scope.functions.whereKeysAreEnable=='1'){
+                          $scope.mess2show="Los Llaveros no han sido habilitados de forma online, seran habilitados en el Edificio,     Confirmar?";
+                          $scope.ticket.whereKeysAreEnableTmp = "2"
+                        }else{
+                          $scope.mess2show="Los Llaveros no han sido habilitados en el edificio,      Confirmar?";
+                        }
                           console.log("============================================================================");
                           console.log("Los Llaveros no han sido habilitados");
                           console.log("============================================================================");
-                          $scope.ticket.whereKeysAreEnableTmp = "2"
                       }
                       console.log($scope.keyObj);
                       console.log($scope.functions);
@@ -3496,19 +3504,19 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       createdBy           : $scope.sysLoggedUser.idUser,
                       idTicketKf          : $scope.tkupdate.idTicket,
                       idTypeTicketKf      : $scope.tkupdate.idTypeTicketKf,
-                      idKeychainStatusKf  : key.idKeychainStatusKf,
+                      idKeychainStatusKf  : 1,
                       idTicketKeychain    : $scope.tkupdate.keys[i].idTicketKeychain
                     };
-                    console.log("Llavero a agregar: "+keys.codigo);
+                    console.log("Llavero a actualizar: "+keys.codigo);
                     console.log(keys);
-                    $scope.addKeyFn({llavero: keys});
+                    //$scope.addKeyFn({llavero: keys});
                     deferredKeys.resolve();
                 }, 1000);
               });
               $q.all(assignedKeys).then(function () {
                 console.log("Ticket to Update: "+$scope.tkupdate.codTicket);
                 console.log($scope.tkupdate);
-                $scope.updateUpRequestFn({ticket: $scope.tkupdate});
+                //$scope.updateUpRequestFn({ticket: $scope.tkupdate});
               });
 
             break;
