@@ -333,6 +333,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               break;
               case "isKeysEnable":
                 if (confirm==0){
+                  $scope.ticket.whereKeysAreEnableTmp = null;
                   $scope.keyObj=$scope.tkupdate;
                   console.log($scope.functions);
                   console.log($scope.keyObj);
@@ -3472,7 +3473,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             case "apply_isKeysEnable":
               console.log(obj);
               $scope.tkupdate.newKeychainList         = $scope.rsNewKeychainList
-
+              $scope.tkupdate.whereKeysAreEnable      = $scope.ticket.whereKeysAreEnableTmp!=null?$scope.ticket.whereKeysAreEnableTmp:null;
               $scope.tkupdate.refund                  = [];
               $scope.tkupdate.history                 = [];
               $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"28"});
