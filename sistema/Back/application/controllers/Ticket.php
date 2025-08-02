@@ -631,7 +631,7 @@ class Ticket extends REST_Controller
         }
     }
 
-    public function postBillingTickets()
+    public function postBillingTickets_get()
     {
         log_message('info', ':::::::::::::::::PostBilling');
 
