@@ -3597,9 +3597,7 @@ class Ticket_model extends CI_Model
 
 		$this->db->distinct();
 		$this->db->select('
-			t2.idTicket,
-			t2.isBillingCompleted,
-			t2.isBillingUploaded,
+			t2.*,
 			tb.isBilled,
 			tb.isPostBilled
 		');
