@@ -3616,12 +3616,11 @@ class Ticket_model extends CI_Model
 
 		$query = $this->db->get();
 		$rs = $query->result_array();
-		print_r($query->result_array());
 		if ($query->num_rows() > 0) {
-			$idTicketKf = $rs['idTicketKf'];
-			/*foreach ($rs as $key => $ticket) {
-
-			}*/
+			//dTicketKf = $rs['idTicketKf'];
+			foreach ($rs as $key => $ticket) {
+				print_r($ticket);
+			}
 			return true;
 		} else {
 			return false;
