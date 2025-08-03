@@ -3620,11 +3620,11 @@ class Ticket_model extends CI_Model
 			//dTicketKf = $rs['idTicketKf'];
 			foreach ($rs as $key => $ticket) {
 				// Extraer la parte final después del último ' - '
-				$codParte = trim(strrchr($ticket->codTicket, '-'));
+				$codParte = trim(strrchr($ticket['codTicket'], '-'));
 				$codParte = ltrim($codParte, '- '); // limpia espacios y guiones
 
 				// Generar el nombre del archivo
-				$fileName = $ticket->idTicket . '_' . $codParte . '.pdf';
+				$fileName = $ticket['idTicket'] . '_' . $codParte . '.pdf';
 
 				// Construir la ruta física
 				$file_path = realpath(APPPATH . '../../facturas');
