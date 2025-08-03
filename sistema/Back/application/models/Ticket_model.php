@@ -3584,6 +3584,35 @@ class Ticket_model extends CI_Model
 			)
 		)->where("idTicket", $idTicket)->update("tb_tickets_2");
 		if ($this->db->affected_rows() === 1) {
+			$now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));
+			$this->db->insert('tb_ticket_changes_history', array(
+				"idUserKf" => "1",
+				"idTicketKf" => $idTicket,
+				"created_at" => $now->format('Y-m-d H:i:s'),
+				"descripcion" => "Facturación completada",
+				"idCambiosTicketKf" => "37",
+			));
+			return true;
+		} else {
+			return false;
+		}
+	}
+	public function setIsBillingCompleted($idTicket, $setValue)
+	{
+		$this->db->set(
+			array(
+				'isBillingUploaded' => $setValue
+			)
+		)->where("idTicket", $idTicket)->update("tb_tickets_2");
+		if ($this->db->affected_rows() === 1) {
+			$now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));
+			$this->db->insert('tb_ticket_changes_history', array(
+				"idUserKf" => "1",
+				"idTicketKf" => $idTicket,
+				"created_at" => $now->format('Y-m-d H:i:s'),
+				"descripcion" => "Facturación completada",
+				"idCambiosTicketKf" => "37",
+			));
 			return true;
 		} else {
 			return false;
@@ -3655,13 +3684,7 @@ class Ticket_model extends CI_Model
 						log_message('info', 'Entry added for ticket ID: ' . $ticket['idTicket'] . ' ::: [SUCCEEDED]');
 						log_message('info', 'updating tb_ticket_2 for ticket ID: ' . $ticket['idTicket']);
 						// Actualizar los campos en la tabla tb_tickets_2
-						$this->db->where('idTicket', $ticket['idTicket']);
-						$this->db->update('tb_tickets_2', [
-							'isBillingUploaded' => 1,
-							'isBillingCompleted' => 1
-						]);
-
-						if ($this->db->affected_rows() > 0) {
+						if ($this->setIsBillingUploaded($ticket['idTicket'], 1) && $this->setIsBillingCompleted($ticket['idTicket'], 1)) {
 							log_message('info', 'Ticket ' . $ticket['idTicket'] . ' updated successfully in tb_tickets_2.');
 						} else {
 							log_message('error', 'Ticket ' . $ticket['idTicket'] . ' was not updated in tb_tickets_2.');
