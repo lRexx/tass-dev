@@ -3633,10 +3633,10 @@ class Ticket_model extends CI_Model
 				// Verificar si el archivo existe
 				if (file_exists($filePath)) {
 					// El archivo existe
-					log_message('info', 'Bill found:' + $fileName);
+					log_message('info', 'Bill found:' . $fileName);
 				} else {
 					// El archivo no existe
-					log_message('info', 'Bill not found:' + $fileName);
+					log_message('info', 'Bill not found:' . $fileName);
 				}
 			}
 			#return true;
