@@ -3636,6 +3636,25 @@ class Ticket_model extends CI_Model
 					$output = shell_exec('ls -lh ' . escapeshellarg($filePath));
 					log_message('info', 'Bill found: ' . $fileName);
 					log_message('info', $output);
+					log_message('info', 'adding entry at tb_ticket_files_list ');
+					$ticketData = [
+						'idTicketKf' => $ticket['idTicket'],
+						'name' => $fileName,
+						'urlFile' => '/facturas/' . $fileName,  // Ruta relativa al archivo
+						'type' => 'application/pdf',
+						'history' => [
+							[
+								'idUserKf' => '1', // si está en sesión
+								'descripcion' => 'Archivo PDF cargado automáticamente',
+								'idCambiosTicketKf' => '20' // un ID de cambio, ejemplo
+							]
+						]
+					];
+					if ($this->addTicketUploadedFile($ticketData)) {
+						log_message('info', 'Entry added for ticket ID: ' . $ticketData['idTicketKf'] . ' successfully');
+					} else {
+						log_message('error', 'Error adding entry for ticket ID: ' . $ticketData['idTicketKf'] . ' to tb_ticket_files_list.');
+					}
 				} else {
 					// El archivo no existe
 					log_message('info', 'Bill not found: ' . $fileName);
