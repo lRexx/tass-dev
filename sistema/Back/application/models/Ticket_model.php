@@ -3679,6 +3679,7 @@ class Ticket_model extends CI_Model
 			}
 			#return true;
 		} else {
+			log_message('info', 'postBilling process no ticket found to be prossesed');
 			return false;
 		}
 
