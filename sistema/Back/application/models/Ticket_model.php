@@ -3590,7 +3590,7 @@ class Ticket_model extends CI_Model
 				"idTicketKf" => $idTicket,
 				"created_at" => $now->format('Y-m-d H:i:s'),
 				"descripcion" => "Facturación completada",
-				"idCambiosTicketKf" => "37",
+				"idCambiosTicketKf" => "20",
 			));
 			return true;
 		} else {
@@ -3611,7 +3611,7 @@ class Ticket_model extends CI_Model
 				"idTicketKf" => $idTicket,
 				"created_at" => $now->format('Y-m-d H:i:s'),
 				"descripcion" => "Facturación completada",
-				"idCambiosTicketKf" => "37",
+				"idCambiosTicketKf" => "38",
 			));
 			return true;
 		} else {
