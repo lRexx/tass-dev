@@ -3638,6 +3638,7 @@ class Ticket_model extends CI_Model
 				} else {
 					// El archivo no existe
 					print ("Not found");
+					print ($filePath);
 				}
 			}
 			#return true;
