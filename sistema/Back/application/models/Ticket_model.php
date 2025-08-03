@@ -3601,7 +3601,7 @@ class Ticket_model extends CI_Model
 	{
 		$this->db->set(
 			array(
-				'isBillingUploaded' => $setValue
+				'isBillingCompleted' => $setValue
 			)
 		)->where("idTicket", $idTicket)->update("tb_tickets_2");
 		if ($this->db->affected_rows() === 1) {
