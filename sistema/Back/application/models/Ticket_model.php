@@ -3753,6 +3753,44 @@ class Ticket_model extends CI_Model
 										}
 									}
 								}
+							} else {
+								if ($lastTicketUpdatedQuery['sendNotify'] == 1 || $lastTicketUpdatedQuery['sendNotify'] == null) {
+									$this->db->select("tb_client_mails.mailContact")->from("tb_client_mails");
+									$this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
+									$where = "tb_client_mails.idTipoDeMailFk = 1 AND tb_client_mails.idClientFk = " . $lastTicketUpdatedQuery['idBuildingKf'];
+									$quuery = $this->db->where($where)->get();
+									if ($quuery->num_rows() > 0) {
+										$buildingAdminMail = $quuery->row_array();
+										$title = null;
+										$subject = null;
+										$body = null;
+										$to = null;
+										#MAIL TO THE BUILDING OR ADMINISTRATION typeRequestFor
+										$to = $buildingAdminMail['mailContact'];
+										$title = "Factura";
+										$subject = "Factura de Pedido de Llavero :: " . $lastTicketUpdatedQuery['typeRequestFor']['name'] . " :: Disponible";
+										$body = '<tr width="100%" bgcolor="#ffffff">';
+										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Hola <b>' . $lastTicketUpdatedQuery['clientAdmin']['name'] . '</b>,</td>';
+										$body .= '</tr>';
+										$body .= '<tr width="100%" bgcolor="#ffffff">';
+										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">La Factura de su Pedido N°: <b>' . $lastTicketUpdatedQuery['codTicket'] . '</b>, se encuentra disponible para descargar/visualizar hacer click en <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="' . $bill_url . '" target="_blank" title="Descargar" style="text-decoration: none; color: #ffffff;">Descargar</span></td>';
+										$body .= '</tr>';
+										$body .= '<tr width="100%" bgcolor="#ffffff">';
+										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Tambien puede visualizar y/o descargar la factura de su pedido desde la web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+										$body .= '</tr>';
+										$body .= '<tr width="100%" bgcolor="#ffffff">';
+										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+										$body .= '</tr>';
+										$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
+										if ($rsMail == "Enviado") {
+											log_message('info', 'Billing mail notification for ticket ID: ' . $ticket['idTicket'] . ' ::: [SENT]');
+											if ($this->setPostBillingCompleted($ticket['idTicket'])) {
+												log_message('info', 'PostBillingTicket ' . $ticket['idTicket'] . ' isPostBilled updated successfully in tb_tickets_billing.');
+											}
+										}
+									}
+
+								}
 							}
 							return $lastTicketUpdatedQuery;
 

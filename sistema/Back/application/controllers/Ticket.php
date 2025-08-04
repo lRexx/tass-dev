@@ -639,14 +639,11 @@ class Ticket extends REST_Controller
         $rs = $this->ticket_model->postBillingTickets();
         if (!is_null($rs)) {
             #$this->response(array('response' => $rs) , 200);
-            log_message('info', ':::::::::::::::::PostBilling ::: COMPLETED SUCCEEDED');
+            log_message('info', ':::::::::::::::::PostBilling ::: COMPLETED SUCCESSFULLLY');
         } else {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
             log_message('info', ':::::::::::::::::PostBilling ::: COMPLETED WITH ERROR');
         }
-
-
-
     }
 }
 ?>
