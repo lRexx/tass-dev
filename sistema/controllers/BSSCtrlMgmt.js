@@ -4517,7 +4517,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.log("Ticket to Update: "+$scope.tkupdate.codTicket);
               console.log($scope.tkupdate);
               //$scope.updateUpRequestFn({ticket: $scope.tkupdate});
-              $('#deliveryModalDetails').modal("hide");
+              //$('#deliveryModalDetails').modal("hide");
             break;
             case "setDeliveryCompany":
               $scope.refund.ticket.history            = [];
