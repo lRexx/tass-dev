@@ -1091,6 +1091,8 @@ class Ticket_model extends CI_Model
 				'idThirdPersonDeliveryKf' => $idThirdPersonDelivery,
 				'isDeliveryHasChanged' => @$ticket['isDeliveryHasChanged'],
 				'idMgmtMethodKf' => @$ticket['idMgmtMethodKf'],
+				'whereKeysAreEnable' => @$ticket['whereKeysAreEnable'],
+				'isKeysEnable' => @$ticket['isKeysEnable'],
 			)
 		)->where("idTicket", $ticket['idTicket'])->update("tb_tickets_2");
 

@@ -3481,6 +3481,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.functions.whereKeysAreEnable     = $scope.ticket.whereKeysAreEnableTmp!=null?$scope.ticket.whereKeysAreEnableTmp:null;
               $scope.tkupdate.refund                  = [];
               $scope.tkupdate.history                 = [];
+              var idKeychainStatusKf                  = $scope.tkupdate.isKeysEnable;
               $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"28"});
               $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
               $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
@@ -3510,7 +3511,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       createdBy           : $scope.sysLoggedUser.idUser,
                       idTicketKf          : $scope.tkupdate.idTicket,
                       idTypeTicketKf      : $scope.tkupdate.idTypeTicketKf,
-                      idKeychainStatusKf  : 1,
+                      idKeychainStatusKf  : idKeychainStatusKf,
                       idTicketKeychain    : $scope.tkupdate.keys[i].idTicketKeychain
                     };
                     console.log("Llavero a actualizar: "+keys.codigo);
