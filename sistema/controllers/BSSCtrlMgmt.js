@@ -3373,14 +3373,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   switch(obj.idTypeDeliveryKf){
                     case "1": //RETIRO EN OFICINA
                       if(obj.building.isHasInternetOnline === null || obj.building.isHasInternetOnline != null){ //NO INTERNET OR WITH INTERNET
-                        //$scope.tkupdate.idDeliveryCompanyKf="1";
                         $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
                       }
                       console.log(obj)
                     break;
                     case "2": //RENTREGA EN DOMICILIO
                       if(obj.building.isHasInternetOnline === null || obj.building.isHasInternetOnline != null){ //NO INTERNET OR WITH INTERNET
-                        //$scope.tkupdate.idDeliveryCompanyKf="2";
+                        $scope.tkupdate.idDeliveryCompanyKf=$scope.functions.whereKeysAreEnable=="2"?"1":null;
                         $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
                       }
                       console.log(obj)
