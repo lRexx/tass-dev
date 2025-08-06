@@ -3355,7 +3355,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   switch(obj.idTypeDeliveryKf){
                     case "1"://RETIRO EN OFICINA
                       $scope.tkupdate.mess2show="El Pedido pasara a \"Listo para Retirar\", por favor,     Confirmar?";
-//                      $scope.tkupdate.idDeliveryCompanyKf=null;
+                      //$scope.tkupdate.idDeliveryCompanyKf=null;
                       console.log(obj)
                     break;
                     case "2"://RENTREGA EN DOMICILIO
@@ -3403,7 +3403,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             case "applySetMgmtKeys":
                 $scope.thereIsKeyWithoutIdKeychain      = false;
                 $scope.tkupdate.idMgmtMethodKf          = $scope.ticket.idMgmtMethodKf;
-                $scope.tkupdate.newKeychainList         = $scope.rsNewKeychainList
+                $scope.tkupdate.newKeychainList         = $scope.rsNewKeychainList;
+                $scope.tkupdate.whereKeysAreEnable      = $scope.functions.whereKeysAreEnable;
                 $scope.tkupdate.refund                  = [];
                 $scope.tkupdate.history                 = [];
                 switch($scope.tkupdate.idMgmtMethodKf){
