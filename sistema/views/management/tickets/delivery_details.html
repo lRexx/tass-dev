@@ -84,7 +84,7 @@
                 <legend style="text-align: left;">Empresa de Envío</legend>
                 <div class="col-md-12 n-padding-l n-padding-r">
                     <div class="col-md-12 col-xs-12" ng-class="
-                        {	'has-success': 
+                        {	'has-success':
                             tkupdate.idDeliveryCompanyKf!='',
                         }">
                         <div class="form-group col-md-12 col-xs-12">
@@ -92,7 +92,7 @@
                             <div class="col-xl-12 selectContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fas fa-tag"></i></span>
-                                    <select name="idDeliveryCompanyKf" class="form-control" ng-change="mainSwitchFn('seDeliveryCompany', null)" ng-disabled="tkupdate.building.isHasInternetOnline==0 || tkupdate.building.isHasInternetOnline==null || tkupdate.building.isHasInternetOnline==undefined || !tkupdate.building.isHasInternetOnline"  ng-options="item.idDeliveryCompany as item.deliveryCompanyName for item in listDeliveryCompanies"  ng-model="tkupdate.idDeliveryCompanyKf"  >
+                                    <select name="idDeliveryCompanyKf" class="form-control" ng-change="mainSwitchFn('verifyDeliveryCompanySelected', tkupdate)" ng-disabled="tkupdate.building.isHasInternetOnline==0 || tkupdate.building.isHasInternetOnline==null || tkupdate.building.isHasInternetOnline==undefined || !tkupdate.building.isHasInternetOnline"  ng-options="item.idDeliveryCompany as item.deliveryCompanyName for item in listDeliveryCompanies"  ng-model="tkupdate.idDeliveryCompanyKf"  >
                                     <option value="">Todos</option>
                                     </select>
                                 </div>
@@ -124,11 +124,11 @@
             </div>
             <div ng-if="tkupdate.idTypeDeliveryKf=='1'" class="col-md-12 well-checkbox n-margin-l customer-frame">
                 <div ng-if="tkupdate.idTypeDeliveryKf!=null && tkupdate.idTypeDeliveryKf!=undefined && tkupdate.idTypeDeliveryKf=='1'" class="map">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.232853486263!2d-58.416303984395746!3d-34.62355548045449!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccafee49fa1b5%3A0x808f35e44a65bc21!2sCarlos+Calvo+3430%2C+C1230ABH+CABA!5e0!3m2!1ses-419!2sar!4v1500993405506" width="1280" height="600" allowfullscreen=""></iframe>	
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.232853486263!2d-58.416303984395746!3d-34.62355548045449!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccafee49fa1b5%3A0x808f35e44a65bc21!2sCarlos+Calvo+3430%2C+C1230ABH+CABA!5e0!3m2!1ses-419!2sar!4v1500993405506" width="1280" height="600" allowfullscreen=""></iframe>
                 </div>
             </div>
-            <div class="clearfix"> </div> 
-        </div>   
+            <div class="clearfix"> </div>
+        </div>
         <div class="modal-footer">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
