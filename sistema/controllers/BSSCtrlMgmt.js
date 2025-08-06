@@ -3408,13 +3408,23 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $scope.tkupdate.history                 = [];
                 switch($scope.tkupdate.idMgmtMethodKf){
                   case "1":
-                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"28"});
+                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"29"});
+                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
+                    if ($scope.tkupdate.building.isStockInOffice=='1'){
+                      $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"40"});
+                      var idKeychainStatusKf                  = 1;
+                    }else{
+                      $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"39"});
+                      var idKeychainStatusKf                  = 0;
+                    }
                   break;
                   case "2":
-                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"29"});
+                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"28"});
+                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
+                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"39"});
+                    var idKeychainStatusKf                  = 0;
                   break;
                 }
-                $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
                 $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
                 console.log($scope.tkupdate);
                 console.log($scope.rsNewKeychainList);
@@ -3441,7 +3451,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         createdBy           : $scope.sysLoggedUser.idUser,
                         idTicketKf          : $scope.tkupdate.idTicket,
                         idTypeTicketKf      : $scope.tkupdate.idTypeTicketKf,
-                        idKeychainStatusKf  : key.idKeychainStatusKf,
+                        idKeychainStatusKf  : idKeychainStatusKf,
                         idTicketKeychain    : $scope.tkupdate.keys[i].idTicketKeychain
                       };
 
@@ -3452,13 +3462,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           console.log("idKeychain     : "+keys.idKeychain);
                           console.log("Codigo         : "+keys.codigo);
                           console.log("idCategoryKf   : "+keys.idCategoryKf);
-                          $scope.updateKeyFn({llavero: keys});
+                          //$scope.updateKeyFn({llavero: keys});
                         break;
                         case "2":
                           console.log("Llavero a agregar");
                           console.log("Codigo         : "+keys.codigo);
                           console.log("idCategoryKf   : "+keys.idCategoryKf);
-                          $scope.addKeyFn({llavero: keys});
+                          //$scope.addKeyFn({llavero: keys});
                         break;
                       }
                       console.log(keys);
@@ -3469,7 +3479,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log("Ticket to Update: "+$scope.tkupdate.codTicket);
                   console.log($scope.tkupdate);
                   if ($scope.ticket.keysMethodSelected==null || $scope.ticket.keysMethodSelected==undefined){
-                    $scope.updateUpRequestFn({ticket: $scope.tkupdate});
+                    //$scope.updateUpRequestFn({ticket: $scope.tkupdate});
                   }
                 });
                 //$scope.addKeyFn($scope.keys);
