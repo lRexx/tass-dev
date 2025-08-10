@@ -417,13 +417,15 @@ class Ticket extends REST_Controller
     public function billingUploaded_get($id)
     {
 
-
+        log_message('info', ':::::::::::::::::verifyfBillingUpload');
         $rs = null;
         $rs = $this->ticket_model->billingUploaded($id);
 
         if (!is_null($rs)) {
+            log_message('info', ':::::::::::::::::verifyfBillingUpload--> Billing Uploaded already');
             $this->response($rs, 200);
         } else {
+            log_message('info', ':::::::::::::::::verifyfBillingUpload--> Billing has not been Uploaded yet');
             $this->response(array('error' => 'Factura no ha sido subida al server.'), 404);
         }
     }
