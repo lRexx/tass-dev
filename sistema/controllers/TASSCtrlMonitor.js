@@ -484,7 +484,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 if (confirm==0){
                   $scope.mess2show="La factura ["+obj.name+"] sera cargada y asociada al ticket, Esta seguro que desea realizar la carga de la factura, Confirmar?";
                   $scope.argObj = obj;
-                  console.log('Factura Nombre '+obj.name+' ID: '+obj.idTicket+' Solicitado por el usuario: '+$scope.sysLoggedUser.fullNameUser);
+                  console.log('Factura Nombre '+obj.name+' ID: '+obj.idTicketKf+' Solicitado por el usuario: '+$scope.sysLoggedUser.fullNameUser);
                   console.log("============================================================================")
                   console.log($scope.argObj);
                   $('#confirmRequestModal').modal('toggle');
