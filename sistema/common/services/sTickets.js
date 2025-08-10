@@ -492,10 +492,13 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
                   })
           },
           /* Send billing uploaded notification service */
-          sendBillingMailNotification: function(idTicket, setValue) {
+          sendBillingMailNotification: function(idTicket, filename) {
+            console.log("[Ticket Services] => sendBillingMailNotification");
+            console.log("[Ticket Services] => idTicket: "+idTicket);
+            console.log("[Ticket Services] => idTicket: "+filename);
             return $http({
               method : "GET",
-              url : serverHost+serverBackend+"Ticket/setIsBillingUploaded/"+idTicket+"/"+setValue
+              url : serverHost+serverBackend+"Ticket/sendPostBillingMailNotification/"+idTicket+"/"+filename
                   }).then(function mySuccess(response) {
                     return response;
                   }).catch(function onError(response) {

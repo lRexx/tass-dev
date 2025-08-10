@@ -4767,7 +4767,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                             if(rsBillingNotification.status==200){
                               var fileName=item.fileTitle==''?item.name:item.fileTitle;
                               inform.add('Archivo '+fileName+' subido satisfactoriamente y notificación enviado satisfactoriamente.',{
-                                    ttl:2000, type: 'success'
+                                    ttl:10000, type: 'success'
                               });
                               item.uploadStatus=true;
                               if ($scope.isUploadSingleFile){

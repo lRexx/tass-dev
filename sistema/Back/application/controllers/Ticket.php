@@ -422,10 +422,10 @@ class Ticket extends REST_Controller
         $rs = $this->ticket_model->billingUploaded($id);
 
         if (!is_null($rs)) {
-            log_message('info', ':::::::::::::::::verifyfBillingUpload--> Billing Uploaded already');
+            log_message('info', ':::::::::::::::::verifyfBillingUpload => Billing Uploaded already');
             $this->response($rs, 200);
         } else {
-            log_message('info', ':::::::::::::::::verifyfBillingUpload--> Billing has not been Uploaded yet');
+            log_message('info', ':::::::::::::::::verifyfBillingUpload => Billing has not been Uploaded yet');
             $this->response(array('error' => 'Factura no ha sido subida al server.'), 404);
         }
     }
@@ -597,6 +597,7 @@ class Ticket extends REST_Controller
 
     public function setIsBillingUploaded_get($idTicketKf, $setValue)
     {
+        log_message('info', ':::::::::::::::::setBillingUploaded');
         if (!$idTicketKf) {
             $this->response(array('error' => 'Missing, Ticket ID'), 404);
         }
@@ -605,8 +606,10 @@ class Ticket extends REST_Controller
         $rs = $this->ticket_model->setIsBillingUploaded($idTicketKf, $setValue);
 
         if (!is_null($rs)) {
+            log_message('info', ':::::::::::::::::setBillingUploaded => SUCCEEDED');
             $this->response($rs, 200);
         } else {
+            log_message('info', ':::::::::::::::::setBillingUploaded => FAILED');
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
