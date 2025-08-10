@@ -5,7 +5,7 @@ var services = angular.module("module.Services", ["tokenSystem", "services.Custo
 services.directive('moveToList', function() {
     return {
       restrict: 'A',
-      link: function(scope, element, attribute) {        
+      link: function(scope, element, attribute) {
         element.bind('keydown', function(event) {
           var keycodes = [13, 40]
           if (keycodes.indexOf(event.keyCode) > -1) {
@@ -93,7 +93,7 @@ services.filter('toDate', function() {
             var day = date.getDate();
             var month = date.getMonth() + 1; // Los meses son 0-indexados
             var year = date.getFullYear();
-        
+
             // Formatear el día y el mes con dos dígitos
             day = day < 10 ? '0' + day : day;
             month = month < 10 ? '0' + month : month;
@@ -107,7 +107,7 @@ services.filter('toDate', function() {
             var year = parseInt(parts[2], 10);
 
             // Crear y devolver el objeto Date
-            var date = 
+            var date =
             console
         }
     };
@@ -121,9 +121,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
 
     const sysDate = new Date();
     const fullSysDate = sysDate.toLocaleString('es-AR', { day: 'numeric', month: 'numeric', year:'numeric' });
-    //console.log(newDate); 
+    //console.log(newDate);
     //$scope.localDate = DateService.createDateInTimeZone(dateStr, APP_SYS.timezone);
-    //console.log($scope.localDate); 
+    //console.log($scope.localDate);
     //currentMoney.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' });
     const sysYear  = sysDate.toLocaleString('es-AR', { year: 'numeric'}).toString().substr(2,2);
     const sysMonth = sysDate.toLocaleString('es-AR', { month: 'numeric'});
@@ -139,35 +139,35 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
     $scope.service = {
         'customer':{},
         'list':{'zones':{}},
-        'new':{'isHasLockingScrew':'0','numbOfLicenceRemains':'', 'numbOfLicenceSet':'', 'people':{}}, 
-        'users':{'fullName':'','emailUser':'', 'phone':'', 'idOS':'', 'profileUser':'', 'sysUser':{'selected':undefined}}, 
-        'update':{'idServiceAsociateFk':[]}, 
+        'new':{'isHasLockingScrew':'0','numbOfLicenceRemains':'', 'numbOfLicenceSet':'', 'people':{}},
+        'users':{'fullName':'','emailUser':'', 'phone':'', 'idOS':'', 'profileUser':'', 'sysUser':{'selected':undefined}},
+        'update':{'idServiceAsociateFk':[]},
         'serviceItems':{},
-        'tipo_conexion_remoto':[{}], 
-        'dvr':{'selected':undefined}, 
-        'batteries':{'selected':undefined}, 
-        'cameras':{'selected':undefined}, 
-        'modem':{'selected':undefined}, 
-        'router':{'selected':undefined}, 
-        'crtlAccess':{'selected':undefined}, 
+        'tipo_conexion_remoto':[{}],
+        'dvr':{'selected':undefined},
+        'batteries':{'selected':undefined},
+        'cameras':{'selected':undefined},
+        'modem':{'selected':undefined},
+        'router':{'selected':undefined},
+        'crtlAccess':{'selected':undefined},
         'lockedIt':{'selected':undefined},
-        'lockedIt2':{'selected':undefined},  
-        'entranceReader':{'selected':undefined}, 
-        'powerSupply':{'selected':undefined}, 
-        'exitReader':{'selected':undefined}, 
-        'emergencyButton':{'selected':undefined}, 
-        'TurnOffKey':{'selected':undefined}, 
-        'alarmPanel':{'selected':undefined}, 
-        'alarmKeyboard':{'selected':undefined}, 
-        'sysUser':{'selected':undefined}, 
-        'sensor':{'selected':undefined}, 
-        'adicional':{}, 
+        'lockedIt2':{'selected':undefined},
+        'entranceReader':{'selected':undefined},
+        'powerSupply':{'selected':undefined},
+        'exitReader':{'selected':undefined},
+        'emergencyButton':{'selected':undefined},
+        'TurnOffKey':{'selected':undefined},
+        'alarmPanel':{'selected':undefined},
+        'alarmKeyboard':{'selected':undefined},
+        'sysUser':{'selected':undefined},
+        'sensor':{'selected':undefined},
+        'adicional':{},
         'aditional_alarm':{'sysUser':{'selected':undefined}}
     };
     $scope.contract = {
-        'new':{}, 
-        'update':{}, 
-        'info':{}, 
+        'new':{},
+        'update':{},
+        'info':{},
         'select':{'main':{},'date':{}, 'codes':{}}
     };
     $scope.contractSelected={};
@@ -205,6 +205,12 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
         $scope.popup5.opened = true;
       };
       $scope.popup5 = {
+        opened: false
+      };
+     $scope.open_activation_date = function() {
+        $scope.popup_activation_date.opened = true;
+      };
+      $scope.popup_activation_date = {
         opened: false
       };
       $scope.events =
@@ -275,20 +281,23 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     case "approveContractWindow":
                         $scope.contract.activateDate={}
                         $scope.contract.activateDate=cObj;
-                        if ($scope.contract.activateDate.fechaFirmaActivacion!='' && $scope.contract.activateDate.fechaFirmaActivacion!=null && 
+                        if ($scope.contract.activateDate.fechaFirmaActivacion!='' && $scope.contract.activateDate.fechaFirmaActivacion!=null &&
                         $scope.contract.activateDate.fechaFirmaActivacion!=undefined){
                             $scope.modalConfirmation('contract_enable', 0, cObj)
                         }else{
                             $('#activationDateContractWindows').modal('show');
-                            var current_date = new Date()
-                            var date = moment.tz(current_date, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
+                            var currentDate        = new Date();
+                            var rawDate            = moment(currentDate).toDate();
+                            var formatedDate       = moment(rawDate).format('YYYY-MM-DD');
+                            var date = moment.tz(formatedDate, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
                             var newDate = date.toDate();
-                            $scope.contract.tmpFechaFirmaActivacion = moment(newDate).format('DD/MM/YYYY');
+                            //$scope.contract.activateDate.tmpFechaFirmaActivacion = moment(newDate).format('DD/MM/YYYY');
+                            $scope.contract.activateDate.tmpFechaFirmaActivacion = newDate;
                         }
                     break;
                     case "activateDate":
                         $scope.customerContractFn(cObj, 'activateDate');
-                    break;            
+                    break;
                     case "enable":
                         $scope.customerContractFn(cObj, 'enable');
                     break;
@@ -330,7 +339,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     case "complete_terminateContract":
                         console.log(cObj);
                         //$scope.customerContractFn(cObj, 'remove');
-                        $timeout(function() {                            
+                        $timeout(function() {
                             $scope.serviceDataFn(cObj, 'removeContractAndServicesMulti');
                             blockUI.stop();
                         }, 1500);
@@ -338,7 +347,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
 
                     /******************************
                     *   CONTRACTS UNDERLOCK SYS   *
-                    ******************************/ 
+                    ******************************/
                     case "underLock-assign":
                         $scope.contract.sysUnderLock     = {};
                         $('#underLockSystem').modal('show');
@@ -350,14 +359,14 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     break;
                     case "underLock-add":
                         $scope.customerContractFn(cObj, 'underLock-add');
-                    break; 
+                    break;
                     case "underLock-edit":
                         $scope.contract.sysUnderLock = {};
                         $scope.contract.sysUnderLock.idSystemUnderLock        = cObj.idSystemUnderLock;
                         $scope.contract.sysUnderLock.isSystemUnderLock        = cObj.isSystemUnderLock;
                         $scope.contract.sysUnderLock.idContrato               = cObj.idContrato;
                         $scope.contract.sysUnderLock.idClientFk               = cObj.idClientFk;
-                        $scope.contract.sysUnderLock.numeroContrato           = cObj.numeroContrato;                    
+                        $scope.contract.sysUnderLock.numeroContrato           = cObj.numeroContrato;
                         $scope.contract.sysUnderLock.companyHasKeys           = cObj.companyHasKeys==1?true:false;
                         $scope.contract.sysUnderLock.customerHasKeys          = cObj.customerHasKeys==1?true:false;
                         $scope.contract.sysUnderLock.comment_systemUnderLock  = cObj.comment_systemUnderLock;
@@ -368,16 +377,16 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     break;
                     case "underLock-update":
                         $scope.customerContractFn(cObj, 'underLock-update');
-                    break;                 
+                    break;
                     case "underLock-show":
                         //$scope.customerContractFn(cObj, 'disable');
-                    break; 
+                    break;
                 }
             break;
         /******************************
         *     CUSTOMERS SERVICES      *
         ******************************/
-       
+
             case "services":
                 switch (opt2){
                     case "start_new_service":
@@ -431,7 +440,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         }else{
                             inform.add('Debe registrar un contrato para crear un nuevo servicio. ',{
                             ttl:4000, type: 'info'
-                            });    
+                            });
                         }
                     break;
                     case "select_service_windows":
@@ -629,7 +638,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         var expirationDate  = new Date(date_selected);
                         $scope.customer.update.expirationDate       = expirationDate.getFullYear()+"-"+(expirationDate.getMonth()+1)+"-"+expirationDate.getDate()+" " +"23:59:59"
                         console.log($scope.customer.update);
-                        $scope.addInitialDeliveryFn($scope.customer.update); 
+                        $scope.addInitialDeliveryFn($scope.customer.update);
                     break;
                     case "update_enableInitialKeys":
                         $scope.customer.update.updated_by_idUserKf = $scope.sysLoggedUser.idUser;
@@ -637,8 +646,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         var expirationDate  = new Date(date_selected);
                         $scope.customer.update.expirationDate     = expirationDate.getFullYear()+"-"+(expirationDate.getMonth()+1)+"-"+expirationDate.getDate()+" " +"23:59:59"
                         console.log($scope.customer.update);
-                        $scope.updateInitialDeliveryFn($scope.customer.update); 
-                    break; 
+                        $scope.updateInitialDeliveryFn($scope.customer.update);
+                    break;
                     case "list_attendants":
                         $('#attendantList').modal({backdrop: 'static', keyboard: true});
                     break;
@@ -670,11 +679,11 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
              }else if (item[key].idProduct!=undefined && typeof item[key].idProduct === 'string'){
                rowId=Number(item[key].idProduct);
                item[key].idProduct=rowId;
-               rowList.push(item[key]);            
+               rowList.push(item[key]);
              }else if (item[key].idDepartmentFk!=undefined && typeof item[key].idProduct === 'string'){
                rowId=Number(item[key].idDepartmentFk);
                item[key].idDepartmentFk=rowId;
-               rowList.push(item[key]);            
+               rowList.push(item[key]);
              }else{
                rowList.push(item[key]);
              }
@@ -730,7 +739,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                } else {
                    //console.log("entro al else");
                    $scope.pagedItems[Math.floor(i / itemsPerPage)].push($scope.filteredItems[i]);
-               } 
+               }
                //console.log($scope.pagedItems[Math.floor(i / itemsPerPage)]);
            }
            //console.log($scope.pagedItems.length);
@@ -749,21 +758,21 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
            }
        };
        //Last Page
-       $scope.lastPage = function(){          
+       $scope.lastPage = function(){
            $scope.currentPage=($scope.pagedItems.length-1);
        }
        //First Page
        $scope.firstPage = function () {
            $scope.currentPage=($scope.pagedItems.length-$scope.pagedItems.length);
        };
- 
+
        // change sorting order
        $scope.sort_by = function(newSortingOrder) {
            if ($scope.sortingOrder == newSortingOrder)
                $scope.reverse = !$scope.reverse;
- 
+
            $scope.sortingOrder = newSortingOrder;
- 
+
            // icon setup
            //$('th i').each(function(){
            //    // icon reset
@@ -842,7 +851,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                 *                 USER  SERVICES                  *
                 *  [userLists]: clientUser, attendants, tenants   *
                 *               sysUser, companyUser              *
-                **************************************************/ 
+                **************************************************/
                     $scope.rsList = {};
                     $scope.getUserLists = function(opt, group){
                         userServices.userLists().then(function(response) {
@@ -1042,7 +1051,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     }
                     }
                 /**
-                * Modal Confirmation function 
+                * Modal Confirmation function
                 **/
                     $scope.modalConfirmation = function(opt, confirm, obj, obj2){
                         $scope.swMenu = opt;
@@ -1060,7 +1069,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         console.log('Usuario a eliminar ID: '+$scope.idUserKf+' BAJO EL NOMBRE: '+obj.fullNameUser);
                                         console.log("============================================================================")
                                         console.log($scope.argObj);
-                                    }      
+                                    }
                                 $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.deleteUser($scope.argObj);
@@ -1075,7 +1084,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         console.log('Usuario a eliminar ID: '+obj.idProfiles+' BAJO EL NOMBRE: '+obj.name);
                                         console.log("============================================================================")
                                         console.log(obj);
-                                    }      
+                                    }
                                 $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.deleteSysProfileFn($scope.idSysProf);
@@ -1090,7 +1099,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         console.log('Producto a eliminar ID: '+obj.idProduct+' DESCRIPCION: '+obj.descriptionProduct);
                                         console.log("============================================================================")
                                         console.log(obj);
-                                    }      
+                                    }
                                 $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.deleteProductFn($scope.idProducto);
@@ -1103,7 +1112,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.mess2show="Se perderan todos los datos cargados para el registro del Cliente, esta seguro que desea cancelar?";
                                     }else{
                                         $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
-                                    }    
+                                    }
                                     $('#confirmRequestModal').modal('show');
                                 }else if (confirm==1){
                                     $('#confirmRequestModal').modal('hide');
@@ -1118,7 +1127,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 }
                             break;
                             case "closeServiceWindow":
-                                console.log(obj);   
+                                console.log(obj);
                                 if (obj!=undefined && obj.idReasonTypeKf!=undefined && obj.dateDown!=undefined && obj.idReasonTypeKf!=null && obj.dateDown!=null){
                                     confirm=1;
                                 }
@@ -1132,7 +1141,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.serviceUpdate=obj;
                                         $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
                                         $scope.getListContractServicesFn($scope.serviceUpdate.idContratoFk, null);
-                                    }    
+                                    }
                                     $('#confirmRequestModal').modal('show');
                                 }else if (confirm==1){
                                     $('#confirmRequestModal').modal('hide');
@@ -1147,10 +1156,10 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     $('#updateTotemService').modal('hide');
                                     $('#updateCamerasService').modal('hide');
                                     $('#updateAlarmService').modal('hide');
-                                    $('#updateAppMonitorService').modal('hide');   
-                                    
+                                    $('#updateAppMonitorService').modal('hide');
+
                                     //$scope.loadPagination($scope.rsCustomerListData, "idClient", "10");
-                                }              
+                                }
                             break;
                             case "removeParticularAddress":
                                 if (confirm==0){
@@ -1162,10 +1171,10 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     }else{
                                         $scope.mess2show="El local en la direccion: "+obj.address+" sera Eliminado.     Confirmar?";
                                     }
-                                    
+
                                         console.log('Direccion a eliminar ID: '+obj.idAddressParticular+' Direccion: '+obj.address);
                                         console.log("============================================================================")
-                                        //console.log(obj);     
+                                        //console.log(obj);
                                 $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.removeParticularAddressFn($scope.removeParticularAddress);
@@ -1175,11 +1184,11 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             case "removePhoneNum":
                                 if (confirm==0){
                                     $scope.removePhoneNum=obj;
-                                        $scope.mess2show="El telefono "+obj.phoneContact+" de contacto ["+obj.phoneTag+"] sera Eliminado.     Confirmar?";                                        
-                                    
+                                        $scope.mess2show="El telefono "+obj.phoneContact+" de contacto ["+obj.phoneTag+"] sera Eliminado.     Confirmar?";
+
                                         console.log('Telefono a eliminar ID: '+obj.idClientPhoneFk+' Telefono: '+obj.phoneContact);
                                         console.log("============================================================================")
-                                        //console.log(obj);     
+                                        //console.log(obj);
                                 $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.removePhoneNumFn($scope.removePhoneNum);
@@ -1189,11 +1198,11 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             case "removeMail":
                                 if (confirm==0){
                                     $scope.removeMail=obj;
-                                        $scope.mess2show="El correo "+obj.mailContact+" de tipo ["+obj.typeName+"] sera Eliminado.     Confirmar?";                                        
-                                    
+                                        $scope.mess2show="El correo "+obj.mailContact+" de tipo ["+obj.typeName+"] sera Eliminado.     Confirmar?";
+
                                         console.log('Correo a eliminar ID: '+obj.idClientMail+' Telefono: '+obj.mailContact);
                                         console.log("============================================================================")
-                                        //console.log(obj);     
+                                        //console.log(obj);
                                 $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.removeMailFn($scope.removeMail);
@@ -1203,11 +1212,11 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             case "removeAuthUser":
                                 if (confirm==0){
                                     $scope.removeAuthUser=obj;
-                                        $scope.mess2show="El usuario "+obj.fullNameUser+" sera removido de los usuarios autorizados.     Confirmar?";                                        
-                                    
+                                        $scope.mess2show="El usuario "+obj.fullNameUser+" sera removido de los usuarios autorizados.     Confirmar?";
+
                                         console.log('Usuario a remover ID: '+obj.idUserFk);
                                         console.log("============================================================================");
-                                        //console.log(obj);     
+                                        //console.log(obj);
                                 $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.removeAuthUserFn($scope.removeAuthUser);
@@ -1217,11 +1226,11 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             case "removeZone":
                                 if (confirm==0){
                                     $scope.removeZone=obj;
-                                        $scope.mess2show="La zona ("+obj.n_zona+") "+obj.descripcion+" sera eliminada.     Confirmar?";                                        
-                                    
+                                        $scope.mess2show="La zona ("+obj.n_zona+") "+obj.descripcion+" sera eliminada.     Confirmar?";
+
                                         console.log('Zona a remover ID: '+obj.idZona);
                                         console.log("============================================================================");
-                                        //console.log(obj);     
+                                        //console.log(obj);
                                 $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.deleteZoneFn($scope.removeZone);
@@ -1251,11 +1260,11 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         break;
                                         case "6":
                                         $scope.mess2show="El departamento   : "+deptoUpper.toString().toUpperCase()+"    Piso: "+floorUpper.toString().toUpperCase()+" sera eliminado.     Confirmar?";
-                                        break;                    
+                                        break;
                                     }
                                         console.log('Depto a remover ID: '+obj.idDepto);
                                         console.log("============================================================================");
-                                        //console.log(obj);     
+                                        //console.log(obj);
                                 $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.deleteSelectedDeptoMultiFn($scope.removeDepto);
@@ -1265,12 +1274,12 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             case "newService":
                                 if (confirm==0){
                                     $scope.addService=obj;
-                                        $scope.mess2show="El servicio "+obj.serviceName+" en el contrato "+obj.contractNumb+" sera creado.     Confirmar?";                                        
-                                    
+                                        $scope.mess2show="El servicio "+obj.serviceName+" en el contrato "+obj.contractNumb+" sera creado.     Confirmar?";
+
                                         console.log("servicio a crear  : "+obj.serviceName);
                                         console.log("Numero de contrato: "+obj.contractNumb);
                                         console.log("============================================================================");
-                                        //console.log(obj);     
+                                        //console.log(obj);
                                 $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.switchCustomersFn('services', $scope.addService, 'add_new_service');
@@ -1281,17 +1290,17 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 if (confirm==0){
                                     $scope.updateService=obj;
                                         $scope.mess2show="El servicio "+obj.clientTypeServices+" en el contrato "+obj.numeroContrato+" sera actualizado.     Confirmar?";
-                                    
+
                                         console.log("servicio a actualizar  : "+obj.clientTypeServices);
                                         console.log("Numero de contrato: "+obj.numeroContrato);
                                         console.log("============================================================================");
-                                        //console.log(obj);     
+                                        //console.log(obj);
                                 $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.switchCustomersFn('services', $scope.updateService, 'update');
                                 $('#confirmRequestModal').modal('hide');
                                 }
-                            break;            
+                            break;
                             case "updateSysUser":
                                 if (confirm==0){
                                     if ($scope.sessionidProfile==1 && obj.idUser!=0){
@@ -1301,7 +1310,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         console.log('Usuario a eliminar ID: '+$scope.idUserKf+' BAJO EL NOMBRE: '+obj.fullNameUser);
                                         console.log("============================================================================")
                                         console.log($scope.argObj);
-                                    }      
+                                    }
                                 $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.sysUpdateUserFn($scope.argObj);
@@ -1321,7 +1330,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 }else if (confirm==1){
                                     $scope.switchCustomersFn('contract', $scope.argObj, 'activateDate');
                                     $('#confirmRequestModal').modal('hide');
-                                }            
+                                }
                             break;
                             case "activate_and_enable_contract":
                                 if (confirm==0){
@@ -1336,8 +1345,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 }else if (confirm==1){
                                     $scope.switchCustomersFn('contract', $scope.argObj, 'activateDate');
                                     $('#confirmRequestModal').modal('hide');
-                                }            
-                            break;  
+                                }
+                            break;
                             case "contract_enable":
                                 if (confirm==0){
                                 $scope.mess2show="El contrato "+obj.numeroContrato+" sera activado.     Confirmar?";
@@ -1345,13 +1354,13 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 $scope.argObj = obj;
                                 console.log('Contrato a habilitar ID: '+obj.idContrato+' Contrato: '+obj.numeroContrato);
                                 console.log("============================================================================")
-                                console.log($scope.argObj);   
+                                console.log($scope.argObj);
                                 $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.switchCustomersFn('contract', $scope.argObj, 'enable');
                                     $('#confirmRequestModal').modal('hide');
-                                }            
-                            break;            
+                                }
+                            break;
                             case "contract_disable":
                                 if (confirm==0){
                                 $scope.mess2show="El contrato "+obj.numeroContrato+" sera desactivado. por favor confirmar, Confirmar?";
@@ -1359,12 +1368,12 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 $scope.argObj = obj;
                                 console.log('Contrato a desahibilitar ID: '+obj.idContrato+' Contrato: '+obj.numeroContrato);
                                 console.log("============================================================================")
-                                console.log($scope.argObj);   
+                                console.log($scope.argObj);
                                 $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.switchCustomersFn('contract', $scope.argObj, 'disable');
                                     $('#confirmRequestModal').modal('hide');
-                                }            
+                                }
                             break;
                             case "contract_remove":
                                 if (confirm==0){
@@ -1373,12 +1382,12 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 $scope.argObj = obj;
                                 console.log('Contrato a dar de baja ID: '+obj.idContrato+' Contrato: '+obj.numeroContrato);
                                 console.log("============================================================================")
-                                console.log($scope.argObj);   
+                                console.log($scope.argObj);
                                 $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.switchCustomersFn('contract', $scope.argObj, 'init_terminationContract');
                                     $('#confirmRequestModal').modal('hide');
-                                }            
+                                }
                             break;
                             case "contract_remove_service_item":
                                 if (confirm==0){
@@ -1389,12 +1398,12 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 $scope.argObj2 = obj2;
                                 console.log('item del Servicio a Remover: '+obj.itemName+' Servicio: '+obj.serviceName);
                                 console.log("============================================================================")
-                                console.log($scope.argObj);   
+                                console.log($scope.argObj);
                                 $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.removeServiceItemFn($scope.argObj, $scope.argObj2);
                                     $('#confirmRequestModal').modal('hide');
-                                }            
+                                }
                             break;
                             case "service_remove":
                                 if (confirm==0){
@@ -1405,7 +1414,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     $scope.argObj2 = obj2;
                                     console.log('Servicio a Remover: '+obj.clientTypeServices+' id: '+obj.idClientServices);
                                     console.log("============================================================================")
-                                    console.log($scope.argObj);   
+                                    console.log($scope.argObj);
                                     $('#confirmRequestModal').modal('toggle');
                                     }else if (confirm==1){
                                         $scope.switchCustomersFn('services',$scope.argObj,'init_terminateService');
@@ -1472,7 +1481,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 }else if (confirm<0){
                                     $scope.customer={};
                                 }
-                                
+
                             break;
                             default:
                         }
@@ -1496,7 +1505,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                 $scope.vIndex=null;
                 $scope.selectTableRow = function (value, idItem, opt) {
                     $scope.vIndex = value;
-                    $scope.idDeptoKf = idItem;           
+                    $scope.idDeptoKf = idItem;
                     console.log("[selectTableRow]->idItem: "+idItem);
                     if ($scope.dayDataCollapse === 'undefined') {
                         $scope.dayDataCollapse = $scope.dayDataCollapseFn();
@@ -1504,7 +1513,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         console.log($scope.dayDataCollapse);
                     } else {
                         //console.log("dayDataCollapse != undefined");
-                        //console.log($scope.dayDataCollapse);              
+                        //console.log($scope.dayDataCollapse);
                         //console.log('Variable tableRowExpanded: '+$scope.tableRowExpanded);
                         //console.log('Variable tableRowIndexCurrExpanded: '+$scope.tableRowIndexCurrExpanded);
                         if ($scope.tableRowExpanded === false && $scope.tableRowIndexCurrExpanded === "") {
@@ -1516,7 +1525,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             //console.log('Id del idItem: '+idItem+' / Index Id de la tabla: ' +$scope.vIndex);
                             if(opt=="depto"){$scope.searchTenant('listTenant', idItem);}
                             if(opt=="service"){$scope.getListContractServicesFn(idItem, null);}
-                            //console.log("===================================")                    
+                            //console.log("===================================")
                         } else if ($scope.tableRowExpanded === true) {
                                 //console.log("ROWEXPANDED TRUE")
                             if ($scope.tableRowIndexCurrExpanded === $scope.vIndex) {
@@ -1538,7 +1547,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 $scope.dayDataCollapse[$scope.tableRowIndexCurrExpanded] = false;
                                 //console.log("===================================")
                             }
-                        } 
+                        }
                     }
                 };
             /**************************************************/
@@ -1679,7 +1688,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                  });
              }
              $scope.filterTypeOfMaintenance = function(item){
-                      return item.idTypeMaintenance != "3" 
+                      return item.idTypeMaintenance != "3"
               };
               /**************************************************
               *                                                 *
@@ -1708,7 +1717,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                           });
                       }
                   });
-                  
+
               }
             /**************************************************
             *                                                 *
@@ -1731,7 +1740,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             }else if(response.status==404){
                               $scope.listCustomerFound = [];
                               //$scope.pagination.totalCount  = 0;
-                            } 
+                            }
                           }, function(err) {
                             $scope.listCustomerFound = [];
                             //$scope.pagination.totalCount  = 0;
@@ -1837,7 +1846,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         }else{
                             $scope.service.new.serviceItems.qtty=1;
                         }
-                        
+
                     }
                 }
 
@@ -1846,7 +1855,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
             *           SERVICES CONTRACTS CUSTOMERS          *
             *                                                 *
             **************************************************/
-                
+
                 $scope.list_services_tmp=[];
                 $scope.list_customer_contracts=[];
                 $scope.isServiceExist=false;
@@ -1872,7 +1881,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             var itemName="CAMARAS";
                         }else{
                             var itemName=obj.serviceType.clientTypeServices==undefined?obj.serviceName:obj.serviceType.clientTypeServices;
-                        }          
+                        }
                         for (var srvs in $scope.list_services_tmp){
                             if ($scope.list_services_tmp[srvs].idServiceType==obj.serviceType.idClientTypeServices){
                                 if ($scope.list_services_tmp[srvs].serviceItems!=undefined && $scope.list_services_tmp[srvs].serviceItems.length>=0){
@@ -1885,7 +1894,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             ttl:5000, type: 'warning'
                                             });
                                             $scope.isServiceItemExist=true;
-                                            break; 
+                                            break;
                                         }else if (obj.serviceType.idClientTypeServices=="1" || obj.serviceType.idClientTypeServices=="2"){
                                             console.log("obj.serviceType.idClientTypeServices == 1 OR 2 : "+obj.serviceType.idClientTypeServices+ " (Encontrado)");
                                             if (obj.serviceType.idClientTypeServices=="1" && $scope.list_services_tmp[srvs].serviceItems[item].idAccCrtlDoor!=7 &&
@@ -1907,7 +1916,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                                 break;
                                             }else{
                                                 console.log("obj.serviceType.idClientTypeServices == 1 OR 2 : "+obj.serviceType.idClientTypeServices+ " (No Encontrado)");
-                                                
+
                                                 $scope.isServiceItemExist=false;
                                             }
                                         }else{
@@ -1923,8 +1932,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
 
                                 var idItemNumb=0;
                                 var itemAclaration=null;
-                                var itemAclaration=obj.serviceType.idClientTypeServices=="1" && obj.serviceItems.accCrtlDoor.idAccessControlDoor=="7"?obj.serviceItems.itemAclaracion:null;   
-                                var itemQtty=obj.serviceType.idClientTypeServices=="1" || obj.serviceType.idClientTypeServices=="3" || obj.serviceType.idClientTypeServices=="4"?obj.serviceItems.qtty:1;                
+                                var itemAclaration=obj.serviceType.idClientTypeServices=="1" && obj.serviceItems.accCrtlDoor.idAccessControlDoor=="7"?obj.serviceItems.itemAclaracion:null;
+                                var itemQtty=obj.serviceType.idClientTypeServices=="1" || obj.serviceType.idClientTypeServices=="3" || obj.serviceType.idClientTypeServices=="4"?obj.serviceItems.qtty:1;
                                 if (obj.serviceType.idClientTypeServices=="1"){
                                     var idServiceItem=obj.serviceItems.accCrtlDoor.idAccessControlDoor;
                                 }else if (obj.serviceType.idClientTypeServices=="2"){
@@ -1935,13 +1944,13 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 if (!$scope.isServiceItemExist && ($scope.list_services_tmp[srvs].serviceItems==undefined || $scope.list_services_tmp[srvs].serviceItems.length<=0)){
                                     //console.log("scope.isServiceItemExist: "+$scope.isServiceItemExist+" Y $scope.list_services_tmp[srvs].serviceItems.length: "+$scope.list_services_tmp[srvs].serviceItems.length);
                                     idItemNumb=0;
-                                                                    
+
                                     $scope.list_services_tmp[srvs].serviceItems.push({'id':(idItemNumb+1), 'qtty':itemQtty, 'idAccCrtlDoor':idServiceItem,'itemName':itemName, 'itemAclaracion':itemAclaration, 'idServiceTypeFk':obj.serviceType.idClientTypeServices});
 
                                 }else if((!$scope.isServiceItemExist) && $scope.list_services_tmp[srvs].serviceItems.length>0){
-                                    //console.log("scope.isServiceItemExist: "+$scope.isServiceItemExist+" Y $scope.list_services_tmp[srvs].serviceItems.length: "+$scope.list_services_tmp[srvs].serviceItems.length);                  
-                                    for (var item in  $scope.list_services_tmp[srvs].serviceItems){idItemNumb=$scope.list_services_tmp[srvs].serviceItems[item].id;}                                                        
-                                    
+                                    //console.log("scope.isServiceItemExist: "+$scope.isServiceItemExist+" Y $scope.list_services_tmp[srvs].serviceItems.length: "+$scope.list_services_tmp[srvs].serviceItems.length);
+                                    for (var item in  $scope.list_services_tmp[srvs].serviceItems){idItemNumb=$scope.list_services_tmp[srvs].serviceItems[item].id;}
+
                                     $scope.list_services_tmp[srvs].serviceItems.push({'id':(idItemNumb+1), 'qtty':itemQtty, 'idAccCrtlDoor':idServiceItem,'itemName':itemName, 'itemAclaracion':itemAclaration, 'idServiceTypeFk':obj.serviceType.idClientTypeServices});
                                 }
                                 if ((!$scope.isServiceItemExist && $scope.list_services_tmp[srvs].serviceItems.length>=0 && obj.serviceType.idClientTypeServices!="5" && obj.serviceType.idClientTypeServices!="6" && !$scope.isServiceItemExist) || ((!$scope.isServiceItemExist || $scope.isServiceItemExist) && $scope.list_services_tmp[srvs].serviceItems.length>=0 && (obj.serviceType.idClientTypeServices=="3" || obj.serviceType.idClientTypeServices=="4"))){
@@ -1979,7 +1988,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             $scope.list_services_tmp[srvs].serviceItems[item].id=(idItemNumb+1);
                             if ($scope.list_services_tmp[srvs].serviceItems[item].idServiceTypeFk=="1" && ($scope.list_services_tmp[srvs].serviceItems[item].qtty==null || $scope.list_services_tmp[srvs].serviceItems[item].qtty=="")){
                                 $scope.list_services_tmp[srvs].serviceItems[item].qtty=1;
-                            }                
+                            }
                             $scope.list_services_tmp[srvs].serviceItems[item].serviceItemEdit=false;
                             idItemNumb++;
                             }
@@ -1991,7 +2000,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         $scope.validateServiceListItemsFn();
                     }
                     //console.log($scope.list_services_tmp);
-                }  
+                }
                 $scope.closeServicePanel=function(){
                     $scope.searchCustomerFound=false;
                     $scope.customerSearch={Name:''};
@@ -2000,18 +2009,18 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     $scope.getCustomerListFn("registered", "");
                     $scope.customerSearch.typeClient=null;
                 }
-                
+
                 $scope.removeServiceItemFn = function(obj, item){
                     //console.log(obj);
                     var objArr     = $scope.list_services_tmp;
                     var indexObj   = objArr.map(function(o){return o.id;});
                     var objIndex   = indexObj.indexOf(obj.id);
                     //console.log("$scope.list_services_tmp.id: "+objIndex);
-                    var objItem     = $scope.list_services_tmp[objIndex].serviceItems;        
-                    var arrItem     = objItem.map(function(i){return i.id;});        
-                    var indexItem   = arrItem.indexOf(item.id); 
+                    var objItem     = $scope.list_services_tmp[objIndex].serviceItems;
+                    var arrItem     = objItem.map(function(i){return i.id;});
+                    var indexItem   = arrItem.indexOf(item.id);
                     //console.log("$scope.list_services_tmp.serviceItems.id: "+indexItem);
-                
+
                     $scope.list_services_tmp[objIndex].serviceItems.splice(indexItem, 1);
                         if (obj.idServiceType!="5" && obj.idServiceType!="6"){
                             inform.add("El item: "+item.itemName+" del servicio: "+obj.serviceName+", ha sido eliminado.",{
@@ -2059,7 +2068,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 $scope.newitemAclaracion="";
                                 $scope.itemAclaracionEdit=true;
                                 obj.itemAclaracionEdit=true;
-                            }   
+                            }
 
                         break;
                         case "assign":
@@ -2068,7 +2077,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 //console.log(obj);
                                 var itemQtty=obj.qtty==null?0:parseInt(obj.qtty);
                                 //console.log("Actual cantidad: "+itemQtty);
-                                //console.log("nueva cantidad: "+$scope.serviceItems.qtty);                      
+                                //console.log("nueva cantidad: "+$scope.serviceItems.qtty);
                                 obj.qtty=Number(itemQtty) + Number(parseInt($scope.serviceItems.qtty));
                                 obj.serviceItemEdit=false;
                                 inform.add("Servicio ["+srvs.serviceName+"]: la cantidad de "+obj.itemName+" ha sido incrementado satisfactoriamente.",{
@@ -2106,7 +2115,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
             **************************************************/
                 /***********************************
                 *       GETTING CONTRACT DATA      *
-                ************************************/    
+                ************************************/
                     $scope.customerContractFn = function(contract, opt){
                         switch(opt){
                             case "create": //NEW CUSTOMER CONRACT
@@ -2160,7 +2169,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "activateDate": //ENABLE CUSTOMER CONRACT
                                 contract.idStatusFk = 1;
-                                contract.fechaFirma = $scope.contract.tmpFechaFirma;                
+                                var rawDate                   = moment($scope.contract.activateDate.tmpFechaFirmaActivacion).toDate();
+                                contract.fechaFirmaActivacion = moment(rawDate).format('YYYY-MM-DD');
                                 console.log(contract);
                                 $scope.setSignDateContractFn(contract);
                             break;
@@ -2168,7 +2178,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 contract.idStatusFk=1
                                 console.log(contract);
                                 $scope.changeStatusCustomerContractFn(contract);
-                            break;              
+                            break;
                             case "disable": //DISABLE CUSTOMER CONRACT
                                 contract.idStatusFk=0
                                 //console.log(contract);
@@ -2397,8 +2407,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                 $scope.resources={};
                 $scope.getResourcesFromServiceFn=function(servicesList, opt){
                     $scope.resources={'dvr':[], 'cameras':[]};
-                    //console.log(servicesList);            
-                    for (var service in servicesList){          
+                    //console.log(servicesList);
+                    for (var service in servicesList){
                         if (servicesList[service].idClientTypeServices=="4"){
                         for (var contract in $scope.rsContractsListByCustomerIdData){
                             if ($scope.rsContractsListByCustomerIdData[contract].idContrato==servicesList[service].idContracAssociated_SE){
@@ -2492,7 +2502,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 console.log("Not Equal")
                                 var formattedDate = newDate;
                             }
-                            
+
                         break;
                         case "yyyy/MM/dd":
                             console.log("Formatear la fecha en 'yyyy/MM/dd'");
@@ -2541,7 +2551,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             $('#RegisterCtrlAccessService').modal({backdrop: 'static', keyboard: false});
                                             $('#RegisterCtrlAccessService').on('shown.bs.modal', function () {
                                                 $('#service_door').focus();
-                                            });                        
+                                            });
                                             for (var key in $scope.rsTypeOfMaintenanceData){
                                                 if ($scope.rsContractServiceData.maintenanceType==$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance){
                                                     //$scope.service.new.idTypeMaintenanceFk         = $scope.rsContractServiceData.maintenanceType=="3"?0:$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
@@ -2574,12 +2584,12 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             }else{
                                             inform.add('Servicio [Control de Acceso]: El contrato no tiene Puertas disponibles para asignar a un servicio. ',{
                                                 ttl:5000, type: 'warning'
-                                            }); 
+                                            });
                                             }
                                         }else{
                                             inform.add('Servicio [Control de Acceso]: No contratado. ',{
                                             ttl:5000, type: 'danger'
-                                            });  
+                                            });
                                         }
                                         }else{
                                             inform.add('Servicio [Control de Acceso]: Servicio no disponible, verifique el estatus del contrato.',{
@@ -2587,7 +2597,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             });
                                             inform.add('Contrato: '+$scope.rsContractServiceData.numeroContrato+' inactivo. ',{
                                             ttl:5000, type: 'danger'
-                                            });   
+                                            });
                                         }
                                         console.log($scope.service.new);
                                     break;
@@ -2598,7 +2608,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             $('#RegisterInternetService').modal({backdrop: 'static', keyboard: false});
                                             $('#RegisterInternetService').on('shown.bs.modal', function () {
                                                 $('#service_internetType').focus();
-                                            });                        
+                                            });
                                             for (var key in $scope.rsTypeOfMaintenanceData){
                                                 if ($scope.rsContractServiceData.maintenanceType==$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance){
                                                     //$scope.service.new.idTypeMaintenanceFk         = $scope.rsContractServiceData.maintenanceType=="3"?0:$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance;
@@ -2626,17 +2636,17 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             });
                                             inform.add('servicio [Internet]: el contrato tiene '+$scope.rsContractServiceData.services[0].item_available+' tipo de internet disponibles. ',{
                                                 ttl:25000, type: 'info'
-                                            });                                    
+                                            });
                                             //console.log($scope.service);
                                             }else{
                                             inform.add('Servicio [Internet]: El contrato no tiene internet disponibles para asignar a un servicio. ',{
                                                 ttl:5000, type: 'warning'
-                                            }); 
+                                            });
                                             }
                                         }else{
                                             inform.add('Servicio [Internet]: No contratado. ',{
                                             ttl:5000, type: 'danger'
-                                            });  
+                                            });
                                         }
                                         }else{
                                             inform.add('servicio [Internet]: Servicio no disponible, verifique el estatus del contrato.',{
@@ -2644,8 +2654,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             });
                                             inform.add('Contrato '+$scope.rsContractServiceData.numeroContrato+' inactivo. ',{
                                             ttl:5000, type: 'danger'
-                                            });   
-                                        }  
+                                            });
+                                        }
                                     break;
                                     case "3"://StartTotemService
                                         if ($scope.rsContractServiceData.idStatusFk=="1"){
@@ -2690,12 +2700,12 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             }else{
                                             inform.add('servicio [Totem]: El contrato no tiene camaras disponibles para asignar a un servicio. ',{
                                                 ttl:5000, type: 'warning'
-                                            }); 
+                                            });
                                             }
                                         }else{
                                             inform.add('servicio [Totem]: No contratado. ',{
                                             ttl:5000, type: 'danger'
-                                            });  
+                                            });
                                         }
                                         }else{
                                             inform.add('servicio [Totem]: Servicio no disponible, verifique el estatus del contrato.',{
@@ -2703,8 +2713,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             });
                                             inform.add('Contrato '+$scope.rsContractServiceData.numeroContrato+' inactivo. ',{
                                             ttl:5000, type: 'danger'
-                                            });   
-                                        }                              
+                                            });
+                                        }
                                     break;
                                     case "4"://StartCamerasService
                                         if ($scope.rsContractServiceData.idStatusFk=="1"){
@@ -2744,17 +2754,17 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             });
                                             inform.add('servicio [Camaras]: el contrato tiene '+$scope.rsContractServiceData.services[0].items_available+' camaras disponibles . ',{
                                                 ttl:25000, type: 'info'
-                                            });                                    
+                                            });
                                             //console.log($scope.service);
                                             }else{
                                             inform.add('servicio [Camaras]: El contrato no tiene camaras disponibles para asignar a un servicio. ',{
                                                 ttl:5000, type: 'warning'
-                                            }); 
+                                            });
                                             }
                                         }else{
                                             inform.add('servicio [Camaras]: No contratado. ',{
                                             ttl:5000, type: 'danger'
-                                            });  
+                                            });
                                         }
                                         }else{
                                             inform.add('Servicio [Camaras]: Servicio no disponible, verifique el estatus del contrato.',{
@@ -2762,7 +2772,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             });
                                             inform.add('Contrato '+$scope.rsContractServiceData.numeroContrato+' inactivo. ',{
                                             ttl:5000, type: 'danger'
-                                            });   
+                                            });
                                         }
                                     break;
                                     case "5"://StartAlarmService
@@ -2796,14 +2806,14 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             var current_date = new Date()
                                             var date = moment.tz(current_date, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
                                             var newDate = date.toDate();
-                                            $scope.service.new.dateUp                   = newDate;  
+                                            $scope.service.new.dateUp                   = newDate;
                                             $scope.getResourcesFromServiceFn($scope.rsAllServicesListOfCustomer, "dvr");
                                             $scope.getTypeAlarmClientListFn();
                                             $scope.getAlarmServiceAditionalsListFn();
                                             $scope.getTypeConnectionListFn();
                                             $scope.getTransmissionFormatListFn();
                                             if ($scope.service.idClientTypeFk=="2"){
-                                                $scope.getBuildingsDeptosFn($scope.service.new.idClientFk);  
+                                                $scope.getBuildingsDeptosFn($scope.service.new.idClientFk);
                                             }else if ($scope.service.idClientTypeFk=="5"){
                                                 $scope.service.new.list_address_particular=$scope.customerFound.list_address_particular;
                                                 //$scope.service.idContracAssociated_SE=
@@ -2815,12 +2825,12 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             }else{
                                             inform.add('Servicio [Alarma]: Ya ha sido asignado a un servicio. ',{
                                                 ttl:5000, type: 'warning'
-                                            }); 
+                                            });
                                             }
                                         }else{
                                             inform.add('Servicio [Alarma]: No contratado. ',{
                                             ttl:5000, type: 'danger'
-                                            });  
+                                            });
                                         }
                                         }else{
                                             inform.add('Servicio [Alarma]: Servicio no disponible, verifique el estatus del contrato.',{
@@ -2865,24 +2875,24 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             var newDate = date.toDate();
                                             $scope.service.new.dateUp                   = newDate;
                                             if ($scope.service.idClientTypeFk=="2"){
-                                                $scope.getBuildingsDeptosFn($scope.service.new.idClientFk);  
+                                                $scope.getBuildingsDeptosFn($scope.service.new.idClientFk);
                                             }else if ($scope.service.idClientTypeFk=="5"){
                                                 $scope.service.new.list_address_particular=$scope.customerFound.list_address_particular;
                                                 //$scope.service.idContracAssociated_SE=
                                             }
                                             inform.add('Contrato: '+$scope.rsContractServiceData.numeroContrato+' Nuevo servicio [App Monitor]. ',{
                                                 ttl:5000, type: 'info'
-                                            });                    
+                                            });
                                             //console.log($scope.service);
                                             }else{
                                             inform.add('Servicio [Alarma]: Ya ha sido asignado a un servicio. . ',{
                                                 ttl:5000, type: 'warning'
-                                            }); 
+                                            });
                                             }
                                         }else{
                                             inform.add('Servicio [Alarma]: No contratado. ',{
                                             ttl:5000, type: 'danger'
-                                            });  
+                                            });
                                         }
                                         }else{
                                             inform.add('Servicio [Alarma]: Servicio no disponible, verifique el estatus del contrato.',{
@@ -2890,7 +2900,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             });
                                             inform.add('Contrato '+$scope.rsContractServiceData.numeroContrato+' inactivo. ',{
                                             ttl:5000, type: 'danger'
-                                            });                                    
+                                            });
                                         }
                                     break;
                                     default:
@@ -2923,7 +2933,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     $scope.addNewService.battery_install          = $scope.list_batteries;
                                     $scope.addNewService.open_devices             = $scope.list_open_devices;
                                     $scope.addNewService.isOuputReader            = service.isOuputButom?null:'1';
-                                    $scope.addNewService.isOuputButom             = service.isOuputButom?'1':null; 
+                                    $scope.addNewService.isOuputButom             = service.isOuputButom?'1':null;
                                     $scope.addNewService.dateDown                 = null;
                                     $scope.addNewService.observation              = service.generalComments;
                                     $scope.addNewService.isBlocklingScrew         = service.isBlocklingScrew==0||service.isBlocklingScrew==undefined?0:1;
@@ -2949,7 +2959,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.addCustomerServiceFn($scope.addNewService);
                                     }, 1500);
                                         $('#RegisterCtrlAccessService').modal('hide');
-                                    blockUI.stop(); 
+                                    blockUI.stop();
                                 break;
                                 case "2": //ADD INTERNET
                                     $scope.addNewService.idContracAssociated_SE   = service.idContratoFk;
@@ -3002,9 +3012,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.addNewService.nroPort2=null;
                                         }
                                         var productIdNumber=0;
-                                        for (var item in $scope.list_productsDetails){productIdNumber=($scope.list_productsDetails[item].idProductDetail+1);}  
+                                        for (var item in $scope.list_productsDetails){productIdNumber=($scope.list_productsDetails[item].idProductDetail+1);}
                                         for (var key in $scope.list_batteries){
-                                        $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':$scope.list_batteries[key].idBatteryFk, 'numberSerieFabric':$scope.list_batteries[key].numberSerieFabric, 'numberSerieInternal':$scope.list_batteries[key].numberSerieInternal,'dateExpiration':$scope.list_batteries[key].dateExpiration, 'optAux':null});                  
+                                        $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':$scope.list_batteries[key].idBatteryFk, 'numberSerieFabric':$scope.list_batteries[key].numberSerieFabric, 'numberSerieInternal':$scope.list_batteries[key].numberSerieInternal,'dateExpiration':$scope.list_batteries[key].dateExpiration, 'optAux':null});
                                         productIdNumber++;
                                         }
                                         $scope.addNewService.adicional=$scope.list_productsDetails;
@@ -3045,7 +3055,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.addNewService.nroPort2=null;
                                         }
                                         var productIdNumber=0;
-                                        for (var item in $scope.list_productsDetails){productIdNumber=($scope.list_productsDetails[item].idProductDetail+1);}  
+                                        for (var item in $scope.list_productsDetails){productIdNumber=($scope.list_productsDetails[item].idProductDetail+1);}
                                             for (var key in $scope.list_batteries){
                                                 $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':$scope.list_batteries[key].idBatteryFk, 'numberSerieFabric':$scope.list_batteries[key].numberSerieFabric, 'numberSerieInternal':$scope.list_batteries[key].numberSerieInternal,'dateExpiration':$scope.list_batteries[key].dateExpiration, 'optAux':null});
                                                 productIdNumber++;
@@ -3075,7 +3085,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.addNewService.idTypeConectionRemote      = service.idTipoConexionRemoto;
                                         $scope.addNewService.observation                = service.observation==null || service.observation==undefined?null:service.observation;
                                         $scope.addNewService.installationPassword       = service.installationPassword;
-                                        var productIdNumber=0;                      
+                                        var productIdNumber=0;
                                         for (var key in $scope.list_batteries){
                                         $scope.baterias_instaladas.push({'idProductoFk':$scope.list_batteries[key].idBatteryFk, 'nroFabric':$scope.list_batteries[key].numberSerieFabric, 'nroInternal':$scope.list_batteries[key].numberSerieInternal,'dateExpired':$scope.list_batteries[key].dateExpiration, 'isControlSchedule':$scope.list_batteries[key].isControlSchedule});
                                         }
@@ -3108,7 +3118,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         }, 1500);
                                         $('#RegisterAppMonitorService').modal('hide');
                                         blockUI.stop();
-                                break;  
+                                break;
                             }
                         break;
                     /***********************************
@@ -3130,7 +3140,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.service.entranceReader.selected     = service.idInputReaderFk==undefined || service.idInputReaderFk==null?null:service.idInputReaderFk_array[0];
                                         $scope.service.exitReader.selected         = service.ouputReader==undefined || service.ouputReader==null?null:service.ouputReader_array[0];
                                         $scope.service.powerSupply.selected        = service.idFontFk==undefined || service.idFontFk==null?null:service.idFontFk_array[0];
-                                        $scope.service.emergencyButton.selected    = service.idEmergencyButtonFk==undefined || service.idEmergencyButtonFk==null?null:service.idEmergencyButtonFk_array[0];     
+                                        $scope.service.emergencyButton.selected    = service.idEmergencyButtonFk==undefined || service.idEmergencyButtonFk==null?null:service.idEmergencyButtonFk_array[0];
                                         $scope.service.TurnOffKey.selected         = service.idShutdownKeyFk==undefined || service.idShutdownKeyFk==null?null:service.idShutdownKeyFk_array[0];
                                         $scope.service.update.idTypeMaintenanceFk  = service.idTypeMaintenanceFk_array[0].idTypeMaintenance;
                                         $scope.service.update.MntType              = service.idTypeMaintenanceFk_array[0].typeMaintenance;
@@ -3209,7 +3219,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                                 break;
                                             }
                                             }
-                                        }                      
+                                        }
                                         $scope.rsCustomerContractListData            = $scope.rsContractsListByCustomerIdData;
                                         $scope.rsContractItemListData                = $scope.getSelectedServiceByIdContractFn($scope.service.update.idContratoFk, $scope.service.update.idClientTypeServices);
                                         $scope.service.update.isHasInternetConnect   = $scope.service.update.portNumberRouter!=undefined && $scope.service.update.portHttp!=undefined?true: false;
@@ -3267,7 +3277,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         //console.log($scope.productListType);
                                         $scope.rsCustomerContractListData          = $scope.rsContractsListByCustomerIdData;
                                         $scope.rsContractItemListData              = $scope.getSelectedServiceByIdContractFn($scope.service.update.idContratoFk, $scope.service.update.idClientTypeServices);
-                                        
+
                                         console.log($scope.service.update);
                                         $('#updateInternetService').modal({backdrop: 'static', keyboard: false});
                                         $('#updateInternetService').on('shown.bs.modal', function () {});
@@ -3280,7 +3290,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         console.log($scope.rsJsonData);
                                         if($scope.rsJsonData.status==200){
                                             $scope.service.cameras_available=$scope.rsJsonData.data[0].services[0].items_available;
-                                            $scope.service.cameras_contracted=$scope.rsJsonData.data[0].services[0].items_contracted;                        
+                                            $scope.service.cameras_contracted=$scope.rsJsonData.data[0].services[0].items_contracted;
                                         }
                                     });
 
@@ -3307,7 +3317,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         for (var batery in service.tb_backup_energy_totem_array){
                                         if (service.adicional[key].idProductoFk==$scope.rsProductsData[prduct].idProduct && service.tb_backup_energy_totem_array[batery].idBatteryFk==service.adicional[key].idProductoFk){
                                             $scope.list_batteries.push({'idProductIndex':productIndexNumb,'idBatteryFk':service.tb_backup_energy_totem_array[batery].idBatteryFk,'descriptionProduct':$scope.rsProductsData[prduct].descriptionProduct, 'model':$scope.rsProductsData[prduct].model, 'brand': $scope.rsProductsData[prduct].brand,'isNumberSerieInternal':$scope.rsProductsData[prduct].isNumberSerieInternal,'isNumberSerieFabric':$scope.rsProductsData[prduct].isNumberSerieFabric,'isDateExpiration':$scope.rsProductsData[prduct].isDateExpiration, 'numberSerieFabric':service.adicional[key].numberSerieFabric, 'numberSerieInternal':service.adicional[key].numberSerieInternal,'dateExpiration':service.adicional[key].dateExpiration, 'idProductClassification':service.tb_backup_energy_totem_array[batery].idProductClassificationFk, 'classification': $scope.rsProductsData[prduct].classification, 'description':$scope.rsProductsData[prduct].descriptionProduct, 'isNew':0});
-                                            productIndexNumb++;                              
+                                            productIndexNumb++;
                                         }
                                         }
                                     }
@@ -3324,7 +3334,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     for (var prduct in $scope.rsProductsData){
                                         if ($scope.rsProductsData[prduct].idProduct==service.tb_cameras_totem_array[camera].idProductFk){
                                         $scope.list_cameras.push({'idProductFk':service.tb_cameras_totem_array[camera].idProductFk, 'idCameraFk':service.tb_cameras_totem_array[camera].idProductFk,'portCamera':parseInt(service.tb_cameras_totem_array[camera].portCamera), 'coveredArea':service.tb_cameras_totem_array[camera].coveredArea, 'locationCamera': service.tb_cameras_totem_array[camera].locationCamera, 'descriptionProduct':$scope.rsProductsData[prduct].descriptionProduct, 'model':$scope.rsProductsData[prduct].model, 'brand': $scope.rsProductsData[prduct].brand,'isNumberSerieInternal':$scope.rsProductsData[prduct].isNumberSerieInternal,'isNumberSerieFabric':$scope.rsProductsData[prduct].isNumberSerieFabric,'isDateExpiration':$scope.rsProductsData[prduct].isDateExpiration, 'numberSerieFabric':service.tb_cameras_totem_array[camera].nroFabricCamera, 'numberSerieInternal':service.tb_cameras_totem_array[camera].nroSerieCamera,'dateExpiration':service.tb_cameras_totem_array[camera].dateExpireCamera, 'idProductClassification':$scope.rsProductsData[prduct].idProductClassification, 'classification': $scope.rsProductsData[prduct].classification, 'nroSerieCamera':service.tb_cameras_totem_array[camera].nroSerieCamera,'nroFabricCamera':service.tb_cameras_totem_array[camera].nroFabricCamera,'dateExpireCamera':service.tb_cameras_totem_array[camera].dateExpireCamera, 'isNew':0});
-                                        break;                              
+                                        break;
                                         }
                                     }
                                     }
@@ -3332,18 +3342,18 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     //console.log($scope.list_productsDetails);
                                     //console.log($scope.productListType);
                                     //LIST BATTERIES INSTALLED
-                                    //console.log($scope.list_batteries);                     
-                                    $scope.rsCustomerContractListData            = $scope.rsContractsListByCustomerIdData;                        
+                                    //console.log($scope.list_batteries);
+                                    $scope.rsCustomerContractListData            = $scope.rsContractsListByCustomerIdData;
                                     $scope.service.update.isHasInternetConnect   = $scope.service.update.numberPortRouter!=undefined && $scope.service.update.portHttpInter!=undefined?true: false;
                                     if ($scope.service.update.isHasInternetConnect){
                                     $scope.service.update.namePort = service.namePortInter;
                                     $scope.service.update.port     = service.numberPortInter;
                                     $scope.service.update.nroPort1 = service.numberPort1;
-                                    $scope.service.update.nroPort2 = service.numberPort2;   
+                                    $scope.service.update.nroPort2 = service.numberPort2;
                                     }
                                 console.log($scope.service.update);
                                 $('#updateTotemService').modal({backdrop: 'static', keyboard: false});
-                                $('#updateTotemService').on('shown.bs.modal', function () {});                      
+                                $('#updateTotemService').on('shown.bs.modal', function () {});
                                 }, 500);
                                 blockUI.stop();
                             break;
@@ -3353,10 +3363,10 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         console.log($scope.rsJsonData);
                                         if($scope.rsJsonData.status==200){
                                             $scope.service.cameras_available=$scope.rsJsonData.data[0].services[0].items_available;
-                                            $scope.service.cameras_contracted=$scope.rsJsonData.data[0].services[0].items_contracted;                        
+                                            $scope.service.cameras_contracted=$scope.rsJsonData.data[0].services[0].items_contracted;
                                         }
                                     });
-                                    $timeout(function() { 
+                                    $timeout(function() {
                                         $scope.service.update.idContratoFk         = service.idContracAssociated_SE;
                                         $scope.service.update.numeroContrato       = service.idContracAssociated_SE_array[0].numeroContrato;
                                         $scope.service.dvr.selected                = service.idDvr_nvrFk_array[0];
@@ -3406,14 +3416,14 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         //console.log($scope.list_productsDetails);
                                         //console.log($scope.productListType);
                                         //LIST BATTERIES INSTALLED
-                                        //console.log($scope.list_batteries);                     
-                                        $scope.rsCustomerContractListData            = $scope.rsContractsListByCustomerIdData;                        
+                                        //console.log($scope.list_batteries);
+                                        $scope.rsCustomerContractListData            = $scope.rsContractsListByCustomerIdData;
                                         $scope.service.update.isHasInternetConnect   = $scope.service.update.numberPortRouter!=undefined && $scope.service.update.portHttp!=undefined?true: false;
                                         console.log($scope.service.update);
                                         $('#updateCamerasService').modal({backdrop: 'static', keyboard: false});
                                         $('#updateCamerasService').on('shown.bs.modal', function () {});
                                     }, 500);
-                                    blockUI.stop();   
+                                    blockUI.stop();
                                 break;
                                 case "5": //LOAD ALARM
                                     $scope.getResourcesFromServiceFn($scope.rsAllServicesListOfCustomer, "dvr");
@@ -3421,7 +3431,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     $scope.getAlarmServiceAditionalsListFn();
                                     $scope.getTypeConnectionListFn();
                                     $scope.getTransmissionFormatListFn();
-                                    $timeout(function() {  
+                                    $timeout(function() {
                                         $scope.service.update.idContratoFk          = service.idContracAssociated_SE;
                                         $scope.service.update.numeroContrato        = service.idContracAssociated_SE_array[0].numeroContrato;
                                         $scope.service.alarmPanel.selected          = service.panelAlarm_array[0];
@@ -3440,11 +3450,11 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         var newDate = date.toDate();
                                         $scope.service.update.dateUp = newDate;
                                         if ($scope.service.idClientTypeFk=="2"){
-                                        $scope.getBuildingsDeptosFn($scope.service.update.idClientFk);  
+                                        $scope.getBuildingsDeptosFn($scope.service.update.idClientFk);
                                         }else if ($scope.service.idClientTypeFk=="5"){
                                         $scope.service.list_address_particular=$scope.customerFound.list_address_particular;
                                         //$scope.service.idContracAssociated_SE=
-                                        }                          
+                                        }
                                         var productIdNumber = 1;
                                         var productIndexNumb = 1;
                                         //LOAD ADITIONAL
@@ -3457,12 +3467,12 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             }
                                         }
                                         }
-                                        //LOAD BATTERIES                      
+                                        //LOAD BATTERIES
                                         for (var batery in service.tb_alarm_batery_array){
                                             for (var prduct in $scope.rsProductsData){
                                                 if (service.tb_alarm_batery_array[batery].idProductoFk==$scope.rsProductsData[prduct].idProduct){
                                                 $scope.list_batteries.push({'idProductIndex':productIndexNumb,'idBatteryFk':service.tb_alarm_batery_array[batery].idProductoFk,'descriptionProduct':$scope.rsProductsData[prduct].descriptionProduct, 'model':$scope.rsProductsData[prduct].model, 'brand': $scope.rsProductsData[prduct].brand,'isNumberSerieInternal':$scope.rsProductsData[prduct].isNumberSerieInternal,'isNumberSerieFabric':$scope.rsProductsData[prduct].isNumberSerieFabric,'isDateExpiration':$scope.rsProductsData[prduct].isDateExpiration, 'numberSerieFabric':service.tb_alarm_batery_array[batery].nroFabric, 'numberSerieInternal':service.tb_alarm_batery_array[batery].nroInternal,'dateExpiration':service.tb_alarm_batery_array[batery].dateExpired, 'idProductClassification':$scope.rsProductsData[prduct].idProductClassificationFk, 'classification': $scope.rsProductsData[prduct].classification, 'description':$scope.rsProductsData[prduct].descriptionProduct, 'isNew':0});
-                                                productIndexNumb++; 
+                                                productIndexNumb++;
                                                 }
                                             }
                                         }
@@ -3481,7 +3491,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                                     //console.log("[camera].idCamera: "+$scope.resources.cameras[camera].idCamera);
                                                     //console.log("[camera].idCameraProduct: "+$scope.resources.cameras[camera].idCameraProduct);
                                                     if (service.tb_sensors_alarm_array[sensor].idCameraFk == $scope.resources.cameras[camera].idCamera){
-                                                    //console.log("Camara encontrada:"); 
+                                                    //console.log("Camara encontrada:");
                                                     //console.log($scope.resources.cameras[camera]);
                                                     var portCamera = $scope.resources.cameras[camera].portCamera;
                                                     for (var dvr in $scope.resources.dvr){
@@ -3493,7 +3503,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                                 }
                                                 }else{
                                                     var dvrSelected   = null;
-                                                    var portCamera    = null;                            
+                                                    var portCamera    = null;
                                                 }
                                                 var nroZoneTamper = service.tb_sensors_alarm_array[sensor].nroZoneTamper!=null?parseInt(service.tb_sensors_alarm_array[sensor].nroZoneTamper):null;
                                                 $scope.list_sensors.push({'idSensor':service.tb_sensors_alarm_array[sensor].idSensorProduct,'sensorDetails':sensorSelected,'numberZoneSensor':parseInt(service.tb_sensors_alarm_array[sensor].numberZoneSensor),'area':service.tb_sensors_alarm_array[sensor].area, 'isWirelessSensor':parseInt(service.tb_sensors_alarm_array[sensor].isWirelessSensor), 'nroZoneTamper':nroZoneTamper, 'locationLon':service.tb_sensors_alarm_array[sensor].locationLon, 'idDvr':service.tb_sensors_alarm_array[sensor].idDvr, 'dvrDetails':dvrSelected, 'idCameraFk':service.tb_sensors_alarm_array[sensor].idCameraFk, 'portCamera':portCamera, 'nroInterno':service.tb_sensors_alarm_array[sensor].nroInterno, 'nroFrabric':service.tb_sensors_alarm_array[sensor].nroFrabric});
@@ -3534,7 +3544,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             //SCHEDULE
                                             if (service.tb_datos_adicionales_alarmas_array[0].tb_franja_horaria_alarmas_array!=undefined){
                                                 $scope.tmpVars.list_schedule_atention=service.tb_datos_adicionales_alarmas_array[0].tb_franja_horaria_alarmas_array!=undefined || service.tb_datos_adicionales_alarmas_array[0].tb_franja_horaria_alarmas_array.length>=1?service.tb_datos_adicionales_alarmas_array[0].tb_franja_horaria_alarmas_array:null;
-                                                if ($scope.tmpVars.list_schedule_atention!=null){                      
+                                                if ($scope.tmpVars.list_schedule_atention!=null){
                                                 $scope.list_schedule_atention=[];
                                                 for (var i = 0; i < $scope.tmpVars.list_schedule_atention.length; i++) {
                                                     if($scope.tmpVars.list_schedule_atention[i].day==$scope.list_schedule[i].day){
@@ -3547,11 +3557,11 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                                     //Load the data to a temp array to handle the schedule
                                                     $scope.list_schedule_atention.push({
                                                         'id_franja_horaria':$scope.tmpVars.list_schedule_atention[i].idScheduleAtention,
-                                                        'fk_idDatoAdicionalAlarma':$scope.tmpVars.list_schedule_atention[i].fk_idDatoAdicionalAlarma, 
-                                                        'day':$scope.tmpVars.list_schedule_atention[i].day, 
-                                                        'fronAm':$scope.tmpVars.list_schedule_atention[i].fronAm, 
-                                                        'toAm':$scope.tmpVars.list_schedule_atention[i].toAm, 
-                                                        'fronPm':$scope.tmpVars.list_schedule_atention[i].fronPm, 
+                                                        'fk_idDatoAdicionalAlarma':$scope.tmpVars.list_schedule_atention[i].fk_idDatoAdicionalAlarma,
+                                                        'day':$scope.tmpVars.list_schedule_atention[i].day,
+                                                        'fronAm':$scope.tmpVars.list_schedule_atention[i].fronAm,
+                                                        'toAm':$scope.tmpVars.list_schedule_atention[i].toAm,
+                                                        'fronPm':$scope.tmpVars.list_schedule_atention[i].fronPm,
                                                         'toPm':$scope.tmpVars.list_schedule_atention[i].toPm});
                                                     }
                                                 }
@@ -3565,7 +3575,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             if(service.tb_datos_adicionales_alarmas_array[0].tb_personas_para_dar_aviso_alarmas_array!=undefined){
                                                 var list_people_notice=[];
                                                 list_people_notice = service.tb_datos_adicionales_alarmas_array[0].tb_personas_para_dar_aviso_alarmas_array!=undefined || service.tb_datos_adicionales_alarmas_array[0].tb_personas_para_dar_aviso_alarmas_array.length>=1?service.tb_datos_adicionales_alarmas_array[0].tb_personas_para_dar_aviso_alarmas_array:null;
-                                                var itemNumber=0;                              
+                                                var itemNumber=0;
                                                 for (var key in list_people_notice){
                                                 $scope.list_people_notice.push({'id':(itemNumber+1),'fk_idUserSystema':list_people_notice[key].fk_idUserSystema,'nombre_apellido':list_people_notice[key].nombre_apellido, 'vinculo':list_people_notice[key].vinculo, 'palabra_clave':list_people_notice[key].palabra_clave, 'telefono':list_people_notice[key].telefono, 'numero_del_usuario':list_people_notice[key].numero_del_usuario, 'opt':'getnotice'});
                                                 itemNumber++;
@@ -3581,14 +3591,14 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                                 list_people_verify = service.tb_datos_adicionales_alarmas_array[0].tb_personas_para_verificar_en_lugar_array!=undefined || service.tb_datos_adicionales_alarmas_array[0].tb_personas_para_verificar_en_lugar_array.length>=1?service.tb_datos_adicionales_alarmas_array[0].tb_personas_para_verificar_en_lugar_array:null;
                                                 var itemNumber=0;
                                                 for (var key in list_people_verify){
-                                                $scope.list_people_verify.push({'id':(itemNumber+1),'fk_idUserSystema':list_people_verify[key].fk_idUserSystema,'nombre_apellido':list_people_verify[key].nombre_apellido, 'vinculo':list_people_verify[key].vinculo, 'palabra_clave':list_people_verify[key].palabra_clave, 'telefono':list_people_verify[key].telefono, 'numero_del_usuario':list_people_verify[key].numero_del_usuario, 'opt':'verifyplace'});                      
+                                                $scope.list_people_verify.push({'id':(itemNumber+1),'fk_idUserSystema':list_people_verify[key].fk_idUserSystema,'nombre_apellido':list_people_verify[key].nombre_apellido, 'vinculo':list_people_verify[key].vinculo, 'palabra_clave':list_people_verify[key].palabra_clave, 'telefono':list_people_verify[key].telefono, 'numero_del_usuario':list_people_verify[key].numero_del_usuario, 'opt':'verifyplace'});
                                                 itemNumber++;
                                                 }
                                             }else{
                                                 //inform.add('No hay usuarios/personas en la lista para verificar en el lugar en Datos Adicionales. ',{
                                                 //  ttl:10000, type: 'info'
                                                 //});
-                                            }  
+                                            }
                                             //console.log($scope.service.aditional_alarm);
                                             $scope.addAditionalAlarmFn($scope.service.aditional_alarm);
                                         }else{
@@ -3639,7 +3649,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     $('#updateAlarmService').modal({backdrop: 'static', keyboard: false});
                                     $('#updateAlarmService').on('shown.bs.modal', function () {});
                                     }, 500);
-                                    blockUI.stop();                      
+                                    blockUI.stop();
                                 break;
                                 case "6": //LOAD APP MONITOR
                                     $timeout(function() {
@@ -3659,7 +3669,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         var newDate = date.toDate();
                                         $scope.service.update.dateUp = newDate;
                                         if ($scope.service.idClientTypeFk=="2"){
-                                            $scope.getBuildingsDeptosFn($scope.service.update.idClientFk);  
+                                            $scope.getBuildingsDeptosFn($scope.service.update.idClientFk);
                                         }else if ($scope.service.idClientTypeFk=="5"){
                                             $scope.service.update.list_address_particular=$scope.customerFound.list_address_particular;
                                             //$scope.service.idContracAssociated_SE=
@@ -3677,7 +3687,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             //console.log($scope.list_user_licence_tmp);
                                             $scope.processUserLicenceFn($scope.list_user_licence_tmp[key], 'edit');
                                         }
-                                        console.log($scope.service.update); 
+                                        console.log($scope.service.update);
                                         $('#updateAppMonitorService').modal({backdrop: 'static', keyboard: false});
                                     }, 500);
                                     blockUI.stop();
@@ -3770,20 +3780,20 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             service.namePort1           = null;
                                             service.nroPort1            = null;
                                             service.namePort2           = null;
-                                            service.nroPort2            = null;                    
+                                            service.nroPort2            = null;
                                         }else{
                                             service.namePortInter       = service.namePort;
                                             service.numberPortInter     = service.port;
                                             service.numberPort1         = service.nroPort1;
-                                            service.numberPort2         = service.nroPort2;  
-                                        }                        
+                                            service.numberPort2         = service.nroPort2;
+                                        }
                                         var productIdNumber=0;
-                                        
-                                        for (var item in $scope.list_productsDetails){productIdNumber=($scope.list_productsDetails[item].idProductDetail+1);}  
+
+                                        for (var item in $scope.list_productsDetails){productIdNumber=($scope.list_productsDetails[item].idProductDetail+1);}
                                         for (var key in $scope.list_batteries){
                                             if ($scope.list_batteries[key].isNew==1){
-                                            $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':$scope.list_batteries[key].idBatteryFk, 'numberSerieFabric':$scope.list_batteries[key].numberSerieFabric, 'numberSerieInternal':$scope.list_batteries[key].numberSerieInternal,'dateExpiration':$scope.list_batteries[key].dateExpiration, 'optAux':null});                  
-                                            productIdNumber++;                            
+                                            $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':$scope.list_batteries[key].idBatteryFk, 'numberSerieFabric':$scope.list_batteries[key].numberSerieFabric, 'numberSerieInternal':$scope.list_batteries[key].numberSerieInternal,'dateExpiration':$scope.list_batteries[key].dateExpiration, 'optAux':null});
+                                            productIdNumber++;
                                             }
                                         }
                                         service.adicional=[];
@@ -3825,11 +3835,11 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             service.namePortInter       = service.namePort;
                                             service.numberPortInter     = service.port;
                                             service.numberPort1         = service.nroPort1;
-                                            service.numberPort2         = service.nroPort2;  
+                                            service.numberPort2         = service.nroPort2;
                                         }
                                         var productIdNumber=0;
-                                        
-                                        for (var item in $scope.list_productsDetails){productIdNumber=($scope.list_productsDetails[item].idProductDetail+1);}  
+
+                                        for (var item in $scope.list_productsDetails){productIdNumber=($scope.list_productsDetails[item].idProductDetail+1);}
                                         for (var key in $scope.list_batteries){
                                             if ($scope.list_batteries[key].isNew==1){
                                             $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':$scope.list_batteries[key].idBatteryFk, 'numberSerieFabric':$scope.list_batteries[key].numberSerieFabric, 'numberSerieInternal':$scope.list_batteries[key].numberSerieInternal,'dateExpiration':$scope.list_batteries[key].dateExpiration, 'optAux':null});
@@ -3862,7 +3872,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         service.keyboardAlarm              = $scope.service.alarmKeyboard.selected.idProduct;
                                         service.countZoneIntaled           = $scope.service.zonesQttyInstalled;
                                         service.idTypeConectionRemote      = service.idTipoConexionRemoto;
-                                        var productIdNumber=0;                      
+                                        var productIdNumber=0;
                                         for (var key in $scope.list_batteries){
                                         $scope.baterias_instaladas.push({'idProductoFk':$scope.list_batteries[key].idBatteryFk, 'nroFabric':$scope.list_batteries[key].numberSerieFabric, 'nroInternal':$scope.list_batteries[key].numberSerieInternal,'dateExpired':$scope.list_batteries[key].dateExpiration, 'isControlSchedule':$scope.list_batteries[key].isControlSchedule});
                                         }
@@ -3907,7 +3917,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     $scope.service.numbOfNewLicence           = parseInt(service.countNewLicense);
                                     $scope.changeLicencesFn("set");
                                     if ($scope.service.idClientTypeFk=="2"){
-                                        $scope.getBuildingsDeptosFn($scope.service.list.idClientFk);  
+                                        $scope.getBuildingsDeptosFn($scope.service.list.idClientFk);
                                     }else if ($scope.service.idClientTypeFk=="5"){
                                         $scope.service.list.list_address_particular=$scope.customerFound.list_address_particular;
                                         //$scope.service.idContracAssociated_SE=
@@ -3924,30 +3934,30 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.processUserLicenceFn($scope.list_user_licence_tmp[key], 'edit');
                                     }
                             }, 500);
-                            console.log($scope.service.list); 
+                            console.log($scope.service.list);
                             blockUI.stop();
                             $('#serviceUserLicenseList').modal({backdrop: 'static', keyboard: false});
                         break;
                         case "userDVR":
                             $scope.service.list=service;
                             $timeout(function() {
-                                    $scope.service.idClientTypeFk = $scope.customerFound.idClientTypeFk;                 
+                                    $scope.service.idClientTypeFk = $scope.customerFound.idClientTypeFk;
                                     //LOAD DVR USERS
                                     $scope.list_user=[];
                                     $scope.list_user_tmp=service.idTipeServiceFk=="3"?service.tb_client_totem_array:service.tb_client_camera_array;
                                     var idListItem = 1;
-                                    for (var dvrUser in $scope.list_user_tmp){                           
+                                    for (var dvrUser in $scope.list_user_tmp){
                                         $scope.list_user.push({'idItem':idListItem,'idClientFk':$scope.list_user_tmp[dvrUser].idClientFk,'name':$scope.list_user_tmp[dvrUser].name, 'user':$scope.list_user_tmp[dvrUser].user, 'pass':$scope.list_user_tmp[dvrUser].pass, 'profile':$scope.list_user_tmp[dvrUser].userProfile, 'userProfile':$scope.list_user_tmp[dvrUser].userProfile, 'qrCode':$scope.list_user_tmp[dvrUser].qrBase64, 'qrBase64':$scope.list_user_tmp[dvrUser].qrBase64});
                                         idListItem++;
                                     }
                             }, 500);
-                            console.log($scope.service.list); 
+                            console.log($scope.service.list);
                             blockUI.stop();
                             $('#serviceUsersDVRList').modal({backdrop: 'static', keyboard: false});
-                        break;              
+                        break;
                         case "listCameras":
                             $scope.service.update=service;
-                            $timeout(function() {                
+                            $timeout(function() {
                                 $scope.service.maxCamera                   = service.maxCamera;
                                 $scope.service.cameraList = service.tb_cameras_totem_array==undefined?service.tb_cameras_array:service.tb_cameras_totem_array;
                                 //LOAD CAMERAS
@@ -3960,7 +3970,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 }
                                 }
                             }, 500);
-                            console.log($scope.service.update); 
+                            console.log($scope.service.update);
                             blockUI.stop();
                             $('#serviceCamerasList').modal({backdrop: 'static', keyboard: false});
                         break;
@@ -4090,12 +4100,12 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                                     //    }else if (response_service_2.status==500){
                                                     //        //$scope.rsTicketDataTmp = [];
                                                     //    }
-                                                    //});                                                
+                                                    //});
                                                 break;
                                             }
                                         }, 1000);
                                     });
-                                    
+
                                     $q.all(assignedServices).then(function () {
                                         $timeout(function() {
                                             blockUI.stop();
@@ -4175,7 +4185,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                                         serv.namePort            = serv.namePort;
                                                         serv.port                = serv.numberPortInter;
                                                         serv.nroPort1            = serv.nroPort1;
-                                                        serv.nroPort2            = serv.nroPort2;  
+                                                        serv.nroPort2            = serv.nroPort2;
                                                     }
                                                 break;
                                                 case "4"://CAMERAS
@@ -4200,7 +4210,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                                         serv.namePortInter       = serv.namePort;
                                                         serv.numberPortInter     = serv.numberPortInter;
                                                         serv.numberPort1         = serv.nroPort1;
-                                                        serv.numberPort2         = serv.nroPort2;  
+                                                        serv.numberPort2         = serv.nroPort2;
                                                     }
                                                 break;
                                                 case "5"://ALARM
@@ -4234,7 +4244,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             }, 1500);
                                         }, 1000);
                                     });
-                                    
+
                                     $q.all(assignedServices).then(function () {
                                         $timeout(function() {
                                             $scope.contract.update.terminationApprovedByIdUserKf = $scope.data_param.user.idUser;
@@ -4499,7 +4509,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         if(response.status==200){
                             for (var item in response.data){
                                 rsJsonData.push(response.data[item]);
-                            }              
+                            }
                         }
                         });
                     }
@@ -4524,7 +4534,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         }
                     });
                     return arrSelectedService;
-                }      
+                }
             /**************************************************
             *                                                 *
             *           GET CUSTOMER SERVICES LIST            *
@@ -4567,7 +4577,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         $('#RegisterTotemService').modal('hide');
                         $('#RegisterCamerasService').modal('hide');
                         $('#RegisterAlarmService').modal('hide');
-                        $('#RegisterAppMonitorService').modal('hide');  
+                        $('#RegisterAppMonitorService').modal('hide');
                         $timeout(function() {
                             $scope.switchCustomersFn('services', obj, 'start_new_service');
                             //$scope.getSelectedServiceByIdContractFn(obj.idContractFk, obj.idTipeServiceFk);
@@ -4709,23 +4719,23 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
             *                                                 *
             **************************************************/
                 $scope.productListType={
-                    'CONTROL_DE_ACCESOS':null, 
+                    'CONTROL_DE_ACCESOS':null,
                     'CERRADURA':null,
                     'CERRADURA2':null,
                     'LECTOR_ENT':null,
                     'LECTOR_SAL':null,
-                    'FUENTE':null, 
-                    'BATERIA':null, 
-                    'PULSADOR_EMERG':null, 
-                    'TECLA_APAG':null, 'DVR':null, 'NVR':null, 'UPS':null, 
-                    'CAMARA':null, 'PANEL_ALARM':null, 'TECLADO_ALARM':null, 
+                    'FUENTE':null,
+                    'BATERIA':null,
+                    'PULSADOR_EMERG':null,
+                    'TECLA_APAG':null, 'DVR':null, 'NVR':null, 'UPS':null,
+                    'CAMARA':null, 'PANEL_ALARM':null, 'TECLADO_ALARM':null,
                     'SENSOR_ALARM':null, 'MODULO_IP_ALARM':null,'MODULO_GPRS_ALARM':null, 'ROUTER':null, 'MODEM':null, 'DISP_APERTURA':null, 'PULSADOR_SALIDA':null, 'PRODUCT_EXIT': null, 'RECORD_DEVICE': null
                 };
                 $scope.productsList4Service=[]
                 $scope.list_productsDetails=[];
                 /***********************************
                 *     ADD PRODUCT DETAIL SINGLE    *
-                ************************************/ 
+                ************************************/
                     $scope.addProductDetailsFn = function(obj, optAux){
                         console.log(obj);
                         var numberSerieFabric   = obj.numberSerieFabric==undefined || obj.numberSerieFabric==null?null:obj.numberSerieFabric;
@@ -4734,9 +4744,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         var classification      = $scope.productSelected.classification!=undefined && $scope.productSelected.classification!=null && $scope.productSelected.classification!=""?$scope.productSelected.classification:'';
                         var tmpAux              = $scope.productSelected.idProductClassificationFk=="2" || $scope.productSelected.idProductClassificationFk=="3" || $scope.productSelected.idProductClassificationFk=="20"?optAux:null;
                         if ($scope.list_productsDetails.length==0){
-                            var productIdNumber=0; 
+                            var productIdNumber=0;
                         }else{
-                            for (var item in $scope.list_productsDetails){productIdNumber=($scope.list_productsDetails[item].idProductDetail+1);}  
+                            for (var item in $scope.list_productsDetails){productIdNumber=($scope.list_productsDetails[item].idProductDetail+1);}
                         }
                         if(!$scope.productDetailsAssigned){
                             $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':obj.idProductoFk, 'classification':classification, 'numberSerieFabric':numberSerieFabric, 'numberSerieInternal':numberSerieInternal,'dateExpiration':dateExpiration, 'optAux':tmpAux});
@@ -4762,7 +4772,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     }
                 /***********************************
                 *   REMOVE PRODUCT DETAIL SINGLE   *
-                ************************************/           
+                ************************************/
                     $scope.removeProductDetailsFn = function(obj, idProductDetail, optAux){
                         console.log("removeProductDetailsFn");
                         console.log(obj);
@@ -4771,9 +4781,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         console.log(optAux);
                         $scope.productSelected  = obj;
                         var tmpAux=($scope.productSelected.idProductClassificationFk=="2" || $scope.productSelected.idProductClassification=="2") || ($scope.productSelected.idProductClassificationFk=="3" || $scope.productSelected.idProductClassification=="3") || ($scope.productSelected.idProductClassificationFk=="20" || $scope.productSelected.idProductClassification=="20")?optAux:null;
-                        var objItem             = $scope.list_productsDetails;        
-                        var arrItem             = objItem.map(function(i){return i.idProductDetail;});        
-                        var indexItem           = arrItem.indexOf(idProductDetail); 
+                        var objItem             = $scope.list_productsDetails;
+                        var arrItem             = objItem.map(function(i){return i.idProductDetail;});
+                        var indexItem           = arrItem.indexOf(idProductDetail);
 
                         $scope.list_productsDetails.splice(indexItem, 1);
 
@@ -4840,14 +4850,14 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         }
                         $("#serviceProductDetails").modal({backdrop: 'static', keyboard: false});
                         $('#serviceProductDetails').on('shown.bs.modal', function () {
-                            $('#serviceProductInternalSerial').focus();  
+                            $('#serviceProductInternalSerial').focus();
                             //console.log($scope.service.adicional);
                             //console.log($scope.productSelected);
                         });
                     }
                 /***********************************
                 *     TYPE OF PRODUCT FUNCTION     *
-                ************************************/        
+                ************************************/
                     $scope.typeOfProductsFn = function(opt, idType, idProd, optAux){
                     console.log("opt: '"+opt+"' idType: "+idType+" idProd: "+idProd+" optAux: "+optAux);
                         switch(idType){
@@ -4859,7 +4869,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     $scope.productListType.CONTROL_DE_ACCESOS=idProd;
                                     $scope.service.crtlAccess.selected=undefined;
                                 }
-                                
+
                             break;
                             case "2":
                                 if (opt=="set"){
@@ -4905,7 +4915,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "4":
                                 if (opt=="set"){
-                                    $scope.productListType.FUENTE=idProd;              
+                                    $scope.productListType.FUENTE=idProd;
                                 }else{
                                     $scope.productListType.FUENTE=idProd;
                                     $scope.service.powerSupply.selected=undefined;
@@ -4916,15 +4926,15 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "6":
                                 if (opt=="set"){
-                                    $scope.productListType.PULSADOR_EMERG=idProd;              
+                                    $scope.productListType.PULSADOR_EMERG=idProd;
                                 }else{
                                     $scope.productListType.PULSADOR_EMERG=idProd;
                                     $scope.service.emergencyButton.selected=undefined;
-                                }          
+                                }
                             break;
                             case "7":
                                 if (opt=="set"){
-                                    $scope.productListType.TECLA_APAG=idProd;              
+                                    $scope.productListType.TECLA_APAG=idProd;
                                 }else{
                                     $scope.productListType.TECLA_APAG=idProd;
                                     $scope.service.TurnOffKey.selected=undefined;
@@ -4948,7 +4958,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "12":
                                 if (opt=="set"){
-                                    $scope.productListType.PANEL_ALARM=idProd;              
+                                    $scope.productListType.PANEL_ALARM=idProd;
                                 }else{
                                     $scope.productListType.PANEL_ALARM=idProd;
                                     $scope.service.alarmPanel.selected=undefined;
@@ -4956,7 +4966,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "13":
                                 if (opt=="set"){
-                                    $scope.productListType.TECLADO_ALARM=idProd;              
+                                    $scope.productListType.TECLADO_ALARM=idProd;
                                 }else{
                                     $scope.productListType.TECLADO_ALARM=idProd;
                                     $scope.service.alarmKeyboard.selected=undefined;
@@ -4966,7 +4976,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "15":
                                 if (opt=="set"){
-                                    $scope.productListType.MODULO_IP_ALARM=idProd;              
+                                    $scope.productListType.MODULO_IP_ALARM=idProd;
                                 }else{
                                     $scope.productListType.MODULO_IP_ALARM=idProd;
                                     $scope.service.module.ipAlarmModule.selected=undefined;
@@ -4974,37 +4984,37 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "16":
                                 if (opt=="set"){
-                                    $scope.productListType.MODULO_GPRS_ALARM=idProd;              
+                                    $scope.productListType.MODULO_GPRS_ALARM=idProd;
                                 }else{
                                     $scope.productListType.MODULO_GPRS_ALARM=idProd;
                                     $scope.service.module.gprsAlarmModule.selected=undefined;
                                 }
-                            break;                
+                            break;
                             case "17":
                                 if (opt=="set"){
-                                    $scope.productListType.ROUTER=idProd;              
+                                    $scope.productListType.ROUTER=idProd;
                                 }else{
                                     $scope.productListType.ROUTER=idProd;
                                     $scope.service.dvr.selected=undefined;
                                     $scope.service.router.selected=undefined;
                                 }
-                            break;              
+                            break;
                             case "18":
                                 if (opt=="set"){
-                                    $scope.productListType.MODEM=idProd;              
+                                    $scope.productListType.MODEM=idProd;
                                 }else{
                                     $scope.productListType.MODEM=idProd;
                                     $scope.service.modem.selected=undefined;
                                 }
-                            break;                
+                            break;
                             case "20":
                                 if (opt=="set"){
-                                    $scope.productListType.PRODUCT_EXIT=idProd;              
+                                    $scope.productListType.PRODUCT_EXIT=idProd;
                                 }else{
                                     $scope.productListType.PRODUCT_EXIT=idProd;
                                     $scope.service.exitReader.selected=undefined;
                                 }
-                            break;            
+                            break;
                         }
                         console.log($scope.productListType);
                     }
@@ -5014,15 +5024,15 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
             *                                                 *
             **************************************************/
                     $scope.productListByType={
-                    'CONTROL_DE_ACCESOS':[], 
+                    'CONTROL_DE_ACCESOS':[],
                     'CERRADURA':[],
                     'CERRADURA2':[],
                     'LECTOR':[],
-                    'FUENTE':[], 
-                    'BATERIA':[], 
-                    'PULSADOR_EMERG':[], 
-                    'TECLA_APAG':[], 'DVR':[], 'NVR':[], 'UPS':[], 
-                    'CAMARA':[], 'PANEL_ALARM':[], 'TECLADO_ALARM':[], 
+                    'FUENTE':[],
+                    'BATERIA':[],
+                    'PULSADOR_EMERG':[],
+                    'TECLA_APAG':[], 'DVR':[], 'NVR':[], 'UPS':[],
+                    'CAMARA':[], 'PANEL_ALARM':[], 'TECLADO_ALARM':[],
                     'SENSOR_ALARM':[], 'MODULO_IP_ALARM':[],'MODULO_GPRS_ALARM':[], 'ROUTER':[], 'MODEM':[], 'DISP_APERTURA':[], 'BACKUP_ENERGIA':[], 'PULSADOR_SALIDA':[], 'PRODUCT_EXIT':[], 'RECORD_DEVICE':[]
                     };
                     $scope.rsProductsList4ServiceData = [];
@@ -5067,13 +5077,13 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 }
                                 for(var key in $scope.productListByType.NVR){
                                     $scope.productListByType.RECORD_DEVICE.push($scope.productListByType.NVR[key]);
-                                }                
+                                }
                                 //$scope.productListByType.BACKUP_ENERGIA.push({})
                                 console.log($scope.productListByType);
                             }else{
                                 console.log("Error verificar servicio.")
                             }
-                            //console.log($scope.productListByType.PULSADOR_EMERG);  
+                            //console.log($scope.productListByType.PULSADOR_EMERG);
                         });
                     };
                     $scope.switchProducList=function(opt){
@@ -5102,29 +5112,29 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                 $scope.list_open_devices=[];
                 /***********************************
                 *    LOAD MODAL WINDOWS DETAILS    *
-                ************************************/      
+                ************************************/
                     $scope.loadDetailModalWindow = function(obj){
                         $scope.service.adicional={};
                         $scope.productSelected=obj;
                         console.log(obj);
-                        $scope.service.adicional.idProductoFk=$scope.productSelected.idProduct;  
-                        $scope.productDetailsAssigned=false;     
+                        $scope.service.adicional.idProductoFk=$scope.productSelected.idProduct;
+                        $scope.productDetailsAssigned=false;
                         if (($scope.service.new!=undefined && $scope.service.new.idTipeServiceFk!='3' && $scope.service.new.idTipeServiceFk!='4' && $scope.service.new.idTipeServiceFk!='5') || ($scope.service.update!=undefined && $scope.service.update.idTipeServiceFk!='3' && $scope.service.update.idTipeServiceFk!='4' && $scope.service.update.idTipeServiceFk!='5')){
                         $("#serviceProductDetails").modal({backdrop: 'static', keyboard: false});
                         $('#serviceProductDetails').on('shown.bs.modal', function () {
                             $('#serviceProductInternalSerial').focus();
                         });
-                        }else if ((($scope.service.new!=undefined && ($scope.service.new.idTipeServiceFk=='3' || $scope.service.new.idTipeServiceFk=='4')) || ($scope.service.update!=undefined && ($scope.service.update.idTipeServiceFk=='3' || $scope.service.update.idTipeServiceFk=='4'))) && obj.idProductClassificationFk!='11'){            
+                        }else if ((($scope.service.new!=undefined && ($scope.service.new.idTipeServiceFk=='3' || $scope.service.new.idTipeServiceFk=='4')) || ($scope.service.update!=undefined && ($scope.service.update.idTipeServiceFk=='3' || $scope.service.update.idTipeServiceFk=='4'))) && obj.idProductClassificationFk!='11'){
                         $("#serviceProductDetails").modal({backdrop: 'static', keyboard: false});
                         $('#serviceProductDetails').on('shown.bs.modal', function () {
                             $('#serviceProductInternalSerial').focus();
                         });
-                        }else if ((($scope.service.new!=undefined && ($scope.service.new.idTipeServiceFk=='3' || $scope.service.new.idTipeServiceFk=='4')) || ($scope.service.update!=undefined && ($scope.service.update.idTipeServiceFk=='3' || $scope.service.update.idTipeServiceFk=='4'))) && obj.idProductClassificationFk=='11'){            
+                        }else if ((($scope.service.new!=undefined && ($scope.service.new.idTipeServiceFk=='3' || $scope.service.new.idTipeServiceFk=='4')) || ($scope.service.update!=undefined && ($scope.service.update.idTipeServiceFk=='3' || $scope.service.update.idTipeServiceFk=='4'))) && obj.idProductClassificationFk=='11'){
                         if ($scope.service.dvr.selected==undefined || ($scope.service.maxCamera==undefined || $scope.service.maxCamera<=0)){
                             inform.add("Debe seleccionar un DVR/NVR y/o completar el campo 'Maximo de Camaras' antes de cargar una camara.",{
                             ttl:5000, type: 'warning'
                             });
-                            $scope.service.cameras.selected=undefined;              
+                            $scope.service.cameras.selected=undefined;
                         }else if ($scope.service.dvr.selected!=undefined && ($scope.service.maxCamera!=undefined && $scope.service.maxCamera>=1)){
                             if($scope.list_cameras.length==$scope.service.maxCamera && ($scope.list_cameras.length<=$scope.service.cameras_available || $scope.list_cameras.length<=$scope.service.cameras_contracted)){
                             inform.add("La cantidad de camaras cargadas ("+$scope.list_cameras.length+") es igual al maximo de canales del DVR/NVR Seleccionado ("+$scope.service.maxCamera+")",{
@@ -5203,13 +5213,13 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             //console.log("$scope.list_cameras_ports:");
                             //console.log($scope.list_cameras_ports);
                             for (var key in $scope.list_cameras){
-                            //console.log("Port used: "+$scope.list_cameras[key].portCamera); 
+                            //console.log("Port used: "+$scope.list_cameras[key].portCamera);
                             for (var port in $scope.list_cameras_ports){
-                                //console.log("validating with port: "+$scope.list_cameras_ports[port].port);     
+                                //console.log("validating with port: "+$scope.list_cameras_ports[port].port);
                                 if ($scope.list_cameras_ports[port].port==$scope.list_cameras[key].portCamera){
                                 //console.log("Delete the port ["+$scope.list_cameras_ports[port].port+"] used from the list");
                                 var objItem             = $scope.list_cameras_ports;
-                                var arrItem             = objItem.map(function(o){return o.id;});        
+                                var arrItem             = objItem.map(function(o){return o.id;});
                                 var indexItem           = arrItem.indexOf($scope.list_cameras_ports[port].id);
                                 //console.log("Port: "+$scope.list_cameras_ports[port].port+" Deleted");
                                 $scope.list_cameras_ports.splice(indexItem, 1);
@@ -5241,13 +5251,13 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             }
                             //console.log("creating Camera list");
                             //$scope.resources.cameras=[];
-                            //for (var item in $scope.resources.dvr){                
+                            //for (var item in $scope.resources.dvr){
                             //    for (var camera in $scope.list_dvr_cameras){
                             //      if ($scope.resources.dvr[item].idClientServices==$scope.list_dvr_cameras[camera].idClientServicesFk){
                             //      $scope.resources.cameras.push({'idCamera':$scope.list_dvr_cameras[camera].idCamera, 'idCameraProduct':$scope.list_dvr_cameras[camera].idProductFk, 'coveredArea':$scope.list_dvr_cameras[camera].coveredArea, 'locationCamera': $scope.list_dvr_cameras[camera].locationCamera, 'portCamera': $scope.list_dvr_cameras[camera].portCamera, 'idClientServicesFk':$scope.resources.dvr[item].idClientServices});
                             //    }
                             //  }
-                            //}             
+                            //}
                         }else if($scope.list_sensors.length>0){
                             $scope.list_sensors_zones_tmp=[];
                             $scope.list_sensors_zones=[];
@@ -5266,14 +5276,14 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             for (var key in $scope.list_sensors){
                                 //console.log("list_sensors Zone used: "+$scope.list_sensors[key].numberZoneSensor);
                                 //if($scope.list_sensors[key].nroZoneTamper!=null && $scope.list_sensors[key].nroZoneTamper!=undefined){
-                                //  $scope.service.sensor.zones.isWirelessAvailable=false;                    
+                                //  $scope.service.sensor.zones.isWirelessAvailable=false;
                                 //}else{
                                 //  $scope.service.sensor.zones.isWirelessAvailable=true;
                                 //}
                                 //console.log("isWirelessAvailable: "+$scope.service.sensor.zones.isWirelessAvailable);
                             //SENSORS
                             for (var zone in $scope.list_sensors_zones){
-                                //console.log("$scope.list_sensors_zones[zone].zone validating "+$scope.list_sensors_zones[zone].zone);                  
+                                //console.log("$scope.list_sensors_zones[zone].zone validating "+$scope.list_sensors_zones[zone].zone);
                                 if ($scope.list_sensors_zones[zone].zone==$scope.list_sensors[key].numberZoneSensor){
                                 //console.log("list_sensors_zones Sensor: "+$scope.list_sensors_zones[zone].zone+" es igual que list_sensors Sensor: "+$scope.list_sensors[key].numberZoneSensor);
                                 //console.log("Eliminando Sensor: "+$scope.list_sensors[key].numberZoneSensor+" con numero de tamper "+$scope.list_sensors[key].nroZoneTamper);
@@ -5299,19 +5309,19 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             $scope.list_tampers_zones=$scope.list_tampers_zones_tmp;
                             /*idCameraFk zoneCameras*/
                             //for (var key in $scope.list_sensors){
-                            //  console.log("Camera Assigned: "+$scope.list_sensors[key].idCameraFk); 
+                            //  console.log("Camera Assigned: "+$scope.list_sensors[key].idCameraFk);
                             //  for (var camera in $scope.resources.cameras){
-                            //    console.log("validating with Camera Zone: "+$scope.resources.cameras[camera].idCamera);     
+                            //    console.log("validating with Camera Zone: "+$scope.resources.cameras[camera].idCamera);
                             //    if ($scope.resources.cameras[camera].idCamera==$scope.list_sensors[key].idCameraFk && $scope.resources.cameras[camera].idClientServicesFk==$scope.service.dvr.selected.idClientServices){
                             //      console.log("Delete the Camera Zone used from the list");
                             //      var objItem             = $scope.resources.cameras;
-                            //      var arrItem             = objItem.map(function(o){return o.idCamera;});        
+                            //      var arrItem             = objItem.map(function(o){return o.idCamera;});
                             //      var indexItem           = arrItem.indexOf($scope.resources.cameras[camera].idCamera);
                             //      $scope.resources.cameras.splice(indexItem, 1);
                             //    }
                             //  }
                             //}
-                        }            
+                        }
                         }
                     }
                     $scope.deleteTamperZones = function(item){
@@ -5319,7 +5329,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         if ($scope.list_tampers_zones_tmp[zone].id==item){
                             //console.log("Delete the tamper ["+(item+1)+"] used from the list list_tampers_zones_tmp");
                             var objItem             = $scope.list_tampers_zones_tmp;
-                            var arrItem             = objItem.map(function(o){return o.id;});        
+                            var arrItem             = objItem.map(function(o){return o.id;});
                             var indexItem           = arrItem.indexOf(item);
                             //console.log($scope.list_tampers_zones_tmp[indexItem]);
                             $scope.list_tampers_zones_tmp.splice(indexItem, 1);
@@ -5334,7 +5344,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         if ($scope.list_sensors_zones_tmp[zone].id==item){
                             //console.log("Delete the Zone ["+(item+1)+"] used from the list list_sensors_zones_tmp");
                             var objItem             = $scope.list_sensors_zones_tmp;
-                            var arrItem             = objItem.map(function(o){return o.id;});        
+                            var arrItem             = objItem.map(function(o){return o.id;});
                             var indexItem           = arrItem.indexOf(item);
                             //console.log($scope.list_sensors_zones_tmp[indexItem]);
                             $scope.list_sensors_zones_tmp.splice(indexItem, 1);
@@ -5376,7 +5386,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             $scope.service.openDevices.selected=undefined;
                             console.log($scope.list_open_devices);
                         }
-                        
+
                         $("#serviceProductDetails").modal('hide');
                         //adicional={};
                     }
@@ -5404,13 +5414,13 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         console.log("removeSubItemProductDetailsFn");
                         console.log(obj);
                         if (obj.idProductClassification!='11' && obj.idProductClassification!='19'){//BATTERIES
-                            var objItem             = $scope.list_batteries; 
-                            var arrItem             = objItem.map(function(i){return i.idProductIndex;});        
+                            var objItem             = $scope.list_batteries;
+                            var arrItem             = objItem.map(function(i){return i.idProductIndex;});
                             var indexItem           = arrItem.indexOf(obj.idProductIndex);
                             $scope.list_batteries.splice(indexItem, 1);
                             $scope.productDetailsAssigned=false;
                             $scope.service.adicional={};
-                            $scope.productSelected={};        
+                            $scope.productSelected={};
                             //console.log($scope.list_batteries);
                             if ($scope.isUpdateCustomerService){
                                 for (var item in $scope.list_productsDetails){
@@ -5420,12 +5430,12 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.removeProductDetailsFn(obj, $scope.list_productsDetails[item].idProductDetail, $scope.list_productsDetails[item].optAux);
                                         console.log("----------------------");
                                         break;
-                                    }  
+                                    }
                                 }
                             }
                         }else if(obj.idProductClassification=='11'){//CAMERAS
                             var objItem             = $scope.list_cameras;
-                            var arrItem             = objItem.map(function(i){return i.portCamera;});        
+                            var arrItem             = objItem.map(function(i){return i.portCamera;});
                             var indexItem           = arrItem.indexOf(obj.portCamera);
                             //console.log(indexItem);
                             $scope.list_cameras.splice(indexItem, 1);
@@ -5436,7 +5446,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             //console.log($scope.list_cameras_ports);
                         }else if(obj.idProductClassification=='19'){// OPEN DEVICES
                             var objItem             = $scope.list_open_devices;
-                            var arrItem             = objItem.map(function(i){return i.idOpenDevice;});        
+                            var arrItem             = objItem.map(function(i){return i.idOpenDevice;});
                             var indexItem           = arrItem.indexOf(obj.idOpenDevice);
                             //console.log(indexItem);
                             $scope.list_open_devices.splice(indexItem, 1);
@@ -5468,7 +5478,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         'license_departments':{'selected':undefined},
                                         'crtlAccess':{'selected':undefined},
                                         'lockedIt':{'selected':undefined},
-                                        'lockedIt2':{'selected':undefined}, 
+                                        'lockedIt2':{'selected':undefined},
                                         'entranceReader':{'selected':undefined},
                                         'powerSupply':{'selected':undefined},
                                         'exitReader':{'selected':undefined},
@@ -5489,24 +5499,24 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     };
                     if ($scope.isNewCustomerService){
                         $scope.service.new={
-                                            'idContratoFk':'', 
-                                            'name':'', 
+                                            'idContratoFk':'',
+                                            'name':'',
                                             'MntType':'',
                                             'dateUp':'',
-                                            'dateDown':'', 
-                                            'location': '', 
-                                            'maxCamera':'', 
+                                            'dateDown':'',
+                                            'location': '',
+                                            'maxCamera':'',
                                             'zonesQttyInstalled':'',
-                                            'isHasInternetConnect':0, 
-                                            'numberPortRouter':'', 
-                                            'addessClient':null, 
-                                            'portHttp':'', 
-                                            'addressVpn':'', 
-                                            'namePort1':'', 
-                                            'nroPort1':'', 
-                                            'namePort2':'', 
-                                            'nroPort2':'', 
-                                            'generalComments':'', 
+                                            'isHasInternetConnect':0,
+                                            'numberPortRouter':'',
+                                            'addessClient':null,
+                                            'portHttp':'',
+                                            'addressVpn':'',
+                                            'namePort1':'',
+                                            'nroPort1':'',
+                                            'namePort2':'',
+                                            'nroPort2':'',
+                                            'generalComments':'',
                                             'idDoorFk':'',
                                             'aclaration':'',
                                             'locationGabinet':'',
@@ -5528,24 +5538,24 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     }
                     if ($scope.isUpdateCustomerService){
                         $scope.service.update = {
-                                            'idContratoFk':'', 
-                                            'name':'', 
+                                            'idContratoFk':'',
+                                            'name':'',
                                             'MntType':'',
                                             'dateUp':'',
-                                            'dateDown':'', 
-                                            'location': '', 
-                                            'maxCamera':'', 
+                                            'dateDown':'',
+                                            'location': '',
+                                            'maxCamera':'',
                                             'zonesQttyInstalled':'',
-                                            'isHasInternetConnect':0, 
-                                            'numberPortRouter':'', 
-                                            'addessClient':null, 
-                                            'portHttp':'', 
-                                            'addressVpn':'', 
-                                            'namePort1':'', 
-                                            'nroPort1':'', 
-                                            'namePort2':'', 
-                                            'nroPort2':'', 
-                                            'generalComments':'', 
+                                            'isHasInternetConnect':0,
+                                            'numberPortRouter':'',
+                                            'addessClient':null,
+                                            'portHttp':'',
+                                            'addressVpn':'',
+                                            'namePort1':'',
+                                            'nroPort1':'',
+                                            'namePort2':'',
+                                            'nroPort2':'',
+                                            'generalComments':'',
                                             'idDoorFk':'',
                                             'aclaration':'',
                                             'locationGabinet':'',
@@ -5630,7 +5640,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 $scope.service.users.idUser=obj.idUser;
                                 $scope.service.users.name=obj.fullNameUser;
                                 $('#serviceUser').focus();
-                            }                
+                            }
                         }else{
                             $('#serviceUserDetails').modal({backdrop: 'static', keyboard: false});
                             $('#serviceUserName').focus();
@@ -5657,7 +5667,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         $scope.isDVRUserEdit = true;
                         $('#serviceUserDetails').modal({backdrop: 'static', keyboard: false});
                         console.log($scope.service.users);
-                    }            
+                    }
                 /***********************************
                 *     ADDING USER DATA DETAILS     *
                 ************************************/
@@ -5686,19 +5696,19 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     $scope.list_user[key].qrBase64      = obj.qrCode;
                                     inform.add("Usuario DVR: "+obj.user+" ha sido actualizado correctamente.",{
                                     ttl:5000, type: 'success'
-                                    });                      
-                                    break;              
+                                    });
+                                    break;
                                 }
                             }
                         }
-                        
+
                         $scope.qrCodeImageDetails=$scope.previewData;
                         $scope.previewData=[];
                             $('#serviceUserDetails').modal('hide');
                             if (obj.idUser!=null){$scope.service.sysUser.selected=undefined;};
-                            
-                            
-                            
+
+
+
                         //console.log($scope.list_user);
                         if ($scope.isUpdateCustomerService){
                             $scope.switchCustomersFn('services', $scope.service.update, 'update');
@@ -5708,8 +5718,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                 *     REMOVE USER DATA DETAILS     *
                 ************************************/
                     $scope.removeServiceUserDetailsFn=function(obj){
-                        var objItem             = $scope.list_user; 
-                        var arrItem             = objItem.map(function(i){return i.idClientFk;});        
+                        var objItem             = $scope.list_user;
+                        var arrItem             = objItem.map(function(i){return i.idClientFk;});
                         var indexItem           = arrItem.indexOf(obj.idClientFk);
                         $scope.list_user.splice(indexItem, 1);
                             inform.add("Usuario DVR: "+obj.user+" ha sido removido correctamente.",{
@@ -5732,7 +5742,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                          **************************************/
                         $scope.previewFile = function (file){
                             var reader = new FileReader();
-                            var obj = new FormData().append('file', file);  
+                            var obj = new FormData().append('file', file);
                                 reader.onload = function(event) {
                                     var src = event.target.result;
                                     var size = ((file.size/(1024*1024)) > 1)? (file.size/(1024*1024)) + ' mB' : (file.size/1024)+' kB';
@@ -5748,7 +5758,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         }
                         var file = "";
                         $scope.processAttachedFilesFn = function (e){
-                            //console.info(e);   
+                            //console.info(e);
                             for(var i=0;i<e.length;i++){
                             file = e[i];
                             var type =  '|' + file.type.slice(file.type.lastIndexOf('/') + 1) + '|';
@@ -5854,19 +5864,19 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             if ((serviceProcess.idTipeServiceFk=="4" && (serviceProcess.addessClient==null || serviceProcess.addessClient=="") && (serviceProcess.nroPort2==null || serviceProcess.nroPort2=="")) || (serviceProcess.idTipeServiceFk=="3" && (serviceProcess.addressClientInter==null || serviceProcess.addressClientInter=="") && (serviceProcess.numberPort2==null || serviceProcess.numberPort2==""))){
                                 inform.add("Error al generar PDF completar campos requeridos de conexion a internet.",{
                                 ttl:5000, type: 'warning'
-                                });                
+                                });
                             }else{
                                 blockUI.start('Generando PDF del usuario '+user.name);
                                 $timeout(function() {
                                 blobUrlObject = createPDF(user, serviceProcess);
-                                }, 1000);              
+                                }, 1000);
                                 $timeout(function() {
                                 blockUI.message('Cargando PDF del usuario '+user.name);
                                 }, 2000);
                                 $timeout(function() {
                                 $('#pdfViewerWindow').modal('show');
                                 PDFObject.embed(blobUrlObject, "#pdfObjectViewer");
-                                blockUI.stop(); 
+                                blockUI.stop();
                                 }, 3000);
                                 function createPDF(user, service) {
                                 var doc = null
@@ -5880,7 +5890,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 var appSelected     = appType=='dmss'?'DMSS':'HIKCONNECT';
                                 console.log(connectionPort);
                                 // Don't forget, that there are CORS-Restrictions. So if you want to run it without a Server in your Browser you need to transform the image to a dataURL
-                                // Use http://dataurl.net/#dataurlmaker          
+                                // Use http://dataurl.net/#dataurlmaker
                                 var doc = new jsPDF({
                                     orientation: 'p',
                                     unit: 'mm',
@@ -5906,7 +5916,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         author: 'BSS SEGURIDAD',
                                         keywords: 'security, bss, service, web',
                                         creator: 'MEEE'
-                                    });            
+                                    });
                                     //doc.setLineWidth(0.1);
                                     //doc.setDrawColor(199, 199, 199);
                                     //doc.line(5, 30, 180, 30);
@@ -5926,14 +5936,14 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     //var reportTitle = "Cuando el Manual de instalación y configuración correspondiente se lo indique, complete los siguientes datos:";
                                     //var splitTitle = doc.splitTextToSize(reportTitle, 170);
                                     //doc.text(splitTitle, 15, 70);
-                                    doc.addImage(BSS.imageBG_Default, "png", 0, 0, 0, 0);  
+                                    doc.addImage(BSS.imageBG_Default, "png", 0, 0, 0, 0);
                                     /********************************************/
                                     //doc.setFont('Roboto-Bold');
                                     //doc.setTextColor(0,0,0);
                                     //doc.setFontSize(18);
                                     //FIELD1
                                     //doc.setFillColor(243,184,53);
-                                    //doc.rect(15, 90, 65, 10, 'F');  
+                                    //doc.rect(15, 90, 65, 10, 'F');
                                     //doc.text(18, 97, "DATO 1 o Nickname:");
                                     // /FIELD1
                                     //FIELD2
@@ -6004,7 +6014,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     doc.setTextColor(0,120,157);
                                     //VALUE5
                                     doc.text(7, 226,"https://bss.com.ar/camaras-de-seguridad");
-                                    
+
                                     doc.setTextColor(0,0,0);
                                     doc.text(7, 235, "Ante cualquier duda escribinos por Whatsapp o Instagram.");
                                     // /VALUE6
@@ -6017,7 +6027,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     //doc.setDrawColor(233,184,53);
                                     //doc.setFont('Roboto-Thin');
                                     //doc.setTextColor(0,0,0);
-                                    //doc.setFontSize(8);  
+                                    //doc.setFontSize(8);
                                     //doc.line(22, 262, 22, 274);
                                     //doc.text(24, 265, "Carlos Calvo 3430 (C1230ABH)");
                                     //doc.text(24, 269, "Ciudad Autónoma de Buenos Aires /Tel: +5411 5031-1207");
@@ -6027,8 +6037,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     //doc.addPage();
                                     //doc.addPage();
                                     var pageCount = doc.internal.getNumberOfPages(); //Total Page Number
-                                    //for(i = 0; i < pageCount; i++) { 
-                                    //    doc.setPage(i); 
+                                    //for(i = 0; i < pageCount; i++) {
+                                    //    doc.setPage(i);
                                     //    let pageCurrent = doc.internal.getCurrentPageInfo().pageNumber; //Current Page
                                     //    doc.setFont('Roboto-Bold');
                                     //    doc.setTextColor(243,184,53);
@@ -6043,7 +6053,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             inform.add("Para generar el archivo PDF debe completar los datos de conexion a internet.",{
                             ttl:5000, type: 'warning'
                             });
-                        } 
+                        }
                     }
             /**************************************************
             *                                                 *
@@ -6054,8 +6064,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     if ($scope.list_user_licence.length<=0 && $scope.service.numbOfLicenceRemains<=0){
                         inform.add("Debe asignar la cantidad de nuevas licencias.",{
                             ttl:5000, type: 'warning'
-                        }); 
-                    }else if ($scope.service.numbOfLicenceRemains>=1){         
+                        });
+                    }else if ($scope.service.numbOfLicenceRemains>=1){
                         $('#serviceLicenceDetails').modal({backdrop: 'static', keyboard: false});
                         $scope.service.users = {'fullName':'','email':'', 'phone':'', 'idOS':'', 'profileUser':'', 'userNumbPasswd':'', 'idDepartmentFk':'', 'idParticularAddressFk':'', 'idDetinationOfLicenseFk':null};
                         $scope.service.sysUser={'selected':undefined};
@@ -6068,7 +6078,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     }else{
                         inform.add("Ya ha asignado el total de las nuevas licencias.",{
                             ttl:5000, type: 'warning'
-                        }); 
+                        });
 
                     }
                 }
@@ -6079,7 +6089,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         $scope.userLicenceSelected={};
                         $scope.userLicenceSelected=obj;
                         $scope.service.sysUser={'selected':undefined};
-                        $scope.service.license_departments={'selected':undefined};          
+                        $scope.service.license_departments={'selected':undefined};
                         $scope.service.users = {'fullName':'','email':'', 'phone':'', 'idOS':'', 'profileUser':'', 'userNumbPasswd':'', 'idDepartmentFk':'', 'idDetinationOfLicenseFk':null};
                         $scope.service.users.fullName                 = obj.fullName;
                         $scope.service.users.email                    = obj.email;
@@ -6088,7 +6098,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         $scope.service.users.idOS                     = obj.idOS;
                         $scope.service.users.profileUser              = obj.profileUser;
                         $scope.service.users.idDepartmentFk           = obj.idDepartmentFk;
-                        $scope.service.users.depto                    = obj.depto;                        
+                        $scope.service.users.depto                    = obj.depto;
                         $scope.service.users.idParticularAddressFk    = obj.idParticularAddressFk;
                         $scope.service.sysUser.selected               = obj.idUserFk?{idUser: obj.idUserFk, fullNameUser: obj.fullName}:undefined;
                         $scope.service.license_departments.selected   = obj.idDetinationOfLicenseFk=="1"?{idDepto: obj.idDepartmentFk, Depto: obj.depto}:undefined;
@@ -6097,14 +6107,14 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         $scope.service.users.idListItem               = obj.idListItem;
                         $scope.service.users.idUserFk                 = obj.idUserFk;
                         $scope.service.users.nameProfile              = obj.nameProfile;
-                        $scope.service.isSysUser=obj.idUserFk?true:false;          
+                        $scope.service.isSysUser=obj.idUserFk?true:false;
                         $('#serviceLicenceDetails').modal({backdrop: 'static', keyboard: false});
                         $scope.service.isUserLicenceEdit = true;
                         console.log($scope.service.users);
                     }
                 /***********************************
                 *      SET QTTY OF NEW LICENCE     *
-                ************************************/ 
+                ************************************/
                     $scope.setNewLicencesFn = function (item){
                         inform.add("Habilitadas: "+item+" nuevas licencias.",{
                             ttl:5000, type: 'success'
@@ -6148,7 +6158,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         UtilitiesServices.detinationLicense().then(function(data){
                             if(data.status==200){
                             $scope.rsDestinationLicenceListData = data.data;
-                            }  
+                            }
                         });
                     };
                 /***********************************
@@ -6159,7 +6169,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         UtilitiesServices.typeOperatingSystem().then(function(data){
                             if(data.status==200){
                             $scope.rsTypeOperatingSystemListData = data.data;
-                            }  
+                            }
                         });
                     };
                 /***********************************
@@ -6172,7 +6182,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         $scope.service.users.fullName    = '';
                         $scope.service.users.email       = '';
                         $scope.service.users.phone       = '';
-                        $scope.service.users.nameProfile = ''; 
+                        $scope.service.users.nameProfile = '';
                         if ($scope.list_user_licence.length>0){
                         for (var key in  $scope.list_user_licence){
                             if ($scope.list_user_licence[key].idUserFk==obj.idUser){
@@ -6203,7 +6213,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             $scope.service.users.fullName    = '';
                             $scope.service.users.email       = '';
                             $scope.service.users.phone       = '';
-                            $scope.service.users.nameProfile = ''; 
+                            $scope.service.users.nameProfile = '';
                             $scope.rsJsonUser={};
                         }
 
@@ -6349,7 +6359,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             switch (obj.idDetinationOfLicenseFk){
                                             case "1":
                                                 idDepartmentFk          = obj.idDetinationOfLicenseFk=="1" && obj.idDepartmentFk!=$scope.service.license_departments.selected.idDepto?$scope.service.license_departments.selected.idDepto:obj.idDepartmentFk;
-                                                depto                   = obj.idDetinationOfLicenseFk=="1" && obj.depto!=$scope.service.license_departments.selected.Depto?$scope.service.license_departments.selected.Depto:obj.depto;                                                    
+                                                depto                   = obj.idDetinationOfLicenseFk=="1" && obj.depto!=$scope.service.license_departments.selected.Depto?$scope.service.license_departments.selected.Depto:obj.depto;
                                                 idDepartmentList        = $scope.service.license_departments.selected!=undefined?$scope.service.license_departments.selected:null;
                                                 idDetinationOfLicenseFk = obj.idDetinationOfLicenseFk;
                                                 for (var key in $scope.list_depto_user_licence){
@@ -6368,7 +6378,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                                     $scope.list_depto_user_licence[key].keyword                  = obj.keyword;
                                                     $scope.list_depto_user_licence[key].userNumbPasswd           = obj.userNumbPasswd;
                                                     $scope.list_depto_user_licence[key].idOS                     = obj.idOS;
-                                                    $scope.list_depto_user_licence[key].profileUser              = obj.profileUser;      
+                                                    $scope.list_depto_user_licence[key].profileUser              = obj.profileUser;
                                                     break;
                                                 }
                                                 }
@@ -6394,7 +6404,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                                     $scope.list_company_user_licence[key].keyword                  = obj.keyword;
                                                     $scope.list_company_user_licence[key].userNumbPasswd           = obj.userNumbPasswd;
                                                     $scope.list_company_user_licence[key].idOS                     = obj.idOS;
-                                                    $scope.list_company_user_licence[key].profileUser              = obj.profileUser;      
+                                                    $scope.list_company_user_licence[key].profileUser              = obj.profileUser;
                                                     break;
                                                 }
                                                 }
@@ -6422,7 +6432,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                                 $scope.list_particular_user_licence[key].phone                    = obj.phone;
                                                 $scope.list_particular_user_licence[key].keyword                  = obj.keyword;
                                                 $scope.list_particular_user_licence[key].idOS                     = obj.idOS;
-                                                $scope.list_particular_user_licence[key].profileUser              = obj.profileUser;      
+                                                $scope.list_particular_user_licence[key].profileUser              = obj.profileUser;
                                                 break;
                                             }
                                             }
@@ -6444,13 +6454,13 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             $scope.list_user_licence[key].keyword                  = obj.keyword;
                                             $scope.list_user_licence[key].userNumbPasswd           = obj.userNumbPasswd;
                                             $scope.list_user_licence[key].idOS                     = obj.idOS;
-                                            $scope.list_user_licence[key].profileUser              = obj.profileUser;      
+                                            $scope.list_user_licence[key].profileUser              = obj.profileUser;
                                             break;
                                         }
                                         }
                                         //console.log($scope.list_user_licence);
                                         $('#serviceLicenceDetails').modal('hide');
-                                        if (obj.idUser!=null){$scope.service.sysUser.selected=undefined;};                    
+                                        if (obj.idUser!=null){$scope.service.sysUser.selected=undefined;};
                                             inform.add("Datos de la licencia asignada a "+obj.fullName+" han sido actualizados satisfactoriamente.",{
                                             ttl:5000, type: 'success'
                                             });
@@ -6459,7 +6469,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $timeout(function() {
                                         $scope.processUserLicenceFn(obj, 'new');
                                         }, 500);
-                                        
+
                                     }
                                 break;
                             }
@@ -6469,17 +6479,17 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                 *         REMOVE LICENCE USER      *
                 ************************************/
                     $scope.removeUserLicenceFn=function(obj){
-                        var objItem             = $scope.list_user_licence; 
-                        var arrItem             = objItem.map(function(i){return i.idListItem;});        
+                        var objItem             = $scope.list_user_licence;
+                        var arrItem             = objItem.map(function(i){return i.idListItem;});
                         var indexItem           = arrItem.indexOf(obj.idListItem);
-                        $scope.list_user_licence.splice(indexItem, 1);            
+                        $scope.list_user_licence.splice(indexItem, 1);
                         inform.add("Licencia asignada a "+obj.fullName+" ha sido removida correctamente.",{
                             ttl:5000, type: 'danger'
                         });
                         for (var key in $scope.list_depto_user_licence){
                             if ($scope.list_depto_user_licence[key].idListItem == obj.idListItem){
-                            var objItem             = $scope.list_depto_user_licence; 
-                            var arrItem             = objItem.map(function(i){return i.idListItem;});        
+                            var objItem             = $scope.list_depto_user_licence;
+                            var arrItem             = objItem.map(function(i){return i.idListItem;});
                             var indexItem           = arrItem.indexOf(obj.idListItem);
                             $scope.list_depto_user_licence.splice(indexItem, 1);
                             $scope.loadPagination($scope.list_depto_user_licence, "idDepartmentFk", "7");
@@ -6488,17 +6498,17 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         }
                         for (var key in $scope.list_company_user_licence){
                             if ($scope.list_company_user_licence[key].idListItem == obj.idListItem){
-                            var objItem             = $scope.list_company_user_licence; 
-                            var arrItem             = objItem.map(function(i){return i.idListItem;});        
+                            var objItem             = $scope.list_company_user_licence;
+                            var arrItem             = objItem.map(function(i){return i.idListItem;});
                             var indexItem           = arrItem.indexOf(obj.idListItem);
                             $scope.list_company_user_licence.splice(indexItem, 1);
                             break;
                             }
-                        }            
+                        }
                         for (var key in $scope.list_particular_user_licence){
                             if ($scope.list_particular_user_licence[key].idListItem == obj.idListItem){
-                            var objItem             = $scope.list_particular_user_licence; 
-                            var arrItem             = objItem.map(function(i){return i.idListItem;});        
+                            var objItem             = $scope.list_particular_user_licence;
+                            var arrItem             = objItem.map(function(i){return i.idListItem;});
                             var indexItem           = arrItem.indexOf(obj.idListItem);
                             $scope.list_particular_user_licence.splice(indexItem, 1);
                             break;
@@ -6515,7 +6525,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
             *                                                 *
             *             ALARM SERVICE FUNCTIONS             *
             *                                                 *
-            **************************************************/      
+            **************************************************/
                 /***********************************
                 *  LOADING ADITIONAL WINDOWS FORM  *
                 ************************************/
@@ -6523,7 +6533,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         $('#serviceAlarmDetails').modal({backdrop: 'static', keyboard: false});
                         if ($scope.isNewCustomerService){
                         $scope.service.aditional_alarm.sysUser={'selected':undefined};
-                        }        
+                        }
                     }
                 /***********************************
                 *      GET TYPE ALARM CLIENT       *
@@ -6589,7 +6599,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     ttl:5000, type: 'success'
                                     });
                                     $scope.isSysUserExist=true;
-                                    break;                        
+                                    break;
                                 }else{
                                     $scope.isSysUserExist=false;
                                 }
@@ -6620,7 +6630,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     ttl:5000, type: 'success'
                                     });
                                     $scope.isSysUserExist=true;
-                                    break;                        
+                                    break;
                                 }else{
                                     $scope.isSysUserExist=false;
                                 }
@@ -6638,9 +6648,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             $scope.service.people.nombre_apellido='';
                             $scope.service.people.telefono='';
                             }
-                            $scope.service.people.tittle="Personas para verificar en el lugar";          
+                            $scope.service.people.tittle="Personas para verificar en el lugar";
                             $scope.service.people.opt="verifyplace";
-                        break;            
+                        break;
                         }
                         $scope.service.people.action="new";
                     }
@@ -6656,7 +6666,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             if (idUser!=null){$scope.service.aditional_alarm.sysPeopleNoticeUser.selected=undefined;};
                             var itemNumber=($scope.list_people_notice.length+1)
                             $scope.list_people_notice.push({'id':itemNumber, 'fk_idUserSystema':idUser,'nombre_apellido':obj.nombre_apellido, 'vinculo':obj.vinculo, 'palabra_clave':obj.palabra_clave, 'telefono':obj.telefono, 'numero_del_usuario':numero_del_usuario, 'opt':'getnotice'});
-                            //console.log($scope.list_people_notice);              
+                            //console.log($scope.list_people_notice);
                         break;
                         case "verifyplace":
                             var idUser = $scope.service.aditional_alarm.isSysPeopleVerifyUser?obj.idUser:null;
@@ -6668,7 +6678,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         break;
                         }
                         $('#servicePeopleDetails').modal('hide');
-                        
+
                         inform.add("Persona de contacto: "+obj.nombre_apellido+" ha sido cargado correctamente.",{
                             ttl:5000, type: 'success'
                         });
@@ -6683,17 +6693,17 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             $scope.service.people={};
                             $scope.service.people=obj;
                             $scope.service.people.tittle="Personas para dar aviso";
-                            $scope.service.people.opt="getnotice";            
+                            $scope.service.people.opt="getnotice";
                         break;
                         case "verifyplace":
                             $scope.service.people={};
                             $scope.service.people=obj;
-                            $scope.service.people.tittle="Personas para verificar en el lugar";          
+                            $scope.service.people.tittle="Personas para verificar en el lugar";
                             $scope.service.people.opt="verifyplace";
-                        break;            
+                        break;
                         }
                         $scope.service.people.action="update";
-                        $('#servicePeopleDetails').modal('show');           
+                        $('#servicePeopleDetails').modal('show');
 
                     }
                 /***********************************
@@ -6714,8 +6724,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 $scope.list_people_notice[people].numero_del_usuario  = numero_del_usuario;
                                 $scope.list_people_notice[people].opt                 = "getnotice";
                             }
-                            }                            
-                            //console.log($scope.list_people_notice);              
+                            }
+                            //console.log($scope.list_people_notice);
                         break;
                         case "verifyplace":
                             var idUser = $scope.service.aditional_alarm.isSysPeopleVerifyUser?obj.idUser:null;
@@ -6726,7 +6736,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         break;
                         }
                         $('#servicePeopleDetails').modal('hide');
-                        
+
                         inform.add("Persona de contacto: "+obj.nombre_apellido+" ha sido actualizado correctamente.",{
                             ttl:5000, type: 'success'
                         });
@@ -6737,22 +6747,22 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     $scope.removeServicePeopleUserDetailsFn=function(obj){
                         switch (obj.opt){
                         case "getnotice":
-                            var objItem             = $scope.list_people_notice; 
-                            var arrItem             = objItem.map(function(i){return i.id;});        
+                            var objItem             = $scope.list_people_notice;
+                            var arrItem             = objItem.map(function(i){return i.id;});
                             var indexItem           = arrItem.indexOf(obj.fk_idUserSystema);
-                            $scope.list_people_notice.splice(indexItem, 1);                
+                            $scope.list_people_notice.splice(indexItem, 1);
                         break;
                         case "verifyplace":
-                            var objItem             = $scope.list_people_verify; 
-                            var arrItem             = objItem.map(function(i){return i.id;});        
+                            var objItem             = $scope.list_people_verify;
+                            var arrItem             = objItem.map(function(i){return i.id;});
                             var indexItem           = arrItem.indexOf(obj.fk_idUserSystema);
-                            $scope.list_people_verify.splice(indexItem, 1);             
+                            $scope.list_people_verify.splice(indexItem, 1);
                         break;
-                        }            
-                        
+                        }
+
                         inform.add("Persona de contacto: "+obj.nombre_apellido+" ha sido removido correctamente.",{
                             ttl:5000, type: 'success'
-                        });             
+                        });
                     }
                 /***********************************
                 *     LOAD USER PHONE NUMBER       *
@@ -6761,7 +6771,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         if (obj!=undefined){
                         inform.add("El Encargado: "+obj.fullNameUser+" ha sido seleccionado como responsable.",{
                             ttl:5000, type: 'success'
-                        });            
+                        });
                         $scope.service.aditional_alarm.telefono='';
                         if (obj.phoneNumberUser){
                             $scope.service.aditional_alarm.telefono=obj.phoneNumberUser;
@@ -6786,7 +6796,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     $scope.aditional_alarm=null;
                     $scope.addAditionalAlarmFn = function(obj){
                         $scope.aditional_alarm=[];
-                        $scope.aditional_alarm.push({'franjas_horarias':{}, 'personas_para_dar_aviso':{}, 'personas_para_verificar_en_el_lugar':{}, 'fk_idServiciosAdicionales':{}}); 
+                        $scope.aditional_alarm.push({'franjas_horarias':{}, 'personas_para_dar_aviso':{}, 'personas_para_verificar_en_el_lugar':{}, 'fk_idServiciosAdicionales':{}});
                         $scope.orderScheduleTimeFn($scope.list_schedule_atention);
                         $scope.aditional_alarm[0]=obj;
                         //console.log($scope.aditional_alarm);
@@ -6810,11 +6820,11 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         if (item){
                         $scope.aditional_service_alarm.push(value);
                         }else{
-                        var objItem             = $scope.aditional_service_alarm; 
-                        var arrItem             = objItem.map(function(i){return i;});        
+                        var objItem             = $scope.aditional_service_alarm;
+                        var arrItem             = objItem.map(function(i){return i;});
                         var indexItem           = arrItem.indexOf(value);
-                        $scope.aditional_service_alarm.splice(indexItem, 1); 
-                        }        
+                        $scope.aditional_service_alarm.splice(indexItem, 1);
+                        }
                         console.log($scope.aditional_service_alarm);
                     }
                 /***********************************
@@ -6867,7 +6877,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             switch (opt){
                             case "new":
                                 $scope.tipo_modulo_ip=[];
-                                $scope.tipo_modulo_ip.push({'data':{}});                 
+                                $scope.tipo_modulo_ip.push({'data':{}});
                                 //Remove the GPRS Details from list_productsDetails array
                                 /*if (obj.gprsAlarmModule.selected!=undefined){
                                 for (var item in $scope.list_productsDetails){
@@ -6891,7 +6901,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             switch (opt){
                             case "new":
                                 $scope.tipo_modulo_gprs=[];
-                                $scope.tipo_modulo_gprs.push({'data':{}});  
+                                $scope.tipo_modulo_gprs.push({'data':{}});
                                 /*if (obj.ipAlarmModule.selected!=undefined){
                                 for (var item in $scope.list_productsDetails){
                                     if (obj.ipAlarmModule.selected.idProduct==$scope.list_productsDetails[item].idProductoFk && $scope.list_productsDetails[item].idProductDetail!=null){
@@ -6916,7 +6926,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 $scope.tipo_conexion_remoto[item].data=obj;
                                 if(obj.idTipoConexionRemoto=="2"){$scope.tipo_conexion_remoto[item].data.moduleIp   = obj.ipAlarmModule.selected.idProduct;}
                                 if(obj.idTipoConexionRemoto=="3"){$scope.tipo_conexion_remoto[item].data.moduleGprs = obj.gprsAlarmModule.selected.idProduct;}
-                                $scope.tipo_conexion_remoto[item].idTipoConexionRemoto=obj.idTipoConexionRemoto;                                    
+                                $scope.tipo_conexion_remoto[item].idTipoConexionRemoto=obj.idTipoConexionRemoto;
                                 console.log($scope.tipo_conexion_remoto);
                                 $("#serviceModuleConnectionDetails").modal('hide');
                                 break;
@@ -6940,8 +6950,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         break;
                         case "remove":
                             if ($scope.tipo_conexion_remoto.length>0){
-                                var objItem             = $scope.tipo_conexion_remoto; 
-                                var arrItem             = objItem.map(function(i){return i.idTipoConexionRemoto;});        
+                                var objItem             = $scope.tipo_conexion_remoto;
+                                var arrItem             = objItem.map(function(i){return i.idTipoConexionRemoto;});
                                 var indexItem           = arrItem.indexOf(obj.idTipoConexionRemoto);
                                 //console.log(indexItem);
                                 $scope.tipo_conexion_remoto.splice(indexItem, 1);
@@ -6950,7 +6960,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 });
                                 console.log($scope.tipo_conexion_remoto);
                             }
-                        break;            
+                        break;
                         }
                     }
                 /***********************************
@@ -6958,8 +6968,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                 ************************************/
                     $scope.alarmSensorZoneFn = function(obj, opt){
                         switch (opt){
-                        case "new": 
-                            console.log($scope.service.sensor.selected);             
+                        case "new":
+                            console.log($scope.service.sensor.selected);
                             var idDvrFk          = $scope.service.dvr.selected!=undefined?$scope.service.dvr.selected.idProduct:null;
                             var dvrSelected      = $scope.service.dvr.selected!=undefined?$scope.service.dvr.selected:null;
                             var idCameraFk       = obj.zoneCameras!=undefined?obj.zoneCameras.idCamera:null;
@@ -6994,14 +7004,14 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         break;
                         case "remove":
                             //console.log(obj);
-                            var objItem             = $scope.list_sensors; 
-                            var arrItem             = objItem.map(function(i){return i.numberZoneSensor;});        
+                            var objItem             = $scope.list_sensors;
+                            var arrItem             = objItem.map(function(i){return i.numberZoneSensor;});
                             var indexItem           = arrItem.indexOf(obj.numberZoneSensor);
                             //console.log(indexItem);
                             $scope.list_sensors.splice(indexItem, 1);
                             inform.add("Sensor: ("+obj.brand+") de la Zona N° "+obj.numberZoneSensor+" ha sido removido correctamente.",{
                             ttl:5000, type: 'warning'
-                            });              
+                            });
                         break;
                         }
                     }

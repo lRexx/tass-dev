@@ -631,6 +631,28 @@ class Ticket extends REST_Controller
         }
     }
 
+    public function sendPostBillingMailNotification_get($idTicket, $filename)
+    {
+        log_message('info', ':::::::::::::::::BillingUploadedNotification');
+
+        if (!$idTicket) {
+            log_message('error', 'Missing, Ticket ID');
+            $this->response(array('error' => 'Missing, Ticket ID'), 404);
+        }
+        if (!$filename) {
+            log_message('error', 'Missing, filename');
+            $this->response(array('error' => 'Missing, Filename'), 404);
+        }
+        $rs = $this->ticket_model->sendPostBillingMailNotification($idTicket, $filename);
+        if (!is_null($rs)) {
+            log_message('info', ':::::::::::::::::BillingUploadedNotification ::: COMPLETED SUCCESSFULLLY');
+            $this->response(array('response' => $rs), 200);
+        } else {
+            log_message('info', ':::::::::::::::::BillingUploadedNotification ::: COMPLETED WITH ERROR');
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
+
     public function postBillingTickets_get()
     {
         log_message('info', ':::::::::::::::::PostBilling');

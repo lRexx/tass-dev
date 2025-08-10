@@ -3586,14 +3586,6 @@ class Ticket_model extends CI_Model
 			)
 		)->where("idTicket", $idTicket)->update("tb_tickets_2");
 		if ($this->db->affected_rows() === 1) {
-			$now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));
-			$this->db->insert('tb_ticket_changes_history', array(
-				"idUserKf" => "1",
-				"idTicketKf" => $idTicket,
-				"created_at" => $now->format('Y-m-d H:i:s'),
-				"descripcion" => "Facturación completada",
-				"idCambiosTicketKf" => "20",
-			));
 			return true;
 		} else {
 			return false;
@@ -3635,8 +3627,9 @@ class Ticket_model extends CI_Model
 	}
 
 
-	public function sendPostBillingMailNotification($idTicket, $url)
+	public function sendPostBillingMailNotification($idTicket, $fileName)
 	{
+		$bill_url = "https://" . BSS_HOST . "/facturas/" . $fileName;
 		$lastTicketUpdatedQuery = null;
 		$lastTicketUpdatedQueryTmp = $this->ticketById($idTicket);
 		$lastTicketUpdatedQuery = $lastTicketUpdatedQueryTmp['tickets'][0];
@@ -3647,7 +3640,6 @@ class Ticket_model extends CI_Model
 		$subject = null;
 		$body = null;
 		$to = null;
-		$bill_url = $url;
 		if ($lastTicketUpdatedQuery['idTypeRequestFor'] == 1) {
 			//DEPARTMENT, BUILDING & ADMINISTRATION DETAILS
 			$this->db->select("*,b.idClient as idBuilding, b.name, tb_client_type.ClientType, UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto")->from("tb_client_departament");
@@ -3721,6 +3713,8 @@ class Ticket_model extends CI_Model
 					if ($rsMail == "Enviado") {
 						log_message('info', 'Billing mail notification for ticket ID: ' . $idTicket . ' ::: [SENT]');
 						return true;
+					} else {
+						return false;
 					}
 				}
 
@@ -3795,13 +3789,9 @@ class Ticket_model extends CI_Model
 						// Actualizar los campos en la tabla tb_tickets_2
 						if ($this->setIsBillingUploaded($ticket['idTicket'], 1) && $this->setIsBillingCompleted($ticket['idTicket'], 1)) {
 							log_message('info', 'Ticket ' . $ticket['idTicket'] . ' updated successfully in tb_tickets_2.');
-							$bill_url = "https://" . BSS_HOST . "/facturas/" . $fileName;
-
-							;
-							if ($this->sendPostBillingMailNotification($ticket['idTicket'], $bill_url)) {
+							if ($this->sendPostBillingMailNotification($ticket['idTicket'], $fileName)) {
 								if ($this->setPostBillingCompleted($ticket['idTicket'])) {
 									log_message('info', 'PostBillingTicket ' . $ticket['idTicket'] . ' isPostBilled updated successfully in tb_tickets_billing.');
-
 								}
 							}
 

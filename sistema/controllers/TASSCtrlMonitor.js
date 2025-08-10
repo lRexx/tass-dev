@@ -4763,16 +4763,20 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                     if(response.status==200){
                       ticketServices.setIsBillingUploaded($scope.uploadTicketData.idTicketKf, 1).then(function(rsBillingUploaded){
                         if(rsBillingUploaded.status==200){
-                          var fileName=item.fileTitle==''?item.name:item.fileTitle;
-                          inform.add('Archivo '+fileName+' subido satisfactoriamente. ',{
-                                ttl:2000, type: 'success'
+                          ticketServices.sendBillingMailNotification($scope.uploadTicketData.idTicketKf, $scope.uploadTicketData.name).then(function(rsBillingNotification){
+                            if(rsBillingNotification.status==200){
+                              var fileName=item.fileTitle==''?item.name:item.fileTitle;
+                              inform.add('Archivo '+fileName+' subido satisfactoriamente y notificación enviado satisfactoriamente.',{
+                                    ttl:2000, type: 'success'
+                              });
+                              item.uploadStatus=true;
+                              if ($scope.isUploadSingleFile){
+                                $('#pdfUploadModal').modal('hide');
+                                $scope.mainSwitchFn('search', null);
+                                $scope.openTicketFn($scope.uploadTicketData.idTicketKf);
+                              }
+                            }
                           });
-                          item.uploadStatus=true;
-                          if ($scope.isUploadSingleFile){
-                            $('#pdfUploadModal').modal('hide');
-                            $scope.mainSwitchFn('search', null);
-                            $scope.openTicketFn($scope.uploadTicketData.idTicketKf);
-                          }
                         }
                       });
                     }else if(response.status==404){
