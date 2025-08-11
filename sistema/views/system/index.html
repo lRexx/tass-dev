@@ -22,7 +22,7 @@
 					</ul>-->
 					<li data-toggle="collapse" data-target="#service" class="collapsed">
 						<a href=""><i class="fa fa-globe fa-lg"></i> Servicios <span class="arrow"></span></a>
-					</li>  
+					</li>
 					<ul class="sub-menu collapse" id="service">
 						<li ng-click="mainSwitchFn('customers','list', null)">Carga masiva</li>
 						<li ng-click="mainSwitchFn('techServicesCosts','list', null)">Gestion de Costos</li>
@@ -30,20 +30,26 @@
 					</ul>
 					<li data-toggle="collapse" data-target="#keys" class="collapsed">
 						<a href=""><i class="fas fa-key"></i> Llaveros <span class="arrow"></span></a>
-					</li>  
+					</li>
 					<ul class="sub-menu collapse" id="keys">
 						<li ng-click="mainSwitchFn('keys','list', null)">Baja masiva</li>
 					</ul>
+					<li data-toggle="collapse" data-target="#billing" class="collapsed">
+						<a href=""><i class="fas fa-key"></i> Facturación <span class="arrow"></span></a>
+					</li>
+					<ul class="sub-menu collapse" id="billing">
+						<li ng-click="mainSwitchFn('tickets','list', null)">Pedidos</li>
+					</ul>
 					<li data-toggle="collapse" data-target="#config_sys" class="collapsed">
 						<a href=""><i class="fa fa-globe fa-lg"></i> Configuraciones<span class="arrow"></span></a>
-					</li>  
+					</li>
 					<ul class="sub-menu collapse" id="config_sys">
 						<li ng-click="sysConfig('sys','smtp', 'open')">SMTP Mail</li>
 						<li ng-click="sysConfig('sys','mails', 'open')">Correos alternos</li>
 					</ul>
 					<!--<li data-toggle="collapse" data-target="#sysusers" class="collapsed">
 						<a href=""><i class="fas fa-users-cog fas-lg"></i>Usuarios del Sistema <span class="arrow"></span></a>
-					</li>  
+					</li>
 					<ul class="sub-menu collapse" id="sysusers">
 						<li ng-click="sysConfig('sys','sysUsers', 'dash')">Usuarios del Sistema</li>
 						<li ng-click="sysConfig('sys','sysProfile', 'dash')">Perfiles</li>
@@ -52,7 +58,7 @@
 					</ul>
 					<li data-toggle="collapse" data-target="#products" class="collapsed">
 						<a href=""><i class="fas fa-th"></i>Productos <span class="arrow"></span></a>
-					</li>  
+					</li>
 					<ul class="sub-menu collapse" id="products">
 						<li ng-click="sysConfig('sys','products', 'listProducts')">Listado de Productos</li>
 						<li ng-click="sysConfig('sys','products', 'newProduct')">Nuevo Producto</li>
@@ -70,7 +76,7 @@
 	<!-- CONTENT -->
 	<div class="col-sm-9 col-md-10 n-padding-l n-padding-r">
 		<!--<div class="">
-			<h3 style="color: black;">&nbsp <span class="glyphicon icon-cogs icon-2x"></span> Administracion del Sistema &nbsp <span style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="Volver al dashboard" ng-if="sysContent=='user' || sysContent=='tenant' || sysContent=='att' || sysContent=='company' || sysContent=='sysProfile' || sysContent=='products' || sysContent=='sysUsers'" ng-click="sysConfig('sys','dash','open')" ><i class="glyphicon glyphicon-share-alt"></i></span></h3> 
+			<h3 style="color: black;">&nbsp <span class="glyphicon icon-cogs icon-2x"></span> Administracion del Sistema &nbsp <span style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="Volver al dashboard" ng-if="sysContent=='user' || sysContent=='tenant' || sysContent=='att' || sysContent=='company' || sysContent=='sysProfile' || sysContent=='products' || sysContent=='sysUsers'" ng-click="sysConfig('sys','dash','open')" ><i class="glyphicon glyphicon-share-alt"></i></span></h3>
 		</div>-->
 		<div ng-if="sysContent=='user' || sysContent=='tenant' || sysContent=='att' || sysContent=='company' || sysContent=='sysProfile' || sysContent=='products' || sysContent=='sysUsers' || sysContent=='sysZones' || sysContent=='sysServiceCosts' || sysContent=='registeredCustomers' || sysContent=='listKeys'" class="pull-left col-md-12 n-padding-l n-padding-r">
 			<div  class="panel panel-default">
@@ -86,10 +92,11 @@
 					<h3 ng-if="sysContent=='sysServiceCosts'" class="panel-title">GESTION DE COSTOS DE SERVICIOS TECNICOS</h3>
 					<h3 ng-if="sysContent=='registeredCustomers'" class="panel-title">CARGA MASIVA DE SERVICIOS</h3>
 					<h3 ng-if="sysContent=='listKeys'" class="panel-title">BAJA MASIVA DE LLAVEROS</h3>
+					<h3 ng-if="sysContent=='billingTickets'" class="panel-title">FACTURACIÓN DE PEDIDOS</h3>
 				</div>
 					<div class="panel-body">
 						<!-- ROW WITH THE FILTERS USED TO DISPLAY DATA IN THE TABLE -->
-						<div ng-if="sysContent!='sysServiceCosts' && sysContent!='registeredCustomers' && sysContent!='listKeys'" class="row">
+						<div ng-if="sysContent!='sysServiceCosts' && sysContent!='registeredCustomers' && sysContent!='listKeys' && sysContent!='billingTickets'" class="row">
 							<div class="form-group">
 								<!-- Filter Type of User For Admins -->
 								<div ng-if="sysContent=='user'" class="col-md-3">
@@ -111,7 +118,7 @@
 										</select>
 									</div>
 								</div>
-								<!-- Company Name-->    
+								<!-- Company Name-->
 								<div ng-if="sysContent=='att' || sysContent=='company'" class="col-md-3 col-sm-4">
 									<label ng-if="sysContent=='att'" style="padding-left: 15px;">Administracion</label>
 									<label ng-if="sysContent=='company'" style="padding-left: 15px;">Empresas</label>
@@ -129,7 +136,7 @@
 										</ui-select>
 									</div>
 								</div>
-								<!-- Address for Admins Consorcios-->      
+								<!-- Address for Admins Consorcios-->
 								<div ng-if="sysContent=='att'" class="col-md-3 col-sm-4">
 									<label style="padding-left: 15px;">Consorcio</label>
 									<div class="input-group">
@@ -218,14 +225,14 @@
 										<!-- New user button -->
 										<button ng-if="sysContent=='user'" data-toggle="tooltip" data-placement="top" title="Nuevo Usuario" type="button" ng-click="sysConfig('customers','user','openW')" class="btn btn-md btn-labeled btn-info"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i> </span>Nuevo</button>
 										<!-- New tenant / owner user button -->
-										<button ng-if="sysContent=='tenant'" data-toggle="tooltip" data-placement="top" title="Nuevo Habitante" type="button" ng-click="sysConfig('customers','tenant', 'openW');" class="btn btn-md btn-labeled btn-info"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i> </span>Nuevo</button> 
+										<button ng-if="sysContent=='tenant'" data-toggle="tooltip" data-placement="top" title="Nuevo Habitante" type="button" ng-click="sysConfig('customers','tenant', 'openW');" class="btn btn-md btn-labeled btn-info"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i> </span>Nuevo</button>
 										<!-- New Attendant button -->
 										<button ng-if="sysContent=='att'" data-toggle="tooltip" data-placement="top" title="Nuevo Encargado" type="button" ng-click="sysConfig('customers','att','openW')" class="btn btn-md btn-labeled btn-info"><span class="btn-label"><i class="fas fa-id-card-alt"></i> </span>Nuevo</button>
 										<!-- New Profile button -->
-										<button ng-if="sysContent=='sysProfile'" data-toggle="tooltip" data-placement="top" title="Nuevo Perfil" type="button" class="btn btn-md btn-labeled btn-info" ng-click="sysConfig('sys','sysProfile', 'newProfile')"><span class="btn-label"><i class="fas fa-id-card-alt"></i> </span>Nuevo</button>  
+										<button ng-if="sysContent=='sysProfile'" data-toggle="tooltip" data-placement="top" title="Nuevo Perfil" type="button" class="btn btn-md btn-labeled btn-info" ng-click="sysConfig('sys','sysProfile', 'newProfile')"><span class="btn-label"><i class="fas fa-id-card-alt"></i> </span>Nuevo</button>
 										<!-- New Produc button -->
-										<button ng-if="sysContent=='products'" data-toggle="tooltip" data-placement="top" title="Nuevo Producto" type="button" class="btn btn-md btn-labeled btn-info" ng-click="sysConfig('sys','products', 'newProduct')"><span class="btn-label"><i class="fas fa-box-open"></i> </span>Nuevo</button> 
-										<button ng-if="sysContent=='sysZones'" data-toggle="tooltip" data-placement="top" title="Nueva Zona" type="button" class="btn btn-md btn-labeled btn-info" ng-click="mainSwitchFn('zones','newZone', null)"><span class="btn-label"><i class="fas fa-map"></i> </span>Nuevo</button> 
+										<button ng-if="sysContent=='products'" data-toggle="tooltip" data-placement="top" title="Nuevo Producto" type="button" class="btn btn-md btn-labeled btn-info" ng-click="sysConfig('sys','products', 'newProduct')"><span class="btn-label"><i class="fas fa-box-open"></i> </span>Nuevo</button>
+										<button ng-if="sysContent=='sysZones'" data-toggle="tooltip" data-placement="top" title="Nueva Zona" type="button" class="btn btn-md btn-labeled btn-info" ng-click="mainSwitchFn('zones','newZone', null)"><span class="btn-label"><i class="fas fa-map"></i> </span>Nuevo</button>
 									</div>
 								</div>
 							</div>
@@ -253,6 +260,8 @@
 						<div class="n-padding-l n-padding-r" ng-if="sysContent=='registeredCustomers'" ng-include="'views/system/customers/index.html'"></div>
 						<!-- TABLE LIST WHERE IS SERVICE COSTS ARE DISPLAYED -->
 						<div class="n-padding-l n-padding-r" ng-if="sysContent=='listKeys'" ng-include="'views/system/keys/index.html'"></div>
+						<!-- TABLE LIST WHERE TICKETS BILLING ARE DISPLAYED -->
+						<div class="n-padding-l n-padding-r" ng-if="sysContent=='billingTickets'" ng-include="'views/system/billing/index.html'"></div>
 						<!-- PAGINATION -->
 						<div>
 						<div ng-if="sysContent!='sysZones' || sysContent!='sysServiceCosts' || sysContent!='listKeys'" style="text-align: center;" ng-include="'views/pagination/pager-tpl-v2.html'"></div>
@@ -346,7 +355,7 @@
 					</div>
 				</div>
 			</div>-->
-			<div class="col-md-12"> 
+			<div class="col-md-12">
 				<!-- USERS -->
 				<div class="col-md-6 col-lg-3" ng-click="sysConfig('customers','user','dash')" >
 					<div class="card cyan white-text clearfix">
@@ -397,7 +406,7 @@
 				</div>
 			</div>
 			<div class="col-md-12">
-				<div class="col-md-4 col-sm-12"> 
+				<div class="col-md-4 col-sm-12">
 					<div class="panel panel-success">
 						<div class="panel-heading"><i class="icon-envelope"></i> SMTP Email <span ng-click="sysConfig('sys','smtp', 'open')" data-toggle="tooltip" data-placement="top" title="Modificar" style="cursor: pointer;" class="pull-right"><i class="glyphicon glyphicon-edit"></i></span></div>
 						<div class="panel-body">
@@ -416,7 +425,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-8 col-sm-12"> 
+				<div class="col-md-8 col-sm-12">
 					<div class="panel panel-success">
 						<div class="panel-heading"><i class="icon-envelope"></i> Correos</div>
 						<div class="panel-body">
