@@ -601,7 +601,7 @@ class Ticket extends REST_Controller
         if (!$idTicketKf) {
             $this->response(array('error' => 'Missing, Ticket ID'), 404);
         }
-
+        log_message('info', ':::::::::::::::::setBillingUploaded => idTicket: ' . $idTicketKf);
         $rs = null;
         $rs = $this->ticket_model->setIsBillingUploaded($idTicketKf, $setValue);
 
@@ -648,6 +648,8 @@ class Ticket extends REST_Controller
             log_message('error', 'Missing, filename');
             $this->response(array('error' => 'Missing, Filename'), 404);
         }
+        log_message('info', ':::::::::::::::::setBillingUploaded => idTicket: ' . $idTicket);
+        log_message('info', ':::::::::::::::::setBillingUploaded => filename: ' . $filename);
         $rs = $this->ticket_model->sendPostBillingMailNotification($idTicket, $filename);
         if (!is_null($rs)) {
             log_message('info', ':::::::::::::::::BillingUploadedNotification ::: COMPLETED SUCCESSFULLLY');
