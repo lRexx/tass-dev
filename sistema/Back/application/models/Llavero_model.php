@@ -948,7 +948,7 @@ class Llavero_model extends CI_Model
 		if (isset($limit) && isset($start)) {
 			$this->db->limit($limit, $start);
 		}
-		$this->db->group_by('tb_keychain.idKeychain');
+		//$this->db->group_by('tb_keychain.idKeychain');
 		$quuery = $this->db->order_by("tb_keychain.idKeychain", "ASC")->get();
 		if ($quuery->num_rows() > 0) {
 			$query_total = null;
