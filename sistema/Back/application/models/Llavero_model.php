@@ -937,11 +937,12 @@ class Llavero_model extends CI_Model
 		// Clone query for counting rows
 		$query_for_count = clone $this->db;
 		$query_total = $query_for_count->count_all_results(); // Counts the total rows
-		print_r($query_total);
+
 		if ($query_total > 0 && !is_null($totalCount)) {
 			$rs['totalCount'] = $query_total;
 		}
 		if ($start > 0) {
+			print_r($query_total);
 			$diffPage = ceil($query_total - $start);
 			if ($diffPage < $limit) {
 				$limit = $diffPage;
