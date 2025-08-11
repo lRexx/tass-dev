@@ -941,7 +941,7 @@ class Llavero_model extends CI_Model
 		if ($query_total > 0 && !is_null($totalCount)) {
 			$rs['totalCount'] = $query_total;
 		}
-		if ($start >= $query_total) {
+		if ($start >= $query_total && $query_total > 0) {
 			$ultimaPagina = max(0, floor(($query_total - 1) / $limit) * $limit);
 			$start = $ultimaPagina;
 		}
