@@ -940,9 +940,11 @@ class Llavero_model extends CI_Model
 		if ($query_total > 0 && !is_null($totalCount)) {
 			$rs['totalCount'] = $query_total;
 		}
-		$diffPage = ceil($query_total / $start);
-		if ($diffPage < $limit) {
-			$limit = $diffPage;
+		if ($start > 0) {
+			$diffPage = ceil($query_total - $start);
+			if ($diffPage < $limit) {
+				$limit = $diffPage;
+			}
 		}
 		if (isset($limit) && isset($start)) {
 			$this->db->limit($limit, $start);
