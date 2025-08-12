@@ -365,12 +365,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log($scope.functions);
                 $('#confirmRequestModalCustom').modal('toggle');
                 }else if (confirm==1){
-
-                  if($scope.functions.isKeysEnable=='1'){
-                      $scope.keyObj.isKeysEnable=1;
-                  }else{
-                      $scope.keyObj.isKeysEnable=0;
-                  }
                   console.log($scope.keyObj);
                   console.log($scope.functions);
                   $scope.mainSwitchFn('apply_isKeysEnable',$scope.keyObj)
@@ -3489,10 +3483,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             break;
             case "apply_isKeysEnable":
               console.log(obj);
-              if ($scope.tkupdate.whereKeysAreEnable==null){
-                $scope.tkupdate.newKeychainList         = $scope.rsNewKeychainList
+              if (($scope.tkupdate.whereKeysAreEnable==null || $scope.tkupdate.isKeysEnable==null)||($scope.tkupdate.isKeysEnable!=null && $scope.tkupdate.isKeysEnable!=$scope.functions.isKeysEnable)){
+                $scope.tkupdate.newKeychainList         = $scope.rsNewKeychainList;
+                $scope.tkupdate.isKeysEnable            = $scope.functions.isKeysEnable;
                 $scope.tkupdate.whereKeysAreEnable      = $scope.ticket.whereKeysAreEnableTmp!=null?$scope.ticket.whereKeysAreEnableTmp:null;
-                $scope.functions.whereKeysAreEnable     = $scope.ticket.whereKeysAreEnableTmp!=null?$scope.ticket.whereKeysAreEnableTmp:null;
+                //$scope.functions.whereKeysAreEnable     = $scope.ticket.whereKeysAreEnableTmp!=null?$scope.ticket.whereKeysAreEnableTmp:null;
                 $scope.tkupdate.refund                  = [];
                 $scope.tkupdate.history                 = [];
                 var idKeychainStatusKf                  = $scope.tkupdate.isKeysEnable;
@@ -3533,7 +3528,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log("Llavero a actualizar: "+keys.codigo);
                       console.log(keys);
                       $scope.updateKeyFn({llavero: keys});
-                      $scope.addProcessEventFn({llavero: keys});
+                      if (idKeychainStatusKf=="1"){
+                        $scope.addProcessEventFn({llavero: keys});
+                      }
                       deferredKeys.resolve();
                   }, 1000);
                 });
@@ -3543,17 +3540,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.updateUpRequestFn({ticket: $scope.tkupdate});
                 });
               }else{
-                if ($scope.tkupdate.isKeysEnable!=null && $scope.tkupdate.isKeysEnable!=$scope.functions.isKeysEnable){
-                  $scope.tkupdate.whereKeysAreEnable      = $scope.ticket.whereKeysAreEnableTmp!=null?$scope.ticket.whereKeysAreEnableTmp:null;
-                  $scope.functions.whereKeysAreEnable     = $scope.ticket.whereKeysAreEnableTmp!=null?$scope.ticket.whereKeysAreEnableTmp:null;
-                  console.log("Ticket Update: "+$scope.tkupdate.codTicket);
-                  console.log($scope.tkupdate);
-                  $scope.updateUpRequestFn({ticket: $scope.tkupdate});
-                }else{
-                      inform.add('No hay cambios en el Pedido para actualizar. ',{
-                            ttl:5000, type: 'success'
-                      });
-                }
+                inform.add('No hay cambios en el Pedido para actualizar. ',{
+                      ttl:5000, type: 'info'
+                });
               }
             break;
             case "checkAllList":
