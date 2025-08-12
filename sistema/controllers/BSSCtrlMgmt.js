@@ -365,6 +365,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log($scope.functions);
                 $('#confirmRequestModalCustom').modal('toggle');
                 }else if (confirm==1){
+
                   if($scope.functions.isKeysEnable=='1'){
                       $scope.keyObj.isKeysEnable=1;
                   }else{
@@ -375,7 +376,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.mainSwitchFn('apply_isKeysEnable',$scope.keyObj)
                 $('#confirmRequestModalCustom').modal('hide');
                 }else if (confirm==null){
-                  if ($scope.keyObj.isKeysEnable==0 || $scope.keyObj.isKeysEnable==null){
+                  if ($scope.tkupdate.isKeysEnable!=null){
+                    $scope.functions.isKeysEnable=$scope.tkupdate.isKeysEnable
+                  }else if ($scope.tkupdate.isKeysEnable==null && ($scope.keyObj.isKeysEnable==0 || $scope.keyObj.isKeysEnable==null)){
                       $scope.functions.isKeysEnable=undefined
                   }
                 }
@@ -3486,59 +3489,66 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             break;
             case "apply_isKeysEnable":
               console.log(obj);
-              $scope.tkupdate.newKeychainList         = $scope.rsNewKeychainList
-              $scope.tkupdate.whereKeysAreEnable      = $scope.ticket.whereKeysAreEnableTmp!=null?$scope.ticket.whereKeysAreEnableTmp:null;
-              $scope.functions.whereKeysAreEnable     = $scope.ticket.whereKeysAreEnableTmp!=null?$scope.ticket.whereKeysAreEnableTmp:null;
-              $scope.tkupdate.refund                  = [];
-              $scope.tkupdate.history                 = [];
-              var idKeychainStatusKf                  = $scope.tkupdate.isKeysEnable;
-              $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"28"});
-              $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
-              $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
-              console.log($scope.tkupdate);
-              console.log($scope.rsNewKeychainList);
-              $scope.isNewKeySingle                   = true;
-              $scope.isEditKey                        = false;
-              $scope.isNewKeyMulti                    = false;
-              //console.log(obj);
-              var i = 0;
-              var assignedKeys = [];
-              angular.forEach($scope.rsNewKeychainList,function(key,i){
-                var deferredKeys = $q.defer();
-                assignedKeys.push(deferredKeys.promise);
-                $timeout(function() {
-                    deferredKeys.resolve();
-                    var keys = {
-                      idProductKf         : key.idProductKf,
-                      codExt              : key.codExt,
-                      codigo              : key.codigo,
-                      idDepartmenKf       : key.idDepartmenKf,
-                      idClientKf          : key.idClientKf,
-                      idUserKf            : key.idUserKf,
-                      idCategoryKf        : key.idCategoryKf,
-                      isKeyTenantOnly     : key.isKeyTenantOnly,
-                      idClientAdminKf     : key.idClientAdminKf!='' && key.idClientAdminKf!=null && key.idClientAdminKf!=undefined?key.idClientAdminKf:null,
-                      createdBy           : $scope.sysLoggedUser.idUser,
-                      idTicketKf          : $scope.tkupdate.idTicket,
-                      idTypeTicketKf      : $scope.tkupdate.idTypeTicketKf,
-                      idKeychain          : key.idKeychain,
-                      idKeychainKf        : key.idKeychain,
-                      idKeychainStatusKf  : idKeychainStatusKf,
-                      idTicketKeychain    : $scope.tkupdate.keys[i].idTicketKeychain
-                    };
-                    console.log("Llavero a actualizar: "+keys.codigo);
-                    console.log(keys);
-                    $scope.updateKeyFn({llavero: keys});
-                    $scope.addProcessEventFn({llavero: keys});
-                    deferredKeys.resolve();
-                }, 1000);
-              });
-              $q.all(assignedKeys).then(function () {
+              if ($scope.tkupdate.whereKeysAreEnable==null){
+                $scope.tkupdate.newKeychainList         = $scope.rsNewKeychainList
+                $scope.tkupdate.whereKeysAreEnable      = $scope.ticket.whereKeysAreEnableTmp!=null?$scope.ticket.whereKeysAreEnableTmp:null;
+                $scope.functions.whereKeysAreEnable     = $scope.ticket.whereKeysAreEnableTmp!=null?$scope.ticket.whereKeysAreEnableTmp:null;
+                $scope.tkupdate.refund                  = [];
+                $scope.tkupdate.history                 = [];
+                var idKeychainStatusKf                  = $scope.tkupdate.isKeysEnable;
+                $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"28"});
+                $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
+                $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
+                console.log($scope.tkupdate);
+                console.log($scope.rsNewKeychainList);
+                $scope.isNewKeySingle                   = true;
+                $scope.isEditKey                        = false;
+                $scope.isNewKeyMulti                    = false;
+                //console.log(obj);
+                var i = 0;
+                var assignedKeys = [];
+                angular.forEach($scope.rsNewKeychainList,function(key,i){
+                  var deferredKeys = $q.defer();
+                  assignedKeys.push(deferredKeys.promise);
+                  $timeout(function() {
+                      deferredKeys.resolve();
+                      var keys = {
+                        idProductKf         : key.idProductKf,
+                        codExt              : key.codExt,
+                        codigo              : key.codigo,
+                        idDepartmenKf       : key.idDepartmenKf,
+                        idClientKf          : key.idClientKf,
+                        idUserKf            : key.idUserKf,
+                        idCategoryKf        : key.idCategoryKf,
+                        isKeyTenantOnly     : key.isKeyTenantOnly,
+                        idClientAdminKf     : key.idClientAdminKf!='' && key.idClientAdminKf!=null && key.idClientAdminKf!=undefined?key.idClientAdminKf:null,
+                        createdBy           : $scope.sysLoggedUser.idUser,
+                        idTicketKf          : $scope.tkupdate.idTicket,
+                        idTypeTicketKf      : $scope.tkupdate.idTypeTicketKf,
+                        idKeychain          : key.idKeychain,
+                        idKeychainKf        : key.idKeychain,
+                        idKeychainStatusKf  : idKeychainStatusKf,
+                        idTicketKeychain    : $scope.tkupdate.keys[i].idTicketKeychain
+                      };
+                      console.log("Llavero a actualizar: "+keys.codigo);
+                      console.log(keys);
+                      $scope.updateKeyFn({llavero: keys});
+                      $scope.addProcessEventFn({llavero: keys});
+                      deferredKeys.resolve();
+                  }, 1000);
+                });
+                $q.all(assignedKeys).then(function () {
+                  console.log("Ticket Update: "+$scope.tkupdate.codTicket);
+                  console.log($scope.tkupdate);
+                  $scope.updateUpRequestFn({ticket: $scope.tkupdate});
+                });
+              }else{
+                $scope.tkupdate.whereKeysAreEnable      = $scope.ticket.whereKeysAreEnableTmp!=null?$scope.ticket.whereKeysAreEnableTmp:null;
+                $scope.functions.whereKeysAreEnable     = $scope.ticket.whereKeysAreEnableTmp!=null?$scope.ticket.whereKeysAreEnableTmp:null;
                 console.log("Ticket Update: "+$scope.tkupdate.codTicket);
                 console.log($scope.tkupdate);
-                $scope.updateUpRequestFn({ticket: $scope.tkupdate});
-              });
-
+                //$scope.updateUpRequestFn({ticket: $scope.tkupdate});
+              }
             break;
             case "checkAllList":
               console.log($scope.select.checkList.selected);
