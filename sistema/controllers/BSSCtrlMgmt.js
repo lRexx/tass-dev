@@ -2722,10 +2722,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $timeout(function() {
                     console.log(Array.isArray($scope.listStatusTicket));
                     console.log($scope.listStatusTicket);
-                    $scope.filters.ticketStatus               = {idStatus: '8', statusName: 'En preparacion'};
-                    console.log($scope.monitor.filter);
+                    $scope.filters.ticketStatus = $scope.listStatusTicket.find(s => s.idStatus == '8');
                     console.log($scope.filters);
                   }, 1500);
+                  console.log($scope.monitor.filter);
                   $scope.listTickets($scope.monitor.filter);
                 break;
                 case "4":
