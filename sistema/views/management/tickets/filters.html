@@ -40,25 +40,25 @@
                                 <input id="typeClient2" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="2" ng-model="customerSearch.typeClient">
                                 <label for="typeClient2" class="radio-2x-label">
                                 <span>Edificio</span>
-                                </label> 
+                                </label>
                             </div>
                             <div class="col-md-2 col-xs-6">
                                 <input id="typeClient3" class="radio-2x ng-not-empty ng-dirty ng-valid ng-valid-required ng-touched" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="3" ng-model="customerSearch.typeClient">
                                 <label for="typeClient3" class="radio-2x-label">
                                 <span>Empresa</span>
-                                </label> 
+                                </label>
                             </div>
                             <div class="col-md-2 col-xs-6">
                                 <input id="typeClient4" class="radio-2x ng-not-empty ng-valid ng-valid-required ng-dirty ng-touched" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="4" ng-model="customerSearch.typeClient">
                                 <label for="typeClient4" class="radio-2x-label">
                                 <span>Sucursal</span>
-                                </label> 
+                                </label>
                             </div>
                             <div class="col-md-2 col-xs-6">
                                 <input id="typeClient5" class="radio-2x ng-not-empty ng-valid ng-valid-required ng-dirty ng-valid-parse ng-touched" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="5" ng-model="customerSearch.typeClient">
                                 <label for="typeClient5" class="radio-2x-label">
                                 <span>Particular</span>
-                                </label> 
+                                </label>
                             </div>
                             </div>
                             <div class="clearfix"> </div>
@@ -66,11 +66,11 @@
                             <label style="padding-left: 15px" ng-show="listOffices.length>=0">{{customerFound.ClientType}}</label>
                             <div class="input-group s-ui-width s-ui-m-left">
                                 <span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
-                                <input type="text" name="customerSearch" 
-                                    id="customerSearch" 
+                                <input type="text" name="customerSearch"
+                                    id="customerSearch"
                                     ng-model="customerSearch.name"
                                     ng-keydown="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict);"
-                                    class="form-control text-uppercase" 
+                                    class="form-control text-uppercase"
                                     move-to-list input-selector="'.input-search'"
                                     list-items-selector="'.list-group li'"
                                     placeholder="Presione Enter para buscar..."
@@ -104,7 +104,7 @@
                             <div ng-if="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && listOffices.length>0 " ng-disable="sysLoggedUser.idProfileKf==3 || sysLoggedUser.idProfileKf==5 || sysLoggedUser.idProfileKf==6" class="form-group col-md-4 col-xs-12 n-padding-r">
                                 <label ng-show="sysLoggedUser.idProfileKf==2">Sucursal</label>
                                 <label ng-show="sysLoggedUser.idProfileKf==1">Sucursal o Consorcio</label>
-                                <label ng-show="sysLoggedUser.idProfileKf==4">Consorcio</label> 
+                                <label ng-show="sysLoggedUser.idProfileKf==4">Consorcio</label>
                                 <div class="col-xs-12" style="padding-left: 0px !important;">
                                     <div class="input-group">
                                     <span class="input-group-addon"><i class="fas fa-home"></i></span>
@@ -179,7 +179,7 @@
                             </div>
                             <!-- Filter Type of Ticket for Sys User-->
                             <div ng-if="sysLoggedUser.idProfileKf==1" class="form-group col-md-4 col-xs-12" ng-class="
-                            {	'has-success': 
+                            {	'has-success':
                                 filters.typeTicket.idTypeTicket!='' && filtersTicket.typeTicket.$valid,
                             }">
                                 <label>Tipo de pedido</label>
@@ -194,14 +194,14 @@
                             </div>
                             <!-- Filter Type of Status-->
                             <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-4 col-xs-12" ng-class="
-                                {	'has-success': 
+                                {	'has-success':
                                     filters.ticketStatus.idStatus!='' && filtersTicket.ticketStatus.$valid,
                                 }">
                                 <label>Estado</label>
                                 <div class="col-xl-12 selectContainer">
                                 <div class="input-group">
                                         <span class="input-group-addon"><i class="fas fa-tag"></i></span>
-                                        <select name="ticketStatus" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="status as status.statusName for status in listStatusTicket " ng-model="filters.ticketStatus" >
+                                        <select name="ticketStatus" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="status as status.statusName for status in listStatusTicket track by status.idStatus" ng-model="filters.ticketStatus" >
                                         <option value="">Todos</option>
                                         </select>
                                 </div>
@@ -209,7 +209,7 @@
                             </div>
                             <!-- Filter Type of Delivery-->
                             <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-4 col-xs-12" ng-class="
-                                {	'has-success': 
+                                {	'has-success':
                                     filters.typDelivery.idTypeDelivery!='' && filtersTicket.typDelivery.$valid,
                                 }">
                                 <label>Tipo de envio</label>
@@ -223,7 +223,7 @@
                                 </div>
                             </div>
                             <div ng-if="sysLoggedUser.idProfileKf==1 && filters.typDelivery!=undefined && filters.typDelivery.idTypeDelivery=='2' && (filters.ticketStatus.idStatus=='1' || filters.ticketStatus.idStatus=='4' || filters.ticketStatus.idStatus=='5')" class="col-md-4 col-xs-12 n-padding-l n-padding-r" ng-class="
-                                {	'has-success': 
+                                {	'has-success':
                                     filters.idDeliveryCompanyKf.idDeliveryCompany!='' && filtersTicket.idDeliveryCompanyKf.$valid,
                                 }">
                                 <div class="form-group col-md-12 col-xs-12">
@@ -240,7 +240,7 @@
                             </div>
                             <!-- Filter Type of Payment-->
                             <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-4 col-xs-12" ng-class="
-                                {	'has-success': 
+                                {	'has-success':
                                     filters.paymentsType.id!='' && filtersTicket.paymentsType.$valid,
                                 }">
                                 <label>Tipo Pago</label>
@@ -330,30 +330,30 @@
                                 <legend style="text-align: left;">Cantidad de pedidos a mostrar</legend>
                                 <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>
                             </div>
-                            
+
                         </div>
                         <!-- Dates filters -->
                         <div class="row" >
                             <div class="col-md-6" >
                                 <legend style="text-align: left;">Creados</legend>
                                 <div class="form-group col-md-6 col-xs-12" ng-class="
-                                    {	'has-success': 
+                                    {	'has-success':
                                         filters.dateCreatedFrom!='' && filtersTicket.dateCreatedFrom.$valid,
                                     }">
                                     <label>Desde</label>
                                     <div class="input-group">
-                                        <input 
-                                            ng-click="open1()" 
-                                            type="text" 
+                                        <input
+                                            ng-click="open1()"
+                                            type="text"
                                             name="dateCreatedFrom"
                                             ng-change="mainSwitchFn('search', null)"
-                                            class="form-control" 
-                                            uib-datepicker-popup="{{format}}" 
-                                            ng-model="filters.dateCreatedFrom" 
-                                            is-open="popup1.opened"  
+                                            class="form-control"
+                                            uib-datepicker-popup="{{format}}"
+                                            ng-model="filters.dateCreatedFrom"
+                                            is-open="popup1.opened"
                                             custom-class="getCreatedDayClass(date, mode)"
-                                            ng-required="true" 
-                                            close-text="Cerrar" 
+                                            ng-required="true"
+                                            close-text="Cerrar"
                                             clear-text="Borrar"
                                             current-text="Hoy"
                                             alt-input-formats="altInputFormats" />
@@ -363,23 +363,23 @@
                                     </div>
                                 </div>
                                 <div ng-if="sysLoggedUser.idProfileKf" class="form-group col-md-6 col-xs-12" ng-class="
-                                    {	'has-success': 
+                                    {	'has-success':
                                         filters.dateCreatedTo!='' && filtersTicket.dateCreatedTo.$valid,
                                     }">
                                     <label>Hasta</label>
                                     <div class="input-group">
-                                        <input 
-                                            ng-click="open2()" 
+                                        <input
+                                            ng-click="open2()"
                                             type="text"
                                             name="dateCreatedTo"
                                             ng-change="mainSwitchFn('search', null)"
-                                            class="form-control" 
-                                            uib-datepicker-popup="{{format}}" 
+                                            class="form-control"
+                                            uib-datepicker-popup="{{format}}"
                                             ng-model="filters.dateCreatedTo"
-                                            is-open="popup2.opened"  
+                                            is-open="popup2.opened"
                                             custom-class="getCreatedDayClass(date, mode)"
-                                            ng-required="true" 
-                                            close-text="Cerrar" 
+                                            ng-required="true"
+                                            close-text="Cerrar"
                                             clear-text="Borrar"
                                             current-text="Hoy"
                                             ng-disable="filters.dateCreatedFrom!=null & filters.dateCreatedFrom!=undefined"
@@ -391,25 +391,25 @@
                                 </div>
                             </div>
                             <div ng-if="sysLoggedUser.idProfileKf=='1'"class="col-md-6" ng-class="
-                                {	'has-success': 
+                                {	'has-success':
                                     filters.dateDeliveredFrom!='' && filtersTicket.dateDeliveredFrom.$valid,
                                 }">
                                 <legend style="text-align: left;">Entregados/Retirados</legend>
                                 <div class="form-group col-md-6 col-xs-12">
                                     <label>Desde</label>
                                     <div class="input-group">
-                                        <input 
-                                            ng-click="open3()" 
-                                            type="text" 
+                                        <input
+                                            ng-click="open3()"
+                                            type="text"
                                             name="dateDeliveredFrom"
                                             ng-change="mainSwitchFn('search', null)"
-                                            class="form-control" 
-                                            uib-datepicker-popup="{{format}}" 
-                                            ng-model="filters.dateDeliveredFrom" 
-                                            is-open="popup3.opened"  
+                                            class="form-control"
+                                            uib-datepicker-popup="{{format}}"
+                                            ng-model="filters.dateDeliveredFrom"
+                                            is-open="popup3.opened"
                                             custom-class="getDeliveredDayClass(date, mode)"
-                                            ng-required="true" 
-                                            close-text="Cerrar" 
+                                            ng-required="true"
+                                            close-text="Cerrar"
                                             clear-text="Borrar"
                                             current-text="Hoy"
                                             alt-input-formats="altInputFormats" />
@@ -419,23 +419,23 @@
                                     </div>
                                 </div>
                                 <div ng-if="sysLoggedUser.idProfileKf" class="form-group col-md-6 col-xs-12" ng-class="
-                                    {	'has-success': 
+                                    {	'has-success':
                                         filters.dateDeliveredTo!='' && filtersTicket.dateDeliveredTo.$valid,
                                     }">
                                     <label>Hasta</label>
                                     <div class="input-group">
-                                        <input 
-                                            ng-click="open4()" 
+                                        <input
+                                            ng-click="open4()"
                                             type="text"
                                             name="dateDeliveredTo"
                                             ng-change="mainSwitchFn('search', null)"
-                                            class="form-control" 
-                                            uib-datepicker-popup="{{format}}" 
+                                            class="form-control"
+                                            uib-datepicker-popup="{{format}}"
                                             ng-model="filters.dateDeliveredTo"
-                                            is-open="popup4.opened"  
+                                            is-open="popup4.opened"
                                             custom-class="getDeliveredDayClass(date, mode)"
-                                            ng-required="true" 
-                                            close-text="Cerrar" 
+                                            ng-required="true"
+                                            close-text="Cerrar"
                                             clear-text="Borrar"
                                             current-text="Hoy"
                                             ng-disable="filters.dateDeliveredFrom!=null & filters.dateDeliveredFrom!=undefined"
@@ -448,17 +448,17 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-12 col-sm-12 col-xs-12"> 
+                            <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-12 col-sm-12 col-xs-12">
                                 <!-- EXPORT GENERAL EXCEL LIST -->
                                 <div ng-click="mainSwitchFn('exportExcelList', listTickt, null)" class="col-md-3" data-toggle="tooltip" data-placement="bottom"  title="Listado general" style="margin-bottom: 1em;">
                                     <div class="card-customer">
                                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                         <i class="fas fa-file-download"></i>
                                     </div>
-                                    <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
-                                                    'sticky-success': 
+                                    <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
+                                                    'sticky-success':
                                                     listTickt.length>0,
-                                                    'sticky-warning':  
+                                                    'sticky-warning':
                                                     listTickt.length==0,
                                                     }">
                                         <span ng-if="listTickt.length>0">
@@ -466,7 +466,7 @@
                                         </span>
                                         <span ng-if="listTickt.length==0" data-toggle="tooltip" data-placement="top" title="No hay pedidos">
                                         <i class="fas fa-exclamation-triangle"></i>
-                                        </span>                    
+                                        </span>
                                     </div>
                                     <div class="col-md-12 card-title">
                                         <h4 class="text-uppercase right">General</h4>
@@ -479,10 +479,10 @@
                                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                         <i class="fas fa-file-download"></i>
                                     </div>
-                                    <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
-                                                    'sticky-success': 
+                                    <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
+                                                    'sticky-success':
                                                     listTickt.length>0,
-                                                    'sticky-warning':  
+                                                    'sticky-warning':
                                                     listTickt.length==0,
                                                     }">
                                         <span ng-if="listTickt.length>0">
@@ -490,7 +490,7 @@
                                         </span>
                                         <span ng-if="listTickt.length==0" data-toggle="tooltip" data-placement="top" title="No hay pedidos">
                                         <i class="fas fa-exclamation-triangle"></i>
-                                        </span>                    
+                                        </span>
                                     </div>
                                     <div class="col-md-12 card-title">
                                         <h4 class="text-uppercase right">Facturación</h4>
@@ -503,10 +503,10 @@
                                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                         <i class="fas fa-file-download"></i>
                                     </div>
-                                    <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
-                                                    'sticky-success': 
+                                    <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
+                                                    'sticky-success':
                                                     listTickt.length>0,
-                                                    'sticky-warning':  
+                                                    'sticky-warning':
                                                     listTickt.length==0,
                                                     }">
                                         <span ng-if="listTickt.length>0">
@@ -514,7 +514,7 @@
                                         </span>
                                         <span ng-if="listTickt.length==0" data-toggle="tooltip" data-placement="top" title="No hay pedidos">
                                         <i class="fas fa-exclamation-triangle"></i>
-                                        </span>                    
+                                        </span>
                                     </div>
                                     <div class="col-md-12 card-title">
                                         <h4 class="text-uppercase right">Ruta externa</h4>
@@ -526,10 +526,10 @@
                                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                         <i class="fas fa-file-download"></i>
                                     </div>
-                                    <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
-                                                    'sticky-success': 
+                                    <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
+                                                    'sticky-success':
                                                     listTickt.length>0,
-                                                    'sticky-warning':  
+                                                    'sticky-warning':
                                                     listTickt.length==0,
                                                     }">
                                         <span ng-if="listTickt.length>0">
@@ -537,7 +537,7 @@
                                         </span>
                                         <span ng-if="listTickt.length==0" data-toggle="tooltip" data-placement="top" title="No hay pedidos">
                                         <i class="fas fa-exclamation-triangle"></i>
-                                        </span>                    
+                                        </span>
                                     </div>
                                     <div class="col-md-12 card-title">
                                         <h4 class="text-uppercase right">Ruta interna</h4>
@@ -560,12 +560,12 @@
                                 <div ng-if="(((filters.typDelivery.idTypeDelivery==undefined || filters.typDelivery.idTypeDelivery=='1' || filters.typDelivery.idTypeDelivery=='2') && (filters.ticketStatus.idStatus=='8' || filters.ticketStatus.idStatus=='4' || filters.ticketStatus.idStatus=='5' || filters.ticketStatus.idStatus=='7')))" ng-click="mainSwitchFn('change_ticket_status_multi', listTickt, null)" data-toggle="tooltip" data-placement="bottom"  title="Cambiar estatus" class="col-md-3" style="margin-bottom: 1em;">
                                     <div class="card-customer">
                                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
-                                        <i class="fas fa-sync"></i> 
+                                        <i class="fas fa-sync"></i>
                                     </div>
-                                    <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
-                                            'sticky-success': 
+                                    <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
+                                            'sticky-success':
                                             listTickt.length>0,
-                                            'sticky-warning':  
+                                            'sticky-warning':
                                             listTickt.length==0,
                                         }">
                                         <span ng-if="listTickt.length>0">
@@ -599,14 +599,14 @@
                         </div>
                     </form>
                 </div>
-                <div class="clearfix"> </div> 
-            </div>   
+                <div class="clearfix"> </div>
+            </div>
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
                         <a id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
                             <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
-                    </div>           
+                    </div>
                 </div>
             </div>
         </div>
