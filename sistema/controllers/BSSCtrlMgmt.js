@@ -3521,20 +3521,22 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       createdBy           : $scope.sysLoggedUser.idUser,
                       idTicketKf          : $scope.tkupdate.idTicket,
                       idTypeTicketKf      : $scope.tkupdate.idTypeTicketKf,
+                      idKeychain          : key.idKeychain,
+                      idKeychainKf        : key.idKeychain,
                       idKeychainStatusKf  : idKeychainStatusKf,
                       idTicketKeychain    : $scope.tkupdate.keys[i].idTicketKeychain
                     };
                     console.log("Llavero a actualizar: "+keys.codigo);
                     console.log(keys);
-                    $scope.updateKeyFn({llavero: keys});
-                    $scope.addProcessEventFn({llavero: keys});
+                    //$scope.updateKeyFn({llavero: keys});
+                    //$scope.addProcessEventFn({llavero: keys});
                     deferredKeys.resolve();
                 }, 1000);
               });
               $q.all(assignedKeys).then(function () {
                 console.log("Ticket Update: "+$scope.tkupdate.codTicket);
                 console.log($scope.tkupdate);
-                $scope.updateUpRequestFn({ticket: $scope.tkupdate});
+                //$scope.updateUpRequestFn({ticket: $scope.tkupdate});
               });
 
             break;
