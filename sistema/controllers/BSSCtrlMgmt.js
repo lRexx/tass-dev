@@ -3528,15 +3528,15 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     };
                     console.log("Llavero a actualizar: "+keys.codigo);
                     console.log(keys);
-                    //$scope.updateKeyFn({llavero: keys});
-                    //$scope.addProcessEventFn({llavero: keys});
+                    $scope.updateKeyFn({llavero: keys});
+                    $scope.addProcessEventFn({llavero: keys});
                     deferredKeys.resolve();
                 }, 1000);
               });
               $q.all(assignedKeys).then(function () {
                 console.log("Ticket Update: "+$scope.tkupdate.codTicket);
                 console.log($scope.tkupdate);
-                //$scope.updateUpRequestFn({ticket: $scope.tkupdate});
+                $scope.updateUpRequestFn({ticket: $scope.tkupdate});
               });
 
             break;
