@@ -4535,16 +4535,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               //$('#deliveryModalDetails').modal("hide");
             break;
             case "setDeliveryCompany":
-              $scope.refund.ticket.history            = [];
-              $scope.refund.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
+              console.log(obj);
+              $scope.tkupdate.history            = [];
+              $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
               console.info("Source  : " +$scope.ticket.keysMethod.name);
               console.info("Internet: " +(obj.building.isHasInternetOnline === null ? "No" : "Si"));
 
               console.log("Ticket to Update: "+$scope.tkupdate.codTicket);
               console.log($scope.tkupdate);
               //$scope.updateUpRequestFn({ticket: $scope.tkupdate});
-              $('#selectDeliveryAddress').modal("hide");
-              $('#deliveryAttendantList').modal("hide");
+              //$('#deliveryModalDetails').modal("hide");
             break;
             case "deliveryToOtherAddress":
               console.log(obj);
