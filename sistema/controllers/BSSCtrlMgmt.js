@@ -2719,11 +2719,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.monitor.filter.topfilter           = $scope.filters.topDH;
                   $scope.monitor.filter.idMgmtMethodKf      = null;
                   $scope.monitor.filter.idStatusTicketKf    = "8";
-                  console.log(Array.isArray($scope.listStatusTicket));
-                  console.log($scope.listStatusTicket);
-                  $scope.filters.ticketStatus               = {idStatus: '8', statusName: 'En preparacion'};
-                  console.log($scope.monitor.filter);
-                  console.log($scope.filters);
+                  $timeout(function() {
+                    console.log(Array.isArray($scope.listStatusTicket));
+                    console.log($scope.listStatusTicket);
+                    $scope.filters.ticketStatus               = {idStatus: '8', statusName: 'En preparacion'};
+                    console.log($scope.monitor.filter);
+                    console.log($scope.filters);
+                  }, 1500);
                   $scope.listTickets($scope.monitor.filter);
                 break;
                 case "4":
