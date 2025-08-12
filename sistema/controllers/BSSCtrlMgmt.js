@@ -2719,7 +2719,12 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.monitor.filter.topfilter           = $scope.filters.topDH;
                   $scope.monitor.filter.idMgmtMethodKf      = null;
                   $scope.monitor.filter.idStatusTicketKf    = "8";
-                  $scope.filters.ticketStatus               = $scope.listStatusTicket.find(s => s.idStatus == '8');
+                  //$scope.filters.ticketStatus               = $scope.listStatusTicket.find(s => s.idStatus == '8');
+                  console.log(Array.isArray($scope.listStatusTicket));
+                  if ($scope.listStatusTicket && Array.isArray($scope.listStatusTicket)) {
+                      let item = $scope.listStatusTicket.find(x => x.idStatus == algo);
+                      // ...
+                  }
                   console.log($scope.monitor.filter);
                   console.log($scope.filters);
                   $scope.listTickets($scope.monitor.filter);
