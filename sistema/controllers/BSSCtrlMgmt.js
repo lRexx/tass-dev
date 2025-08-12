@@ -3543,11 +3543,17 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.updateUpRequestFn({ticket: $scope.tkupdate});
                 });
               }else{
-                $scope.tkupdate.whereKeysAreEnable      = $scope.ticket.whereKeysAreEnableTmp!=null?$scope.ticket.whereKeysAreEnableTmp:null;
-                $scope.functions.whereKeysAreEnable     = $scope.ticket.whereKeysAreEnableTmp!=null?$scope.ticket.whereKeysAreEnableTmp:null;
-                console.log("Ticket Update: "+$scope.tkupdate.codTicket);
-                console.log($scope.tkupdate);
-                //$scope.updateUpRequestFn({ticket: $scope.tkupdate});
+                if ($scope.tkupdate.isKeysEnable!=null && $scope.tkupdate.isKeysEnable!=$scope.functions.isKeysEnable){
+                  $scope.tkupdate.whereKeysAreEnable      = $scope.ticket.whereKeysAreEnableTmp!=null?$scope.ticket.whereKeysAreEnableTmp:null;
+                  $scope.functions.whereKeysAreEnable     = $scope.ticket.whereKeysAreEnableTmp!=null?$scope.ticket.whereKeysAreEnableTmp:null;
+                  console.log("Ticket Update: "+$scope.tkupdate.codTicket);
+                  console.log($scope.tkupdate);
+                  $scope.updateUpRequestFn({ticket: $scope.tkupdate});
+                }else{
+                      inform.add('No hay cambios en el Pedido para actualizar. ',{
+                            ttl:5000, type: 'success'
+                      });
+                }
               }
             break;
             case "checkAllList":
