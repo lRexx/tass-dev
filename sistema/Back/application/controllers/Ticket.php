@@ -558,10 +558,15 @@ class Ticket extends REST_Controller
     public function addUploadedTicketFile_post()
     {
 
+        log_message('info', ':::::::::::::::::uploadBillingFile');
+        $body = file_get_contents('php://input');
+        log_message('info', 'RequestBody: ' . $body);
         $rs = $this->ticket_model->addTicketUploadedFile($this->post('ticket'));
         if (!is_null($rs)) {
+            log_message('info', ':::::::::::::::::uploadBillingFile => SUCCEEDED');
             $this->response(['response' => "Registro Exitoso"], 200);
         } else {
+            log_message('info', ':::::::::::::::::uploadBillingFile => FAILED');
             $this->response(['error' => 'NO HAY RESULTADOS'], 404);
         }
     }
@@ -648,8 +653,8 @@ class Ticket extends REST_Controller
             log_message('error', 'Missing, filename');
             $this->response(array('error' => 'Missing, Filename'), 404);
         }
-        log_message('info', ':::::::::::::::::setBillingUploaded => idTicket: ' . $idTicket);
-        log_message('info', ':::::::::::::::::setBillingUploaded => filename: ' . $filename);
+        log_message('info', ':::::::::::::::::BillingUploadedNotification => idTicket: ' . $idTicket);
+        log_message('info', ':::::::::::::::::BillingUploadedNotification => filename: ' . $filename);
         $rs = $this->ticket_model->sendPostBillingMailNotification($idTicket, $filename);
         if (!is_null($rs)) {
             log_message('info', ':::::::::::::::::BillingUploadedNotification ::: COMPLETED SUCCESSFULLLY');

@@ -2935,7 +2935,6 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     $scope.addNewService.isOuputReader            = service.isOuputButom?null:'1';
                                     $scope.addNewService.isOuputButom             = service.isOuputButom?'1':null;
                                     $scope.addNewService.dateDown                 = null;
-                                    $scope.addNewService.observation              = service.generalComments;
                                     $scope.addNewService.isBlocklingScrew         = service.isBlocklingScrew==0||service.isBlocklingScrew==undefined?0:1;
                                     //$scope.addNewService.locationGabinet          = service.locationGabinet!='' && service.locationGabinet!=undefined?$scope.locationGabine:null;
                                     $scope.addNewService.acaration2               = service.isBlocklingScrew==0||service.isBlocklingScrew==undefined?null:service.lockingScrewComment;
@@ -2998,7 +2997,6 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.addNewService.dateDown                 = null;
                                         $scope.addNewService.item_SE                  = null;
                                         $scope.addNewService.clients                  = $scope.list_user;
-                                        $scope.addNewService.observation              = service.generalComments;
                                         if (service.isHasInternetConnect==undefined || !service.isHasInternetConnect){
                                         $scope.addNewService.portNumberRouter=null;
                                         $scope.addNewService.portHttp=null;
@@ -3032,7 +3030,6 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     $timeout(function() {
                                         $scope.addNewService.idContracAssociated_SE   = service.idContratoFk;
                                         $scope.addNewService.idDvr_nvrFk              = $scope.service.dvr.selected.idProduct;
-                                        $scope.addNewService.observation              = service.generalComments;
                                         $scope.addNewService.backup_energy            = $scope.list_batteries;
                                         $scope.addNewService.cameras                  = $scope.list_cameras;
                                         $scope.addNewService.maxCamera                = $scope.service.maxCamera;
@@ -3103,7 +3100,6 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 case "6"://ADD APP MONITOR
                                     $timeout(function() {
                                         $scope.addNewService.idContracAssociated_SE   = service.idContratoFk;
-                                        $scope.addNewService.observation              = service.generalComments;
                                         $scope.addNewService.dateDown                 = null;
                                         $scope.addNewService.licenses                 = $scope.list_user_licence;
                                         $scope.addNewService.countNewLicense          = $scope.service.numbOfLicenceSet;
