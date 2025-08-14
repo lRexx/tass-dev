@@ -377,6 +377,45 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   }
                 }
               break;
+              case "setDeliveryCompany":
+                if (confirm==0){
+                  $scope.keyObj=$scope.tkupdate;
+                  console.log($scope.keyObj);
+                      //console.log(obj)
+                      if($scope.functions.isKeysEnable=='1'){
+                        if ($scope.functions.whereKeysAreEnable=='1'){
+                          $scope.mess2show="Los Llaveros han sido habilitados de forma online,     Confirmar?";
+                        }else{
+                          $scope.ticket.whereKeysAreEnableTmp = "2"
+                          $scope.mess2show="Los Llaveros han sido habilitados en el edificio,     Confirmar?";
+                        }
+                          console.log("============================================================================");
+                          console.log("Los Llaveros han sido habilitados");
+                          console.log("============================================================================");
+                      }else{
+                        if ($scope.functions.whereKeysAreEnable=='1'){
+                          $scope.mess2show="Los Llaveros no han sido habilitados de forma online, seran habilitados en el Edificio,     Confirmar?";
+                        }else{
+                          $scope.mess2show="Los Llaveros no han sido habilitados en el edificio,      Confirmar?";
+                        }
+                          console.log("============================================================================");
+                          console.log("Los Llaveros no han sido habilitados");
+                          console.log("============================================================================");
+                      }
+                      console.log($scope.keyObj);
+                $('#confirmRequestModalCustom').modal('toggle');
+                }else if (confirm==1){
+                  console.log($scope.keyObj);
+                  //$scope.mainSwitchFn('applyDeliveryCompany', $scope.keyObj, null);
+                $('#confirmRequestModalCustom').modal('hide');
+                }else if (confirm==null){
+                  if ($scope.tkupdate.isKeysEnable!=null){
+                    $scope.functions.isKeysEnable=$scope.tkupdate.isKeysEnable
+                  }else if ($scope.tkupdate.isKeysEnable==null && ($scope.keyObj.isKeysEnable==0 || $scope.keyObj.isKeysEnable==null)){
+                      $scope.functions.isKeysEnable=undefined
+                  }
+                }
+              break;
               case "update":
                   if (confirm==0){
                       $scope.tenantObj=obj;
@@ -4534,9 +4573,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               //$scope.updateUpRequestFn({ticket: $scope.tkupdate});
               //$('#deliveryModalDetails').modal("hide");
             break;
-            case "setDeliveryCompany":
+            case "applyDeliveryCompany":
               console.log(obj);
               $scope.tkupdate.history            = [];
+              $scope.tkupdate.idDeliveryCompanyKf = null;
               $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
               console.info("Source  : " +$scope.ticket.keysMethod.name);
               console.info("Internet: " +(obj.building.isHasInternetOnline === null ? "No" : "Si"));

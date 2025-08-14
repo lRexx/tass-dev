@@ -85,14 +85,13 @@
                 <div class="col-md-12 n-padding-l n-padding-r">
                     <div class="col-md-12 col-xs-12" ng-class="
                         {	'has-success':
-                            tkupdate.idDeliveryCompanyKf!='',
-                        }">
+                            tkupdate.deliveryCompany!=''}>
                         <div class="form-group col-md-12 col-xs-12">
                             <label>Empresa de envío</label>
                             <div class="col-xl-12 selectContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fas fa-tag"></i></span>
-                                    <select name="idDeliveryCompanyKf" class="form-control" ng-change="mainSwitchFn('verifyDeliveryCompanySelected', tkupdate)" ng-disabled="tkupdate.building.isHasInternetOnline==0 || tkupdate.building.isHasInternetOnline==null || tkupdate.building.isHasInternetOnline==undefined || !tkupdate.building.isHasInternetOnline"  ng-options="item.idDeliveryCompany as item.deliveryCompanyName for item in listDeliveryCompanies"  ng-model="tkupdate.idDeliveryCompanyKf"  >
+                                    <select name="deliveryCompany" class="form-control" ng-change="mainSwitchFn('verifyDeliveryCompanySelected', tkupdate)" ng-disabled="tkupdate.building.isHasInternetOnline==0 || tkupdate.building.isHasInternetOnline==null || tkupdate.building.isHasInternetOnline==undefined || !tkupdate.building.isHasInternetOnline"  ng-options="item as item.deliveryCompanyName for item in listDeliveryCompanies"  ng-model="tkupdate.deliveryCompany" >
                                     <option value="">Todos</option>
                                     </select>
                                 </div>
@@ -132,7 +131,7 @@
         <div class="modal-footer">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
-                    <button type="button" ng-click="mainSwitchFn('setDeliveryCompany', tkupdate, null)" ng-disabled="rsNewKeychainList.length!=tkupdate.keys.length || (tkupdate.whereKeysAreEnable!=null && tkupdate.whereKeysAreEnable=='1' && (!tkupdate.isKeysEnable || tkupdate.isKeysEnable==null))" class="btn btn-labeled btn-success">
+                    <button type="button" ng-click="modalConfirmation('setDeliveryCompany',0, tkupdate)" ng-disabled="rsNewKeychainList.length!=tkupdate.keys.length || (tkupdate.whereKeysAreEnable!=null && tkupdate.whereKeysAreEnable=='1' && (!tkupdate.isKeysEnable || tkupdate.isKeysEnable==null))" class="btn btn-labeled btn-success">
                         <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Asignar</button>
                     <a id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
                         <span class="btn-label"><i class="fas fa-times-circle"></i></span>Cerrar</a>
