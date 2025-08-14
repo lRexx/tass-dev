@@ -661,27 +661,24 @@ class Mercadolibre_model extends CI_Model
 				}
 			} else {
 				if ((!@$data['isManualPayment'] || $lastTicketUpdatedQuery['isManualPayment'] == 0 || is_null($lastTicketUpdatedQuery['isManualPayment'])) && ($lastTicketUpdatedQuery['sendNotify'] == 1 || $lastTicketUpdatedQuery['sendNotify'] == null)) {
-					if (!$data['paymentForDelivery']) {
-						$subject = "Pedido Llavero :: " . $lastTicketUpdatedQuery['codTicket'] . " :: Link de Pago";
-						$link_mp = $lastTicketUpdatedQuery['paymentDetails']['mp_prod_init_point'];
-					} else {
-						$subject = "Pedido Llavero :: " . $lastTicketUpdatedQuery['codTicket'] . " :: Link de Pago de Envío";
-						$link_mp = $lastTicketUpdatedQuery['paymentDeliveryDetails']['mp_prod_init_point'];
-					}
 					$this->db->select("tb_client_mails.mailContact")->from("tb_client_mails");
 					$this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
 					$where = "tb_client_mails.idTipoDeMailFk = 1 AND tb_client_mails.idClientFk = " . $lastTicketUpdatedQuery['idBuildingKf'];
 					$quuery = $this->db->where($where)->get();
 					if ($quuery->num_rows() > 0) {
-						$buildingAdminMail = $quuery->row_array();
-						$title = null;
 						$subject = null;
 						$body = null;
 						$to = null;
+						$buildingAdminMail = $quuery->row_array();
+						if (!$data['paymentForDelivery']) {
+							$subject = "Pedido Llavero :: " . $lastTicketUpdatedQuery['typeRequestFor']['name'] . " :: Link de Pago";
+							$link_mp = $lastTicketUpdatedQuery['paymentDetails']['mp_prod_init_point'];
+						} else {
+							$subject = "Pedido Llavero :: " . $lastTicketUpdatedQuery['typeRequestFor']['name'] . " :: Link de Pago de Envío";
+							$link_mp = $lastTicketUpdatedQuery['paymentDeliveryDetails']['mp_prod_init_point'];
+						}
 						#MAIL TO THE BUILDING OR ADMINISTRATION typeRequestFor
 						$to = $buildingAdminMail['mailContact'];
-						$title = "Factura";
-						$subject = "Factura de Pedido de Llavero :: " . $lastTicketUpdatedQuery['typeRequestFor']['name'] . " :: Disponible";
 						$body = '<tr width="100%" bgcolor="#ffffff">';
 						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Hola <b>' . $lastTicketUpdatedQuery['clientAdmin']['name'] . '</b>,</td>';
 						$body .= '</tr>';
