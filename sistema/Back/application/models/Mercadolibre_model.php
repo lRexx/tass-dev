@@ -703,7 +703,6 @@ class Mercadolibre_model extends CI_Model
 		} else {
 			return null;
 		}
-
 	}
 
 	public function updatePayment($data)
