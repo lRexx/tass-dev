@@ -4577,6 +4577,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             case "applyDeliveryCompany":
               console.log(obj);
               $scope.tkupdate.history             = [];
+              $scope.tkupdate.refund              = [];
               $scope.tkupdate.idStatusTicketKf    = "4";
               $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"42"});
               console.info("Source            : " +$scope.ticket.keysMethod.name);
