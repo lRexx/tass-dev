@@ -400,7 +400,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.keyObj=$scope.tkupdate;
                   console.log($scope.keyObj);
                   $scope.mess2show="El Pedido pasara automaticamente a \"Pendiente de Entrega\",     Confirmar?";
-                  $('#confirmRequestModalCustom').modal('open');
+                  $('#confirmRequestModalCustom').modal('toggle');
                 }else if (confirm==1){
                   console.log($scope.keyObj);
                   $scope.mainSwitchFn('applyDeliveryCompany', $scope.keyObj, null);
