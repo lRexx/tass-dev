@@ -385,13 +385,32 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $('#confirmRequestModalCustom').modal('toggle');
                 }else if (confirm==1){
                   console.log($scope.keyObj);
-                  $scope.mainSwitchFn('applyDeliveryCompany', $scope.keyObj, null);
+                  $scope.mainSwitchFn('setDeliveryCompany', $scope.keyObj, null);
                 $('#confirmRequestModalCustom').modal('hide');
                 }else if (confirm==null){
                   if ($scope.tkupdate.deliveryCompany!=null){
-                    tkupdate.deliveryCompany=$scope.tkupdate.deliveryCompany
+                    $scope.tkupdate.deliveryCompany=$scope.tkupdate.deliveryCompany;
                   }else if ($scope.tkupdate.deliveryCompany==null){
-                    tkupdate.deliveryCompany=undefined
+                    $scope.tkupdate.deliveryCompany=undefined
+                  }
+                }
+              break;
+              case "setDeliveryPending":
+                if (confirm==0){
+                  $scope.keyObj=$scope.tkupdate;
+                  console.log($scope.keyObj);
+                  $scope.mess2show="El Pedido pasara automaticamente a \"Pendiente de Entrega\",     Confirmar?";
+                $('#confirmRequestModalCustom').modal('toggle');
+                }else if (confirm==1){
+                  console.log($scope.keyObj);
+                  $scope.mainSwitchFn('applyDeliveryCompany', $scope.keyObj, null);
+                $('#confirmRequestModalCustom').modal('hide');
+                }else if (confirm==null){
+                  $scope.tkupdate.idStatusTicketKf  = $scope.tkupdate.idStatusTicketKf
+                  if ($scope.tkupdate.deliveryCompany!=null){
+                    $scope.tkupdate.deliveryCompany          = $scope.tkupdate.deliveryCompany;
+                  }else if ($scope.tkupdate.deliveryCompany==null){
+                    $scope.tkupdate.deliveryCompany=undefined
                   }
                 }
               break;
@@ -4541,22 +4560,23 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $('#selectDeliveryAddress').modal("hide");
               $('#deliveryAttendantList').modal("hide");
             break;
-            case "verifyDeliveryCompanySelected":
-              $scope.tkupdate.history                 = [];
-              $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
-              console.info("Source  : " +$scope.ticket.keysMethod.name);
-              console.info("Internet: " +(obj.building.isHasInternetOnline === null ? "No" : "Si"));
-              console.log($scope.tkupdate.idDeliveryCompanyKf);
+            case "setDeliveryCompany":
+              $scope.tkupdate.history             = [];
+              $scope.tkupdate.idDeliveryCompanyKf = $scope.tkupdate.deliveryCompany.idDeliveryCompany;
+              $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': $scope.tkupdate.deliveryCompany.deliveryCompanyName, 'idCambiosTicketKf':"41"});
+              console.info("Source      : " +$scope.ticket.keysMethod.name);
+              console.info("Internet    : " +(obj.building.isHasInternetOnline === null ? "No" : "Si"));
+              console.info("Delivery Id : " +$scope.tkupdate.idDeliveryCompanyKf);
+              console.info("Delivery    : " +$scope.tkupdate.deliveryCompany.deliveryCompanyName);
               console.log("Ticket to Update: "+$scope.tkupdate.codTicket);
               console.log($scope.tkupdate);
-              //$scope.updateUpRequestFn({ticket: $scope.tkupdate});
-              //$('#deliveryModalDetails').modal("hide");
+              $scope.modalConfirmation('setDeliveryPending',0, $scope.tkupdate)
             break;
             case "applyDeliveryCompany":
               console.log(obj);
-              $scope.tkupdate.history            = [];
-              $scope.tkupdate.idDeliveryCompanyKf = null;
-              $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
+              $scope.tkupdate.history             = [];
+              $scope.tkupdate.idStatusTicketKf    = "4";
+              $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"42"});
               console.info("Source  : " +$scope.ticket.keysMethod.name);
               console.info("Internet: " +(obj.building.isHasInternetOnline === null ? "No" : "Si"));
               console.log("Ticket to Update: "+$scope.tkupdate.codTicket);
