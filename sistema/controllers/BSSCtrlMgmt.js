@@ -1056,7 +1056,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.ticket.isKeysEnable          = $scope.ticket.selected.isKeysEnable;
               $scope.functions.isKeysEnable       = $scope.ticket.selected.isKeysEnable;
               if ($scope.tkupdate.idDeliveryCompanyKf!=null){
-                $scope.tkupdate.deliveryCompany     = {'idDeliveryCompany':$scope.tkupdate.deliveryCompanyDetails,'deliveryCompanyName':$scope.tkupdate.deliveryCompanyName};
+                  $timeout(function() {
+                    console.log(Array.isArray($scope.listDeliveryCompanies));
+                    console.log($scope.listDeliveryCompanies);
+                    $scope.tkupdate.deliveryCompany = $scope.listDeliveryCompanies.find(s => s.idDeliveryCompany == $scope.tkupdate.idDeliveryCompanyKf);
+                  }, 1500);
               }
               if ($scope.tkupdate.whereKeysAreEnable === null){
                 if ($scope.tkupdate.building.isHasInternetOnline === null){
