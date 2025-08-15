@@ -1093,6 +1093,7 @@ class Ticket_model extends CI_Model
 				'idMgmtMethodKf' => @$ticket['idMgmtMethodKf'],
 				'whereKeysAreEnable' => @$ticket['whereKeysAreEnable'],
 				'isKeysEnable' => @$ticket['isKeysEnable'],
+				'idDeliveryCompanyKf' => @$ticket['idDeliveryCompanyKf'],
 			)
 		)->where("idTicket", $ticket['idTicket'])->update("tb_tickets_2");
 
