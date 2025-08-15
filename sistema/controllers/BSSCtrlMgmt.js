@@ -4570,7 +4570,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.info("Delivery    : " +$scope.tkupdate.deliveryCompany.deliveryCompanyName);
               console.log("Ticket to Update: "+$scope.tkupdate.codTicket);
               console.log($scope.tkupdate);
-              $scope.modalConfirmation('setDeliveryPending',0, $scope.tkupdate)
+              $timeout(function() {
+                $scope.modalConfirmation('setDeliveryPending',0, $scope.tkupdate);
+              }, 1500);
             break;
             case "applyDeliveryCompany":
               console.log(obj);
