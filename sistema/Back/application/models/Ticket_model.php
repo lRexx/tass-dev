@@ -2197,7 +2197,7 @@ class Ticket_model extends CI_Model
 					$i = 0;
 					foreach ($buildingList->result() as &$row) {
 						$quuery = null;
-						$this->db->select("*_");
+						$this->db->select("*");
 						$this->db->from("tb_tickets_2");
 						if (@$data['isHasStockInBuilding'] == '1') {
 							$this->db->join('tb_clients', 'tb_clients.idClient = tb_tickets_2.idBuildingKf', 'left');
