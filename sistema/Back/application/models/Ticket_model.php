@@ -2179,7 +2179,7 @@ class Ticket_model extends CI_Model
 			) {
 				$rsA = [];
 
-				$this->db->select("*_")->from("tb_clients");
+				$this->db->select("*")->from("tb_clients");
 				if (@$data['idClientAdminFk'] != '' && @$data['idBuildingKf'] != '' && @$data['idClientCompaniFk'] == '' && @$data['idClientBranchFk'] == '') {
 					$this->db->where("idClient = ", @$data['idBuildingKf']);
 					$buildingList = $this->db->where("idClientAdminFk = ", @$data['idClientAdminFk'])->get();
@@ -2197,7 +2197,7 @@ class Ticket_model extends CI_Model
 					$i = 0;
 					foreach ($buildingList->result() as &$row) {
 						$quuery = null;
-						$this->db->select("*");
+						$this->db->select("*_");
 						$this->db->from("tb_tickets_2");
 						if (@$data['isHasStockInBuilding'] == '1') {
 							$this->db->join('tb_clients', 'tb_clients.idClient = tb_tickets_2.idBuildingKf', 'left');
