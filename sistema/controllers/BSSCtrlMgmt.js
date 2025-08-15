@@ -1055,6 +1055,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.customerFound                = $scope.tkupdate.building;
               $scope.ticket.isKeysEnable          = $scope.ticket.selected.isKeysEnable;
               $scope.functions.isKeysEnable       = $scope.ticket.selected.isKeysEnable;
+              if ($scope.tkupdate.idDeliveryCompanyKf!=null){
+                $scope.tkupdate.deliveryCompany     = {'idDeliveryCompany':$scope.tkupdate.deliveryCompanyDetails,'deliveryCompanyName':$scope.tkupdate.deliveryCompanyName};
+              }
               if ($scope.tkupdate.whereKeysAreEnable === null){
                 if ($scope.tkupdate.building.isHasInternetOnline === null){
                   $scope.functions.whereKeysAreEnable = "2";
