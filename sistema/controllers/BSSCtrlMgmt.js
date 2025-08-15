@@ -4584,8 +4584,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.info("idStatusTicketKf  : " +$scope.tkupdate.idStatusTicketKf);
               console.log("Ticket to Update: "+$scope.tkupdate.codTicket);
               console.log($scope.tkupdate);
-              //$scope.updateUpRequestFn({ticket: $scope.tkupdate});
-              //$('#deliveryModalDetails').modal("hide");
+              $scope.updateUpRequestFn({ticket: $scope.tkupdate});
+              $('#deliveryModalDetails').modal("hide");
             break;
             case "deliveryToOtherAddress":
               console.log(obj);
