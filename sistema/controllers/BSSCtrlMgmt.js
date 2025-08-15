@@ -400,7 +400,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.keyObj=$scope.tkupdate;
                   console.log($scope.keyObj);
                   $scope.mess2show="El Pedido pasara automaticamente a \"Pendiente de Entrega\",     Confirmar?";
-                $('#confirmRequestModalCustom').modal('toggle');
+                  $('#confirmRequestModalCustom').modal('open');
                 }else if (confirm==1){
                   console.log($scope.keyObj);
                   $scope.mainSwitchFn('applyDeliveryCompany', $scope.keyObj, null);
@@ -4577,8 +4577,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.tkupdate.history             = [];
               $scope.tkupdate.idStatusTicketKf    = "4";
               $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"42"});
-              console.info("Source  : " +$scope.ticket.keysMethod.name);
-              console.info("Internet: " +(obj.building.isHasInternetOnline === null ? "No" : "Si"));
+              console.info("Source            : " +$scope.ticket.keysMethod.name);
+              console.info("Internet          : " +(obj.building.isHasInternetOnline === null ? "No" : "Si"));
+              console.info("idStatusTicketKf  : " +$scope.tkupdate.idStatusTicketKf);
               console.log("Ticket to Update: "+$scope.tkupdate.codTicket);
               console.log($scope.tkupdate);
               //$scope.updateUpRequestFn({ticket: $scope.tkupdate});
