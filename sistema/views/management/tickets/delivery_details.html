@@ -84,11 +84,10 @@
                 <legend style="text-align: left;">Empresa de Envío</legend>
                 <div class="col-md-12 n-padding-l n-padding-r">
                     <div class="col-md-12 col-xs-12" ng-class="
-                        {
-                        'has-success':
-                            tkupdate.deliveryCompany!='' ,
+                        {	'has-success':
+                            tkupdate.deliveryCompany!='' && deliveryCompany.$valid,
                         'has-error':
-                            (tkupdate.deliveryCompany=='' || tkupdate.deliveryCompany==undefined),
+                            (tkupdate.deliveryCompany=='' || tkupdate.deliveryCompany==undefined) && deliveryCompany.$touched,
                         }">
                         <div class="form-group col-md-12 col-xs-12">
                             <label>Empresa de envío</label>
