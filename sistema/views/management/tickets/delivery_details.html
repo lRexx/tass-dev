@@ -80,7 +80,7 @@
                     </div>
                 </div>
             </div>
-            < ng-if="tkupdate.idTypeDeliveryKf=='2'" class="col-md-12 well-checkbox n-margin-l customer-frame">
+            <div ng-if="tkupdate.idTypeDeliveryKf=='2'" class="col-md-12 well-checkbox n-margin-l customer-frame">
                 <form class="form-horizontal" name="frmDeliveryCompany" autocomplete="off" novalidate>
                     <legend style="text-align: left;">Empresa de Envío</legend>
                     <div class="col-md-12 n-padding-l n-padding-r">
@@ -108,8 +108,9 @@
                         <div ng-if="(rsNewKeychainList.length!=tkupdate.keys.length && tkupdate.whereKeysAreEnable==null && (tkupdate.isKeysEnable=='0' || tkupdate.isKeysEnable==null))" class="centered-message">Deben cargar todos los llaveros del pedido, antes de asignar la empresa de envío.</div>
                         <div ng-if="(rsNewKeychainList.length==tkupdate.keys.length && tkupdate.whereKeysAreEnable!=null && tkupdate.whereKeysAreEnable=='1' && (tkupdate.isKeysEnable=='0' || tkupdate.isKeysEnable==null))" class="centered-message">Debe habilitar los llaveros para que el pedido quede pendiente de entrega.</div>
                     </div>
+                    <div class="clearfix"> </div>
                 </form>
-                <div class="clearfix"> </div>
+
             </div>
             <div ng-if="tkupdate.idStatusTicketKf=='5' && (tkupdate.delivery_schedule_at!=undefined || tkupdate.delivery_schedule_at!=null)" class="col-md-12 well-checkbox n-margin-l customer-frame">
                 <legend style="text-align: left;">Detalles de la entrega</legend>
