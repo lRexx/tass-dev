@@ -3510,13 +3510,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           console.log("idKeychain     : "+keys.idKeychain);
                           console.log("Codigo         : "+keys.codigo);
                           console.log("idCategoryKf   : "+keys.idCategoryKf);
-                          //$scope.updateKeyFn({llavero: keys});
+                          $scope.updateKeyFn({llavero: keys});
                         break;
                         case "2":
                           console.log("Llavero a agregar");
                           console.log("Codigo         : "+keys.codigo);
                           console.log("idCategoryKf   : "+keys.idCategoryKf);
-                          //$scope.addKeyFn({llavero: keys});
+                          $scope.addKeyFn({llavero: keys});
                         break;
                       }
                       console.log(keys);
@@ -3527,7 +3527,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log("Ticket to Update: "+$scope.tkupdate.codTicket);
                   console.log($scope.tkupdate);
                   if ($scope.ticket.keysMethodSelected==null || $scope.ticket.keysMethodSelected==undefined){
-                    //$scope.updateUpRequestFn({ticket: $scope.tkupdate});
+                    $scope.updateUpRequestFn({ticket: $scope.tkupdate});
                   }
                 });
                 //$scope.addKeyFn($scope.keys);
@@ -4972,9 +4972,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           $scope.mainSwitchFn("linkMP",response.data.response,null);
                       }, 2700);
                     }else{
-                      $scope.openTicketFn(pedido.ticket.idTicket);
+                      $scope.mainSwitchFn('search', null);
                       $timeout(function() {
-                          $scope.mainSwitchFn('search', null);
+                          $scope.openTicketFn(pedido.ticket.idTicket);
                       }, 2000);
                     }
 
