@@ -4596,6 +4596,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.update.ticket.idNewStatusKf         = "4"
               $scope.update.ticket.idDeliveryCompanyKf   = obj.idDeliveryCompanyKf;
               $scope.update.ticket.history               = [];
+              $scope.update.ticket.history               = obj.history;
               $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"42"});
               console.info("Source            : " +obj.keysMethod.name);
               console.info("Internet          : " +(obj.building.isHasInternetOnline === null ? "No" : "Si"));
