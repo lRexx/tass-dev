@@ -4642,7 +4642,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
               console.log(obj);
               $timeout(function() {
-                //$scope.applyTicketDeliveredFn(obj);
+                $scope.applyTicketDeliveredFn($scope.update);
               }, 2000);
               $('#deliveryModalDetails').modal("hide");
             break;
@@ -5289,6 +5289,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               ticketServices.setTicketDelivered(pedido).then(function(response){
                   //console.log(response);
                   if(response.status==200){
+                    $scope.mainSwitchFn('search', null);
                     $timeout(function() {
                       console.log("Request Successfully processed");
                         inform.add('Pedido Entregado Satisfactoriamente. ',{
@@ -5299,7 +5300,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       $scope.ticketRegistered = response.data[0];
                       $scope.openTicketFn(pedido.ticket.idTicket);
                       //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
-                      $scope.mainSwitchFn('search', null);
                     }, 2500);
                   }else if(response.status==500){
                       $scope.ticketRegistered = null;
