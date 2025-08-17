@@ -3610,9 +3610,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       };
                       console.log("Llavero a actualizar: "+keys.codigo);
                       console.log(keys);
-                      $scope.updateKeyFn({llavero: keys});
+                      //$scope.updateKeyFn({llavero: keys});
                       if (idKeychainStatusKf=="1"){
-                        $scope.addProcessEventFn({llavero: keys});
+                        //$scope.addProcessEventFn({llavero: keys});
                       }
                       deferredKeys.resolve();
                   }, 1000);
