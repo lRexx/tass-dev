@@ -5183,9 +5183,15 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   if(response.status==200){
                     $timeout(function() {
                       console.log("Request Successfully processed");
-                      inform.add('Pedido pendiente de entrega. ',{
-                            ttl:5000, type: 'success'
-                      });
+                      if (pedido.ticket.idNewStatusKf=="4"){
+                        inform.add('Pedido pendiente de entrega. ',{
+                              ttl:5000, type: 'success'
+                        });
+                      }else if (pedido.ticket.idNewStatusKf=="4"){
+                        inform.add('Pedido en Preparación, pendiente habilitación de llaveros. ',{
+                              ttl:5000, type: 'success'
+                        });
+                      }
                       $('.circle-loader').toggleClass('load-complete');
                       $('.checkmark').toggle();
                       $scope.ticketRegistered = response.data[0];
