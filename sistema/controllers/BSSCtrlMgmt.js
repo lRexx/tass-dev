@@ -5226,7 +5226,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       $('.circle-loader').toggleClass('load-complete');
                       $('.checkmark').toggle();
                       $scope.ticketRegistered = response.data[0];
-                      $scope.openTicketFn(pedido.ticket.idTicket);
+                     $scope.mainSwitchFn("openTicket",pedido.ticket);
                       //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
                     }, 2500);
                   }else if(response.status==500){
