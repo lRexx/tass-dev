@@ -363,7 +363,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       }
                       console.log($scope.keyObj);
                       console.log($scope.functions);
-                $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
+                $('#confirmRequestModalCustom').modal('toggle');
                 }else if (confirm==1){
                   console.log($scope.keyObj);
                   console.log($scope.functions);
@@ -5235,8 +5235,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     inform.add('Error: [500] Contacta al area de soporte. ',{
                           ttl:5000, type: 'danger'
                     });
+                    $scope.mainSwitchFn('search', null);
                   }
-                  $scope.mainSwitchFn('search', null);
+
                   //$('#showModalRequestStatus').modal('hide');
               });
             };
@@ -5274,8 +5275,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     inform.add('Error: [500] Contacta al area de soporte. ',{
                           ttl:5000, type: 'danger'
                     });
-                  }
                   $scope.mainSwitchFn('search', null);
+                  }
                   //$('#showModalRequestStatus').modal('hide');
               });
             };
@@ -5307,8 +5308,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     inform.add('Error: [500] Contacta al area de soporte. ',{
                           ttl:5000, type: 'danger'
                     });
-                  }
                   $scope.mainSwitchFn('search', null);
+                  }
                   //$('#showModalRequestStatus').modal('hide');
               });
             };
@@ -5363,8 +5364,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       inform.add('Error: [500] Contacta al area de soporte. ',{
                             ttl:5000, type: 'danger'
                       });
+                      $scope.mainSwitchFn('search', null);
                     }
-                    $scope.mainSwitchFn('search', null);
+
                 });
             }
           /******************************
