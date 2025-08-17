@@ -4585,16 +4585,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.update.ticket.history               = [];
               $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': obj.deliveryCompany.deliveryCompanyName, 'idCambiosTicketKf':"41"});
               $scope.update.ticket.idTicket              = obj.idTicket;
-              $scope.update.ticket.idDeliveryCompanyKf   = obj.idDeliveryCompanyKf;
+              $scope.update.ticket.idDeliveryCompanyKf   = obj.deliveryCompany.idDeliveryCompany;
               if ((obj.whereKeysAreEnable=="1" || obj.whereKeysAreEnable=="2") && obj.isKeysEnable=="1"){
                 $scope.update.ticket.idNewStatusKf    = "4"
                 $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"42"});
               }else{
-                $scope.tkupdate.idNewStatusKf         = obj.idStatusTicketKf;
+                $scope.update.ticket.idNewStatusKf         = obj.idStatusTicketKf;
               }
               console.info("Source      : " +obj.keysMethod.name);
               console.info("Internet    : " +(obj.building.isHasInternetOnline === null ? "No" : "Si"));
-              console.info("Delivery Id : " +obj.idDeliveryCompanyKf);
+              console.info("Delivery Id : " +obj.deliveryCompany.idDeliveryCompany);
               console.info("Delivery    : " +obj.deliveryCompany.deliveryCompanyName);
               console.log("Ticket to Update: "+obj.codTicket);
               console.log($scope.tkupdate);
