@@ -5215,7 +5215,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               ticketServices.setKeysEnableDisable(pedido).then(function(response){
                   //console.log(response);
                   if(response.status==200){
-                    $scope.mainSwitchFn('search', null);
                     $timeout(function() {
                       console.log("Request Successfully processed");
                       if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="2"){
@@ -5227,6 +5226,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       $('.checkmark').toggle();
                       $scope.ticketRegistered = response.data[0];
                      $scope.mainSwitchFn("openTicket",pedido.ticket);
+                     $scope.mainSwitchFn('search', null);
                       //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
                     }, 2500);
                   }else if(response.status==500){
