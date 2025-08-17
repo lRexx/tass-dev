@@ -5178,7 +5178,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             $scope.addDeliveryCompanyFn = function(pedido){
               console.log(pedido);
               $scope.ticketRegistered = null;
-              ticketServices.changueStatus(pedido).then(function(response){
+              ticketServices.addDeliveryCompany(pedido).then(function(response){
                   //console.log(response);
                   if(response.status==200){
                     $timeout(function() {
