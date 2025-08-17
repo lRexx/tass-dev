@@ -399,7 +399,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 if (confirm==0){
                   $scope.keyObj=obj;
                   console.log($scope.keyObj);
-                  if ($scope.keyObj.idNewStatusKf == "4"){
+                  if ($scope.keyObj.ticket.idNewStatusKf == "4"){
                     $scope.mess2show="El Pedido pasara automaticamente a \"Pendiente de Entrega\",     Confirmar?";
                   }else{
                     $scope.mess2show="El Pedido permanece \"En Preparación\", pendiente habilitación de llaveros,     Confirmar?";
@@ -4582,42 +4582,33 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $('#deliveryAttendantList').modal("hide");
             break;
             case "setDeliveryCompany":
-              $scope.tkupdate.history             = [];
-              $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': $scope.tkupdate.deliveryCompany.deliveryCompanyName, 'idCambiosTicketKf':"41"});
-              $scope.tkupdate.idDeliveryCompanyKf = $scope.tkupdate.deliveryCompany.idDeliveryCompany;
-              if (($scope.tkupdate.whereKeysAreEnable=="1" || $scope.tkupdate.whereKeysAreEnable=="2") && $scope.tkupdate.isKeysEnable=="1"){
-                $scope.tkupdate.idNewStatusKf         = "4"
+              $scope.update.ticket.history               = [];
+              $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': obj.deliveryCompany.deliveryCompanyName, 'idCambiosTicketKf':"41"});
+              $scope.update.ticket.idTicket              = obj.idTicket;
+              $scope.update.ticket.idDeliveryCompanyKf   = obj.idDeliveryCompanyKf;
+              if ((obj.whereKeysAreEnable=="1" || obj.whereKeysAreEnable=="2") && obj.isKeysEnable=="1"){
+                $scope.update.ticket.idNewStatusKf    = "4"
+                $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"42"});
               }else{
-                $scope.tkupdate.idNewStatusKf         = $scope.tkupdate.idStatusTicketKf;
+                $scope.tkupdate.idNewStatusKf         = obj.idStatusTicketKf;
               }
-              $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': $scope.tkupdate.deliveryCompany.deliveryCompanyName, 'idCambiosTicketKf':"41"});
-              console.info("Source      : " +$scope.ticket.keysMethod.name);
+              console.info("Source      : " +obj.keysMethod.name);
               console.info("Internet    : " +(obj.building.isHasInternetOnline === null ? "No" : "Si"));
-              console.info("Delivery Id : " +$scope.tkupdate.idDeliveryCompanyKf);
-              console.info("Delivery    : " +$scope.tkupdate.deliveryCompany.deliveryCompanyName);
-              console.log("Ticket to Update: "+$scope.tkupdate.codTicket);
+              console.info("Delivery Id : " +obj.idDeliveryCompanyKf);
+              console.info("Delivery    : " +obj.deliveryCompany.deliveryCompanyName);
+              console.log("Ticket to Update: "+obj.codTicket);
               console.log($scope.tkupdate);
               $timeout(function() {
-                $scope.modalConfirmation('setDeliveryPending',0, $scope.tkupdate);
+                $scope.modalConfirmation('setDeliveryPending',0, $scope.update);
               }, 1500);
             break;
             case "applyDeliveryCompany":
               console.log(obj);
-              $scope.update.ticket.idTicket              = obj.idTicket;
-              $scope.update.ticket.idNewStatusKf         = obj.idNewStatusKf;
-              $scope.update.ticket.idDeliveryCompanyKf   = obj.idDeliveryCompanyKf;
-              $scope.update.ticket.history               = [];
-              $scope.update.ticket.history               = obj.history;
-              $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"42"});
-              console.info("Source            : " +obj.keysMethod.name);
-              console.info("Internet          : " +(obj.building.isHasInternetOnline === null ? "No" : "Si"));
-              console.info("idStatusTicketKf  : " +obj.idStatusTicketKf);
-              console.info("Ticket to Update  : " +obj.codTicket);
               $('#changeModalStatus').modal('hide');
               $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
-              console.log($scope.update);
+              console.log(obj);
               $timeout(function() {
-                //$scope.addDeliveryCompanyFn($scope.update);
+                //$scope.addDeliveryCompanyFn(obj);
               }, 2000);
               $('#deliveryModalDetails').modal("hide");
             break;
