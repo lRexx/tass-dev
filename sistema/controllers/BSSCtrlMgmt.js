@@ -411,6 +411,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.mainSwitchFn('applyDeliveryCompany', $scope.keyObj, null);
                 $('#confirmRequestModalCustom').modal('hide');
                 }else if (confirm==null){
+                  $('#confirmRequestModalCustom').modal('hide');
                   $scope.tkupdate.idStatusTicketKf    = $scope.tkupdate.idStatusTicketKf
                   if ($scope.tkupdate.deliveryCompany!=null){
                     $scope.tkupdate.deliveryCompany   = $scope.tkupdate.deliveryCompany;
@@ -430,6 +431,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.mainSwitchFn('applyTicketDelivered', $scope.keyObj, null);
                 $('#confirmRequestModalCustom').modal('hide');
                 }else if (confirm==null){
+                  $('#confirmRequestModalCustom').modal('hide');
                   $scope.update.ticket = {};
                   $scope.update.ticket = $scope.keyObj;
                   $scope.update.ticket.idNewStatusKf = "4";
