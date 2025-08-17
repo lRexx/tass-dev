@@ -419,6 +419,25 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   }
                 }
               break;
+              case "ticketDelivered":
+                if (confirm==0){
+                  $scope.keyObj=obj;
+                  console.log($scope.keyObj);
+                  $scope.mess2show="El Pedido "+$scope.keyObj.codTicket+" ha sido entregado?,     Confirmar?";
+                  $('#confirmRequestModalCustom').modal('toggle');
+                }else if (confirm==1){
+                  console.log($scope.keyObj);
+                  $scope.mainSwitchFn('applyTicketDelivery', $scope.keyObj, null);
+                $('#confirmRequestModalCustom').modal('hide');
+                }else if (confirm==null){
+                  if ($scope.tkupdate.deliveryCompany!=null){
+                    $scope.tkupdate.deliveryCompany=$scope.tkupdate.deliveryCompany;
+                  }else if ($scope.tkupdate.deliveryCompany==null){
+                    $scope.tkupdate.deliveryCompany=undefined
+                  }
+                }
+              break;
+
               case "update":
                   if (confirm==0){
                       $scope.tenantObj=obj;
@@ -3548,6 +3567,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             break;
             case "apply_isKeysEnable":
               console.log(obj);
+              $scope.update.ticket = {};
               if (($scope.tkupdate.whereKeysAreEnable==null || $scope.tkupdate.isKeysEnable==null)||($scope.tkupdate.isKeysEnable!=null && $scope.tkupdate.isKeysEnable!=$scope.functions.isKeysEnable)){
                 $scope.tkupdate.newKeychainList         = $scope.rsNewKeychainList;
                 $scope.tkupdate.isKeysEnable            = $scope.functions.isKeysEnable;
@@ -3556,9 +3576,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $scope.tkupdate.refund                  = [];
                 $scope.tkupdate.history                 = [];
                 var idKeychainStatusKf                  = $scope.tkupdate.isKeysEnable;
-                $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"28"});
-                $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
-                $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
+                $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"40"});
                 console.log($scope.tkupdate);
                 console.log($scope.rsNewKeychainList);
                 $scope.isNewKeySingle                   = true;
@@ -3602,7 +3620,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $q.all(assignedKeys).then(function () {
                   console.log("Ticket Update: "+$scope.tkupdate.codTicket);
                   console.log($scope.tkupdate);
-                  $scope.updateUpRequestFn({ticket: $scope.tkupdate});
+                  $scope.update.ticket = obj;
+                  console.log($scope.update);
+                  //$scope.setKeysEnableDisableFn($scope.update);
                 });
               }else{
                 inform.add('No hay cambios en el Pedido para actualizar. ',{
@@ -5169,6 +5189,41 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           ttl:5000, type: 'danger'
                     });
                   }
+              });
+            };
+          /******************************
+          *   SET KEYS ENABLE/DISABLE   *
+          ******************************/
+            $scope.ticketUpdated = null;
+            $scope.setKeysEnableDisableFn = function(pedido){
+              console.log(pedido);
+              $scope.ticketRegistered = null;
+              ticketServices.setKeysEnableDisable(pedido).then(function(response){
+                  //console.log(response);
+                  if(response.status==200){
+                    $timeout(function() {
+                      console.log("Request Successfully processed");
+                      if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="2"){
+                        $scope.modalConfirmation('ticketDelivered',0, pedido.ticket);
+                      }else{
+                        $scope.modalConfirmation('openTicketDelivery',0, pedido.ticket);
+                      }
+                      $('.circle-loader').toggleClass('load-complete');
+                      $('.checkmark').toggle();
+                      $scope.ticketRegistered = response.data[0];
+                      $scope.openTicketFn(pedido.ticket.idTicket);
+                      //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
+                      $scope.mainSwitchFn('search', null);
+                    }, 2500);
+                  }else if(response.status==500){
+                      $scope.ticketRegistered = null;
+                    console.log("Status no updated, contact administrator");
+                    inform.add('Error: [500] Contacta al area de soporte. ',{
+                          ttl:5000, type: 'danger'
+                    });
+                  }
+                  $scope.mainSwitchFn('search', null);
+                  //$('#showModalRequestStatus').modal('hide');
               });
             };
           /******************************

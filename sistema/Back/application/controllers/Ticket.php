@@ -405,7 +405,16 @@ class Ticket extends REST_Controller
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
+    public function setKeysEnableDisable_post()
+    {
 
+        $rs = $this->ticket_model->setKeysEnableDisable($this->post('ticket'));
+        if (!is_null($rs)) {
+            $this->response(array('response' => $rs), 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
     public function updateTmpTicket_post()
     {
 

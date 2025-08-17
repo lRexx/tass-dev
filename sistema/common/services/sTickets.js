@@ -200,6 +200,18 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
                   return response;
                 })
           },
+          /* SET KEYS ENABLE/DISABLE TICKET */
+          setKeysEnableDisable: function(ticket) {
+              console.log("Setting Keys Enable or Disable ticket service :: Triggered");
+              //console.log(tkUpdateData);
+              return $http.post(serverHost+serverBackend+"Ticket/setKeysEnableDisable",ticket, serverHeaders)
+                .then(function mySucess(response) {
+                  return response;
+                },function myError(response) {
+                  console.log("Error: "+response.data.error);
+                  return response;
+                })
+          },
           /* ADD TEMPORAL DELIVERY DATA TICKET */
           tmpDeliveryData: function(ticket) {
               console.log("ADDING TMP DATA");
