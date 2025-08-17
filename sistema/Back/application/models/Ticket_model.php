@@ -1142,8 +1142,8 @@ class Ticket_model extends CI_Model
 	{
 		$this->db->set(
 			array(
-				'idStatusTicketKf' => @$ticket['idNewStatusKf'],
-				'idDeliveryCompanyKf' => @$ticket['idDeliveryCompanyKf']
+				'isKeysEnable' => @$ticket['isKeysEnable'],
+				'whereKeysAreEnable' => @$ticket['whereKeysAreEnable']
 			)
 		)->where("idTicket", $ticket['idTicket'])->update("tb_tickets_2");
 
