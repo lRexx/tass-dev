@@ -285,7 +285,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               case "closeWindow":
                   if (confirm==0){
                       if ($scope.isEditTicket==true){
-                        $scope.mess2show="Se perderan todos los cambios realizado en el Pedido actual, esta seguro que desea cancelar?";
+                        $scope.mess2show="Se perderan todos los cambios que no haya guardado Pedido actual, esta seguro que desea cerrar?";
                       }else if ($scope.isNewUser==true){
                         $scope.mess2show="Se perderan todos los datos cargados del registro actual, esta seguro que desea cancelar?";
                       }else{
@@ -5265,9 +5265,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       $('.circle-loader').toggleClass('load-complete');
                       $('.checkmark').toggle();
                       $scope.ticketRegistered = response.data[0];
-                      $scope.openTicketFn(pedido.ticket.idTicket);
-                      //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
-                      $scope.mainSwitchFn('search', null);
+                     $scope.mainSwitchFn("openTicket",pedido.ticket);
+                     $scope.mainSwitchFn('search', null);
                     }, 2500);
                   }else if(response.status==500){
                       $scope.ticketRegistered = null;
@@ -5290,7 +5289,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               ticketServices.setTicketDelivered(pedido).then(function(response){
                   //console.log(response);
                   if(response.status==200){
-                    $scope.mainSwitchFn('search', null);
                     $timeout(function() {
                       console.log("Request Successfully processed");
                         inform.add('Pedido Entregado Satisfactoriamente. ',{
@@ -5299,8 +5297,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       $('.circle-loader').toggleClass('load-complete');
                       $('.checkmark').toggle();
                       $scope.ticketRegistered = response.data[0];
-                      $scope.openTicketFn(pedido.ticket.idTicket);
-                      //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
+                     $scope.mainSwitchFn("openTicket",pedido.ticket);
+                     $scope.mainSwitchFn('search', null);
                     }, 2500);
                   }else if(response.status==500){
                       $scope.ticketRegistered = null;
