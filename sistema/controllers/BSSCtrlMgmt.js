@@ -3314,8 +3314,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.isNewKeySingle             = false;
               $scope.isEditKey                  = false;
               $scope.isNewKeyMulti              = false;
-              $scope.ticket.idMgmtMethodKf     = null;
-              $scope.tkupdate.keysMethod         = {'name':''};
+              $scope.ticket.idMgmtMethodKf      = null;
+              $scope.tkupdate.keysMethod        = {'name':''};
               $scope.ticket.keysMethod.name     = undefined;
               $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
             break;
