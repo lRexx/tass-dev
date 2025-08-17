@@ -3622,7 +3622,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log($scope.tkupdate);
                   $scope.update.ticket = obj;
                   console.log($scope.update);
-                  //$scope.setKeysEnableDisableFn($scope.update);
+                  $scope.setKeysEnableDisableFn($scope.update);
                 });
               }else{
                 inform.add('No hay cambios en el Pedido para actualizar. ',{
