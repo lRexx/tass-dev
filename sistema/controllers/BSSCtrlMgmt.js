@@ -405,13 +405,15 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.mess2show="El Pedido permanece \"En Preparación\", pendiente habilitación de llaveros,     Confirmar?";
                   }
                   console.log($scope.mess2show);
-                  $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
+                  $timeout(function() {
+                    $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
+                  }, 1500);
                 }else if (confirm==1){
                   console.log($scope.keyObj);
                   $scope.mainSwitchFn('applyDeliveryCompany', $scope.keyObj, null);
                 $('#confirmRequestModalCustom').modal('hide');
                 }else if (confirm==null){
-                  $('#confirmRequestModalCustom').modal('hide');
+                  $('#confirmRequestModalCustom').modal('toggle');
                   $scope.tkupdate.idStatusTicketKf    = $scope.tkupdate.idStatusTicketKf
                   if ($scope.tkupdate.deliveryCompany!=null){
                     $scope.tkupdate.deliveryCompany   = $scope.tkupdate.deliveryCompany;
