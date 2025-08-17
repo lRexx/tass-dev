@@ -397,9 +397,14 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               break;
               case "setDeliveryPending":
                 if (confirm==0){
-                  $scope.keyObj=$scope.tkupdate;
+                  $scope.keyObj=obj;
                   console.log($scope.keyObj);
-                  $scope.mess2show="El Pedido pasara automaticamente a \"Pendiente de Entrega\",     Confirmar?";
+                  if ($scope.keyObj.idNewStatusKf == "4"){
+                    $scope.mess2show="El Pedido pasara automaticamente a \"Pendiente de Entrega\",     Confirmar?";
+                  }else{
+                    $scope.mess2show="El Pedido permanece \"En Preparación\", pendiente habilitación de llaveros,     Confirmar?";
+                  }
+
                   $('#confirmRequestModalCustom').modal('toggle');
                 }else if (confirm==1){
                   console.log($scope.keyObj);
@@ -4578,7 +4583,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             break;
             case "setDeliveryCompany":
               $scope.tkupdate.history             = [];
+              $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': $scope.tkupdate.deliveryCompany.deliveryCompanyName, 'idCambiosTicketKf':"41"});
               $scope.tkupdate.idDeliveryCompanyKf = $scope.tkupdate.deliveryCompany.idDeliveryCompany;
+              if (($scope.tkupdate.whereKeysAreEnable=="1" || $scope.tkupdate.whereKeysAreEnable=="2") && $scope.tkupdate.isKeysEnable=="1"){
+                $scope.tkupdate.idNewStatusKf         = "4"
+              }else{
+                $scope.tkupdate.idNewStatusKf         = $scope.tkupdate.idStatusTicketKf;
+              }
               $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': $scope.tkupdate.deliveryCompany.deliveryCompanyName, 'idCambiosTicketKf':"41"});
               console.info("Source      : " +$scope.ticket.keysMethod.name);
               console.info("Internet    : " +(obj.building.isHasInternetOnline === null ? "No" : "Si"));
@@ -4593,7 +4604,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             case "applyDeliveryCompany":
               console.log(obj);
               $scope.update.ticket.idTicket              = obj.idTicket;
-              $scope.update.ticket.idNewStatusKf         = "4"
+              $scope.update.ticket.idNewStatusKf         = obj.idNewStatusKf;
               $scope.update.ticket.idDeliveryCompanyKf   = obj.idDeliveryCompanyKf;
               $scope.update.ticket.history               = [];
               $scope.update.ticket.history               = obj.history;
