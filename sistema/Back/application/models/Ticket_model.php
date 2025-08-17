@@ -1391,7 +1391,7 @@ class Ticket_model extends CI_Model
 			array(
 				'idStatusTicketKf' => 1,
 				'delivery_schedule_at' => @$ticket['delivery_schedule_at'],
-				'delivered_at' => @$ticket['delivered_at']
+				'delivered_at' => @$ticket['delivery_schedule_at']
 			)
 		)->where("idTicket", $ticket['idTicket'])->update("tb_tickets_2");
 

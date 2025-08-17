@@ -4632,6 +4632,12 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             break;
             case "applyTicketDelivered":
               console.log(obj);
+              $scope.update.ticket = {};
+              $scope.update.ticket = obj;
+              $scope.update.ticket.idNewStatusKf          = "1"
+              $scope.update.ticket.delivery_schedule_at   = new Date();
+              $scope.update.ticket.history                = [];
+              $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': obj.deliveryCompany.deliveryCompanyName, 'idCambiosTicketKf':"43"});
               $('#changeModalStatus').modal('hide');
               $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
               console.log(obj);
@@ -4640,7 +4646,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               }, 2000);
               $('#deliveryModalDetails').modal("hide");
             break;
-
             case "deliveryToOtherAddress":
               console.log(obj);
               console.log(obj2);
