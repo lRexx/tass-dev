@@ -4608,7 +4608,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
               console.log(obj);
               $timeout(function() {
-                //$scope.addDeliveryCompanyFn(obj);
+                $scope.addDeliveryCompanyFn(obj);
               }, 2000);
               $('#deliveryModalDetails').modal("hide");
             break;
