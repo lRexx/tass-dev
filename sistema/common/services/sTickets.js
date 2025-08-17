@@ -176,6 +176,18 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
                 return response;
               })
           },
+          /*CHANCE STATUS TICKET */
+          addDeliveryCompany: function(ticket) {
+            console.log("Adding Delivery Company service :: Triggered");
+            //console.log(tkUpdateData);
+            return $http.post(serverHost+serverBackend+"Ticket/addDeliveryCompany",ticket, serverHeaders)
+              .then(function mySucess(response) {
+                return response;
+              },function myError(response) {
+                console.log("Error: "+response.data.error);
+                return response;
+              })
+          },
           /* UPDATE TICKET */
           updateUpRequest: function(ticket) {
               console.log("Updating ticket service :: Triggered");

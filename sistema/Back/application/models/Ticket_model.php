@@ -1321,7 +1321,38 @@ class Ticket_model extends CI_Model
 			return false;
 		}
 	}
+	public function addDeliveryCompany($ticket)
+	{
+		$this->db->set(
+			array(
+				'idStatusTicketKf' => @$ticket['idNewStatusKf'],
+				'idDeliveryCompanyKf' => @$ticket['idDeliveryCompanyKf']
+			)
+		)->where("idTicket", $ticket['idTicket'])->update("tb_tickets_2");
 
+		if ($this->db->affected_rows() === 1) {
+			$idTicketKf = $ticket['idTicket'];
+			$now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));
+			if (count(@$ticket['history']) > 0) {
+				foreach ($ticket['history'] as $key) {
+					$this->db->insert('tb_ticket_changes_history', array(
+						"idUserKf" => @$key['idUserKf'],
+						"idTicketKf" => $idTicketKf,
+						"created_at" => $now->format('Y-m-d H:i:s'),
+						"descripcion" => @$key['descripcion'],
+						"idCambiosTicketKf" => @$key['idCambiosTicketKf'],
+					));
+				}
+			}
+			$lastTicketUpdatedQuery = null;
+			$lastTicketUpdatedQueryTmp = $this->ticketById($idTicketKf);
+			//print_r($lastTicketUpdatedQueryTmp['idTicketKf']);
+			$lastTicketUpdatedQuery = $lastTicketUpdatedQueryTmp['tickets'][0];
+			return $lastTicketUpdatedQuery;
+		} else {
+			return false;
+		}
+	}
 	public function completeTicketRefund($ticket)
 	{
 		$now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));

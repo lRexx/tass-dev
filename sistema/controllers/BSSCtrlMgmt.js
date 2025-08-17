@@ -4592,16 +4592,21 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             break;
             case "applyDeliveryCompany":
               console.log(obj);
-              $scope.tkupdate.history             = [];
-              $scope.tkupdate.refund              = [];
-              $scope.tkupdate.idStatusTicketKf    = "4";
-              $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"42"});
-              console.info("Source            : " +$scope.ticket.keysMethod.name);
+              $scope.update.ticket.idTicket              = obj.idTicket;
+              $scope.update.ticket.idNewStatusKf         = "4"
+              $scope.update.ticket.idDeliveryCompanyKf   = obj.idDeliveryCompanyKf;
+              $scope.update.ticket.history               = [];
+              $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"42"});
+              console.info("Source            : " +obj.keysMethod.name);
               console.info("Internet          : " +(obj.building.isHasInternetOnline === null ? "No" : "Si"));
-              console.info("idStatusTicketKf  : " +$scope.tkupdate.idStatusTicketKf);
-              console.log("Ticket to Update: "+$scope.tkupdate.codTicket);
-              console.log($scope.tkupdate);
-              $scope.updateUpRequestFn({ticket: $scope.tkupdate});
+              console.info("idStatusTicketKf  : " +obj.idStatusTicketKf);
+              console.info("Ticket to Update  : " +obj.codTicket);
+              $('#changeModalStatus').modal('hide');
+              $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+              console.log($scope.update);
+              $timeout(function() {
+                //$scope.addDeliveryCompanyFn($scope.update);
+              }, 2000);
               $('#deliveryModalDetails').modal("hide");
             break;
             case "deliveryToOtherAddress":
@@ -5161,6 +5166,39 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           ttl:5000, type: 'danger'
                     });
                   }
+              });
+            };
+          /******************************
+          *     ADD DELIVERY COMPANY    *
+          ******************************/
+            $scope.ticketUpdated = null;
+            $scope.addDeliveryCompanyFn = function(pedido){
+              console.log(pedido);
+              $scope.ticketRegistered = null;
+              ticketServices.changueStatus(pedido).then(function(response){
+                  //console.log(response);
+                  if(response.status==200){
+                    $timeout(function() {
+                      console.log("Request Successfully processed");
+                      inform.add('Pedido pendiente de entrega. ',{
+                            ttl:5000, type: 'success'
+                      });
+                      $('.circle-loader').toggleClass('load-complete');
+                      $('.checkmark').toggle();
+                      $scope.ticketRegistered = response.data[0];
+                      $scope.openTicketFn(pedido.ticket.idTicket);
+                      //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
+                      $scope.mainSwitchFn('search', null);
+                    }, 2500);
+                  }else if(response.status==500){
+                      $scope.ticketRegistered = null;
+                    console.log("Status no updated, contact administrator");
+                    inform.add('Error: [500] Contacta al area de soporte. ',{
+                          ttl:5000, type: 'danger'
+                    });
+                  }
+                  $scope.mainSwitchFn('search', null);
+                  //$('#showModalRequestStatus').modal('hide');
               });
             };
           /******************************
