@@ -404,7 +404,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   }else{
                     $scope.mess2show="El Pedido permanece \"En Preparación\", pendiente habilitación de llaveros,     Confirmar?";
                   }
-                  $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
+                  $('#confirmRequestModalCustom').modal('toggle');
                 }else if (confirm==1){
                   console.log($scope.keyObj);
                   $scope.mainSwitchFn('applyDeliveryCompany', $scope.keyObj, null);
