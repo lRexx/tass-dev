@@ -5187,7 +5187,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         inform.add('Pedido pendiente de entrega. ',{
                               ttl:5000, type: 'success'
                         });
-                      }else if (pedido.ticket.idNewStatusKf=="4"){
+                      }else if (pedido.ticket.idNewStatusKf=="8"){
                         inform.add('Pedido en Preparación, pendiente habilitación de llaveros. ',{
                               ttl:5000, type: 'success'
                         });
