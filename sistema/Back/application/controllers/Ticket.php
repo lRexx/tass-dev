@@ -187,7 +187,23 @@ class Ticket extends REST_Controller
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
+    public function setTicketDelivered_post()
+    {
+        log_message('info', ':::::::::::::::::setTicketDelivered');
+        if (!$this->post('ticket')) {
+            log_message('info', ':::::::::::::::::setTicketDelivered => Post (ticket) Object [MISSING]');
+            $this->response(null, 404);
+        }
 
+        $rs = null;
+        $rs = $this->ticket_model->setTicketDelivered($this->post('ticket'));
+
+        if (!is_null($rs)) {
+            $this->response($rs, 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
     public function completeTicketRefund_post()
     {
 

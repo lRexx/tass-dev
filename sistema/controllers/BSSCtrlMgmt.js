@@ -363,7 +363,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       }
                       console.log($scope.keyObj);
                       console.log($scope.functions);
-                $('#confirmRequestModalCustom').modal('toggle');
+                $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
                 }else if (confirm==1){
                   console.log($scope.keyObj);
                   console.log($scope.functions);
@@ -382,7 +382,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.keyObj=$scope.tkupdate;
                   console.log($scope.keyObj);
                   $scope.mess2show="El Pedido sera entregado por la empresa"+$scope.keyObj.deliveryCompany.deliveryCompanyName+",     Confirmar?";
-                $('#confirmRequestModalCustom').modal('toggle');
+                $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
                 }else if (confirm==1){
                   console.log($scope.keyObj);
                   $scope.mainSwitchFn('setDeliveryCompany', $scope.keyObj, null);
@@ -404,18 +404,17 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   }else{
                     $scope.mess2show="El Pedido permanece \"En Preparación\", pendiente habilitación de llaveros,     Confirmar?";
                   }
-
-                  $('#confirmRequestModalCustom').modal('toggle');
+                  $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
                 }else if (confirm==1){
                   console.log($scope.keyObj);
                   $scope.mainSwitchFn('applyDeliveryCompany', $scope.keyObj, null);
                 $('#confirmRequestModalCustom').modal('hide');
                 }else if (confirm==null){
-                  $scope.tkupdate.idStatusTicketKf  = $scope.tkupdate.idStatusTicketKf
+                  $scope.tkupdate.idStatusTicketKf    = $scope.tkupdate.idStatusTicketKf
                   if ($scope.tkupdate.deliveryCompany!=null){
-                    $scope.tkupdate.deliveryCompany          = $scope.tkupdate.deliveryCompany;
+                    $scope.tkupdate.deliveryCompany   = $scope.tkupdate.deliveryCompany;
                   }else if ($scope.tkupdate.deliveryCompany==null){
-                    $scope.tkupdate.deliveryCompany=undefined
+                    $scope.tkupdate.deliveryCompany   = undefined
                   }
                 }
               break;
@@ -423,18 +422,17 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 if (confirm==0){
                   $scope.keyObj=obj;
                   console.log($scope.keyObj);
-                  $scope.mess2show="El Pedido "+$scope.keyObj.codTicket+" ha sido entregado?,     Confirmar?";
-                  $('#confirmRequestModalCustom').modal('toggle');
+                  $scope.mess2show="El Pedido "+$scope.keyObj.codTicket+" ha sido entregado,     Confirmar?";
+                  $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
                 }else if (confirm==1){
                   console.log($scope.keyObj);
-                  $scope.mainSwitchFn('applyTicketDelivery', $scope.keyObj, null);
+                  $scope.mainSwitchFn('applyTicketDelivered', $scope.keyObj, null);
                 $('#confirmRequestModalCustom').modal('hide');
                 }else if (confirm==null){
-                  if ($scope.tkupdate.deliveryCompany!=null){
-                    $scope.tkupdate.deliveryCompany=$scope.tkupdate.deliveryCompany;
-                  }else if ($scope.tkupdate.deliveryCompany==null){
-                    $scope.tkupdate.deliveryCompany=undefined
-                  }
+                  $scope.update.ticket = {};
+                  $scope.update.ticket = $scope.keyObj;
+                  $scope.update.ticket.idNewStatusKf = "4";
+                  $scope.modalConfirmation('setDeliveryPending',0, $scope.update);
                 }
               break;
 
@@ -4632,6 +4630,17 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               }, 2000);
               $('#deliveryModalDetails').modal("hide");
             break;
+            case "applyTicketDelivered":
+              console.log(obj);
+              $('#changeModalStatus').modal('hide');
+              $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+              console.log(obj);
+              $timeout(function() {
+                //$scope.applyTicketDeliveredFn(obj);
+              }, 2000);
+              $('#deliveryModalDetails').modal("hide");
+            break;
+
             case "deliveryToOtherAddress":
               console.log(obj);
               console.log(obj2);
@@ -5247,6 +5256,39 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                               ttl:5000, type: 'success'
                         });
                       }
+                      $('.circle-loader').toggleClass('load-complete');
+                      $('.checkmark').toggle();
+                      $scope.ticketRegistered = response.data[0];
+                      $scope.openTicketFn(pedido.ticket.idTicket);
+                      //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
+                      $scope.mainSwitchFn('search', null);
+                    }, 2500);
+                  }else if(response.status==500){
+                      $scope.ticketRegistered = null;
+                    console.log("Status no updated, contact administrator");
+                    inform.add('Error: [500] Contacta al area de soporte. ',{
+                          ttl:5000, type: 'danger'
+                    });
+                  }
+                  $scope.mainSwitchFn('search', null);
+                  //$('#showModalRequestStatus').modal('hide');
+              });
+            };
+          /******************************
+          *     SET TICKET DELIVERED    *
+          ******************************/
+            $scope.ticketUpdated = null;
+            $scope.applyTicketDeliveredFn = function(pedido){
+              console.log(pedido);
+              $scope.ticketRegistered = null;
+              ticketServices.setTicketDelivered(pedido).then(function(response){
+                  //console.log(response);
+                  if(response.status==200){
+                    $timeout(function() {
+                      console.log("Request Successfully processed");
+                        inform.add('Pedido Entregado Satisfactoriamente. ',{
+                              ttl:5000, type: 'success'
+                        });
                       $('.circle-loader').toggleClass('load-complete');
                       $('.checkmark').toggle();
                       $scope.ticketRegistered = response.data[0];
