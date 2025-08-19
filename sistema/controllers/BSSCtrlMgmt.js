@@ -436,7 +436,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $('#confirmRequestModalCustom').modal('hide');
                   $scope.update.ticket = {};
                   $scope.update.ticket = $scope.keyObj;
-                  $scope.update.ticket.idNewStatusKf = "4";
+                  $scope.update.ticket.idNewStatusKf        = "4";
+                  $scope.update.ticket.deliveryCompany      = $scope.listDeliveryCompanies.find(s => s.idDeliveryCompany == 1);
+                  $scope.update.ticket.idDeliveryCompanyKf  = $scope.update.ticket.deliveryCompany.idDeliveryCompany;
                   $scope.modalConfirmation('setDeliveryPending',0, $scope.update);
                 }
               break;
