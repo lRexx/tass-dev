@@ -692,7 +692,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log($scope.argObj);
                       $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
-                  console.log($scope.argObj);
                   switch($scope.argObj.newTicketStatus.idStatus){
                     case '5':
                       $scope.mainSwitchFn('applyInTransitStatus', $scope.argObj);
@@ -703,7 +702,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
 
                     $('#confirmRequestModal').modal('hide');
                     //console.log($scope.argObj);
-                    //applyInTransitStatus
                 }
               break;
               case "change_ticket_status_multi":
@@ -4325,7 +4323,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
               console.log($scope.update);
               $timeout(function() {
-                //$scope.changeTicketStatusRequestFn($scope.update);
+                $scope.changeTicketStatusRequestFn($scope.update);
               }, 2000);
             break;
             case "apply_change_ticket_status_single":
