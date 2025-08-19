@@ -684,8 +684,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 }
               break;
               case "change_ticket_status_single":
-                $scope.argObj = obj;
                 if (confirm==0){
+                      $scope.argObj = obj;
                       $scope.mess2show="El estado del pedido ["+obj.codTicket+"] cambiara a Estado: "+obj.newTicketStatus.statusName+", Confirmar?";
                       console.log("El estado del pedido "+obj.codTicket+" ID: "+obj.idTicket+" cambiara a Estado: "+obj.newTicketStatus.statusName+", Solicitado por el usuario: "+$scope.sysLoggedUser.fullNameUser);
                       console.log("============================================================================")
