@@ -687,13 +687,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $scope.argObj = obj;
                 if (confirm==0){
                       $scope.mess2show="El estado del pedido ["+obj.codTicket+"] cambiara a Estado: "+obj.newTicketStatus.statusName+", Confirmar?";
-                      console.log("El estado del pedido "+obj.codTicket+" ID: "+obj.idTicket+" cambiara a Estado: "+obj.newTicketStatus.statusName+" Solicitado por el usuario: "+$scope.sysLoggedUser.fullNameUser);
+                      console.log("El estado del pedido "+obj.codTicket+" ID: "+obj.idTicket+" cambiara a Estado: "+obj.newTicketStatus.statusName+", Solicitado por el usuario: "+$scope.sysLoggedUser.fullNameUser);
                       console.log("============================================================================")
                       console.log($scope.argObj);
                       $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                   switch($scope.argObj.newTicketStatus.idStatus){
-                    case "5":
+                    case '5':
                       $scope.mainSwitchFn('applyInTransitStatus', $scope.argObj);
                     break;
                     default:
