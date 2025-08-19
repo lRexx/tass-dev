@@ -2739,10 +2739,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             return isNaN( n ) ? 0 : n;
           }
           $scope.filterDeliveryCompany = function(item){
-            if ($scope.tkupdate.whereKeysAreEnable=="2"){
+            if (($scope.tkupdate.idMgmtMethodKf=="1" || $scope.tkupdate.idMgmtMethodKf=="2") && $scope.tkupdate.whereKeysAreEnable=="2" && $scope.tkupdate.isKeysEnable == null){
               return item.idDeliveryCompany=="2"
             }
-            if (($scope.tkupdate.whereKeysAreEnable=="1")||($scope.tkupdate.whereKeysAreEnable=="2" && $scope.tkupdate.isKeysEnable =="1")){
+            if (($scope.tkupdate.idMgmtMethodKf=="1" || $scope.tkupdate.idMgmtMethodKf=="2") && ($scope.tkupdate.whereKeysAreEnable=="1"||$scope.tkupdate.whereKeysAreEnable=="2") && $scope.tkupdate.isKeysEnable =="1"){
               return item.idDeliveryCompany=="1"
             }
             if (($scope.tkupdate.whereKeysAreEnable=="1" || $scope.tkupdate.whereKeysAreEnable=="2") && $scope.tkupdate.isKeysEnable =="1" && $scope.tkupdate.idMgmtMethodKf=="1" && $scope.tkupdate.building.isStockInOffice=="1"){
