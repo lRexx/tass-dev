@@ -692,6 +692,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log($scope.argObj);
                       $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
+                  console.log($scope.argObj);
                   switch($scope.argObj.newTicketStatus.idStatus){
                     case '5':
                       $scope.mainSwitchFn('applyInTransitStatus', $scope.argObj);
