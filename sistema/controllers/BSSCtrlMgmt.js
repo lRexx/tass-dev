@@ -2741,7 +2741,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
           $scope.filterDeliveryCompany = function(item){
             if ($scope.tkupdate.whereKeysAreEnable=="2"){
               return item.idDeliveryCompany=="2"
-            }else if ($scope.tkupdate.whereKeysAreEnable=="1"){
+            }else if (($scope.tkupdate.whereKeysAreEnable=="1")||($scope.tkupdate.whereKeysAreEnable=="2" && $scope.tkupdate.isKeysEnable =="1")){
               return item.idDeliveryCompany=="1"
             }else if (($scope.tkupdate.whereKeysAreEnable=="1" || $scope.tkupdate.whereKeysAreEnable=="2") && $scope.tkupdate.isKeysEnable =="1" && $scope.tkupdate.idMgmtMethodKf=="1" && $scope.tkupdate.building.isStockInOffice=="1"){
               return item.idDeliveryCompany=="3"
