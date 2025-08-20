@@ -4707,8 +4707,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.ticket = obj;
               if (obj.idTypeDeliveryKf=='2'){
                 if (obj.idStatusTicketKf=='5'){
-                  $scope.ticket.deliveryDate = $scope.formatDate($scope.ticket.delivery_schedule_at);
-                  $scope.ticket.newTicketStatus = $scope.listStatusTicketChange.find(s => s.idStatus == "1");
+                  $scope.ticket.deliveryDate          = $scope.formatDate($scope.ticket.delivery_schedule_at);
+                  $scope.ticket.delivery_schedule_at  = $scope.ticket.delivery_schedule_at;
+                  $scope.ticket.newTicketStatus       = $scope.listStatusTicketChange.find(s => s.idStatus == "1");
                 }
               }
               $scope.changeStatusTicketSingle=true;
@@ -4719,9 +4720,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.update.ticket.idTicket              = obj.idTicket;
               $scope.update.ticket.idTypeDeliveryKf      = obj.idTypeDeliveryKf;
               $scope.update.ticket.idNewStatusKf         = obj.newTicketStatus.idStatus;
-              $scope.update.ticket.delivery_schedule_at  = obj.newTicketStatus.idStatus=='5' && obj.idTypeDeliveryKf=='2' && obj.deliveryDate!=undefined?obj.deliveryDate:null;
-              $scope.update.ticket.delivered_at          = null;
-              $scope.update.ticket.idDeliveryCompanyKf   = $scope.tkupdate.idDeliveryCompanyKf
+              $scope.update.ticket.delivery_schedule_at  = obj.delivery_schedule_at;
+              $scope.update.ticket.delivered_at          = obj.newTicketStatus.idStatus=='1' && obj.idTypeDeliveryKf=='2' && obj.deliveryDate!=undefined?obj.deliveryDate:null;
               $scope.update.ticket.history               = [];
               $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
               console.log($scope.update);
