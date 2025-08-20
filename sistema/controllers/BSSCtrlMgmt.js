@@ -693,6 +693,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                   switch($scope.argObj.newTicketStatus.idStatus){
+                    case '1':
+                      $scope.mainSwitchFn('applyTicketDelivered', $scope.argObj);
+                    break;
                     case '5':
                       $scope.mainSwitchFn('applyInTransitStatus', $scope.argObj);
                     break;
@@ -3576,7 +3579,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.updateUpRequestFn({ticket: $scope.tkupdate});
                   }
                 });
-                //$scope.addKeyFn($scope.keys);
             break;
             case "apply_isKeysEnable":
               console.log(obj);
@@ -3623,9 +3625,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       };
                       console.log("Llavero a actualizar: "+keys.codigo);
                       console.log(keys);
-                      //$scope.updateKeyFn({llavero: keys});
+                      $scope.updateKeyFn({llavero: keys});
                       if (idKeychainStatusKf=="1"){
-                        //$scope.addProcessEventFn({llavero: keys});
+                        $scope.addProcessEventFn({llavero: keys});
                       }
                       deferredKeys.resolve();
                   }, 1000);
@@ -4248,7 +4250,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               if (obj.idTypeDeliveryKf=='2'){
                 if (obj.idStatusTicketKf!='5'){
                   $scope.ticket.deliveryDate = new Date();
-
                 }else{
                   if ($scope.ticket.delivery_schedule_at!=null){
                     $scope.ticket.deliveryDate = $scope.formatDate($scope.ticket.delivery_schedule_at);
@@ -4701,21 +4702,35 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               }, 2000);
               $('#deliveryModalDetails').modal("hide");
             break;
-            case "applyTicketDelivered":
+            case "setTicketDelivered":
               console.log(obj);
-              $scope.update.ticket = {};
-              $scope.update.ticket = obj;
-              $scope.update.ticket.idNewStatusKf          = "1"
-              $scope.update.ticket.delivery_schedule_at   = new Date();
-              $scope.update.ticket.history                = [];
-              $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': obj.deliveryCompany.deliveryCompanyName, 'idCambiosTicketKf':"44"});
+              $scope.ticket = obj;
+              if (obj.idTypeDeliveryKf=='2'){
+                if (obj.idStatusTicketKf=='5'){
+                  $scope.ticket.deliveryDate = $scope.formatDate($scope.ticket.delivery_schedule_at);
+                  $scope.ticket.newTicketStatus = $scope.listStatusTicketChange.find(s => s.idStatus == "1");
+                }
+              }
+              $scope.changeStatusTicketSingle=true;
+              $scope.changeStatusTicketMulti=false;
+              $('#changeModalStatus').modal({backdrop: 'static', keyboard: false});
+            break;
+            case "applyTicketDelivered":
+              $scope.update.ticket.idTicket              = obj.idTicket;
+              $scope.update.ticket.idTypeDeliveryKf      = obj.idTypeDeliveryKf;
+              $scope.update.ticket.idNewStatusKf         = obj.newTicketStatus.idStatus;
+              $scope.update.ticket.delivery_schedule_at  = obj.newTicketStatus.idStatus=='5' && obj.idTypeDeliveryKf=='2' && obj.deliveryDate!=undefined?obj.deliveryDate:null;
+              $scope.update.ticket.delivered_at          = null;
+              $scope.update.ticket.idDeliveryCompanyKf   = $scope.tkupdate.idDeliveryCompanyKf
+              $scope.update.ticket.history               = [];
+              $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
+              console.log($scope.update);
               $('#changeModalStatus').modal('hide');
               $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
-              console.log(obj);
+              console.log($scope.update);
               $timeout(function() {
-                $scope.applyTicketDeliveredFn($scope.update);
+                $scope.changeTicketStatusRequestFn($scope.update);
               }, 2000);
-              $('#deliveryModalDetails').modal("hide");
             break;
             case "deliveryToOtherAddress":
               console.log(obj);
