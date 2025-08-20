@@ -4723,7 +4723,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.update.ticket.delivery_schedule_at  = obj.delivery_schedule_at;
               var delivered_at                           = obj.newTicketStatus.idStatus=='1' && obj.idTypeDeliveryKf=='2' && obj.deliveryDate!=undefined?obj.deliveryDate:null;
               var rawDate                                = moment(delivered_at).toDate();
-              $scope.update.ticket.delivered_at          = moment(rawDate).format('YYYY-MM-DD');
+              $scope.update.ticket.delivered_at          = rawDate;
               $scope.update.ticket.history               = [];
               $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
               console.log($scope.update);
