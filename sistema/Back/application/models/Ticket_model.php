@@ -1177,6 +1177,7 @@ class Ticket_model extends CI_Model
 		log_message('info', ':::::::::::::::::changueStatus => delivered_at:' . @$ticket['delivered_at']);
 		log_message('info', ':::::::::::::::::changueStatus => delivery_schedule_at:' . @$ticket['delivery_schedule_at']);
 		if (is_null($ticket['delivered_at']) && is_null($ticket['delivery_schedule_at']) && $ticket['idNewStatusKf'] != 5 && $ticket['idNewStatusKf'] != 1) {
+			log_message('info', ':::::::::::::::::changueStatus => Primera condición cumplida');
 			$this->db->set(
 				array(
 					'idStatusTicketKf' => @$ticket['idNewStatusKf']
