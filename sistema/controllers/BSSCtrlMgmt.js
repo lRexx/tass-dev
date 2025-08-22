@@ -5111,7 +5111,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           $scope.mainSwitchFn("linkMP",response.data.response,null);
                       }, 2700);
                     }else{
-                      $scope.mainSwitchFn('search', null);
+                    $scope.mainSwitchFn("openTicket",pedido.ticket);
+                    $scope.mainSwitchFn('search', null);
                       $timeout(function() {
                           $scope.openTicketFn(pedido.ticket.idTicket);
                       }, 2000);
