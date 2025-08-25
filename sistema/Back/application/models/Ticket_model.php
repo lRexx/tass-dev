@@ -3179,7 +3179,7 @@ class Ticket_model extends CI_Model
 				$rs_tickets['tickets'][$key]['keys'][$i]['doors'] = @$quuery->result_array();
 
 				$this->db->select("*")->from("tb_user");
-				$quuery = $this->db->where("tb_user.idUser = ", @$rs_tickets['tickets'][$key]['keys'][$i]['keychain']["idUserKf"])->get();
+				$quuery = $this->db->where("tb_user.idUser = ", @$ticketKeychain["idUserKf"])->get();
 				$rs_tickets['tickets'][$key]['keys'][$i]['user'] = @$quuery->result_array()[0];
 				$i++;
 			}
