@@ -3977,7 +3977,7 @@ class Ticket_model extends CI_Model
 		');
 		$this->db->from('tb_tickets_2 t2');
 		$this->db->join('tb_tickets_billing tb', 't2.idTicket = tb.idTicketKf');
-		$this->db->where('tb.isBilled', '1');
+		$this->db->where('tb.isBilled IS NULL', null, false);
 		$this->db->where('tb.isPostBilled IS NULL', null, false);
 		$this->db->group_start();
 		$this->db->where('t2.isBillingCompleted IS NULL', null, false);
