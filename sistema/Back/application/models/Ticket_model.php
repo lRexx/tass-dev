@@ -4008,7 +4008,7 @@ class Ticket_model extends CI_Model
 				if (file_exists($filePath)) {
 					// El archivo existe
 					$output = shell_exec('ls -lh ' . escapeshellarg($filePath));
-					log_message('info', 'Bill for ticket ID: ' . $ticket['idTicket'] . ' ::: [Exist]');
+					log_message('info', 'Bill for ticket ' . $ticket['codTicket'] . ' ID: ' . $ticket['idTicket'] . ' ::: [Exist]');
 					log_message('info', 'Bill found: ' . $fileName);
 					log_message('info', $output);
 					log_message('info', 'adding entry at tb_ticket_files_list ');
@@ -4026,30 +4026,30 @@ class Ticket_model extends CI_Model
 						]
 					];
 					if ($this->addTicketUploadedFile($ticketData)) {
-						log_message('info', 'Entry added for ticket ID: ' . $ticket['idTicket'] . ' ::: [SUCCEEDED]');
-						log_message('info', 'updating tb_ticket_2 for ticket ID: ' . $ticket['idTicket']);
+						log_message('info', 'Entry added for ticket ' . $ticket['codTicket'] . ' ID: ' . $ticket['idTicket'] . ' ::: [SUCCEEDED]');
+						log_message('info', 'updating tb_ticket_2 for ticket ' . $ticket['codTicket'] . ' ID: ' . $ticket['idTicket']);
 						// Actualizar los campos en la tabla tb_tickets_2
 						if ($this->setIsBillingUploaded($ticket['idTicket'], 1) && $this->setIsBillingCompleted($ticket['idTicket'], 1)) {
-							log_message('info', 'Ticket ' . $ticket['idTicket'] . ' updated successfully in tb_tickets_2.');
+							log_message('info', 'Ticket ' . $ticket['codTicket'] . ' ID:' . $ticket['idTicket'] . ' updated successfully in tb_tickets_2.');
 							if ($this->sendPostBillingMailNotification($ticket['idTicket'], $fileName)) {
 								if ($this->setPostBillingCompleted($ticket['idTicket'])) {
-									log_message('info', 'PostBillingTicket ' . $ticket['idTicket'] . ' isPostBilled updated successfully in tb_tickets_billing.');
+									log_message('info', 'PostBillingTicket Ticket ' . $ticket['codTicket'] . ' ID:' . $ticket['idTicket'] . ' isPostBilled updated successfully in tb_tickets_billing.');
 									$msg = "Pedido " . $ticket['codTicket'] . " de tb_tickets_billing procesado y actualizado campo isPostBilled satisfactoriamente";
 									if ($this->addEventLog($ticket['idTicket'], $ticket['codTicket'], "postTicketBillingProcess", $msg)) {
-										log_message('info', 'PostBillingTicket ' . $ticket['idTicket'] . ' event_log entry added successfully.');
+										log_message('info', 'PostBillingTicket Ticket ' . $ticket['codTicket'] . ' ID:' . $ticket['idTicket'] . ' event_log entry added successfully.');
 									}
 								}
 							}
 
 						} else {
-							log_message('error', 'Ticket ' . $ticket['idTicket'] . ' was not updated in tb_tickets_2.');
+							log_message('error', 'Ticket ' . $ticket['codTicket'] . ' ID:' . $ticket['idTicket'] . ' was not updated in tb_tickets_2.');
 						}
 					} else {
-						log_message('error', 'Error adding entry for ticket ID: ' . $ticket['idTicket'] . ' to tb_ticket_files_list.');
+						log_message('error', 'Error adding entry for ticket ' . $ticket['codTicket'] . ' ID:' . $ticket['idTicket'] . ' to tb_ticket_files_list.');
 					}
 				} else {
 					// El archivo no existe
-					log_message('info', 'Bill for ticket ID: ' . $ticket['idTicket'] . ' ::: [Not Exist]');
+					log_message('info', 'Bill for ticket ' . $ticket['codTicket'] . ' ID: ' . $ticket['idTicket'] . ' ::: [Not Exist]');
 					log_message('info', 'Bill not found: ' . $fileName);
 					$output = shell_exec('ls -lh ' . escapeshellarg($filePath));
 					log_message('info', $output);
