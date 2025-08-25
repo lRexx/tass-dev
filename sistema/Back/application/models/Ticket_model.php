@@ -3179,6 +3179,10 @@ class Ticket_model extends CI_Model
 				$rs_tickets['tickets'][$key]['keys'][$i]['doors'] = @$quuery->result_array();
 
 				$this->db->select("*")->from("tb_user");
+				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
+				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
+				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
+				$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
 				$quuery = $this->db->where("tb_user.idUser = ", @$ticketKeychain["idUserKf"])->get();
 				$rs_tickets['tickets'][$key]['keys'][$i]['user'] = @$quuery->result_array()[0];
 				$i++;
