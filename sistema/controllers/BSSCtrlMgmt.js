@@ -3096,6 +3096,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   elem.classList.add('btn-success');
                 }
               }else{
+                console.log("ticket_keyList");
                 $scope.mainSwitchFn('ticket_keyList', obj, null);
               }
             break;
@@ -3106,6 +3107,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.ticketKeyList = obj;
               console.log($scope.ticketKeyList);
               if ($scope.ticket.keysMethod==undefined || $scope.ticket.keysMethod==null){
+                console.log("getKeychainListFn");
                 $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,0,1);
               }
               $('#ManageTicketKeysList').modal('show');
