@@ -318,7 +318,7 @@ class Mercadolibre_model extends CI_Model
 	public function getPaymentMPDetails($id)
 	{
 		log_message('info', ':::::::::::::::::getPaymentMPDetails');
-		log_message('info', 'MP_ID				  	 :' . $id);
+		log_message('info', 'MP_ID				  	 : ' . $id);
 		$ticket2Update = null;
 		$MP_TOKEN = BSS_MP_TOKEN;
 		if (!$id) {
@@ -354,16 +354,24 @@ class Mercadolibre_model extends CI_Model
 			$response = curl_exec($curl);
 			$err = curl_error($curl);
 			$httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-			$rs_decode = json_decode($response, true, JSON_UNESCAPED_SLASHES);
-			$response_decode = json_decode(json_encode($rs_decode));
+			#$rs_decode = json_decode($response, true, JSON_UNESCAPED_SLASHES);
+			$response_decode = json_decode($response);
+			$rs_decoded = json_decode($response, true);
+			log_message('info', 'MP Response Status		         : ' . $httpcode);
+			log_message('info', 'MP status		                 : ' . $rs_decoded['status']);
+			log_message('info', 'MP status_detail		                 : ' . $rs_decoded['status_detail']);
+			log_message('info', 'MP Response                               : ');
+			log_message('info', $response_decode->status);
+			log_message('info', $response_decode->status_detail);
+			log_message('info', $response_decode->external_reference);
 			curl_close($curl);
-			if ($httpcode == 200 && $response_decode->status == "approved" && $response_decode->status_detail == "accredited") {
+			if ($httpcode == 200 && ($response_decode->status == "approved" && $response_decode->status_detail == "accredited")) {
 				$lastPaymentAddedQuery = null;
 				$lastPaymentAddedQuery = $this->paymentById($response_decode->external_reference);
 				$lastPaymentAddedQuery_decode = json_decode(json_encode($lastPaymentAddedQuery[0]));
-				//print_r($lastPaymentAddedQuery_decode);
-				if (is_null($lastPaymentAddedQuery_decode->mp_payment_id) || $lastPaymentAddedQuery_decode->mp_payment_id == 0) {
-					//print("El pago no se encuentra registado"); $response_decode->id;
+				log_message('info', print_r($lastPaymentAddedQuery_decode, true));
+				if (empty($lastPaymentAddedQuery_decode->mp_payment_id) || is_null($lastPaymentAddedQuery_decode->mp_payment_id) || $lastPaymentAddedQuery_decode->mp_payment_id == 0) {
+					log_message('info', 'El pago no se encuentra registado');
 					$dataObj = null;
 					$dataObj['data']['collection_status'] = $response_decode->status;
 					$dataObj['data']['status_detail'] = $response_decode->status_detail;
@@ -390,6 +398,7 @@ class Mercadolibre_model extends CI_Model
 					log_message('info', 'external_reference      :' . $dataObj['data']['external_reference']);
 					log_message('info', 'mp_preference_id        :' . $dataObj['data']['mp_preference_id']);
 					log_message('info', 'idTicketKf      		 :' . $dataObj['data']['idTicketKf']);
+
 					$rsPaymentUpdated = $this->updatePayment($dataObj['data']);
 					$changeStatusRs = null;
 					$ticketObj = null;
@@ -433,6 +442,7 @@ class Mercadolibre_model extends CI_Model
 					}
 				} else {
 					$paymentUpdated = "El pago ya se encuentra registrado en el sistema.";
+					log_message('info', 'El pago ya se encuentra registrado en el sistema.');
 				}
 				return json_encode([
 					'message' => 'Conexion con la API de Mercado Pago Exitosa',
@@ -457,6 +467,8 @@ class Mercadolibre_model extends CI_Model
 					'status' => $httpcode,
 					'data' => $response_decode->error,
 				]);
+			} else {
+				log_message('info', 'Unexpected response json format, verify please.');
 			}
 		} catch (\Exception $e) {
 			return json_encode([
@@ -466,6 +478,7 @@ class Mercadolibre_model extends CI_Model
 			]);
 		}
 	}
+
 
 	public function getNotificationFromMP($response)
 	{
@@ -749,22 +762,21 @@ class Mercadolibre_model extends CI_Model
 	/* GET PAYMENT BY ID */
 	public function paymentById($id)
 	{
-		$query = null;
-		$rs = null;
+		$this->db->select("*")
+			->from("tb_mp_payments")
+			->where("mp_external_reference", $id);
 
-		$this->db->select("*")->from("tb_mp_payments");
-		$this->db->where("idPayment = ", $id);
-		$this->db->or_where("mp_preference_id", $id);
-		$this->db->or_where("mp_external_reference", $id);
 		$query = $this->db->get();
 
-		if ($query->num_rows() > 0) {
-			$rs = $query->result_array();
-			return $rs;
-		} else {
-			return null;
+		// if no external_reference found, try idPayment
+		if ($query->num_rows() === 0) {
+			$this->db->select("*")
+				->from("tb_mp_payments")
+				->where("idPayment", $id);
+			$query = $this->db->get();
 		}
 
+		return $query->num_rows() > 0 ? $query->result_array() : null;
 	}
 
 }
