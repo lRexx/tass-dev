@@ -3,16 +3,16 @@
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
           <div class="modal-header">
-                
+
               <button ng-show="tkupdate.idMgmtMethodKf!=undefined && rsNewKeychainList.length==tkupdate.keys.length && !thereIsKeyWithoutIdKeychain"  id="closeModalWindow" data-dismiss="modal" type="button" class="close"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
               <button ng-show="(tkupdate.idMgmtMethodKf==null || rsNewKeychainList.length!=tkupdate.keys.length || thereIsKeyWithoutIdKeychain)" id="cancelModalWindow" ng-click="modalConfirmation('cancelSetMgmtKeys',0, tkupdate)" type="button" class="close"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
               <h3 class="modal-title"><i class="fas fa-key"></i> LLAVEROS A ASIGNAR - <span class="badge badge-warning" style="font-size: 24px !important;">{{tkupdate.keys.length}}</span><span style="font-size: 24px !important;" ng-if="ticket.idMgmtMethodKf!=undefined"> - METODO: </span><span ng-if="ticket.idMgmtMethodKf!=undefined" class="badge badge-default" style="font-size: 24px !important;">{{tkupdate.keysMethod.name | uppercase}}</span></h3>
           </div>
         <div class="modal-body n-padding-b">
             <!-- SELECT METHOD-->
-            <div class="col-md-12"> 
+            <div class="col-md-12">
                 <!-- SELECT DE OPTION TYPE TO CONTINUE WITH THE REQUEST-->
-                <div class="col-md-12 col-xs-12" style="padding-bottom: 2em;">
+                <div class="col-md-12 col-xs-12" style="padding-bottom: 0.5em;">
                     <!-- NEW TICKET -->
                     <div class="col-md-6">
                         <button ng-click="setOptionType($event);" ng-disabled="rsAllKeychainListData.length==0" id="stock" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='stock', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='stock'}">
@@ -25,7 +25,7 @@
                             <i class="fas fa-pencil-alt"></i> MANUAL</button>
                     </div>
                     <div ng-if="(ticket.idMgmtMethodKf==undefined || ticket.idMgmtMethodKf=='1') && rsAllKeychainListData.length>=tkupdate.keys.length" class="col-md-12" style="padding-top: 1% !important;">
-                        <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 alert alert-info">
+                        <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 alert alert-info" style="margin-bottom:0px !important;">
                           <h5 class="col-md-offset-2"><i class="fas fa-info-circle"> </i> <span style="font-size: 18px; font-weight: 600;">Hay suficientes llaveros en stock para gestionar el pedido.</span></h5>
                         </div>
                     </div>
@@ -72,18 +72,18 @@
                                         <div ng-if="keys.new.categoryKey=='1'" class="form-group col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r" ng-class="
                                             {	'has-success': (keys.new.department!='' && keys.new.department!=undefined && fNewKey.department.$valid) ||
                                                             (select.department!='' && select.department!=undefined),
-                                                'has-error':  
+                                                'has-error':
                                                 (keys.new.department=='' || keys.new.department==undefined) && fNewKey.department.$touched,
                                             }">
-                                            <label style="padding-left: 15px;">Departamento</label>  
+                                            <label style="padding-left: 15px;">Departamento</label>
                                             <div class="col-xs-12 selectContainer n-padding-l n-padding-r">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                                                    <select name="department" 
+                                                    <select name="department"
                                                             class="form-control text-uppercase"
                                                             ng-disabled="keys.new.categoryKey=='1'"
-                                                            ng-options="item.idClientDepartament as item.floor+'-'+item.departament for item in ListDpto" 
-                                                            ng-required="select.buildings.selected!=undefined" 
+                                                            ng-options="item.idClientDepartament as item.floor+'-'+item.departament for item in ListDpto"
+                                                            ng-required="select.buildings.selected!=undefined"
                                                             ng-model="keys.new.department" autofocus >
                                                         <option value="">Seleccione una opci&#243n</option>
                                                     </select>
@@ -95,7 +95,7 @@
                                         <div ng-if="keys.new.categoryKey=='6' && select.buildings.selected!=undefined" class="form-group col-md-12 col-sm-12 col-xs-12" ng-class="
                                             {	'has-success': (keys.new.attendant.selected!='' && keys.new.attendant.selected!=undefined && fNewKey.attendant.$valid) ||
                                                             (keys.new.attendant.selected!='' && keys.new.attendant.selected!=undefined),
-                                                'has-error':  
+                                                'has-error':
                                                 (keys.new.attendant.selected=='' || keys.new.attendant.selected==undefined) && fNewKey.attendant.$touched,
                                             }">
                                             <div class="form-group col-md-2 col-xs-4">
@@ -103,19 +103,19 @@
                                             </div>
                                             <div class="form-group col-md-10 col-xs-8">
                                                 <label class="switch switch-1x">
-                                                    <input type="checkbox" 
-                                                    class="success" 
-                                                    ng-change="" 
-                                                    ng-model="keys.new.isForAttendant" 
-                                                    id="isForAttendant" 
+                                                    <input type="checkbox"
+                                                    class="success"
+                                                    ng-change=""
+                                                    ng-model="keys.new.isForAttendant"
+                                                    id="isForAttendant"
                                                     style="margin: 0px !important; display: inherit !important;">
                                                     <span class="slider slider-1x flat"></span>
                                                 </label>
                                             </div>
                                             <div ng-if="keys.new.isForAttendant" class="col-xs-12 selectContainer">
                                                 <div class="input-group">
-                                                <span class="input-group-addon"><i class="fas fa-key"></i></span> 
-                                                <ui-select name="products"  
+                                                <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                                                <ui-select name="products"
                                                             ng-required="keys.new.isForAttendant"
                                                             ng-model="keys.new.attendant.selected" autofocus>
                                                     <ui-select-match  allow-clear="true" placeholder="Seleccione una opci&#243n">{{$select.selected.fullNameUser}}</ui-select-match>
@@ -134,16 +134,16 @@
                                         </div>
                                         <!-- List Category Key Type-->
                                         <div class="form-group col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r" ng-class="
-                                            {	'has-success': 
+                                            {	'has-success':
                                                 keys.new.categoryKey!=undefined && keys.new.categoryKey!='' && fNewKey.categoryKey.$valid,
-                                                'has-error':  
+                                                'has-error':
                                                 (keys.new.categoryKey==undefined || keys.new.categoryKey=='') && fNewKey.categoryKey.$touched
                                             }">
                                             <label style="padding-left: 15px;">Categoria</label>
                                             <div class="col-xs-12 selectContainer n-padding-l n-padding-r">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
-                                                    <select  name="categoryKey" 
+                                                    <select  name="categoryKey"
                                                             ng-change="select.filterCategoryKey!='1'?keys.new.department=null:''"
                                                             ng-options="item.idCategory as (item.name | uppercase) for item in rsCategoryKeyChainsData | filter:filterCategoryKey"
                                                             class="form-control"
@@ -156,16 +156,16 @@
                                         </div>
                                         <!-- List Open Devices Products-->
                                         <div  class="form-group col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r"  ng-class="
-                                            {	'has-success': 
+                                            {	'has-success':
                                                 keys.new.products.selected!=undefined && keys.new.products.selected!=''  && fNewKey.products.$valid,
-                                                'has-error':  
+                                                'has-error':
                                                 (keys.new.products.selected==undefined || keys.new.products.selected=='') && fNewKey.products.$touched
                                             }">
-                                            <label style="padding-left: 15px;">Dispositivos de Apertura</label>  
+                                            <label style="padding-left: 15px;">Dispositivos de Apertura</label>
                                             <div class="col-xs-12 selectContainer n-padding-l n-padding-r">
                                                 <div class="input-group">
-                                                <span class="input-group-addon"><i class="fas fa-key"></i></span> 
-                                                <ui-select name="products"  
+                                                <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                                                <ui-select name="products"
                                                             ng-required="true"
                                                             ng-model="keys.new.products.selected" autofocus>
                                                     <ui-select-match  allow-clear="true" placeholder="Seleccione una opci&#243n">{{$select.selected.descriptionProduct}}</ui-select-match>
@@ -183,12 +183,12 @@
                                         </div>
                                         <!-- codigo -->
                                         <div class="form-group col-md-6 col-sm-6 col-xs-12 n-padding-l n-padding-r" ng-class="
-                                        {	'has-success': 
+                                        {	'has-success':
                                             keys.new.codigo!='' && fNewKey.codigo.$valid,
-                                            'has-error':  
+                                            'has-error':
                                             (keys.new.codigo=='' || keys.new.codigo==undefined) && fNewKey.codigo.$touched,
                                         }">
-                                        <label style="padding-left: 15px;">Codigo</label>  
+                                        <label style="padding-left: 15px;">Codigo</label>
                                             <div class="col-xs-12 n-padding-l">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fas fa-barcode"></i></span>
@@ -198,12 +198,12 @@
                                         </div>
                                         <!-- codigo ext -->
                                         <div class="form-group col-md-6 col-sm-6 col-xs-12 n-padding-l n-padding-r" ng-class="
-                                        {	'has-success': 
+                                        {	'has-success':
                                             keys.new.codigoExt!='' && fNewKey.codigoExt.$valid,
-                                            'has-error':  
+                                            'has-error':
                                             (keys.new.codigoExt=='' || keys.new.codigoExt==undefined) && fNewKey.codigoExt.$touched,
                                         }">
-                                        <label style="padding-left: 15px;" >Codigo Externo</label> 
+                                        <label style="padding-left: 15px;" >Codigo Externo</label>
                                             <div class="col-xs-12 n-padding-r">
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fas fa-barcode"></i></span>
@@ -212,7 +212,7 @@
                                             </div>
                                         </div>
                                         <!--<div class="form-group col-md-12 col-xs-12" ng-class="
-                                            {	'has-success': 
+                                            {	'has-success':
                                                 ticketSearch.name!='' && fNewKey.ticketSearch.$valid
                                             }" style="margin-left: 1em;margin-top: 15px;">
                                             <div class="form-group col-md-2 col-xs-2 n-padding-l" style="padding-left: 15px;">
@@ -221,11 +221,11 @@
                                             </div>
                                             <div class="col-md-4 col-xs-3">
                                                 <label class="switch switch-1x">
-                                                    <input type="checkbox" 
-                                                    class="success" 
-                                                    ng-change="" 
-                                                    ng-model="keys.new.isForTickets" 
-                                                    id="isForTickets" 
+                                                    <input type="checkbox"
+                                                    class="success"
+                                                    ng-change=""
+                                                    ng-model="keys.new.isForTickets"
+                                                    id="isForTickets"
                                                     style="margin: 0px !important; display: inherit !important;">
                                                     <span class="slider slider-1x flat"></span>
                                                 </label>
@@ -244,7 +244,7 @@
                                         </div>
                                     </div>
                                 </form>
-                                <div class="clearfix"> </div> 
+                                <div class="clearfix"> </div>
                                 <div ng-if="rsNewKeychainList.length==tkupdate.keys.length" class="blur-overlay">
                                     <div class="centered-message">Ya ha cargado todos los llaveros del pedido.</div>
                                 </div>
@@ -252,7 +252,7 @@
                         </div>
                     </div>
                     <div class="col-md-6" style="padding: 10px !important;">
-                        <!--*********KEY MANUAL***********-->                          
+                        <!--*********KEY MANUAL***********-->
                         <div class="panel panel-default">
                             <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyExistingKeys" ng-click="togglePanel('panelBodyExistingKeys')" style="cursor: pointer;">
                                 <h3 class="panel-title">
@@ -265,7 +265,7 @@
                             </div>
                         </div>
                     </div>
-                    <!--<div class="col-md-12" style="padding: 10px !important;">                      
+                    <!--<div class="col-md-12" style="padding: 10px !important;">
                         <div class="panel panel-warning" style="margin-bottom: 0px !important;">
                             <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyNewKeys" ng-click="togglePanel('panelBodyNewKeys')" style="cursor: pointer;">
                                 <h3 class="panel-title">
@@ -280,7 +280,7 @@
                     </div>-->
                 </div>
             </div>
-            <div class="clearfix"> </div> 
+            <div class="clearfix"> </div>
         </div>
         <!--ng-if="((tkupdate.idMgmtMethodKf==null && rsNewKeychainList.length==tkupdate.keys.length) ||(tkupdate.idMgmtMethodKf!=null && rsNewKeychainList.length!=tkupdate.keys.length))"-->
         <div class="modal-footer">
