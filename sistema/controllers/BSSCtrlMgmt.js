@@ -2088,8 +2088,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log(response.data);
                       var tk_selected = 0;
                       var Depto = $scope.tkupdate.department.floor+"-"+$scope.tkupdate.department.departament;
-                      console.log("id Department:"+$scope.tkupdate.department.idClientDepartament);
-                      console.log("Departamento:"+Depto);
+                      console.log("id Department: "+$scope.tkupdate.department.idClientDepartament);
+                      console.log("Departamento : "+Depto);
                       $scope.rsAllKeychainListData   = response.data.tb_keychain;
                       //for (var tkey in $scope.tkupdate.keys){
                       //  for (var stock in $scope.rsAllKeychainListData){
@@ -2100,6 +2100,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       //    }
                       //  }
                       //}
+                      console.log($scope.rsAllKeychainListData);
                       for (var tkey in $scope.tkupdate.keys){
                         for (var stock in $scope.rsAllKeychainListData){
                           if ($scope.tkupdate.keys[tkey].idProduct == $scope.rsAllKeychainListData[stock].idProductKf && tk_selected<$scope.tkupdate.keys.length){
