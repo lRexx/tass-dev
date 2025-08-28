@@ -1088,7 +1088,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.ticket.building              = $scope.tkupdate.building;
               $scope.ticket.administration        = $scope.tkupdate.clientAdmin;
               $scope.ticket.idClientDepartament   = $scope.tkupdate.department
-              $scope.ticket.keysMethod            = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:"{'name':''}";
+              $scope.ticket.keysMethod            = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:{'name':''};
               $scope.ticket.keysMethodSelected    = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:null;
               $scope.customerFound                = $scope.tkupdate.building;
               $scope.ticket.isKeysEnable          = $scope.ticket.selected.isKeysEnable;
@@ -1149,11 +1149,12 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
         console.log(elem[0].getAttribute("id"));
         switch (elem[0].getAttribute("id")){
             case "stock":
+                console.log(elem[0].getAttribute("id"));
                 if ($scope.ticket.keysMethod.name==undefined){
                     $scope.ticket.keysMethod.name         = elem[0].getAttribute("id");
                     $scope.ticket.idMgmtMethodKf          = "1"
                     $scope.tkupdate.keysMethod.name       = elem[0].getAttribute("id");
-                    $scope.ticket.optionTypeSelected.obj  = elem[0].getAttribute("id")
+                    $scope.ticket.optionTypeSelected.obj  = elem[0].getAttribute("id");
                     elem.removeClass('btn-primary').addClass("btn-success");
                     console.log($scope.ticket);
                     $scope.mainSwitchFn('keychainMulti', null, null);
@@ -1162,23 +1163,24 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     //document.getElementById("typeOption2").checked=false;
                     $scope.ticket.radioButtonBuilding     = undefined;
                     $scope.list_keys                      = [];
-                    var removeElem                        = document.getElementById("manual")
+                    var removeElem                        = document.getElementById("manual");
                     //console.log(removeElem)
                     $scope.ticket.keysMethod.name         = elem[0].getAttribute("id");
                     $scope.ticket.idMgmtMethodKf          = "1"
                     $scope.tkupdate.keysMethod.name       = elem[0].getAttribute("id");
-                    $scope.ticket.optionTypeSelected.obj  = elem[0].getAttribute("id")
+                    $scope.ticket.optionTypeSelected.obj  = elem[0].getAttribute("id");
                     elem.removeClass('btn-primary').addClass("btn-success");
                     console.log($scope.ticket);
                     $scope.mainSwitchFn('keychainMulti', null, null);
                 }
             break;
             case "manual":
+                console.log(elem[0].getAttribute("id"));
                 if ($scope.ticket.keysMethod.name==undefined){
                     $scope.ticket.keysMethod.name         = elem[0].getAttribute("id");
                     $scope.ticket.idMgmtMethodKf          = "2"
                     $scope.tkupdate.keysMethod.name       = elem[0].getAttribute("id");
-                    $scope.ticket.optionTypeSelected.obj  = elem[0].getAttribute("id")
+                    $scope.ticket.optionTypeSelected.obj  = elem[0].getAttribute("id");
                     elem.removeClass('btn-primary').addClass("btn-success");
                     console.log($scope.ticket);
                     $scope.mainSwitchFn('keychain_manual', null, null);
