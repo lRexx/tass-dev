@@ -1151,10 +1151,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             case "stock":
                 if ($scope.ticket.keysMethod.name==undefined){
                     $scope.ticket.keysMethod.name         = elem[0].getAttribute("id");
-                    $scope.ticket.idMgmtMethodKf        = "1"
+                    $scope.ticket.idMgmtMethodKf          = "1"
                     $scope.tkupdate.keysMethod.name       = elem[0].getAttribute("id");
                     $scope.ticket.optionTypeSelected.obj  = elem[0].getAttribute("id")
                     elem.removeClass('btn-primary').addClass("btn-success");
+                    console.log($scope.ticket);
                     $scope.mainSwitchFn('keychainMulti', null, null);
                 }else if ($scope.ticket.keysMethod.name!=elem[0].getAttribute("id")){
                     //document.getElementById("typeOption1").checked=false;
@@ -1164,20 +1165,22 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     var removeElem                        = document.getElementById("manual")
                     //console.log(removeElem)
                     $scope.ticket.keysMethod.name         = elem[0].getAttribute("id");
-                    $scope.ticket.idMgmtMethodKf        = "1"
+                    $scope.ticket.idMgmtMethodKf          = "1"
                     $scope.tkupdate.keysMethod.name       = elem[0].getAttribute("id");
                     $scope.ticket.optionTypeSelected.obj  = elem[0].getAttribute("id")
                     elem.removeClass('btn-primary').addClass("btn-success");
+                    console.log($scope.ticket);
                     $scope.mainSwitchFn('keychainMulti', null, null);
                 }
             break;
             case "manual":
                 if ($scope.ticket.keysMethod.name==undefined){
                     $scope.ticket.keysMethod.name         = elem[0].getAttribute("id");
-                    $scope.ticket.idMgmtMethodKf        = "2"
+                    $scope.ticket.idMgmtMethodKf          = "2"
                     $scope.tkupdate.keysMethod.name       = elem[0].getAttribute("id");
                     $scope.ticket.optionTypeSelected.obj  = elem[0].getAttribute("id")
                     elem.removeClass('btn-primary').addClass("btn-success");
+                    console.log($scope.ticket);
                     $scope.mainSwitchFn('keychain_manual', null, null);
                 }else if ($scope.ticket.keysMethod.name!=elem[0].getAttribute("id")){
                     //document.getElementById("typeTenant1").checked=false;
@@ -1188,16 +1191,17 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.list_keys                      = [];
                     var removeElem                        = document.getElementById("stock")
                     $scope.ticket.keysMethod.name         = elem[0].getAttribute("id");
-                    $scope.ticket.idMgmtMethodKf        = "2"
+                    $scope.ticket.idMgmtMethodKf          = "2"
                     $scope.tkupdate.keysMethod.name       = elem[0].getAttribute("id");
-                    $scope.ticket.optionTypeSelected.obj  = elem[0].getAttribute("id")
+                    $scope.ticket.optionTypeSelected.obj  = elem[0].getAttribute("id");
                     elem.removeClass('btn-primary').addClass("btn-success");
+                    console.log($scope.ticket);
                     $scope.mainSwitchFn('keychain_manual', null, null);
                 }
             break;
             default:
         }
-        console.log($scope.ticket);
+
       };
 
 
