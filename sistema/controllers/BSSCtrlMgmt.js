@@ -1088,7 +1088,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.ticket.building              = $scope.tkupdate.building;
               $scope.ticket.administration        = $scope.tkupdate.clientAdmin;
               $scope.ticket.idClientDepartament   = $scope.tkupdate.department
-              $scope.ticket.keysMethod            = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:{'name':''};
+              $scope.ticket.keysMethod            = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:{'name':null};
               $scope.ticket.keysMethodSelected    = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:null;
               $scope.customerFound                = $scope.tkupdate.building;
               $scope.ticket.isKeysEnable          = $scope.ticket.selected.isKeysEnable;
