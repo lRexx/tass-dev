@@ -3223,7 +3223,18 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   break;
                   case false:
                     console.log(obj);
-                    $scope.mainSwitchFn('removeNewKey', obj, null);
+                    //$scope.mainSwitchFn('removeNewKey', obj, null);
+                    for (var key in  $scope.rsNewKeychainList){
+                      if ( $scope.rsNewKeychainList[key].codigo==obj.codigo){
+                          $scope.rsNewKeychainList.splice(key,1);
+                          $scope.list_new_keys.splice(key,1);
+                      }
+                    }
+                    for (var key in  $scope.rsExistingKeyList){
+                      if ( $scope.rsExistingKeyList[key].codigo==obj.codigo){
+                          $scope.rsExistingKeyList.splice(key,1);
+                      }
+                    }
                   break;
                 }
             break;
