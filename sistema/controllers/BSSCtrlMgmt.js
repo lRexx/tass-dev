@@ -2166,6 +2166,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log($scope.rsAllKeychainListData);
                     }else{
                       $scope.rsAllKeychainListData   = response.data.tb_keychain;
+                      $scope.rsAllKeychainListDataFiltered = response.data.tb_keychain.filter(s => s.idProductKf == '47').length;
                     }
                   }else if(response.status==404){
                       inform.add('[Info]: No se encontraron Llaveros en Stock. ',{
