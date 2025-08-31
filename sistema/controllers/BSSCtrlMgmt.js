@@ -2167,7 +2167,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log($scope.rsAllKeychainListData);
                     }else{
                       $scope.rsAllKeychainListData         = response.data.tb_keychain;
-                      $scope.rsAllKeychainListDataFiltered = $scope.rsAllKeychainListData.filter(s => s.idProductKf == '47').length;
+                      $scope.rsAllKeychainListDataFiltered = $scope.rsAllKeychainListData.filter(s => s.idProductKf == '47');
                       console.log("rsAllKeychainListData Length         : "+$scope.rsAllKeychainListData.length);
                       console.log("rsAllKeychainListDataFiltered Length : "+$scope.rsAllKeychainListDataFiltered.length);
                     }
