@@ -2007,6 +2007,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
     *                                                 *
     **************************************************/
           $scope.rsAllKeychainListData = [];
+          $scope.rsAllKeychainListDataFiltered = [];
 
           $scope.keychainSearch={
             "idClientKf":null,
