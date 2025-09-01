@@ -3584,7 +3584,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 }
                 $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
                 console.log($scope.tkupdate);
-                $scope.tkupdate.idDeliveryCompanyKf     = obj.deliveryCompany.idDeliveryCompany;
                 console.log($scope.rsNewKeychainList);
                 $scope.isEditKey                        = false;
                 $scope.isNewKeyMulti                    = false;
