@@ -3129,7 +3129,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.log($scope.ticket);
               if ($scope.ticket.keysMethod.name==undefined || $scope.ticket.keysMethod.name==null){
                 console.log("getKeychainListFn");
-                $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,0,1);
+                $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,0,1);
               }
               $('#ManageTicketKeysList').modal('show');
             break;
@@ -3446,9 +3446,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined},
               'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
               if ($scope.tkupdate.idMgmtMethodKf == null){
-                $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
+                $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
               }else{
-                $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"1","1",$scope.tkupdate.department.idClientDepartament,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
+                $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"1","-1",$scope.tkupdate.department.idClientDepartament,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
               }
             break;
             case "keychain_manual":
