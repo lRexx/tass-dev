@@ -914,8 +914,7 @@ class Llavero_model extends CI_Model
 				->group_end();
 		} else if (!is_null($idKeychainStatusKf) && $idKeychainStatusKf == "-1") {
 			$this->db->group_start()
-				->where_in('tb_keychain.idKeychainStatusKf', [1])  // Matches 1
-				->or_where('tb_keychain.idKeychainStatusKf', [0])  // Matches 0
+				->where_in('tb_keychain.idKeychainStatusKf', [0, 1])  // Matches 1
 				->group_end();
 		} else if (!is_null($idKeychainStatusKf)) {
 			$this->db->group_start()
