@@ -13,7 +13,7 @@
     </thead>
     <tbody class="fixed-body" style="height: 525px !important;">
       <!-- Show if there are Keys registered -->
-      <tr ng-if="rsAllKeychainListData.length>0"  class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in rsAllKeychainListData" ng-class="{'well-success':item.selected}">
+      <tr ng-if="rsAllKeychainListDataFiltered.length>0"  class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in rsAllKeychainListDataFiltered" ng-class="{'well-success':item.selected}">
         <!--<tr class="animate-repeat" style="align-content: center; cursor: pointer;"  dir-paginate="item in rsCustomerListData|orderBy:idClient:reverse|filter:searchboxfilter|itemsPerPage:10">-->
         <td class="td-depto" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;" ng-trim="true">
           <div class="text-badge">
@@ -40,7 +40,7 @@
           <span ng-if="item.idKeychainStatus!=null && item.idKeychainStatus!=undefined" class="label" ng-class="{'label-success': item.idKeychainStatus == '1', 'label-warning': item.idKeychainStatus == '0', 'label-danger': item.idKeychainStatus != null && item.idKeychainStatus != '0' && item.idKeychainStatus != '1', }"> {{item.statusKey}}</span>
         </td>
       </tr>
-      <tr ng-if="rsAllKeychainListData.length==0">
+      <tr ng-if="rsAllKeychainListDataFiltered.length==0">
         <td class="td-depto" colspan="7">
           <!-- Show if there is not Keys registered -->
           <div class="col-md-12">
