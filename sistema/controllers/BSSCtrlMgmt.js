@@ -3493,9 +3493,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     case "2"://RENTREGA EN DOMICILIO
                       if (obj.building.isStockInOffice == "1"){
                         $scope.tkupdate.idDeliveryCompanyKf="1";
+                      }else{
+                        $scope.tkupdate.idDeliveryCompanyKf="2";
                       }
-                      $scope.tkupdate.mess2show="El Pedido pasara a \"Pendiente de entrega\", por favor,     Confirmar?";
-
+                      $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
                       console.log(obj)
                     break;
                   }
