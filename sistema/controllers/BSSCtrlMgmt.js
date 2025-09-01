@@ -3065,6 +3065,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               }
             break;
             case "openTicket":
+              $scope.thereIsKeyWithoutIdKeychain = false;
               $scope.rsAllKeychainListData = [];
               $scope.rsAllKeychainListDataFiltered = [];
               $scope.ticket = {'administration':undefined, 'keysMethod':{'name':undefined}, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'keysMethod':{}, 'userRequestBy':{}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':null, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
@@ -3460,6 +3461,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.keys.new.products.selected = {'idProduct':$scope.tkupdate.keys[0].idProduct,'model':$scope.tkupdate.keys[0].model,'classification':$scope.tkupdate.keys[0].classification,'codigoFabric':$scope.tkupdate.keys[0].codigoFabric,'descriptionProduct':$scope.tkupdate.keys[0].descriptionProduct,'idProductClassification':$scope.tkupdate.keys[0].idProductClassification,'brand':$scope.tkupdate.keys[0].brand,'priceFabric':$scope.tkupdate.keys[0].priceFabric};
               $scope.keys.new.department        = $scope.tkupdate.idTypeRequestFor=="1"?$scope.tkupdate.department.idClientDepartament:null;
               $scope.keys.new.Depto             = $scope.tkupdate.idTypeRequestFor=="1"?$scope.tkupdate.department.floor+"-"+$scope.tkupdate.department.departament:null;
+              $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
             break;
             case "keyDetails":
               $scope.isNewKeySingle = false;
