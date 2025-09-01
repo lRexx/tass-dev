@@ -2163,10 +2163,12 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         }
                       }else{
                         $scope.rsAllKeychainListDataFiltered = $scope.tkupdate.existingKeys.filter(s => s.idTicketKf == $scope.tkupdate.idTicket);
+                        $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered
                         console.log($scope.rsAllKeychainListDataFiltered);
                         for (var stock in $scope.rsAllKeychainListDataFiltered){
                           if ($scope.rsAllKeychainListDataFiltered[stock].idTicketKf==$scope.tkupdate.idTicket){
                             $scope.rsAllKeychainListDataFiltered[stock].selected = true;
+                            $scope.rsAllKeychainListDataFiltered[stock].disabled = true;
                           }
                         }
                       }
