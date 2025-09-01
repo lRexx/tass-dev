@@ -1186,6 +1186,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     console.log($scope.ticket);
                     $scope.mainSwitchFn('keychain_manual', null, null);
                 }else if ($scope.ticket.keysMethod.name!=elem[0].getAttribute("id")){
+                    $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
                     //document.getElementById("typeTenant1").checked=false;
                     //document.getElementById("typeTenant2").checked=false;
                     $scope.ticket.radioButtonDepartment   = undefined;
@@ -3464,7 +3465,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             break;
             case "keychain_manual":
               $scope.keys                       = {"new":{'products':{'selected':{}}}}
-              if ($scope.tkupdate.idMgmtMethodKf == null){
+              if ($scope.tkupdate.idMgmtMethodKf == null && $scope.ticket.idMgmtMethodKf==undefined && $scope.ticket.keysMethod.name==undefined){
                 $scope.rsNewKeychainList          = [];
               }
               $scope.list_new_keys              = [];
@@ -3476,7 +3477,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.keys.new.products.selected = {'idProduct':$scope.tkupdate.keys[0].idProduct,'model':$scope.tkupdate.keys[0].model,'classification':$scope.tkupdate.keys[0].classification,'codigoFabric':$scope.tkupdate.keys[0].codigoFabric,'descriptionProduct':$scope.tkupdate.keys[0].descriptionProduct,'idProductClassification':$scope.tkupdate.keys[0].idProductClassification,'brand':$scope.tkupdate.keys[0].brand,'priceFabric':$scope.tkupdate.keys[0].priceFabric};
               $scope.keys.new.department        = $scope.tkupdate.idTypeRequestFor=="1"?$scope.tkupdate.department.idClientDepartament:null;
               $scope.keys.new.Depto             = $scope.tkupdate.idTypeRequestFor=="1"?$scope.tkupdate.department.floor+"-"+$scope.tkupdate.department.departament:null;
-              $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
+
             break;
             case "keyDetails":
               $scope.isNewKeySingle = false;
