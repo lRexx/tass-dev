@@ -1164,6 +1164,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     //document.getElementById("typeOption2").checked=false;
                     $scope.ticket.radioButtonBuilding     = undefined;
                     $scope.list_keys                      = [];
+                    $scope.rsNewKeychainList              = [];
                     var removeElem                        = document.getElementById("manual");
                     //console.log(removeElem)
                     $scope.ticket.keysMethod.name         = elem[0].getAttribute("id");
@@ -1193,6 +1194,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.ticket.idClientDepartament     = undefined;
                     $scope.selectedUser                   = undefined;
                     $scope.list_keys                      = [];
+                    $scope.rsNewKeychainList              = [];
                     var removeElem                        = document.getElementById("stock")
                     $scope.ticket.keysMethod.name         = elem[0].getAttribute("id");
                     $scope.ticket.idMgmtMethodKf          = "2"
