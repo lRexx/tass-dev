@@ -1144,12 +1144,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
       }
       $scope.setOptionType = function(obj) {
         var elem = angular.element(obj.target);// or angular.element(obj.target);
-        console.log(elem[0])
+        //console.log(elem[0])
         if ($scope.tkupdate.keysMethod===null){$scope.tkupdate.keysMethod = {'name':''};}
-        console.log(elem[0].getAttribute("id"));
+        //console.log(elem[0].getAttribute("id"));
+        console.log($scope.ticket);
         switch (elem[0].getAttribute("id")){
             case "stock":
-                console.log(elem[0].getAttribute("id"));
+                //console.log(elem[0].getAttribute("id"));
                 if ($scope.ticket.keysMethod.name==undefined){
                     $scope.ticket.keysMethod.name         = elem[0].getAttribute("id");
                     $scope.ticket.idMgmtMethodKf          = "1"
@@ -1175,7 +1176,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 }
             break;
             case "manual":
-                console.log(elem[0].getAttribute("id"));
+                //console.log(elem[0].getAttribute("id"));
                 if ($scope.ticket.keysMethod.name==undefined){
                     $scope.ticket.keysMethod.name         = elem[0].getAttribute("id");
                     $scope.ticket.idMgmtMethodKf          = "2"
