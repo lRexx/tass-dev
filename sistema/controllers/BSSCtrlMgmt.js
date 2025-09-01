@@ -3577,6 +3577,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       deferredKeys.resolve();
                       var keys = {
                         idKeychain          : key.idKeychain!=undefined && key.idKeychain!=null?key.idKeychain:null,
+                        idKeychainKf        : key.idKeychain!=undefined && key.idKeychain!=null?key.idKeychain:null,
                         idProductKf         : key.idProductKf,
                         codExt              : key.codExt,
                         codigo              : key.codigo,
