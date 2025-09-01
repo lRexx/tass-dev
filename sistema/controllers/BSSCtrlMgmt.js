@@ -2166,6 +2166,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log($scope.rsNewKeychainList);
                       console.log($scope.tkupdate);
                       console.log($scope.rsAllKeychainListData);
+                      console.log("ticket.keysMethod         : "+$scope.ticket.keysMethod);
+                      console.log("ticket.keysMethod.name    : "+$scope.ticket.keysMethod.name);
+                      console.log("rsNewKeychainList Length  : "+$scope.rsNewKeychainList.length);
+                      console.log("tkupdate.keys Length      : "+$scope.tkupdate.keys.length);
                     }else{
                       $scope.rsAllKeychainListData         = response.data.tb_keychain;
                       $scope.rsAllKeychainListDataFiltered = $scope.rsAllKeychainListData.filter(s => s.idProductKf == '47');
@@ -2177,11 +2181,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           ttl:5000, type: 'info'
                           });
                           $scope.rsAllKeychainListData = [];
+                          $scope.rsAllKeychainListDataFiltered = [];
                   }else if(response.status==500){
                       inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
                       ttl:5000, type: 'danger'
                       });
                       $scope.rsAllKeychainListData = [];
+                      $scope.rsAllKeychainListDataFiltered = [];
                   }
               });
           };
@@ -3060,6 +3066,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             break;
             case "openTicket":
               $scope.rsAllKeychainListData = [];
+              $scope.rsAllKeychainListDataFiltered = [];
               $scope.ticket = {'administration':undefined, 'keysMethod':{'name':undefined}, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'keysMethod':{}, 'userRequestBy':{}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':null, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
               $scope.functions={'isKeysEnable': false, 'whereKeysAreEnable': null};
               $scope.rsNewKeychainList = [];
