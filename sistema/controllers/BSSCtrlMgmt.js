@@ -3512,7 +3512,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       $scope.functions.whereKeysAreEnable = obj.building.isHasInternetOnline === null ? "2":"1";
                       if (obj.building.isStockInOffice == "1"){
                         $scope.tkupdate.idDeliveryCompanyKf="1";
-                        $scope.functions.whereKeysAreEnable = "1";
+                        $scope.functions.isKeysEnable = "1";
                         $scope.tkupdate.mess2show="El Pedido pasara a \"Pendiente de entrega\", por favor,     Confirmar?";
                       }else{
                         $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
@@ -3567,7 +3567,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     if ($scope.tkupdate.building.isStockInOffice=='1'){
                       $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"40"});
                       $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"41"});
-                      $scope.tkupdate.isKeysEnable            = $scope.functions.whereKeysAreEnable;
+                      $scope.tkupdate.isKeysEnable            = $scope.functions.isKeysEnable;
                       $scope.tkupdate.idStatusTicketKf        = "4"
                       var idKeychainStatusKf                  = 1;
                     }else{
