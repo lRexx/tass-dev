@@ -363,7 +363,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       }
                       console.log($scope.keyObj);
                       console.log($scope.functions);
-                $('#confirmRequestModalCustom').modal('toggle');
+                  $('#confirmRequestModalCustom').modal('toggle');
                 }else if (confirm==1){
                   console.log($scope.keyObj);
                   console.log($scope.functions);
@@ -2781,11 +2781,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             return isNaN( n ) ? 0 : n;
           }
           $scope.filterDeliveryCompany = function(item){
-            if (($scope.tkupdate.idMgmtMethodKf=="1" || $scope.tkupdate.idMgmtMethodKf=="2") && $scope.tkupdate.whereKeysAreEnable=="2" && $scope.tkupdate.isKeysEnable == null){
-              return item.idDeliveryCompany=="2"
-            }
-            if (($scope.tkupdate.idMgmtMethodKf=="1" || $scope.tkupdate.idMgmtMethodKf=="2") && ($scope.tkupdate.whereKeysAreEnable=="1"||$scope.tkupdate.whereKeysAreEnable=="2") && $scope.tkupdate.isKeysEnable =="1"){
-              return item.idDeliveryCompany=="1"
+            if ((($scope.tkupdate.idMgmtMethodKf=="1" || $scope.tkupdate.idMgmtMethodKf=="2") && $scope.tkupdate.whereKeysAreEnable=="2" && $scope.tkupdate.isKeysEnable == null) ||
+               (($scope.tkupdate.idMgmtMethodKf=="1" || $scope.tkupdate.idMgmtMethodKf=="2") && ($scope.tkupdate.whereKeysAreEnable=="1"||$scope.tkupdate.whereKeysAreEnable=="2") && $scope.tkupdate.isKeysEnable =="1")){
+              return item.idDeliveryCompany<="2"
             }
             if (($scope.tkupdate.whereKeysAreEnable=="1" || $scope.tkupdate.whereKeysAreEnable=="2") && $scope.tkupdate.isKeysEnable =="1" && $scope.tkupdate.idMgmtMethodKf=="1" && $scope.tkupdate.building.isStockInOffice=="1"){
               return item.idDeliveryCompany=="3"
@@ -3508,12 +3506,15 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log(obj)
                     break;
                     case "2"://RENTREGA EN DOMICILIO
+                      $scope.functions.whereKeysAreEnable = obj.building.isHasInternetOnline === null ? "2":"1";
                       if (obj.building.isStockInOffice == "1"){
                         $scope.tkupdate.idDeliveryCompanyKf="1";
+                        $scope.functions.whereKeysAreEnable = "1";
+                        $scope.tkupdate.mess2show="El Pedido pasara a \"Pendiente de entrega\", por favor,     Confirmar?";
                       }else{
-                        $scope.tkupdate.idDeliveryCompanyKf="2";
+                        $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
                       }
-                      $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
+
                       console.log(obj)
                     break;
                   }
@@ -3527,7 +3528,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       }
                       console.log(obj)
                     break;
-                    case "2": //RENTREGA EN DOMICILIO
+                    case "2": //ENTREGA EN DOMICILIO
                       if(obj.building.isHasInternetOnline === null || obj.building.isHasInternetOnline != null){ //NO INTERNET OR WITH INTERNET
                         //$scope.tkupdate.idDeliveryCompanyKf=$scope.functions.whereKeysAreEnable=="2"?"2":null;
                         $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
@@ -3563,6 +3564,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     if ($scope.tkupdate.building.isStockInOffice=='1'){
                       $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"40"});
                       var idKeychainStatusKf                  = 1;
+                      $scope.tkupdate.isKeysEnable            = $scope.functions.whereKeysAreEnable;
                     }else{
                       $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"39"});
                       var idKeychainStatusKf                  = 0;
