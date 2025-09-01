@@ -3567,7 +3567,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     if ($scope.tkupdate.building.isStockInOffice=='1'){
                       $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"40"});
                       $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"41"});
-                      $scope.tkupdate.idDeliveryCompanyKf     = obj.deliveryCompany.idDeliveryCompany;
                       $scope.tkupdate.isKeysEnable            = $scope.functions.whereKeysAreEnable;
                       $scope.tkupdate.idStatusTicketKf        = "4"
                       var idKeychainStatusKf                  = 1;
@@ -3585,6 +3584,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 }
                 $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
                 console.log($scope.tkupdate);
+                $scope.tkupdate.idDeliveryCompanyKf     = obj.deliveryCompany.idDeliveryCompany;
                 console.log($scope.rsNewKeychainList);
                 $scope.isEditKey                        = false;
                 $scope.isNewKeyMulti                    = false;
