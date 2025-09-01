@@ -3445,7 +3445,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.select={'filterCategoryKey':'', 'reasonKf':{},'department':'', 'codeSearch':null, 'keychainStatus':{}, 'idTypeTicketKf':null,
               'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined},
               'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
-              $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
+              if ($scope.tkupdate.idMgmtMethodKf == null){
+                $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
+              }else{
+                $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"1","1",$scope.tkupdate.department.idClientDepartament,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
+              }
             break;
             case "keychain_manual":
               $scope.keys                       = {"new":{'products':{'selected':{}}}}
@@ -3572,13 +3576,14 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $timeout(function() {
                       deferredKeys.resolve();
                       var keys = {
+                        idKeychain          : key.idKeychain!=undefined && key.idKeychain!=null?key.idKeychain:null,
                         idProductKf         : key.idProductKf,
                         codExt              : key.codExt,
                         codigo              : key.codigo,
                         idDepartmenKf       : key.idDepartmenKf,
                         idClientKf          : key.idClientKf,
                         idUserKf            : key.idUserKf,
-                        idCategoryKf        : key.idKeychain!=undefined?"1":key.idCategoryKf,
+                        idCategoryKf        : key.idKeychain!=undefined && key.idKeychain!=null?"1":key.idCategoryKf,
                         isKeyTenantOnly     : key.isKeyTenantOnly,
                         idClientAdminKf     : key.idClientAdminKf!='' && key.idClientAdminKf!=null && key.idClientAdminKf!=undefined?key.idClientAdminKf:null,
                         createdBy           : $scope.sysLoggedUser.idUser,
