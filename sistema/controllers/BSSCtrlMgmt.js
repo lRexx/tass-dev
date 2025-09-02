@@ -1187,7 +1187,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     console.log($scope.ticket);
                     $scope.mainSwitchFn('keychain_manual', null, null);
                 }else if ($scope.ticket.keysMethod.name!=elem[0].getAttribute("id")){
+                  if ($scope.ticket.selected.idTypeRequestFor=="1"){
                     $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
+                  }
                     //document.getElementById("typeTenant1").checked=false;
                     //document.getElementById("typeTenant2").checked=false;
                     $scope.ticket.radioButtonDepartment   = undefined;
@@ -3279,9 +3281,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     if ($scope.rsNewKeychainList.length>=1){
                       for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
                         if ($scope.rsNewKeychainList[i].codigo==$scope.tmpKey.new.codigo){
-                          inform.add("El Llavero con el Codigo: ["+$scope.tmpKey.new.codigo+"], ya existe en en la nueva lista a asignar al Departamento "+$scope.tmpKey.new.Depto,{
+                          if ($scope.ticket.selected.idTypeRequestFor=="1"){
+                            inform.add("El Llavero con el Codigo: ["+$scope.tmpKey.new.codigo+"], ya existe en la nueva lista a asignar al Departamento "+$scope.tmpKey.new.Depto,{
                             ttl:15000, type: 'warning'
-                          });
+                            });
+                          }else{
+                            inform.add("El Llavero con el Codigo: ["+$scope.tmpKey.new.codigo+"], ya existe en la nueva lista a asignar al Edificio "+$scope.tmpKey.new.Depto,{
+                            ttl:15000, type: 'warning'
+                            });
+                          }
+
                           $scope.isCodeNewExist=true;
                           console.log($scope.isCodeNewExist);
                           break;
@@ -3290,6 +3299,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           console.log($scope.isCodeNewExist);
                         }
                       }
+                    }else{
+                      $scope.isCodeNewExist=false;
                     }
                     $scope.findKeyByCodeFn($scope.tmpKey.new.codigo, $scope.tkupdate.building.idClient).then(function(isCodeExistInBuilding) {
                       switch (isCodeExistInBuilding){
@@ -3305,7 +3316,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           console.log("isCodeExistInBuilding: " + isCodeExistInBuilding);
                         break;
                       }
-                      if(!$scope.isCodeExist && !$scope.isCodeNewExist){
+                      if(!$scope.isCodeExist && (!$scope.isCodeNewExist || !isCodeExistInBuilding)){
                         console.log("ADD_NO_EXIST");
                         $scope.rsNewKeychainList.push({"idProductKf":deviceOpen.idProduct,"idTicketKf": $scope.tkupdate.idTicket, "descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":$scope.tmpKey.new.categoryKeychain,"Depto":$scope.tmpKey.new.Depto, "codExt":$scope.tmpKey.new.codigoExt,"codigo":$scope.tmpKey.new.codigo,"idDepartmenKf":$scope.tmpKey.new.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":$scope.tmpKey.new.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "statusKey":"Inactivo", "doors":{}});
                         $scope.rsExistingKeyList.push({"idProductKf":deviceOpen.idProduct,"idTicketKf": $scope.tkupdate.idTicketKf, "descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":$scope.tmpKey.new.categoryKeychain,"Depto":$scope.tmpKey.new.Depto, "codExt":$scope.tmpKey.new.codigoExt,"codigo":$scope.tmpKey.new.codigo,"idDepartmenKf":$scope.tmpKey.new.department,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":$scope.tmpKey.new.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "statusKey":"Inactivo", "doors":{}});
@@ -3383,7 +3394,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.ticket.idMgmtMethodKf      = null;
               $scope.tkupdate.keysMethod        = {'name':''};
               $scope.ticket.keysMethod.name     = undefined;
-              $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
+              if ($scope.ticket.selected.idTypeRequestFor=="1"){
+                $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
+              }
             break;
             case "uploadKeyFile":
                 $scope.addMultiKeys(obj);
@@ -3524,24 +3537,39 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 break;
                 case "2": //MANUAL
                   $scope.functions.whereKeysAreEnable = obj.building.isHasInternetOnline === null ? "2":"1";
-                  switch(obj.idTypeDeliveryKf){
-                    case "1": //RETIRO EN OFICINA
-                      if(obj.building.isHasInternetOnline === null || obj.building.isHasInternetOnline != null){ //NO INTERNET OR WITH INTERNET
-                        $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
+                  switch($scope.ticket.selected.idTypeRequestFor){
+                    case "1":
+                      switch(obj.idTypeDeliveryKf){
+                        case "1": //RETIRO EN OFICINA
+                          if(obj.building.isHasInternetOnline === null || obj.building.isHasInternetOnline != null){ //NO INTERNET OR WITH INTERNET
+                            $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
+                          }
+                          console.log(obj)
+                        break;
+                        case "2": //ENTREGA EN DOMICILIO
+                          if(obj.building.isHasInternetOnline === null || obj.building.isHasInternetOnline != null){ //NO INTERNET OR WITH INTERNET
+                            //$scope.tkupdate.idDeliveryCompanyKf=$scope.functions.whereKeysAreEnable=="2"?"2":null;
+                            $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
+                          }
+                          console.log(obj)
+                        break;
                       }
-                      console.log(obj)
                     break;
-                    case "2": //ENTREGA EN DOMICILIO
-                      if(obj.building.isHasInternetOnline === null || obj.building.isHasInternetOnline != null){ //NO INTERNET OR WITH INTERNET
-                        //$scope.tkupdate.idDeliveryCompanyKf=$scope.functions.whereKeysAreEnable=="2"?"2":null;
-                        $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
+                    case "2":
+                      $scope.tkupdate.idDeliveryCompanyKf="2";
+                      if (obj.building.isStockInOffice == "1"){
+                       $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
+                      }else{
+
                       }
-                      console.log(obj)
                     break;
                   }
                 break;
               }
-              console.info("Delivery: " +obj.typeDeliver.typeDelivery);
+              if ($scope.ticket.selected.idTypeRequestFor=="1"){
+                console.info("Delivery: " +obj.typeDeliver.typeDelivery);
+              }
+
               console.info("msg     : " +$scope.mess2show);
               $scope.modalConfirmation('applySetMgmtKeys',0, $scope.tkupdate);
               //USAR ESTE CODIGO PARA PEDIDOS DE STOCK
@@ -5016,7 +5044,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             inform.add('El Llavero de codigo ('+llavero.llavero.codigo+'), ha sido registrado con exito. ',{
                                 ttl:4000, type: 'success'
                             });
-                            $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
+                            if ($scope.ticket.selected.idTypeRequestFor=="1"){
+                              $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
+                            }
                             //$scope.getKeychainListFn($scope.customerFound.idClient,null,$scope.select.filterCategoryKey,$scope.select.idKeychainStatusKf,$scope.select.idDepartmenKf,$scope.select.reasonKf.idReasonDisabledItem,$scope.select.codeSearch,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
                         }else if(response_ticke_keychain.status==500){
                             console.log("There was an error adding the key, contact administrator");
@@ -5053,7 +5083,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           console.log(response_ticke_keychain);
                           if(response_ticke_keychain.status==200){
                               console.log("Key Successfully updated");
-                              $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
+                              if ($scope.ticket.selected.idTypeRequestFor=="1"){
+                                $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
+                              }
                               //$scope.getKeychainListFn($scope.customerFound.idClient,null,$scope.select.filterCategoryKey,$scope.select.idKeychainStatusKf,$scope.select.idDepartmenKf,$scope.select.reasonKf.idReasonDisabledItem,$scope.select.codeSearch,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
                           }else if(response_ticke_keychain.status==500){
                               console.log("There was an error adding the key, contact administrator");
@@ -5087,7 +5119,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                   inform.add('Los datos del llavero ('+llavero.llavero.codigo+') han sido Eliminado con exito. ',{
                                       ttl:4000, type: 'success'
                                   });
-                                  $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
+                                  if ($scope.ticket.selected.idTypeRequestFor=="1"){
+                                    $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
+                                  }
                                   $timeout(function() {
                                     console.log($scope.rsExistingKeyList);
                                     $scope.rsNewKeychainList = [];
