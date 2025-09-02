@@ -3622,6 +3622,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           console.log("Codigo         : "+keys.codigo);
                           console.log("idCategoryKf   : "+keys.idCategoryKf);
                           $scope.updateKeyFn({llavero: keys});
+                          if (idKeychainStatusKf=="1"){
+                            $scope.addProcessEventFn({llavero: keys});
+                          }
                         break;
                         case "2":
                           console.log("Llavero a agregar");
@@ -3653,7 +3656,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $scope.tkupdate.refund                  = [];
                 $scope.tkupdate.history                 = [];
                 var idKeychainStatusKf                  = $scope.tkupdate.isKeysEnable;
-                $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"40"});
+                if ($scope.tkupdate.isKeysEnable){
+                  $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"40"});
+                }else{
+                  $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"45"});
+                }
                 console.log($scope.tkupdate);
                 console.log($scope.rsNewKeychainList);
                 $scope.isNewKeySingle                   = true;
