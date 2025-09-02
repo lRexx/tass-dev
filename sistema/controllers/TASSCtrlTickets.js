@@ -2714,6 +2714,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 $scope.list_doors_ticket.push({'contractStatus':obj2[door].contractStatus,'idAccessControlDoor':obj2[door].idAccessControlDoor,'idContrato':obj2[door].idContrato,'idService':obj2[door].controlAccessInternet.idService,'idServiciosDelContratoCuerpo':obj2[door].idServiciosDelContratoCuerpo,'idStatusFk':obj2[door].idStatusFk,'itemAclaracion':obj2[door].itemAclaracion, 'selected':obj2[door].selected,'serviceName':obj2[door].serviceName,'titulo':obj2[door].titulo});
                             }
                         }
+                        console.log($scope.list_doors_ticket);
                         var doorsSelected = $scope.list_doors_ticket.length>0?$scope.list_doors_ticket:null;
                         //console.log(doorsSelected);
                         var departmentSelected = $scope.ticket.optionTypeSelected.name=="department" && $scope.ticket.radioButtonDepartment!=undefined?$scope.ticket.idClientDepartament.idClientDepartament:null;
