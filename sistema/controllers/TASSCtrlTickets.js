@@ -2898,16 +2898,43 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.mainSwitchFn('setWhoPickUpList', null, null);
                     break;
                     case "setKeysToList":
-                        $scope.list_keys = [];
+                        var productSelected         = {'brand':'','categoryName':'','classification':'','codigoFabric':'','contractStatus':'','descriptionProduct':'','idCategoryKf':'','idClientKf':'','idDepartmenKf':'','idProduct':'','idProductClassificationFk':'','idStatusFk':'','isControlSchedule':'','isDateExpiration':'','isKeyTenantOnly':'','isNumberSerieFabric':'','isNumberSerieInternal':'','isRequestNumber':'','model':'','priceFabric':'','serviceName':''};
+                        $scope.list_doors_ticket    = [];
+                        if (obj!=undefined){
+                            productSelected.brand                       = obj.brand;
+                            productSelected.categoryName                = obj.categoryName;
+                            productSelected.classification              = obj.classification;
+                            productSelected.codigoFabric                = obj.codigoFabric;
+                            productSelected.contractStatus              = obj.contractStatus;
+                            productSelected.descriptionProduct          = obj.descriptionProduct;
+                            productSelected.idCategoryKf                = obj.idCategoryKf;
+                            productSelected.idClientKf                  = obj.idClientKf;
+                            productSelected.idDepartmenKf               = obj.idDepartmenKf;
+                            productSelected.idProduct                   = obj.idProduct;
+                            productSelected.idProductClassificationFk   = obj.idProductClassificationFk;
+                            productSelected.idStatusFk                  = obj.idStatusFk;
+                            productSelected.isControlSchedule           = obj.isControlSchedule;
+                            productSelected.isDateExpiration            = obj.isDateExpiration;
+                            productSelected.isKeyTenantOnly             = obj.isKeyTenantOnly;
+                            productSelected.isNumberSerieFabric         = obj.isNumberSerieFabric;
+                            productSelected.isNumberSerieInternal       = obj.isNumberSerieInternal;
+                            productSelected.isRequestNumber             = obj.isRequestNumber;
+                            productSelected.model                       = obj.model;
+                            productSelected.priceFabric                 = obj.priceFabric;
+                            productSelected.serviceName                 = obj.serviceName;
+
+                        }else{
+                            productSelected = null;
+                        }
                         var userSelected = $scope.selectedUser!=undefined?$scope.selectedUser:null;
-                        var productSelected = obj!=undefined?obj:null;
                         var radioButtonDepartment = $scope.ticket.radioButtonDepartment!=undefined?$scope.ticket.radioButtonDepartment:null;
                         var radioButtonBuilding = $scope.ticket.radioButtonBuilding!=undefined?$scope.ticket.radioButtonBuilding:null;
-                        for (var key in obj2){
-                            if ( obj2[key].selected==true){
-                                $scope.list_doors_ticket.push(obj2[key]);
+                        for (var door in obj2){
+                            if ( obj2[door].selected==true ){
+                                $scope.list_doors_ticket.push({'contractStatus':obj2[door].contractStatus,'idAccessControlDoor':obj2[door].idAccessControlDoor,'idContrato':obj2[door].idContrato,'idService':obj2[door].controlAccessInternet.idService,'idServiciosDelContratoCuerpo':obj2[door].idServiciosDelContratoCuerpo,'idStatusFk':obj2[door].idStatusFk,'itemAclaracion':obj2[door].itemAclaracion, 'selected':obj2[door].selected,'serviceName':obj2[door].serviceName,'titulo':obj2[door].titulo});
                             }
                         }
+                        console.log($scope.list_doors_ticket);
                         var doorsSelected = $scope.list_doors_ticket.length>0?$scope.list_doors_ticket:null;
                         var switchOption = $scope.ticket.optionTypeSelected.name=="department" && $scope.ticket.radioButtonDepartment!=undefined?$scope.ticket.radioButtonDepartment:$scope.ticket.radioButtonBuilding
                         switch (switchOption){
