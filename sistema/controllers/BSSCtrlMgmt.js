@@ -3321,8 +3321,15 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         let depto = $scope.tmpKey.new.Depto!=undefined?$scope.tmpKey.new.Depto:null;
                         let idDepto = $scope.tmpKey.new.department!=undefined?$scope.tmpKey.new.department:null;
                         console.log(deviceOpen);
-                        console.log("id Depto: "+idDepto);
-                        console.log("Depto: "+depto);
+                        console.log("id Depto                           : "+idDepto);
+                        console.log("Depto                              : "+depto);
+                        console.log("$scope.tkupdate.idTicket           : "+$scope.tkupdate.idTicket);
+                        console.log("$scope.tmpKey.new.categoryKey      : "+$scope.tmpKey.new.categoryKey);
+                        console.log("$scope.tmpKey.new.categoryKeychain : "+$scope.tmpKey.new.categoryKeychain);
+                        console.log("$scope.tmpKey.new.codigoExt        : "+$scope.tmpKey.new.codigoExt);
+                        console.log("$scope.tmpKey.new.codigo           : "+$scope.tmpKey.new.codigo);
+                        console.log("$scope.tkupdate.building.idClient  : "+$scope.tkupdate.building.idClient);
+
                         $scope.rsNewKeychainList.push({"idProductKf":deviceOpen.idProduct,"idTicketKf": $scope.tkupdate.idTicket, "descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":$scope.tmpKey.new.categoryKeychain,"Depto":depto, "codExt":$scope.tmpKey.new.codigoExt,"codigo":$scope.tmpKey.new.codigo,"idDepartmenKf":idDepto,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":$scope.tmpKey.new.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "statusKey":"Inactivo", "doors":{}});
                         $scope.rsExistingKeyList.push({"idProductKf":deviceOpen.idProduct,"idTicketKf": $scope.tkupdate.idTicket, "descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":$scope.tmpKey.new.categoryKeychain,"Depto":depto, "codExt":$scope.tmpKey.new.codigoExt,"codigo":$scope.tmpKey.new.codigo,"idDepartmenKf":idDepto,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":$scope.tmpKey.new.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "statusKey":"Inactivo", "doors":{}});
                         $scope.list_new_keys.push({"idProductKf":deviceOpen.idProduct,"descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":$scope.tmpKey.new.categoryKeychain,"Depto":depto, "codExt":$scope.tmpKey.new.codigoExt,"codigo":$scope.tmpKey.new.codigo,"idDepartmenKf":idDepto,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":$scope.tmpKey.new.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "statusKey":"Inactivo", "doors":{}});
