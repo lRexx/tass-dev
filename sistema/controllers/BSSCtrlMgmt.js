@@ -3083,6 +3083,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             case "openTicket":
               $scope.thereIsKeyWithoutIdKeychain = false;
               $scope.rsAllKeychainListData = [];
+              $scope.rsExistingKeyList = [];
               $scope.rsAllKeychainListDataFiltered = [];
               $scope.ticket = {'administration':undefined, 'keysMethod':{'name':undefined}, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'keysMethod':{}, 'userRequestBy':{}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':null, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
               $scope.functions={'isKeysEnable': false, 'whereKeysAreEnable': null};
