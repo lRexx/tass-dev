@@ -6,7 +6,10 @@
 
               <button ng-show="tkupdate.idMgmtMethodKf!=undefined && rsNewKeychainList.length==tkupdate.keys.length && !thereIsKeyWithoutIdKeychain"  id="closeModalWindow" data-dismiss="modal" type="button" class="close"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
               <button ng-show="(tkupdate.idMgmtMethodKf==null || rsNewKeychainList.length!=tkupdate.keys.length || thereIsKeyWithoutIdKeychain)" id="cancelModalWindow" ng-click="modalConfirmation('cancelSetMgmtKeys',0, tkupdate)" type="button" class="close"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
-              <h3 class="modal-title"><i class="fas fa-key"></i> LLAVEROS A ASIGNAR - <span class="badge badge-warning" style="font-size: 24px !important;">{{tkupdate.keys.length}}</span><span style="font-size: 24px !important;" ng-if="ticket.idMgmtMethodKf!=undefined"> - METODO: </span><span ng-if="ticket.idMgmtMethodKf!=undefined" class="badge badge-default" style="font-size: 24px !important;">{{tkupdate.keysMethod.name | uppercase}}</span></h3>
+              <h3 class="modal-title"><i class="fas fa-key"></i> LLAVEROS A ASIGNAR - <span class="badge" ng-class="{
+                'badge-success': rsNewKeychainList.length==tkupdate.keys.length,
+                'badge-warning': rsNewKeychainList.length!=tkupdate.keys.length,
+              }" style="font-size: 24px !important;">{{tkupdate.keys.length}}</span><span style="font-size: 24px !important;" ng-if="ticket.idMgmtMethodKf!=undefined"> - METODO: </span><span ng-if="ticket.idMgmtMethodKf!=undefined" class="badge badge-default" style="font-size: 24px !important;">{{tkupdate.keysMethod.name | uppercase}}</span></h3>
           </div>
         <div class="modal-body n-padding-b">
             <!-- SELECT METHOD-->
@@ -24,7 +27,12 @@
                         <button ng-click="setOptionType($event);" id="manual" ng-disabled="tkupdate.idMgmtMethodKf!=null && tkupdate.idMgmtMethodKf=='1'" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='manual', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='manual'}">
                             <i class="fas fa-pencil-alt"></i> MANUAL</button>
                     </div>
-                    <div ng-if="(ticket.idMgmtMethodKf==undefined || ticket.idMgmtMethodKf=='1') && tkupdate.idMgmtMethodKf==null && rsAllKeychainListDataFiltered.length>=tkupdate.keys.length" class="col-md-12" style="padding-top: 1% !important;">
+                    <div ng-if="ticket.selected.idTypeRequestFor=='2'" class="col-md-12" style="padding-top: 1% !important;">
+                        <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 alert alert-info" style="margin-bottom:0px !important;">
+                          <h5 class="col-md-offset-1"><i class="fas fa-info-circle"> </i> <span style="font-size: 18px; font-weight: 600;">Los llaveros destinados al Stock solo podran ser gestionados de forma manual.</span></h5>
+                        </div>
+                    </div>
+                    <div ng-if="(ticket.idMgmtMethodKf==undefined || ticket.idMgmtMethodKf=='1') && ticket.selected.idTypeRequestFor=='1' && tkupdate.idMgmtMethodKf==null && rsAllKeychainListDataFiltered.length>=tkupdate.keys.length" class="col-md-12" style="padding-top: 1% !important;">
                         <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 alert alert-info" style="margin-bottom:0px !important;">
                           <h5 class="col-md-offset-1"><i class="fas fa-info-circle"> </i> <span style="font-size: 18px; font-weight: 600;">Hay suficientes llaveros en stock para gestionar el pedido.</span></h5>
                         </div>
@@ -32,7 +40,7 @@
                     <div ng-if="(ticket.idMgmtMethodKf==undefined || ticket.idMgmtMethodKf=='1') && tkupdate.idMgmtMethodKf==null && (rsAllKeychainListData.length==0 || rsAllKeychainListDataFiltered.length<tkupdate.keys.length)" class="col-md-12" style="padding-top: 1% !important;">
                         <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning">
                           <h5><i class="fas fa-exclamation-triangle"> </i>
-                            <span ng-if="rsAllKeychainListData.length==0" style="font-size: 18px; font-weight: 600;">No Hay llaveros en stock para gestionar el pedido, realizar la carga manual.</span>
+                            <span ng-if="rsAllKeychainListData.length==0 && ticket.selected.idTypeRequestFor=='1'" style="font-size: 18px; font-weight: 600;">No Hay llaveros en stock para gestionar el pedido, realizar la carga manual.</span>
                             <span ng-if="rsAllKeychainListDataFiltered.length>=0 && rsAllKeychainListDataFiltered.length<tkupdate.keys.length" style="font-size: 18px; font-weight: 600;">No Hay llaveros <span class="badge badge-warning">{{tkupdate.keys[0].descriptionProduct}}</span> suficientes en el stock para gestionar el pedido, realizar la carga manual.</span>
                         </h5>
                         </div>
@@ -214,26 +222,30 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!--<div class="form-group col-md-12 col-xs-12" ng-class="
+                                        <div class="form-group col-md-6 col-xs-12">
+                                            <label for="autoComplete" style="cursor: pointer; font-weight: 600; padding-left: 15px;">Auto completar:</label>
+                                        </div>
+                                        <div class="form-group col-md-6 col-xs-12" ng-class="
                                             {	'has-success':
-                                                ticketSearch.name!='' && fNewKey.ticketSearch.$valid
+                                                keys.new.autoComplete!='' && fNewKey.autoComplete.$valid
                                             }" style="margin-left: 1em;margin-top: 15px;">
                                             <div class="form-group col-md-2 col-xs-2 n-padding-l" style="padding-left: 15px;">
-                                                <span ng-if="!keys.new.isForTickets" class="badge badge-warning">Inhabilitado</span>
-                                                <span ng-if="keys.new.isForTickets" class="badge badge-success">Habilitado</span>
+                                                <span ng-if="!keys.new.autoComplete" class="badge badge-warning">No</span>
+                                                <span ng-if="keys.new.autoComplete" class="badge badge-success">Si</span>
                                             </div>
                                             <div class="col-md-4 col-xs-3">
                                                 <label class="switch switch-1x">
                                                     <input type="checkbox"
+                                                    name="autoComplete"
                                                     class="success"
                                                     ng-change=""
-                                                    ng-model="keys.new.isForTickets"
-                                                    id="isForTickets"
+                                                    ng-model="keys.new.autoComplete"
+                                                    id="autoComplete"
                                                     style="margin: 0px !important; display: inherit !important;">
                                                     <span class="slider slider-1x flat"></span>
                                                 </label>
                                             </div>
-                                            </div>-->
+                                            </div>
                                     </fieldset>
                                     <!-- Actions Button -->
                                     <div class="modal-footer">
