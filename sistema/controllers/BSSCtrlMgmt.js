@@ -1105,6 +1105,24 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 break;
                 case "2":
                   $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
+                  $timeout(function() {
+                    console.log($scope.$scope.rsAllKeychainListData);
+                    if ($scope.tkupdate.idMgmtMethodKf!=undefined && $scope.tkupdate.idMgmtMethodKf!=null){
+                        for (var i = 0; i < $scope.$scope.rsAllKeychainListData.length; i++) {
+                          //rsNewKeychainList
+                          if ($scope.$scope.rsAllKeychainListData[i].idKeychain==$scope.tkupdate.keys[i].keychain.idKeychain && $scope.$scope.rsAllKeychainListData[i].idKeychainStatusKf!="-1"){
+                            $scope.rsNewKeychainList.push($scope.$scope.rsAllKeychainListData[i]);
+                            $scope.list_new_keys.push($scope.$scope.rsAllKeychainListData[i]);
+                          }
+                        }
+                    }
+                    console.log("ticket.keysMethod.name  : "+$scope.ticket.keysMethod.name);
+                    console.log("tkupdate.keys length    : "+$scope.tkupdate.keys.length);
+                    console.log("rsNewKeychainList length: "+$scope.rsNewKeychainList.length);
+                    console.log($scope.rsNewKeychainList);
+                    console.log("list_new_keys");
+                    console.log($scope.list_new_keys);
+                  }, 1000);
                 break
               }
               $scope.ticket.selected              = response.data.tickets[0];
@@ -2099,10 +2117,95 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     if (showFull){
                       console.log(response.data);
                       var tk_selected = 0;
-                      var Depto = $scope.tkupdate.department.floor+"-"+$scope.tkupdate.department.departament;
-                      console.log("id Department: "+$scope.tkupdate.department.idClientDepartament);
-                      console.log("Departamento : "+Depto);
                       $scope.rsAllKeychainListData         = response.data.tb_keychain;
+                      switch($scope.tkupdate.idTypeRequestFor){
+                        case "1":
+                          var Depto = $scope.tkupdate.department.floor+"-"+$scope.tkupdate.department.departament;
+                          console.log("id Department: "+$scope.tkupdate.department.idClientDepartament);
+                          console.log("Departamento : "+Depto);
+                          if ($scope.tkupdate.idMgmtMethodKf==null){
+                            $scope.rsAllKeychainListDataFiltered = $scope.rsAllKeychainListData.filter(s => s.idProductKf == $scope.tkupdate.keys[0].idProductKf);
+                            console.log($scope.rsAllKeychainListDataFiltered);
+                            for (var tkey in $scope.tkupdate.keys){
+                              for (var stock in $scope.rsAllKeychainListDataFiltered){
+                                if ($scope.tkupdate.keys[tkey].idProduct == $scope.rsAllKeychainListDataFiltered[stock].idProductKf && tk_selected<$scope.tkupdate.keys.length){
+                                  if ($scope.rsNewKeychainList.length==0){
+                                    for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
+                                      if ($scope.rsExistingKeyList[i].codigo==$scope.rsAllKeychainListDataFiltered[stock].codigo){
+                                        //inform.add("El Llavero con el Codigo: ["+$scope.rsAllKeychainListDataFiltered[stock].codigo+"], ya existe en el Departamento "+$scope.rsExistingKeyList[i].Depto,{
+                                        //  ttl:15000, type: 'warning'
+                                        //});
+                                        $scope.isCodeExist=true;
+                                        break;
+                                        //console.log($scope.isCodeExist);
+                                      }else{
+                                        $scope.isCodeExist=false;
+                                        //console.log($scope.isMailExist);
+                                      }
+                                    }
+                                  }
+                                  if ($scope.rsNewKeychainList.length>0){
+                                    for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
+                                      if ($scope.rsNewKeychainList[i].codigo==$scope.rsAllKeychainListDataFiltered[stock].codigo){
+                                        //inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en en la nueva lista a asignar en el Departamento "+obj.Depto,{
+                                        //  ttl:15000, type: 'warning'
+                                        //});
+                                        $scope.isCodeNewExist=true;
+                                        break;
+                                        //console.log($scope.isMailExist);
+                                      }else{
+                                        $scope.isCodeNewExist=false;
+                                        //console.log($scope.isMailExist);
+                                      }
+                                    }
+                                  }
+                                  console.log("isCodeExist: "+$scope.isCodeExist+" "+"isCodeNewExist: "+$scope.isCodeNewExist)
+                                  if(!$scope.isCodeExist && !$scope.isCodeNewExist){
+                                    console.log("ADD_NO_EXIST");
+                                    //var idKeychainStatusKf = $scope.ticket.idMgmtMethodKf=='1'?$scope.rsAllKeychainListDataFiltered[stock].idKeychainStatus:0
+                                    $scope.rsNewKeychainList.push({"idKeychain":$scope.rsAllKeychainListDataFiltered[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListDataFiltered[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListDataFiltered[stock].descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":$scope.rsAllKeychainListDataFiltered[stock].codExt,"codigo":$scope.rsAllKeychainListDataFiltered[stock].codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":$scope.rsAllKeychainListDataFiltered[stock].idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":$scope.rsAllKeychainListDataFiltered[stock].idKeychainStatusKf, "statusKey":$scope.rsAllKeychainListDataFiltered[stock].statusKey, "doors":{}});
+                                    $scope.list_new_keys.push({"idKeychain":$scope.rsAllKeychainListDataFiltered[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListDataFiltered[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListDataFiltered[stock].descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":$scope.rsAllKeychainListDataFiltered[stock].codExt,"codigo":$scope.rsAllKeychainListDataFiltered[stock].codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":$scope.rsAllKeychainListDataFiltered[stock].idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":$scope.rsAllKeychainListDataFiltered[stock].idKeychainStatusKf, "statusKey":$scope.rsAllKeychainListDataFiltered[stock].statusKey, "doors":{}});
+                                    $scope.rsAllKeychainListDataFiltered[stock].selected = true;
+                                    tk_selected++;
+                                  }
+                                  for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
+                                    // Ensure the index exists in rsNewKeychainList
+                                    if ($scope.rsNewKeychainList[i]) {
+                                        // Set the doors property based on the index
+                                        $scope.rsNewKeychainList[i].doors = $scope.tkupdate.keys[i].doors;
+                                    }
+                                    if ($scope.list_new_keys[i]) {
+                                      // Set the doors property based on the index
+                                      $scope.list_new_keys[i].doors = $scope.tkupdate.keys[i].doors;
+                                  }
+                                  }
+                                }
+                              }
+                            }
+                          }else{
+                            $scope.rsAllKeychainListDataFiltered = $scope.tkupdate.existingKeys.filter(s => s.idTicketKf == $scope.tkupdate.idTicket);
+                            $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered
+                            console.log($scope.rsAllKeychainListDataFiltered);
+                            for (var stock in $scope.rsAllKeychainListDataFiltered){
+                              if ($scope.rsAllKeychainListDataFiltered[stock].idTicketKf==$scope.tkupdate.idTicket){
+                                $scope.rsAllKeychainListDataFiltered[stock].selected = true;
+                                $scope.rsAllKeychainListDataFiltered[stock].disabled = true;
+                              }
+                            }
+                          }
+                          console.log($scope.rsNewKeychainList);
+                          console.log($scope.tkupdate);
+                          console.log($scope.rsAllKeychainListData);
+                          console.log("ticket.keysMethod         : "+$scope.ticket.keysMethod);
+                          console.log("ticket.keysMethod.name    : "+$scope.ticket.keysMethod.name);
+                          console.log("rsNewKeychainList Length  : "+$scope.rsNewKeychainList.length);
+                          console.log("tkupdate.keys Length      : "+$scope.tkupdate.keys.length);
+                        break;
+                        case "2":
+                          $scope.tkupdate.existingStockKeys = [];
+                          $scope.rsAllKeychainListDataFiltered = $scope.rsAllKeychainListData.filter(s => s.idKeychain == $scope.tkupdate.keys[0].idProductKf);
+                        break;
+                      }
                       //for (var tkey in $scope.tkupdate.keys){
                       //  for (var stock in $scope.rsAllKeychainListData){
                       //    if ($scope.tkupdate.keys[tkey].idProduct == $scope.rsAllKeychainListData[stock].idProductKf && tk_selected<$scope.tkupdate.keys.length){
@@ -2113,86 +2216,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       //  }
                       //}
 
-                      if ($scope.tkupdate.idMgmtMethodKf==null){
-                        $scope.rsAllKeychainListDataFiltered = $scope.rsAllKeychainListData.filter(s => s.idProductKf == $scope.tkupdate.keys[0].idProductKf);
-                        console.log($scope.rsAllKeychainListDataFiltered);
-                        for (var tkey in $scope.tkupdate.keys){
-                          for (var stock in $scope.rsAllKeychainListDataFiltered){
-                            if ($scope.tkupdate.keys[tkey].idProduct == $scope.rsAllKeychainListDataFiltered[stock].idProductKf && tk_selected<$scope.tkupdate.keys.length){
-                              if ($scope.rsNewKeychainList.length==0){
-                                for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
-                                  if ($scope.rsExistingKeyList[i].codigo==$scope.rsAllKeychainListDataFiltered[stock].codigo){
-                                    //inform.add("El Llavero con el Codigo: ["+$scope.rsAllKeychainListDataFiltered[stock].codigo+"], ya existe en el Departamento "+$scope.rsExistingKeyList[i].Depto,{
-                                    //  ttl:15000, type: 'warning'
-                                    //});
-                                    $scope.isCodeExist=true;
-                                    break;
-                                    //console.log($scope.isCodeExist);
-                                  }else{
-                                    $scope.isCodeExist=false;
-                                    //console.log($scope.isMailExist);
-                                  }
-                                }
-                              }
-                              if ($scope.rsNewKeychainList.length>0){
-                                for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
-                                  if ($scope.rsNewKeychainList[i].codigo==$scope.rsAllKeychainListDataFiltered[stock].codigo){
-                                    //inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en en la nueva lista a asignar en el Departamento "+obj.Depto,{
-                                    //  ttl:15000, type: 'warning'
-                                    //});
-                                    $scope.isCodeNewExist=true;
-                                    break;
-                                    //console.log($scope.isMailExist);
-                                  }else{
-                                    $scope.isCodeNewExist=false;
-                                    //console.log($scope.isMailExist);
-                                  }
-                                }
-                              }
-                              console.log("isCodeExist: "+$scope.isCodeExist+" "+"isCodeNewExist: "+$scope.isCodeNewExist)
-                              if(!$scope.isCodeExist && !$scope.isCodeNewExist){
-                                console.log("ADD_NO_EXIST");
-                                //var idKeychainStatusKf = $scope.ticket.idMgmtMethodKf=='1'?$scope.rsAllKeychainListDataFiltered[stock].idKeychainStatus:0
-                                $scope.rsNewKeychainList.push({"idKeychain":$scope.rsAllKeychainListDataFiltered[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListDataFiltered[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListDataFiltered[stock].descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":$scope.rsAllKeychainListDataFiltered[stock].codExt,"codigo":$scope.rsAllKeychainListDataFiltered[stock].codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":$scope.rsAllKeychainListDataFiltered[stock].idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":$scope.rsAllKeychainListDataFiltered[stock].idKeychainStatusKf, "statusKey":$scope.rsAllKeychainListDataFiltered[stock].statusKey, "doors":{}});
-                                $scope.list_new_keys.push({"idKeychain":$scope.rsAllKeychainListDataFiltered[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListDataFiltered[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListDataFiltered[stock].descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":$scope.rsAllKeychainListDataFiltered[stock].codExt,"codigo":$scope.rsAllKeychainListDataFiltered[stock].codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":$scope.rsAllKeychainListDataFiltered[stock].idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":$scope.rsAllKeychainListDataFiltered[stock].idKeychainStatusKf, "statusKey":$scope.rsAllKeychainListDataFiltered[stock].statusKey, "doors":{}});
-                                $scope.rsAllKeychainListDataFiltered[stock].selected = true;
-                                tk_selected++;
-                              }
-                              for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
-                                // Ensure the index exists in rsNewKeychainList
-                                if ($scope.rsNewKeychainList[i]) {
-                                    // Set the doors property based on the index
-                                    $scope.rsNewKeychainList[i].doors = $scope.tkupdate.keys[i].doors;
-                                }
-                                if ($scope.list_new_keys[i]) {
-                                  // Set the doors property based on the index
-                                  $scope.list_new_keys[i].doors = $scope.tkupdate.keys[i].doors;
-                              }
-                              }
-                            }
-                          }
-                        }
-                      }else{
-                        $scope.rsAllKeychainListDataFiltered = $scope.tkupdate.existingKeys.filter(s => s.idTicketKf == $scope.tkupdate.idTicket);
-                        $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered
-                        console.log($scope.rsAllKeychainListDataFiltered);
-                        for (var stock in $scope.rsAllKeychainListDataFiltered){
-                          if ($scope.rsAllKeychainListDataFiltered[stock].idTicketKf==$scope.tkupdate.idTicket){
-                            $scope.rsAllKeychainListDataFiltered[stock].selected = true;
-                            $scope.rsAllKeychainListDataFiltered[stock].disabled = true;
-                          }
-                        }
-                      }
+
                       if (response.data.totalCount!=undefined){
                           $scope.pagination.totalCount    = response.data.totalCount;
                       }
-                      console.log($scope.rsNewKeychainList);
-                      console.log($scope.tkupdate);
-                      console.log($scope.rsAllKeychainListData);
-                      console.log("ticket.keysMethod         : "+$scope.ticket.keysMethod);
-                      console.log("ticket.keysMethod.name    : "+$scope.ticket.keysMethod.name);
-                      console.log("rsNewKeychainList Length  : "+$scope.rsNewKeychainList.length);
-                      console.log("tkupdate.keys Length      : "+$scope.tkupdate.keys.length);
                     }else{
                       $scope.rsAllKeychainListData         = response.data.tb_keychain;
                       $scope.rsAllKeychainListDataFiltered = $scope.rsAllKeychainListData.filter(s => s.idProductKf == '47');
