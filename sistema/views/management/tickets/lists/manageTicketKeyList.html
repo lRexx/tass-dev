@@ -239,6 +239,7 @@
                                                     name="autoComplete"
                                                     class="success"
                                                     ng-change="verifyExistingKeyList(rsExistingKeyList)"
+
                                                     ng-model="keys.new.autoComplete"
                                                     id="autoComplete"
                                                     ng-disabled="rsExistingKeyList.length>=1 && rsExistingKeyList.length<=ticket.selected.keys.length"
@@ -247,7 +248,7 @@
                                                 </label>
                                             </div>
                                             </div>
-                                            <div ng-if="keys.new.autoComplete && ticket.selected.idTypeRequestFor=='2'" class="col-md-12 col-xs-12" style="padding-top: 1% !important;padding-bottom: 1% !important;">
+                                            <div ng-if="keys.new.autoComplete && ticket.selected.idTypeRequestFor=='2' && (rsExistingKeyList.length==0 || rsExistingKeyList.length==ticket.selected.keys.length)" class="col-md-12 col-xs-12" style="padding-top: 1% !important;padding-bottom: 1% !important;">
                                                 <div class="banner-no-rows banner-no-rows-padding-1 alert alert-info" style="margin-bottom:0px !important;">
                                                 <h5><i class="fas fa-info-circle"> </i> <span style="font-size: 14px; font-weight: 600;">Para usar función auto completar debe indicar solo valores numeros en ambos campos.</span></h5>
                                                 </div>
