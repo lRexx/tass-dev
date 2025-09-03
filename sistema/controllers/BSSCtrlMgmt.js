@@ -1106,7 +1106,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 case "2":
                   $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
                   $timeout(function() {
-                    console.log($scope.$scope.rsAllKeychainListData);
+                    console.log($scope.rsAllKeychainListData);
                     if ($scope.tkupdate.idMgmtMethodKf!=undefined && $scope.tkupdate.idMgmtMethodKf!=null){
                         for (var i = 0; i < $scope.$scope.rsAllKeychainListData.length; i++) {
                           //rsNewKeychainList
