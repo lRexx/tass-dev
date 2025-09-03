@@ -3281,9 +3281,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 console.log($scope.tmpKey);
                 console.log($scope.rsNewKeychainList);
                 console.log($scope.list_new_keys);
+                let deviceOpen = $scope.tmpKey.new.products.selected;
                 if (!$scope.tmpKey.new.autoComplete){
                   if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
-                    let deviceOpen = $scope.tmpKey.new.products.selected;
                     if ($scope.rsNewKeychainList.length>=0){
                       if ($scope.rsNewKeychainList.length>=1){
                         for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
