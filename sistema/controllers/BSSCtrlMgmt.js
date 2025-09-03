@@ -2794,6 +2794,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               return item.idDeliveryCompany=="3"
             }
           }
+          $scope.verifyExistingKeyList = function(obj){
+            if (obj.length>=1 && obj.length<=$scope.ticket.selected.keys.length){
+              $scope.keys.new.autoComplete = false;
+            }
+          }
     /**************************************************
     *                                                 *
     *            TICKETS MONITOR FUNCTION             *

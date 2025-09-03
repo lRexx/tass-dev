@@ -238,7 +238,7 @@
                                                     <input type="checkbox"
                                                     name="autoComplete"
                                                     class="success"
-                                                    ng-change="rsExistingKeyList.length>=1 && rsExistingKeyList.length<=ticket.selected.keys.length?'':keys.new.autoComplete=false"
+                                                    ng-change="verifyExistingKeyList(rsExistingKeyList)"
                                                     ng-model="keys.new.autoComplete"
                                                     id="autoComplete"
                                                     ng-disabled="rsExistingKeyList.length>=1 && rsExistingKeyList.length<=ticket.selected.keys.length"
