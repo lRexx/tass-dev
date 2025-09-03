@@ -3536,12 +3536,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     break;
                     case "2"://RENTREGA EN DOMICILIO
                       $scope.functions.whereKeysAreEnable = obj.building.isHasInternetOnline === null ? "2":"1";
-                      if (obj.building.isStockInOffice == "1"){
+                      if (obj.building.isStockInOffice == "1" || obj.building.isStockInBuilding == "1"){
                         $scope.tkupdate.idDeliveryCompanyKf="1";
                         $scope.functions.isKeysEnable = "1";
                         $scope.tkupdate.mess2show="El Pedido pasara a \"Pendiente de entrega\", por favor,     Confirmar?";
-                      }else{
-                        $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
                       }
 
                       console.log(obj)
@@ -3570,7 +3568,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     break;
                     case "2":
                       $scope.tkupdate.idDeliveryCompanyKf="2";
-                      if (obj.building.isStockInOffice == "1"){
+                      if (obj.building.isStockInOffice == "1" || obj.building.isStockInBuilding == "1"){
                        $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
                       }else{
 
@@ -3605,16 +3603,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   case "1":
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"29"});
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
-                    if ($scope.tkupdate.building.isStockInOffice=='1'){
                       $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"40"});
                       $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"41"});
                       $scope.tkupdate.isKeysEnable            = $scope.functions.isKeysEnable;
                       $scope.tkupdate.idStatusTicketKf        = "4"
                       var idKeychainStatusKf                  = 1;
-                    }else{
-                      $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"39"});
-                      var idKeychainStatusKf                  = 0;
-                    }
                   break;
                   case "2":
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"28"});
