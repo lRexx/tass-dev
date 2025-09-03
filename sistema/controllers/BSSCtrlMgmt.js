@@ -1112,6 +1112,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         for (var i = 0; i < $scope.rsAllKeychainListData.length; i++) {
                           //rsNewKeychainList
                           if ($scope.rsAllKeychainListData[i].idKeychain==$scope.tkupdate.keys[tk_key].keychain.idKeychain && $scope.rsAllKeychainListData[i].idKeychainStatusKf!="-1"){
+                            $scope.rsExistingKeyList.push($scope.rsAllKeychainListData[i]);
                             $scope.rsNewKeychainList.push($scope.rsAllKeychainListData[i]);
                             $scope.list_new_keys.push($scope.rsAllKeychainListData[i]);
                             break;
