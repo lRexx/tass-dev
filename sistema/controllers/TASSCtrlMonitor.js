@@ -3008,7 +3008,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
             break;
             case "updateComment":
                   console.log(obj);
-                  $scope.update.ticket                                   = obj.selected;
+                  $scope.update={'ticket':{}};
+                  $scope.update.ticket                                  = obj.selected;
                   $scope.update.ticket.createNewMPLink                  = false;
                   $scope.update.ticket.createNewMPLinkForDelivery       = false;
                   $scope.update.ticket.history                          = [];
