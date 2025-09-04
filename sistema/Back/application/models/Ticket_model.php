@@ -202,6 +202,7 @@ class Ticket_model extends CI_Model
 						$rs = $this->mail_model->sendMail($title, $to, $body, $subject);
 					}
 					if ($rs == "Enviado" || ($ticket['sendNotify'] || !$ticket['sendNotify'])) {
+						log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [SENT]');
 						$this->db->select("tb_client_mails.mailContact")->from("tb_client_mails");
 						$this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
 						$where = "tb_client_mails.idTipoDeMailFk = 1 AND tb_client_mails.idClientFk = " . $building['idBuilding'];
@@ -216,14 +217,14 @@ class Ticket_model extends CI_Model
 							$subject = null;
 							$body = null;
 							$to = null;
+							#MAIL TO THE BUILDING OR ADMINISTRATION // Concatenar en string separado por coma
+							$to = implode(",", $emails);
 							if ($lastTicketAddQuery['userMadeBy']['idProfileKf'] == "4") {
 								$userMadeByEmail = $lastTicketAddQuery['userMadeBy']['emailUser'];
+								$to = $to . "," . $userMadeByEmail;
 							} else {
 								$userMadeByEmail = "";
 							}
-							#MAIL TO THE BUILDING OR ADMINISTRATION // Concatenar en string separado por coma
-							$to = implode(",", $emails);
-							$to = $to . "," . $userMadeByEmail;
 							log_message('info', 'Client Key Email Addresses: ' . $to);
 							$title = "Pedido Alta Llavero";
 							$subject = "Pedido Alta Llavero :: " . $building['Depto'];
@@ -256,6 +257,8 @@ class Ticket_model extends CI_Model
 							//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
 							$this->mail_model->sendMail($title, $to, $body, $subject);
 						}
+					} else {
+						log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [FAILED]');
 					}
 				}
 			} else {
@@ -274,14 +277,14 @@ class Ticket_model extends CI_Model
 						$subject = null;
 						$body = null;
 						$to = null;
+						#MAIL TO THE BUILDING OR ADMINISTRATION // Concatenar en string separado por coma
+						$to = implode(",", $emails);
 						if ($lastTicketAddQuery['userMadeBy']['idProfileKf'] == "4") {
 							$userMadeByEmail = $lastTicketAddQuery['userMadeBy']['emailUser'];
+							$to = $to . "," . $userMadeByEmail;
 						} else {
 							$userMadeByEmail = "";
 						}
-						#MAIL TO THE BUILDING OR ADMINISTRATION // Concatenar en string separado por coma
-						$to = implode(",", $emails);
-						$to = $to . "," . $userMadeByEmail;
 						log_message('info', 'Client Key Email Addresses: ' . $to);
 						$title = "Pedido Alta Llavero";
 						$subject = "Pedido Alta Llavero :: " . $lastTicketAddQuery['typeRequestFor']['name'];
@@ -310,7 +313,12 @@ class Ticket_model extends CI_Model
 							$body .= '</tr>';
 						}
 						//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
-						$this->mail_model->sendMail($title, $to, $body, $subject);
+						$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
+						if ($rsMail == "Enviado") {
+							log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [SENT]');
+						} else {
+							log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [FAILED]');
+						}
 					}
 				}
 			}
@@ -538,14 +546,14 @@ class Ticket_model extends CI_Model
 						$subject = null;
 						$body = null;
 						$to = null;
+						#MAIL TO THE BUILDING OR ADMINISTRATION // Concatenar en string separado por coma
+						$to = implode(",", $emails);
 						if ($lastTicketAddQuery['userMadeBy']['idProfileKf'] == "4") {
 							$userMadeByEmail = $lastTicketAddQuery['userMadeBy']['emailUser'];
+							$to = $to . "," . $userMadeByEmail;
 						} else {
 							$userMadeByEmail = "";
 						}
-						#MAIL TO THE BUILDING OR ADMINISTRATION // Concatenar en string separado por coma
-						$to = implode(",", $emails);
-						$to = $to . "," . $userMadeByEmail;
 						log_message('info', 'Client Key Email Addresses: ' . $to);
 						$title = "Pedido Baja Llavero";
 						$subject = "Pedido Baja Llavero :: " . $lastTicketAddQuery['typeRequestFor']['name'];
@@ -574,7 +582,12 @@ class Ticket_model extends CI_Model
 							$body .= '</tr>';
 						}
 						//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
-						$this->mail_model->sendMail($title, $to, $body, $subject);
+						$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
+						if ($rsMail == "Enviado") {
+							log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [SENT]');
+						} else {
+							log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [FAILED]');
+						}
 					}
 				}
 			}
@@ -1390,7 +1403,12 @@ class Ticket_model extends CI_Model
 								}
 
 							}
-							$this->mail_model->sendMail($title, $to, $body, $subject);
+							$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
+							if ($rsMail == "Enviado") {
+								log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [SENT]');
+							} else {
+								log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [FAILED]');
+							}
 						}
 					}
 				}
@@ -1413,14 +1431,14 @@ class Ticket_model extends CI_Model
 						$to = null;
 						$subject = "Pedido de Llavero :: " . $lastTicketUpdatedQuery['typeRequestFor']['name'] . " :: " . $lastTicketUpdatedQuery['statusTicket']['statusName'];
 						$title = $lastTicketUpdatedQuery['statusTicket']['statusName'];
+						#MAIL TO THE BUILDING OR ADMINISTRATION // Concatenar en string separado por coma
+						$to = implode(",", $emails);
 						if ($lastTicketUpdatedQuery['userMadeBy']['idProfileKf'] == "4") {
 							$userMadeByEmail = $lastTicketUpdatedQuery['userMadeBy']['emailUser'];
+							$to = $to . "," . $userMadeByEmail;
 						} else {
 							$userMadeByEmail = "";
 						}
-						#MAIL TO THE BUILDING OR ADMINISTRATION // Concatenar en string separado por coma
-						$to = implode(",", $emails);
-						$to = $to . "," . $userMadeByEmail;
 						log_message('info', 'Client Key Email Addresses: ' . $to);
 						if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 7 || $lastTicketUpdatedQuery['idStatusTicketKf'] == 1 || $lastTicketUpdatedQuery['idStatusTicketKf'] == 5) {
 							#MAIL TO USER
@@ -1511,7 +1529,12 @@ class Ticket_model extends CI_Model
 								}
 
 							}
-							$this->mail_model->sendMail($title, $to, $body, $subject);
+							$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
+							if ($rsMail == "Enviado") {
+								log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [SENT]');
+							} else {
+								log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [FAILED]');
+							}
 						}
 					}
 				}
