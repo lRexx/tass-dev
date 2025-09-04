@@ -682,6 +682,7 @@ class Mercadolibre_model extends CI_Model
 						$subject = null;
 						$body = null;
 						$to = null;
+						log_message('info', ':::::::::::::::::Notification Emails Addresses');
 						log_message('info', '$quuery->num_rows: ' . $quuery->num_rows());
 						foreach ($quuery->result() as $row) {
 							$emails[] = $row->mailContact;
@@ -694,7 +695,7 @@ class Mercadolibre_model extends CI_Model
 							$subject = "Pedido Llavero :: " . $lastTicketUpdatedQuery['typeRequestFor']['name'] . " :: Link de Pago de Envío";
 							$link_mp = $lastTicketUpdatedQuery['paymentDeliveryDetails']['mp_prod_init_point'];
 						}
-						if ($lastTicketUpdatedQuery['userMadeBy']['idProfileKf'] == "1") {
+						if ($lastTicketUpdatedQuery['userMadeBy']['idProfileKf'] == "4") {
 							$userMadeByEmail = $lastTicketUpdatedQuery['userMadeBy']['emailUser'];
 						} else {
 							$userMadeByEmail = "";

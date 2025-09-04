@@ -207,6 +207,8 @@ class Ticket_model extends CI_Model
 						$where = "tb_client_mails.idTipoDeMailFk = 1 AND tb_client_mails.idClientFk = " . $building['idBuilding'];
 						$quuery = $this->db->where($where)->get();
 						if ($quuery->num_rows() > 0) {
+							log_message('info', ':::::::::::::::::Notification Emails Addresses');
+							log_message('info', '$quuery->num_rows: ' . $quuery->num_rows());
 							foreach ($quuery->result() as $row) {
 								$emails[] = $row->mailContact;
 							}
@@ -214,7 +216,7 @@ class Ticket_model extends CI_Model
 							$subject = null;
 							$body = null;
 							$to = null;
-							if ($lastTicketAddQuery['userMadeBy']['idProfileKf'] == "1") {
+							if ($lastTicketAddQuery['userMadeBy']['idProfileKf'] == "4") {
 								$userMadeByEmail = $lastTicketAddQuery['userMadeBy']['emailUser'];
 							} else {
 								$userMadeByEmail = "";
@@ -263,6 +265,8 @@ class Ticket_model extends CI_Model
 					$where = "tb_client_mails.idTipoDeMailFk = 1 AND tb_client_mails.idClientFk = " . $ticket['idBuildingKf'];
 					$quuery = $this->db->where($where)->get();
 					if ($quuery->num_rows() > 0) {
+						log_message('info', ':::::::::::::::::Notification Emails Addresses');
+						log_message('info', '$quuery->num_rows: ' . $quuery->num_rows());
 						foreach ($quuery->result() as $row) {
 							$emails[] = $row->mailContact;
 						}
@@ -270,8 +274,15 @@ class Ticket_model extends CI_Model
 						$subject = null;
 						$body = null;
 						$to = null;
-						#MAIL TO THE BUILDING OR ADMINISTRATION typeRequestFor
+						if ($lastTicketAddQuery['userMadeBy']['idProfileKf'] == "4") {
+							$userMadeByEmail = $lastTicketAddQuery['userMadeBy']['emailUser'];
+						} else {
+							$userMadeByEmail = "";
+						}
+						#MAIL TO THE BUILDING OR ADMINISTRATION // Concatenar en string separado por coma
 						$to = implode(",", $emails);
+						$to = $to . "," . $userMadeByEmail;
+						log_message('info', 'Client Key Email Addresses: ' . $to);
 						$title = "Pedido Alta Llavero";
 						$subject = "Pedido Alta Llavero :: " . $lastTicketAddQuery['typeRequestFor']['name'];
 						$body = '<tr width="100%" bgcolor="#ffffff">';
