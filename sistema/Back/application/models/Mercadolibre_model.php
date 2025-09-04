@@ -682,10 +682,11 @@ class Mercadolibre_model extends CI_Model
 						$subject = null;
 						$body = null;
 						$to = null;
+						log_message('info', '$quuery->num_rows: ' . $quuery->num_rows());
 						foreach ($quuery->result() as $row) {
 							$emails[] = $row->mailContact;
+							log_message('info', '$row->mailContact: ' . $row->mailContact);
 						}
-
 						if (!$data['paymentForDelivery']) {
 							$subject = "Pedido Llavero :: " . $lastTicketUpdatedQuery['typeRequestFor']['name'] . " :: Link de Pago";
 							$link_mp = $lastTicketUpdatedQuery['paymentDetails']['mp_prod_init_point'];
