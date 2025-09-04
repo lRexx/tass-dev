@@ -207,13 +207,15 @@ class Ticket_model extends CI_Model
 						$where = "tb_client_mails.idTipoDeMailFk = 1 AND tb_client_mails.idClientFk = " . $building['idBuilding'];
 						$quuery = $this->db->where($where)->get();
 						if ($quuery->num_rows() > 0) {
-							$buildingAdminMail = $quuery->row_array();
+							foreach ($quuery->result() as $row) {
+								$emails[] = $row->mailContact;
+							}
 							$title = null;
 							$subject = null;
 							$body = null;
 							$to = null;
-							#MAIL TO THE BUILDING OR ADMINISTRATION
-							$to = $buildingAdminMail['mailContact'];
+							#MAIL TO THE BUILDING OR ADMINISTRATION // Concatenar en string separado por coma
+							$to = implode(",", $emails);
 							$title = "Pedido Alta Llavero";
 							$subject = "Pedido Alta Llavero :: " . $building['Depto'];
 							$body = '<tr width="100%" bgcolor="#ffffff">';
@@ -254,13 +256,15 @@ class Ticket_model extends CI_Model
 					$where = "tb_client_mails.idTipoDeMailFk = 1 AND tb_client_mails.idClientFk = " . $ticket['idBuildingKf'];
 					$quuery = $this->db->where($where)->get();
 					if ($quuery->num_rows() > 0) {
-						$buildingAdminMail = $quuery->row_array();
+						foreach ($quuery->result() as $row) {
+							$emails[] = $row->mailContact;
+						}
 						$title = null;
 						$subject = null;
 						$body = null;
 						$to = null;
 						#MAIL TO THE BUILDING OR ADMINISTRATION typeRequestFor
-						$to = $buildingAdminMail['mailContact'];
+						$to = implode(",", $emails);
 						$title = "Pedido Alta Llavero";
 						$subject = "Pedido Alta Llavero :: " . $lastTicketAddQuery['typeRequestFor']['name'];
 						$body = '<tr width="100%" bgcolor="#ffffff">';
