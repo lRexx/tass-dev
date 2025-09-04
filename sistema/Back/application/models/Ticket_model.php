@@ -214,8 +214,15 @@ class Ticket_model extends CI_Model
 							$subject = null;
 							$body = null;
 							$to = null;
+							if ($lastTicketAddQuery['userMadeBy']['idProfileKf'] == "1") {
+								$userMadeByEmail = $lastTicketAddQuery['userMadeBy']['emailUser'];
+							} else {
+								$userMadeByEmail = "";
+							}
 							#MAIL TO THE BUILDING OR ADMINISTRATION // Concatenar en string separado por coma
 							$to = implode(",", $emails);
+							$to = $to . "," . $userMadeByEmail;
+							log_message('info', 'Client Key Email Addresses: ' . $to);
 							$title = "Pedido Alta Llavero";
 							$subject = "Pedido Alta Llavero :: " . $building['Depto'];
 							$body = '<tr width="100%" bgcolor="#ffffff">';

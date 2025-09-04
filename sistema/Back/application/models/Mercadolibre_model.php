@@ -626,7 +626,6 @@ class Mercadolibre_model extends CI_Model
 			$body = null;
 			$to = null;
 			$title = "Link de Pago Generado";
-			log_message('info', '$lastTicketUpdatedQuery: ' . $title);
 			if ($lastTicketUpdatedQuery['idTypeRequestFor'] == 1) {
 				if ((!@$data['isManualPayment'] || $lastTicketUpdatedQuery['isManualPayment'] == 0 || is_null($lastTicketUpdatedQuery['isManualPayment'])) && ($lastTicketUpdatedQuery['sendNotify'] == 1 || $lastTicketUpdatedQuery['sendNotify'] == null)) {
 					//DEPARTMENT, BUILDING & ADMINISTRATION DETAILS
@@ -695,8 +694,14 @@ class Mercadolibre_model extends CI_Model
 							$subject = "Pedido Llavero :: " . $lastTicketUpdatedQuery['typeRequestFor']['name'] . " :: Link de Pago de Envío";
 							$link_mp = $lastTicketUpdatedQuery['paymentDeliveryDetails']['mp_prod_init_point'];
 						}
+						if ($lastTicketUpdatedQuery['userMadeBy']['idProfileKf'] == "1") {
+							$userMadeByEmail = $lastTicketUpdatedQuery['userMadeBy']['emailUser'];
+						} else {
+							$userMadeByEmail = "";
+						}
 						#MAIL TO THE BUILDING OR ADMINISTRATION typeRequestFor
 						$to = implode(",", $emails);
+						$to = $to . "," . $userMadeByEmail;
 						log_message('info', 'Client Key Email Addresses: ' . $to);
 						$body = '<tr width="100%" bgcolor="#ffffff">';
 						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Hola <b>' . $lastTicketUpdatedQuery['clientAdmin']['name'] . '</b>,</td>';
