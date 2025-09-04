@@ -534,6 +534,18 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $('#confirmRequestModal').modal('hide');
                 }
             break;
+              case "updateComment":
+                if (confirm==0){
+                    $scope.ticketObj=obj;
+                        console.log(obj)
+                        $scope.mess2show="Desea actualizar las observaciones/comentarios del pedido, Confirmar ?";
+                        //console.log(obj);
+                  $('#confirmRequestModal').modal('toggle');
+                }else if (confirm==1){
+                  $scope.mainSwitchFn("updateComment", $scope.ticketObj);
+                  $('#confirmRequestModal').modal('hide');
+                }
+              break;
               default:
           }
         }
@@ -2993,6 +3005,18 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               $timeout(function() {
                 $scope.changeTicketStatusRequestFn($scope.update);
               }, 2000);
+            break;
+            case "updateComment":
+                  console.log(obj);
+                  $scope.update.ticket                                   = obj.selected;
+                  $scope.update.ticket.createNewMPLink                  = false;
+                  $scope.update.ticket.createNewMPLinkForDelivery       = false;
+                  $scope.update.ticket.history                          = [];
+                  $scope.update.ticket.refund                           = [];
+                  $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+                  $timeout(function() {
+                    $scope.updateUpRequestFn($scope.update);
+                  }, 2000);
             break;
             case "change_ticket_status_multi":
               $scope.selectedTicketList = [];
