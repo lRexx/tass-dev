@@ -634,6 +634,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     case "add_enableInitialKeys":
                         $scope.customer.update.idClientKf           = cObj.idClient;
                         $scope.customer.update.created_by_idUserKf  = $scope.sysLoggedUser.idUser;
+                        $scope.customer.update.initial_qtty = $scope.customer.update.initial_qtty==undefined || $scope.customer.update.initial_qtty==''?0:$scope.customer.update.initial_qtty;
                         var date_selected   = $scope.customer.update.expirationDate;
                         var expirationDate  = new Date(date_selected);
                         $scope.customer.update.expirationDate       = expirationDate.getFullYear()+"-"+(expirationDate.getMonth()+1)+"-"+expirationDate.getDate()+" " +"23:59:59"
@@ -642,6 +643,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     break;
                     case "update_enableInitialKeys":
                         $scope.customer.update.updated_by_idUserKf = $scope.sysLoggedUser.idUser;
+                        $scope.customer.update.initial_qtty = $scope.customer.update.initial_qtty==undefined || $scope.customer.update.initial_qtty==''?0:$scope.customer.update.initial_qtty;
                         var date_selected   = $scope.customer.update.expirationDate;
                         var expirationDate  = new Date(date_selected);
                         $scope.customer.update.expirationDate     = expirationDate.getFullYear()+"-"+(expirationDate.getMonth()+1)+"-"+expirationDate.getDate()+" " +"23:59:59"
