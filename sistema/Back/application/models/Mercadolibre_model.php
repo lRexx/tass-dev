@@ -626,7 +626,7 @@ class Mercadolibre_model extends CI_Model
 			$body = null;
 			$to = null;
 			$title = "Link de Pago Generado";
-			log_message('info', '$lastTicketUpdatedQuery: ' . $lastTicketUpdatedQuery['idTypeRequestFor']);
+			log_message('info', '$lastTicketUpdatedQuery: ' . $title);
 			if ($lastTicketUpdatedQuery['idTypeRequestFor'] == 1) {
 				if ((!@$data['isManualPayment'] || $lastTicketUpdatedQuery['isManualPayment'] == 0 || is_null($lastTicketUpdatedQuery['isManualPayment'])) && ($lastTicketUpdatedQuery['sendNotify'] == 1 || $lastTicketUpdatedQuery['sendNotify'] == null)) {
 					//DEPARTMENT, BUILDING & ADMINISTRATION DETAILS
