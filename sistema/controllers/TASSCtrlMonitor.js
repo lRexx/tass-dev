@@ -3016,7 +3016,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $scope.update.ticket.history                          = [];
                   $scope.update.ticket.refund                           = [];
                   $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
-                  $scope.editCommentBtn = !$scope.editCommentBtn;
+                  $scope.editCommentBtn = false;
                   $timeout(function() {
                     $scope.updateUpRequestFn($scope.update);
                   }, 2000);
