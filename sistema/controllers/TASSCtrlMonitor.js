@@ -3017,6 +3017,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
                   $timeout(function() {
                     $scope.updateUpRequestFn($scope.update);
+                    $scope.editCommentBtn = false;
                   }, 2000);
             break;
             case "change_ticket_status_multi":
