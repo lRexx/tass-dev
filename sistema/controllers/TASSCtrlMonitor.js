@@ -49,8 +49,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
       $scope.customerSearch={'name':'','searchFilter':'', 'typeClient':'', 'isInDebt':false, 'isStockInBuilding': false, 'isStockInOffice': false, 'strict':false};
       $scope.keyTotalAllowed=50000;
       $scope.deliveryCostFree=0;
-      $scope.editCommentBtn=false;
       $scope.update={'ticket':{}, 'user':{}};
+      $scope.update.ticket.editCommentBtn=false;
       /*DATE PICKER*/
       $scope.formats = ['dd-MM-yyyy', 'dd/MM/yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
       $scope.format = $scope.formats[1];
@@ -2257,7 +2257,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               }
             break;
             case "openTicket":
-              $scope.editCommentBtn = false;
+              $scope.update.ticket.editCommentBtn = false;
               $scope.openTicketFn(obj.idTicket);
               $('#UpdateModalTicket').modal({backdrop: 'static', keyboard: false});
             break;
@@ -3009,14 +3009,13 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
             break;
             case "updateComment":
                   console.log(obj);
-                  $scope.update={'ticket':{}};
                   $scope.update.ticket                                  = obj;
                   $scope.update.ticket.createNewMPLink                  = false;
                   $scope.update.ticket.createNewMPLinkForDelivery       = false;
                   $scope.update.ticket.history                          = [];
                   $scope.update.ticket.refund                           = [];
                   $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
-                  $scope.editCommentBtn = false;
+                  $scope.update.ticket.editCommentBtn = false;
                   $timeout(function() {
                     $scope.updateUpRequestFn($scope.update);
                   }, 2000);
