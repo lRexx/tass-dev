@@ -49,6 +49,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
       $scope.customerSearch={'name':'','searchFilter':'', 'typeClient':'', 'isInDebt':false, 'isStockInBuilding': false, 'isStockInOffice': false, 'strict':false};
       $scope.keyTotalAllowed=50000;
       $scope.deliveryCostFree=0;
+      $scope.editCommentBtn=false;
       $scope.update={'ticket':{}, 'user':{}};
       /*DATE PICKER*/
       $scope.formats = ['dd-MM-yyyy', 'dd/MM/yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
