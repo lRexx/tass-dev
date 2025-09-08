@@ -431,7 +431,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 }else if (confirm==1){
                   console.log($scope.keyObj);
                   $scope.mainSwitchFn('applyTicketDelivered', $scope.keyObj, null);
-                $('#confirmRequestModalCustom').modal('hide');
+                  $('#confirmRequestModalCustom').modal('hide');
                 }else if (confirm==null){
                   $('#confirmRequestModalCustom').modal('hide');
                   $scope.update.ticket = {};
@@ -449,8 +449,12 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
                 }else if (confirm==1){
                   console.log($scope.keyObj);
-                  $scope.mainSwitchFn('applyTicketDelivered', $scope.keyObj, null);
-                $('#confirmRequestModalCustom').modal('hide');
+                  $scope.update.ticket = {};
+                  $scope.update.ticket = $scope.keyObj;
+                  $scope.update.ticket.newTicketStatus = {'idStatus':null}
+                  $scope.update.ticket.newTicketStatus.idStatus = "1";
+                  $scope.mainSwitchFn('applyTicketDelivered', $scope.update.ticket, null);
+                  $('#confirmRequestModalCustom').modal('hide');
                 }else if (confirm==null){
                   $('#confirmRequestModalCustom').modal('hide');
                   $scope.update.ticket = {};
