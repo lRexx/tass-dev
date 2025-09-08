@@ -4181,7 +4181,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             break;
                         }
                         if(obj.radioButtonBuilding!="4" && obj.radioButtonBuilding!="5"){
-                            console.info($scope.new.ticket);
                             if (obj.delivery.idTypeDeliveryKf=="1"){
                                 $scope.new.ticket.idDeliveryTo              = null
                                 $scope.new.ticket.otherDeliveryAddress      = {'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
@@ -4217,13 +4216,13 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         $scope.new.ticket.idWhoPickUp           = obj.delivery.whoPickUp.id;
                                         $scope.new.ticket.thirdPersonDelivery   = {'fullName':obj.delivery.thirdPerson.fullNameUser, 'movilPhone':obj.delivery.thirdPerson.movilPhone, 'dni':obj.delivery.thirdPerson.dni, 'address':obj.delivery.thirdPerson.streetName,'number':obj.delivery.thirdPerson.streetNumber,'floor':obj.delivery.thirdPerson.floor+"-"+obj.delivery.thirdPerson.department, 'idProvinceFk':obj.delivery.thirdPerson.province.selected.idProvince, 'idLocationFk':obj.delivery.thirdPerson.location.selected.idLocation};
                                     }
-                                }else if($scope.new.ticket.idTypeRequestFor=="2"){
-                                    if (obj.building.isStockInBuilding=="1"){
-                                        $scope.new.ticket.idTypeDeliveryKf      = "2"
-                                        $scope.new.ticket.idDeliveryAddress     = obj.building.idClient;
-                                    }
-
                                 }
+                            }
+                        }
+                        if(obj.radioButtonBuilding=="4" && $scope.new.ticket.idTypeRequestFor=="2"){
+                            if (obj.building.isStockInBuilding=="1"){
+                                $scope.new.ticket.idTypeDeliveryKf      = "2"
+                                $scope.new.ticket.idDeliveryAddress     = obj.building.idClient;
                             }
                         }
                         $scope.new.ticket.idTypePaymentKf               = obj.cost.idTypePaymentKf;
