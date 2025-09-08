@@ -4181,6 +4181,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             break;
                         }
                         if(obj.radioButtonBuilding!="4" && obj.radioButtonBuilding!="5"){
+                            console.info($scope.new.ticket);
                             if (obj.delivery.idTypeDeliveryKf=="1"){
                                 $scope.new.ticket.idDeliveryTo              = null
                                 $scope.new.ticket.otherDeliveryAddress      = {'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
@@ -4197,7 +4198,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     $scope.new.ticket.thirdPersonDelivery   = {'fullName':obj.delivery.thirdPerson.fullNameUser, 'movilPhone':obj.delivery.thirdPerson.movilPhone, 'dni':obj.delivery.thirdPerson.dni, 'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
                                 }
                             }else{
-                                console.info($scope.new.ticket);
                                 if($scope.new.ticket.idTypeRequestFor=="1" || $scope.new.ticket.idTypeRequestFor=="5" || $scope.new.ticket.idTypeRequestFor=="6"){
                                     $scope.new.ticket.idDeliveryTo              = obj.delivery.idDeliveryTo;
                                     if (obj.delivery.whoPickUp.id==undefined && obj.delivery.idDeliveryTo==1){
