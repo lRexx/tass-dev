@@ -7,6 +7,7 @@
               <h3 class="modal-title"><i class="fas fa-truck"></i> DETALLES DE <span ng-if="tkupdate.idTypeDeliveryKf=='1'" style="font-size: 24px !important;">ENTREGA</span><span ng-if="tkupdate.idTypeDeliveryKf=='2'" style="font-size: 24px !important;">ENVÍO</span></h3>
           </div>
         <div class="modal-body">
+            <!-- DELIVERY DETAILS-->
             <div  class="col-md-12 well-checkbox n-margin-l customer-frame">
                 <legend style="text-align: left;">Datos de Envío</legend>
                 <!-- LEFT COLUMN -->
@@ -16,7 +17,7 @@
                     <span ng-if="tkupdate.idTypeDeliveryKf!=null && tkupdate.idTypeDeliveryKf!=undefined">{{tkupdate.typeDeliver.typeDelivery}}</span>
                     <span style="font-size: 75%;" ng-if="tkupdate.idTypeDeliveryKf==null" class="label label-warning text-uppercase">Proceso Interno</span>
                   </div>
-                    <div class="col-md-12">
+                    <div ng-if="tkupdate.idTypeRequestFor=='1'" class="col-md-12">
                         <span ng-if="tkupdate.idTypeDeliveryKf=='1'">Retira: </span>
                         <span ng-if="tkupdate.idTypeDeliveryKf=='2'">Recibe: </span>
                         <span ng-if="(tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && (tkupdate.whoPickUp.idWhoPickUp=='1' || tkupdate.whoPickUp.idWhoPickUp=='2')">{{tkupdate.userDelivery.fullNameUser}}</span>
@@ -24,12 +25,12 @@
                         <span style="font-size: 85%;" ng-if="(tkupdate.idTypeRequestFor=='1' && (((tkupdate.whoPickUp.idWhoPickUp=='1' || tkupdate.whoPickUp.idWhoPickUp=='2')) || ((tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && tkupdate.whoPickUp.idWhoPickUp=='3')))" class="badge badge-warning">{{tkupdate.whoPickUp.nameWhoPickUp}}</span>
                         <span style="font-size: 85%;" ng-if="(tkupdate.idTypeRequestFor!='1' && (((tkupdate.whoPickUp.idWhoPickUp=='1' || tkupdate.whoPickUp.idWhoPickUp=='2')) || ((tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && tkupdate.whoPickUp.idWhoPickUp=='3')))" class="badge badge-warning">{{tkupdate.userDelivery.nameProfile}}</span>
                     </div>
-                    <div class="col-md-12">
+                    <div ng-if="tkupdate.idTypeRequestFor=='1'" class="col-md-12">
                         <span ng-if="tkupdate.idTypeDeliveryKf!='0'">DNI: </span>
                         <span ng-if="(tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && (tkupdate.whoPickUp.idWhoPickUp=='1' || tkupdate.whoPickUp.idWhoPickUp=='2')">{{tkupdate.userDelivery.dni}}</span>
                         <span ng-if="(tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && tkupdate.whoPickUp.idWhoPickUp=='3'">{{tkupdate.thirdPersonDelivery.dni}}</span>
                     </div>
-                    <div class="col-md-12">
+                    <div ng-if="tkupdate.idTypeRequestFor=='1'" class="col-md-12">
                         <span>
                             <span ng-if="tkupdate.idTypeDeliveryKf=='1'">Retirar en: </span>
                             <span ng-if="tkupdate.idTypeDeliveryKf=='2'">Entrega en: </span>
@@ -40,7 +41,7 @@
                     </div>
                     <div class="col-md-12 col-xs-12">
                         <span> Dirección: </span>
-                        <span ng-if="tkupdate.idTypeDeliveryKf!=null && tkupdate.idTypeDeliveryKf!=undefined && tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo.id=='1'">{{tkupdate.deliveryAddress.address}}</span>
+                        <span ng-if="tkupdate.idTypeDeliveryKf!=null && tkupdate.idTypeDeliveryKf!=undefined && tkupdate.idTypeDeliveryKf=='2' && (tkupdate.deliveryTo.id=='1' || (tkupdate.deliveryTo==null && tkupdate.idTypeRequestFor=='2'))">{{tkupdate.deliveryAddress.address}}</span>
                         <!-- OTHER DELIVERY ADDRESS -->
                         <span ng-if="tkupdate.idTypeDeliveryKf!=null && tkupdate.idTypeDeliveryKf!=undefined && tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo.id=='2'">{{tkupdate.otherDeliveryAddress.address}} {{tkupdate.otherDeliveryAddress.number}}</span>
                         <!-- THIRD PERSON DELIVERY ADDRESS -->
@@ -80,6 +81,7 @@
                     </div>
                 </div>
             </div>
+            <!-- DELIVERY COMPANY-->
             <div ng-if="tkupdate.idTypeDeliveryKf=='2'" class="col-md-12 well-checkbox n-margin-l customer-frame">
                 <form class="form-horizontal" name="frmDeliveryCompany" autocomplete="off" novalidate>
                     <legend style="text-align: left;">Empresa de Envío</legend>
