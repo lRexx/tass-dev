@@ -4220,6 +4220,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             }
                         }
                         if(obj.radioButtonBuilding=="4" && $scope.new.ticket.idTypeRequestFor=="2"){
+                            console.info($scope.new.ticket);
                             if (obj.building.isStockInBuilding=="1"){
                                 $scope.new.ticket.idTypeDeliveryKf      = "2"
                                 $scope.new.ticket.idDeliveryAddress     = obj.building.idClient;
@@ -4536,7 +4537,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         console.log($scope.new.ticket);
                         $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
                         $timeout(function() {
-                           //$scope.addUpRequestFn($scope.new);
+                           $scope.addUpRequestFn($scope.new);
                         }, 2000);
 
                     break;
