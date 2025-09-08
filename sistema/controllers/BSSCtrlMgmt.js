@@ -441,7 +441,25 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.modalConfirmation('setDeliveryPending',0, $scope.update);
                 }
               break;
-
+              case "ticketDeliveredBuilding":
+                if (confirm==0){
+                  $scope.keyObj=obj;
+                  console.log($scope.keyObj);
+                  $scope.mess2show="El Pedido "+$scope.keyObj.codTicket+" ha sido entregado en el Stock del Edificio,     Confirmar?";
+                  $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
+                }else if (confirm==1){
+                  console.log($scope.keyObj);
+                  $scope.mainSwitchFn('applyTicketDelivered', $scope.keyObj, null);
+                $('#confirmRequestModalCustom').modal('hide');
+                }else if (confirm==null){
+                  $('#confirmRequestModalCustom').modal('hide');
+                  $scope.update.ticket = {};
+                  $scope.update.ticket = $scope.keyObj;
+                  $scope.update.ticket.idNewStatusKf        = "4";
+                  $scope.update.ticket.idDeliveryCompanyKf  = "1";
+                  $scope.modalConfirmation('setDeliveryPending',0, $scope.update);
+                }
+              break;
               case "update":
                   if (confirm==0){
                       $scope.tenantObj=obj;
@@ -1107,14 +1125,14 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   case "2":
                     $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
                     $timeout(function() {
-                      console.log($scope.rsAllKeychainListData);
+                      //console.log($scope.rsAllKeychainListData);
                       if ($scope.tkupdate.idMgmtMethodKf!=undefined && $scope.tkupdate.idMgmtMethodKf!=null){
                         for (var tk_key in $scope.tkupdate.keys){
-                          console.log(i);
-                          console.log("$scope.tkupdate.keys[tk_key].keychain.idKeychain: "+$scope.tkupdate.keys[tk_key].keychain.idKeychain);
+                          //console.log(i);
+                          //console.log("$scope.tkupdate.keys[tk_key].keychain.idKeychain: "+$scope.tkupdate.keys[tk_key].keychain.idKeychain);
                           for (var i = 0; i < $scope.rsAllKeychainListData.length; i++) {
                             //rsNewKeychainList
-                            console.log("$scope.rsAllKeychainListData[i].idKeychain: "+$scope.rsAllKeychainListData[i].idKeychain);
+                            //console.log("$scope.rsAllKeychainListData[i].idKeychain: "+$scope.rsAllKeychainListData[i].idKeychain);
                             if ($scope.rsAllKeychainListData[i].idKeychain==$scope.tkupdate.keys[tk_key].keychain.idKeychain && $scope.rsAllKeychainListData[i].idKeychainStatusKf!="-1"){
                               $scope.rsExistingKeyList.push($scope.rsAllKeychainListData[i]);
                               $scope.rsNewKeychainList.push($scope.rsAllKeychainListData[i]);
