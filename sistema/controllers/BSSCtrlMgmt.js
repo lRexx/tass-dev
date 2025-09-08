@@ -1116,7 +1116,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                               $scope.rsExistingKeyList.push($scope.rsAllKeychainListData[i]);
                               $scope.rsNewKeychainList.push($scope.rsAllKeychainListData[i]);
                               $scope.list_new_keys.push($scope.rsAllKeychainListData[i]);
-                              break;
                             }
                           }
                         }
