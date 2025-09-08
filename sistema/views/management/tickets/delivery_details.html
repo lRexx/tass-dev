@@ -67,7 +67,7 @@
                         <span ng-if="tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo==null && tkupdate.whoPickUp.idWhoPickUp=='2'">{{tkupdate.building.location}}</span>
                         <span style="font-size: 75%;"ng-if="tkupdate.idTypeDeliveryKf==null" class="label label-default text-uppercase">n/a</span>
                     </div>
-                    <div ng-if="tkupdate.idTypeDeliveryKf!=null && tkupdate.idTypeDeliveryKf!=undefined && tkupdate.idTypeDeliveryKf=='2' && (tkupdate.deliveryTo.id==null || tkupdate.deliveryTo.id=='1' || tkupdate.deliveryTo.id=='2')" class="col-md-12">
+                    <div ng-if="tkupdate.idTypeRequestFor=='1' && tkupdate.idTypeDeliveryKf!=null && tkupdate.idTypeDeliveryKf!=undefined && tkupdate.idTypeDeliveryKf=='2' && (tkupdate.deliveryTo.id==null || tkupdate.deliveryTo.id=='1' || tkupdate.deliveryTo.id=='2')" class="col-md-12">
                         <span> Departamento:</span>
                         <span ng-if="(tkupdate.deliveryTo.id=='1') || (tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo==null && tkupdate.whoPickUp.idWhoPickUp=='2')" class="label label-default text-uppercase">{{tkupdate.department.floor}}-{{tkupdate.department.departament}}</span>
                         <span ng-if="tkupdate.deliveryTo.id=='2' && tkupdate.otherDeliveryAddress.floor!=undefined" class="label label-default text-uppercase">{{tkupdate.otherDeliveryAddress.floor}}</span>
