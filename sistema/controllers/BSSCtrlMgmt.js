@@ -1110,12 +1110,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log($scope.rsAllKeychainListData);
                       if ($scope.tkupdate.idMgmtMethodKf!=undefined && $scope.tkupdate.idMgmtMethodKf!=null){
                         for (var tk_key in $scope.tkupdate.keys){
+                          console.log(i);
+                          console.log("$scope.tkupdate.keys[tk_key].keychain.idKeychain: "+$scope.tkupdate.keys[tk_key].keychain.idKeychain);
                           for (var i = 0; i < $scope.rsAllKeychainListData.length; i++) {
                             //rsNewKeychainList
+                            console.log("$scope.rsAllKeychainListData[i].idKeychain: "+$scope.rsAllKeychainListData[i].idKeychain);
                             if ($scope.rsAllKeychainListData[i].idKeychain==$scope.tkupdate.keys[tk_key].keychain.idKeychain && $scope.rsAllKeychainListData[i].idKeychainStatusKf!="-1"){
                               $scope.rsExistingKeyList.push($scope.rsAllKeychainListData[i]);
                               $scope.rsNewKeychainList.push($scope.rsAllKeychainListData[i]);
                               $scope.list_new_keys.push($scope.rsAllKeychainListData[i]);
+                              break;
                             }
                           }
                         }
