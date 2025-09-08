@@ -4945,6 +4945,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $('#changeModalStatus').modal({backdrop: 'static', keyboard: false});
             break;
             case "applyTicketDelivered":
+              console.log(obj);
               $scope.update.ticket.idTicket              = obj.idTicket;
               $scope.update.ticket.idTypeDeliveryKf      = obj.idTypeDeliveryKf;
               $scope.update.ticket.idNewStatusKf         = obj.newTicketStatus.idStatus;
@@ -4959,7 +4960,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
               console.log($scope.update);
               $timeout(function() {
-                $scope.changeTicketStatusRequestFn($scope.update);
+                //$scope.changeTicketStatusRequestFn($scope.update);
               }, 2000);
             break;
             case "deliveryToOtherAddress":
