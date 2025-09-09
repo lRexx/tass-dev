@@ -4974,7 +4974,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
               console.log($scope.update);
               $('#changeModalStatus').modal('hide');
-              $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+              $timeout(function() {
+                $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+              }, 1000);
               console.log($scope.update);
               $timeout(function() {
                 $scope.changeTicketStatusRequestFn($scope.update);
