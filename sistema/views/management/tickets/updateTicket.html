@@ -3,7 +3,12 @@
       <div class="modal-dialog modal-xl" >
         <div class="modal-content">
               <div class="modal-header">
-                  <button type="button" class="close" ng-click="modalConfirmation('closeWindow', 0, null)"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+                  <button ng-if="tkupdate.idStatusTicketKf=='1'" type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span>
+                  </button>
+                  <button ng-if="tkupdate.idStatusTicketKf!='1'" type="button" class="close" ng-click="modalConfirmation('closeWindow', 0, null)">
+                    <span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span>
+                  </button>
                 <h3 class="modal-title">
                     <i ng-if="tkupdate.idTypeTicketKf==1" class="fas fa-key"></i>
                     <i ng-if="tkupdate.idTypeTicketKf==2" class="fas fa-key"></i>
@@ -144,11 +149,16 @@
                                   <span ng-if="(tkupdate.building.isHasInternetOnline==undefined || tkupdate.building.isHasInternetOnline==null || tkupdate.building.isHasInternetOnline=='false')" data-toggle="tooltip" data-placement="top" title="No" class="font-size-18px"><i class="text-danger fas fa-times-circle"></i></span>
                                   &nbsp;<span ng-if="tkupdate.building.isHasInternetOnline!=undefined && tkupdate.building.isHasInternetOnline=='true'" data-toggle="tooltip" data-placement="top" title="Ver conexiones a control de acceso" ng-click="mainSwitchFn('internetDetails', tkupdate, null)" class="btn btn-xs btn-success"><i class="fas fa-network-wired"></i> Ver</span>
                               </div>
-                              <div ng-if="tkupdate.delivery_schedule_at!=null" class="col-md-12"><span>Entrega estimada: </span><span>{{ tkupdate.delivery_schedule_at | toDate | date:'dd-MM-yyyy' }}</span></div>
+                              <div ng-if="tkupdate.idTypeRequestFor=='1' && tkupdate.delivery_schedule_at!=null" class="col-md-12"><span>Entrega estimada: </span>
+                                <span ng-if="tkupdate.delivery_schedule_at!=null">{{ tkupdate.delivery_schedule_at | toDate | date:'dd-MM-yyyy' }}</span>
+                                <span ng-if="tkupdate.delivery_schedule_at==null" class="badge badge-warning">No asignado</span>
+                              </div>
                               <div ng-if="tkupdate.delivered_at!=null" class="col-md-12">
                                 <span ng-if="tkupdate.idTypeDeliveryKf=='1'">Retiro realizado: </span>
                                 <span ng-if="tkupdate.idTypeDeliveryKf=='2'">Entrega realizada: </span>
-                                <span>{{ tkupdate.delivered_at | toDate | date:'dd-MM-yyyy' }}</span></div>
+                                <span ng-if="tkupdate.delivered_at!=null">{{ tkupdate.delivered_at | toDate | date:'dd-MM-yyyy' }}</span>
+                                <span ng-if="tkupdate.delivered_at==null" class="badge badge-warning">No asignado</span>
+                              </div>
                             </div>
                             <div ng-if="tkupdate.billingReceiptDetails.length>0" class="col-md-12 col-xs-12" style="margin-top: 20px;">
                               <legend style="text-align: left;">Factura</legend>
@@ -481,7 +491,9 @@
                     <div class="btn-group-right d-flex flex-wrap" style="gap: 10px;">
                       <!--<button type="button" ng-click="modalConfirmation('saveTicketChanges', 0, tkupdate)" class="btn btn-labeled btn-success">
                       <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Guardar</button>-->
-                      <a id="cancelModalWindow" ng-click="modalConfirmation('closeWindow', 0, null)" type="button" class="btn btn-labeled btn-danger">
+                      <a ng-if="tkupdate.idStatusTicketKf!='1'" id="cancelModalWindow" ng-click="modalConfirmation('closeWindow', 0, null)" type="button" class="btn btn-labeled btn-danger">
+                          <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                      <a ng-if="tkupdate.idStatusTicketKf=='1'" id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
                           <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
                     </div>
               </div>
