@@ -5569,6 +5569,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                 $scope.update.ticket = pedido.ticket
                                 $scope.update.ticket.newTicketStatus = {'idStatus':null}
                                 $scope.update.ticket.newTicketStatus.idStatus = "1";
+                                console.log($scope.update.ticket);
                                 $scope.modalConfirmation('ticketDelivered',0, $scope.update.ticket);
                               }else{
                                 $scope.modalConfirmation('openTicketDelivery',0, pedido.ticket);
