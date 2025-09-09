@@ -4966,7 +4966,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.update.ticket.idTicket              = obj.idTicket;
               $scope.update.ticket.idTypeDeliveryKf      = obj.idTypeDeliveryKf;
               $scope.update.ticket.idNewStatusKf         = obj.newTicketStatus.idStatus;
-              var delivered_at                           = obj.newTicketStatus.idStatus=='1' && obj.idTypeDeliveryKf=='2' && obj.deliveryDate!=undefined?obj.deliveryDate:null;
+              var delivered_at                           = obj.newTicketStatus.idStatus=='1' && obj.idTypeDeliveryKf=='2' && obj.deliveryDate!=undefined?obj.deliveryDate:new Date();
               var rawDate                                = moment(delivered_at).toDate();
               $scope.update.ticket.delivery_schedule_at  = obj.delivery_schedule_at!=null && obj.delivery_schedule_at!=undefined?obj.delivery_schedule_at:moment(rawDate).format('YYYY-MM-DD HH:mm:ss');
               $scope.update.ticket.delivered_at          = moment(rawDate).format('YYYY-MM-DD HH:mm:ss');
