@@ -464,6 +464,22 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.modalConfirmation('setDeliveryPending',0, $scope.update);
                 }
               break;
+              case "ticketDeliveredOffice":
+                if (confirm==0){
+                  $scope.keyObj=obj;
+                  console.log($scope.keyObj);
+                  $scope.mess2show="El Pedido "+$scope.keyObj.codTicket+" ha sido guardado en el Stock de la Oficina,     Confirmar?";
+                  $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
+                }else if (confirm==1){
+                  console.log($scope.keyObj);
+                  $scope.update.ticket = {};
+                  $scope.update.ticket = $scope.keyObj;
+                  $scope.update.ticket.newTicketStatus = {'idStatus':null}
+                  $scope.update.ticket.newTicketStatus.idStatus = "1";
+                  $scope.mainSwitchFn('applyTicketDelivered', $scope.update.ticket, null);
+                  $('#confirmRequestModalCustom').modal('hide');
+                }
+              break;
               case "update":
                   if (confirm==0){
                       $scope.tenantObj=obj;
