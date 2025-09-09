@@ -5565,12 +5565,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           switch(pedido.ticket.idTypeRequestFor){
                             case "1":
                               if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="2" && pedido.ticket.isKeysEnable=="1"){
-                                $scope.update.ticket = {};
-                                $scope.update.ticket = pedido.ticket
-                                $scope.update.ticket.newTicketStatus = {'idStatus':null}
-                                $scope.update.ticket.newTicketStatus.idStatus = "1";
-                                console.log($scope.update.ticket);
-                                $scope.modalConfirmation('ticketDelivered',0, $scope.update.ticket);
+                                pedido.ticket.newTicketStatus = {'idStatus':null}
+                                pedido.ticket.newTicketStatus.idStatus = "1";
+                                console.log(pedido.ticket);
+                                $scope.modalConfirmation('ticketDelivered',0, pedido.ticket);
                               }else{
                                 $scope.modalConfirmation('openTicketDelivery',0, pedido.ticket);
                               }
@@ -5581,8 +5579,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           switch(pedido.ticket.idTypeRequestFor){
                             case "1":
                               if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="2" && pedido.ticket.isKeysEnable=="1"){
-                                $scope.update.ticket = {};
-                                $scope.update.ticket = pedido.ticket
                                 $scope.update.ticket.newTicketStatus = {'idStatus':null}
                                 $scope.update.ticket.newTicketStatus.idStatus = "1";
                                 console.log($scope.update.ticket);
