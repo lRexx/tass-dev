@@ -3879,7 +3879,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $q.all(assignedKeys).then(function () {
                   console.log("Ticket Update: "+$scope.tkupdate.codTicket);
                   console.log($scope.tkupdate);
-                  $scope.update.ticket = obj;
+                  $scope.update.ticket = $scope.tkupdate;
                   console.log($scope.update);
                   $scope.setKeysEnableDisableFn($scope.update);
                 });
