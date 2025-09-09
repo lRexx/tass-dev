@@ -4961,13 +4961,14 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $('#changeModalStatus').modal({backdrop: 'static', keyboard: false});
             break;
             case "applyTicketDelivered":
+              $('#showModalRequestStatus').hide();
               console.log(obj);
               $scope.update.ticket.idTicket              = obj.idTicket;
               $scope.update.ticket.idTypeDeliveryKf      = obj.idTypeDeliveryKf;
               $scope.update.ticket.idNewStatusKf         = obj.newTicketStatus.idStatus;
-              $scope.update.ticket.delivery_schedule_at  = null;
               var delivered_at                           = obj.newTicketStatus.idStatus=='1' && obj.idTypeDeliveryKf=='2' && obj.deliveryDate!=undefined?obj.deliveryDate:null;
               var rawDate                                = moment(delivered_at).toDate();
+              $scope.update.ticket.delivery_schedule_at  = obj.delivery_schedule_at!=null && obj.delivery_schedule_at!=undefined?obj.delivery_schedule_at:moment(rawDate).format('YYYY-MM-DD HH:mm:ss');
               $scope.update.ticket.delivered_at          = moment(rawDate).format('YYYY-MM-DD HH:mm:ss');
               $scope.update.ticket.history               = [];
               $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
