@@ -5562,31 +5562,45 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log("Request Successfully processed");
                       switch(pedido.ticket.idMgmtMethodKf){
                         case "1":
-                          if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="2" && pedido.ticket.isKeysEnable=="1"){
-                            $scope.modalConfirmation('ticketDelivered',0, pedido.ticket);
-                          }else{
-                            $scope.modalConfirmation('openTicketDelivery',0, pedido.ticket);
+                          switch(pedido.ticket.idTypeRequestFor){
+                            case "1":
+                              if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="2" && pedido.ticket.isKeysEnable=="1"){
+                                $scope.modalConfirmation('ticketDelivered',0, pedido.ticket);
+                              }else{
+                                $scope.modalConfirmation('openTicketDelivery',0, pedido.ticket);
+                              }
+                            break;
                           }
                         break;
                         case "2":
-                          if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="2" && pedido.ticket.isKeysEnable=="1"){
-                            if(pedido.ticket.building.isStockInBuilding=="1"){
-                              $scope.modalConfirmation('ticketDeliveredBuilding',0, pedido.ticket);
-                            }
-                            if(pedido.ticket.building.isStockInOffice=="1"){
-                              $scope.modalConfirmation('ticketDeliveredOffice',0, pedido.ticket);
-                            }
-                          }else if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="1" && pedido.ticket.isKeysEnable=="1"){
-                            if(pedido.ticket.building.isStockInBuilding=="1"){
-                              $scope.modalConfirmation('openTicketDelivery',0, pedido.ticket);
-                            }
-                            if(pedido.ticket.building.isStockInOffice=="1"){
-                              $scope.modalConfirmation('ticketDeliveredOffice',0, pedido.ticket);
-                            }
+                          switch(pedido.ticket.idTypeRequestFor){
+                            case "1":
+                              if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="2" && pedido.ticket.isKeysEnable=="1"){
+                                $scope.modalConfirmation('ticketDelivered',0, pedido.ticket);
+                              }else{
+                                $scope.modalConfirmation('openTicketDelivery',0, pedido.ticket);
+                              }
+                            break;
+                            case "2":
+                              if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="2" && pedido.ticket.isKeysEnable=="1"){
+                                if(pedido.ticket.building.isStockInBuilding=="1"){
+                                  $scope.modalConfirmation('ticketDeliveredBuilding',0, pedido.ticket);
+                                }
+                                if(pedido.ticket.building.isStockInOffice=="1"){
+                                  $scope.modalConfirmation('ticketDeliveredOffice',0, pedido.ticket);
+                                }
+                              }else if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="1" && pedido.ticket.isKeysEnable=="1"){
+                                if(pedido.ticket.building.isStockInBuilding=="1"){
+                                  $scope.modalConfirmation('openTicketDelivery',0, pedido.ticket);
+                                }
+                                if(pedido.ticket.building.isStockInOffice=="1"){
+                                  $scope.modalConfirmation('ticketDeliveredOffice',0, pedido.ticket);
+                                }
+                              }
+                            break;
                           }
                         break;
                       }
-
                       $('.circle-loader').toggleClass('load-complete');
                       $('.checkmark').toggle();
                       $scope.ticketRegistered = response.data[0];
