@@ -3700,7 +3700,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         break;
                         case "2": //ENTREGA EN DOMICILIO
                           if(obj.building.isHasInternetOnline === null || obj.building.isHasInternetOnline != null){ //NO INTERNET OR WITH INTERNET
-                            //$scope.tkupdate.idDeliveryCompanyKf=$scope.functions.whereKeysAreEnable=="2"?"2":null;
+                            $scope.tkupdate.idDeliveryCompanyKf=$scope.functions.whereKeysAreEnable=="2"?"2":"1";
                             $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
                           }
                           console.log(obj)
@@ -3711,8 +3711,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       $scope.tkupdate.idDeliveryCompanyKf="2";
                       if (obj.building.isStockInOffice == "1" || obj.building.isStockInBuilding == "1"){
                        $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
-                      }else{
-
                       }
                     break;
                   }
