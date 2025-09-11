@@ -1151,6 +1151,7 @@ class Services_model extends CI_Model
             $servicios = $this->db->get();
 
             if ($servicios->num_rows() > 0) {
+                log_message('info', print_r($servicios->result_array(), true));
                 //print_r($servicios->result_array());
                 foreach ($servicios->result_array() as $key => $item) {
                     foreach ($relaciones as $tabla1 => $data) {
