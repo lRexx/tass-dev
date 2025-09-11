@@ -1130,7 +1130,7 @@ class Services_model extends CI_Model
         foreach ($tablas as $key => $tabla) {
             //return [$key,$tabla];
 
-            $servicios = $this->db->select(" * ")
+            $servicios = $this->db->select(" *_")
                 ->from($tabla)
                 ->join('tb_client_services', 'tb_client_services.idClientServices = ' . $tabla . '.idClientServicesFk', 'LEFT')
                 ->join('tb_client_type_services', 'tb_client_type_services.idClientTypeServices = tb_client_services.idTipeServiceFk', 'LEFT')
