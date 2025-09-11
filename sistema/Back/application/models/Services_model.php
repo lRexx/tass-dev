@@ -1148,6 +1148,7 @@ class Services_model extends CI_Model
             }
             $servicios = $this->db->where('idContracAssociated_SE', $idContrato);
             $servicios = $this->db->get();
+
             if ($servicios->num_rows() > 0) {
                 //print_r($servicios->result_array());
                 foreach ($servicios->result_array() as $key => $item) {
@@ -1166,6 +1167,7 @@ class Services_model extends CI_Model
                                             ->get();
                                         $aux = [];
                                         if ($dataG->num_rows() >= 0) {
+                                            log_message('info', $dataG->result_array());
                                             foreach ($dataG->result_array() as $ite2) {
                                                 array_push($aux, $ite2);
                                             }
