@@ -1268,7 +1268,7 @@ class Services_model extends CI_Model
                                             log_message('info', $tabla);
                                             log_message('info', $id);
                                             foreach ($data[$id] as $idFk => $item3Fk) {
-
+                                                log_message('info', $item3Fk);
                                                 foreach ($item3Fk as $idFk2 => $item3Fk2) {
                                                     //print_r($item3Fk[1]);
                                                     if ($idFk2 === "fk") {
