@@ -1263,6 +1263,7 @@ class Services_model extends CI_Model
 
                                     } else {
                                         if ($tabla == "tb_client_services_alarms" && $id == 'fk') {
+                                            log_message('info', $servicios->num_rows());
                                             log_message('info', $tabla);
                                             log_message('info', $id);
                                             foreach ($data[$id] as $idFk => $item3Fk) {
