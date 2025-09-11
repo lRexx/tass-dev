@@ -1143,24 +1143,11 @@ class Services_model extends CI_Model
                 $servicios = $this->db->join('tb_tipos_servicios_internet', 'tb_tipos_servicios_internet.idTipoServicioInternet = tb_client_services_internet.idTypeInternetFk', 'LEFT');
             }
             if ($tabla == 'tb_client_services_alarms') {
-                // Traigo solo los registros de alarms SIN join extra
-                $servicios = $this->db->select("tb_client_services_alarms.*, tb_client_services.descripcion")
-                    ->from("tb_client_services_alarms")
-                    ->join("tb_client_services", "tb_client_services.idClientServices = tb_client_services_alarms.idClientServicesFk", "LEFT")
-                    ->where("tb_client_services_alarms.idContratoFk", $idContrato)
-                    ->get()
-                    ->result_array();
-
-                // Ahora armo el array final con datos adicionales
-                foreach ($servicios as &$srv) {
-                    $srv['datos_adicionales'] = $this->db
-                        ->from("tb_datos_adicionales_alarmas")
-                        ->where("fkidClientServicesAlarms", $srv['idClientServicesAlarms'])
-                        ->get()
-                        ->result_array();
-                }
+                $servicios = $this->db->join('tb_datos_adicionales_alarmas', 'tb_datos_adicionales_alarmas.fkidClientServicesAlarms = tb_client_services_alarms.idClientServicesAlarms', 'LEFT');
+                //$servicios = $this->db->join('tb_tipo_conexion_remoto', 'tb_tipo_conexion_remoto.idTipoConexionRemoto = tb_client_services_alarms.idTypeConectionRemote', 'LEFT');
             }
             $servicios = $this->db->where('idContracAssociated_SE', $idContrato);
+            $servicios = $this->db->distinct();
             $servicios = $this->db->get();
 
             if ($servicios->num_rows() > 0) {
