@@ -1130,7 +1130,7 @@ class Services_model extends CI_Model
         foreach ($tablas as $key => $tabla) {
             //return [$key,$tabla];
 
-            $servicios = $this->db->select(" *_")
+            $servicios = $this->db->select(" * ")
                 ->from($tabla)
                 ->join('tb_client_services', 'tb_client_services.idClientServices = ' . $tabla . '.idClientServicesFk', 'LEFT')
                 ->join('tb_client_type_services', 'tb_client_type_services.idClientTypeServices = tb_client_services.idTipeServiceFk', 'LEFT')
@@ -1148,8 +1148,8 @@ class Services_model extends CI_Model
             }
             $servicios = $this->db->where('idContracAssociated_SE', $idContrato);
             $servicios = $this->db->get();
-
             if ($servicios->num_rows() > 0) {
+                log_message('info', $servicios->result_array());
                 //print_r($servicios->result_array());
                 foreach ($servicios->result_array() as $key => $item) {
                     foreach ($relaciones as $tabla1 => $data) {
@@ -1167,6 +1167,7 @@ class Services_model extends CI_Model
                                             ->get();
                                         $aux = [];
                                         if ($dataG->num_rows() >= 0) {
+                                            log_message('info', $dataG->result_array());
                                             foreach ($dataG->result_array() as $ite2) {
                                                 array_push($aux, $ite2);
                                             }
@@ -1176,6 +1177,7 @@ class Services_model extends CI_Model
                                                     ->where($item3Fk[1], $item['idClientServices'])
                                                     ->get();
                                                 $aux = [];
+                                                log_message('info', $dataG2->result_array());
                                                 foreach ($dataG2->result_array() as $ite22) {
                                                     array_push($aux, $ite22);
                                                 }
@@ -1195,6 +1197,7 @@ class Services_model extends CI_Model
                                                 ->get();
                                             $aux = [];
                                             if ($dataG->num_rows() >= 0) {
+                                                log_message('info', $dataG->result_array());
                                                 foreach ($dataG->result_array() as $ite2) {
                                                     array_push($aux, $ite2);
                                                 }
@@ -1204,6 +1207,7 @@ class Services_model extends CI_Model
                                                         ->where($item3Fk[1], $item['idClientServices'])
                                                         ->get();
                                                     $aux = [];
+                                                    log_message('info', $dataG2->result_array());
                                                     foreach ($dataG2->result_array() as $ite22) {
                                                         array_push($aux, $ite22);
                                                     }
@@ -1241,6 +1245,7 @@ class Services_model extends CI_Model
                                             }
                                             $aux = [];
                                             if ($dataG->num_rows() >= 0) {
+                                                log_message('info', $dataG->result_array());
                                                 foreach ($dataG->result_array() as $ite2) {
                                                     array_push($aux, $ite2);
                                                 }
@@ -1250,6 +1255,7 @@ class Services_model extends CI_Model
                                                         ->where($item3Fk[1], $item['idClientServices'])
                                                         ->get();
                                                     $aux = [];
+                                                    log_message('info', $dataG2->result_array());
                                                     foreach ($dataG2->result_array() as $ite22) {
                                                         array_push($aux, $ite22);
                                                     }
@@ -1275,6 +1281,7 @@ class Services_model extends CI_Model
                                                                 ->get();
                                                             $aux = [];
                                                             if ($dataG->num_rows() > 0) {
+                                                                log_message('info', $dataG->result_array());
                                                                 //return $dataG->result_array();
                                                                 foreach ($dataG->result_array() as $ite2) {
                                                                     array_push($aux, $ite2);
@@ -1290,6 +1297,7 @@ class Services_model extends CI_Model
                                                                 ->where($item3Fk2[1], $item['idClientServicesAlarms'])
                                                                 ->get();
                                                             $aux = [];
+                                                            log_message('info', $dataG1->result_array());
                                                             foreach ($dataG1->result_array() as $ite1) {
                                                                 array_push($aux, $ite1);
                                                             }
@@ -1313,6 +1321,7 @@ class Services_model extends CI_Model
                                                                 ->get();
                                                             $aux = [];
                                                             if ($result->num_rows() > 0) {
+                                                                log_message('info', $result->result_array());
                                                                 //echo $item3Fk2[1]." - ";
                                                                 foreach ($result->result_array() as $rs) {
                                                                     //print_r($rs);
@@ -1322,6 +1331,7 @@ class Services_model extends CI_Model
                                                                         ->where($item3Fk2[1], $item['idClientServicesAlarms'])
                                                                         ->get();
                                                                     if ($dataG3->num_rows() > 0) {
+                                                                        log_message('info', $dataG3->result_array());
                                                                         foreach ($dataG3->result_array() as $ite3) {
                                                                             $ite3['descripcion'] = $rs['descripcion'];
                                                                             array_push($aux, $ite3);
@@ -1338,6 +1348,7 @@ class Services_model extends CI_Model
 
                                                             $aux = [];
                                                             if ($dataG4->num_rows() > 0) {
+                                                                log_message('info', $dataG4->result_array());
                                                                 foreach ($dataG4->result_array() as $ite4) {
                                                                     array_push($aux, $ite4);
                                                                 }
@@ -1363,6 +1374,7 @@ class Services_model extends CI_Model
                                                     $aux = [];
 
                                                     if ($dataG->num_rows() >= 0) {
+                                                        log_message('info', $dataG->result_array());
                                                         foreach ($dataG->result_array() as $ite2) {
                                                             array_push($aux, $ite2);
                                                         }
@@ -1372,6 +1384,7 @@ class Services_model extends CI_Model
                                                                 ->where($item3Fk[1], $item['idClientServices'])
                                                                 ->get();
                                                             $aux = [];
+                                                            log_message('info', $dataG2->result_array());
                                                             foreach ($dataG2->result_array() as $ite22) {
                                                                 array_push($aux, $ite22);
                                                             }
@@ -1394,6 +1407,7 @@ class Services_model extends CI_Model
                                                             ->where($item3Fk[1], $item['idClientServicesAccessControl'])
                                                             ->get();
                                                         $aux = [];
+                                                        log_message('info', $dataG->result_array());
                                                         //return $dataG->num_rows();
                                                         if ($item3Fk[0] == 'tb_detalles_control_acceso') {
                                                             $dataG2 = $this->db->select(" * ")
@@ -1402,6 +1416,7 @@ class Services_model extends CI_Model
                                                                 ->get();
                                                             //return $dataG2->result_array();
                                                             $aux = [];
+                                                            log_message('info', $dataG2->result_array());
                                                             foreach ($dataG2->result_array() as $ite212) {
                                                                 array_push($aux, $ite212);
                                                             }
@@ -1446,6 +1461,7 @@ class Services_model extends CI_Model
                                                                     //var_dump($dataG->result_array());
                                                                     $aux = null;
                                                                     if ($dataG->num_rows() > 0) {
+                                                                        log_message('info', $dataG->result_array());
                                                                         foreach ($dataG->result_array() as $ite2) {
                                                                             //print_r($ite2);
                                                                             $aux = $ite2;
@@ -1471,6 +1487,7 @@ class Services_model extends CI_Model
                                                         //return $dataG->result_array();
                                                         $aux = [];
                                                         if ($dataG->num_rows() > 0) {
+                                                            log_message('info', $dataG->result_array());
                                                             foreach ($dataG->result_array() as $ite2) {
                                                                 //print_r($ite2);
                                                                 array_push($aux, $ite2);
