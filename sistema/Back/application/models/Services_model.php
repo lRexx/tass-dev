@@ -1147,6 +1147,7 @@ class Services_model extends CI_Model
                 //$servicios = $this->db->join('tb_tipo_conexion_remoto', 'tb_tipo_conexion_remoto.idTipoConexionRemoto = tb_client_services_alarms.idTypeConectionRemote', 'LEFT');
             }
             $servicios = $this->db->where('idContracAssociated_SE', $idContrato);
+            $servicios = $this->db->distinct();
             $servicios = $this->db->get();
 
             if ($servicios->num_rows() > 0) {
