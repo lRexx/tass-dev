@@ -360,10 +360,11 @@
                                             <td class="media-middle text-center">
                                               {{key.doors[0].descriptionProduct}} <span class="badge badge-warning">{{key.doors[0].brand}}</span>
                                             </td>
-                                            <td class="media-middle text-center">{{key.doors[0].titulo}}</td>
+                                            <td ng-show="(tkupdate.idTypeTicketKf=='2' || tkupdate.idTypeTicketKf=='1') && tkupdate.idTypeRequestFor!='6'" class="media-middle text-center">{{key.doors[0].titulo}}</td>
                                             <td rowspan="{{key.doors.length}}" class="media-middle text-center" ng-show="tkupdate.idTypeTicketKf=='2'">{{key.codigo}}</td>
                                             <td rowspan="{{key.doors.length}}" class="media-middle text-center" ng-show="tkupdate.idTypeTicketKf=='2'">{{key.codExt}}</td>
                                             <td rowspan="{{key.doors.length}}" class="media-middle text-center" ng-show="tkupdate.idTypeTicketKf=='2' || (tkupdate.idTypeTicketKf=='1' && tkupdate.idTypeRequestFor=='6' && ticketKeyList[0].idUserKf!=null)">{{key.user.fullNameUser}}</td>
+                                            <td ng-show="tkupdate.idTypeTicketKf=='2' || (tkupdate.idTypeTicketKf=='1' && tkupdate.idTypeRequestFor=='6' && ticketKeyList[0].idUserKf!=null)" class="media-middle text-center">{{key.doors[0].titulo}}</td>
                                           </tr>
                                           <tr ng-repeat="door in key.doors track by $index" ng-if="$index > 0" ng-repeat-end>
                                             <td class="media-middle text-center">{{door.typeMaintenance}}</td>
