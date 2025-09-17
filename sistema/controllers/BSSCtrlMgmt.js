@@ -3691,6 +3691,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.functions.whereKeysAreEnable = obj.building.isHasInternetOnline === null ? "2":"1";
                   switch($scope.ticket.selected.idTypeRequestFor){
                     case "1":
+                    case "6":
                       switch(obj.idTypeDeliveryKf){
                         case "1": //RETIRO EN OFICINA
                           if(obj.building.isHasInternetOnline === null || obj.building.isHasInternetOnline != null){ //NO INTERNET OR WITH INTERNET
@@ -5562,6 +5563,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         case "1":
                           switch(pedido.ticket.idTypeRequestFor){
                             case "1":
+                            case "6":
                               if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="2" && pedido.ticket.isKeysEnable=="1"){
                                 pedido.ticket.newTicketStatus = {'idStatus':null}
                                 pedido.ticket.newTicketStatus.idStatus = "1";
