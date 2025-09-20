@@ -3848,6 +3848,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log("Ticket to Update: "+$scope.tkupdate.codTicket);
                   console.log($scope.tkupdate);
                   if ($scope.ticket.keysMethodSelected==null || $scope.ticket.keysMethodSelected==undefined){
+                    $('#showModalRequestStatus').modal('hide');
                     $scope.updateUpRequestFn({ticket: $scope.tkupdate});
                   }
                 });
@@ -4561,6 +4562,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"9"});
               console.log($scope.update);
               $('#changeModalStatus').modal('hide');
+              $('#showModalRequestStatus').modal('hide');
               $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
               console.log($scope.update);
               $timeout(function() {
@@ -4597,6 +4599,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"43"});
               console.log($scope.update);
               $('#changeModalStatus').modal('hide');
+              $('#showModalRequestStatus').modal('hide');
               $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
               console.log($scope.update);
               $timeout(function() {
@@ -4971,6 +4974,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             case "applyDeliveryCompany":
               console.log(obj);
               $('#changeModalStatus').modal('hide');
+              $('#showModalRequestStatus').modal('hide');
               $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
               console.log(obj);
               $timeout(function() {
@@ -5006,6 +5010,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
               console.log($scope.update);
               $('#changeModalStatus').modal('hide');
+              $('#showModalRequestStatus').modal('hide');
               $timeout(function() {
                 $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
               }, 1000);
@@ -5641,11 +5646,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           }
                         break;
                       }
-                      $('.circle-loader').toggleClass('load-complete');
-                      $('.checkmark').toggle();
                       $scope.ticketRegistered = response.data[0];
-                     $scope.mainSwitchFn("openTicket",pedido.ticket);
-                     $scope.mainSwitchFn('search', null);
+                      $scope.mainSwitchFn("openTicket",pedido.ticket);
+                      $scope.mainSwitchFn('search', null);
                       //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
                     }, 2500);
                   }else if(response.status==500){
