@@ -3720,6 +3720,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.isNewKeyMulti         = true;
               $scope.rsKeyListsData        = null;
               $scope.pagination.pageIndex  = 1;
+              $scope.thereIsKeyWithoutIdKeychain=true;
               $scope.keychainSearch={
                 "idClientKf":null,
                 "idCategoryKf":null,
