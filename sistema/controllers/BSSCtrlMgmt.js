@@ -4975,7 +4975,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.log(obj);
               $('#changeModalStatus').modal('hide');
               $('#showModalRequestStatus').modal('hide');
-              $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+              $timeout(function() {
+                $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+              }, 1000);
               console.log(obj);
               $timeout(function() {
                 $scope.addDeliveryCompanyFn(obj);
