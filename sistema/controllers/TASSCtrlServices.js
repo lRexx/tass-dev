@@ -1492,7 +1492,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     $scope.argObj=obj;
                                     console.log("skipTicketValidationTmp: "+$scope.argObj);
 
-                                    if($scope.argObj){
+                                    if($scope.contract.update.skipTicketValidationTmp){
                                         $scope.mess2show="Deshabilitar la validación de los tickets asociados al contrato,     Confirmar?";
                                     }else{
                                         $scope.mess2show="Habilitar la validación de los tickets asociados al contrato,     Confirmar?";
@@ -1502,7 +1502,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     console.log("skipTicketValidationTmp: "+$scope.argObj);
                                     $scope.skipTicketValidation=1;
 
-                                    if($scope.argObj){
+                                    if($scope.contract.update.skipTicketValidationTmp){
                                         inform.add('Validación deshabilitada, continuar con la baja del contrato. ',{
                                                 ttl:8000, type: 'warning'
                                         });
@@ -1517,9 +1517,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 }else if (confirm==null){
 
                                     if ($scope.skipTicketValidation==0 || $scope.skipTicketValidation==null){
-                                        $scope.skipTicketValidationTmp=false
+                                        $scope.contract.update.skipTicketValidationTmp=false
                                     }else{
-                                        $scope.skipTicketValidationTmp=true
+                                        $scope.contract.update.skipTicketValidationTmp=true
                                     }
                                 }
                             break;
