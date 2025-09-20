@@ -1491,17 +1491,36 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 if (confirm==0){
                                     $scope.argObj=obj;
                                     console.log("skipTicketValidationTmp: "+$scope.argObj);
-                                    $scope.mess2show="Deshabilitar la validación de los tickets asociados al contrato,     Confirmar?";
+
+                                    if($scope.argObj){
+                                        $scope.mess2show="Deshabilitar la validación de los tickets asociados al contrato,     Confirmar?";
+                                    }else{
+                                        $scope.mess2show="Habilitar la validación de los tickets asociados al contrato,     Confirmar?";
+                                    }
                                     $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
                                 }else if (confirm==1){
                                     console.log("skipTicketValidationTmp: "+$scope.argObj);
-                                    $scope.skipTicketValidation=$scope.argObj;
-                                    inform.add('Validación deshabilitada, continuar con la baja del contrato. ',{
-                                            ttl:8000, type: 'warning'
-                                    });
+                                    $scope.skipTicketValidation=1;
+
+                                    if($scope.argObj){
+                                        inform.add('Validación deshabilitada, continuar con la baja del contrato. ',{
+                                                ttl:8000, type: 'warning'
+                                        });
+                                        $scope.skipTicketValidation=1;
+                                    }else{
+                                        inform.add('Validación habilitada, procesar los pedidos asociados antes de continuar con la baja del contrato. ',{
+                                                ttl:8000, type: 'warning'
+                                        });
+                                        $scope.skipTicketValidation=0;
+                                    }
                                     $('#confirmRequestModalCustom').modal('hide');
                                 }else if (confirm==null){
-                                    $scope.skipTicketValidationTmp=false
+
+                                    if ($scope.skipTicketValidation==0 || $scope.skipTicketValidation==null){
+                                        $scope.skipTicketValidationTmp=false
+                                    }else{
+                                        $scope.skipTicketValidationTmp=true
+                                    }
                                 }
                             break;
                             default:
