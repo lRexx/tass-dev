@@ -170,6 +170,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
         'info':{},
         'select':{'main':{},'date':{}, 'codes':{}}
     };
+    $scope.skipTicketValidationTmp = false;
+    $scope.skipTicketValidation = false;
     $scope.contractSelected={};
     $scope.open_start_date = function() {
         $scope.popup_start_date.opened = true;
@@ -1484,6 +1486,23 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     $scope.customer={};
                                 }
 
+                            break;
+                            case "skipTicketValidation":
+                                if (confirm==0){
+                                    $scope.argObj=obj;
+                                    console.log("skipTicketValidationTmp: "+$scope.argObj);
+                                    $scope.mess2show="Deshabilitar la validación de los tickets asociados al contrato,     Confirmar?";
+                                    $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
+                                }else if (confirm==1){
+                                    console.log("skipTicketValidationTmp: "+$scope.argObj);
+                                    $scope.skipTicketValidation=$scope.argObj;
+                                    inform.add('Validación deshabilitada, continuar con la baja del contrato. ',{
+                                            ttl:8000, type: 'warning'
+                                    });
+                                    $('#confirmRequestModalCustom').modal('hide');
+                                }else if (confirm==null){
+                                    $scope.skipTicketValidationTmp=false
+                                }
                             break;
                             default:
                         }
@@ -4063,7 +4082,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                                     //    }
                                                     //});
                                                     blockUI.message('Verificando si existen Llaveros Asociados.');
-                                                    serviceServices.checkKeysAssigned2DepartmentByService(serv.idServicesFk).then(function(response_keys){
+                                                    KeysServices.checkKeysAssigned2DepartmentByService(serv.idServicesFk).then(function(response_keys){
                                                         if(response_keys.status==200){
                                                             $scope.rsKeysDataTmp=$scope.rsKeysDataTmp.concat(response_keys.data.keys_assigned);
                                                         }else if (response_keys.status==404){

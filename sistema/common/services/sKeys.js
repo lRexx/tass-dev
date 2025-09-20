@@ -1,6 +1,6 @@
 var moduleKeysServices = angular.module("services.Keys", ["tokenSystem"]);
 
-moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$timeout', 'serverHost', 'serverBackend', 'serverHeaders', 
+moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$timeout', 'serverHost', 'serverBackend', 'serverHeaders',
   function($http, $q, tokenSystem, $timeout, serverHost, serverBackend, serverHeaders){
       var rsJson = {};
       var sndJson= {};
@@ -18,9 +18,9 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
                 .then(function onSuccess(response) {
                   return response;
                 }).catch(function onError(response) {
-                  //console.log("Error: "+response.data.error); 
+                  //console.log("Error: "+response.data.error);
                   return response;
-                })  
+                })
           },
           updateKey: function(data) {
             rsKey.llavero=data.llavero;
@@ -30,9 +30,9 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
                 .then(function onSuccess(response) {
                   return response;
                 }).catch(function onError(response) {
-                  console.log(response); 
+                  console.log(response);
                   return response;
-                })  
+                })
           },
           deleteKey: function(data) {
             console.log("[Key Services] => delete: ", data.llavero.idKeychain);
@@ -40,7 +40,7 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
               .then(function onSuccess(response) {
                 return response;
               }).catch(function onError(response) {
-                console.log(response); 
+                console.log(response);
                 return response;
               });
           },
@@ -52,7 +52,7 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
                 .then(function onSuccess(response) {
                   return response;
                 }).catch(function onError(response) {
-                  //console.log("Error: "+response.data.error); 
+                  //console.log("Error: "+response.data.error);
                   return response;
                 })
           },
@@ -64,8 +64,8 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
               }).then(function mySuccess(response) {
                 rsJson=response;
                 return rsJson;
-              },function myError(response) { 
-                console.log("Error: "+response.data.error); 
+              },function myError(response) {
+                console.log("Error: "+response.data.error);
                 return response;
               });
           },
@@ -76,7 +76,7 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
                 rsJson=response;
                 return rsJson;
               }).catch(function onError(response) {
-                //console.log("Error: "+response); 
+                //console.log("Error: "+response);
                 return response;
               });
           },
@@ -87,7 +87,7 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
                 rsJson=response;
                 return rsJson;
               }).catch(function onError(response) {
-                //console.log("Error: "+response); 
+                //console.log("Error: "+response);
                 return response;
               });
           },
@@ -99,7 +99,7 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
               }).then(function onSuccess(response) {
                   return response;
               }).catch(function onError(response) {
-                //console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                //console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                   return response;
               })
           },
@@ -111,7 +111,7 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
               }).then(function onSuccess(response) {
                   return response;
               }).catch(function onError(response) {
-                  //console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                  //console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                   return response;
               })
           },
@@ -123,9 +123,9 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
               }).then(function onSuccess(response) {
                 return response;
               }).catch(function onError(response) {
-                //console.log("Error: "+response.data.error); 
+                //console.log("Error: "+response.data.error);
                 return response;
-              })  
+              })
           },
           addMultiKeys: function(file){
               var fd = new FormData();
@@ -137,7 +137,7 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
               }).then(function onSuccess(response) {
                 return response;
               }).catch(function onError(response) {
-               //console.log("Error: "+response); 
+               //console.log("Error: "+response);
                 return response;
               })
           },
@@ -149,7 +149,7 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
                 rsJson=response;
                 return rsJson;
               }).catch(function onError(response) {
-                //console.log("Error: "+response); 
+                //console.log("Error: "+response);
                 return response;
               });
           },
@@ -159,7 +159,7 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
               .then(function onSuccess(response) {
                 return response;
               }).catch(function onError(response) {
-                //console.log("Error: "+response); 
+                //console.log("Error: "+response);
                 return response;
               });
           },
@@ -169,7 +169,7 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
               .then(function onSuccess(response) {
                 return response;
               }).catch(function onError(response) {
-                //console.log("Error: "+response); 
+                //console.log("Error: "+response);
                 return response;
               });
           },
@@ -181,19 +181,19 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
               }).then(function onSuccess(response) {
                   return response;
               }).catch(function onError(response) {
-                  //console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                  //console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                   return response;
               })
           },
           checkKeysAssigned2DepartmentByService: function(id) {
-            console.log("[Key Services][checkKeysAssigned2DepartmentByService]: Check if there are keys associated to a department in the building By Service ID");
+            console.log("[Key Services][checkKeysAssigned2DepartmentByService]: Check if there are keys associated to a department in the building By Service ID: "+id);
               return $http({
                     method : "GET",
                     url : serverHost+serverBackend+"Llavero/checkKeysAssigned2DepartmentByService/"+id
                   }).then(function mySuccess(response) {
                     return response;
                   }).catch(function onError(response) {
-                    console.log("Error: "+response.data.error); 
+                    console.log("Error: "+response.data.error);
                     return response;
             });
           },
@@ -208,7 +208,7 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
+            });
           },
           findKeyByCode: function(code,idClientKf) {
             //console.log("[Key Services]: Get status of keychain");
@@ -220,7 +220,7 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]: "+response.data.error);
                     return response;
-            });   
+            });
           },
       }
 }]);
