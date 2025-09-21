@@ -3924,20 +3924,20 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           console.log("Codigo         : "+keys.codigo);
                           console.log("idCategoryKf   : "+idCategoryKf);
                           console.log("idUserKf       : "+idUserKf);
-                          //$scope.updateKeyFn({llavero: keys});
+                          $scope.updateKeyFn({llavero: keys});
                           if (idKeychainStatusKf=="1"){
-                            console.log({llavero: keys});
-                            //$scope.addProcessEventFn({llavero: keys});
+                            //console.log({llavero: keys});
+                            $scope.addProcessEventFn({llavero: keys});
                           }
                         break;
                         case "2":
                           console.log("Llavero a agregar");
                           console.log("Codigo         : "+keys.codigo);
                           console.log("idCategoryKf   : "+keys.idCategoryKf);
-                          //$scope.addKeyFn({llavero: keys});
+                          $scope.addKeyFn({llavero: keys});
                         break;
                       }
-                      console.log(keys);
+                      //console.log(keys);
                       deferredKeys.resolve();
                   }, 1000);
                 });
@@ -3946,7 +3946,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log($scope.tkupdate);
                   if ($scope.ticket.keysMethodSelected==null || $scope.ticket.keysMethodSelected==undefined){
                     $('#showModalRequestStatus').modal('hide');
-                    //$scope.updateUpRequestFn({ticket: $scope.tkupdate});
+                    $scope.updateUpRequestFn({ticket: $scope.tkupdate});
                   }
                 });
             break;
