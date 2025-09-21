@@ -2828,6 +2828,36 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
           var dateOut = new Date(date);
           return dateOut;
         };
+        /**
+         * Convierte un objeto Date o un string a "YYYY-MM-DD HH:mm:ss"
+         * preservando la hora local tal como la ve el usuario (ej: Argentina).
+         */
+        function formatDateForDB(input) {
+          let d;
+
+          if (typeof input === "string") {
+            // Si ya viene como string "YYYY-MM-DD HH:mm:ss"
+            d = new Date(input.replace(" ", "T")); // evitar que JS lo interprete como UTC
+            if (isNaN(d)) {
+              // si falla el parseo, lo devolvemos directo
+              return input;
+            }
+          } else if (input instanceof Date) {
+            d = input;
+          } else {
+            throw new Error("El parámetro debe ser Date o string");
+          }
+
+          // Armamos manualmente la fecha en zona local (sin corrimiento a UTC)
+          const year   = d.getFullYear();
+          const month  = String(d.getMonth() + 1).padStart(2, "0");
+          const day    = String(d.getDate()).padStart(2, "0");
+          const hour   = String(d.getHours()).padStart(2, "0");
+          const minute = String(d.getMinutes()).padStart(2, "0");
+          const second = String(d.getSeconds()).padStart(2, "0");
+
+          return `${year}-${month}-${day} ${hour}:${minute}:${second}`;
+        }
         /**************************************************
         *                                                 *
         *                   UPDATE USER                   *
@@ -4689,7 +4719,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.update.ticket.idTicket              = obj.idTicket;
               $scope.update.ticket.idTypeDeliveryKf      = obj.idTypeDeliveryKf;
               $scope.update.ticket.idNewStatusKf         = obj.newTicketStatus.idStatus;
-              $scope.update.ticket.delivery_schedule_at  = obj.newTicketStatus.idStatus=='5' && obj.idTypeDeliveryKf=='2' && obj.deliveryDate!=undefined?obj.deliveryDate:null;
+              $scope.update.ticket.delivery_schedule_at  = obj.newTicketStatus.idStatus=='5' && obj.idTypeDeliveryKf=='2' && obj.deliveryDate!=undefined?formatDateForDB(obj.deliveryDate):null;
               $scope.update.ticket.delivered_at          = null;
               $scope.update.ticket.idDeliveryCompanyKf   = $scope.tkupdate.idDeliveryCompanyKf;
               $scope.update.ticket.idTypeRequestFor      = $scope.tkupdate.idTypeRequestFor;
