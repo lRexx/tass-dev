@@ -4691,7 +4691,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.update.ticket.idNewStatusKf         = obj.newTicketStatus.idStatus;
               $scope.update.ticket.delivery_schedule_at  = obj.newTicketStatus.idStatus=='5' && obj.idTypeDeliveryKf=='2' && obj.deliveryDate!=undefined?obj.deliveryDate:null;
               $scope.update.ticket.delivered_at          = null;
-              $scope.update.ticket.idDeliveryCompanyKf   = $scope.tkupdate.idDeliveryCompanyKf
+              $scope.update.ticket.idDeliveryCompanyKf   = $scope.tkupdate.idDeliveryCompanyKf;
+              $scope.update.ticket.idTypeRequestFor      = $scope.tkupdate.idTypeRequestFor;
               $scope.update.ticket.history               = [];
               $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"43"});
               console.log($scope.update);
