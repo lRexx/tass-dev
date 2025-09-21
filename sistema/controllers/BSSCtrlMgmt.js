@@ -3741,6 +3741,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"1","-1",$scope.tkupdate.department.idClientDepartament,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
                 break;
                 case "2":
+                case "6":
                   $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
                 break
               }
@@ -3795,7 +3796,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         $scope.functions.isKeysEnable = "1";
                         $scope.tkupdate.mess2show="El Pedido pasara a \"Pendiente de entrega\", por favor,     Confirmar?";
                       }
-
                       console.log(obj)
                     break;
                   }
@@ -3910,14 +3910,15 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           console.log("idCategoryKf   : "+keys.idCategoryKf);
                           $scope.updateKeyFn({llavero: keys});
                           if (idKeychainStatusKf=="1"){
-                            $scope.addProcessEventFn({llavero: keys});
+                            console.log({llavero: keys});
+                            //$scope.addProcessEventFn({llavero: keys});
                           }
                         break;
                         case "2":
                           console.log("Llavero a agregar");
                           console.log("Codigo         : "+keys.codigo);
                           console.log("idCategoryKf   : "+keys.idCategoryKf);
-                          $scope.addKeyFn({llavero: keys});
+                          //$scope.addKeyFn({llavero: keys});
                         break;
                       }
                       console.log(keys);
@@ -3929,7 +3930,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log($scope.tkupdate);
                   if ($scope.ticket.keysMethodSelected==null || $scope.ticket.keysMethodSelected==undefined){
                     $('#showModalRequestStatus').modal('hide');
-                    $scope.updateUpRequestFn({ticket: $scope.tkupdate});
+                    //$scope.updateUpRequestFn({ticket: $scope.tkupdate});
                   }
                 });
             break;
