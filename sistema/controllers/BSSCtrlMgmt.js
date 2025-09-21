@@ -2295,18 +2295,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             for (var tkey in $scope.tkupdate.keys){
                               for (var stock in $scope.rsAllKeychainListDataFiltered){
                                 if ($scope.tkupdate.keys[tkey].idProduct == $scope.rsAllKeychainListDataFiltered[stock].idProductKf && tk_selected<$scope.tkupdate.keys.length){
-                                  switch($scope.tkupdate.idTypeRequestFor){
-                                    case "2":
-                                      var idCategoryKf      = $scope.rsAllKeychainListDataFiltered[stock].idCategoryKf;
-                                      var categoryKeychain  = $scope.rsAllKeychainListDataFiltered[stock].categoryKeychain;
-                                      var idUserKf          = null;
-                                    break;
-                                    case "6":
-                                      var idCategoryKf      = $scope.tkupdate.keys[tkey].idCategoryKf;
-                                      var categoryKeychain  = $scope.tkupdate.keys[tkey].categoryKeychain;
-                                      var idUserKf          = $scope.tkupdate.keys[tkey].idUserKf;
-                                    break;
-                                  }
                                   console.log($scope.rsAllKeychainListDataFiltered[stock]);
                                   if ($scope.rsNewKeychainList.length==0){
                                     for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
@@ -2342,8 +2330,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                   if(!$scope.isCodeExist && !$scope.isCodeNewExist){
                                     console.log("ADD_NO_EXIST");
                                     //var idKeychainStatusKf = $scope.ticket.idMgmtMethodKf=='1'?$scope.rsAllKeychainListDataFiltered[stock].idKeychainStatus:0
-                                    $scope.rsNewKeychainList.push({"idKeychain":$scope.rsAllKeychainListDataFiltered[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListDataFiltered[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListDataFiltered[stock].descriptionProduct,"categoryKeychain":categoryKeychain,"Depto":Depto, "codExt":$scope.rsAllKeychainListDataFiltered[stock].codExt,"codigo":$scope.rsAllKeychainListDataFiltered[stock].codigo,"idDepartmenKf":idDepto,"idClientKf":$scope.rsAllKeychainListDataFiltered[stock].idClientKf,"idUserKf":idUserKf,"idCategoryKf":idCategoryKf,"isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":$scope.rsAllKeychainListDataFiltered[stock].idKeychainStatusKf, "statusKey":$scope.rsAllKeychainListDataFiltered[stock].statusKey, "doors":{}});
-                                    $scope.list_new_keys.push({"idKeychain":$scope.rsAllKeychainListDataFiltered[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListDataFiltered[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListDataFiltered[stock].descriptionProduct,"categoryKeychain":categoryKeychain,"Depto":Depto, "codExt":$scope.rsAllKeychainListDataFiltered[stock].codExt,"codigo":$scope.rsAllKeychainListDataFiltered[stock].codigo,"idDepartmenKf":idDepto,"idClientKf":$scope.rsAllKeychainListDataFiltered[stock].idClientKf,"idUserKf":idUserKf,"idCategoryKf":idCategoryKf,"isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":$scope.rsAllKeychainListDataFiltered[stock].idKeychainStatusKf, "statusKey":$scope.rsAllKeychainListDataFiltered[stock].statusKey, "doors":{}});
+                                    $scope.rsNewKeychainList.push({"idKeychain":$scope.rsAllKeychainListDataFiltered[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListDataFiltered[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListDataFiltered[stock].descriptionProduct,"categoryKeychain":$scope.rsAllKeychainListDataFiltered[stock].categoryKeychain,"Depto":Depto, "codExt":$scope.rsAllKeychainListDataFiltered[stock].codExt,"codigo":$scope.rsAllKeychainListDataFiltered[stock].codigo,"idDepartmenKf":idDepto,"idClientKf":$scope.rsAllKeychainListDataFiltered[stock].idClientKf,"idUserKf":null,"idCategoryKf":$scope.rsAllKeychainListDataFiltered[stock].idCategoryKf,"isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":$scope.rsAllKeychainListDataFiltered[stock].idKeychainStatusKf, "statusKey":$scope.rsAllKeychainListDataFiltered[stock].statusKey, "doors":{}});
+                                    $scope.list_new_keys.push({"idKeychain":$scope.rsAllKeychainListDataFiltered[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListDataFiltered[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListDataFiltered[stock].descriptionProduct,"categoryKeychain":$scope.rsAllKeychainListDataFiltered[stock].categoryKeychain,"Depto":Depto, "codExt":$scope.rsAllKeychainListDataFiltered[stock].codExt,"codigo":$scope.rsAllKeychainListDataFiltered[stock].codigo,"idDepartmenKf":idDepto,"idClientKf":$scope.rsAllKeychainListDataFiltered[stock].idClientKf,"idUserKf":null,"idCategoryKf":$scope.rsAllKeychainListDataFiltered[stock].idCategoryKf,"isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":$scope.rsAllKeychainListDataFiltered[stock].idKeychainStatusKf, "statusKey":$scope.rsAllKeychainListDataFiltered[stock].statusKey, "doors":{}});
                                     $scope.rsAllKeychainListDataFiltered[stock].selected = true;
                                     tk_selected++;
                                   }
@@ -3891,6 +3879,20 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 var i = 0;
                 var assignedKeys = [];
                 angular.forEach($scope.rsNewKeychainList,function(key,i){
+                  switch($scope.tkupdate.idTypeRequestFor){
+                    case "1":
+                      var idCategoryKf      = key.idCategoryKf;
+                      var idUserKf          = key.idUserKf;
+                    break;
+                    case "2":
+                      var idCategoryKf      = key.idCategoryKf;
+                      var idUserKf          = key.idUserKf;
+                    break;
+                    case "6":
+                      var idCategoryKf      = $scope.tkupdate.keys[0].idCategoryKf;
+                      var idUserKf          = $scope.tkupdate.keys[0].idUserKf;
+                    break;
+                  }
                   var deferredKeys = $q.defer();
                   assignedKeys.push(deferredKeys.promise);
                   $timeout(function() {
@@ -3903,8 +3905,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         codigo              : key.codigo,
                         idDepartmenKf       : key.idDepartmenKf,
                         idClientKf          : key.idClientKf,
-                        idUserKf            : key.idUserKf,
-                        idCategoryKf        : key.idKeychain!=undefined && key.idKeychain!=null?"1":key.idCategoryKf,
+                        idUserKf            : idUserKf,
+                        idCategoryKf        : idCategoryKf,
                         isKeyTenantOnly     : key.isKeyTenantOnly,
                         idClientAdminKf     : key.idClientAdminKf!='' && key.idClientAdminKf!=null && key.idClientAdminKf!=undefined?key.idClientAdminKf:null,
                         createdBy           : $scope.sysLoggedUser.idUser,
@@ -3921,7 +3923,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           console.log("idKeychain     : "+keys.idKeychain);
                           console.log("Codigo         : "+keys.codigo);
                           console.log("idCategoryKf   : "+keys.idCategoryKf);
-                          $scope.updateKeyFn({llavero: keys});
+                          //$scope.updateKeyFn({llavero: keys});
                           if (idKeychainStatusKf=="1"){
                             console.log({llavero: keys});
                             //$scope.addProcessEventFn({llavero: keys});
