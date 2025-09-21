@@ -3922,7 +3922,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           console.log("Llavero a actualizar");
                           console.log("idKeychain     : "+keys.idKeychain);
                           console.log("Codigo         : "+keys.codigo);
-                          console.log("idCategoryKf   : "+keys.idCategoryKf);
+                          console.log("idCategoryKf   : "+idCategoryKf);
+                          console.log("idUserKf       : "+idUserKf);
                           //$scope.updateKeyFn({llavero: keys});
                           if (idKeychainStatusKf=="1"){
                             console.log({llavero: keys});
