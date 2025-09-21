@@ -2833,22 +2833,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
          * preservando la hora local tal como la ve el usuario (ej: Argentina).
          */
         function formatDateForDB(input) {
-          let d;
+          const d = new Date(input);
 
-          if (typeof input === "string") {
-            // Si ya viene como string "YYYY-MM-DD HH:mm:ss"
-            d = new Date(input.replace(" ", "T")); // evitar que JS lo interprete como UTC
-            if (isNaN(d)) {
-              // si falla el parseo, lo devolvemos directo
-              return input;
-            }
-          } else if (input instanceof Date) {
-            d = input;
-          } else {
-            throw new Error("El parámetro debe ser Date o string");
-          }
-
-          // Armamos manualmente la fecha en zona local (sin corrimiento a UTC)
           const year   = d.getFullYear();
           const month  = String(d.getMonth() + 1).padStart(2, "0");
           const day    = String(d.getDate()).padStart(2, "0");
