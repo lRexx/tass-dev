@@ -2354,6 +2354,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             $scope.rsAllKeychainListDataFiltered = $scope.rsExistingKeyList;
                             $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered
                             console.log($scope.rsAllKeychainListDataFiltered);
+                            console.log($scope.tkupdate.keys);
                             for (var stock in $scope.rsAllKeychainListDataFiltered){
                               for (var tKeys in $scope.tkupdate.keys){
                                 if ($scope.rsAllKeychainListDataFiltered[stock].idKeychain==$scope.tkupdate[tKeys].keychain.idKeychain){
