@@ -5104,7 +5104,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.ticket = obj;
               if (obj.idTypeDeliveryKf=='2'){
                 if (obj.idStatusTicketKf=='5'){
-                  $scope.ticket.deliveryDate          = $scope.formatDate($scope.ticket.delivery_schedule_at);
+                  $scope.ticket.deliveryDate          = formatDateForDB($scope.ticket.delivery_schedule_at);
                   $scope.ticket.delivery_schedule_at  = $scope.ticket.delivery_schedule_at;
                   $scope.ticket.newTicketStatus       = $scope.listStatusTicketChange.find(s => s.idStatus == "1");
                 }
@@ -5119,10 +5119,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.update.ticket.idTicket              = obj.idTicket;
               $scope.update.ticket.idTypeDeliveryKf      = obj.idTypeDeliveryKf;
               $scope.update.ticket.idNewStatusKf         = obj.newTicketStatus.idStatus;
-              var delivered_at                           = obj.newTicketStatus.idStatus=='1' && obj.idTypeDeliveryKf=='2' && obj.deliveryDate!=undefined?obj.deliveryDate:new Date();
-              var rawDate                                = moment(delivered_at).toDate();
+              var delivered_at                           = obj.newTicketStatus.idStatus=='1' && obj.idTypeDeliveryKf=='2' && obj.deliveryDate!=undefined?formatDateForDB(obj.deliveryDate):new Date();
               $scope.update.ticket.delivery_schedule_at  = obj.delivery_schedule_at!=null && obj.delivery_schedule_at!=undefined?obj.delivery_schedule_at:null;
-              $scope.update.ticket.delivered_at          = moment(rawDate).format('YYYY-MM-DD HH:mm:ss');
+              $scope.update.ticket.delivered_at          = delivered_at;
               $scope.update.ticket.history               = [];
               $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
               console.log($scope.update);
