@@ -14,16 +14,16 @@
                             <div class="container-fluid justify-content-md-center">
                                 <div class="panel-body n-padding-l n-padding-r">
                                     <!-- *********TIPO DE ENTREGA *********** -->
-                                    <!-- ng-disabled="ticket.selected.idTypeDeliveryKf==item.idTypeDelivery" 
+                                    <!-- ng-disabled="ticket.selected.idTypeDeliveryKf==item.idTypeDelivery"
                                     ng-class="{'radio-custom-label-disabled':ticket.selected.idTypeDeliveryKf==item.idTypeDelivery}"-->
                                     <div class="n-padding-l n-padding-r">
                                         <div class="form-check form-check-inline">
                                             <div class="col-md-12 n-padding-l n-padding-r">
                                                 <div ng-repeat="item in typedelivery | filter:checkDeliveryMethod" class="col-md-5 col-xs-5 col-md-offset-1">
-                                                    <input id="idTypeDeliveryKf-{{item.idTypeDelivery}}" 
-                                                            class="radio-custom" type="radio" 
-                                                            ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery, null);" 
-                                                            name="idTypeDeliveryKf" value="{{item.idTypeDelivery}}" 
+                                                    <input id="idTypeDeliveryKf-{{item.idTypeDelivery}}"
+                                                            class="radio-custom" type="radio"
+                                                            ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery, null);"
+                                                            name="idTypeDeliveryKf" value="{{item.idTypeDelivery}}"
                                                             ng-model="ticket.delivery.idTypeDeliveryKf" required autofocus>
                                                     <label for="idTypeDeliveryKf-{{item.idTypeDelivery}}"   class="radio-custom-label">
                                                         <span>{{item.typeDelivery}}</span>
@@ -51,8 +51,8 @@
                             </div>
                         </div>
                         <div class="container-fluid justify-content-md-center">
-                            <!-- Select Type of Delivery -->   
-                            <!-- <div class="form-group col-md-6"> 
+                            <!-- Select Type of Delivery -->
+                            <!-- <div class="form-group col-md-6">
                                 <label class="col-xs-12 col-md-offset-1">Tipo de Entrega</label>
                                 <div class="col-md-10 col-md-offset-1 input-group">
                                     <span class="input-group-addon"><i class="glyphicon icon-truck"></i></span>
@@ -61,9 +61,9 @@
                                         </select>
                                 </div>
                             </div>-->
-                        
+
                             <!-- SHOW THE OWNER WHOM PICKUP OR RECEIVED THE KEY -->
-                            <div ng-if="ticket.delivery.idTypeDeliveryKf!=undefined && 
+                            <div ng-if="ticket.delivery.idTypeDeliveryKf!=undefined &&
                             (((ticket.delivery.whoPickUp.id!=undefined && ticket.delivery.whoPickUp.id==2 && selectedDeliveryAttendant!=undefined) || (ticket.delivery.whoPickUp.id!=undefined && ticket.delivery.whoPickUp.id==3 && selectedDeliveryAttendant==undefined)) || ticket.delivery.whoPickUp.idUser!=undefined)"  class="form-group col-md-12">
                                     <div class="col-md-12">
                                         <div class="alert alert-success" style="border: 3px solid;border-radius: 15px;" role="alert">
@@ -76,7 +76,7 @@
                                                                 <span ng-if="ticket.delivery.idTypeDeliveryKf==1"> sera retirado en la oficina</span>
                                                                 <span ng-if="ticket.delivery.idTypeDeliveryKf==2"> sera entregado en el domicilio</span>
                                                             </td>
-                                                            <td style="padding-right: 5px;"> 
+                                                            <td style="padding-right: 5px;">
                                                                 <span ng-if="ticket.delivery.idTypeDeliveryKf==1 && ticket.delivery.idDeliveryTo==null" class="label label-default"> Carlos Calvo 3430</span>
                                                                 <!-- <span ng-if="(ticket.idTypeRequestFor!='1' || ticket.idTypeRequestFor=='1') && ticket.idTypeRequestFor=='1' && ticket.delivery.idTypeDeliveryKf=='2' && (ticket.delivery.idDeliveryTo==1 || ticket.delivery.whoPickUp.id==2)" class="label label-default"> {{ticket.building.name}}</span>-->
                                                                 <span ng-if="(ticket.idTypeRequestFor!='1' || ticket.idTypeRequestFor=='1') && (ticket.idTypeRequestFor=='2' || ticket.idTypeRequestFor=='3') && ticket.delivery.idTypeDeliveryKf=='2' && (ticket.delivery.idDeliveryTo==1 || ticket.delivery.whoPickUp.id==2)" class="label label-default"> {{ticket.administration.address}}</span>
@@ -102,15 +102,15 @@
                                             </span>
                                         </div>
                                         <div ng-if="ticket.delivery.idTypeDeliveryKf==1" class="map">
-                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.232853486263!2d-58.416303984395746!3d-34.62355548045449!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccafee49fa1b5%3A0x808f35e44a65bc21!2sCarlos+Calvo+3430%2C+C1230ABH+CABA!5e0!3m2!1ses-419!2sar!4v1500993405506" width="1280" height="600" allowfullscreen=""></iframe>	
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.232853486263!2d-58.416303984395746!3d-34.62355548045449!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccafee49fa1b5%3A0x808f35e44a65bc21!2sCarlos+Calvo+3430%2C+C1230ABH+CABA!5e0!3m2!1ses-419!2sar!4v1500993405506" width="1280" height="600" allowfullscreen=""></iframe>
                                         </div>
                                     </div>
                             </div>
                             <!-- **********************************************************************************************-->
-                        
-                        
+
+
                             <!-- **********************************************************************************************-->
-                        
+
                         </div>
                     </form>
                 </div>
@@ -118,7 +118,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
-                        <button type="submit" ng-click="modalConfirmation('apply_ticket_delivery_change',0, ticket)" ng-disabled="fChDeliveryTicket.$invalid" class="btn btn-labeled btn-success">
+                        <button type="submit" ng-click="modalConfirmation('apply_ticket_delivery_change',0, ticket)" ng-disabled="fChDeliveryTicket.$invalid && tkupdate.idStatusTicketKf!='1'" class="btn btn-labeled btn-success">
                             <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
                         <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
                             <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
