@@ -2355,9 +2355,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered
                             console.log($scope.rsAllKeychainListDataFiltered);
                             for (var stock in $scope.rsAllKeychainListDataFiltered){
-                              if ($scope.rsAllKeychainListDataFiltered[stock].idTicketKf==$scope.tkupdate.idTicket){
-                                $scope.rsAllKeychainListDataFiltered[stock].selected = true;
-                                $scope.rsAllKeychainListDataFiltered[stock].disabled = true;
+                              for (var tKeys in $scope.tkupdate.keys){
+                                if ($scope.rsAllKeychainListDataFiltered[stock].idKeychain==$scope.tkupdate[tKeys].keychain.idKeychain){
+                                  $scope.rsAllKeychainListDataFiltered[stock].selected = true;
+                                  $scope.rsAllKeychainListDataFiltered[stock].disabled = true;
+                                }
                               }
                             }
                           }
