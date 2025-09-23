@@ -2350,7 +2350,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                               }
                             }
                           }else{
-                            $scope.rsAllKeychainListDataFiltered = $scope.tkupdate.existingKeys.filter(s => s.idTicketKf == $scope.tkupdate.idTicket);
+                            $scope.rsAllKeychainListDataFiltered = $scope.rsExistingKeyList.filter(s => s.idTicketKf == $scope.tkupdate.idTicket);
                             $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered
                             console.log($scope.rsAllKeychainListDataFiltered);
                             for (var stock in $scope.rsAllKeychainListDataFiltered){
