@@ -1175,7 +1175,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     }, 1000);
                   break;
                   case "6":
-                    $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"6","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
+                    $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"6","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,0,1);
                     $timeout(function() {
                       //console.log($scope.rsAllKeychainListData);
                       if ($scope.tkupdate.idMgmtMethodKf!=undefined && $scope.tkupdate.idMgmtMethodKf!=null){
@@ -2385,9 +2385,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       }
                     }else{
                       $scope.rsAllKeychainListData         = response.data.tb_keychain;
-                      $scope.rsAllKeychainListDataFiltered = $scope.rsAllKeychainListData.filter(s => s.idProductKf == '47');
-                      console.log("rsAllKeychainListData Length         : "+$scope.rsAllKeychainListData.length);
-                      console.log("rsAllKeychainListDataFiltered Length : "+$scope.rsAllKeychainListDataFiltered.length);
                     }
                   }else if(response.status==404){
                       inform.add('[Info]: No se encontraron Llaveros en Stock. ',{
