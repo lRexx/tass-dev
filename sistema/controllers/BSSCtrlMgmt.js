@@ -2350,6 +2350,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                               }
                             }
                           }else{
+                            console.log($scope.rsExistingKeyList);
                             $scope.rsAllKeychainListDataFiltered = $scope.rsExistingKeyList.filter(s => s.idTicketKf == $scope.tkupdate.idTicket);
                             $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered
                             console.log($scope.rsAllKeychainListDataFiltered);
