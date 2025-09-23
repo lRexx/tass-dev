@@ -5104,7 +5104,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.ticket = obj;
               if (obj.idTypeDeliveryKf=='2'){
                 if (obj.idStatusTicketKf=='5'){
-                  $scope.ticket.deliveryDate          = formatDateForDB($scope.ticket.delivery_schedule_at);
+                  $scope.ticket.deliveryDate          = formatDate($scope.ticket.delivery_schedule_at);
                   $scope.ticket.delivery_schedule_at  = $scope.ticket.delivery_schedule_at;
                   $scope.ticket.newTicketStatus       = $scope.listStatusTicketChange.find(s => s.idStatus == "1");
                 }
