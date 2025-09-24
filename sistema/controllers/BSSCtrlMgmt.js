@@ -786,8 +786,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   }
               break;
               case "closeModalRequestStatus":
-                $('.circle-loader').toggleClass('load-complete');
-                $('.checkmark').toggle();
+                //$('.circle-loader').toggleClass('load-complete');
+                //$('.checkmark').toggle();
                 $('#showModalRequestStatus').modal('hide');
                 $scope.ticketRegistered=null;
               break;
@@ -4158,7 +4158,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log($scope.update);
                       $timeout(function() {
                         $('#registerManualPayment').modal('hide');
-                        $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+                        //$('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
                         $scope.changeTicketStatusRequestFn($scope.update);
                       }, 2000);
                   }else if(response.status==500){
@@ -4510,7 +4510,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log($scope.update);
                   $('#UpdateModalDelivery').modal('hide');
                   $('#UpdateModalTicket').modal('hide');
-                  $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+                  //$('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
                   $timeout(function() {
                     $scope.updateUpRequestFn($scope.update);
                   }, 2000);
@@ -4538,7 +4538,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             break;
             case "ticket_approve":
                 console.log(obj);
-                $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+                //$('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
                 $timeout(function() {
                   $scope.sysApproveTicketFn(obj);
                 }, 2000);
@@ -4688,7 +4688,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.log($scope.update);
               $('#changeModalStatus').modal('hide');
               $('#showModalRequestStatus').modal('hide');
-              $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+              //$('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
               console.log($scope.update);
               $timeout(function() {
                 $scope.changeTicketStatusRequestFn($scope.update);
@@ -4727,7 +4727,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.log($scope.update);
               $('#changeModalStatus').modal('hide');
               $('#showModalRequestStatus').modal('hide');
-              $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+              //$('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
               console.log($scope.update);
               $timeout(function() {
                 $scope.changeTicketStatusRequestFn($scope.update);
@@ -4746,7 +4746,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"9"});
               console.log($scope.update);
               $('#changeModalStatus').modal('hide');
-              $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+              //$('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
               console.log($scope.update);
               $timeout(function() {
                 $scope.changeTicketStatusRequestFn($scope.update);
@@ -5103,7 +5103,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $('#changeModalStatus').modal('hide');
               $('#showModalRequestStatus').modal('hide');
               $timeout(function() {
-                $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+                //$('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
               }, 1000);
               console.log(obj);
               $timeout(function() {
@@ -5141,7 +5141,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $('#changeModalStatus').modal('hide');
               $('#showModalRequestStatus').modal('hide');
               $timeout(function() {
-                $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+                //$('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
               }, 1000);
               console.log($scope.update);
               $timeout(function() {
@@ -5519,8 +5519,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       inform.add('Pedido Actualizado Satisfactoriamente. ',{
                             ttl:5000, type: 'success'
                       });
-                      $('.circle-loader').toggleClass('load-complete');
-                      $('.checkmark').toggle();
+                      //$('.circle-loader').toggleClass('load-complete');
+                      //$('.checkmark').toggle();
                       $scope.ticketRegistered = response.data.response;
                       if (pedido.ticket.createNewMPLinkForDelivery!=undefined){
                         response.data.response.createNewMPLinkForDelivery=pedido.ticket.createNewMPLinkForDelivery;
@@ -5648,8 +5648,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       inform.add('Reintegro completado Satisfactori amente. ',{
                             ttl:5000, type: 'success'
                       });
-                      $('.circle-loader').toggleClass('load-complete');
-                      $('.checkmark').toggle();
+                      //$('.circle-loader').toggleClass('load-complete');
+                      //$('.checkmark').toggle();
                       $scope.ticketRegistered = response.data[0];
                       $scope.openTicketFn($scope.ticketRegistered.idTicket);
                       //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
@@ -5681,8 +5681,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       inform.add('Estado del pedido Actualizado Satisfactoriamente. ',{
                             ttl:5000, type: 'success'
                       });
-                      $('.circle-loader').toggleClass('load-complete');
-                      $('.checkmark').toggle();
+                      //$('.circle-loader').toggleClass('load-complete');
+                      //$('.checkmark').toggle();
                       $scope.ticketRegistered = response.data[0];
                       $scope.openTicketFn(pedido.ticket.idTicket);
                       //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
@@ -5813,8 +5813,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                               ttl:5000, type: 'success'
                         });
                       }
-                      $('.circle-loader').toggleClass('load-complete');
-                      $('.checkmark').toggle();
+                      //$('.circle-loader').toggleClass('load-complete');
+                      //$('.checkmark').toggle();
                       $scope.ticketRegistered = response.data[0];
                      $scope.mainSwitchFn("openTicket",pedido.ticket);
                      $scope.mainSwitchFn('search', null);
@@ -5845,8 +5845,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         inform.add('Pedido Entregado Satisfactoriamente. ',{
                               ttl:5000, type: 'success'
                         });
-                      $('.circle-loader').toggleClass('load-complete');
-                      $('.checkmark').toggle();
+                      //$('.circle-loader').toggleClass('load-complete');
+                      //$('.checkmark').toggle();
                       $scope.ticketRegistered = response.data[0];
                      $scope.mainSwitchFn("openTicket",pedido.ticket);
                      $scope.mainSwitchFn('search', null);
@@ -5891,8 +5891,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   }, 2500);
                     $timeout(function() {
 
-                        $('.circle-loader').toggleClass('load-complete');
-                        $('.checkmark').toggle();
+                        //$('.circle-loader').toggleClass('load-complete');
+                        //$('.checkmark').toggle();
                         $scope.ticketRegistered = response.data[0];
                         $scope.openTicketFn($scope.ticketRegistered.idTicket);
                         //$scope.filters.ticketStatus.idStatus = $scope.ticketRegistered.idStatusTicketKf;
