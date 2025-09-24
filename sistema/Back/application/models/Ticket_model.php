@@ -3254,7 +3254,7 @@ class Ticket_model extends CI_Model
 				$this->db->select("*")->from("tb_tickets_2");
 				$this->db->where("idStatusTicketKf", (int) $status['idStatus']);
 				$query_dash = $this->db->get();
-				log_message('debug', 'SQL: ' . $this->db->last_query());
+				log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $query_dash->num_rows());
 				$count = $query_dash->num_rows() == 0 ? 0 : $query_dash->num_rows();
 				// Replace spaces with underscores / strval($status['idStatus'])
 				$name_status = str_replace(' ', '_', $status['statusName']);
