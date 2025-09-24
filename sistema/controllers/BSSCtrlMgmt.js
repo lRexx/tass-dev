@@ -3011,6 +3011,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.keys.new.autoComplete = false;
             }
           }
+          $scope.filterByStatusPanel = function(statusBy){
+            $scope.filters.ticketStatus=statusBy;
+            $scope.mainSwitchFn('search', null);
+          }
     /**************************************************
     *                                                 *
     *            TICKETS MONITOR FUNCTION             *
