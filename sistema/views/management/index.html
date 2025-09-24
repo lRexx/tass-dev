@@ -695,8 +695,13 @@
         </div>
         <div class="form-group col-md-12 col-xs-12 pull-right search_box">
             <div class="pull-right">
+                <div class="pull-right update_button">
+                    <button data-toggle="tooltip" data-placement="bottom" title="Actualizar" type="button" ng-click="mainSwitchFn('search', null)" class="btn btn-sm btn-primary">
+                        <i title="Actualizar" class="glyphicon glyphicon-refresh"></i>
+                        <span class="label_tags">  </span>
+                    </button>
+                </div>
                 <div class="input-group">
-                <span class="input-group-addon" ng-click="mainSwitchFn('search', null)"><i class="glyphicon glyphicon-refresh"></i></span>
                 <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
                 <input type="text" class="form-control" ng-keydown="$event.keyCode === 13 && mainSwitchFn('search', null)" ng-model="filters.searchFilter" placeholder="Presione Enter para Buscar...">
                 </div>
