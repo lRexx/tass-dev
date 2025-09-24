@@ -692,16 +692,26 @@
             </div>
         </div>
         <div class="form-group col-md-12 col-xs-12 pull-right search_box">
-            <button data-toggle="tooltip" data-placement="bottom" title="Actualizar" type="button" ng-click="mainSwitchFn('search', null)" class="btn btn-sm btn-primary">
+        <div class="input-group">
+            <span class="input-group-addon">
+            <i class="glyphicon glyphicon-search"></i>
+            </span>
+            <input type="text"
+                class="form-control"
+                ng-keydown="$event.keyCode === 13 && mainSwitchFn('search', null)"
+                ng-model="filters.searchFilter"
+                placeholder="Presione Enter para Buscar...">
+            <span class="input-group-btn">
+            <button data-toggle="tooltip"
+                    data-placement="bottom"
+                    title="Actualizar"
+                    type="button"
+                    ng-click="mainSwitchFn('search', null)"
+                    class="btn btn-sm btn-primary">
                 <i title="Actualizar" class="glyphicon glyphicon-refresh"></i>
-                <span class="label_tags">  </span>
             </button>
-            <div class="pull-right">
-                <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
-                <input type="text" class="form-control" ng-keydown="$event.keyCode === 13 && mainSwitchFn('search', null)" ng-model="filters.searchFilter" placeholder="Presione Enter para Buscar...">
-                </div>
-            </div>
+            </span>
+        </div>
         </div>
         <div ng-if="filters.deliveryCompanyKf.idDeliveryCompany!=undefined && filters.deliveryCompanyKf.idDeliveryCompany!='3' && filters.typDelivery.idTypeDelivery!=undefined && filters.typDelivery.idTypeDelivery=='2' && (filters.ticketStatus.idStatus=='4' || filters.ticketStatus.idStatus=='5')" class="col-md-10 col-sm-10 col-xs-10 " style="margin-top: 1%;">
             <label class="switch switch-2x" for="customer-select-list">
