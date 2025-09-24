@@ -3012,8 +3012,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             }
           }
           $scope.filterByStatusPanel = function(statusBy){
-            console.log(statusBy);
-            $scope.filters.ticketStatus=statusBy;
+            //onsole.log(statusBy);
+            $scope.filters.ticketStatus.idStatus=statusBy;
             $scope.mainSwitchFn('search', null);
           }
     /**************************************************
