@@ -2353,7 +2353,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             console.log($scope.rsExistingKeyList);
                             $scope.rsAllKeychainListDataFiltered = [];
                             $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered
-                            console.log($scope.rsAllKeychainListDataFiltered);
+                            console.log($scope.rsAllKeychainListData);
                             console.log($scope.tkupdate.keys);
                             for (var stock in $scope.rsAllKeychainListData){
                               for (var tKeys in $scope.tkupdate.keys){
