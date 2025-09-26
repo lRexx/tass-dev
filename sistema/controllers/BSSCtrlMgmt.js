@@ -2351,11 +2351,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             }
                           }else{
                             console.log($scope.rsExistingKeyList);
-                            $scope.rsAllKeychainListDataFiltered = $scope.rsAllKeychainListData;
+                            $scope.rsAllKeychainListDataFiltered = [];
                             $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered
                             console.log($scope.rsAllKeychainListDataFiltered);
                             console.log($scope.tkupdate.keys);
-                            for (var stock in $scope.rsAllKeychainListDataFiltered){
+                            for (var stock in $scope.rsAllKeychainListData){
                               for (var tKeys in $scope.tkupdate.keys){
                                 if ($scope.rsAllKeychainListDataFiltered[stock].idKeychain==$scope.tkupdate.keys[tKeys].keychain.idKeychain){
                                   $scope.rsAllKeychainListDataFiltered[stock].selected = true;
