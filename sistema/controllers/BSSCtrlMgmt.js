@@ -2351,7 +2351,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             }
                           }else{
                             console.log($scope.rsExistingKeyList);
-                            $scope.rsAllKeychainListDataFiltered = $scope.rsExistingKeyList;
+                            $scope.rsAllKeychainListDataFiltered = $scope.rsAllKeychainListData;
                             $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered
                             console.log($scope.rsAllKeychainListDataFiltered);
                             console.log($scope.tkupdate.keys);
