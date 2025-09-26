@@ -241,7 +241,7 @@
                                                     <input type="checkbox"
                                                     name="autoComplete"
                                                     class="success"
-                                                    ng-change="verifyExistingKeyList(rsNewKeychainList)"
+
                                                     ng-model="keys.new.autoComplete"
                                                     id="autoComplete"
                                                     style="margin: 0px !important; display: inherit !important;">
@@ -260,7 +260,7 @@
                                                 </div>
                                             </div>
                                     </fieldset>
-                                    <!-- ng-disabled="rsNewKeychainList.length>=0 && rsNewKeychainList.length<=ticket.selected.keys.length" -->
+                                    <!-- ng-change="verifyExistingKeyList(rsNewKeychainList)" ng-disabled="rsNewKeychainList.length>=0 && rsNewKeychainList.length<=ticket.selected.keys.length" -->
                                     <!-- Actions Button -->
                                     <div class="modal-footer">
                                         <div class="row">
