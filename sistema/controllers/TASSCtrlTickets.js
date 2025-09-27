@@ -4220,15 +4220,18 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     break;
                                     case "3"://RESERVA
                                         $scope.new.ticket.idTypeRequestFor = 3;
+                                        $scope.new.ticket.idUserRequestBy = $scope.requestBySelectedUser.idUser;
+                                        $scope.new.ticket.idUserRequestByProfile = $scope.requestBySelectedUser.idProfileKf;
+                                        $scope.new.ticket.idUserRequestByTypeTenant = $scope.requestBySelectedUser.idTypeTenantKf;
                                     break;
                                     case "4"://STOCK
                                         $scope.new.ticket.idTypeRequestFor = 2;
                                     break;
                                     case "5"://APERTURA
                                         $scope.new.ticket.idTypeRequestFor          = 4;
-                                        $scope.new.ticket.idUserRequestBy           = $scope.requestBySelectedUser.idUser;
-                                        $scope.new.ticket.idUserRequestByProfile    = $scope.requestBySelectedUser.idProfileKf;
-                                        $scope.new.ticket.idUserRequestByTypeTenant = $scope.requestBySelectedUser.idTypeTenantKf;
+                                        $scope.new.ticket.idUserRequestBy           = $scope.sysLoggedUser.idUser;
+                                        $scope.new.ticket.idUserRequestByProfile    = $scope.sysLoggedUser.idProfileKf;
+                                        $scope.new.ticket.idUserRequestByTypeTenant = $scope.sysLoggedUser.idTypeTenantKf;
                                     break;
                                 }
                             break;
