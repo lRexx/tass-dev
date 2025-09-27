@@ -3991,7 +3991,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $scope.tkupdate.refund                  = [];
                 $scope.tkupdate.history                 = [];
                 var idKeychainStatusKf                  = $scope.tkupdate.isKeysEnable;
-                if ($scope.tkupdate.isKeysEnable){
+
+                if ($scope.tkupdate.isKeysEnable=="1"){
                   $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"40"});
                 }else{
                   $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"45"});
