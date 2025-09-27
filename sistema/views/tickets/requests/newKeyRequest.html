@@ -338,7 +338,7 @@
                                     </div>
                                 </div>
                                	<!-- Input Amount of keys that will be added to the request Apply Only for BSS -->
-							   	<div ng-if="(ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && ticket.radioButtonBuilding!='3'))" class="form-group col-md-2 n-padding-l"  ng-class="
+							   	<div ng-if="(ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && ticket.radioButtonBuilding!='3' && ticket.radioButtonBuilding!='5'))" class="form-group col-md-2 n-padding-l"  ng-class="
 							   {	'has-success':
 							   		ticket.keyQtty!=undefined && ticket.keyQtty!=0 && fkeyup.ticket_keyQtty.$valid,
 								   'has-error':
@@ -355,7 +355,7 @@
 									   placeholder="Cantidad"
 									   ng-keydown="fnLoadPhoneMask();"
 									   class="form-control input--number--2"
-									   ng-required="(ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && ticket.radioButtonBuilding!='3'))" />
+									   ng-required="(ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && ticket.radioButtonBuilding!='3' && ticket.radioButtonBuilding!='5'))" />
 								   </div>
 							   </div>
 						   		</div>
@@ -377,12 +377,12 @@
 								ng-disabled="((ticket.optionTypeSelected.name=='department' && ((selectedRequestKeyOwnerUser==undefined || selectedRequestKeyOwnerUser==null) || select.products.selected==undefined || list_doors.length==0)) ||
 											  (ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='1' && (select.products.selected==undefined || list_doors.length==0 || selectedUser==undefined)) ||
 											  (ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='2' && select.products.selected==undefined || list_doors.length==0)||
-											  (ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='3' && select.products.selected==undefined || list_doors.length==0))"
+											  (ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='3' && select.products.selected==undefined || list_doors.length==0)||
+											  (ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='5' && select.products.selected==undefined || list_doors.length==0))"
 								ng-click="mainSwitchFn('addKeyFieldsToList', select.products.selected, rsCustomerAccessControlDoors)" type="button" class="btn btn-labeled btn-sm btn-success">
 									<span class="btn-label"><i class="fas fa-plus"></i> </span>Agregar</button>
 								<button ng-if="(ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && ticket.radioButtonBuilding!='3'))" style="margin-top:2em;" data-toggle="tooltip" data-placement="right" title="Agregar Llave"
-								ng-disabled="((ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='4' && (select.products.selected==undefined || list_doors.length==0)) ||
-											  (ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='5' && select.products.selected==undefined || list_doors.length==0))"
+								ng-disabled="((ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='4' && (select.products.selected==undefined || list_doors.length==0)))"
 								ng-click="mainSwitchFn('setKeysToList', select.products.selected, rsCustomerAccessControlDoors)" type="button" class="btn btn-labeled btn-sm btn-success">
 									<span class="btn-label"><i class="fas fa-plus"></i> </span>Agregar</button>
 							</div>
