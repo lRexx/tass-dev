@@ -29,7 +29,8 @@
                     <!-- //NEW TICKET -->
                     <!-- SERVICES COST -->
                     <div class="col-md-6">
-                        <button ng-click="setOptionType($event);" id="manual" ng-disabled="tkupdate.idMgmtMethodKf!=null && tkupdate.idMgmtMethodKf=='1'" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='manual', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='manual'}">
+                        <div ng-if="tkupdate.idTypeRequestFor=='4'" class="ribbon-h ribbon-h-danger"><span>No disponible</span></div>
+                        <button ng-click="setOptionType($event);" id="manual" ng-disabled="tkupdate.idTypeRequestFor!='4' && tkupdate.idMgmtMethodKf!=null && tkupdate.idMgmtMethodKf=='1'" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='manual', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='manual'}">
                             <i class="fas fa-pencil-alt"></i> MANUAL</button>
                     </div>
                     <div ng-if="ticket.selected.idTypeRequestFor=='2' && tkupdate.idMgmtMethodKf==null" class="col-md-12" style="padding-top: 1% !important;">
