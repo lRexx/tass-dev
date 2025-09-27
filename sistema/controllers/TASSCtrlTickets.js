@@ -2049,6 +2049,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.stepIndexTmp=0;
                         $scope.IsTicket = true;
                         $scope.isRequest="up";
+                        $scope.keysAllowedTmp = 0;
                         $scope.selectedRequestKeyOwnerUser=undefined;
                         selectSwitch ('n');
                         if ($scope.sysLoggedUser.idProfileKf==1){
@@ -2747,12 +2748,14 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     productSelected.idDepartmenKf       = departmentSelected;
                                     //productSelected.isKeyTenantOnly   = userSelected!=undefined && userSelected.idTypeTenantKf!=null && userSelected.idTypeTenantKf == "2"?1:null;
                                     productSelected.isKeyTenantOnly     = $scope.ticket.userRequestBy.idTypeTenantKf!=null && $scope.ticket.userRequestBy.idTypeTenantKf == "2"?1:null;
+                                    $scope.keysAllowedTmp               = $scope.keysAllowed;
                                 }else{
                                     productSelected.idCategoryKf        = 6;
                                     productSelected.categoryName        = "Personal del Edificio";
                                     productSelected.idClientKf          = $scope.select.buildings.selected.idClient;
                                     productSelected.idDepartmenKf       = null;
                                     productSelected.isKeyTenantOnly     = null
+                                    $scope.keysAllowedTmp               = 1;
                                 }
                             break;
                             case "2":
@@ -2763,6 +2766,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     productSelected.idDepartmenKf       = departmentSelected;
                                     //productSelected.isKeyTenantOnly     = userSelected!=undefined && userSelected.idTypeTenantKf!=null && userSelected.idTypeTenantKf == "2"?1:null;
                                     productSelected.isKeyTenantOnly     = $scope.ticket.userRequestBy.idTypeTenantKf!=null && $scope.ticket.userRequestBy.idTypeTenantKf == "2"?1:null;
+                                    $scope.keysAllowedTmp               = $scope.keysAllowed;
                                 }else{
                                     productSelected.idCategoryKf        = 5;
                                     productSelected.categoryName        = "Administracion";
@@ -2770,6 +2774,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     productSelected.idClientAdminKf     = $scope.select.admins.selected.idClient;
                                     productSelected.idDepartmenKf       = null;
                                     productSelected.isKeyTenantOnly     = null
+                                    $scope.keysAllowedTmp               = $scope.keysAllowed;
                                 }
                             break;
                             case "3":
@@ -2779,6 +2784,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 productSelected.idDepartmenKf           = null;
                                 productSelected.idClientAdminKf         = null;
                                 productSelected.isKeyTenantOnly         = null;
+                                $scope.keysAllowedTmp                   = $scope.keysAllowed;
                             break;
                             case "4":
                                 productSelected.idCategoryKf            = 2;
@@ -2787,6 +2793,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 productSelected.idDepartmenKf           = null;
                                 productSelected.idClientAdminKf         = null;
                                 productSelected.isKeyTenantOnly         = null;
+                                $scope.keysAllowedTmp                   = $scope.keysAllowed;
                             break;
                             case "5":
                                 productSelected.idCategoryKf            = 4;
@@ -2795,6 +2802,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 productSelected.idDepartmenKf           = null;
                                 productSelected.idClientAdminKf         = null;
                                 productSelected.isKeyTenantOnly         = null;
+                                $scope.keysAllowedTmp                   = 1;
                             break;
 
                         }
@@ -2819,7 +2827,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $scope.list_keys.push({'id':id, 'optionTypeSelected':$scope.ticket.optionTypeSelected.name, 'radioButtonDepartment':radioButtonDepartment, 'radioButtonBuilding':radioButtonBuilding, 'key':productSelected, 'user':userSelected, 'doors':doorsSelected});
                             $scope.item_added = true;
                         }else{
-                            if ($scope.list_keys.length<$scope.keysAllowed){
+                            if ($scope.list_keys.length<$scope.keysAllowedTmp){
                                 for (var key in $scope.list_keys){
                                     if ($scope.list_keys[key].user!=null && userSelected!=null && $scope.list_keys[key].user.idUser == $scope.selectedUser.idUser){
                                         inform.add("El Llavero seleccionado no ha sido agregado a la lista.",{
@@ -2849,7 +2857,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     $scope.item_added = true;
                                 }
                             }else{
-                                inform.add("Puede solicitar hasta un maximo de "+$scope.keysAllowed+", si desea hacer un pedido mayor, contactar con el equipo de BSS Seguridad.",{
+                                inform.add("Puede solicitar hasta un maximo de "+$scope.keysAllowedTmp+", si desea hacer un pedido mayor, contactar con el equipo de BSS Seguridad.",{
                                     ttl:5000, type: 'warning'
                                 });
                             }
@@ -2876,6 +2884,10 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                             ttl:5000, type: 'success'
                                         });
                                     }
+                                }else if($scope.ticket.radioButtonBuilding=="5"){
+                                    inform.add('El llavero '+productSelected.descriptionProduct+' asociado al consorcio:  '+$scope.select.buildings.selected.name+' ha sido agregado al pedido.',{
+                                        ttl:5000, type: 'success'
+                                    });
                                 }else{
                                     inform.add('El llavero '+productSelected.descriptionProduct+' asociado a la Administracion:  '+$scope.select.admins.selected.name+' ha sido agregado al pedido.',{
                                         ttl:5000, type: 'success'
