@@ -2285,6 +2285,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           console.log("tkupdate.keys Length      : "+$scope.tkupdate.keys.length);
                         break;
                         case "2":
+                        case "4":
                         case "6":
                           var Depto = null;
                           var idDepto = null;
