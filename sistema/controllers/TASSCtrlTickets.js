@@ -358,7 +358,11 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 if ($scope.select.admins.selected!=undefined && $scope.select.buildings.selected!=undefined){
                                     if (($scope.ticket.optionTypeSelected.name=="department" && $scope.ticket.idClientDepartament!=undefined) || ($scope.ticket.optionTypeSelected.name=="building" && $scope.ticket.radioButtonBuilding!=undefined)){
                                         if($scope.customerCosts){ //$scope.attendantFound &&  #removed by request by Leandro 26/01/2023
-                                            $scope.formValidated=true;
+                                            if ($scope.ticket.radioButtonBuilding=="4" && ((obj.isStockInBuilding == null && obj.isStockInOffice==null) || (obj.isStockInBuilding == "0" && obj.isStockInOffice=="0") || (obj.isStockInBuilding == null && obj.isStockInOffice=="0") || (obj.isStockInBuilding == "0" && obj.isStockInOffice==null))){
+                                                $scope.formValidated=false;
+                                            }else{
+                                                $scope.formValidated=true;
+                                            }
                                         }else{
                                             $scope.formValidated=false;
                                         }
