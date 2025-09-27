@@ -2196,11 +2196,23 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         //$scope.select.products.selected         = undefined;
                         $scope.selectedRequestKeyOwnerUser      = undefined;
                         console.log(obj);
+
                         if ($scope.ticket.optionTypeSelected.name=="building" && $scope.ticket.radioButtonBuilding!="1" && $scope.ticket.radioButtonBuilding!="4" && $scope.ticket.radioButtonBuilding!="5"){
-                            $scope.getUsersByCompanyClientIdFn($scope.select.admins.selected.idClient);
+                            if ($scope.ticket.radioButtonBuilding=="2" && ((obj.isStockInBuilding == null && obj.isStockInOffice==null) || (obj.isStockInBuilding == "0" && obj.isStockInOffice=="0") || (obj.isStockInBuilding == null && obj.isStockInOffice=="0") || (obj.isStockInBuilding == "0" && obj.isStockInOffice==null))){
+                                $scope.clientName=obj.name;
+                                $scope.msg1 = 'El cliente ';
+                                $scope.msg2 = ' No posee stock definido por lo que no puede generar Pedidos de Stock';
+                                $scope.msg3 = 'Contacte con la administración y/o el area de soporte.';
+                                $('#customerNotificationModal').modal({backdrop: 'static', keyboard: true});
+                                //inform.add('El cliente '+obj.name+' se encuentra inhabilitado para realizar pedidos, contacte al area de soporte de BSS.',{
+                                //    ttl:6000, type: 'warning'
+                                //});
+                            }else{
+                                $scope.getUsersByCompanyClientIdFn(obj.idClient);
+                            }
                         }else{
-                            $scope.getAttendantListFn($scope.ticket.building.idClient);
-                            $scope.getKeyListByBuildingIdFn($scope.ticket.building.idClient);
+                            $scope.getAttendantListFn(obj.idClient);
+                            $scope.getKeyListByBuildingIdFn(obj.idClient);
                         }
                         console.log($scope.ticket);
                     break;
