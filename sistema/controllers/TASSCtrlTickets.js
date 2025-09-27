@@ -2195,7 +2195,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.selectedDeliveryAttendant        = undefined;
                         //$scope.select.products.selected         = undefined;
                         $scope.selectedRequestKeyOwnerUser      = undefined;
-                        if ($scope.ticket.optionTypeSelected.name=="building"&& $scope.ticket.radioButtonBuilding!="1" && $scope.ticket.radioButtonBuilding!="4" && $scope.ticket.radioButtonBuilding!="5"){
+                        console.log(obj);
+                        if ($scope.ticket.optionTypeSelected.name=="building" && $scope.ticket.radioButtonBuilding!="1" && $scope.ticket.radioButtonBuilding!="4" && $scope.ticket.radioButtonBuilding!="5"){
                             $scope.getUsersByCompanyClientIdFn($scope.select.admins.selected.idClient);
                         }else{
                             $scope.getAttendantListFn($scope.ticket.building.idClient);
