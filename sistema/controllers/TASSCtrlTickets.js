@@ -2766,6 +2766,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     productSelected.idDepartmenKf       = null;
                                     productSelected.isKeyTenantOnly     = null
                                     $scope.keysAllowedTmp               = 1;
+                                    $scope.requestBySelectedUser        = $scope.selectedUser;
                                 }
                             break;
                             case "2":
@@ -2813,7 +2814,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 productSelected.idClientAdminKf         = null;
                                 productSelected.isKeyTenantOnly         = null;
                                 $scope.keysAllowedTmp                   = 1;
-                                $scope.requestBySelectedUser            = $scope.selectedUser;
                             break;
 
                         }
@@ -4211,18 +4211,18 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 switch (obj.radioButtonBuilding){
                                     case "1"://PERSONAL DEL EDIFICIO
                                         $scope.new.ticket.idTypeRequestFor = 6;
-                                        $scope.new.ticket.idUserRequestBy           = $scope.sysLoggedUser.idUser;
-                                        $scope.new.ticket.idUserRequestByProfile    = $scope.sysLoggedUser.idProfileKf;
-                                        $scope.new.ticket.idUserRequestByTypeTenant = $scope.sysLoggedUser.idTypeTenantKf;
+                                        $scope.new.ticket.idUserRequestBy           = $scope.requestBySelectedUser.idUser;
+                                        $scope.new.ticket.idUserRequestByProfile    = $scope.requestBySelectedUser.idProfileKf;
+                                        $scope.new.ticket.idUserRequestByTypeTenant = $scope.requestBySelectedUser.idTypeTenantKf;
                                     break;
                                     case "2"://ADMINISTRACION
                                         $scope.new.ticket.idTypeRequestFor = 5;
                                     break;
                                     case "3"://RESERVA
                                         $scope.new.ticket.idTypeRequestFor = 3;
-                                        $scope.new.ticket.idUserRequestBy = $scope.requestBySelectedUser.idUser;
-                                        $scope.new.ticket.idUserRequestByProfile = $scope.requestBySelectedUser.idProfileKf;
-                                        $scope.new.ticket.idUserRequestByTypeTenant = $scope.requestBySelectedUser.idTypeTenantKf;
+                                        $scope.new.ticket.idUserRequestBy           = $scope.sysLoggedUser.idUser;
+                                        $scope.new.ticket.idUserRequestByProfile    = $scope.sysLoggedUser.idProfileKf;
+                                        $scope.new.ticket.idUserRequestByTypeTenant = $scope.sysLoggedUser.idTypeTenantKf;
                                     break;
                                     case "4"://STOCK
                                         $scope.new.ticket.idTypeRequestFor = 2;
