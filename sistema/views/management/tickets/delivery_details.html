@@ -39,7 +39,7 @@
                             <span ng-if="(tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo.id=='2') || (tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo==null && tkupdate.whoPickUp.idWhoPickUp=='3')" class="badge badge-warning">Otro domicilio</span>
                         </span>
                     </div>
-                    <div ng-if="tkupdate.idTypeRequestFor!='2'" class="col-md-12 col-xs-12">
+                    <div ng-if="tkupdate.idTypeRequestFor!='2' && tkupdate.idTypeRequestFor!='4'" class="col-md-12 col-xs-12">
                         <span> Dirección: </span>
                         <span ng-if="tkupdate.idTypeDeliveryKf!=null && tkupdate.idTypeDeliveryKf!=undefined && tkupdate.idTypeDeliveryKf=='2' && (tkupdate.deliveryTo.id=='1' || (tkupdate.deliveryTo==null && tkupdate.idTypeRequestFor=='2'))">{{tkupdate.deliveryAddress.address}}</span>
                         <!-- OTHER DELIVERY ADDRESS -->
@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <!-- RIGHT COLUMN -->
-                <div ng-if="tkupdate.idTypeRequestFor!='2'" class="col-md-6 n-padding-l n-padding-r">
+                <div ng-if="tkupdate.idTypeRequestFor!='2' && tkupdate.idTypeRequestFor!='4'" class="col-md-6 n-padding-l n-padding-r">
                     <div class="col-md-12"><span> Provincia: </span>
                         <span ng-if="tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo.id=='2'">{{tkupdate.otherDeliveryAddress.province}}</span>
                         <span ng-if="tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo==null && tkupdate.whoPickUp.idWhoPickUp=='3'">{{tkupdate.thirdPersonDelivery.province}}</span>
