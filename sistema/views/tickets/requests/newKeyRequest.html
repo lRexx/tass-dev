@@ -211,7 +211,7 @@
 														</label>
 													</div>
 													<div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-2 col-xs-2">
-														<input id="typeOption4" class="radio-custom" ng-click="mainSwitchFn('switchKeyCategory', ticket.building, null)" type="radio" name="typeOption" value="4" ng-model="ticket.radioButtonBuilding" required autofocus>
+														<input id="typeOption4" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', ticket.building, null)" type="radio" name="typeOption" value="4" ng-model="ticket.radioButtonBuilding" required autofocus>
 														<label for="typeOption4" class="radio-custom-label">
 															<span>Stock</span>
 														</label>
