@@ -4205,11 +4205,14 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         $scope.new.ticket.idUserRequestByProfile    = $scope.sysLoggedUser.idProfileKf;
                                         $scope.new.ticket.idUserRequestByTypeTenant = $scope.sysLoggedUser.idTypeTenantKf;
                                     break;
-                                    case "2":$scope.new.ticket.idTypeRequestFor = 5;
+                                    case "2"://ADMINISTRACION
+                                        $scope.new.ticket.idTypeRequestFor = 5;
                                     break;
-                                    case "3":$scope.new.ticket.idTypeRequestFor = 3;
+                                    case "3"://RESERVA
+                                        $scope.new.ticket.idTypeRequestFor = 3;
                                     break;
-                                    case "4":$scope.new.ticket.idTypeRequestFor = 2;
+                                    case "4"://STOCK
+                                        $scope.new.ticket.idTypeRequestFor = 2;
                                     break;
                                     case "5"://APERTURA
                                         $scope.new.ticket.idTypeRequestFor          = 4;
@@ -4575,9 +4578,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             }
                         }
                         console.log($scope.new.ticket);
-                        //$('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+                        $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
                         $timeout(function() {
-                           //$scope.addUpRequestFn($scope.new);
+                           $scope.addUpRequestFn($scope.new);
                         }, 2000);
 
                     break;
