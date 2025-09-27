@@ -255,6 +255,10 @@ th {
 
 .ribbon-h-danger {
   background: #d9534f;      /* rojo bootstrap-like */
+}
+
+.ribbon-h-danger span {
+  background: #d9534f;      /* rojo bootstrap-like */
   color: #fff;
 }
 .ribbon-h span {
