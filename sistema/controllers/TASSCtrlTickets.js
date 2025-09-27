@@ -2198,7 +2198,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         console.log(obj);
 
                         if ($scope.ticket.optionTypeSelected.name=="building" && $scope.ticket.radioButtonBuilding!="1" && $scope.ticket.radioButtonBuilding!="4" && $scope.ticket.radioButtonBuilding!="5"){
-                            if ($scope.ticket.radioButtonBuilding=="2" && ((obj.isStockInBuilding == null && obj.isStockInOffice==null) || (obj.isStockInBuilding == "0" && obj.isStockInOffice=="0") || (obj.isStockInBuilding == null && obj.isStockInOffice=="0") || (obj.isStockInBuilding == "0" && obj.isStockInOffice==null))){
+                            if ($scope.ticket.radioButtonBuilding=="4" && ((obj.isStockInBuilding == null && obj.isStockInOffice==null) || (obj.isStockInBuilding == "0" && obj.isStockInOffice=="0") || (obj.isStockInBuilding == null && obj.isStockInOffice=="0") || (obj.isStockInBuilding == "0" && obj.isStockInOffice==null))){
                                 $scope.clientName=obj.name;
                                 $scope.msg1 = 'El cliente ';
                                 $scope.msg2 = ' No posee stock definido por lo que no puede generar Pedidos de Stock';
