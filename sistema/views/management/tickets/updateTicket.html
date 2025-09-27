@@ -13,7 +13,7 @@
                     <i ng-if="tkupdate.idTypeTicketKf==1" class="fas fa-key"></i>
                     <i ng-if="tkupdate.idTypeTicketKf==2" class="fas fa-key"></i>
                     <i ng-if="tkupdate.idTypeTicketKf==3" class="fas fa-wrench"></i>
-                [{{tkupdate.codTicket}}] - <span ng-if="(tkupdate.idTypeRequestFor!='4' || (tkupdate.idTypeRequestFor=='4' && (tkupdate.building.isStockInBuilding!=null || tkupdate.building.isStockInOffice!=null))" class="label label-info" >{{tkupdate.typeticket.TypeTicketName}}</span>
+                [{{tkupdate.codTicket}}] - <span ng-if="((tkupdate.idTypeRequestFor!='4') || (tkupdate.idTypeRequestFor=='4' && (tkupdate.building.isStockInBuilding!=null || tkupdate.building.isStockInOffice!=null)))" class="label label-info" >{{tkupdate.typeticket.TypeTicketName}}</span>
                 <span ng-if="tkupdate.idTypeRequestFor=='4' && ((tkupdate.building.isStockInBuilding==null || tkupdate.building.isStockInBuilding=='0') && (tkupdate.building.isStockInOffice==null || tkupdate.building.isStockInOffice=='0'))" class="label label-danger" >{{tkupdate.typeticket.TypeTicketName}}</span>
                 <span ng-if="tkupdate.refundsDetails!=undefined && tkupdate.refundsDetails.length>=1" class="dropdown">
                   <button class="btn btn-default dropdown-toggle font-size-16px" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="false">
