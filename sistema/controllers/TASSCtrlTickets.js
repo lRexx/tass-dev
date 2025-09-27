@@ -2210,6 +2210,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 //    ttl:6000, type: 'warning'
                                 //});
                             }else{
+                                $scope.enabledNextBtn();
+                                $scope.mainSwitchFn('autoSelectDoors', null, null)
                                 $scope.getAttendantListFn(obj.idClient);
                                 $scope.getKeyListByBuildingIdFn(obj.idClient);
                             }
