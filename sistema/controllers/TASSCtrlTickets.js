@@ -2215,6 +2215,16 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 //    ttl:6000, type: 'warning'
                                 //});
                             }else{
+                                if ($scope.ticket.radioButtonBuilding=="5" && ((obj.isStockInBuilding == null && obj.isStockInOffice==null) || (obj.isStockInBuilding == "0" && obj.isStockInOffice=="0") || (obj.isStockInBuilding == null && obj.isStockInOffice=="0") || (obj.isStockInBuilding == "0" && obj.isStockInOffice==null))){
+                                    $scope.clientName=obj.name;
+                                    $scope.msg1 = 'El cliente ';
+                                    $scope.msg2 = ' No posee stock definido por lo que no podra gestionar este pedido de manera convencional';
+                                    $scope.msg3 = 'Verifique internamente con el Area de soporte BSS.';
+                                    $('#customerNotificationModal').modal({backdrop: 'static', keyboard: true});
+                                    //inform.add('El cliente '+obj.name+' se encuentra inhabilitado para realizar pedidos, contacte al area de soporte de BSS.',{
+                                    //    ttl:6000, type: 'warning'
+                                    //});
+                                }
                                 $scope.enabledNextBtn();
                                 $scope.mainSwitchFn('autoSelectDoors', null, null)
                                 $scope.getAttendantListFn(obj.idClient);
