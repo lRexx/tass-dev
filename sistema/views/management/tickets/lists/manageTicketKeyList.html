@@ -22,7 +22,7 @@
                             <i class="fas fa-boxes"></i> STOCK
                             <span ng-click="" ng-if="tkupdate.building.isStockInOffice!=undefined && tkupdate.building.isStockInOffice=='1'" class="badge badge-warning"> En Oficina</span>
                             <span ng-click="" ng-if="tkupdate.building.isStockInBuilding!=undefined && tkupdate.building.isStockInBuilding=='1'" class="badge badge-warning"> En Edificio</span>&nbsp;
-                            <span ng-if="tkupdate.idStatusTicketKf!='1' && ((tkupdate.building.isStockInOffice!='0' && tkupdate.building.isStockInOffice!=null)) || (tkupdate.building.isStockInOffice!='0' && tkupdate.building.isStockInOffice!=null))" ng-click="" class="badge badge-warning" data-toggle="tooltip" data-placement="right" title="Cantidad de LLaveros">{{rsAllKeychainListData.length}}</span>
+                            <span ng-if="tkupdate.idStatusTicketKf!='1' && ((tkupdate.building.isStockInOffice!='0' && tkupdate.building.isStockInOffice!=null) || (tkupdate.building.isStockInOffice!='0' && tkupdate.building.isStockInOffice!=null))" ng-click="" class="badge badge-warning" data-toggle="tooltip" data-placement="right" title="Cantidad de LLaveros">{{rsAllKeychainListData.length}}</span>
                             <span ng-if="tkupdate.idStatusTicketKf=='1'" ng-click="" class="badge badge-warning" data-toggle="tooltip" data-placement="right" title="Cantidad de LLaveros">{{rsAllKeychainListDataFiltered.length}}</span>
                         </button>
                     </div>
