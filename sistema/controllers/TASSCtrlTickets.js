@@ -341,7 +341,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 }
             }
             };
-            $scope.enabledNextBtn=function(item){
+            $scope.enabledNextBtn=function(obj){
                 //console.clear();
                 console.log($scope.fSwitch);
                 //$scope.select.idAddressAtt = !$scope.select.idAddressAtt?$scope.selectIdAddressKf.selected:$scope.select.idAddressAtt;
@@ -358,7 +358,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 if ($scope.select.admins.selected!=undefined && $scope.select.buildings.selected!=undefined){
                                     if (($scope.ticket.optionTypeSelected.name=="department" && $scope.ticket.idClientDepartament!=undefined) || ($scope.ticket.optionTypeSelected.name=="building" && $scope.ticket.radioButtonBuilding!=undefined)){
                                         if($scope.customerCosts){ //$scope.attendantFound &&  #removed by request by Leandro 26/01/2023
-                                            if ($scope.ticket.radioButtonBuilding=="4" && ((obj.isStockInBuilding == null && obj.isStockInOffice==null) || (obj.isStockInBuilding == "0" && obj.isStockInOffice=="0") || (obj.isStockInBuilding == null && obj.isStockInOffice=="0") || (obj.isStockInBuilding == "0" && obj.isStockInOffice==null))){
+                                            if ($scope.ticket.radioButtonBuilding=="4" && (($scope.ticket.building.isStockInBuilding == null && $scope.ticket.building.isStockInOffice==null) || ($scope.ticket.building.isStockInBuilding == "0" && $scope.ticket.building.isStockInOffice=="0") || ($scope.ticket.building.isStockInBuilding == null && $scope.ticket.building.isStockInOffice=="0") || ($scope.ticket.building.isStockInBuilding == "0" && $scope.ticket.building.isStockInOffice==null))){
                                                 $scope.formValidated=false;
                                             }else{
                                                 $scope.formValidated=true;
