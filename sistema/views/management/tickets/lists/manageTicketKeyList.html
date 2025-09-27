@@ -30,7 +30,7 @@
                         <button ng-click="setOptionType($event);" id="manual" ng-disabled="tkupdate.idMgmtMethodKf!=null && tkupdate.idMgmtMethodKf=='1'" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='manual', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='manual'}">
                             <i class="fas fa-pencil-alt"></i> MANUAL</button>
                     </div>
-                    <div ng-if="ticket.selected.idTypeRequestFor=='2'" class="col-md-12" style="padding-top: 1% !important;">
+                    <div ng-if="ticket.selected.idTypeRequestFor=='2' && tkupdate.idMgmtMethodKf==null" class="col-md-12" style="padding-top: 1% !important;">
                         <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 alert alert-info" style="margin-bottom:0px !important;">
                           <h5 class="col-md-offset-1"><i class="fas fa-info-circle"> </i> <span style="font-size: 18px; font-weight: 600;">Los llaveros destinados al Stock solo podran ser gestionados de forma manual.</span></h5>
                         </div>
@@ -318,7 +318,8 @@
         <div class="modal-footer">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
-                    <button ng-if="tkupdate.idStatusTicketKf!='1'" type="button" ng-click="mainSwitchFn('setMgmtKeys', tkupdate, null)" ng-disabled="(tkupdate.idStatusTicketKf=='1' || (((ticket.keysMethod && (ticket.keysMethod.name==undefined || ticket.keysMethod.name=='')) || rsNewKeychainList.length!=tkupdate.keys.length) && !thereIsKeyWithoutIdKeychain))" class="btn btn-labeled btn-success">
+                    <button ng-if="tkupdate.idStatusTicketKf!='1' || tkupdate.idMgmtMethodKf==null" type="button" ng-click="mainSwitchFn('setMgmtKeys', tkupdate, null)" ng-disabled="
+                    (tkupdate.idStatusTicketKf=='1' || (((ticket.keysMethod && (ticket.keysMethod.name==undefined || ticket.keysMethod.name=='')) || rsNewKeychainList.length!=tkupdate.keys.length) && !thereIsKeyWithoutIdKeychain))" class="btn btn-labeled btn-success">
                         <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Asignar</button>
                     <a ng-if="(tkupdate.idStatusTicketKf!='1' && (tkupdate.idMgmtMethodKf==null || rsNewKeychainList.length!=tkupdate.keys.length || thereIsKeyWithoutIdKeychain))" id="cancelModalWindow" type="button" ng-click="modalConfirmation('cancelSetMgmtKeys',0, tkupdate)" class="btn btn-labeled btn-danger">
                         <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
