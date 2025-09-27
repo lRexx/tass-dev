@@ -1670,7 +1670,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     if(response.status==200){
                         $scope.ticket.companyUserList = response.data;
                     }else if (response.status==404){
-                        inform.add('No hay Administradores asociados a la administración, contacte al area de soporte de BSS.',{
+                        inform.add('No se encontraron Administradores de Consorcios asociados a la administración, contacte al area de soporte de BSS.',{
                             ttl:3000, type: 'warning'
                         });
                         $scope.ticket.companyUserList = null;
