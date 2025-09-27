@@ -3000,13 +3000,20 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             return isNaN( n ) ? 0 : n;
           }
           $scope.filterDeliveryCompany = function(item){
-            if ((($scope.tkupdate.idMgmtMethodKf=="1" || $scope.tkupdate.idMgmtMethodKf=="2") && $scope.tkupdate.whereKeysAreEnable=="2" && $scope.tkupdate.isKeysEnable == null) ||
-               (($scope.tkupdate.idMgmtMethodKf=="1" || $scope.tkupdate.idMgmtMethodKf=="2") && ($scope.tkupdate.whereKeysAreEnable=="1"||$scope.tkupdate.whereKeysAreEnable=="2") && $scope.tkupdate.isKeysEnable =="1")){
-              return item.idDeliveryCompany<="2"
+            switch($scope.tkupdate.idTypeRequestFor){
+              case "1":
+                if ((($scope.tkupdate.idMgmtMethodKf=="1" || $scope.tkupdate.idMgmtMethodKf=="2") && $scope.tkupdate.whereKeysAreEnable=="2" && $scope.tkupdate.isKeysEnable == null) ||
+                  (($scope.tkupdate.idMgmtMethodKf=="1" || $scope.tkupdate.idMgmtMethodKf=="2") && ($scope.tkupdate.whereKeysAreEnable=="1"||$scope.tkupdate.whereKeysAreEnable=="2") && $scope.tkupdate.isKeysEnable =="1")){
+                  return item.idDeliveryCompany<="2"
+                }
+                if (($scope.tkupdate.whereKeysAreEnable=="1" || $scope.tkupdate.whereKeysAreEnable=="2") && $scope.tkupdate.isKeysEnable =="1" && $scope.tkupdate.idMgmtMethodKf=="1" && $scope.tkupdate.building.isStockInOffice=="1"){
+                  return item.idDeliveryCompany=="3"
+                }
+              break;
+              case "2":
+                 return item.idDeliveryCompany=="2"
             }
-            if (($scope.tkupdate.whereKeysAreEnable=="1" || $scope.tkupdate.whereKeysAreEnable=="2") && $scope.tkupdate.isKeysEnable =="1" && $scope.tkupdate.idMgmtMethodKf=="1" && $scope.tkupdate.building.isStockInOffice=="1"){
-              return item.idDeliveryCompany=="3"
-            }
+
           }
           $scope.verifyExistingKeyList = function(obj){
             if (obj.length>=1 && obj.length<=$scope.ticket.selected.keys.length){
