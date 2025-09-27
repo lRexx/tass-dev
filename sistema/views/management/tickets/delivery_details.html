@@ -82,7 +82,7 @@
                 </div>
             </div>
             <!-- DELIVERY COMPANY-->
-            <div ng-if="tkupdate.idTypeDeliveryKf=='2'" class="col-md-12 well-checkbox n-margin-l customer-frame">
+            <div ng-if="((tkupdate.idTypeDeliveryKf=='2') || (tkupdate.idTypeRequestFor=='2' && tkupdate.idTypeDeliveryKf==null && (tkupdate.isKeysEnable=='0' || tkupdate.isKeysEnable=='1') && tkupdate.whereKeysAreEnable=='2'))" class="col-md-12 well-checkbox n-margin-l customer-frame">
                 <form class="form-horizontal" name="frmDeliveryCompany" autocomplete="off" novalidate>
                     <legend style="text-align: left;">Empresa de Envío</legend>
                     <div class="col-md-12 n-padding-l n-padding-r">
@@ -116,7 +116,7 @@
             </div>
             <div ng-if="tkupdate.idStatusTicketKf=='5' && (tkupdate.delivery_schedule_at!=undefined || tkupdate.delivery_schedule_at!=null)" class="col-md-12 well-checkbox n-margin-l customer-frame">
                 <legend style="text-align: left;">Detalles de la entrega</legend>
-                <div ng-if="tkupdate.typePaymentKf!=null && tkupdate.typePaymentKf!=undefined && tkupdate.idTypePaymentKf=='2'" class="col-md-6 n-padding-l n-padding-r">
+                <div ng-if="((tkupdate.typePaymentKf!=null && tkupdate.typePaymentKf!=undefined && tkupdate.idTypePaymentKf=='2')|| (tkupdate.idTypeRequestFor=='2' && tkupdate.idTypeDeliveryKf==null && (tkupdate.isKeysEnable=='0' || tkupdate.isKeysEnable=='1') && tkupdate.whereKeysAreEnable=='2'))" class="col-md-6 n-padding-l n-padding-r">
                     <div class="col-md-12 col-xs-12">
                         <span> Entrega relizada por: </span>
                         <!-- <span>{{tkupdate.typePaymentKf.descripcion}}</span>-->
