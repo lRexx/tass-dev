@@ -4228,7 +4228,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     $scope.new.ticket.thirdPersonDelivery   = {'fullName':obj.delivery.thirdPerson.fullNameUser, 'movilPhone':obj.delivery.thirdPerson.movilPhone, 'dni':obj.delivery.thirdPerson.dni, 'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
                                 }
                             }else{
-                                if($scope.new.ticket.idTypeRequestFor=="1" || $scope.new.ticket.idTypeRequestFor=="5" || $scope.new.ticket.idTypeRequestFor=="6"){
+                                if($scope.new.ticket.idTypeRequestFor=="1" ||$scope.new.ticket.idTypeRequestFor=="3" || $scope.new.ticket.idTypeRequestFor=="5" || $scope.new.ticket.idTypeRequestFor=="6"){
                                     $scope.new.ticket.idDeliveryTo              = obj.delivery.idDeliveryTo;
                                     if (obj.delivery.whoPickUp.id==undefined && obj.delivery.idDeliveryTo==1){
                                         $scope.new.ticket.idWhoPickUp           = "1";
