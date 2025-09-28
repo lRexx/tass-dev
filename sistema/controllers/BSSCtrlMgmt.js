@@ -2385,13 +2385,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           }else{
                             console.log($scope.rsExistingKeyList);
                             $scope.rsAllKeychainListDataFiltered = [];
-                            $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered
+                            $scope.rsNewKeychainList = []
                             console.log($scope.rsAllKeychainListData);
                             console.log($scope.tkupdate.keys);
                             for (var stock in $scope.rsAllKeychainListData){
+                              console.log($scope.rsAllKeychainListData[stock].idKeychain);
                               for (var tKeys in $scope.tkupdate.keys){
+                                console.log($scope.tkupdate.keys[tKeys].keychain.idKeychain);
                                 if ($scope.rsAllKeychainListData[stock].idKeychain==$scope.tkupdate.keys[tKeys].keychain.idKeychain){
                                   $scope.rsAllKeychainListDataFiltered.push($scope.rsAllKeychainListData[stock]);
+                                  $scope.rsNewKeychainList.push($scope.rsAllKeychainListData[stock]);
                                   $scope.rsAllKeychainListDataFiltered[stock].selected = true;
                                   $scope.rsAllKeychainListDataFiltered[stock].disabled = true;
                                 }
