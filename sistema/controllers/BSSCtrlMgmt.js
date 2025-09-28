@@ -3814,7 +3814,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"6","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
                   }
                 break;
-                case "6":
+                case "4":
                   if (!$scope.tkupdate.idMgmtMethodKf){
                     $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
                   }else{
