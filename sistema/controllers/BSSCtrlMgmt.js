@@ -3979,9 +3979,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     break;
                     case "3":
                       var idCategoryKf      = $scope.tkupdate.keys[0].idCategoryKf;
+                      var idUserKf          = null;
                     break;
                     case "4":
                       var idCategoryKf      = $scope.tkupdate.keys[0].idCategoryKf;
+                      var idUserKf          = null;
                     break;
                     case "2":
                       var idCategoryKf      = key.idCategoryKf;

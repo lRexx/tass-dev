@@ -278,7 +278,7 @@ class Llavero_model extends CI_Model
 					"codigo" => $item['codigo'],
 					"idDepartmenKf" => $item['idDepartmenKf'],
 					"idClientKf" => $item['idClientKf'],
-					"idUserKf" => $item['idUserKf'],
+					"idUserKf" => @$item['idUserKf'],
 					"idCategoryKf" => $item['idCategoryKf'],
 					"isKeyTenantOnly" => $item['isKeyTenantOnly'],
 					"idKeychainStatusKf" => @$item['idKeychainStatusKf'],
