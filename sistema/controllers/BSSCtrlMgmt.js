@@ -3844,7 +3844,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     case "4":
                       $scope.functions.whereKeysAreEnable = obj.building.isHasInternetOnline === null ? "2":"1";
                       $scope.tkupdate.idDeliveryCompanyKf="1";
-                      $scope.tkupdate.mess2show="El Pedido quedara \"Entregado/Completado\", por favor,     Confirmar?";
+                      $scope.tkupdate.mess2show="El Pedido sera \"/Completado\", una vez asginado el llavero, por favor,     Confirmar?";
                     break;
                   }
                 break;
