@@ -3943,7 +3943,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   case "1":
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"29"});
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
-                      $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"40"});
+                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"40"});
+                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
 
                       $scope.tkupdate.isKeysEnable            = $scope.functions.isKeysEnable;
                       if ($scope.ticket.selected.idTypeRequestFor=="4"){
@@ -3959,10 +3960,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"28"});
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"39"});
+                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
                     var idKeychainStatusKf                  = 0;
                   break;
                 }
-                $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
                 console.log($scope.tkupdate);
                 console.log($scope.rsNewKeychainList);
                 $scope.isEditKey                        = false;
@@ -4022,10 +4023,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           console.log("Codigo         : "+keys.codigo);
                           console.log("idCategoryKf   : "+idCategoryKf);
                           console.log("idUserKf       : "+idUserKf);
-                          //$scope.updateKeyFn({llavero: keys});
+                          $scope.updateKeyFn({llavero: keys});
                           if (idKeychainStatusKf=="1"){
                             console.log({llavero: keys});
-                            //$scope.addProcessEventFn({llavero: keys});
+                            $scope.addProcessEventFn({llavero: keys});
                           }
                         break;
                         case "2":
@@ -4044,7 +4045,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log($scope.tkupdate);
                   if ($scope.ticket.keysMethodSelected==null || $scope.ticket.keysMethodSelected==undefined){
                     $('#showModalRequestStatus').modal('hide');
-                    //$scope.updateUpRequestFn({ticket: $scope.tkupdate});
+                    $scope.updateUpRequestFn({ticket: $scope.tkupdate});
                   }
                 });
             break;
