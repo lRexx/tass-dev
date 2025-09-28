@@ -3822,20 +3822,29 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               switch($scope.ticket.idMgmtMethodKf){
                 case "1": //STOCK
                   $scope.functions.whereKeysAreEnable = null;
-                  switch(obj.idTypeDeliveryKf){
-                    case "1"://RETIRO EN OFICINA
-                      $scope.tkupdate.mess2show="El Pedido pasara a \"Listo para Retirar\", por favor,     Confirmar?";
-                      //$scope.tkupdate.idDeliveryCompanyKf=null;
-                      console.log(obj)
-                    break;
-                    case "2"://RENTREGA EN DOMICILIO
-                      $scope.functions.whereKeysAreEnable = obj.building.isHasInternetOnline === null ? "2":"1";
-                      if (obj.building.isStockInOffice == "1" || obj.building.isStockInBuilding == "1"){
-                        $scope.tkupdate.idDeliveryCompanyKf="1";
-                        $scope.functions.isKeysEnable = "1";
-                        $scope.tkupdate.mess2show="El Pedido pasara a \"Pendiente de entrega\", por favor,     Confirmar?";
+                  switch($scope.ticket.selected.idTypeRequestFor){
+                    case "1":
+                      switch(obj.idTypeDeliveryKf){
+                        case "1"://RETIRO EN OFICINA
+                          $scope.tkupdate.mess2show="El Pedido pasara a \"Listo para Retirar\", por favor,     Confirmar?";
+                          //$scope.tkupdate.idDeliveryCompanyKf=null;
+                          console.log(obj)
+                        break;
+                        case "2"://RENTREGA EN DOMICILIO
+                          $scope.functions.whereKeysAreEnable = obj.building.isHasInternetOnline === null ? "2":"1";
+                          if (obj.building.isStockInOffice == "1" || obj.building.isStockInBuilding == "1"){
+                            $scope.tkupdate.idDeliveryCompanyKf="1";
+                            $scope.functions.isKeysEnable = "1";
+                            $scope.tkupdate.mess2show="El Pedido pasara a \"Pendiente de entrega\", por favor,     Confirmar?";
+                          }
+                          console.log(obj)
+                        break;
                       }
-                      console.log(obj)
+                    break;
+                    case "4":
+                      $scope.functions.whereKeysAreEnable = obj.building.isHasInternetOnline === null ? "2":"1";
+                      $scope.tkupdate.idDeliveryCompanyKf="1";
+                      $scope.tkupdate.mess2show="El Pedido quedara \"Entregado/Completado\", por favor,     Confirmar?";
                     break;
                   }
                 break;
@@ -3896,9 +3905,15 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"29"});
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
                       $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"40"});
-                      $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"41"});
+
                       $scope.tkupdate.isKeysEnable            = $scope.functions.isKeysEnable;
-                      $scope.tkupdate.idStatusTicketKf        = "4"
+                      if ($scope.ticket.selected.idTypeRequestFor=="4"){
+                        $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
+                        $scope.tkupdate.idStatusTicketKf        = "1"
+                      }else{
+                        $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"41"});
+                        $scope.tkupdate.idStatusTicketKf        = "4"
+                      }
                       var idKeychainStatusKf                  = 1;
                   break;
                   case "2":
