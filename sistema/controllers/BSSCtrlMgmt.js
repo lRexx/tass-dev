@@ -3424,7 +3424,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 console.log(obj);
                 switch (obj.selected){
                   case true:
-                    let Depto = $scope.tkupdate.department.floor+"-"+$scope.tkupdate.department.departament;
+                    let Depto = $scope.ticket.selected.idTypeRequestFor=="1"?$scope.tkupdate.department.floor+"-"+$scope.tkupdate.department.departament:null;
                     if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
                       if ($scope.rsNewKeychainList.length==0){
                         for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
@@ -3844,7 +3844,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     case "4":
                       $scope.functions.whereKeysAreEnable = obj.building.isHasInternetOnline === null ? "2":"1";
                       $scope.tkupdate.idDeliveryCompanyKf="1";
-                      $scope.tkupdate.mess2show="El Pedido sera \"/Completado\", una vez asginado el llavero, por favor,     Confirmar?";
+                      $scope.tkupdate.mess2show="El Pedido sera \"Completado\", una vez asginado el llavero, por favor,     Confirmar?";
                     break;
                   }
                 break;
