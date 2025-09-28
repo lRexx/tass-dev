@@ -2383,9 +2383,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                               }
                             }
                           }else{
-                            console.log($scope.rsExistingKeyList);
+
                             $scope.rsAllKeychainListDataFiltered = [];
                             $scope.rsNewKeychainList = []
+                            console.log($scope.rsExistingKeyList);
                             console.log($scope.rsAllKeychainListData);
                             console.log($scope.tkupdate.keys);
                             for (var tKeys in $scope.tkupdate.keys){
@@ -2395,8 +2396,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                 if ($scope.rsAllKeychainListData[stock].idKeychain==$scope.tkupdate.keys[tKeys].keychain.idKeychain){
                                   $scope.rsAllKeychainListDataFiltered.push($scope.rsAllKeychainListData[stock]);
                                   $scope.rsNewKeychainList.push($scope.rsAllKeychainListData[stock]);
-                                  $scope.rsAllKeychainListDataFiltered[stock].selected = true;
-                                  $scope.rsAllKeychainListDataFiltered[stock].disabled = true;
+                                  $scope.rsAllKeychainListDataFiltered[tKeys].selected = true;
+                                  $scope.rsAllKeychainListDataFiltered[tKeys].disabled = true;
                                   console.log($scope.rsAllKeychainListDataFiltered);
                                 }
                               }
