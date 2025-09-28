@@ -3355,6 +3355,7 @@ class Ticket_model extends CI_Model
 			$quuery = $this->db->where("idTicketKf = ", @$ticket['idTicket'])->get();
 			$rs_tickets['tickets'][$key]['keys'] = @$quuery->result_array();
 			$i = 0;
+			log_message('info', print_r($quuery->result_array(), true));
 			foreach ($rs_tickets['tickets'][$key]['keys'] as $ticketKeychain) {
 				$idTicketKeychain = $ticketKeychain['idTicketKeychain'];
 				$this->db->select("*")->from("tb_keychain");
@@ -3375,6 +3376,7 @@ class Ticket_model extends CI_Model
 				$where_string = "tb_ticket_keychain_doors.idTicketKeychainKf = $idTicketKeychain AND tb_contratos.idStatusFk = 1 AND tb_ticket_keychain_doors.doorSelected = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 1
 					GROUP BY tb_access_control_door.idAccessControlDoor,tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_access_control_door.idAccessControlDoor;";
 				$quuery = $this->db->where($where_string)->get();
+				log_message('info', print_r($quuery->result_array(), true));
 				$rs_tickets['tickets'][$key]['keys'][$i]['doors'] = @$quuery->result_array();
 
 				$this->db->select("*")->from("tb_user");
