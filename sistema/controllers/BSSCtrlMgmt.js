@@ -2388,10 +2388,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             $scope.rsNewKeychainList = []
                             console.log($scope.rsAllKeychainListData);
                             console.log($scope.tkupdate.keys);
-                            for (var stock in $scope.rsAllKeychainListData){
-                              console.log($scope.rsAllKeychainListData[stock].idKeychain);
-                              for (var tKeys in $scope.tkupdate.keys){
-                                console.log($scope.tkupdate.keys[tKeys].keychain.idKeychain);
+                            for (var tKeys in $scope.tkupdate.keys){
+                              for (var stock in $scope.rsAllKeychainListData){
+                                console.log("$scope.rsAllKeychainListData[stock].idKeychain: "+$scope.rsAllKeychainListData[stock].idKeychain);
+                                console.log("$scope.tkupdate.keys[tKeys].keychain.idKeychain: "+$scope.tkupdate.keys[tKeys].keychain.idKeychain);
                                 if ($scope.rsAllKeychainListData[stock].idKeychain==$scope.tkupdate.keys[tKeys].keychain.idKeychain){
                                   $scope.rsAllKeychainListDataFiltered.push($scope.rsAllKeychainListData[stock]);
                                   $scope.rsNewKeychainList.push($scope.rsAllKeychainListData[stock]);
