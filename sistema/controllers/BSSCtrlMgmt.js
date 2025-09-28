@@ -3807,15 +3807,20 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"1","-1",$scope.tkupdate.department.idClientDepartament,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
                 break;
                 case "2":
-                case "4":
                 case "6":
                   if (!$scope.tkupdate.idMgmtMethodKf){
                     $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
                   }else{
                     $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"6","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
                   }
-
-                break
+                break;
+                case "6":
+                  if (!$scope.tkupdate.idMgmtMethodKf){
+                    $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
+                  }else{
+                    $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"4","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
+                  }
+                break;
               }
             break;
             case "keychain_manual":
