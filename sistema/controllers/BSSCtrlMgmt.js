@@ -2397,6 +2397,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                   $scope.rsNewKeychainList.push($scope.rsAllKeychainListData[stock]);
                                   $scope.rsAllKeychainListDataFiltered[stock].selected = true;
                                   $scope.rsAllKeychainListDataFiltered[stock].disabled = true;
+                                  console.log($scope.rsAllKeychainListDataFiltered);
                                 }
                               }
                             }
