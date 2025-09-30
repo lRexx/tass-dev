@@ -21,7 +21,7 @@
                 <div class="col-md-12 col-xs-12" style="padding-bottom: 0.5em;">
                     <!-- NEW TICKET -->
                     <div class="col-md-6">
-                        <button ng-click="setOptionType($event);" ng-disabled="(ticket.selected.idTypeRequestFor!='4' && (rsAllKeychainListData.length==0 || rsAllKeychainListDataFiltered.length<tkupdate.keys.length || (tkupdate.idMgmtMethodKf!=null && tkupdate.idMgmtMethodKf=='2')))" id="stock" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='stock', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='stock'}">
+                        <button ng-click="setOptionType($event);" ng-disabled="(ticket.selected.idTypeRequestFor!='2' && (rsAllKeychainListData.length==0 || rsAllKeychainListDataFiltered.length<tkupdate.keys.length || (tkupdate.idMgmtMethodKf!=null && tkupdate.idMgmtMethodKf=='2')))" id="stock" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='stock', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='stock'}">
                             <i class="fas fa-boxes"></i> STOCK
                             <span ng-click="" ng-if="tkupdate.building.isStockInOffice!=undefined && tkupdate.building.isStockInOffice=='1'" class="badge badge-warning"> En Oficina</span>
                             <span ng-click="" ng-if="tkupdate.building.isStockInBuilding!=undefined && tkupdate.building.isStockInBuilding=='1'" class="badge badge-warning"> En Edificio</span>&nbsp;
