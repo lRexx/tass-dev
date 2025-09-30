@@ -1279,6 +1279,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $scope.tkupdate = {};
             }
         });
+        console.log("$scope.rsNewKeychainList lenght: "+$scope.rsNewKeychainList.length);
+        console.log("$scope.rsExistingKeyList lenght: "+$scope.rsExistingKeyList.length);
+        console.log("$scope.list_new_keys lenght:     "+$scope.list_new_keys.length);
       }
       $scope.setOptionType = function(obj) {
         var elem = angular.element(obj.target);// or angular.element(obj.target);
