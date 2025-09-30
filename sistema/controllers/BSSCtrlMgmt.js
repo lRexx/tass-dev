@@ -3791,7 +3791,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.keys                       = {"new":{'products':{'selected':{}}}}
               $scope.rsNewKeychainList          = [];
               $scope.rsExistingKeyList          = [];
-              $scope.rsExistingKeyList          = $scope.existingStockKeys;
               $scope.list_new_keys              = [];
               $scope.isNewKeySingle             = false;
               $scope.isEditKey                  = false;
@@ -3799,8 +3798,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.ticket.idMgmtMethodKf      = null;
               $scope.tkupdate.keysMethod        = {'name':''};
               $scope.ticket.keysMethod.name     = undefined;
+              console.log("$scope.rsNewKeychainList lenght: "+$scope.rsNewKeychainList.length);
+              console.log("$scope.rsExistingKeyList lenght: "+$scope.rsExistingKeyList.length);
+              console.log("$scope.tkupdate.keys lenght:     "+$scope.tkupdate.keys.length);
               if ($scope.ticket.selected.idTypeRequestFor=="1"){
                 $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
+              }else{
+                $scope.rsExistingKeyList          = $scope.existingStockKeys;
               }
             break;
             case "uploadKeyFile":
