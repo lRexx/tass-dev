@@ -3683,6 +3683,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           }
                         }
                         $scope.findKeyByCodeFn(newCode, $scope.tkupdate.building.idClient).then(function(isCodeExistInBuilding) {
+                          console.log(isCodeExistInBuilding);
                           switch (isCodeExistInBuilding){
                             case 1:
                               $scope.isCodeExist=true;
