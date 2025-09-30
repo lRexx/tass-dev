@@ -3647,15 +3647,17 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   }
                 }else{
                   //Auto Complete Function
+                  console.log("$scope.rsNewKeychainList lenght: "+$scope.rsNewKeychainList.length);
+                  console.log("$scope.rsExistingKeyList lenght: "+$scope.rsExistingKeyList.length);
+                  console.log("$scope.list_new_keys lenght:     "+$scope.list_new_keys.length);
+                  console.log($scope.tmpKey.new.codigo);
+                  console.log($scope.tmpKey.new.codigoExt);
                   let baseCode = parseInt($scope.tmpKey.new.codigo);        // código inicial
                   let baseCodeExt = parseInt($scope.tmpKey.new.codigoExt);
                   if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
                     if ($scope.rsNewKeychainList.length>=0){
                       if ($scope.rsNewKeychainList.length>=1){
                         for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
-                          console.log("$scope.rsNewKeychainList lenght: "+$scope.rsNewKeychainList.length);
-                          console.log("$scope.rsExistingKeyList lenght: "+$scope.rsExistingKeyList.length);
-                          console.log("$scope.list_new_keys lenght:     "+$scope.list_new_keys.length);
                           $scope.isCodeExist = false;
                           let newCode = (baseCode + i).toString();
                           let newCodeExt = (baseCodeExt +i).toString();
