@@ -3654,6 +3654,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log($scope.tmpKey.new.codigoExt);
                   let baseCode = parseInt($scope.tmpKey.new.codigo);        // código inicial
                   let baseCodeExt = parseInt($scope.tmpKey.new.codigoExt);
+                  console.log(baseCode);
+                  console.log(baseCodeExt);
                   if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
                     if ($scope.rsNewKeychainList.length>=0){
                       if ($scope.rsNewKeychainList.length>=1){
@@ -3661,6 +3663,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           $scope.isCodeExist = false;
                           let newCode = (baseCode + i).toString();
                           let newCodeExt = (baseCodeExt +i).toString();
+                          console.log(newCode);
+                          console.log(newCodeExt);
                           $scope.isCodeExist = false;
                           if ($scope.rsNewKeychainList[i].codigo==$scope.tmpKey.new.codigo){
                             if ($scope.ticket.selected.idTypeRequestFor=="1"){
