@@ -3862,7 +3862,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.isNewKeyMulti         = true;
               $scope.rsKeyListsData        = null;
               $scope.pagination.pageIndex  = 1;
-              $scope.thereIsKeyWithoutIdKeychain=true;
               $scope.keychainSearch={
                 "idClientKf":null,
                 "idCategoryKf":null,
@@ -3880,6 +3879,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
               switch($scope.tkupdate.idTypeRequestFor){
                 case "1":
+                    console.log("$scope.thereIsKeyWithoutIdKeychain: "+$scope.thereIsKeyWithoutIdKeychain);
                     console.log("ticket.keysMethod         : ");
                     console.log($scope.ticket.keysMethod);
                     console.log("ticket.keysMethod.name    : "+$scope.ticket.keysMethod.name);
@@ -3890,6 +3890,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 case "2":
                 case "6":
                   if (!$scope.tkupdate.idMgmtMethodKf){
+                    $scope.thereIsKeyWithoutIdKeychain=true;
                     $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
                   }else{
                     $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"6","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
@@ -3897,6 +3898,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 break;
                 case "4":
                   if (!$scope.tkupdate.idMgmtMethodKf){
+                    $scope.thereIsKeyWithoutIdKeychain=true;
                     $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
                   }else{
                     $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"4","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
