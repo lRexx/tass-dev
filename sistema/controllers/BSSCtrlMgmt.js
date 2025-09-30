@@ -1243,6 +1243,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 switch($scope.tkupdate.idTypeRequestFor){
                   case "1":
                       $scope.getDeptoListByAddress($scope.tkupdate.building.idClient);
+                      $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
                   break;
                 }
               }
