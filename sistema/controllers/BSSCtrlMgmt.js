@@ -3904,7 +3904,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.keys.new.products.selected = {'idProduct':$scope.tkupdate.keys[0].idProduct,'model':$scope.tkupdate.keys[0].model,'classification':$scope.tkupdate.keys[0].classification,'codigoFabric':$scope.tkupdate.keys[0].codigoFabric,'descriptionProduct':$scope.tkupdate.keys[0].descriptionProduct,'idProductClassification':$scope.tkupdate.keys[0].idProductClassification,'brand':$scope.tkupdate.keys[0].brand,'priceFabric':$scope.tkupdate.keys[0].priceFabric};
               $scope.keys.new.department        = $scope.tkupdate.idTypeRequestFor=="1"?$scope.tkupdate.department.idClientDepartament:null;
               $scope.keys.new.Depto             = $scope.tkupdate.idTypeRequestFor=="1"?$scope.tkupdate.department.floor+"-"+$scope.tkupdate.department.departament:null;
-              $scope.keys.new.categoryKey
+              console.log($scope.rsNewKeychainList);
+              console.log($scope.keys.new.categoryKey);
               console.log($scope.keys.new.categoryKeychain);
               console.log($scope.keys.new.products.selected);
               console.log($scope.keys.new.department);
