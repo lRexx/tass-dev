@@ -3715,6 +3715,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       $scope.rsExistingKeyList.splice(key,1);
                   }
                 }
+                console.log("$scope.rsNewKeychainList lenght: "+$scope.rsNewKeychainList.length);
+                console.log("$scope.rsExistingKeyList lenght: "+$scope.rsExistingKeyList.length);
+                console.log("$scope.list_new_keys lenght:     "+$scope.list_new_keys.length);
+
                 $scope.mainSwitchFn('keychain_manual', null, null);
             break;
             case "cancelSetMgmtKeys":
