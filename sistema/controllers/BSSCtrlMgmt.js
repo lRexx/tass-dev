@@ -3465,6 +3465,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 switch (obj.selected){
                   case true:
                     let Depto = $scope.ticket.selected.idTypeRequestFor=="1"?$scope.tkupdate.department.floor+"-"+$scope.tkupdate.department.departament:null;
+                    let idClientDepartament = $scope.tkupdate.department.idClientDepartament!=undefined?$scope.tkupdate.department.idClientDepartament:null;
                     if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
                       if ($scope.rsNewKeychainList.length==0){
                         for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
@@ -3500,8 +3501,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         console.log("ADD_NO_EXIST");
                         var idKeychainStatusKf = $scope.ticket.idMgmtMethodKf=='1'?obj.idKeychainStatus:0
                         var statusKey = $scope.ticket.idMgmtMethodKf=='1'?'Activo':'Inactivo'
-                        $scope.rsNewKeychainList.push({"idKeychain":obj.idKeychain, "idProductKf":obj.idProductKf,"descriptionProduct":obj.descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":obj.codExt,"codigo":obj.codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":obj.idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":idKeychainStatusKf, "statusKey":statusKey, "doors":{}});
-                        $scope.list_new_keys.push({"idKeychain":obj.idKeychain, "idProductKf":obj.idProductKf,"descriptionProduct":obj.descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":obj.codExt,"codigo":obj.codigo,"idDepartmenKf":$scope.tkupdate.department.idClientDepartament,"idClientKf":obj.idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":idKeychainStatusKf, "statusKey":statusKey, "doors":{}});
+                        $scope.rsNewKeychainList.push({"idKeychain":obj.idKeychain, "idProductKf":obj.idProductKf,"descriptionProduct":obj.descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":obj.codExt,"codigo":obj.codigo,"idDepartmenKf":idClientDepartament,"idClientKf":obj.idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":idKeychainStatusKf, "statusKey":statusKey, "doors":{}});
+                        $scope.list_new_keys.push({"idKeychain":obj.idKeychain, "idProductKf":obj.idProductKf,"descriptionProduct":obj.descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":obj.codExt,"codigo":obj.codigo,"idDepartmenKf":idClientDepartament,"idClientKf":obj.idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":idKeychainStatusKf, "statusKey":statusKey, "doors":{}});
                         obj.selected = true;
                       }
                       for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
