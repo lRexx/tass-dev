@@ -3550,7 +3550,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 console.log($scope.list_new_keys);
                 console.log("$scope.rsNewKeychainList lenght: "+$scope.rsNewKeychainList.length);
                 console.log("$scope.rsExistingKeyList lenght: "+$scope.rsExistingKeyList.length);
-                console.log("$scope.list_new_keys lenght:     "+$scope.list_new_keys.length);
+                console.log("$scope.tkupdate.keys lenght:     "+$scope.tkupdate.keys.length);
                 let deviceOpen = $scope.tmpKey.new.products.selected;
                 if (!$scope.tmpKey.new.autoComplete){
                   if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
@@ -3648,7 +3648,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   //Auto Complete Function
                   console.log("$scope.rsNewKeychainList lenght: "+$scope.rsNewKeychainList.length);
                   console.log("$scope.rsExistingKeyList lenght: "+$scope.rsExistingKeyList.length);
-                  console.log("$scope.list_new_keys lenght:     "+$scope.list_new_keys.length);
+                  console.log("$scope.tkupdate.keys lenght:     "+$scope.tkupdate.keys.length);
                   console.log($scope.tmpKey.new.codigo);
                   console.log($scope.tmpKey.new.codigoExt);
                   let baseCode = parseInt($scope.tmpKey.new.codigo);        // código inicial
