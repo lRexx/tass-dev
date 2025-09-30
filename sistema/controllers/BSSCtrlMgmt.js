@@ -1121,7 +1121,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               if ($scope.tkupdate.idMgmtMethodKf!=null){
                 switch($scope.tkupdate.idTypeRequestFor){
                   case "1":
-                    if ($scope.tkupdate.idMgmtMethodKf=="2"){
                       $scope.getDeptoListByAddress($scope.tkupdate.building.idClient);
                       $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
                       $timeout(function() {
@@ -1135,43 +1134,14 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             }
                           }
                         }
-                        console.log("ticket.keysMethod.name  : "+$scope.ticket.keysMethod.name);
-                        console.log("tkupdate.keys length    : "+$scope.tkupdate.keys.length);
-                        console.log("rsNewKeychainList length: "+$scope.rsNewKeychainList.length);
+                        console.log("ticket.keysMethod.name          : "+$scope.ticket.keysMethod.name);
+                        console.log("tkupdate.keys length            : "+$scope.tkupdate.keys.length);
+                        console.log("$scope.rsExistingKeyList lenght : "+$scope.rsExistingKeyList.length);
+                        console.log("rsNewKeychainList length        : "+$scope.rsNewKeychainList.length);
                         console.log($scope.rsNewKeychainList);
                         console.log("list_new_keys");
                         console.log($scope.list_new_keys);
                       }, 1000);
-                    }else{
-                      $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"1","-1",$scope.tkupdate.idDepartmentKf,null,null,1,$scope.pagination.pageSizeSelected,false,true,0,1);
-                      $timeout(function() {
-                        //console.log($scope.rsAllKeychainListData);
-                        for (var tk_key in $scope.tkupdate.keys){
-                          //console.log(i);
-                          //console.log("$scope.tkupdate.keys[tk_key].keychain.idKeychain: "+$scope.tkupdate.keys[tk_key].keychain.idKeychain);
-                          for (var i = 0; i < $scope.rsAllKeychainListData.length; i++) {
-                            //rsNewKeychainList
-                            //console.log("$scope.rsAllKeychainListData[i].idKeychain: "+$scope.rsAllKeychainListData[i].idKeychain);
-                            if ($scope.rsAllKeychainListData[i].idKeychain==$scope.tkupdate.keys[tk_key].keychain.idKeychain && $scope.rsAllKeychainListData[i].idKeychainStatusKf!="-1"){
-                              $scope.rsExistingKeyList.push($scope.rsAllKeychainListData[i]);
-                              $scope.rsNewKeychainList.push($scope.rsAllKeychainListData[i]);
-                              $scope.list_new_keys.push($scope.rsAllKeychainListData[i]);
-                              break;
-                            }
-                          }
-                        }
-                        console.log("ticket.keysMethod.name  : "+$scope.ticket.keysMethod.name);
-                        console.log("tkupdate.keys length    : "+$scope.tkupdate.keys.length);
-                        console.log("rsNewKeychainList length: "+$scope.rsNewKeychainList.length);
-                        console.log("rsExistingKeyList length: "+$scope.rsExistingKeyList.length);
-                        console.log("rsNewKeychainList");
-                        console.log($scope.rsNewKeychainList);
-                        console.log("rsExistingKeyList");
-                        console.log($scope.rsExistingKeyList);
-                        console.log("list_new_keys");
-                        console.log($scope.list_new_keys);
-                      }, 1000);
-                    }
                   break;
                   case "2":
                     $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,0,1);
