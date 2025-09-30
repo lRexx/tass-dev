@@ -3465,7 +3465,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 switch (obj.selected){
                   case true:
                     let Depto = $scope.ticket.selected.idTypeRequestFor=="1"?$scope.tkupdate.department.floor+"-"+$scope.tkupdate.department.departament:null;
-                    let idClientDepartament = $scope.tkupdate.department.idClientDepartament!=undefined?$scope.tkupdate.department.idClientDepartament:null;
+                    let idClientDepartament = $scope.tkupdate.department!=undefined && $scope.tkupdate.department.idClientDepartament!=undefined?$scope.tkupdate.department.idClientDepartament:null;
                     if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
                       if ($scope.rsNewKeychainList.length==0){
                         for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
