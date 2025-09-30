@@ -3659,6 +3659,25 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           $scope.isCodeExist = false;
                           let newCode = (baseCode + i).toString();
                           let newCodeExt = (baseCodeExt +i).toString();
+                          $scope.isCodeExist = false;
+                          if ($scope.rsNewKeychainList[i].codigo==$scope.tmpKey.new.codigo){
+                            if ($scope.ticket.selected.idTypeRequestFor=="1"){
+                              inform.add("El Llavero con el Codigo: ["+$scope.tmpKey.new.codigo+"], ya existe en la nueva lista a asignar al Departamento "+$scope.tmpKey.new.Depto,{
+                              ttl:15000, type: 'warning'
+                              });
+                            }else{
+                              inform.add("El Llavero con el Codigo: ["+$scope.tmpKey.new.codigo+"], ya existe en la nueva lista a asignar al Edificio ",{
+                              ttl:15000, type: 'warning'
+                              });
+                            }
+
+                            $scope.isCodeNewExist=true;
+                            console.log($scope.isCodeNewExist);
+                            break;
+                          }else{
+                            $scope.isCodeNewExist=false;
+                            console.log($scope.isCodeNewExist);
+                          }
                           $scope.findKeyByCodeFn(newCode, $scope.tkupdate.building.idClient).then(function(isCodeExistInBuilding) {
                             switch (isCodeExistInBuilding){
                               case 1:
