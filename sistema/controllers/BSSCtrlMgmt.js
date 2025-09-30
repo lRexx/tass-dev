@@ -3467,7 +3467,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     let Depto = $scope.ticket.selected.idTypeRequestFor=="1"?$scope.tkupdate.department.floor+"-"+$scope.tkupdate.department.departament:null;
                     let idClientDepartament = $scope.tkupdate.department!=undefined && $scope.tkupdate.department.idClientDepartament!=undefined?$scope.tkupdate.department.idClientDepartament:null;
                     if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
-                      if ($scope.rsNewKeychainList.length==0){
+                      /*if ($scope.rsNewKeychainList.length==0){
                         for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
                           if ($scope.rsExistingKeyList[i].codigo==obj.codigo){
                             inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en el Departamento "+Depto,{
@@ -3475,14 +3475,12 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             });
                             $scope.isCodeExist=true;
                             break;
-                            //console.log($scope.isMailExist);
                           }else{
                             $scope.isCodeExist=false;
-                            //console.log($scope.isMailExist);
                           }
                         }
-                      }
-                      if ($scope.rsNewKeychainList.length>0){
+                      }*/
+                      if ($scope.rsNewKeychainList.length>=1){
                         for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
                           if ($scope.rsNewKeychainList[i].codigo==obj.codigo){
                             inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en en la nueva lista a asignar en el Departamento "+Depto,{
@@ -3490,10 +3488,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             });
                             $scope.isCodeNewExist=true;
                             break;
-                            //console.log($scope.isMailExist);
                           }else{
                             $scope.isCodeNewExist=false;
-                            //console.log($scope.isMailExist);
                           }
                         }
                       }
@@ -3505,6 +3501,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         $scope.list_new_keys.push({"idKeychain":obj.idKeychain, "idProductKf":obj.idProductKf,"descriptionProduct":obj.descriptionProduct,"categoryKeychain":"Departamento","Depto":Depto, "codExt":obj.codExt,"codigo":obj.codigo,"idDepartmenKf":idClientDepartament,"idClientKf":obj.idClientKf,"idUserKf":null,"idCategoryKf":"1","isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":idKeychainStatusKf, "statusKey":statusKey, "doors":{}});
                         obj.selected = true;
                       }
+
                       for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
                         // Ensure the index exists in rsNewKeychainList
                         if ($scope.rsNewKeychainList[i]) {
