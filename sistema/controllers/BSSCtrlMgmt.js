@@ -3653,10 +3653,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log($scope.tmpKey.new.codigoExt);
                   let baseCode = parseInt($scope.tmpKey.new.codigo);        // código inicial
                   let baseCodeExt = parseInt($scope.tmpKey.new.codigoExt);
-
-                  if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
-                                      console.log(baseCode);
+                  console.log(baseCode);
                   console.log(baseCodeExt);
+                  if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
                     if ($scope.rsNewKeychainList.length>=0){
                       if ($scope.rsNewKeychainList.length>=1){
                         for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
@@ -3682,6 +3681,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             $scope.isCodeNewExist=false;
                             console.log($scope.isCodeNewExist);
                           }
+                        }
                           $scope.findKeyByCodeFn(newCode, $scope.tkupdate.building.idClient).then(function(isCodeExistInBuilding) {
                             switch (isCodeExistInBuilding){
                               case 1:
@@ -3721,7 +3721,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                               }
                             }
                           });
-                        }
                       }
                     }
                     for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
