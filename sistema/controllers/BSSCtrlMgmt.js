@@ -3557,7 +3557,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     if ($scope.rsNewKeychainList.length>=0){
                       if ($scope.rsNewKeychainList.length>=1){
                         for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
-                          $scope.isCodeExist = false;
                           if ($scope.rsNewKeychainList[i].codigo==$scope.tmpKey.new.codigo){
                             if ($scope.ticket.selected.idTypeRequestFor=="1"){
                               inform.add("El Llavero con el Codigo: ["+$scope.tmpKey.new.codigo+"], ya existe en la nueva lista a asignar al Departamento "+$scope.tmpKey.new.Depto,{
@@ -3660,12 +3659,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     if ($scope.rsNewKeychainList.length>=0){
                       if ($scope.rsNewKeychainList.length>=1){
                         for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
-                          $scope.isCodeExist = false;
                           let newCode = (baseCode + i).toString();
                           let newCodeExt = (baseCodeExt +i).toString();
                           console.log(newCode);
                           console.log(newCodeExt);
-                          $scope.isCodeExist = false;
                           if ($scope.rsNewKeychainList[i].codigo==$scope.tmpKey.new.codigo){
                             if ($scope.ticket.selected.idTypeRequestFor=="1"){
                               inform.add("El Llavero con el Codigo: ["+$scope.tmpKey.new.codigo+"], ya existe en la nueva lista a asignar al Departamento "+$scope.tmpKey.new.Depto,{
