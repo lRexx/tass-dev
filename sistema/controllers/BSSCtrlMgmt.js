@@ -2254,7 +2254,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             for (var tkey in $scope.tkupdate.keys){
                               for (var stock in $scope.rsAllKeychainListDataFiltered){
                                 if ($scope.tkupdate.keys[tkey].idProduct == $scope.rsAllKeychainListDataFiltered[stock].idProductKf && tk_selected<$scope.tkupdate.keys.length){
-                                  if ($scope.rsNewKeychainList.length==0){
+                                  /*if ($scope.rsNewKeychainList.length==0){
                                     for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
                                       if ($scope.rsExistingKeyList[i].codigo==$scope.rsAllKeychainListDataFiltered[stock].codigo){
                                         //inform.add("El Llavero con el Codigo: ["+$scope.rsAllKeychainListDataFiltered[stock].codigo+"], ya existe en el Departamento "+$scope.rsExistingKeyList[i].Depto,{
@@ -2268,8 +2268,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                         //console.log($scope.isMailExist);
                                       }
                                     }
-                                  }
-                                  if ($scope.rsNewKeychainList.length>0){
+                                  }*/
+                                  if ($scope.rsNewKeychainList.length>=0){
                                     for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
                                       if ($scope.rsNewKeychainList[i].codigo==$scope.rsAllKeychainListDataFiltered[stock].codigo){
                                         //inform.add("El Llavero con el Codigo: ["+obj.codigo+"], ya existe en en la nueva lista a asignar en el Departamento "+obj.Depto,{
