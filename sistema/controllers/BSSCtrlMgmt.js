@@ -3551,7 +3551,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
                     if ($scope.rsNewKeychainList.length>=0){
                       if ($scope.rsNewKeychainList.length>=1){
-                        for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
+                        for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
                           $scope.isCodeExist = false;
                           if ($scope.rsNewKeychainList[i].codigo==$scope.tmpKey.new.codigo){
                             if ($scope.ticket.selected.idTypeRequestFor=="1"){
@@ -3649,11 +3649,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
                     if ($scope.rsNewKeychainList.length>=0){
                       if ($scope.rsNewKeychainList.length>=1){
-                        for (var i = $scope.rsNewKeychainList.length; i < $scope.tkupdate.keys.length; i++) {
-                            console.log("$scope.rsNewKeychainList lenght: "+$scope.rsNewKeychainList.length);
-                            console.log("$scope.rsExistingKeyList lenght: "+$scope.rsExistingKeyList.length);
-                            console.log("$scope.list_new_keys lenght:     "+$scope.list_new_keys.length);
-                            $scope.isCodeExist = false;
+                        for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
+                          console.log("$scope.rsNewKeychainList lenght: "+$scope.rsNewKeychainList.length);
+                          console.log("$scope.rsExistingKeyList lenght: "+$scope.rsExistingKeyList.length);
+                          console.log("$scope.list_new_keys lenght:     "+$scope.list_new_keys.length);
+                          $scope.isCodeExist = false;
                           let newCode = (baseCode + i).toString();
                           let newCodeExt = (baseCodeExt +i).toString();
                           $scope.findKeyByCodeFn(newCode, $scope.tkupdate.building.idClient).then(function(isCodeExistInBuilding) {
