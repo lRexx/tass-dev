@@ -3692,7 +3692,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                               $scope.isCodeExist=false;
                             break;
                           }
-                          if(!$scope.isCodeExist && !isCodeNewExist){
+                          if(!$scope.isCodeExist && !$scope.isCodeNewExist){
                             console.log("ADD_NO_EXIST");
                             let depto = $scope.tmpKey.new.Depto!=undefined?$scope.tmpKey.new.Depto:null;
                             let idDepto = $scope.tmpKey.new.department!=undefined?$scope.tmpKey.new.department:null;
