@@ -3798,6 +3798,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.ticket.idMgmtMethodKf      = null;
               $scope.tkupdate.keysMethod        = {'name':''};
               $scope.ticket.keysMethod.name     = undefined;
+              console.log("$scope.existingStockKeys       : "+$scope.existingStockKeys);
               console.log("$scope.rsNewKeychainList lenght: "+$scope.rsNewKeychainList.length);
               console.log("$scope.rsExistingKeyList lenght: "+$scope.rsExistingKeyList.length);
               console.log("$scope.tkupdate.keys lenght:     "+$scope.tkupdate.keys.length);
