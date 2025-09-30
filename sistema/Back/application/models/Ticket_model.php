@@ -3095,7 +3095,7 @@ class Ticket_model extends CI_Model
 			}
 			$quuery = $this->db->order_by("idTicket", "DESC")->get();
 			log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $quuery->num_rows());
-			if ($quuery->num_rows()) {
+			if ($quuery->num_rows() >= 0) {
 				//print_r($quuery->result_array());
 				return $this->buscar_relaciones_ticket($quuery->result_array());
 			}
