@@ -2324,7 +2324,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         case "6":
                           var Depto = null;
                           var idDepto = null;
-                          $scope.tkupdate.existingStockKeys = [];
+                          $scope.existingStockKeys = [];
                           if ($scope.tkupdate.idMgmtMethodKf==null){
                             $scope.rsAllKeychainListDataFiltered = $scope.rsAllKeychainListData.filter(s => s.idProductKf == $scope.tkupdate.keys[0].idProductKf);
                             console.log($scope.rsAllKeychainListDataFiltered);
@@ -2367,7 +2367,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                     console.log("ADD_NO_EXIST");
                                     //var idKeychainStatusKf = $scope.ticket.idMgmtMethodKf=='1'?$scope.rsAllKeychainListDataFiltered[stock].idKeychainStatus:0
                                     $scope.rsExistingKeyList.push({"idKeychain":$scope.rsAllKeychainListDataFiltered[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListDataFiltered[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListDataFiltered[stock].descriptionProduct,"categoryKeychain":$scope.rsAllKeychainListDataFiltered[stock].categoryKeychain,"Depto":Depto, "codExt":$scope.rsAllKeychainListDataFiltered[stock].codExt,"codigo":$scope.rsAllKeychainListDataFiltered[stock].codigo,"idDepartmenKf":idDepto,"idClientKf":$scope.rsAllKeychainListDataFiltered[stock].idClientKf,"idUserKf":null,"idCategoryKf":$scope.rsAllKeychainListDataFiltered[stock].idCategoryKf,"isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":$scope.rsAllKeychainListDataFiltered[stock].idKeychainStatusKf, "statusKey":$scope.rsAllKeychainListDataFiltered[stock].statusKey, "doors":{}});
-                                    $scope.list_new_keys.push({"idKeychain":$scope.rsAllKeychainListDataFiltered[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListDataFiltered[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListDataFiltered[stock].descriptionProduct,"categoryKeychain":$scope.rsAllKeychainListDataFiltered[stock].categoryKeychain,"Depto":Depto, "codExt":$scope.rsAllKeychainListDataFiltered[stock].codExt,"codigo":$scope.rsAllKeychainListDataFiltered[stock].codigo,"idDepartmenKf":idDepto,"idClientKf":$scope.rsAllKeychainListDataFiltered[stock].idClientKf,"idUserKf":null,"idCategoryKf":$scope.rsAllKeychainListDataFiltered[stock].idCategoryKf,"isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":$scope.rsAllKeychainListDataFiltered[stock].idKeychainStatusKf, "statusKey":$scope.rsAllKeychainListDataFiltered[stock].statusKey, "doors":{}});
+                                    $scope.existingStockKeys.push({"idKeychain":$scope.rsAllKeychainListDataFiltered[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListDataFiltered[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListDataFiltered[stock].descriptionProduct,"categoryKeychain":$scope.rsAllKeychainListDataFiltered[stock].categoryKeychain,"Depto":Depto, "codExt":$scope.rsAllKeychainListDataFiltered[stock].codExt,"codigo":$scope.rsAllKeychainListDataFiltered[stock].codigo,"idDepartmenKf":idDepto,"idClientKf":$scope.rsAllKeychainListDataFiltered[stock].idClientKf,"idUserKf":null,"idCategoryKf":$scope.rsAllKeychainListDataFiltered[stock].idCategoryKf,"isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":$scope.rsAllKeychainListDataFiltered[stock].idKeychainStatusKf, "statusKey":$scope.rsAllKeychainListDataFiltered[stock].statusKey, "doors":{}});
+
                                     $scope.rsAllKeychainListDataFiltered[stock].selected = true;
                                     tk_selected++;
                                   }
@@ -3695,6 +3696,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           if ($scope.isCodeNewExist){
                             newCode = (baseCode + 1).toString();
                             newCodeExt = (baseCodeExt + 1).toString();
+                            $scope.isCodeNewExist = false;
                           }
                           if(!$scope.isCodeExist && !$scope.isCodeNewExist){
                             console.log("ADD_NO_EXIST");
@@ -3782,6 +3784,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.keys                       = {"new":{'products':{'selected':{}}}}
               $scope.rsNewKeychainList          = [];
               $scope.rsExistingKeyList          = [];
+              $scope.rsExistingKeyList          = $scope.existingStockKeys;
               $scope.list_new_keys              = [];
               $scope.isNewKeySingle             = false;
               $scope.isEditKey                  = false;
