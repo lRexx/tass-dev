@@ -319,16 +319,16 @@
             </div>
             <div class="clearfix"> </div>
         </div>
-        <!--ng-if="((tkupdate.idMgmtMethodKf==null && rsNewKeychainList.length==tkupdate.keys.length) ||(tkupdate.idMgmtMethodKf!=null && rsNewKeychainList.length!=tkupdate.keys.length))"-->
+        <!--ng-if="((tkupdate.idMgmtMethodKf==null && rsNewKeychainList.length==tkupdate.keys.length) ||(tkupdate.idMgmtMethodKf!=null && rsNewKeychainList.length!=tkupdate.keys.length))" || sNewKeychainList.length!=tkupdate.keys.length  || rsNewKeychainList.length==tkupdate.keys.length -->
         <div class="modal-footer">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
                     <button ng-if="tkupdate.idStatusTicketKf!='1' && tkupdate.idMgmtMethodKf==null" type="button" ng-click="mainSwitchFn('setMgmtKeys', tkupdate, null)" ng-disabled="
                     (tkupdate.idStatusTicketKf=='1' || (((ticket.keysMethod && (ticket.keysMethod.name==undefined || ticket.keysMethod.name=='')) || rsNewKeychainList.length!=tkupdate.keys.length) && !thereIsKeyWithoutIdKeychain))" class="btn btn-labeled btn-success">
                         <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Asignar</button>
-                    <a ng-show="(tkupdate.idStatusTicketKf!='1' && (tkupdate.idMgmtMethodKf==null || rsExistingKeyList.length!=tkupdate.keys.length || rsNewKeychainList.length!=tkupdate.keys.length || thereIsKeyWithoutIdKeychain))" id="cancelModalWindow" type="button" ng-click="modalConfirmation('cancelSetMgmtKeys',0, tkupdate)" class="btn btn-labeled btn-danger">
+                    <a ng-show="(tkupdate.idStatusTicketKf!='1' && (tkupdate.idMgmtMethodKf==null || rsExistingKeyList.length!=tkupdate.keys.length  || thereIsKeyWithoutIdKeychain))" id="cancelModalWindow" type="button" ng-click="modalConfirmation('cancelSetMgmtKeys',0, tkupdate)" class="btn btn-labeled btn-danger">
                         <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
-                    <a ng-show="(tkupdate.idStatusTicketKf=='1' || (tkupdate.idMgmtMethodKf!=undefined && (rsExistingKeyList.length==tkupdate.keys.length || rsNewKeychainList.length==tkupdate.keys.length) && !thereIsKeyWithoutIdKeychain))" id="closeModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                    <a ng-show="(tkupdate.idStatusTicketKf=='1' || (tkupdate.idMgmtMethodKf!=undefined && (rsExistingKeyList.length==tkupdate.keys.length ) && !thereIsKeyWithoutIdKeychain))" id="closeModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
                         <span class="btn-label"><i class="fas fa-times-circle"></i></span>Cerrar</a>
                 </div>
             </div>
