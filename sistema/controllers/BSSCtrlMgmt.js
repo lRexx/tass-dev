@@ -3909,11 +3909,12 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
               switch($scope.tkupdate.idTypeRequestFor){
                 case "1":
-                    console.log("ticket.keysMethod         : "+$scope.ticket.keysMethod);
+                    console.log("ticket.keysMethod         : ");
+                    console.log($scope.ticket.keysMethod);
                     console.log("ticket.keysMethod.name    : "+$scope.ticket.keysMethod.name);
                     console.log("rsExistingKeyList Length  : "+$scope.rsExistingKeyList.length);
                     console.log("tkupdate.keys Length      : "+$scope.tkupdate.keys.length);
-                    //$scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
+                    $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"1","-1",$scope.tkupdate.idDepartmentKf,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
                 break;
                 case "2":
                 case "6":
