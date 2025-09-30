@@ -1239,6 +1239,12 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     }, 1000);
                   break
                 }
+              }else{
+                switch($scope.tkupdate.idTypeRequestFor){
+                  case "1":
+                      $scope.getDeptoListByAddress($scope.tkupdate.building.idClient);
+                  break;
+                }
               }
               $scope.ticket.selected              = response.data.tickets[0];
               $scope.ticket.building              = $scope.tkupdate.building;
