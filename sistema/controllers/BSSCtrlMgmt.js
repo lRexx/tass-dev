@@ -2241,7 +2241,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           var Depto = $scope.tkupdate.department.floor+"-"+$scope.tkupdate.department.departament;
                           console.log("id Department: "+$scope.tkupdate.department.idClientDepartament);
                           console.log("Departamento : "+Depto);
-                          if ($scope.tkupdate.idMgmtMethodKf==null && ($scope.ticket.keysMethod.name==undefined || $scope.ticket.keysMethod.name==null)){
+                          if ($scope.tkupdate.idMgmtMethodKf==null && ($scope.ticket.keysMethod.name!=undefined && $scope.ticket.keysMethod.name!=null)){
                             $scope.rsAllKeychainListDataFiltered = $scope.rsAllKeychainListData.filter(s => s.idProductKf == $scope.tkupdate.keys[0].idProductKf);
                             console.log($scope.rsAllKeychainListDataFiltered);
                             for (var tkey in $scope.tkupdate.keys){
