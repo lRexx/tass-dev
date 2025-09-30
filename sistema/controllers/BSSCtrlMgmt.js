@@ -3657,71 +3657,71 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log(baseCodeExt);
                   if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
                     if ($scope.rsNewKeychainList.length>=0){
-                      if ($scope.rsNewKeychainList.length>=1){
-                        for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
-                          let newCode = (baseCode + i).toString();
-                          let newCodeExt = (baseCodeExt +i).toString();
-                          console.log(newCode);
-                          console.log(newCodeExt);
-                          if ($scope.rsNewKeychainList[i].codigo==$scope.tmpKey.new.codigo){
-                            if ($scope.ticket.selected.idTypeRequestFor=="1"){
-                              inform.add("El Llavero con el Codigo: ["+$scope.tmpKey.new.codigo+"], ya existe en la nueva lista a asignar al Departamento "+$scope.tmpKey.new.Depto,{
-                              ttl:15000, type: 'warning'
-                              });
-                            }else{
-                              inform.add("El Llavero con el Codigo: ["+$scope.tmpKey.new.codigo+"], ya existe en la nueva lista a asignar al Edificio ",{
-                              ttl:15000, type: 'warning'
-                              });
-                            }
-
-                            $scope.isCodeNewExist=true;
-                            console.log($scope.isCodeNewExist);
-                            break;
-                          }else{
-                            $scope.isCodeNewExist=false;
-                            console.log($scope.isCodeNewExist);
-                          }
-                        }
-                      }
-                      $scope.findKeyByCodeFn(newCode, $scope.tkupdate.building.idClient).then(function(isCodeExistInBuilding) {
-                        switch (isCodeExistInBuilding){
-                          case 1:
-                            $scope.isCodeExist=true;
-                          break;
-                          case 0:
-                            $scope.isCodeExist=false;
-                          break;
-                        }
-                        if(!$scope.isCodeExist){
-                          console.log("ADD_NO_EXIST");
-                          let depto = $scope.tmpKey.new.Depto!=undefined?$scope.tmpKey.new.Depto:null;
-                          let idDepto = $scope.tmpKey.new.department!=undefined?$scope.tmpKey.new.department:null;
-                          console.log(deviceOpen);
-                          console.log("id Depto                           : "+idDepto);
-                          console.log("Depto                              : "+depto);
-                          console.log("$scope.tkupdate.idTicket           : "+$scope.tkupdate.idTicket);
-                          console.log("$scope.tmpKey.new.categoryKey      : "+$scope.tmpKey.new.categoryKey);
-                          console.log("$scope.tmpKey.new.categoryKeychain : "+$scope.tmpKey.new.categoryKeychain);
-                          console.log("$scope.tmpKey.new.codigoExt        : "+newCodeExt);
-                          console.log("$scope.tmpKey.new.codigo           : "+newCode);
-                          console.log("$scope.tkupdate.building.idClient  : "+$scope.tkupdate.building.idClient);
-
-                          $scope.rsNewKeychainList.push({"idProductKf":deviceOpen.idProduct,"idTicketKf": $scope.tkupdate.idTicket, "descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":$scope.tmpKey.new.categoryKeychain,"Depto":depto, "codExt":newCodeExt,"codigo":newCode,"idDepartmenKf":idDepto,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":$scope.tmpKey.new.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "statusKey":"Inactivo", "doors":{}});
-                          $scope.rsExistingKeyList.push({"idProductKf":deviceOpen.idProduct,"idTicketKf": $scope.tkupdate.idTicket, "descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":$scope.tmpKey.new.categoryKeychain,"Depto":depto, "codExt":newCodeExt,"codigo":newCode,"idDepartmenKf":idDepto,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":$scope.tmpKey.new.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "statusKey":"Inactivo", "doors":{}});
-                          $scope.list_new_keys.push({"idProductKf":deviceOpen.idProduct,"descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":$scope.tmpKey.new.categoryKeychain,"Depto":depto, "codExt":newCodeExt,"codigo":newCode,"idDepartmenKf":idDepto,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":$scope.tmpKey.new.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "statusKey":"Inactivo", "doors":{}});
-                          console.log($scope.rsNewKeychainList);
-                          if ($scope.ticket.keysMethodSelected!=null && $scope.ticket.keysMethodSelected!=undefined){
-                            for (var key in  $scope.rsNewKeychainList){
-                              console.log($scope.rsNewKeychainList[key]);
-                              if ($scope.rsNewKeychainList[key].idKeychain==undefined){
-                                $scope.thereIsKeyWithoutIdKeychain=true;
-                                break;
+                      for (var ai = 0; ai < ($scope.tkupdate.keys.length - $scope.rsNewKeychainList.length); ai++) {
+                          let newCode = (baseCode + ai).toString();
+                          let newCodeExt = (baseCodeExt + ai).toString();
+                        if ($scope.rsNewKeychainList.length>=1){
+                          for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
+                            if ($scope.rsNewKeychainList[i].codigo==$scope.tmpKey.new.codigo){
+                              if ($scope.ticket.selected.idTypeRequestFor=="1"){
+                                inform.add("El Llavero con el Codigo: ["+$scope.tmpKey.new.codigo+"], ya existe en la nueva lista a asignar al Departamento "+$scope.tmpKey.new.Depto,{
+                                ttl:15000, type: 'warning'
+                                });
+                              }else{
+                                inform.add("El Llavero con el Codigo: ["+$scope.tmpKey.new.codigo+"], ya existe en la nueva lista a asignar al Edificio ",{
+                                ttl:15000, type: 'warning'
+                                });
                               }
+
+                              $scope.isCodeNewExist=true;
+                              console.log($scope.isCodeNewExist);
+                              break;
+                            }else{
+                              $scope.isCodeNewExist=false;
+                              console.log($scope.isCodeNewExist);
                             }
-                            console.info("$scope.thereIsKeyWithoutIdKeychain: "+$scope.thereIsKeyWithoutIdKeychain);
                           }
                         }
-                      });
+                        $scope.findKeyByCodeFn(newCode, $scope.tkupdate.building.idClient).then(function(isCodeExistInBuilding) {
+                          switch (isCodeExistInBuilding){
+                            case 1:
+                              $scope.isCodeExist=true;
+                            break;
+                            case 0:
+                              $scope.isCodeExist=false;
+                            break;
+                          }
+                          if(!$scope.isCodeExist){
+                            console.log("ADD_NO_EXIST");
+                            let depto = $scope.tmpKey.new.Depto!=undefined?$scope.tmpKey.new.Depto:null;
+                            let idDepto = $scope.tmpKey.new.department!=undefined?$scope.tmpKey.new.department:null;
+                            console.log(deviceOpen);
+                            console.log("id Depto                           : "+idDepto);
+                            console.log("Depto                              : "+depto);
+                            console.log("$scope.tkupdate.idTicket           : "+$scope.tkupdate.idTicket);
+                            console.log("$scope.tmpKey.new.categoryKey      : "+$scope.tmpKey.new.categoryKey);
+                            console.log("$scope.tmpKey.new.categoryKeychain : "+$scope.tmpKey.new.categoryKeychain);
+                            console.log("$scope.tmpKey.new.codigoExt        : "+newCodeExt);
+                            console.log("$scope.tmpKey.new.codigo           : "+newCode);
+                            console.log("$scope.tkupdate.building.idClient  : "+$scope.tkupdate.building.idClient);
+
+                            $scope.rsNewKeychainList.push({"idProductKf":deviceOpen.idProduct,"idTicketKf": $scope.tkupdate.idTicket, "descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":$scope.tmpKey.new.categoryKeychain,"Depto":depto, "codExt":newCodeExt,"codigo":newCode,"idDepartmenKf":idDepto,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":$scope.tmpKey.new.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "statusKey":"Inactivo", "doors":{}});
+                            $scope.rsExistingKeyList.push({"idProductKf":deviceOpen.idProduct,"idTicketKf": $scope.tkupdate.idTicket, "descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":$scope.tmpKey.new.categoryKeychain,"Depto":depto, "codExt":newCodeExt,"codigo":newCode,"idDepartmenKf":idDepto,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":$scope.tmpKey.new.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "statusKey":"Inactivo", "doors":{}});
+                            $scope.list_new_keys.push({"idProductKf":deviceOpen.idProduct,"descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":$scope.tmpKey.new.categoryKeychain,"Depto":depto, "codExt":newCodeExt,"codigo":newCode,"idDepartmenKf":idDepto,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":$scope.tmpKey.new.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "statusKey":"Inactivo", "doors":{}});
+                            console.log($scope.rsNewKeychainList);
+                            if ($scope.ticket.keysMethodSelected!=null && $scope.ticket.keysMethodSelected!=undefined){
+                              for (var key in  $scope.rsNewKeychainList){
+                                console.log($scope.rsNewKeychainList[key]);
+                                if ($scope.rsNewKeychainList[key].idKeychain==undefined){
+                                  $scope.thereIsKeyWithoutIdKeychain=true;
+                                  break;
+                                }
+                              }
+                              console.info("$scope.thereIsKeyWithoutIdKeychain: "+$scope.thereIsKeyWithoutIdKeychain);
+                            }
+                          }
+                        });
+                      }
                     }
                     for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
                       // Ensure the index exists in rsNewKeychainList
