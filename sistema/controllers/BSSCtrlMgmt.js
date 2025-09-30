@@ -2326,6 +2326,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           console.log("ticket.keysMethod.name    : "+$scope.ticket.keysMethod.name);
                           console.log("rsExistingKeyList Length  : "+$scope.rsExistingKeyList.length);
                           console.log("tkupdate.keys Length      : "+$scope.tkupdate.keys.length);
+                          console.log("rsNewKeychainList length  : "+$scope.rsNewKeychainList.length);
                         break;
                         case "2":
                         case "4":
