@@ -3241,7 +3241,7 @@ class Ticket_model extends CI_Model
 	{
 		//var_dump($todo);
 		$rs_tickets['tickets'] = $todo;
-		log_message('info', 'SQL: ' . $rs_tickets['tickets']);
+		//log_message('info', 'SQL: ' . $rs_tickets['tickets']);
 		$quuery = $this->db->select("*")->from("tb_statusticket")->get();
 		$dashboard['dashboard']['total'] = null;
 		if (count($rs_tickets['tickets']) >= 0) {
