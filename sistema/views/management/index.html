@@ -80,7 +80,7 @@
                     <div class="panel-heading clickable-header" role="tab" id="headingOne">
                         <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="collapsed" aria-controls="collapse1"><i class="fas fa-filter">&nbsp;</i>Filtrar pedidos</a>
-                            <span ng-if="sysLoggedUser.idProfileKf && filters.ticketStatus.statusName" style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="{{filters.ticketStatus.statusName}}" class="label_tags label label-success">{{filters.ticketStatus.statusName}}
+                            <span ng-if="sysLoggedUser.idProfileKf && filters.ticketStatus.statusName" style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" class="label_tags label label-success">{{filters.ticketStatus.statusName}}
                             <a ng-click="filters.ticketStatus=undefined; mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="right" title="quitar">
                             <i class="fas fa-times-circle"></i></a></span>
                         </h4>
