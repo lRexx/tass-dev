@@ -3572,8 +3572,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             console.log($scope.isCodeNewExist);
                           }
                         }
-                      }else{
-                        $scope.isCodeNewExist=false;
                       }
                       $scope.findKeyByCodeFn($scope.tmpKey.new.codigo, $scope.tkupdate.building.idClient).then(function(isCodeExistInBuilding) {
                         switch (isCodeExistInBuilding){
@@ -3696,8 +3694,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             }
                           });
                         }
-                      }else{
-                        $scope.isCodeNewExist=false;
                       }
                     }
                     for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
