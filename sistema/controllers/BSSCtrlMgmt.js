@@ -5901,7 +5901,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       //$('.circle-loader').toggleClass('load-complete');
                       //$('.checkmark').toggle();
                       $scope.ticketRegistered = response.data[0];
-                      $scope.openTicketFn(pedido.ticket.idTicket);
+                      $scope.mainSwitchFn("openTicket",pedido.ticket);
+                      $scope.mainSwitchFn('search', null);
                       //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
                       $scope.mainSwitchFn('search', null);
                     }, 2500);
