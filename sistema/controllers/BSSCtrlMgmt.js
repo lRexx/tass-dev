@@ -436,8 +436,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $('#confirmRequestModalCustom').modal('hide');
                   $scope.update.ticket = {};
                   $scope.update.ticket = $scope.keyObj;
-                  $scope.update.ticket.idNewStatusKf        = "4";
-                  $scope.update.ticket.idDeliveryCompanyKf  = "1";
+                  $scope.update.ticket.history               = [];
+                  if (($scope.update.ticket.whereKeysAreEnable=="1" || $scope.update.ticket.whereKeysAreEnable=="2") && $scope.update.ticket.isKeysEnable=="1"){
+                      $scope.update.ticket.idNewStatusKf        = "4"
+                      $scope.update.ticket.idDeliveryCompanyKf  = "1";
+                      $scope.deliveryCompanyName = $scope.listDeliveryCompanies.filter(s => s.idDeliveryCompany == $scope.update.ticket.idDeliveryCompanyKf);
+                      $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': $scope.deliveryCompanyName, 'idCambiosTicketKf':"41"});
+                      $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"42"});
+                  }else{
+                    $scope.update.ticket.idNewStatusKf         = $scope.update.ticket.idStatusTicketKf;
+                  }
                   $scope.modalConfirmation('setDeliveryPending',0, $scope.update);
                 }
               break;
