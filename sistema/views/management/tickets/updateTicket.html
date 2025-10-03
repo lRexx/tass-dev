@@ -158,7 +158,7 @@
                               </div>
                               <div ng-if="tkupdate.delivered_at!=null" class="col-md-12">
                                 <span ng-if="(tkupdate.idTypeRequestFor=='1' || tkupdate.idTypeRequestFor=='5' || tkupdate.idTypeRequestFor=='6') && tkupdate.idTypeDeliveryKf=='1'">Retiro realizado: </span>
-                                <span ng-if="(tkupdate.idTypeRequestFor=='1' || tkupdate.idTypeRequestFor=='5' || tkupdate.idTypeRequestFor=='6') && tkupdate.idTypeDeliveryKf=='2'">Entrega realizada: </span>
+                                <span ng-if="(tkupdate.idTypeRequestFor=='1' || tkupdate.idTypeRequestFor=='3' || tkupdate.idTypeRequestFor=='5' || tkupdate.idTypeRequestFor=='6') && tkupdate.idTypeDeliveryKf=='2'">Entrega realizada: </span>
                                 <span ng-if="tkupdate.building.isStockInBuilding=='1' && tkupdate.idTypeRequestFor=='2' && (tkupdate.idTypeDeliveryKf=='2' || tkupdate.idTypeDeliveryKf==null)">Guardado en stock del Edificio: <span class="font-size-12px btn btn-xs btn-success"><i class="fas fa-check"></i></span>&nbsp;</span>
                                 <span ng-if="tkupdate.building.isStockInOffice=='1' && tkupdate.idTypeRequestFor=='2' && (tkupdate.idTypeDeliveryKf=='2' || tkupdate.idTypeDeliveryKf==null)">Guardado en stock de Oficina: <span class="font-size-12px btn btn-xs btn-success"><i class="fas fa-check"></i></span>&nbsp;</span>
                                 <span ng-if="tkupdate.delivered_at!=null">{{ tkupdate.delivered_at | toDate | date:'dd-MM-yyyy' }}</span>
