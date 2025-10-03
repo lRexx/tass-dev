@@ -152,7 +152,7 @@
                                   <span ng-if="(tkupdate.building.isHasInternetOnline==undefined || tkupdate.building.isHasInternetOnline==null || tkupdate.building.isHasInternetOnline=='false')" data-toggle="tooltip" data-placement="top" title="No" class="font-size-18px"><i class="text-danger fas fa-times-circle"></i></span>
                                   &nbsp;<span ng-if="tkupdate.building.isHasInternetOnline!=undefined && tkupdate.building.isHasInternetOnline=='true'" data-toggle="tooltip" data-placement="top" title="Ver conexiones a control de acceso" ng-click="mainSwitchFn('internetDetails', tkupdate, null)" class="btn btn-xs btn-success"><i class="fas fa-network-wired"></i> Ver</span>
                               </div>
-                              <div ng-if="(tkupdate.idTypeRequestFor=='1' || tkupdate.idTypeRequestFor=='5' || tkupdate.idTypeRequestFor=='6') && tkupdate.delivery_schedule_at!=null" class="col-md-12"><span>Entrega estimada: </span>
+                              <div ng-if="(tkupdate.idTypeRequestFor=='1' || tkupdate.idTypeRequestFor=='3' || tkupdate.idTypeRequestFor=='5' || tkupdate.idTypeRequestFor=='6') && tkupdate.delivery_schedule_at!=null" class="col-md-12"><span>Entrega estimada: </span>
                                 <span ng-if="tkupdate.delivery_schedule_at!=null">{{ tkupdate.delivery_schedule_at | toDate | date:'dd-MM-yyyy' }}</span>
                                 <span ng-if="tkupdate.delivery_schedule_at==null" class="badge badge-warning">No asignado</span>
                               </div>
