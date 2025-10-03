@@ -1047,19 +1047,23 @@ class Llavero_model extends CI_Model
 		}
 		return null;
 	}
-	public function get_new($filters = [], $limit = 50, $offset = 0)
-	{
+	public function get_new_2(
+		$idClientKf,
+		$create_at,
+		$idCategoryKf,
+		$idKeychainStatusKf,
+		$idDepartmenKf,
+		$idReasonKf,
+		$sysLoggedUserProfile,
+		$codeSearch,
+		$limit = 50,
+		$offset = 0,
+		$strict = null,
+		$totalCount = true,
+		$getTicketKeychainKf = null
+	) {
 		// =========================
-		// 1) Calcular total de registros
-		// =========================
-		$this->db->from('tb_keychain k');
-		if (!empty($filters)) {
-			$this->db->where($filters);
-		}
-		$totalCount = $this->db->count_all_results();
-
-		// =========================
-		// 2) Query principal con JOINs
+		// 1) Query base con joins
 		// =========================
 		$this->db->select("
 			k.idKeychain,
@@ -1095,10 +1099,62 @@ class Llavero_model extends CI_Model
 			->join('tb_client_phone_contact p', 'p.idClientFk = c.idClient', 'left')
 			->join('tb_client_mails m', 'm.idClientFk = c.idClient', 'left');
 
-		if (!empty($filters)) {
-			$this->db->where($filters);
+		// =========================
+		// 2) Filtros
+		// =========================
+		if (!is_null($idCategoryKf)) {
+			$idCategoryKfArray = array_map('trim', explode(',', $idCategoryKf));
+			$this->db->where_in('k.idCategoryKf', $idCategoryKfArray);
 		}
 
+		if (!is_null($idDepartmenKf)) {
+			$this->db->where('k.idDepartmenKf', $idDepartmenKf);
+		}
+
+		if (!is_null($idClientKf)) {
+			$this->db->where('k.idClientKf', $idClientKf);
+		}
+
+		if (!is_null($idKeychainStatusKf) && $idKeychainStatusKf == "1") {
+			$this->db->group_start()
+				->where_in('k.idKeychainStatusKf', [1])
+				->or_where('k.idKeychainStatusKf', null)
+				->group_end();
+		} elseif (!is_null($idKeychainStatusKf) && $idKeychainStatusKf == "-1") {
+			$this->db->group_start()
+				->where_in('k.idKeychainStatusKf', [0, 1])
+				->group_end();
+		} elseif (!is_null($idKeychainStatusKf)) {
+			$this->db->group_start()
+				->where('k.idKeychainStatusKf', $idKeychainStatusKf)
+				->group_end();
+		}
+
+		if (!is_null($sysLoggedUserProfile) && $sysLoggedUserProfile != "4" && !is_null($idReasonKf)) {
+			$this->db->where('e.idReasonKf', $idReasonKf);
+		} elseif (!is_null($sysLoggedUserProfile) && $sysLoggedUserProfile == "4" && (!is_null($idKeychainStatusKf) || is_null($idKeychainStatusKf))) {
+			$this->db->group_start()
+				->where('e.idReasonKf !=', '4')
+				->or_where('e.idReasonKf', null)
+				->group_end();
+		}
+
+		if (!is_null($codeSearch)) {
+			$this->db->group_start()
+				->like('k.codigo', $codeSearch)
+				->or_like('k.codExt', $codeSearch)
+				->group_end();
+		}
+
+		// =========================
+		// 3) Clonar query para contar
+		// =========================
+		$countQuery = clone $this->db;
+		$total = $countQuery->count_all_results('', false); // false evita resetear builder
+
+		// =========================
+		// 4) Paginación y ejecución
+		// =========================
 		$this->db->group_by('k.idKeychain');
 		$this->db->limit($limit, $offset);
 
@@ -1106,7 +1162,7 @@ class Llavero_model extends CI_Model
 		$result = $query->result_array();
 
 		// =========================
-		// 3) Procesar arrays
+		// 5) Procesar arrays
 		// =========================
 		foreach ($result as &$row) {
 			$row['tickets'] = !empty($row['tickets']) ? explode('|', $row['tickets']) : [];
@@ -1118,13 +1174,14 @@ class Llavero_model extends CI_Model
 		}
 
 		// =========================
-		// 4) Respuesta final
+		// 6) Respuesta final
 		// =========================
 		return [
-			"totalCount" => $totalCount,
+			"totalCount" => $total,
 			"tb_keychain" => $result
 		];
 	}
+
 
 
 	// READ (Get all events) ($idTypeTicketKf,$idClientKf,$limit,$create_at,$start)
