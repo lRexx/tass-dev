@@ -1072,8 +1072,10 @@ class Llavero_model extends CI_Model
 			c.idClient AS clientId,
 			c.name AS clientName,
 
-			GROUP_CONCAT(DISTINCT p.phone) AS phones,
-			GROUP_CONCAT(DISTINCT m.email) AS emails
+			GROUP_CONCAT(DISTINCT p.phoneTag) AS phones_tags,
+			GROUP_CONCAT(DISTINCT p.phoneContact) AS phones,
+			GROUP_CONCAT(DISTINCT m.mailTag) AS emails_tags,
+			GROUP_CONCAT(DISTINCT m.mailContact) AS emails
 		")
 			->from('tb_keychain k')
 			->join('tb_ticket_keychain tk', 'tk.idKeychainKf = k.idKeychain', 'left')
