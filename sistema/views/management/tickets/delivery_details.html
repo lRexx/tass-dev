@@ -17,7 +17,7 @@
                     <span ng-if="tkupdate.idTypeDeliveryKf!=null && tkupdate.idTypeDeliveryKf!=undefined">{{tkupdate.typeDeliver.typeDelivery}}</span>
                     <span style="font-size: 75%;" ng-if="tkupdate.idTypeDeliveryKf==null" class="label label-warning text-uppercase">Proceso Interno</span>
                   </div>
-                    <div ng-if="tkupdate.idTypeRequestFor=='1'" class="col-md-12">
+                    <div ng-if="tkupdate.idTypeRequestFor!='2' && tkupdate.idTypeRequestFor!='4'" class="col-md-12">
                         <span ng-if="tkupdate.idTypeDeliveryKf=='1'">Retira: </span>
                         <span ng-if="tkupdate.idTypeDeliveryKf=='2'">Recibe: </span>
                         <span ng-if="(tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && (tkupdate.whoPickUp.idWhoPickUp=='1' || tkupdate.whoPickUp.idWhoPickUp=='2')">{{tkupdate.userDelivery.fullNameUser}}</span>
@@ -25,12 +25,12 @@
                         <span style="font-size: 85%;" ng-if="(tkupdate.idTypeRequestFor=='1' && (((tkupdate.whoPickUp.idWhoPickUp=='1' || tkupdate.whoPickUp.idWhoPickUp=='2')) || ((tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && tkupdate.whoPickUp.idWhoPickUp=='3')))" class="badge badge-warning">{{tkupdate.whoPickUp.nameWhoPickUp}}</span>
                         <span style="font-size: 85%;" ng-if="(tkupdate.idTypeRequestFor!='1' && (((tkupdate.whoPickUp.idWhoPickUp=='1' || tkupdate.whoPickUp.idWhoPickUp=='2')) || ((tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && tkupdate.whoPickUp.idWhoPickUp=='3')))" class="badge badge-warning">{{tkupdate.userDelivery.nameProfile}}</span>
                     </div>
-                    <div ng-if="tkupdate.idTypeRequestFor=='1'" class="col-md-12">
+                    <div ng-if="tkupdate.idTypeRequestFor!='2' && tkupdate.idTypeRequestFor!='4' && (tkupdate.userDelivery.dni!=undefined || tkupdate.thirdPersonDelivery.dni!=undefined)" class="col-md-12">
                         <span ng-if="tkupdate.idTypeDeliveryKf!='0'">DNI: </span>
                         <span ng-if="(tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && (tkupdate.whoPickUp.idWhoPickUp=='1' || tkupdate.whoPickUp.idWhoPickUp=='2')">{{tkupdate.userDelivery.dni}}</span>
                         <span ng-if="(tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && tkupdate.whoPickUp.idWhoPickUp=='3'">{{tkupdate.thirdPersonDelivery.dni}}</span>
                     </div>
-                    <div ng-if="tkupdate.idTypeRequestFor=='1'" class="col-md-12">
+                    <div ng-if="tkupdate.idTypeRequestFor!='2' && tkupdate.idTypeRequestFor!='4'" class="col-md-12">
                         <span>
                             <span ng-if="tkupdate.idTypeDeliveryKf=='1'">Retirar en: </span>
                             <span ng-if="tkupdate.idTypeDeliveryKf=='2'">Entrega en: </span>
