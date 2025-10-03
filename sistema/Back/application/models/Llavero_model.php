@@ -867,7 +867,7 @@ class Llavero_model extends CI_Model
 		}
 	}
 
-	public function get_new_old($idClientKf, $create_at, $idCategoryKf, $idKeychainStatusKf, $idDepartmenKf, $idReasonKf, $sysLoggedUserProfile, $codeSearch, $limit = '', $start = '', $strict = null, $totalCount, $getTicketKeychainKf)
+	public function get_new($idClientKf, $create_at, $idCategoryKf, $idKeychainStatusKf, $idDepartmenKf, $idReasonKf, $sysLoggedUserProfile, $codeSearch, $limit = '', $start = '', $strict = null, $totalCount, $getTicketKeychainKf)
 	{
 
 		$this->db->select("tb_keychain.*,tb_keychain_process_events.idKeychainKf,idKeychainKf,tb_keychain_process_events.idReasonKf,tb_reason_disabled_item.idReasonDisabledItem,tb_reason_disabled_item.reasonDisabledItem,
@@ -1047,7 +1047,7 @@ class Llavero_model extends CI_Model
 		}
 		return null;
 	}
-	public function get_new($filters = [], $limit = 50, $offset = 0)
+	public function get_new_2($filters = [], $limit = 50, $offset = 0)
 	{
 		// Base de la query
 		$this->db->select("
