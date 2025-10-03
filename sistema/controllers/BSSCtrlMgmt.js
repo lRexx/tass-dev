@@ -5935,6 +5935,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         case "1":
                           switch(pedido.ticket.idTypeRequestFor){
                             case "1":
+                            case "3":
                             case "6":
                               if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="2" && pedido.ticket.isKeysEnable=="1"){
                                 pedido.ticket.newTicketStatus = {'idStatus':null}
@@ -5950,6 +5951,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         case "2":
                           switch(pedido.ticket.idTypeRequestFor){
                             case "1":
+                            case "3":
                             case "6":
                               if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="2" && pedido.ticket.isKeysEnable=="1"){
                                 $scope.update.ticket.newTicketStatus = {'idStatus':null}
