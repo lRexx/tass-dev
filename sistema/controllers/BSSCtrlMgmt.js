@@ -3366,6 +3366,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.thereIsKeyWithoutIdKeychain = false;
               $scope.rsAllKeychainListData = [];
               $scope.rsExistingKeyList = [];
+              $scope.rsNewKeychainList = [];
               $scope.rsAllKeychainListDataFiltered = [];
               $scope.ticket = {'administration':undefined, 'keysMethod':{'name':undefined}, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'keysMethod':{}, 'userRequestBy':{}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':null, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
               $scope.functions={'isKeysEnable': false, 'whereKeysAreEnable': null};
@@ -4085,6 +4086,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       var idCategoryKf      = key.idCategoryKf;
                       var idUserKf          = key.idUserKf;
                     break;
+                    case "5":
+                      var idCategoryKf      = $scope.tkupdate.keys[0].idCategoryKf;
+                      var idUserKf          = null;
                     case "6":
                       var idCategoryKf      = $scope.tkupdate.keys[0].idCategoryKf;
                       var idUserKf          = $scope.tkupdate.keys[0].idUserKf;
@@ -4142,7 +4146,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log("Ticket to Update: "+$scope.tkupdate.codTicket);
                   console.log($scope.tkupdate);
                   if ($scope.ticket.keysMethodSelected==null || $scope.ticket.keysMethodSelected==undefined){
-                    $('#showModalRequestStatus').modal('hide');
                     $scope.updateUpRequestFn({ticket: $scope.tkupdate});
                   }
                 });
@@ -5689,8 +5692,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       inform.add('Pedido Actualizado Satisfactoriamente. ',{
                             ttl:5000, type: 'success'
                       });
-                      //$('.circle-loader').toggleClass('load-complete');
-                      //$('.checkmark').toggle();
                       $scope.ticketRegistered = response.data.response;
                       if (pedido.ticket.createNewMPLinkForDelivery!=undefined){
                         response.data.response.createNewMPLinkForDelivery=pedido.ticket.createNewMPLinkForDelivery;
