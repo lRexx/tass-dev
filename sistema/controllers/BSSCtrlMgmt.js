@@ -2600,7 +2600,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
     *                 CUSTOMER OPTIONS                *
     **************************************************/
       $scope.checkDeliveryMethod = function(item){
-        if($scope.ticket.building!=undefined && ($scope.ticket.building.isStockInBuilding=='1' || (($scope.ticket.building.isStockInBuilding==null || $scope.ticket.building.isStockInBuilding=='0') && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')))){
+        if($scope.ticket.building!=undefined &&
+          ($scope.ticket.building.isStockInBuilding=='1' || (($scope.ticket.building.isStockInBuilding==null || $scope.ticket.building.isStockInBuilding=='0') && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')))){
             return item.idTypeDelivery != "1";
         }else{
             return item.idTypeDelivery;
@@ -3093,7 +3094,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 }
               break;
               case "2":
-                 return item.idDeliveryCompany=="2"
+              case "3":
+                return item.idDeliveryCompany<="2";
             }
 
           }
