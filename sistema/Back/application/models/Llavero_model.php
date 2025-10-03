@@ -867,7 +867,7 @@ class Llavero_model extends CI_Model
 		}
 	}
 
-	public function get_new($idClientKf, $create_at, $idCategoryKf, $idKeychainStatusKf, $idDepartmenKf, $idReasonKf, $sysLoggedUserProfile, $codeSearch, $limit = '', $start = '', $strict = null, $totalCount, $getTicketKeychainKf)
+	public function get_new_old($idClientKf, $create_at, $idCategoryKf, $idKeychainStatusKf, $idDepartmenKf, $idReasonKf, $sysLoggedUserProfile, $codeSearch, $limit = '', $start = '', $strict = null, $totalCount, $getTicketKeychainKf)
 	{
 
 		$this->db->select("tb_keychain.*,tb_keychain_process_events.idKeychainKf,idKeychainKf,tb_keychain_process_events.idReasonKf,tb_reason_disabled_item.idReasonDisabledItem,tb_reason_disabled_item.reasonDisabledItem,
@@ -1047,9 +1047,20 @@ class Llavero_model extends CI_Model
 		}
 		return null;
 	}
-	public function get_new_2($filters = [], $limit = 50, $offset = 0)
+	public function get_new($filters = [], $limit = 50, $offset = 0)
 	{
-		// Base de la query
+		// =========================
+		// 1) Calcular total de registros
+		// =========================
+		$this->db->from('tb_keychain k');
+		if (!empty($filters)) {
+			$this->db->where($filters);
+		}
+		$totalCount = $this->db->count_all_results();
+
+		// =========================
+		// 2) Query principal con JOINs
+		// =========================
 		$this->db->select("
 			k.idKeychain,
 			k.isKeyTenantOnly,
@@ -1062,9 +1073,8 @@ class Llavero_model extends CI_Model
 			k.idDepartmenKf,
 			k.idKeychainStatusKf,
 
-			GROUP_CONCAT(DISTINCT tk.idTicketKeychain) AS tickets,
-
-			GROUP_CONCAT(DISTINCT e.idKeyProcess) AS events,
+			GROUP_CONCAT(DISTINCT tk.idTicketKeychain SEPARATOR '|') AS tickets,
+			GROUP_CONCAT(DISTINCT e.idKeyProcess SEPARATOR '|') AS events,
 
 			u.idUser AS lastUserId,
 			u.fullNameUser AS lastUserName,
@@ -1072,10 +1082,10 @@ class Llavero_model extends CI_Model
 			c.idClient AS clientId,
 			c.name AS clientName,
 
-			GROUP_CONCAT(DISTINCT p.phoneTag) AS phones_tags,
-			GROUP_CONCAT(DISTINCT p.phoneContact) AS phones,
-			GROUP_CONCAT(DISTINCT m.mailTag) AS emails_tags,
-			GROUP_CONCAT(DISTINCT m.mailContact) AS emails
+			GROUP_CONCAT(DISTINCT p.phoneTag SEPARATOR '|') AS phones_tags,
+			GROUP_CONCAT(DISTINCT p.phoneContact SEPARATOR '|') AS phones,
+			GROUP_CONCAT(DISTINCT m.mailTag SEPARATOR '|') AS emails_tags,
+			GROUP_CONCAT(DISTINCT m.mailContact SEPARATOR '|') AS emails
 		")
 			->from('tb_keychain k')
 			->join('tb_ticket_keychain tk', 'tk.idKeychainKf = k.idKeychain', 'left')
@@ -1085,7 +1095,6 @@ class Llavero_model extends CI_Model
 			->join('tb_client_phone_contact p', 'p.idClientFk = c.idClient', 'left')
 			->join('tb_client_mails m', 'm.idClientFk = c.idClient', 'left');
 
-		// Filtros dinámicos
 		if (!empty($filters)) {
 			$this->db->where($filters);
 		}
@@ -1096,16 +1105,27 @@ class Llavero_model extends CI_Model
 		$query = $this->db->get();
 		$result = $query->result_array();
 
-		// Procesar los GROUP_CONCAT en arrays
+		// =========================
+		// 3) Procesar arrays
+		// =========================
 		foreach ($result as &$row) {
-			$row['tickets'] = !empty($row['tickets']) ? explode(',', $row['tickets']) : [];
-			$row['events'] = !empty($row['events']) ? explode(',', $row['events']) : [];
-			$row['phones'] = !empty($row['phones']) ? explode(',', $row['phones']) : [];
-			$row['emails'] = !empty($row['emails']) ? explode(',', $row['emails']) : [];
+			$row['tickets'] = !empty($row['tickets']) ? explode('|', $row['tickets']) : [];
+			$row['events'] = !empty($row['events']) ? explode('|', $row['events']) : [];
+			$row['phones'] = !empty($row['phones']) ? explode('|', $row['phones']) : [];
+			$row['phones_tags'] = !empty($row['phones_tags']) ? explode('|', $row['phones_tags']) : [];
+			$row['emails'] = !empty($row['emails']) ? explode('|', $row['emails']) : [];
+			$row['emails_tags'] = !empty($row['emails_tags']) ? explode('|', $row['emails_tags']) : [];
 		}
 
-		return $result;
+		// =========================
+		// 4) Respuesta final
+		// =========================
+		return [
+			"totalCount" => $totalCount,
+			"tb_keychain" => $result
+		];
 	}
+
 
 	// READ (Get all events) ($idTypeTicketKf,$idClientKf,$limit,$create_at,$start)
 	public function get_all_events($idTypeTicketKf, $idClientKf, $create_at, $idCategoryKf, $limit = '', $start = '', $strict = null, $totalCount)
