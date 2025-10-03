@@ -868,7 +868,7 @@ class Llavero_model extends CI_Model
 	}
 
 
-	public function getKeychains($filters = [], $limit = 50, $offset = 0)
+	public function get_new($filters = [], $limit = 50, $offset = 0)
 	{
 		// Base de la query
 		$this->db->select("
