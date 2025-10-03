@@ -1066,7 +1066,7 @@ class Llavero_model extends CI_Model
 			GROUP_CONCAT(DISTINCT tk.idTicketKeychain) AS tickets,
 
 			-- Eventos relacionados
-			GROUP_CONCAT(DISTINCT e.idKeychainProcessEvent) AS events,
+			GROUP_CONCAT(DISTINCT e.idKeyProcess) AS events,
 
 			-- Último usuario que tocó el evento
 			u.idUser AS lastUserId,
