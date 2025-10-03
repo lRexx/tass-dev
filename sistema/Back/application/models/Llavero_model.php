@@ -1047,7 +1047,7 @@ class Llavero_model extends CI_Model
 		}
 		return null;
 	}
-	public function get_new_2(
+	public function get_new(
 		$idClientKf,
 		$create_at,
 		$idCategoryKf,
