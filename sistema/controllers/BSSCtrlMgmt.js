@@ -3798,7 +3798,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.ticket.idMgmtMethodKf      = null;
               $scope.tkupdate.keysMethod        = {'name':''};
               $scope.ticket.keysMethod.name     = undefined;
-              console.log("$scope.existingStockKeys       : "+$scope.existingStockKeys);
+              console.log("$scope.existingStockKeys       : "+$scope.existingStockKeys.length);
               console.log("$scope.rsNewKeychainList lenght: "+$scope.rsNewKeychainList.length);
               console.log("$scope.rsExistingKeyList lenght: "+$scope.rsExistingKeyList.length);
               console.log("$scope.tkupdate.keys lenght:     "+$scope.tkupdate.keys.length);
@@ -3956,6 +3956,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.functions.whereKeysAreEnable = null;
                   switch($scope.ticket.selected.idTypeRequestFor){
                     case "1":
+                    case "3":
                       switch(obj.idTypeDeliveryKf){
                         case "1"://RETIRO EN OFICINA
                           $scope.tkupdate.mess2show="El Pedido pasara a \"Listo para Retirar\", por favor,     Confirmar?";
@@ -3985,6 +3986,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.functions.whereKeysAreEnable = obj.building.isHasInternetOnline === null ? "2":"1";
                   switch($scope.ticket.selected.idTypeRequestFor){
                     case "1":
+                    case "3":
                     case "6":
                       switch(obj.idTypeDeliveryKf){
                         case "1": //RETIRO EN OFICINA
