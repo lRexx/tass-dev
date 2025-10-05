@@ -3840,16 +3840,17 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $scope.mainSwitchFn('keychain_manual', null, null);
             break;
             case "cancelSetMgmtKeys":
-              $scope.keys                       = {"new":{'products':{'selected':{}}}}
-              $scope.rsNewKeychainList          = [];
-              $scope.rsExistingKeyList          = [];
-              $scope.list_new_keys              = [];
-              $scope.isNewKeySingle             = false;
-              $scope.isEditKey                  = false;
-              $scope.isNewKeyMulti              = false;
-              $scope.ticket.idMgmtMethodKf      = null;
-              $scope.tkupdate.keysMethod        = {'name':''};
-              $scope.ticket.keysMethod.name     = undefined;
+              $scope.keys                          = {"new":{'products':{'selected':{}}}}
+              $scope.rsNewKeychainList             = [];
+              $scope.rsExistingKeyList             = [];
+              $scope.list_new_keys                 = [];
+              $scope.rsAllKeychainListDataFiltered = [];
+              $scope.isNewKeySingle                = false;
+              $scope.isEditKey                     = false;
+              $scope.isNewKeyMulti                 = false;
+              $scope.ticket.idMgmtMethodKf         = null;
+              $scope.tkupdate.keysMethod           = {'name':''};
+              $scope.ticket.keysMethod.name        = undefined;
               console.log("$scope.existingStockKeys       : "+$scope.existingStockKeys.length);
               console.log("$scope.rsNewKeychainList lenght: "+$scope.rsNewKeychainList.length);
               console.log("$scope.rsExistingKeyList lenght: "+$scope.rsExistingKeyList.length);
