@@ -3455,10 +3455,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 var elemManual  = document.getElementById("manual");
                 var elem = "";
                 if ($scope.ticket.keysMethod.name == "stock"){
-                  $scope.mainSwitchFn('keychainMulti', null, null);
+                  //$scope.mainSwitchFn('keychainMulti', null, null);
                   elem = elemStock;
                 }else{
-                  $scope.mainSwitchFn('keychain_manual', null, null);
+                  //$scope.mainSwitchFn('keychain_manual', null, null);
                   //$scope.mainSwitchFn('setMgmtKeys', $scope.tkupdate, null);
                   elem = elemManual;
                 }
