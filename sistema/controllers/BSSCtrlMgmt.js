@@ -3845,6 +3845,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.rsExistingKeyList             = [];
               $scope.list_new_keys                 = [];
               $scope.rsAllKeychainListDataFiltered = [];
+              $scope.existingStockKeys             = [];
               $scope.isNewKeySingle                = false;
               $scope.isEditKey                     = false;
               $scope.isNewKeyMulti                 = false;
