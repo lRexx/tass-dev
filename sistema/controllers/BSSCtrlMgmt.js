@@ -2385,7 +2385,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             for (var tkey in $scope.tkupdate.keys){
                               for (var stock in $scope.rsAllKeychainListDataFiltered){
                                 if ($scope.tkupdate.keys[tkey].idProduct == $scope.rsAllKeychainListDataFiltered[stock].idProductKf && tk_selected<$scope.tkupdate.keys.length){
-                                  console.log($scope.rsAllKeychainListDataFiltered[stock]);
+                                  //console.log($scope.rsAllKeychainListDataFiltered[stock]);
                                   /*if ($scope.rsNewKeychainList.length==0){
                                     for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
                                       if ($scope.rsExistingKeyList[i].codigo==$scope.rsAllKeychainListDataFiltered[stock].codigo){
@@ -3947,20 +3947,17 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"1","-1",$scope.tkupdate.idDepartmentKf,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
                 break;
                 case "2":
+                    $scope.thereIsKeyWithoutIdKeychain=true;
+                    $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
+                break;
+                case "4":
+                case "5":
                 case "6":
                   if (!$scope.tkupdate.idMgmtMethodKf){
                     $scope.thereIsKeyWithoutIdKeychain=true;
                     $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
                   }else{
-                    $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"6","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
-                  }
-                break;
-                case "4":
-                  if (!$scope.tkupdate.idMgmtMethodKf){
-                    $scope.thereIsKeyWithoutIdKeychain=true;
-                    $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
-                  }else{
-                    $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"4","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
+                    $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
                   }
                 break;
               }
