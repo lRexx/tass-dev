@@ -2466,7 +2466,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           console.log($scope.tkupdate);
                           console.log($scope.rsAllKeychainListData);
                           console.log($scope.rsAllKeychainListDataFiltered);
-                          console.log("ticket.keysMethod         : "+$scope.ticket.keysMethod);
+                          console.log("ticket.keysMethod         : ");
+                          console.log($scope.ticket.keysMethod);
                           console.log("ticket.keysMethod.name    : "+$scope.ticket.keysMethod.name);
                           console.log("rsExistingKeyList Length  : "+$scope.rsExistingKeyList.length);
                           console.log("rsNewKeychainList Length  : "+$scope.rsNewKeychainList.length);
