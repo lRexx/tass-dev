@@ -4004,6 +4004,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   switch($scope.ticket.selected.idTypeRequestFor){
                     case "1":
                     case "3":
+                    case "5":
+                    case "6":
                       switch(obj.idTypeDeliveryKf){
                         case "1"://RETIRO EN OFICINA
                           $scope.tkupdate.mess2show="El Pedido pasara a \"Listo para Retirar\", por favor,     Confirmar?";
