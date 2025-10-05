@@ -1296,7 +1296,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1).then(function(response) {
                         console.log(response);
                           if(response.status==undefined){
-                            $scope.existingStockKeys = response.customers;
+                            $scope.existingStockKeys = response;
                             //$scope.pagination.totalCount = response.customers.length;
                             console.info($scope.existingStockKeys);
                           }else if(response.status==404){
