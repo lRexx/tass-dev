@@ -1145,6 +1145,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             );
                             $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered;
                             console.info($scope.rsExistingKeyList);
+                            for (var key in $scope.rsAllKeychainListDataFiltered){
+                              $scope.rsAllKeychainListDataFiltered[key].selected = true;
+                              $scope.rsAllKeychainListDataFiltered[key].disabled = true;
+                            }
                         }else if(response.status==404){
                           console.log("404 Error");
                           console.log(response.statusText);
@@ -1178,6 +1182,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             );
                             $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered;
                             console.info($scope.rsExistingKeyList);
+                            for (var key in $scope.rsAllKeychainListDataFiltered){
+                              $scope.rsAllKeychainListDataFiltered[key].selected = true;
+                              $scope.rsAllKeychainListDataFiltered[key].disabled = true;
+                            }
                         }else if(response.status==404){
                           console.log("404 Error");
                           console.log(response.statusText);
