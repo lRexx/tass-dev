@@ -947,7 +947,7 @@ class Llavero_model extends CI_Model
 		if ($query_total > 0 && !is_null($totalCount)) {
 			$rs['totalCount'] = $query_total;
 		}
-		if ($start >= $query_total && $query_total > 0) {
+		if (isset($start) && $start >= $query_total && $query_total > 0) {
 			$ultimaPagina = max(0, floor(($query_total - 1) / $limit) * $limit);
 			$start = $ultimaPagina;
 		}
@@ -956,7 +956,7 @@ class Llavero_model extends CI_Model
 		}
 		//$this->db->group_by('tb_keychain.idKeychain');
 		$quuery = $this->db->order_by("tb_keychain.idKeychain", "ASC")->get();
-		log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $quuery->num_rows());
+		log_message('debug', 'SQL: ' . $this->db->last_query() . '\n# ' . $quuery->num_rows());
 		//log_message('info', print_r($quuery->result_array(), true));
 		if ($quuery->num_rows() > 0) {
 			$query_total = null;
