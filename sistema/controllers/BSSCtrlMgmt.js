@@ -3618,9 +3618,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                               }
                               $scope.isCodeNewExist=true;
                               console.log($scope.isCodeNewExist);
-                              $scope.isCodeNewExist = false;
-                              console.log(newCode);
-                              console.log(newCodeExt);
                               break;
                             }else{
                               $scope.isCodeNewExist=false;
@@ -3639,8 +3636,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             break;
                           }
                           if ($scope.isCodeNewExist){
-                            newCode = (newCode + 1).toString();
-                            newCodeExt = (newCodeExt + 1).toString();
+                            newCode = (parseInt(newCode) + 1).toString();
+                            newCodeExt = (parseInt(newCodeExt) + 1).toString();
                             $scope.isCodeNewExist = false;
                             console.log(newCode);
                             console.log(newCodeExt);
