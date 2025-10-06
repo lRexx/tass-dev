@@ -1294,15 +1294,18 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     if (($scope.tkupdate.building.isStockInBuilding!='0' && $scope.tkupdate.building.isStockInBuilding!=null && $scope.tkupdate.building.isStockInBuilding!=undefined) || ($scope.tkupdate.building.isStockInOffice!='0' && $scope.tkupdate.building.isStockInOffice!=null && $scope.tkupdate.building.isStockInOffice!=undefined)){
                       console.log("Get Stock Key List");
                       $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,"8","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1).then(function(response) {
-                          console.log(response);
+                        //console.log(response);
                           if(response.status==200){
-                            $scope.existingStockKeys = response.data.tb_keychain;
-                            //$scope.pagination.totalCount = response.customers.length;
-                            console.info($scope.existingStockKeys);
+                              $scope.existingStockKeys = response.data.tb_keychain;
+                              console.info($scope.existingStockKeys);
                           }else if(response.status==404){
-                            $scope.existingStockKeys = [];
-                            //$scope.pagination.totalCount  = 0;
                             console.log("404 No result found");
+                            $scope.existingStockKeys = [];
+                          }else if(response.status==500){
+                              inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                              ttl:5000, type: 'danger'
+                              });
+                            console.log("500 No result found");
                           }
                         }, function(err) {
                           $scope.existingStockKeys = [];
@@ -2300,19 +2303,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   "getTicketKeychainKf":getTicketKeychainKf
                 };
               return KeysServices.getKeychainList($scope.keychainSearch).then(function(response){
-                  if(response.status==200){
-                      return response;
-                  }else if(response.status==404){
-                      inform.add('[Info]: No se encontraron Llaveros en Stock. ',{
-                          ttl:5000, type: 'info'
-                          });
-                        return response;
-                  }else if(response.status==500){
-                      inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
-                      ttl:5000, type: 'danger'
-                      });
-                    return null;
-                  }
+                return response;
               });
           };
           $scope.getKeychainListFn = function(idClientKf,create_at,idCategoryKf,idKeychainStatusKf,idDepartmenKf,idReasonKf,codeSearch,start,limit,strict,totalCount,showFull,getTicketKeychainKf){
