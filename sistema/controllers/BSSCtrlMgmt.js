@@ -3510,7 +3510,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                               ttl:15000, type: 'warning'
                               });
                             }
-
                             $scope.isCodeNewExist=true;
                             console.log($scope.isCodeNewExist);
                             break;
@@ -3534,6 +3533,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             console.log("isCodeExistInBuilding: " + isCodeExistInBuilding);
                           break;
                         }
+                      });
                         if(!$scope.isCodeExist && !$scope.isCodeNewExist){
                           console.log("ADD_NO_EXIST");
                           let depto = $scope.tmpKey.new.Depto!=undefined?$scope.tmpKey.new.Depto:null;
@@ -3568,7 +3568,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           obj.codigo="";
                           obj.codigoExt="";
                         }
-                      });
                     }
                     for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
                       // Ensure the index exists in rsNewKeychainList
@@ -3596,7 +3595,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log($scope.tmpKey.new.codigoExt);
                   let baseCode = parseInt($scope.tmpKey.new.codigo);        // código inicial
                   let baseCodeExt = parseInt($scope.tmpKey.new.codigoExt);
-
                   if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
                     if ($scope.rsNewKeychainList.length>=0){
                       for (var ai = 0; ai < ($scope.tkupdate.keys.length - $scope.rsNewKeychainList.length); ai++) {
@@ -3636,13 +3634,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             break;
                           }
                         });
-                        if ($scope.isCodeNewExist){
-                          newCode = (parseInt(newCode) + 1).toString();
-                          newCodeExt = (parseInt(newCodeExt) + 1).toString();
-                          $scope.isCodeNewExist = false;
-                          console.log(newCode);
-                          console.log(newCodeExt);
-                        }
                         if(!$scope.isCodeExist && !$scope.isCodeNewExist){
                           console.log("ADD_NO_EXIST");
                           let depto = $scope.tmpKey.new.Depto!=undefined?$scope.tmpKey.new.Depto:null;
