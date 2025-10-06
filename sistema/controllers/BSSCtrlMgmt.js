@@ -3596,13 +3596,14 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log($scope.tmpKey.new.codigoExt);
                   let baseCode = parseInt($scope.tmpKey.new.codigo);        // código inicial
                   let baseCodeExt = parseInt($scope.tmpKey.new.codigoExt);
-                  console.log(baseCode);
-                  console.log(baseCodeExt);
+
                   if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
                     if ($scope.rsNewKeychainList.length>=0){
                       for (var ai = 0; ai < ($scope.tkupdate.keys.length - $scope.rsNewKeychainList.length); ai++) {
                           let newCode = (baseCode + ai).toString();
                           let newCodeExt = (baseCodeExt + ai).toString();
+                          console.log(baseCode);
+                          console.log(baseCodeExt);
                         if ($scope.rsNewKeychainList.length>=1){
                           for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
                             if ($scope.rsNewKeychainList[i].codigo==baseCode){
