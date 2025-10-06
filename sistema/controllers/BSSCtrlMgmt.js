@@ -3605,17 +3605,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           let newCodeExt = (baseCodeExt + ai).toString();
                         if ($scope.rsNewKeychainList.length>=1){
                           for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
-                            if ($scope.rsNewKeychainList[i].codigo==$scope.tmpKey.new.codigo){
+                            if ($scope.rsNewKeychainList[i].codigo==baseCode){
                               if ($scope.ticket.selected.idTypeRequestFor=="1"){
-                                inform.add("El Llavero con el Codigo: ["+$scope.tmpKey.new.codigo+"], ya existe en la nueva lista a asignar al Departamento "+$scope.tmpKey.new.Depto,{
+                                inform.add("El Llavero con el Codigo: ["+baseCode+"], ya existe en la nueva lista a asignar al Departamento "+$scope.tmpKey.new.Depto,{
                                 ttl:15000, type: 'warning'
                                 });
                               }else{
-                                inform.add("El Llavero con el Codigo: ["+$scope.tmpKey.new.codigo+"], ya existe en la nueva lista a asignar al Edificio ",{
+                                inform.add("El Llavero con el Codigo: ["+baseCode+"], ya existe en la nueva lista a asignar al Edificio ",{
                                 ttl:15000, type: 'warning'
                                 });
                               }
-
                               $scope.isCodeNewExist=true;
                               console.log($scope.isCodeNewExist);
                               break;
