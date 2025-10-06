@@ -972,8 +972,8 @@ class Llavero_model extends CI_Model
 					$this->db->where('tb_ticket_keychain.idKeychainKf', $item['idKeychain']);
 
 					$quuery_ticket_keychains = $this->db->order_by("tb_ticket_keychain.idTicketKeychain", "ASC")->get();
-					log_message('debug', 'SQL: ' . $this->db->last_query());
-					log_message('debug', 'SQL N° Rows ' . $quuery->num_rows());
+					#log_message('debug', 'SQL: ' . $this->db->last_query());
+					#log_message('debug', 'SQL N° Rows ' . $quuery->num_rows());
 					//log_message('info', print_r($quuery_ticket_keychains->result_array(), true));
 					if ($quuery_ticket_keychains->num_rows() > 0) {
 						$ticketKeychainItem = $quuery_ticket_keychains->result_array();
@@ -998,8 +998,8 @@ class Llavero_model extends CI_Model
 				$this->db->join('tb_status stb', 'stb.idStatusTenant = b.idStatusKf', 'left');
 				$this->db->where('tb_keychain_process_events.idKeychainKf', $item['idKeychain']);
 				$quuery_events = $this->db->order_by("tb_keychain_process_events.idTypeTicketKf", "ASC")->get();
-				log_message('debug', 'SQL: ' . $this->db->last_query());
-				log_message('debug', 'SQL N° Rows ' . $quuery->num_rows());
+				#log_message('debug', 'SQL: ' . $this->db->last_query());
+				#log_message('debug', 'SQL N° Rows ' . $quuery->num_rows());
 				//log_message('info', print_r($quuery_events->result_array(), true));
 				if ($quuery_events->num_rows() > 0) {
 					$rs['tb_keychain'][$key]['tb_keychain_process_events'] = $quuery_events->result_array();
