@@ -870,7 +870,7 @@ class Llavero_model extends CI_Model
 	public function get_new($idClientKf, $create_at, $idCategoryKf, $idKeychainStatusKf, $idDepartmenKf, $idReasonKf, $sysLoggedUserProfile, $codeSearch, $limit = '', $start = '', $strict = null, $totalCount, $getTicketKeychainKf)
 	{
 
-		$this->db->select("tb_keychain.*,tb_keychain_process_events.idKeychainKf,idKeychainKf,tb_keychain_process_events.idReasonKf,tb_reason_disabled_item.idReasonDisabledItem,tb_reason_disabled_item.reasonDisabledItem,
+		$this->db->select("tb_keychain.*_,tb_keychain_process_events.idKeychainKf,idKeychainKf,tb_keychain_process_events.idReasonKf,tb_reason_disabled_item.idReasonDisabledItem,tb_reason_disabled_item.reasonDisabledItem,
 		a.fullNameUser AS keychainUserFullName,
 		pa.nameProfile AS keychainUserProfile,
 		sa.name AS keychainUserRoleName,
