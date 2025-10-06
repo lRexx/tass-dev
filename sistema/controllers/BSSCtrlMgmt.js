@@ -3621,9 +3621,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                               $scope.isCodeNewExist=true;
                               console.log($scope.isCodeNewExist);
                               break;
-                            }else{
-                              $scope.isCodeNewExist=false;
-                              console.log($scope.isCodeNewExist);
                             }
                           }
                         }
