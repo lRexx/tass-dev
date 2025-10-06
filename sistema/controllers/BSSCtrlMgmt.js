@@ -1143,6 +1143,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                 s => s.tb_ticket_keychain.idTicketKf == $scope.tkupdate.idTicket
                               )
                             );
+                            $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered;
                             console.info($scope.rsExistingKeyList);
                         }else if(response.status==404){
                           console.log("404 Error");
