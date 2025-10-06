@@ -971,7 +971,7 @@ class Llavero_model extends CI_Model
 					$this->db->join('tb_tickets_2', 'tb_tickets_2.idTicket = tb_ticket_keychain.idTicketKf', 'left');
 					$this->db->where('tb_ticket_keychain.idKeychainKf', $item['idKeychain']);
 
-					$quuery_ticket_keychains = $this->db->order_by("tb_ticket_keychain.idTicketKeychain", "ASC")->get();
+					$quuery_ticket_keychains = $this->db->order_by("tb_ticket_keychain.idTicketKeychain", "DESC")->get();
 					#log_message('debug', 'SQL: ' . $this->db->last_query());
 					#log_message('debug', 'SQL N° Rows ' . $quuery->num_rows());
 					//log_message('info', print_r($quuery_ticket_keychains->result_array(), true));
