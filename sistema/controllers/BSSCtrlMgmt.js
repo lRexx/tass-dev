@@ -3661,7 +3661,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             $scope.rsExistingKeyList.push({"idProductKf":deviceOpen.idProduct,"idTicketKf": $scope.tkupdate.idTicket, "descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":$scope.tmpKey.new.categoryKeychain,"Depto":depto, "codExt":newCodeExt,"codigo":newCode,"idDepartmenKf":idDepto,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":$scope.tmpKey.new.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "statusKey":"Inactivo", "doors":{}});
                             $scope.list_new_keys.push({"idProductKf":deviceOpen.idProduct,"descriptionProduct":deviceOpen.descriptionProduct,"categoryKeychain":$scope.tmpKey.new.categoryKeychain,"Depto":depto, "codExt":newCodeExt,"codigo":newCode,"idDepartmenKf":idDepto,"idClientKf":$scope.tkupdate.building.idClient,"idUserKf":null,"idCategoryKf":$scope.tmpKey.new.categoryKey,"isKeyTenantOnly":null,"idClientAdminKf":"","idKeychainStatusKf":"0", "statusKey":"Inactivo", "doors":{}});
                             console.log($scope.rsNewKeychainList);
-                            if ($scope.ticket.keysMethodSelected!=null && $scope.ticket.keysMethodSelected!=undefined){
+                            if ($scope.ticket.keysMethod!=null && $scope.ticket.keysMethod!=undefined){
                               for (var key in  $scope.rsNewKeychainList){
                                 console.log($scope.rsNewKeychainList[key]);
                                 if ($scope.rsNewKeychainList[key].idKeychain==undefined){
