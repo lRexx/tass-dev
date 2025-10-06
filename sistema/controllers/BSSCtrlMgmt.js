@@ -3368,6 +3368,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   elem.classList.remove('btn-primary');
                   elem.classList.add('btn-success');
                 }
+              }else{
+                $('#ManageTicketKeysList').modal('show');
               }
             break;
             case "ticket_refunds":
