@@ -1293,20 +1293,21 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   default:
                     if (($scope.tkupdate.building.isStockInBuilding!='0' && $scope.tkupdate.building.isStockInBuilding!=null && $scope.tkupdate.building.isStockInBuilding!=undefined) || ($scope.tkupdate.building.isStockInOffice!='0' && $scope.tkupdate.building.isStockInOffice!=null && $scope.tkupdate.building.isStockInOffice!=undefined)){
                       console.log("Get Stock Key List");
-                      $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,"8","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1).then(function(response) {
+                      $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1).then(function(response) {
                           console.log(response);
                           if(response.status==200){
                               $scope.existingStockKeys = response.data.tb_keychain;
                               console.info($scope.existingStockKeys);
                           }else if(response.status==404){
-                            console.log("404 No result found");
+                            console.log("404 Error");
+                            console.log(response.statusText);
                             $scope.existingStockKeys = [];
                           }else if(response.status==500){
                               inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
                               ttl:5000, type: 'danger'
                               });
                             console.log("500 Error");
-                            console.log(response.data);
+                            console.log(response.statusText);
                           }
                         }, function(err) {
                           $scope.existingStockKeys = [];
