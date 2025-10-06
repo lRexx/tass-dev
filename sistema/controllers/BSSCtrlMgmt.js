@@ -1167,7 +1167,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   case "4":
                   case "5":
                   case "6":
-                    $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1).then(function(response) {
+                    $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",null,null,null,1,null,false,true,1,1).then(function(response) {
                         console.log(response);
                         if(response.status==200){
                             $scope.rsExistingKeyList = response.data.tb_keychain;
@@ -1205,7 +1205,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               }
               if (($scope.tkupdate.building.isStockInBuilding!='0' && $scope.tkupdate.building.isStockInBuilding!=null && $scope.tkupdate.building.isStockInBuilding!=undefined) || ($scope.tkupdate.building.isStockInOffice!='0' && $scope.tkupdate.building.isStockInOffice!=null && $scope.tkupdate.building.isStockInOffice!=undefined)){
                 console.log("Get Stock Key List");
-                $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1).then(function(response) {
+                $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,1,null,false,true,1,1).then(function(response) {
                     console.log(response);
                     if(response.status==200){
                         $scope.existingStockKeys = response.data.tb_keychain;
@@ -1240,7 +1240,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $timeout(function() {
                     console.log(Array.isArray($scope.listDeliveryCompanies));
                     console.log($scope.listDeliveryCompanies);
-                    $scope.tkupdate.deliveryCompany = $scope.listDeliveryCompanies.find(s => s.idDeliveryCompany == $scope.tkupdate.idDeliveryCompanyKf);
+                    $scope.tkupdate.deliveryCompany =  angular.copy(
+                      $scope.listDeliveryCompanies.filter(s => s.idDeliveryCompany == $scope.tkupdate.idDeliveryCompanyKf)
+                    );
                   }, 1500);
               }
               if ($scope.tkupdate.whereKeysAreEnable === null){
@@ -3825,7 +3827,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               var idDepto = null;
               switch($scope.tkupdate.idTypeRequestFor){
                 case "1":
-                  $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",$scope.tkupdate.department.idClientDepartament,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1).then(function(response) {
+                  $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",$scope.tkupdate.department.idClientDepartament,null,null,1,null,false,true,1,1).then(function(response) {
                       console.log(response);
                       if(response.status==200){
                           $scope.rsExistingKeyList = response.data.tb_keychain;
@@ -3852,7 +3854,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 case "4":
                 case "5":
                 case "6":
-                  $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1).then(function(response) {
+                  $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",null,null,null,1,null,false,true,1,1).then(function(response) {
                       console.log(response);
                       if(response.status==200){
                           $scope.rsExistingKeyList = response.data.tb_keychain;
