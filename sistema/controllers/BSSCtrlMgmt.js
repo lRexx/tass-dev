@@ -3602,17 +3602,17 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       for (var ai = 0; ai < ($scope.tkupdate.keys.length - $scope.rsNewKeychainList.length); ai++) {
                           let newCode = (baseCode + ai).toString();
                           let newCodeExt = (baseCodeExt + ai).toString();
-                          console.log(baseCode);
-                          console.log(baseCodeExt);
+                          console.log(newCode);
+                          console.log(newCodeExt);
                         if ($scope.rsNewKeychainList.length>=1){
                           for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
-                            if ($scope.rsNewKeychainList[i].codigo==baseCode){
+                            if ($scope.rsNewKeychainList[i].codigo==newCode){
                               if ($scope.ticket.selected.idTypeRequestFor=="1"){
-                                inform.add("El Llavero con el Codigo: ["+baseCode+"], ya existe en la nueva lista a asignar al Departamento "+$scope.tmpKey.new.Depto,{
+                                inform.add("El Llavero con el Codigo: ["+newCode+"], ya existe en la nueva lista a asignar al Departamento "+$scope.tmpKey.new.Depto,{
                                 ttl:15000, type: 'warning'
                                 });
                               }else{
-                                inform.add("El Llavero con el Codigo: ["+baseCode+"], ya existe en la nueva lista a asignar al Edificio ",{
+                                inform.add("El Llavero con el Codigo: ["+newCode+"], ya existe en la nueva lista a asignar al Edificio ",{
                                 ttl:15000, type: 'warning'
                                 });
                               }
@@ -3636,11 +3636,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             break;
                           }
                           if ($scope.isCodeNewExist){
-                            newCode = (baseCode + 1).toString();
-                            newCodeExt = (baseCodeExt + 1).toString();
+                            newCode = (newCode + 1).toString();
+                            newCodeExt = (newCodeExt + 1).toString();
                             $scope.isCodeNewExist = false;
-                            console.log(baseCode);
-                            console.log(baseCodeExt);
+                            console.log(newCode);
+                            console.log(newCodeExt);
                           }
                           if(!$scope.isCodeExist && !$scope.isCodeNewExist){
                             console.log("ADD_NO_EXIST");
