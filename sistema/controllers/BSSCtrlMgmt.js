@@ -3715,89 +3715,91 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $('#doorKeysModalDetails').modal('show');
             break;
             case "keychainMulti":
-              $scope.keys                   = {"new":{'products':{'selected':{}}}}
-              $scope.rsNewKeychainList      = [];
-              $scope.rsExistingKeyList      = [];
-              $scope.list_new_keys          = [];
-              rsAllKeychainListDataFiltered = [];
-              $scope.sysContent             = "";
-              $scope.isNewKeySingle         = false;
-              $scope.isEditKey              = false;
-              $scope.isNewKeyMulti          = true;
-              $scope.rsKeyListsData         = null;
-              $scope.pagination.pageIndex   = 1;
-              $scope.keychainSearch={
-                "idClientKf":null,
-                "idCategoryKf":null,
-                "idKeychainStatusKf":null,
-                "create_at":null,
-                "start":null,
-                "limit":null,
-                "strict":null,
-                "totalCount":null,
-                "getTicketKeychainKf":null,
-              };
-              console.log($scope.tkupdate.building);
-              $scope.select={'filterCategoryKey':'', 'reasonKf':{},'department':'', 'codeSearch':null, 'keychainStatus':{}, 'idTypeTicketKf':null,
-              'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined},
-              'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
-              var tk_selected = 0;
-              $scope.isCodeExist = false;
-              $scope.isCodeNewExist = false;
-              var Depto = null;
-              var idDepto = null;
-              switch($scope.tkupdate.idTypeRequestFor){
-                case "1":
-                case "2":
-                case "3":
-                case "4":
-                case "5":
-                case "6":
-                    $scope.rsAllKeychainListDataFiltered = angular.copy(
-                      $scope.existingStockKeys.filter(
-                        s => s.idProductKf == $scope.tkupdate.keys[0].idProductKf
-                      )
-                    );
-                    console.log($scope.rsAllKeychainListDataFiltered);
-                    for (var tkey in $scope.tkupdate.keys){
-                      for (var stock in $scope.rsAllKeychainListDataFiltered){
-                        if ($scope.tkupdate.keys[tkey].idProduct == $scope.rsAllKeychainListDataFiltered[stock].idProductKf && tk_selected<$scope.tkupdate.keys.length){
-                          if ($scope.rsNewKeychainList.length>=0){
-                            for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
-                              if ($scope.rsNewKeychainList[i].codigo==$scope.rsAllKeychainListDataFiltered[stock].codigo){
-                                $scope.isCodeNewExist=true;
-                                break;
-                                //console.log($scope.isMailExist);
-                              }else{
-                                $scope.isCodeNewExist=false;
-                                //console.log($scope.isMailExist);
+              if ($scope.tkupdate.idMgmtMethodKf == null && $scope.ticket.idMgmtMethodKf==undefined && $scope.ticket.keysMethod.name==undefined){
+                $scope.keys                   = {"new":{'products':{'selected':{}}}}
+                $scope.rsNewKeychainList      = [];
+                $scope.rsExistingKeyList      = [];
+                $scope.list_new_keys          = [];
+                rsAllKeychainListDataFiltered = [];
+                $scope.sysContent             = "";
+                $scope.isNewKeySingle         = false;
+                $scope.isEditKey              = false;
+                $scope.isNewKeyMulti          = true;
+                $scope.rsKeyListsData         = null;
+                $scope.pagination.pageIndex   = 1;
+                $scope.keychainSearch={
+                  "idClientKf":null,
+                  "idCategoryKf":null,
+                  "idKeychainStatusKf":null,
+                  "create_at":null,
+                  "start":null,
+                  "limit":null,
+                  "strict":null,
+                  "totalCount":null,
+                  "getTicketKeychainKf":null,
+                };
+                console.log($scope.tkupdate.building);
+                $scope.select={'filterCategoryKey':'', 'reasonKf':{},'department':'', 'codeSearch':null, 'keychainStatus':{}, 'idTypeTicketKf':null,
+                'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined},
+                'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
+                var tk_selected = 0;
+                $scope.isCodeExist = false;
+                $scope.isCodeNewExist = false;
+                var Depto = null;
+                var idDepto = null;
+                switch($scope.tkupdate.idTypeRequestFor){
+                  case "1":
+                  case "2":
+                  case "3":
+                  case "4":
+                  case "5":
+                  case "6":
+                      $scope.rsAllKeychainListDataFiltered = angular.copy(
+                        $scope.existingStockKeys.filter(
+                          s => s.idProductKf == $scope.tkupdate.keys[0].idProductKf
+                        )
+                      );
+                      console.log($scope.rsAllKeychainListDataFiltered);
+                      for (var tkey in $scope.tkupdate.keys){
+                        for (var stock in $scope.rsAllKeychainListDataFiltered){
+                          if ($scope.tkupdate.keys[tkey].idProduct == $scope.rsAllKeychainListDataFiltered[stock].idProductKf && tk_selected<$scope.tkupdate.keys.length){
+                            if ($scope.rsNewKeychainList.length>=0){
+                              for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
+                                if ($scope.rsNewKeychainList[i].codigo==$scope.rsAllKeychainListDataFiltered[stock].codigo){
+                                  $scope.isCodeNewExist=true;
+                                  break;
+                                  //console.log($scope.isMailExist);
+                                }else{
+                                  $scope.isCodeNewExist=false;
+                                  //console.log($scope.isMailExist);
+                                }
                               }
                             }
-                          }
-                          console.log("isCodeExist: "+$scope.isCodeExist+" "+"isCodeNewExist: "+$scope.isCodeNewExist)
-                          if(!$scope.isCodeExist && !$scope.isCodeNewExist){
-                            console.log("ADD_NO_EXIST");
-                            $scope.rsNewKeychainList.push({"idKeychain":$scope.rsAllKeychainListDataFiltered[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListDataFiltered[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListDataFiltered[stock].descriptionProduct,"categoryKeychain":$scope.rsAllKeychainListDataFiltered[stock].categoryKeychain,"Depto":Depto, "codExt":$scope.rsAllKeychainListDataFiltered[stock].codExt,"codigo":$scope.rsAllKeychainListDataFiltered[stock].codigo,"idDepartmenKf":idDepto,"idClientKf":$scope.rsAllKeychainListDataFiltered[stock].idClientKf,"idUserKf":null,"idCategoryKf":$scope.rsAllKeychainListDataFiltered[stock].idCategoryKf,"isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":$scope.rsAllKeychainListDataFiltered[stock].idKeychainStatusKf, "statusKey":$scope.rsAllKeychainListDataFiltered[stock].statusKey, "doors":{}});
-                            $scope.rsExistingKeyList.push({"idKeychain":$scope.rsAllKeychainListDataFiltered[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListDataFiltered[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListDataFiltered[stock].descriptionProduct,"categoryKeychain":$scope.rsAllKeychainListDataFiltered[stock].categoryKeychain,"Depto":Depto, "codExt":$scope.rsAllKeychainListDataFiltered[stock].codExt,"codigo":$scope.rsAllKeychainListDataFiltered[stock].codigo,"idDepartmenKf":idDepto,"idClientKf":$scope.rsAllKeychainListDataFiltered[stock].idClientKf,"idUserKf":null,"idCategoryKf":$scope.rsAllKeychainListDataFiltered[stock].idCategoryKf,"isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":$scope.rsAllKeychainListDataFiltered[stock].idKeychainStatusKf, "statusKey":$scope.rsAllKeychainListDataFiltered[stock].statusKey, "doors":{}});
-                            $scope.rsAllKeychainListDataFiltered[stock].selected = true;
-                            tk_selected++;
-                          }
-                          for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
-                            // Ensure the index exists in rsExistingKeyList
-                            if ($scope.rsExistingKeyList[i]) {
-                                // Set the doors property based on the index
-                                $scope.rsExistingKeyList[i].doors = $scope.tkupdate.keys[i].doors;
-                                $scope.rsNewKeychainList[i].doors = $scope.tkupdate.keys[i].doors;
+                            console.log("isCodeExist: "+$scope.isCodeExist+" "+"isCodeNewExist: "+$scope.isCodeNewExist)
+                            if(!$scope.isCodeExist && !$scope.isCodeNewExist){
+                              console.log("ADD_NO_EXIST");
+                              $scope.rsNewKeychainList.push({"idKeychain":$scope.rsAllKeychainListDataFiltered[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListDataFiltered[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListDataFiltered[stock].descriptionProduct,"categoryKeychain":$scope.rsAllKeychainListDataFiltered[stock].categoryKeychain,"Depto":Depto, "codExt":$scope.rsAllKeychainListDataFiltered[stock].codExt,"codigo":$scope.rsAllKeychainListDataFiltered[stock].codigo,"idDepartmenKf":idDepto,"idClientKf":$scope.rsAllKeychainListDataFiltered[stock].idClientKf,"idUserKf":null,"idCategoryKf":$scope.rsAllKeychainListDataFiltered[stock].idCategoryKf,"isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":$scope.rsAllKeychainListDataFiltered[stock].idKeychainStatusKf, "statusKey":$scope.rsAllKeychainListDataFiltered[stock].statusKey, "doors":{}});
+                              $scope.rsExistingKeyList.push({"idKeychain":$scope.rsAllKeychainListDataFiltered[stock].idKeychain, "idProductKf":$scope.rsAllKeychainListDataFiltered[stock].idProductKf,"descriptionProduct":$scope.rsAllKeychainListDataFiltered[stock].descriptionProduct,"categoryKeychain":$scope.rsAllKeychainListDataFiltered[stock].categoryKeychain,"Depto":Depto, "codExt":$scope.rsAllKeychainListDataFiltered[stock].codExt,"codigo":$scope.rsAllKeychainListDataFiltered[stock].codigo,"idDepartmenKf":idDepto,"idClientKf":$scope.rsAllKeychainListDataFiltered[stock].idClientKf,"idUserKf":null,"idCategoryKf":$scope.rsAllKeychainListDataFiltered[stock].idCategoryKf,"isKeyTenantOnly":null,"idClientAdminKf":null,"idKeychainStatusKf":$scope.rsAllKeychainListDataFiltered[stock].idKeychainStatusKf, "statusKey":$scope.rsAllKeychainListDataFiltered[stock].statusKey, "doors":{}});
+                              $scope.rsAllKeychainListDataFiltered[stock].selected = true;
+                              tk_selected++;
                             }
-                            if ($scope.list_new_keys[i]) {
-                              // Set the doors property based on the index
-                              $scope.list_new_keys[i].doors = $scope.tkupdate.keys[i].doors;
+                            for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
+                              // Ensure the index exists in rsExistingKeyList
+                              if ($scope.rsExistingKeyList[i]) {
+                                  // Set the doors property based on the index
+                                  $scope.rsExistingKeyList[i].doors = $scope.tkupdate.keys[i].doors;
+                                  $scope.rsNewKeychainList[i].doors = $scope.tkupdate.keys[i].doors;
+                              }
+                              if ($scope.list_new_keys[i]) {
+                                // Set the doors property based on the index
+                                $scope.list_new_keys[i].doors = $scope.tkupdate.keys[i].doors;
+                              }
                             }
                           }
                         }
                       }
-                    }
-                break;
+                  break;
+                }
               }
             break;
             case "keychain_manual":
