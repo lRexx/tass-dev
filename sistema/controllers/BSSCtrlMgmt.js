@@ -3850,7 +3850,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 case "4":
                 case "5":
                 case "6":
-                    $scope.rsAllKeychainListDataFiltered = $scope.existingStockKeys.filter(s => s.idProductKf == $scope.tkupdate.keys[0].idProductKf);
+                    $scope.rsAllKeychainListDataFiltered = angular.copy(
+                      $scope.existingStockKeys.filter(
+                        s => s.idProductKf == $scope.tkupdate.keys[0].idProductKf
+                      )
+                    );
                     console.log($scope.rsAllKeychainListDataFiltered);
                     for (var tkey in $scope.tkupdate.keys){
                       for (var stock in $scope.rsAllKeychainListDataFiltered){
