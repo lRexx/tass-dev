@@ -1130,20 +1130,17 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               //$scope.getContractsByCustomerIdFn($scope.tkupdate.building.idClient);
               $scope.getKeysAssociatedToACustomerFn($scope.tkupdate.building.idClient);
               $scope.getControlAccessDoorsAssociatedToACustomerFn($scope.tkupdate.building.idClient);
-              if ($scope.tkupdate.idMgmtMethodKf!=null){
+              if ($scope.tkupdate.idMgmtMethodKf!=null && $scope.tkupdate.idMgmtMethodKf!=undefined){
                 switch($scope.tkupdate.idTypeRequestFor){
                   case "1":
                       $scope.getDeptoListByAddress($scope.tkupdate.building.idClient);
-                      $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
                       $timeout(function() {
                         console.log($scope.rsExistingKeyList);
-                        if ($scope.tkupdate.idMgmtMethodKf!=undefined && $scope.tkupdate.idMgmtMethodKf!=null){
-                          for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
-                            //rsNewKeychainList
-                            if ($scope.rsExistingKeyList[i].idTicketKf!=null && $scope.rsExistingKeyList[i].idKeychainStatusKf!="-1" && $scope.rsExistingKeyList[i].idTicketKf == $scope.tkupdate.idTicket){
-                              $scope.rsNewKeychainList.push($scope.rsExistingKeyList[i]);
-                              $scope.list_new_keys.push($scope.rsExistingKeyList[i]);
-                            }
+                        for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
+                          //rsNewKeychainList
+                          if ($scope.rsExistingKeyList[i].idTicketKf!=null && $scope.rsExistingKeyList[i].idKeychainStatusKf!="-1" && $scope.rsExistingKeyList[i].idTicketKf == $scope.tkupdate.idTicket){
+                            $scope.rsNewKeychainList.push($scope.rsExistingKeyList[i]);
+                            $scope.list_new_keys.push($scope.rsExistingKeyList[i]);
                           }
                         }
                         console.log("ticket.keysMethod.name          : "+$scope.ticket.keysMethod.name);
@@ -1288,7 +1285,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 switch($scope.tkupdate.idTypeRequestFor){
                   case "1":
                       $scope.getDeptoListByAddress($scope.tkupdate.building.idClient);
-                      $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
                   break;
                   default:
                     if (($scope.tkupdate.building.isStockInBuilding!='0' && $scope.tkupdate.building.isStockInBuilding!=null && $scope.tkupdate.building.isStockInBuilding!=undefined) || ($scope.tkupdate.building.isStockInOffice!='0' && $scope.tkupdate.building.isStockInOffice!=null && $scope.tkupdate.building.isStockInOffice!=undefined)){
@@ -3747,9 +3743,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.log($scope.rsExistingKeyList);
               console.log("$scope.tkupdate.keys lenght:     "+$scope.tkupdate.keys.length);
               console.log($scope.tkupdate.keys);
-              if ($scope.ticket.selected.idTypeRequestFor=="1"){
-                $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
-              }
             break;
             case "uploadKeyFile":
                 $scope.addMultiKeys(obj);
@@ -3834,18 +3827,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               var idDepto = null;
               switch($scope.tkupdate.idTypeRequestFor){
                 case "1":
-                    console.log("$scope.thereIsKeyWithoutIdKeychain: "+$scope.thereIsKeyWithoutIdKeychain);
-                    console.log("ticket.keysMethod         : ");
-                    console.log($scope.ticket.keysMethod);
-                    console.log("ticket.keysMethod.name    : "+$scope.ticket.keysMethod.name);
-                    console.log("rsExistingKeyList Length  : "+$scope.rsExistingKeyList.length);
-                    console.log("tkupdate.keys Length      : "+$scope.tkupdate.keys.length);
-                    $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"1","-1",$scope.tkupdate.idDepartmentKf,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
-                break;
                 case "2":
-                    $scope.thereIsKeyWithoutIdKeychain=true;
-                    $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1);
-                break;
                 case "3":
                 case "4":
                 case "5":
