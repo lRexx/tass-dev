@@ -951,7 +951,7 @@ class Llavero_model extends CI_Model
 			$ultimaPagina = max(0, floor(($query_total - 1) / $limit) * $limit);
 			$start = $ultimaPagina;
 		}
-		if (isset($limit) && isset($start)) {
+		if (isset($limit) && !is_null($limit) && isset($start) && !is_null($start)) {
 			$this->db->limit($limit, $start);
 		}
 		//$this->db->group_by('tb_keychain.idKeychain');
