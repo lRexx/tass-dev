@@ -3799,16 +3799,17 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $('#doorKeysModalDetails').modal('show');
             break;
             case "keychainMulti":
-              $scope.keys                  = {"new":{'products':{'selected':{}}}}
-              $scope.rsNewKeychainList     = [];
-              $scope.rsExistingKeyList     = [];
-              $scope.list_new_keys         = [];
-              $scope.sysContent            = "";
-              $scope.isNewKeySingle        = false;
-              $scope.isEditKey             = false;
-              $scope.isNewKeyMulti         = true;
-              $scope.rsKeyListsData        = null;
-              $scope.pagination.pageIndex  = 1;
+              $scope.keys                   = {"new":{'products':{'selected':{}}}}
+              $scope.rsNewKeychainList      = [];
+              $scope.rsExistingKeyList      = [];
+              $scope.list_new_keys          = [];
+              rsAllKeychainListDataFiltered = [];
+              $scope.sysContent             = "";
+              $scope.isNewKeySingle         = false;
+              $scope.isEditKey              = false;
+              $scope.isNewKeyMulti          = true;
+              $scope.rsKeyListsData         = null;
+              $scope.pagination.pageIndex   = 1;
               $scope.keychainSearch={
                 "idClientKf":null,
                 "idCategoryKf":null,
