@@ -3591,8 +3591,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log("$scope.rsNewKeychainList lenght: "+$scope.rsNewKeychainList.length);
                   console.log("$scope.rsExistingKeyList lenght: "+$scope.rsExistingKeyList.length);
                   console.log("$scope.tkupdate.keys lenght:     "+$scope.tkupdate.keys.length);
-                  console.log($scope.tmpKey.new.codigo);
-                  console.log($scope.tmpKey.new.codigoExt);
+                  console.log("$scope.tmpKey.new.codigo: "+$scope.tmpKey.new.codigo);
+                  console.log("$scope.tmpKey.new.codigoExt: "+$scope.tmpKey.new.codigoExt);
                   let baseCode = parseInt($scope.tmpKey.new.codigo);        // código inicial
                   let baseCodeExt = parseInt($scope.tmpKey.new.codigoExt);
                   if ($scope.rsNewKeychainList.length<$scope.tkupdate.keys.length){
@@ -3600,21 +3600,22 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       for (var ai = 0; ai < ($scope.tkupdate.keys.length - $scope.rsNewKeychainList.length); ai++) {
                           let newCode = (baseCode + ai).toString();
                           let newCodeExt = (baseCodeExt + ai).toString();
-                          console.log(newCode);
-                          console.log(newCodeExt);
+                          console.log("newCode: "+newCode);
+                          console.log("newCodeExt: "+newCodeExt);
                         if ($scope.rsNewKeychainList.length>=1){
                           $scope.isCodeNewExist = false;
                           $scope.isCodeNewExistNumber=0;
                           for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
                             console.log("$scope.rsNewKeychainList[i].codigo: "+$scope.rsNewKeychainList[i].codigo);
                             console.log("$scope.tmpKey.new.codigo :"+$scope.tmpKey.new.codigo);
-                            if ($scope.rsNewKeychainList[i].codigo==$scope.tmpKey.new.codigo){
+                            console.log("newCode :"+newCode);
+                            if ($scope.rsNewKeychainList[i].codigo==newCode){
                               if ($scope.ticket.selected.idTypeRequestFor=="1"){
-                                inform.add("El Llavero con el Codigo: ["+$scope.tmpKey.new.codigo+"], ya existe en la nueva lista a asignar al Departamento "+$scope.tmpKey.new.Depto,{
+                                inform.add("El Llavero con el Codigo: ["+newCode+"], ya existe en la nueva lista a asignar al Departamento "+$scope.tmpKey.new.Depto,{
                                 ttl:15000, type: 'warning'
                                 });
                               }else{
-                                inform.add("El Llavero con el Codigo: ["+$scope.tmpKey.new.codigo+"], ya existe en la nueva lista a asignar al Edificio ",{
+                                inform.add("El Llavero con el Codigo: ["+newCode+"], ya existe en la nueva lista a asignar al Edificio ",{
                                 ttl:15000, type: 'warning'
                                 });
                               }
