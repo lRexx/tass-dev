@@ -3605,6 +3605,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           console.log(newCode);
                           console.log(newCodeExt);
                         if ($scope.rsNewKeychainList.length>=1){
+                          $scope.isCodeNewExist = false;
                           for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
                             console.log($scope.rsNewKeychainList[i]);
                             if ($scope.rsNewKeychainList[i].codigo==$scope.tmpKey.new.codigo){
