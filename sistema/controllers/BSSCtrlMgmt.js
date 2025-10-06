@@ -3801,6 +3801,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             case "keychainMulti":
               $scope.keys                  = {"new":{'products':{'selected':{}}}}
               $scope.rsNewKeychainList     = [];
+              $scope.rsExistingKeyList     = [];
               $scope.list_new_keys         = [];
               $scope.sysContent            = "";
               $scope.isNewKeySingle        = false;
