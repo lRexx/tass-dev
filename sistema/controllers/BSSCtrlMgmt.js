@@ -3707,15 +3707,15 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log({llavero:keySelected});
                   $scope.deleteKeyFn({llavero: keySelected});
                 }
-                for (var key in  $scope.rsNewKeychainList){
-                  if ( $scope.rsNewKeychainList[key].codigo==obj.codigo){
-                      $scope.rsNewKeychainList.splice(key,1);
-                      $scope.list_new_keys.splice(key,1);
+                for (var newKey in  $scope.rsNewKeychainList){
+                  if ( $scope.rsNewKeychainList[newKey].codigo==keySelected.codigo){
+                      $scope.rsNewKeychainList.splice(newKey,1);
+                      $scope.list_new_keys.splice(newKey,1);
                   }
                 }
-                for (var key in  $scope.rsExistingKeyList){
-                  if ( $scope.rsExistingKeyList[key].codigo==obj.codigo){
-                      $scope.rsExistingKeyList.splice(key,1);
+                for (var existingKey in  $scope.rsExistingKeyList){
+                  if ( $scope.rsExistingKeyList[existingKey].codigo==keySelected.codigo){
+                      $scope.rsExistingKeyList.splice(existingKey,1);
                   }
                 }
                 console.log("$scope.rsNewKeychainList lenght: "+$scope.rsNewKeychainList.length);
