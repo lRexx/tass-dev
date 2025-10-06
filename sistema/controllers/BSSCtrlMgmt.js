@@ -3610,6 +3610,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             console.log("$scope.tmpKey.new.codigo :"+$scope.tmpKey.new.codigo);
                             console.log("newCode :"+newCode);
                             if ($scope.rsNewKeychainList[i].codigo==newCode){
+
                               if ($scope.ticket.selected.idTypeRequestFor=="1"){
                                 inform.add("El Llavero con el Codigo: ["+newCode+"], ya existe en la nueva lista a asignar al Departamento "+$scope.tmpKey.new.Depto,{
                                 ttl:15000, type: 'warning'
@@ -3619,6 +3620,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                 ttl:15000, type: 'warning'
                                 });
                               }
+                              newCode++;
                               $scope.isCodeNewExist=true;
                               $scope.isCodeNewExistNumber++;
                               console.log($scope.isCodeNewExist);
