@@ -3606,18 +3606,23 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           console.log(newCodeExt);
                         if ($scope.rsNewKeychainList.length>=1){
                           for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
-                            if ($scope.rsNewKeychainList[i].codigo==newCode){
+                            if ($scope.rsNewKeychainList[i].codigo==$scope.tmpKey.new.codigo){
                               if ($scope.ticket.selected.idTypeRequestFor=="1"){
-                                inform.add("El Llavero con el Codigo: ["+newCode+"], ya existe en la nueva lista a asignar al Departamento "+$scope.tmpKey.new.Depto,{
+                                inform.add("El Llavero con el Codigo: ["+$scope.tmpKey.new.codigo+"], ya existe en la nueva lista a asignar al Departamento "+$scope.tmpKey.new.Depto,{
                                 ttl:15000, type: 'warning'
                                 });
                               }else{
-                                inform.add("El Llavero con el Codigo: ["+newCode+"], ya existe en la nueva lista a asignar al Edificio ",{
+                                inform.add("El Llavero con el Codigo: ["+$scope.tmpKey.new.codigo+"], ya existe en la nueva lista a asignar al Edificio ",{
                                 ttl:15000, type: 'warning'
                                 });
                               }
                               $scope.isCodeNewExist=true;
                               console.log($scope.isCodeNewExist);
+                              newCode = (newCode + 1).toString();
+                              newCodeExt = (newCodeExt + 1).toString();
+                              $scope.isCodeNewExist = false;
+                              console.log(newCode);
+                              console.log(newCodeExt);
                               break;
                             }else{
                               $scope.isCodeNewExist=false;
