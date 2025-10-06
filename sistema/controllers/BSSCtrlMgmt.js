@@ -1133,153 +1133,56 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               if ($scope.tkupdate.idMgmtMethodKf!=null && $scope.tkupdate.idMgmtMethodKf!=undefined){
                 switch($scope.tkupdate.idTypeRequestFor){
                   case "1":
-                      $scope.getDeptoListByAddress($scope.tkupdate.building.idClient);
-                      $timeout(function() {
-                        console.log($scope.rsExistingKeyList);
-                        for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
-                          //rsNewKeychainList
-                          if ($scope.rsExistingKeyList[i].idTicketKf!=null && $scope.rsExistingKeyList[i].idKeychainStatusKf!="-1" && $scope.rsExistingKeyList[i].idTicketKf == $scope.tkupdate.idTicket){
-                            $scope.rsNewKeychainList.push($scope.rsExistingKeyList[i]);
-                            $scope.list_new_keys.push($scope.rsExistingKeyList[i]);
-                          }
+                    $scope.getDeptoListByAddress($scope.tkupdate.building.idClient);
+                    $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",$scope.tkupdate.department.idClientDepartament,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1).then(function(response) {
+                        console.log(response);
+                        if(response.status==200){
+                            $scope.rsExistingKeyList = response.data.tb_keychain;
+                            console.info($scope.rsExistingKeyList);
+                        }else if(response.status==404){
+                          console.log("404 Error");
+                          console.log(response.statusText);
+                          $scope.rsExistingKeyList = [];
+                        }else if(response.status==500){
+                            inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                            ttl:5000, type: 'danger'
+                            });
+                          console.log("500 Error");
+                          console.log(response.statusText);
                         }
-                        console.log("ticket.keysMethod.name          : "+$scope.ticket.keysMethod.name);
-                        console.log("tkupdate.keys length            : "+$scope.tkupdate.keys.length);
-                        console.log("$scope.rsExistingKeyList lenght : "+$scope.rsExistingKeyList.length);
-                        console.log("rsNewKeychainList length        : "+$scope.rsNewKeychainList.length);
-                        console.log($scope.rsNewKeychainList);
-                        console.log("list_new_keys");
-                        console.log($scope.list_new_keys);
-                      }, 1000);
+                      }, function(err) {
+                        $scope.rsExistingKeyList = [];
+                        console.log("Error: " + err);
+                        //$scope.pagination.totalCount  = 0;
+                    });
                   break;
                   case "2":
-                    $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,0,1);
-                    $timeout(function() {
-                      //console.log($scope.rsAllKeychainListData);
-                      if ($scope.tkupdate.idMgmtMethodKf!=undefined && $scope.tkupdate.idMgmtMethodKf!=null){
-                        for (var tk_key in $scope.tkupdate.keys){
-                          //console.log(i);
-                          //console.log("$scope.tkupdate.keys[tk_key].keychain.idKeychain: "+$scope.tkupdate.keys[tk_key].keychain.idKeychain);
-                          for (var i = 0; i < $scope.rsAllKeychainListData.length; i++) {
-                            //rsNewKeychainList
-                            //console.log("$scope.rsAllKeychainListData[i].idKeychain: "+$scope.rsAllKeychainListData[i].idKeychain);
-                            if ($scope.rsAllKeychainListData[i].idKeychain==$scope.tkupdate.keys[tk_key].keychain.idKeychain && $scope.rsAllKeychainListData[i].idKeychainStatusKf!="-1"){
-                              $scope.rsExistingKeyList.push($scope.rsAllKeychainListData[i]);
-                              $scope.rsNewKeychainList.push($scope.rsAllKeychainListData[i]);
-                              $scope.list_new_keys.push($scope.rsAllKeychainListData[i]);
-                              break;
-                            }
-                          }
-                        }
-                      }
-                      console.log("ticket.keysMethod.name  : "+$scope.ticket.keysMethod.name);
-                      console.log("tkupdate.keys length    : "+$scope.tkupdate.keys.length);
-                      console.log("rsNewKeychainList length: "+$scope.rsNewKeychainList.length);
-                      console.log("rsExistingKeyList length: "+$scope.rsExistingKeyList.length);
-                      console.log("rsNewKeychainList");
-                      console.log($scope.rsNewKeychainList);
-                      console.log("rsExistingKeyList");
-                      console.log($scope.rsExistingKeyList);
-                      console.log("list_new_keys");
-                      console.log($scope.list_new_keys);
-                    }, 1000);
-                  break;
                   case "3":
-                    $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"3","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,0,1);
-                    $timeout(function() {
-                      //console.log($scope.rsAllKeychainListData);
-                      if ($scope.tkupdate.idMgmtMethodKf!=undefined && $scope.tkupdate.idMgmtMethodKf!=null){
-                        for (var tk_key in $scope.tkupdate.keys){
-                          //console.log(i);
-                          //console.log("$scope.tkupdate.keys[tk_key].keychain.idKeychain: "+$scope.tkupdate.keys[tk_key].keychain.idKeychain);
-                          for (var i = 0; i < $scope.rsAllKeychainListData.length; i++) {
-                            //rsNewKeychainList
-                            //console.log("$scope.rsAllKeychainListData[i].idKeychain: "+$scope.rsAllKeychainListData[i].idKeychain);
-                            if ($scope.rsAllKeychainListData[i].idKeychain==$scope.tkupdate.keys[tk_key].keychain.idKeychain && $scope.rsAllKeychainListData[i].idKeychainStatusKf!="-1"){
-                              $scope.rsExistingKeyList.push($scope.rsAllKeychainListData[i]);
-                              $scope.rsNewKeychainList.push($scope.rsAllKeychainListData[i]);
-                              $scope.list_new_keys.push($scope.rsAllKeychainListData[i]);
-                              break;
-                            }
-                          }
-                        }
-                      }
-                      console.log("ticket.keysMethod.name  : "+$scope.ticket.keysMethod.name);
-                      console.log("tkupdate.keys length    : "+$scope.tkupdate.keys.length);
-                      console.log("rsNewKeychainList length: "+$scope.rsNewKeychainList.length);
-                      console.log("rsExistingKeyList length: "+$scope.rsExistingKeyList.length);
-                      console.log("rsNewKeychainList");
-                      console.log($scope.rsNewKeychainList);
-                      console.log("rsExistingKeyList");
-                      console.log($scope.rsExistingKeyList);
-                      console.log("list_new_keys");
-                      console.log($scope.list_new_keys);
-                    }, 1000);
-                  break;
                   case "4":
-                    $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"4","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,0,1);
-                    $timeout(function() {
-                      //console.log($scope.rsAllKeychainListData);
-                      if ($scope.tkupdate.idMgmtMethodKf!=undefined && $scope.tkupdate.idMgmtMethodKf!=null){
-                        for (var tk_key in $scope.tkupdate.keys){
-                          //console.log(i);
-                          //console.log("$scope.tkupdate.keys[tk_key].keychain.idKeychain: "+$scope.tkupdate.keys[tk_key].keychain.idKeychain);
-                          for (var i = 0; i < $scope.rsAllKeychainListData.length; i++) {
-                            //rsNewKeychainList
-                            //console.log("$scope.rsAllKeychainListData[i].idKeychain: "+$scope.rsAllKeychainListData[i].idKeychain);
-                            if ($scope.rsAllKeychainListData[i].idKeychain==$scope.tkupdate.keys[tk_key].keychain.idKeychain && $scope.rsAllKeychainListData[i].idKeychainStatusKf!="-1"){
-                              $scope.rsExistingKeyList.push($scope.rsAllKeychainListData[i]);
-                              $scope.rsNewKeychainList.push($scope.rsAllKeychainListData[i]);
-                              $scope.list_new_keys.push($scope.rsAllKeychainListData[i]);
-                              break;
-                            }
-                          }
-                        }
-                      }
-                      console.log("ticket.keysMethod.name  : "+$scope.ticket.keysMethod.name);
-                      console.log("tkupdate.keys length    : "+$scope.tkupdate.keys.length);
-                      console.log("rsNewKeychainList length: "+$scope.rsNewKeychainList.length);
-                      console.log("rsExistingKeyList length: "+$scope.rsExistingKeyList.length);
-                      console.log("rsNewKeychainList");
-                      console.log($scope.rsNewKeychainList);
-                      console.log("rsExistingKeyList");
-                      console.log($scope.rsExistingKeyList);
-                      console.log("list_new_keys");
-                      console.log($scope.list_new_keys);
-                    }, 1000);
-                  break;
+                  case "5":
                   case "6":
-                    $scope.getKeychainListFn($scope.tkupdate.building.idClient,null,"6","-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,0,1);
-                    $timeout(function() {
-                      //console.log($scope.rsAllKeychainListData);
-                      if ($scope.tkupdate.idMgmtMethodKf!=undefined && $scope.tkupdate.idMgmtMethodKf!=null){
-                        for (var tk_key in $scope.tkupdate.keys){
-                          //console.log(i);
-                          //console.log("$scope.tkupdate.keys[tk_key].keychain.idKeychain: "+$scope.tkupdate.keys[tk_key].keychain.idKeychain);
-                          for (var i = 0; i < $scope.rsAllKeychainListData.length; i++) {
-                            //rsNewKeychainList
-                            //console.log("$scope.rsAllKeychainListData[i].idKeychain: "+$scope.rsAllKeychainListData[i].idKeychain);
-                            if ($scope.rsAllKeychainListData[i].idKeychain==$scope.tkupdate.keys[tk_key].keychain.idKeychain && $scope.rsAllKeychainListData[i].idKeychainStatusKf!="-1"){
-                              $scope.rsExistingKeyList.push($scope.rsAllKeychainListData[i]);
-                              $scope.rsNewKeychainList.push($scope.rsAllKeychainListData[i]);
-                              $scope.list_new_keys.push($scope.rsAllKeychainListData[i]);
-                              break;
-                            }
-                          }
+                    $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",null,null,null,1,$scope.pagination.pageSizeSelected,false,true,1,1).then(function(response) {
+                        console.log(response);
+                        if(response.status==200){
+                            $scope.rsExistingKeyList = response.data.tb_keychain;
+                            console.info($scope.rsExistingKeyList);
+                        }else if(response.status==404){
+                          console.log("404 Error");
+                          console.log(response.statusText);
+                          $scope.rsExistingKeyList = [];
+                        }else if(response.status==500){
+                            inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                            ttl:5000, type: 'danger'
+                            });
+                          console.log("500 Error");
+                          console.log(response.statusText);
                         }
-                      }
-                      console.log("ticket.keysMethod.name  : "+$scope.ticket.keysMethod.name);
-                      console.log("tkupdate.keys length    : "+$scope.tkupdate.keys.length);
-                      console.log("rsNewKeychainList length: "+$scope.rsNewKeychainList.length);
-                      console.log("rsExistingKeyList length: "+$scope.rsExistingKeyList.length);
-                      console.log("rsNewKeychainList");
-                      console.log($scope.rsNewKeychainList);
-                      console.log("rsExistingKeyList");
-                      console.log($scope.rsExistingKeyList);
-                      console.log("list_new_keys");
-                      console.log($scope.list_new_keys);
-                    }, 1000);
-                  break
+                      }, function(err) {
+                        $scope.rsExistingKeyList = [];
+                        console.log("Error: " + err);
+                        //$scope.pagination.totalCount  = 0;
+                    });
+                  break;
                 }
               }else{
                 switch($scope.tkupdate.idTypeRequestFor){
