@@ -3604,6 +3604,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           console.log(newCodeExt);
                         if ($scope.rsNewKeychainList.length>=1){
                           $scope.isCodeNewExist = false;
+                          $scope.isCodeNewExistNumber=0;
                           for (var i = 0; i < $scope.rsNewKeychainList.length; i++) {
                             console.log("$scope.rsNewKeychainList[i].codigo: "+$scope.rsNewKeychainList[i].codigo);
                             console.log("$scope.tmpKey.new.codigo :"+$scope.tmpKey.new.codigo);
@@ -3618,8 +3619,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                 });
                               }
                               $scope.isCodeNewExist=true;
+                              $scope.isCodeNewExistNumber++;
                               console.log($scope.isCodeNewExist);
-                              break;
                             }
                           }
                         }
@@ -3634,6 +3635,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             break;
                           }
                         });
+                        if ($scope.isCodeNewExist){
+                          newCode = (parseInt(newCode) + $scope.isCodeNewExistNumber).toString();
+                          newCodeExt = (parseInt(newCodeExt) + $scope.isCodeNewExistNumber).toString();
+                          $scope.isCodeNewExist = false;
+                          console.log(newCode);
+                          console.log(newCodeExt);
+                        }
                         if(!$scope.isCodeExist && !$scope.isCodeNewExist){
                           console.log("ADD_NO_EXIST");
                           let depto = $scope.tmpKey.new.Depto!=undefined?$scope.tmpKey.new.Depto:null;
