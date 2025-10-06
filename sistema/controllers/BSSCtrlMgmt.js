@@ -3826,6 +3826,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               var tk_selected = 0;
               $scope.isCodeExist = false;
               $scope.isCodeNewExist = false;
+              var Depto = null;
+              var idDepto = null;
               switch($scope.tkupdate.idTypeRequestFor){
                 case "1":
                     console.log("$scope.thereIsKeyWithoutIdKeychain: "+$scope.thereIsKeyWithoutIdKeychain);
