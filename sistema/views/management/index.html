@@ -692,27 +692,46 @@
             </div>
         </div>
         <div class="form-group col-md-12 col-xs-12 pull-right search_box">
-        <div class="input-group">
-            <span class="input-group-addon">
-                <i class="glyphicon glyphicon-search"></i>
-            </span>
-            <input type="text"
-                class="form-control"
-                ng-keydown="$event.keyCode === 13 && mainSwitchFn('search', null)"
-                ng-model="filters.searchFilter"
-                placeholder="Presione Enter para Buscar...">
-            <span class="input-group-btn">
-                <button data-toggle="tooltip"
-                        data-placement="bottom"
-                        title="Actualizar"
-                        type="button"
-                        ng-click="mainSwitchFn('search', null)"
-                        style="background-color: rgba(35, 100, 132, 0.66);color: white;"
-                        class="btn btn-sm">
-                    <i title="Actualizar" class="glyphicon glyphicon-refresh"></i>
-                </button>
-            </span>
+            <div class="input-group">
+                <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-search"></i>
+                </span>
+                <input type="text"
+                    class="form-control"
+                    ng-keydown="$event.keyCode === 13 && mainSwitchFn('search', null)"
+                    ng-model="filters.searchFilter"
+                    placeholder="Presione Enter para Buscar...">
+                <span class="input-group-btn">
+                    <button data-toggle="tooltip"
+                            data-placement="bottom"
+                            title="Actualizar"
+                            type="button"
+                            ng-click="mainSwitchFn('search', null)"
+                            style="background-color: rgba(35, 100, 132, 0.66);color: white;"
+                            class="btn btn-sm">
+                        <i title="Actualizar" class="glyphicon glyphicon-refresh"></i>
+                    </button>
+                </span>
+            </div>
         </div>
+        <div class="form-group col-lg-12 n-padding-l n-padding-r">
+            <!--<div class="col-md-12 col-xs-5"><label class="clf-size clf-p-left">Categoria</label></div>-->
+            <div class="row n-margin-l n-margin-r">
+            <div ng-class="col-md-12">
+                <div class="col-md-12 col-xs-12">
+                    <input id="categoryKeyAll" class="radio-2x categoryTypeAll" type="radio" ng-click="mainSwitchFn('search', null)" ng-checked="true" name="categoryType" autofocus>
+                    <label for="categoryKeyAll" class="radio-2x-label">
+                    <span>Todos</span>
+                    </label>
+                </div>
+                <div ng-repeat="item in rsCategoryKeyChainsData" class="col-md-2 col-sm-4 col-xs-6">
+                    <input id="categoryKey-{{item.idCategory}}" class="radio-2x" type="radio" ng-click="mainSwitchFn('search', null)" name="categoryType" value="{{item.idCategory}}" ng-model="filters.filterCategoryKey" autofocus>
+                    <label for="categoryKey-{{item.idCategory}}" class="radio-2x-label">
+                    <span>{{item.name}}</span>
+                    </label>
+                </div>
+            </div>
+            </div>
         </div>
         <div ng-if="filters.deliveryCompanyKf.idDeliveryCompany!=undefined && filters.deliveryCompanyKf.idDeliveryCompany!='3' && filters.typDelivery.idTypeDelivery!=undefined && filters.typDelivery.idTypeDelivery=='2' && (filters.ticketStatus.idStatus=='4' || filters.ticketStatus.idStatus=='5')" class="col-md-10 col-sm-10 col-xs-10 " style="margin-top: 1%;">
             <label class="switch switch-2x" for="customer-select-list">
