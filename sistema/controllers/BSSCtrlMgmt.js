@@ -1248,9 +1248,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $timeout(function() {
                     console.log(Array.isArray($scope.listDeliveryCompanies));
                     console.log($scope.listDeliveryCompanies);
-                    $scope.tkupdate.deliveryCompany =  angular.copy(
-                      $scope.listDeliveryCompanies.filter(s => s.idDeliveryCompany == $scope.tkupdate.idDeliveryCompanyKf)
-                    );
+                    $scope.tkupdate.deliveryCompany = $scope.listDeliveryCompanies.find(s => s.idDeliveryCompany == $scope.tkupdate.idDeliveryCompanyKf);
                   }, 1500);
               }
               if ($scope.tkupdate.whereKeysAreEnable === null){
