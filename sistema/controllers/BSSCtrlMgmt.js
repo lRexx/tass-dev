@@ -2920,6 +2920,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
           $scope.filterDeliveryCompany = function(item){
             switch($scope.tkupdate.idTypeRequestFor){
               case "1":
+              case "5":
+              case "6":
                 if ((($scope.tkupdate.idMgmtMethodKf=="1" || $scope.tkupdate.idMgmtMethodKf=="2") && $scope.tkupdate.whereKeysAreEnable=="2" && $scope.tkupdate.isKeysEnable == null) ||
                   (($scope.tkupdate.idMgmtMethodKf=="1" || $scope.tkupdate.idMgmtMethodKf=="2") && ($scope.tkupdate.whereKeysAreEnable=="1"||$scope.tkupdate.whereKeysAreEnable=="2") && $scope.tkupdate.isKeysEnable =="1")){
                   return item.idDeliveryCompany<="2"
