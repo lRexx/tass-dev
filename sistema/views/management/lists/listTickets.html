@@ -9,6 +9,7 @@
           <th width="7%" style="vertical-align: middle;text-align: center;" class="media-middle text-center"><i class="glyphicon glyphicon-user" > </i> Ticket</th>
           <th width="7%" style="vertical-align: middle;text-align: center;" class="media-middle text-center"><i class="fas fa-file-signature"> </i> Tipo</th>
           <th width="25%" style="vertical-align: middle;text-align: center;" class="media-middle text-center"><i class="glyphicon icon-flag"> </i> Dirección</th>
+          <th width="7%" style="vertical-align: middle;text-align: center;" class="media-middle text-center"><i class="glyphicon icon-flag"> </i> Stock</th>
           <th width="10%" style="vertical-align: middle;text-align: center;" class="media-middle text-center"><i class="glyphicon icon-flag"> </i> Solicitado Para</th>
           <th width="12%" style="vertical-align: middle;text-align: center;" class="media-middle text-center"><i class="glyphicon icon-flag"> </i> Estatus</th>
           <th width="7%" style="vertical-align: middle;text-align: center;" class="media-middle text-center"><i class="fas fa-ellipsis-h"> </i> Fecha Pedido</th>
@@ -28,6 +29,11 @@
           <!-- BUSINESS NAME -->
           <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.typeticket.TypeTicketName}}</td>
           <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.building.address}}</td>
+          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">
+            <span ng-if="item.building.isStockInBuilding='1'" class="badge badge-success">En Edificio</span>
+            <span ng-if="item.building.isStockInBuilding='1'" class="badge badge-success">En Oficina</span>
+            <span ng-if="item.building.isStockInBuilding!='1' && item.building.isStockInBuilding!='1'" class="badge badge-warning">No definido</span>
+          </td>
           <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;"><span class="badge badge-success">{{item.typeRequestFor.name}}</span></td>
           <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.statusTicket.statusName}}</td>
           <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.created_at | toDate | date:'dd/MM/yyyy'}}</td>
