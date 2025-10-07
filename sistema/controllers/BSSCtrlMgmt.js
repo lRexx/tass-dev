@@ -3724,7 +3724,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $('#doorKeysModalDetails').modal('show');
             break;
             case "keychainMulti":
-              if ($scope.tkupdate.idMgmtMethodKf == null && $scope.ticket.idMgmtMethodKf==undefined && $scope.ticket.keysMethod.name==undefined){
+              if ($scope.tkupdate.idMgmtMethodKf == null && $scope.ticket.idMgmtMethodKf!=undefined && $scope.ticket.keysMethod.name!=undefined){
                 $scope.keys                   = {"new":{'products':{'selected':{}}}}
                 $scope.rsNewKeychainList      = [];
                 $scope.rsExistingKeyList      = [];
