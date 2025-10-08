@@ -6246,6 +6246,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 });
               }
               console.log($scope.list_requests);
+              blockUI.message('Exportando listado de pedidos.');
               $scope.buildXLS($scope.list_requests);
             }
           /**************************************************
@@ -6682,6 +6683,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 wout = XLSX.write(wb,wopts);
                 //XLSX.utils.book_append_sheet(wb, workSheet, "test");
                 //var wbout = XLSX.writeFile(wb, {bookType:'xlsx',type: "binary"});
+                blockUI.stop();
                 $scope.downloadXLS(wout);
             }
             $scope.downloadXLS = function(wout){
