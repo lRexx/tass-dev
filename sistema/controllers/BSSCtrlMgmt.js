@@ -6231,7 +6231,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 var Departamento = obj[f].idTypeRequestFor==1?floor+" - "+depto.toUpperCase():'';
                 var Envio = obj[f].typeDeliver!=undefined?obj[f].typeDeliver.typeDelivery:'';
                 var Pago = obj[f].typePaymentKf!=undefined?obj[f].typePaymentKf.descripcion:'';
-                var fullNameUser=obj[f].idUserRequestBy!=null && obj[f].userRequestBy.fullNameUser!=undefined?obj[f].userRequestBy.fullNameUser:"no asignado";
+                var fullNameUser=obj[f].idUserRequestBy!=null && obj[f].userRequestBy!=undefined && obj[f].userRequestBy.fullNameUser!=undefined?obj[f].userRequestBy.fullNameUser:"no asignado";
                 $scope.list_requests.push({
                     //'idTicket':obj[f].idTicket,
                     'NumeroPedido':obj[f].codTicket,
