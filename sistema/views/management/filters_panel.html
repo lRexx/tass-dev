@@ -461,7 +461,7 @@
                             </div>
                             <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
                                             'sticky-success':
-                                            listTickt.length>0,
+                                            listTickt.length>=1,
                                             'sticky-warning':
                                             listTickt.length==0,
                                             }">
@@ -561,7 +561,7 @@
                             </div>
                         </div>
                         <!-- STATUS CHANGE -->
-                        <div ng-if="(((filters.typDelivery.idTypeDelivery==undefined || filters.typDelivery.idTypeDelivery=='1' || filters.typDelivery.idTypeDelivery=='2') && (filters.ticketStatus.idStatus=='8' || filters.ticketStatus.idStatus=='4' || filters.ticketStatus.idStatus=='5' || filters.ticketStatus.idStatus=='7')))" ng-click="mainSwitchFn('change_ticket_status_multi', listTickt, null)" data-toggle="tooltip" data-placement="bottom"  title="Cambiar estatus" class="col-md-3" style="margin-bottom: 1em;">
+                        <div ng-if="(((filters.typDelivery.idTypeDelivery==undefined || filters.typDelivery.idTypeDelivery=='1' || filters.typDelivery.idTypeDelivery=='2') && (filters.ticketStatus.idStatus=='4' || filters.ticketStatus.idStatus=='5' || filters.ticketStatus.idStatus=='7')))" ng-click="mainSwitchFn('change_ticket_status_multi', listTickt, null)" data-toggle="tooltip" data-placement="bottom"  title="Cambiar estatus" class="col-md-3" style="margin-bottom: 1em;">
                             <div class="card-customer">
                             <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                 <i class="fas fa-sync"></i>
