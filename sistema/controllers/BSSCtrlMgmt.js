@@ -3071,6 +3071,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.monitor.filter.isInitialDeliveryActive = $scope.filters.isInitialDeliveryActive?1:0;
                   $scope.monitor.filter.isHasStockInBuilding    = $scope.filters.isHasStockInBuilding?1:0;
                   $scope.monitor.filter.idMgmtMethodKf          = $scope.filters.mgmtKeyMethod?$scope.filters.mgmtKeyMethod:"";
+                  $scope.monitor.filter.whereKeysAreEnable      = $scope.filters.activationKeyMethod?$scope.filters.activationKeyMethod:"";
                   $scope.monitor.filter.idTypeRequestFor        = $scope.filters.filterCategoryKey?$scope.filters.filterCategoryKey:"";
 
                   //console.log($scope.filters.paymentsType);
