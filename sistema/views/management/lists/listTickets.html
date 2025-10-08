@@ -2,7 +2,7 @@
 <table  id="tableTickets" class="table table-striped table-bordered table-condensed table-list table-responsive table-hover table-hover-selected">
     <thead style="background-color: rgba(35, 100, 132, 0.66); color: white;">
       <tr style="text-align: center;">
-          <th ng-if="item.idDeliveryCompanyKf!=undefined && item.idDeliveryCompanyKf!='3' && filters.typDelivery.idTypeDelivery!=undefined && filters.typDelivery.idTypeDelivery=='2' && (filters.ticketStatus.idStatus=='4' || filters.ticketStatus.idStatus=='5')" width="4%">
+          <th ng-if="filters.typDelivery.idTypeDelivery!=undefined && filters.typDelivery.idTypeDelivery=='2' && (filters.ticketStatus.idStatus=='4' || filters.ticketStatus.idStatus=='5')" width="4%">
             <span class="glyphicon sort-icon"></span>
           </th>
           <th width="4%"  style="vertical-align: middle;text-align: center;" class="media-middle text-center">ID </th>
