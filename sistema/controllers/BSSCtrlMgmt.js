@@ -3691,7 +3691,19 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               }, 1500);
             break;
             case "exportExcelList":
-              $scope.setRequestDefaultListAsArrayFn(obj);
+
+              if (obj.length==0){
+                inform.add('[INFO]: No hay pedidos en el estado seleccionado, para exportar. ',{
+                  ttl:10000, type: 'warning'
+                });
+              }else{
+                blockUI.start('Generando Listado formato Excel de los pedidos en pantalla ');
+                $timeout(function() {
+                  $scope.setRequestDefaultListAsArrayFn(obj);
+                }, 1500);
+              }
+
+
             break;
             case "exportBillingExcelList":
               $scope.ticketList = 0;
