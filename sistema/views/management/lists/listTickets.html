@@ -21,7 +21,7 @@
         <tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in listTickt">
           <td ng-show="filters.typDelivery.idTypeDelivery!=undefined && filters.typDelivery.idTypeDelivery=='2' && (filters.ticketStatus.idStatus=='4' || filters.ticketStatus.idStatus=='5')" class="media-middle text-center" style="vertical-align: middle;">
             <label class="switch switch-2x" for="ticket-{{item.idTicket}}">
-              <input type="checkbox" class="success" ng-model="item.selected" ng-disabled="item.idDeliveryCompanyKf!=undefined && item.idDeliveryCompanyKf!='3'" ng-click="mainSwitchFn('check_list_item', listTickt)" id="ticket-{{item.idTicket}}">
+              <input type="checkbox" class="success" ng-model="item.selected" ng-disabled="(item.idDeliveryCompanyKf==undefined || item.idDeliveryCompanyKf==null)" ng-click="mainSwitchFn('check_list_item', listTickt)" id="ticket-{{item.idTicket}}">
               <span class="slider slider-2x flat"></span>
             </label>
           </td>
