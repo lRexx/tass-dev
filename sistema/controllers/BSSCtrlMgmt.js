@@ -5871,6 +5871,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   if(response.status==200){
                     $timeout(function() {
                       console.log("Request Successfully processed");
+                      console.log("pedido.ticket.idMgmtMethodKf  : "+pedido.ticket.idMgmtMethodKf);
+                      console.log("pedido.ticket.keysMethod.name : "+pedido.ticket.keysMethod.name);
                       switch(pedido.ticket.idMgmtMethodKf){
                         case "1":
                           switch(pedido.ticket.idTypeRequestFor){
@@ -5878,6 +5880,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             case "3":
                             case "5":
                             case "6":
+                              console.log("pedido.ticket.idTypeRequestFor  : "+pedido.ticket.idTypeRequestFor);
+                              console.log("pedido.ticket.whereKeysAreEnable: "+pedido.ticket.whereKeysAreEnable);
+                              console.log("pedido.ticket.isKeysEnable      : "+pedido.ticket.isKeysEnable);
                               if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="2" && pedido.ticket.isKeysEnable=="1"){
                                 pedido.ticket.newTicketStatus = {'idStatus':null}
                                 pedido.ticket.newTicketStatus.idStatus = "1";
@@ -5895,6 +5900,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             case "3":
                             case "5":
                             case "6":
+                              console.log("pedido.ticket.whereKeysAreEnable: "+pedido.ticket.whereKeysAreEnable);
+                              console.log("pedido.ticket.isKeysEnable      : "+pedido.ticket.isKeysEnable);
                               if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="2" && pedido.ticket.isKeysEnable=="1"){
                                 $scope.update.ticket.newTicketStatus = {'idStatus':null}
                                 $scope.update.ticket.newTicketStatus.idStatus = "1";
