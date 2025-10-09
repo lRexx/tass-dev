@@ -5890,7 +5890,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                 $scope.modalConfirmation('ticketDelivered',0, pedido.ticket);
                               }else{
                                 console.log("setDeliveryPending");
-                                $scope.modalConfirmation('setDeliveryPending',0, pedido.ticket);
+                                pedido.ticket.idNewStatusKf="4";
+                                $scope.modalConfirmation('setDeliveryPending',0, pedido);
                               }
                             break;
                           }
@@ -5911,7 +5912,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                 $scope.modalConfirmation('ticketDelivered',0, $scope.update.ticket);
                               }else{
                                 console.log("setDeliveryPending");
-                                $scope.modalConfirmation('setDeliveryPending',0, pedido.ticket);
+                                pedido.ticket.idNewStatusKf="4";
+                                $scope.modalConfirmation('setDeliveryPending',0, pedido);
                               }
                             break;
                             case "2":
@@ -5925,7 +5927,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                               }else if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="1" && pedido.ticket.isKeysEnable=="1"){
                                 if(pedido.ticket.building.isStockInBuilding=="1"){
                                   console.log("setDeliveryPending");
-                                  $scope.modalConfirmation('setDeliveryPending',0, pedido.ticket);
+                                  pedido.ticket.idNewStatusKf="4";
+                                  $scope.modalConfirmation('setDeliveryPending',0, pedido);
                                 }
                                 if(pedido.ticket.building.isStockInOffice=="1"){
                                   $scope.modalConfirmation('ticketDeliveredOffice',0, pedido.ticket);
