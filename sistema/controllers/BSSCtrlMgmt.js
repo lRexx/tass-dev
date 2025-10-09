@@ -5886,9 +5886,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                               if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="2" && pedido.ticket.isKeysEnable=="1"){
                                 pedido.ticket.newTicketStatus = {'idStatus':null}
                                 pedido.ticket.newTicketStatus.idStatus = "1";
-                                console.log(pedido.ticket);
+                                console.log("ticketDelivered");
                                 $scope.modalConfirmation('ticketDelivered',0, pedido.ticket);
                               }else{
+                                console.log("openTicketDelivery");
                                 $scope.modalConfirmation('openTicketDelivery',0, pedido.ticket);
                               }
                             break;
@@ -5903,11 +5904,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                               console.log("pedido.ticket.whereKeysAreEnable: "+pedido.ticket.whereKeysAreEnable);
                               console.log("pedido.ticket.isKeysEnable      : "+pedido.ticket.isKeysEnable);
                               if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="2" && pedido.ticket.isKeysEnable=="1"){
+                                console.log("ticketDelivered");
                                 $scope.update.ticket.newTicketStatus = {'idStatus':null}
                                 $scope.update.ticket.newTicketStatus.idStatus = "1";
                                 console.log($scope.update.ticket);
                                 $scope.modalConfirmation('ticketDelivered',0, $scope.update.ticket);
                               }else{
+                                console.log("openTicketDelivery");
                                 $scope.modalConfirmation('openTicketDelivery',0, pedido.ticket);
                               }
                             break;
@@ -5921,6 +5924,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                 }
                               }else if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="1" && pedido.ticket.isKeysEnable=="1"){
                                 if(pedido.ticket.building.isStockInBuilding=="1"){
+                                  console.log("openTicketDelivery");
                                   $scope.modalConfirmation('openTicketDelivery',0, pedido.ticket);
                                 }
                                 if(pedido.ticket.building.isStockInOffice=="1"){
