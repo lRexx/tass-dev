@@ -31,13 +31,25 @@
           <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.typeticket.TypeTicketName}}</td>
           <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.building.address}}</td>
           <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">
-            <span ng-if="item.building.isStockInBuilding=='1'" class="badge badge-success">En Edificio</span>
-            <span ng-if="item.building.isStockInOffice=='1'" class="badge badge-success">En Oficina</span>
+            <span ng-if="item.building.isStockInBuilding=='1'" class="badge badge-default">En Edificio</span>
+            <span ng-if="item.building.isStockInOffice=='1'" class="badge badge-default">En Oficina</span>
             <span ng-if="item.building.isStockInBuilding!='1' && item.building.isStockInOffice!='1'" class="badge badge-warning">No definido</span>
           </td>
-          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;"><span class="badge badge-success">{{item.typeRequestFor.name}}</span></td>
+          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;"><span class="badge badge-default">{{item.typeRequestFor.name}}</span></td>
           <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;"><span class="badge badge-default">{{item.keys.length}}</span></td>
-          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.statusTicket.statusName}}</td>
+          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">
+
+            <span ng-if="item.isCancelRequested=='1' || item.isCancelRequested!='1'" class="label" ng-class="{
+              'label-default':
+              item.idStatusTicketKf=='8',
+              'label-success':
+              item.idStatusTicketKf=='1' || item.idStatusTicketKf=='5',
+              'label-warning':
+              item.idStatusTicketKf=='3' || item.idStatusTicketKf=='4' || item.idStatusTicketKf=='10' || item.idStatusTicketKf=='2' || item.idStatusTicketKf=='7' || item.idStatusTicketKf=='9' || item.idStatusTicketKf=='11' || item.idStatusTicketKf=='12',
+              'label-danger':
+              item.idStatusTicketKf=='6',
+            }">{{item.statusTicket.statusName}}</span>
+          </td>
           <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.created_at | toDate | date:'dd/MM/yyyy'}}</td>
         </tr>
       <!-- Show if there is not ticket are registered -->
