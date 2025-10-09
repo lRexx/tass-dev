@@ -1723,7 +1723,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             $scope.select={'filterCategoryKey':'', 'reasonKf':{},'department':'', 'codeSearch':null, 'keychainStatus':{}, 'idTypeTicketKf':null,
                             'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined},
                             'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
-                            $scope.getKeychainListFn(null,null,null,null,null,null,null,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
+                            //$scope.getKeychainListFn(null,null,null,null,null,null,null,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
                             $scope.customerFound={};
                             //$("#categoryKeyAll").prop("checked", true);
                             //$("#categoryKeyAll").val("undefined");
