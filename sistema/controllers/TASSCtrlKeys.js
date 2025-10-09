@@ -1719,7 +1719,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             "totalCount":null,
                             };
                             $scope.customerFound={};
-                            $scope.rsAllKeychainProcessesData   = null;
+                            $scope.rsAllKeychainListData   = [];
                             $scope.customerSearch.name=undefined;
                             $scope.select={'filterCategoryKey':'', 'reasonKf':{},'department':'', 'codeSearch':null, 'keychainStatus':{}, 'idTypeTicketKf':null,
                             'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined},
