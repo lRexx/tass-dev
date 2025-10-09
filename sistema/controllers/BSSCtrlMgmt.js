@@ -5248,9 +5248,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.log(obj);
               $('#changeModalStatus').modal('hide');
               $('#showModalRequestStatus').modal('hide');
-              $timeout(function() {
+              //$timeout(function() {
                 //$('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
-              }, 1000);
+              //}, 1000);
               console.log(obj);
               $timeout(function() {
                 $scope.addDeliveryCompanyFn(obj);
@@ -5889,8 +5889,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                 console.log("ticketDelivered");
                                 $scope.modalConfirmation('ticketDelivered',0, pedido.ticket);
                               }else{
-                                console.log("openTicketDelivery");
-                                $scope.modalConfirmation('openTicketDelivery',0, pedido.ticket);
+                                console.log("setDeliveryPending");
+                                $scope.modalConfirmation('setDeliveryPending',0, pedido.ticket);
                               }
                             break;
                           }
@@ -5910,8 +5910,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                 console.log($scope.update.ticket);
                                 $scope.modalConfirmation('ticketDelivered',0, $scope.update.ticket);
                               }else{
-                                console.log("openTicketDelivery");
-                                $scope.modalConfirmation('openTicketDelivery',0, pedido.ticket);
+                                console.log("setDeliveryPending");
+                                $scope.modalConfirmation('setDeliveryPending',0, pedido.ticket);
                               }
                             break;
                             case "2":
@@ -5924,8 +5924,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                 }
                               }else if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="1" && pedido.ticket.isKeysEnable=="1"){
                                 if(pedido.ticket.building.isStockInBuilding=="1"){
-                                  console.log("openTicketDelivery");
-                                  $scope.modalConfirmation('openTicketDelivery',0, pedido.ticket);
+                                  console.log("setDeliveryPending");
+                                  $scope.modalConfirmation('setDeliveryPending',0, pedido.ticket);
                                 }
                                 if(pedido.ticket.building.isStockInOffice=="1"){
                                   $scope.modalConfirmation('ticketDeliveredOffice',0, pedido.ticket);
