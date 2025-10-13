@@ -4716,8 +4716,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.log(obj);
               $scope.update.ticket.idTicket   = obj.idTicket;
               $scope.update.ticket.codTicket  = obj.codTicket;
-              $scope.update.ticket.history   = [];
-              $scope.update.ticket.refund = [];
+              $scope.update.ticket.history    = [];
+              $scope.update.ticket.refund     = [];
               if (obj.isCancelRequested=="1"){
                 $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"23"});
                 $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"7"});
@@ -4891,14 +4891,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log("Ticket Update: "+$scope.update.ticket.codTicket);
                       console.log($scope.update.ticket);
                       console.log($scope.update);
-                     // $scope.updateUpRequestFn($scope.update);
+                     // $scope.sysRejectRequestCancellationTicketFn($scope.update);
                     });
                   break;
                 }
-              console.log($scope.update);
-              $timeout(function() {
-                //$scope.sysCancelTicketFn($scope.update);
-              }, 2000);
+              if (obj.idMgmtMethodKf==null || obj.idMgmtMethodKf==undefined){
+                console.log($scope.update);
+                $timeout(function() {
+                  $scope.sysCancelTicketFn($scope.update);
+                }, 2000);
+              }
             break;
             case "ticket_reject_request_cancel":
               console.log(obj);
