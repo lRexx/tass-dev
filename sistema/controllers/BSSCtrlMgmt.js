@@ -4687,6 +4687,20 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.sysApproveTicketFn(obj);
                 }, 2000);
             break;
+            case "ticket_precheck_cancel":
+              console.log(obj);
+              var keyAssigned=0
+                for (var key in obj.keys){
+                  if (obj.keys[key].keychain != null && obj.keys[key].keychain != undefined){
+                    keyAssigned++
+                  }
+                }
+                if (obj.keys.length == keyAssigned){
+                  $scope.modalConfirmation("cancel_user",0,obj);
+                }else if (keyAssigned == 0){
+                  $scope.modalConfirmation("cancel_sys",0,obj);
+                }
+            break;
             case "ticket_request_cancel":
               console.log(obj);
               $scope.data={'ticket':{'idTicket': null, 'codTicket':'', 'history': []}};
@@ -4700,6 +4714,31 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             break;
             case "approve_ticket_request_cancel":
               console.log(obj);
+                switch(obj.idMgmtMethodKf){
+                  case "1":
+                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"29"});
+                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
+                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"40"});
+                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
+
+                      $scope.tkupdate.isKeysEnable            = $scope.functions.isKeysEnable;
+                      if ($scope.ticket.selected.idTypeRequestFor=="4"){
+                        $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
+                        $scope.tkupdate.idStatusTicketKf        = "1"
+                      }else{
+                        $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"41"});
+                        $scope.tkupdate.idStatusTicketKf        = "4"
+                      }
+                      var idKeychainStatusKf                  = 1;
+                  break;
+                  case "2":
+                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"28"});
+                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
+                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"39"});
+                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
+                    var idKeychainStatusKf                  = 0;
+                  break;
+                }
               $scope.update.ticket.idTicket   = obj.idTicket;
               $scope.update.ticket.codTicket  = obj.codTicket;
               $scope.update.ticket.history   = [];
@@ -4775,7 +4814,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             $scope.update.ticket.idPaymentDeliveryKf     = obj.idPaymentDeliveryKf;
               console.log($scope.update);
               $timeout(function() {
-                $scope.sysCancelTicketFn($scope.update);
+                //$scope.sysCancelTicketFn($scope.update);
               }, 2000);
             break;
             case "ticket_reject_request_cancel":
