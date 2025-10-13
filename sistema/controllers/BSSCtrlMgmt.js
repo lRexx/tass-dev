@@ -4714,31 +4714,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             break;
             case "approve_ticket_request_cancel":
               console.log(obj);
-                switch(obj.idMgmtMethodKf){
-                  case "1":
-                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"29"});
-                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
-                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"40"});
-                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
-
-                      $scope.tkupdate.isKeysEnable            = $scope.functions.isKeysEnable;
-                      if ($scope.ticket.selected.idTypeRequestFor=="4"){
-                        $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
-                        $scope.tkupdate.idStatusTicketKf        = "1"
-                      }else{
-                        $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"41"});
-                        $scope.tkupdate.idStatusTicketKf        = "4"
-                      }
-                      var idKeychainStatusKf                  = 1;
-                  break;
-                  case "2":
-                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"28"});
-                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
-                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"39"});
-                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
-                    var idKeychainStatusKf                  = 0;
-                  break;
-                }
               $scope.update.ticket.idTicket   = obj.idTicket;
               $scope.update.ticket.codTicket  = obj.codTicket;
               $scope.update.ticket.history   = [];
@@ -4750,7 +4725,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"7"});
               }
               switch (obj.idTypePaymentKf){
-                case "1":
+                case "1":// Expensas
                   if (obj.idTypeDeliveryKf!=null){
                     $scope.subTotalTotal = 0;
                     $scope.subTotalTotal = Number(obj.total)
@@ -4766,7 +4741,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     //$('#customerNotificationModal').modal({backdrop: 'static', keyboard: true});
                   }
                 break;
-                case "2":
+                case "2": //MercadoPago
                   if (obj.idTypeDeliveryKf!=null){
                     if((obj.paymentDetails!=undefined && obj.paymentDetails!=null) && obj.paymentDetails.mp_collection_status=='approved' && obj.paymentDetails.mp_status_detail=='accredited'){
                       $scope.update.ticket.refund = [];
@@ -4806,12 +4781,120 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   }
                 break;
               }
+              $scope.update.ticket.idTypeTicketKf          = obj.idTypeTicketKf;
+              $scope.update.ticket.idTypeDeliveryKf        = obj.idTypeDeliveryKf;
+              $scope.update.ticket.idTypePaymentKf         = obj.idTypePaymentKf;
+              $scope.update.ticket.idStatusTicketKf        = obj.idStatusTicketKf;
+              $scope.update.ticket.idStatusTicketKfOld     = obj.idStatusTicketKf;
+              $scope.update.ticket.idPaymentDeliveryKf     = obj.idPaymentDeliveryKf;
+                switch(obj.idMgmtMethodKf){
+                  case "1":
+                    $scope.isNewKeySingle                   = true;
+                    $scope.isEditKey                        = false;
+                    $scope.isNewKeyMulti                    = false;
+                    //console.log(obj);
+                    var i = 0;
+                    var assignedKeys = [];
+                    angular.forEach(obj.keys,function(key,i){
+                      var deferredKeys = $q.defer();
+                      assignedKeys.push(deferredKeys.promise);
+                      $timeout(function() {
+                          deferredKeys.resolve();
+                          var keys = {
+                            idProductKf         : key.idProductKf,
+                            codExt              : key.keychain.codExt,
+                            codigo              : key.keychain.codigo,
+                            idDepartmenKf       : null,
+                            idClientKf          : key.idClientKf,
+                            idUserKf            : null,
+                            idCategoryKf        : "2",
+                            isKeyTenantOnly     : null,
+                            idClientAdminKf     : null,
+                            createdBy           : $scope.sysLoggedUser.idUser,
+                            idTicketKf          : $scope.tkupdate.idTicket,
+                            idTypeTicketKf      : $scope.tkupdate.idTypeTicketKf,
+                            idKeychain          : key.keychain.idKeychain,
+                            idKeychainKf        : key.keychain.idKeychain,
+                            idKeychainStatusKf  : key.keychain.idKeychainStatusKf,
+                            idTicketKeychain    : $scope.tkupdate.keys[i].idTicketKeychain
+                          };
+                          console.log("Llavero a actualizar: "+keys.codigo);
+                          console.log(keys);
+                          //$scope.updateKeyFn({llavero: keys});
+                          //$scope.deleteProcessEventFn({llavero: keys});
+                          deferredKeys.resolve();
+                      }, 1000);
+                    });
+                    $q.all(assignedKeys).then(function () {
+                      console.log("Ticket Update: "+$scope.update.ticket.codTicket);
+                      console.log($scope.update.ticket);
+                      console.log($scope.update);
+                      //$scope.updateUpRequestFn($scope.update);
+                    });
+                  break;
+                  case "2":
+                    $scope.isNewKeySingle                   = true;
+                    $scope.isEditKey                        = false;
+                    $scope.isNewKeyMulti                    = false;
+                    //console.log(obj);
+                    var i = 0;
+                    var assignedKeys = [];
+                    angular.forEach(obj.keys,function(key,i){
+                      var deferredKeys = $q.defer();
+                      assignedKeys.push(deferredKeys.promise);
+                      $timeout(function() {
+                          deferredKeys.resolve();
+                          if (obj.isKeysEnable && key.keychain!=undefined && (obj.building.isStockInBuilding || obj.building.isStockInOffice)){
+                            var idCategoryKf        = "2"
+                            var codExt              = key.keychain.codExt;
+                            var codigo              = key.keychain.codigo;
+                            var idKeychain          = key.keychain.idKeychain;
+                            var idKeychainStatusKf  = key.keychain.idKeychainStatusKf;
+                          }else{
+                            var idCategoryKf        = "2"
+                            var codExt              = null;
+                            var codigo              = null;
+                            var idKeychain          = null;
+                            var idKeychainStatusKf  = null;
+                          }
+                          var keys = {
+                            idProductKf         : key.idProductKf,
+                            codExt              : codExt,
+                            codigo              : codigo,
+                            idDepartmenKf       : null,
+                            idClientKf          : key.idClientKf,
+                            idUserKf            : null,
+                            idCategoryKf        : idCategoryKf,
+                            isKeyTenantOnly     : null,
+                            idClientAdminKf     : null,
+                            createdBy           : $scope.sysLoggedUser.idUser,
+                            idTicketKf          : $scope.tkupdate.idTicket,
+                            idTypeTicketKf      : $scope.tkupdate.idTypeTicketKf,
+                            idKeychain          : idKeychain,
+                            idKeychainKf        : idKeychain,
+                            idKeychainStatusKf  : idKeychainStatusKf,
+                            idTicketKeychain    : $scope.tkupdate.keys[i].idTicketKeychain
+                          };
+                          console.log("Llavero a actualizar: "+keys.codigo);
+                          console.log(keys);
+                          if (obj.isKeysEnable && key.keychain!=undefined && (obj.building.isStockInBuilding || obj.building.isStockInOffice)){
+                            //$scope.updateKeyFn({llavero: keys});
+                          }else{
+                            //$scope.deleteKeyFn({llavero: keys});
+                          }
 
-            $scope.update.ticket.idTypeTicketKf          = obj.idTypeTicketKf;
-            $scope.update.ticket.idTypeDeliveryKf        = obj.idTypeDeliveryKf;
-            $scope.update.ticket.idTypePaymentKf         = obj.idTypePaymentKf;
-            $scope.update.ticket.idStatusTicketKf        = obj.idStatusTicketKf;
-            $scope.update.ticket.idPaymentDeliveryKf     = obj.idPaymentDeliveryKf;
+                          //$scope.deleteProcessEventFn({llavero: keys});
+                          deferredKeys.resolve();
+                      }, 1000);
+                    });
+                    $q.all(assignedKeys).then(function () {
+                      console.log("Ticket Update: "+$scope.update.ticket.codTicket);
+                      console.log($scope.update.ticket);
+                      console.log($scope.update);
+                     // $scope.updateUpRequestFn($scope.update);
+                    });
+                  break;
+                }
               console.log($scope.update);
               $timeout(function() {
                 //$scope.sysCancelTicketFn($scope.update);
@@ -5624,26 +5707,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                   if ($scope.ticket.selected.idTypeRequestFor=="1"){
                                     $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
                                   }
-                                  $timeout(function() {
-                                    console.log($scope.rsExistingKeyList);
-                                    $scope.rsNewKeychainList = [];
-                                    $scope.list_new_keys = [];
-                                    if ($scope.tkupdate.idMgmtMethodKf!=undefined && $scope.tkupdate.idMgmtMethodKf!=null){
-                                      for (var i = 0; i < $scope.rsExistingKeyList.length; i++) {
-                                        //rsNewKeychainList
-                                        if ($scope.rsExistingKeyList[i].idTicketKf!=null && $scope.rsExistingKeyList[i].idKeychainStatusKf!="-1" && $scope.rsExistingKeyList[i].idTicketKf == $scope.tkupdate.idTicket){
-                                          $scope.rsNewKeychainList.push($scope.rsExistingKeyList[i]);
-                                          $scope.list_new_keys.push($scope.rsExistingKeyList[i]);
-                                        }
-                                      }
-                                    }
-                                    console.log("ticket.keysMethod.name  : "+$scope.ticket.keysMethod.name);
-                                    console.log("tkupdate.keys length    : "+$scope.tkupdate.keys.length);
-                                    console.log("rsNewKeychainList length: "+$scope.rsNewKeychainList.length);
-                                    console.log($scope.rsNewKeychainList);
-                                    console.log("list_new_keys");
-                                    console.log($scope.list_new_keys);
-                                  }, 500);
                               }else if(response_ticke_keychain.status==500){
                                   console.log("the key has not been updated, contact administrator");
                                   inform.add('Error: [500] Contacta al area de soporte. ',{
@@ -5671,6 +5734,31 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 KeysServices.addProcessEvent(llavero).then(function(response){
                     if(response.status==200){
                         console.log("Alta de llavero completada satisfactoriamente.")
+                    }else if(response.status==203){
+                        console.log(response.data);
+                        inform.add('Info: [203] El Codigo ('+llavero.llavero.codigo+'), del llavero, ya se encuentra registrado. ',{
+                            ttl:5000, type: 'warning'
+                        });
+                    }else if(response.status==404){
+                        console.log("not found, contact administrator");
+                        inform.add('Error: [404] Contacta al area de soporte. ',{
+                            ttl:5000, type: 'danger'
+                        });
+                    }else if(response.status==500){
+                        console.log("There was an error adding the key, contact administrator");
+                        inform.add('Error: [500] Contacta al area de soporte. ',{
+                            ttl:5000, type: 'danger'
+                        });
+                    }
+                });
+            };
+          /***********************************
+          *       DEL KEY PROCESS EVENT      *
+          ************************************/
+            $scope.deleteProcessEventFn = function(llavero){
+                KeysServices.deleteProcessEvent(llavero.idTicketKf).then(function(response){
+                    if(response.status==200){
+                        console.log("Cancelación de llavero completada satisfactoriamente.")
                     }else if(response.status==203){
                         console.log(response.data);
                         inform.add('Info: [203] El Codigo ('+llavero.llavero.codigo+'), del llavero, ya se encuentra registrado. ',{

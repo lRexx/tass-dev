@@ -866,7 +866,19 @@ class Llavero_model extends CI_Model
 			return 0;
 		}
 	}
+	public function deleteProcess_event($idTicketKf)
+	{
+		// Ejecutar el delete
+		$this->db->where('idTicketKf', $idTicketKf);
+		$this->db->delete('tb_keychain_process_events');
 
+		// Verificar si alguna fila fue afectada
+		if ($this->db->affected_rows() > 0) {
+			return 1; // Eliminación exitosa
+		} else {
+			return 3; // No existía el registro
+		}
+	}
 	public function get_new($idClientKf, $create_at, $idCategoryKf, $idKeychainStatusKf, $idDepartmenKf, $idReasonKf, $sysLoggedUserProfile, $codeSearch, $limit = null, $start = null, $strict = null, $totalCount, $getTicketKeychainKf)
 	{
 

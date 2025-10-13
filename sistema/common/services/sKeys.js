@@ -52,7 +52,18 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
                 .then(function onSuccess(response) {
                   return response;
                 }).catch(function onError(response) {
-                  //console.log("Error: "+response.data.error);
+                  console.log(response);
+                  return response;
+                })
+          },
+          deleteProcessEvent: function(data) {
+            console.log("[Key Services] => deleteProcess: ", data.llavero.idTicketKf);
+            //console.log(rsKey);
+              return $http.delete(serverHost+serverBackend+"Llavero/deleteProcessEvent/"+data.llavero.idTicketKf,serverHeaders)
+                .then(function onSuccess(response) {
+                  return response;
+                }).catch(function onError(response) {
+                  console.log(response);
                   return response;
                 })
           },
