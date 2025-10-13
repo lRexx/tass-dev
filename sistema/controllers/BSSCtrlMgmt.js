@@ -4820,8 +4820,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           };
                           console.log("Llavero a actualizar: "+keys.codigo);
                           console.log(keys);
-                          //$scope.updateKeyFn({llavero: keys});
-                          //$scope.deleteProcessEventFn({llavero: keys});
+                          $scope.updateKeyFn({llavero: keys});
+                          $scope.deleteProcessEventFn({llavero: keys});
                           deferredKeys.resolve();
                       }, 1000);
                     });
@@ -4829,7 +4829,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log("Ticket Update: "+$scope.update.ticket.codTicket);
                       console.log($scope.update.ticket);
                       console.log($scope.update);
-                      //$scope.updateUpRequestFn($scope.update);
+                      $scope.sysCancelTicketFn($scope.update);
                     });
                   break;
                   case "2":
@@ -4878,12 +4878,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           console.log("Llavero a actualizar: "+keys.codigo);
                           console.log(keys);
                           if (obj.isKeysEnable && key.keychain!=undefined && (obj.building.isStockInBuilding || obj.building.isStockInOffice)){
-                            //$scope.updateKeyFn({llavero: keys});
+                            $scope.updateKeyFn({llavero: keys});
                           }else{
-                            //$scope.deleteKeyFn({llavero: keys});
+                            $scope.deleteKeyFn({llavero: keys});
                           }
-
-                          //$scope.deleteProcessEventFn({llavero: keys});
+                          $scope.deleteProcessEventFn({llavero: keys});
                           deferredKeys.resolve();
                       }, 1000);
                     });
@@ -4891,7 +4890,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log("Ticket Update: "+$scope.update.ticket.codTicket);
                       console.log($scope.update.ticket);
                       console.log($scope.update);
-                     // $scope.sysRejectRequestCancellationTicketFn($scope.update);
+                      $scope.sysCancelTicketFn($scope.update);
                     });
                   break;
                 }
