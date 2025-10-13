@@ -5757,7 +5757,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
           *       DEL KEY PROCESS EVENT      *
           ************************************/
             $scope.deleteProcessEventFn = function(llavero){
-                KeysServices.deleteProcessEvent(llavero.idTicketKf).then(function(response){
+                KeysServices.deleteProcessEvent(llavero).then(function(response){
                     if(response.status==200){
                         console.log("Cancelación de llavero completada satisfactoriamente.")
                     }else if(response.status==203){
