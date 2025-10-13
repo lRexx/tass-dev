@@ -4814,7 +4814,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             idTicketKf          : $scope.tkupdate.idTicket,
                             idTypeTicketKf      : $scope.tkupdate.idTypeTicketKf,
                             idKeychain          : key.keychain.idKeychain,
-                            idKeychainKf        : key.keychain.idKeychain,
+                            idKeychainKf        : null,
                             idKeychainStatusKf  : key.keychain.idKeychainStatusKf,
                             idTicketKeychain    : $scope.tkupdate.keys[i].idTicketKeychain
                           };
@@ -4871,7 +4871,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             idTicketKf          : $scope.tkupdate.idTicket,
                             idTypeTicketKf      : $scope.tkupdate.idTypeTicketKf,
                             idKeychain          : idKeychain,
-                            idKeychainKf        : idKeychain,
+                            idKeychainKf        : null,
                             idKeychainStatusKf  : idKeychainStatusKf,
                             idTicketKeychain    : $scope.tkupdate.keys[i].idTicketKeychain
                           };
@@ -5672,7 +5672,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                               if ($scope.ticket.selected.idTypeRequestFor=="1"){
                                 $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
                               }
-                              //$scope.getKeychainListFn($scope.customerFound.idClient,null,$scope.select.filterCategoryKey,$scope.select.idKeychainStatusKf,$scope.select.idDepartmenKf,$scope.select.reasonKf.idReasonDisabledItem,$scope.select.codeSearch,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
                           }else if(response_ticke_keychain.status==500){
                               console.log("There was an error adding the key, contact administrator");
                               inform.add('Error: [500] Contacta al area de soporte. ',{
