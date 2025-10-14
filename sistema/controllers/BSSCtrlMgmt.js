@@ -4042,7 +4042,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 angular.forEach($scope.rsNewKeychainList,function(key,i){
                   switch($scope.tkupdate.idTypeRequestFor){
                     case "1":
-                      var idCategoryKf      = key.idCategoryKf;
+                      var idCategoryKf      = $scope.tkupdate.idMgmtMethodKf=="1"?"1":key.idCategoryKf;
                       var idUserKf          = key.idUserKf;
                     break;
                     case "3":
