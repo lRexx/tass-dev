@@ -4846,19 +4846,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       assignedKeys.push(deferredKeys.promise);
                       $timeout(function() {
                           deferredKeys.resolve();
-                          if (obj.isKeysEnable && key.keychain!=undefined && (obj.building.isStockInBuilding || obj.building.isStockInOffice)){
-                            var idCategoryKf        = "2"
-                            var codExt              = key.keychain.codExt;
-                            var codigo              = key.keychain.codigo;
-                            var idKeychain          = key.keychain.idKeychain;
-                            var idKeychainStatusKf  = key.keychain.idKeychainStatusKf;
-                          }else{
-                            var idCategoryKf        = "2"
-                            var codExt              = null;
-                            var codigo              = null;
-                            var idKeychain          = null;
-                            var idKeychainStatusKf  = null;
-                          }
+                          var idCategoryKf        = "2"
+                          var codExt              = key.keychain.codExt;
+                          var codigo              = key.keychain.codigo;
+                          var idKeychain          = key.keychain.idKeychain;
+                          var idKeychainStatusKf  = key.keychain.idKeychainStatusKf;
                           var keys = {
                             idProductKf         : key.idProductKf,
                             codExt              : codExt,
