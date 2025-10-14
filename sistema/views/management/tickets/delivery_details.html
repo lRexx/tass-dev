@@ -7,6 +7,9 @@
               <h3 class="modal-title"><i class="fas fa-truck"></i> DETALLES DE <span ng-if="tkupdate.idTypeDeliveryKf=='1'" style="font-size: 24px !important;">ENTREGA</span><span ng-if="tkupdate.idTypeDeliveryKf=='2'" style="font-size: 24px !important;">ENVÍO</span></h3>
           </div>
         <div class="modal-body">
+            <div ng-show="tkupdate.idStatusTicketKf=='6'" class="blur-modal-overlay">
+                    <div class="centered-modal-message">El pedido ha sido cancelado.</div>
+            </div>
             <!-- DELIVERY DETAILS-->
             <div  class="col-md-12 well-checkbox n-margin-l customer-frame">
                 <!--<legend style="text-align: left;">Datos de Envío</legend>-->
