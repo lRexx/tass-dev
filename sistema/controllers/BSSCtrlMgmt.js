@@ -4007,6 +4007,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $scope.tkupdate.whereKeysAreEnable      = $scope.functions.whereKeysAreEnable;
                 $scope.tkupdate.refund                  = [];
                 $scope.tkupdate.history                 = [];
+                var idDepartmenKf                       = null;
                 switch($scope.tkupdate.idMgmtMethodKf){
                   case "1":
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"29"});
@@ -4044,6 +4045,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     case "1":
                       var idCategoryKf      = $scope.tkupdate.idMgmtMethodKf=="1"?"1":key.idCategoryKf;
                       var idUserKf          = key.idUserKf;
+                      idDepartmenKf         = $scope.tkupdate.idDepartmentKf;
                     break;
                     case "3":
                       var idCategoryKf      = $scope.tkupdate.keys[0].idCategoryKf;
@@ -4075,7 +4077,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         idProductKf         : key.idProductKf,
                         codExt              : key.codExt,
                         codigo              : key.codigo,
-                        idDepartmenKf       : key.idDepartmenKf,
+                        idDepartmenKf       : idDepartmenKf,
                         idClientKf          : key.idClientKf,
                         idUserKf            : idUserKf,
                         idCategoryKf        : idCategoryKf,
