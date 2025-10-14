@@ -3,10 +3,10 @@
       <div class="modal-dialog modal-xl" >
         <div class="modal-content">
               <div class="modal-header">
-                  <button ng-if="tkupdate.idStatusTicketKf=='1'" type="button" class="close" data-dismiss="modal">
+                  <button ng-if="tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='6'" type="button" class="close" data-dismiss="modal">
                     <span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span>
                   </button>
-                  <button ng-if="tkupdate.idStatusTicketKf!='1'" type="button" class="close" ng-click="modalConfirmation('closeWindow', 0, null)">
+                  <button ng-if="tkupdate.idStatusTicketKf!='1' && tkupdate.idStatusTicketKf!='6'" type="button" class="close" ng-click="modalConfirmation('closeWindow', 0, null)">
                     <span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span>
                   </button>
                 <h3 class="modal-title">
