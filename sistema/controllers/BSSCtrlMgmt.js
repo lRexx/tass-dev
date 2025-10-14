@@ -5698,6 +5698,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
           *         DELETE SINGLE KEY        *
           ************************************/
               $scope.deleteKeyFn = function(llavero){
+                console.log(llavero);
                   KeysServices.deleteKey(llavero).then(function(response){
                       if(response.status==200){
                           ticketServices.updateTicketKeychain(llavero).then(function(response_ticke_keychain){
