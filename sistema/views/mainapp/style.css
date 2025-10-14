@@ -2125,7 +2125,9 @@ input:checked + .slider-3x:before {
   border-color: #ffc107 !important;
   background-color: #ffc107 !important;
 }
-
+.modal-body {
+  position: relative; /* importante para el posicionamiento del overlay */
+}
 .blur-modal-overlay {
   position: absolute;
   top: 0;
