@@ -89,13 +89,13 @@
                                   <span>Forma de Habilitación:</span>
                                 </div>
                                 <div class="col-md-3 col-xs-6 n-padding-l" style="margin-top: -0.6% !important;">
-                                  <input id="whereKeysAreEnableOnline" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" ng-disabled="tkupdate.idStatusTicketKf=='1' || tkupdate.building.isHasInternetOnline==null || !tkupdate.building.isHasInternetOnline" type="radio" name="whereKeysAreEnable" value="1" ng-model="functions.whereKeysAreEnable">
+                                  <input id="whereKeysAreEnableOnline" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" ng-disabled="tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='6' || tkupdate.building.isHasInternetOnline==null || !tkupdate.building.isHasInternetOnline" type="radio" name="whereKeysAreEnable" value="1" ng-model="functions.whereKeysAreEnable">
                                   <label for="whereKeysAreEnableOnline" class="radio-2x-label">
                                     <span class="badge badge-success">Online</span>
                                   </label>
                                 </div>
                                 <div class="col-md-3 col-xs-6 n-padding-l" style="margin-top: -0.6% !important;">
-                                    <input id="whereKeysAreEnableBuilding" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" ng-disabled="tkupdate.idStatusTicketKf=='1'" type="radio" name="whereKeysAreEnable" value="2" ng-model="functions.whereKeysAreEnable">
+                                    <input id="whereKeysAreEnableBuilding" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" ng-disabled="tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='6'" type="radio" name="whereKeysAreEnable" value="2" ng-model="functions.whereKeysAreEnable">
                                     <label for="whereKeysAreEnableBuilding" class="radio-2x-label">
                                     <span class="badge badge-warning">Edificio</span>
                                     </label>
@@ -106,13 +106,13 @@
                                   <span>Llaveros Habilitados:</span>
                                 </div>
                                 <div class="col-md-3 col-xs-6 n-padding-l" style="margin-top: -0.6% !important;">
-                                  <input id="isKeysEnableYes" ng-click="modalConfirmation('isKeysEnable', 0, functions)" ng-disabled="tkupdate.idStatusTicketKf=='1'" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" name="isKeysEnable" value="1" ng-model="functions.isKeysEnable">
+                                  <input id="isKeysEnableYes" ng-click="modalConfirmation('isKeysEnable', 0, functions)" ng-disabled="tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='6'" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" name="isKeysEnable" value="1" ng-model="functions.isKeysEnable">
                                   <label for="isKeysEnableYes" class="radio-2x-label">
                                     <span class="badge badge-success">Si</span>
                                   </label>
                                 </div>
                                 <div class="col-md-3 col-xs-6 n-padding-l" style="margin-top: -0.6% !important;">
-                                    <input id="isKeysEnableNo" ng-click="modalConfirmation('isKeysEnable', 0, functions)" ng-disabled="tkupdate.idStatusTicketKf=='1'" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" name="isKeysEnable" value="0" ng-model="functions.isKeysEnable">
+                                    <input id="isKeysEnableNo" ng-click="modalConfirmation('isKeysEnable', 0, functions)" ng-disabled="tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='6'" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" name="isKeysEnable" value="0" ng-model="functions.isKeysEnable">
                                     <label for="isKeysEnableNo" class="radio-2x-label">
                                     <span class="badge badge-warning">No</span>
                                     </label>
