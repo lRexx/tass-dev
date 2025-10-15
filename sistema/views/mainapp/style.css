@@ -1357,9 +1357,6 @@ input.fileUpload{
 /* 🔸 Badge del número */
 .count-badge {
   font-size: clamp(1.5rem, 2vw + 1rem, 3rem); /* Escala automática */
-  padding: 0.5em 0.7em;
-  border-radius: 50%;
-  min-width: 3em;
 }
 
 /* 🔸 Texto inferior */
