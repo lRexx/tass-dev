@@ -644,7 +644,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                   $('#confirmRequestModal').modal('hide');
-                  if (($scope.tmpTicket.building.isStockInOffice=="1" || $scope.tmpTicket.building.isStockInBuilding=="1") && ($scope.argObj.idMgmtMethodKf=="1" || ($scope.argObj.idMgmtMethodKf=="2" && $scope.argObj.isKeysEnable=="1"))){
+                  if (($scope.argObj.building.isStockInOffice=="1" || $scope.argObj.building.isStockInBuilding=="1") && ($scope.argObj.idMgmtMethodKf=="1" || ($scope.argObj.idMgmtMethodKf=="2" && $scope.argObj.isKeysEnable=="1"))){
                     $scope.modalConfirmation('confirmTicketCancel',0,$scope.argObj);
                   }else{
                     //$scope.mainSwitchFn('approve_ticket_request_cancel', $scope.argObj, null);
