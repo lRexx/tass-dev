@@ -602,7 +602,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         $scope.tmpTicket.stockLocation = "del Edificio"
                       }
                       $timeout(function() {
-                          $scope.mess2show="Han sido guardados los llaveros en el stock "+$scope.tmpTicket.stockLocation+"     Confirmar?";
+                          $scope.mess2show="Han sido guardados los llaveros en el stock "+$scope.tmpTicket.stockLocation+",     Confirmar?";
 
                           $('#showModalTicketCancelNotification').modal({backdrop: 'static', keyboard: false});
                           $('#showModalTicketCancelNotification').on('shown.bs.modal', function () {});
@@ -614,7 +614,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       });
                       $timeout(function() {
                           console.log($scope.tmpTicket);
-                          //$scope.mainSwitchFn('approve_ticket_request_cancel', $scope.tmpTicket, null);
+                          $scope.mainSwitchFn('approve_ticket_request_cancel', $scope.tmpTicket, null);
                       }, 1000);
 
                   }else if (confirm==null){
@@ -647,7 +647,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   if (($scope.argObj.building.isStockInOffice=="1" || $scope.argObj.building.isStockInBuilding=="1") && ($scope.argObj.idMgmtMethodKf=="1" || ($scope.argObj.idMgmtMethodKf=="2" && $scope.argObj.isKeysEnable=="1"))){
                     $scope.modalConfirmation('confirmTicketCancel',0,$scope.argObj);
                   }else{
-                    //$scope.mainSwitchFn('approve_ticket_request_cancel', $scope.argObj, null);
+                    $scope.mainSwitchFn('approve_ticket_request_cancel', $scope.argObj, null);
                   }
                 }
               break;
