@@ -605,12 +605,12 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       }, 500);
                   }else if (confirm==1){
                       $('#showModalTicketCancelNotification').modal('hide');
-                      inform.add('Por favor continue con el proceso de baja para completar la solicitud.',{
+                      inform.add('Se procede a completar la solicitud de cancelación del pedido.',{
                           ttl:15000, type: 'info'
                       });
                       $timeout(function() {
                           console.log($scope.tmpTicket);
-                          //$scope.mainSwitchFn('setReason', $scope.tmpTicket, null);
+                          $scope.mainSwitchFn('approve_ticket_request_cancel', $scope.tmpTicket, null);
                       }, 1000);
 
                   }else if (confirm==null){
@@ -643,7 +643,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   if ($scope.argObj.idMgmtMethodKf=="1" || ($scope.argObj.idMgmtMethodKf=="2" && $scope.argObj.isKeysEnable=="1")){
                     $scope.modalConfirmation('confirmTicketCancel',0,$scope.argObj);
                   }else{
-                    //$scope.mainSwitchFn('approve_ticket_request_cancel', $scope.argObj, null);
+                    $scope.mainSwitchFn('approve_ticket_request_cancel', $scope.argObj, null);
                   }
                 }
               break;
