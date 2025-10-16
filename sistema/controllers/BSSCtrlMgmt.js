@@ -4857,7 +4857,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             codigo              : codigo,
                             idDepartmenKf       : null,
                             idClientKf          : key.idClientKf,
-                            idUserKf            : null,
+                            idUserKf            : key.idUserKf,
                             idCategoryKf        : idCategoryKf,
                             isKeyTenantOnly     : null,
                             idClientAdminKf     : null,
@@ -5657,7 +5657,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
           *         UPDATE SINGLE KEY        *
           ************************************/
               $scope.updateKeyFn = function(llavero){
-                  KeysServices.updateKey(llavero).then(function(response){
+                  var obj = llavero;
+                  obj.llavero.idUserKf=null;
+                  KeysServices.updateKey(obj).then(function(response){
                       if(response.status==200){
                         ticketServices.updateTicketKeychain(llavero).then(function(response_ticke_keychain){
                           console.log(response_ticke_keychain);
