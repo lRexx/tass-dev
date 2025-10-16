@@ -593,6 +593,30 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.mainSwitchFn('ticket_request_cancel', $scope.argObj, null)
                 }
               break;
+              case "confirmTicketCancel":
+                  if (confirm==0){
+                      $scope.tmpTicket=obj;
+                      var stockLocation = $scope.tmpTicket.building.isStockInOffice=="1"?"de la Oficina":null;
+                      var stockLocation = $scope.tmpTicket.building.isStockInBuilding=="1"?"del Edificio":null;
+                      $timeout(function() {
+                          $scope.mess2show="Ha sido guardados los llaveros en el stock "+stockLocation+"     Confirmar?";
+                          $('#showModalTicketCancelNotification').modal({backdrop: 'static', keyboard: false});
+                          $('#showModalTicketCancelNotification').on('shown.bs.modal', function () {});
+                      }, 500);
+                  }else if (confirm==1){
+                      $('#showModalTicketCancelNotification').modal('hide');
+                      inform.add('Por favor continue con el proceso de baja para completar la solicitud.',{
+                          ttl:15000, type: 'info'
+                      });
+                      $timeout(function() {
+                          console.log($scope.tmpTicket);
+                          //$scope.mainSwitchFn('setReason', $scope.tmpTicket, null);
+                      }, 1000);
+
+                  }else if (confirm==null){
+                      $('#showModalTicketCancelNotification').modal('hide');
+                  }
+              break;
               case "reject_cancel_user":
                 if (confirm==0){
                   $scope.mess2show="Rechaza la solicitud de cancelacion del Pedido ["+obj.codTicket+"],     Confirmar?";
@@ -616,7 +640,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                   $('#confirmRequestModal').modal('hide');
-                  $scope.mainSwitchFn('approve_ticket_request_cancel', $scope.argObj, null)
+                  if ($scope.argObj.idMgmtMethodKf=="1" || ($scope.argObj.idMgmtMethodKf=="2" && $scope.argObj.isKeysEnable=="1")){
+                    $scope.modalConfirmation('confirmTicketCancel',0,$scope.argObj);
+                  }else{
+                    //$scope.mainSwitchFn('approve_ticket_request_cancel', $scope.argObj, null);
+                  }
                 }
               break;
               case "apply_ticket_delivery_change":
