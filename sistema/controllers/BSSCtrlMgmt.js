@@ -596,10 +596,14 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               case "confirmTicketCancel":
                   if (confirm==0){
                       $scope.tmpTicket=obj;
-                      var stockLocation = $scope.tmpTicket.building.isStockInOffice=="1"?"de la Oficina":null;
-                      var stockLocation = $scope.tmpTicket.building.isStockInBuilding=="1"?"del Edificio":null;
+                      if ($scope.tmpTicket.building.isStockInOffice=="1"){
+                        $scope.tmpTicket.stockLocation = "de la Oficina";
+                      }else if ($scope.tmpTicket.building.isStockInBuilding=="1"){
+                        $scope.tmpTicket.stockLocation = "del Edificio"
+                      }
                       $timeout(function() {
-                          $scope.mess2show="Ha sido guardados los llaveros en el stock "+stockLocation+"     Confirmar?";
+                          $scope.mess2show="Han sido guardados los llaveros en el stock "+$scope.tmpTicket.stockLocation+"     Confirmar?";
+
                           $('#showModalTicketCancelNotification').modal({backdrop: 'static', keyboard: false});
                           $('#showModalTicketCancelNotification').on('shown.bs.modal', function () {});
                       }, 500);
@@ -610,7 +614,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       });
                       $timeout(function() {
                           console.log($scope.tmpTicket);
-                          $scope.mainSwitchFn('approve_ticket_request_cancel', $scope.tmpTicket, null);
+                          //$scope.mainSwitchFn('approve_ticket_request_cancel', $scope.tmpTicket, null);
                       }, 1000);
 
                   }else if (confirm==null){
@@ -640,10 +644,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                   $('#confirmRequestModal').modal('hide');
-                  if ($scope.argObj.idMgmtMethodKf=="1" || ($scope.argObj.idMgmtMethodKf=="2" && $scope.argObj.isKeysEnable=="1")){
+                  if (($scope.tmpTicket.building.isStockInOffice=="1" || $scope.tmpTicket.building.isStockInBuilding=="1") && ($scope.argObj.idMgmtMethodKf=="1" || ($scope.argObj.idMgmtMethodKf=="2" && $scope.argObj.isKeysEnable=="1"))){
                     $scope.modalConfirmation('confirmTicketCancel',0,$scope.argObj);
                   }else{
-                    $scope.mainSwitchFn('approve_ticket_request_cancel', $scope.argObj, null);
+                    //$scope.mainSwitchFn('approve_ticket_request_cancel', $scope.argObj, null);
                   }
                 }
               break;
