@@ -3493,7 +3493,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             console.log("isCodeExistInBuilding: " + isCodeExistInBuilding);
                           break;
                         }
-                      });
                         if(!$scope.isCodeExist && !$scope.isCodeNewExist){
                           console.log("ADD_NO_EXIST");
                           let depto = $scope.tmpKey.new.Depto!=undefined?$scope.tmpKey.new.Depto:null;
@@ -3528,6 +3527,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           obj.codigo="";
                           obj.codigoExt="";
                         }
+                      });
                     }
                     for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
                       // Ensure the index exists in rsNewKeychainList
