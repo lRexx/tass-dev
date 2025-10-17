@@ -2980,6 +2980,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             $scope.mainSwitchFn('search', null);
           }
           $scope.isAssignButtonDisabled = function() {
+            // Evita errores si aún no están definidas las listas o el objeto tkupdate
+            if (
+              !$scope.tkupdate ||
+              !$scope.tkupdate.keys ||
+              !$scope.rsNewKeychainList ||
+              !$scope.ticket
+            ) {
+              return true; // deshabilitado hasta que haya datos
+            }
+
             // 1️⃣ Si el ticket está en estado '1' → siempre deshabilitado
             if ($scope.tkupdate.idStatusTicketKf == '1') {
               return true;
@@ -2992,20 +3002,12 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
 
             // 3️⃣ Faltan llaves por cargar
             const missingKeys =
-              $scope.rsNewKeychainList.length != $scope.tkupdate.keys.length;
+              $scope.rsNewKeychainList.length !== $scope.tkupdate.keys.length;
 
             // 4️⃣ Existen llaves sin ID asignado
             const hasKeysWithoutId = $scope.thereIsKeyWithoutIdKeychain === true;
 
             // 5️⃣ Regla general de deshabilitado
-            // Deshabilitado si:
-            //  - el método de llaves es inválido y faltan llaves
-            //  - o faltan llaves en general
-            //  - o hay llaves sin idKeychain
-            //console.log("hasInvalidKeyMethod: "+hasInvalidKeyMethod);
-            //console.log("missingKeys: "+missingKeys);
-            //console.log("missingKeys: "+missingKeys);
-            //console.log("hasKeysWithoutId: "+hasKeysWithoutId);
             return (
               (hasInvalidKeyMethod && missingKeys) ||
               missingKeys ||
