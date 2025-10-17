@@ -3479,6 +3479,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         }
                       }
                       $scope.findKeyByCodeFn($scope.tmpKey.new.codigo, $scope.tkupdate.building.idClient).then(function(isCodeExistInBuilding) {
+                        console.log(isCodeExistInBuilding);
                         switch (isCodeExistInBuilding){
                           case 1:
                             inform.add("El Llavero con el Codigo: ["+$scope.tmpKey.new.codigo+"], ya existe en el Edificio",{
