@@ -3007,6 +3007,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             // 4️⃣ Existen llaves sin ID asignado
             const hasKeysWithoutId = $scope.thereIsKeyWithoutIdKeychain === true;
 
+            //console.log("hasInvalidKeyMethod: "+hasInvalidKeyMethod);
+            //console.log("missingKeys: "+missingKeys);
+            //console.log("missingKeys: "+missingKeys);
+            //console.log("hasKeysWithoutId: "+hasKeysWithoutId);
             // 5️⃣ Regla general de deshabilitado
             return (
               (hasInvalidKeyMethod && missingKeys) ||
