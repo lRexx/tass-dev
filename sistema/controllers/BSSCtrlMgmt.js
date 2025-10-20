@@ -3007,7 +3007,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             // 5️⃣ Existen llaves sin ID asignado (no bloquea por sí solo)
             const hasKeysWithoutId = $scope.thereIsKeyWithoutIdKeychain === true;
 
-            console.log({
+            /*console.log({
               idStatus: $scope.tkupdate.idStatusTicketKf,
               keysMethod: $scope.ticket.keysMethod
                 ? $scope.ticket.keysMethod.name
@@ -3021,7 +3021,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               hasInvalidKeyMethod,
               missingKeys,
               hasKeysWithoutId,
-            });
+            });*/
 
             // 6️⃣ Deshabilitar solo si:
             //  - el método es inválido, o
