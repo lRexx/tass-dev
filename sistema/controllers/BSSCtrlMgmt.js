@@ -2979,34 +2979,44 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             console.log($scope.filters.ticketStatus);
             $scope.mainSwitchFn('search', null);
           }
-          $scope.isAssignButtonDisabled = function() {
-            // Evita errores si aún no están definidas las listas o el objeto tkupdate
+          $scope.isAssignButtonDisabled = function () {
+            // 1️⃣ Validación de existencia de datos mínimos
             if (
               !$scope.tkupdate ||
               !$scope.tkupdate.keys ||
               !$scope.rsNewKeychainList ||
               !$scope.ticket
             ) {
-              return true; // deshabilitado hasta que haya datos
+              return true; // Deshabilitado hasta tener datos
             }
 
-            // 1️⃣ Si el ticket está en estado '1' → siempre deshabilitado
-            if ($scope.tkupdate.idStatusTicketKf == '1') {
+            const idStatus = parseInt($scope.tkupdate.idStatusTicketKf);
+            const keysMethod = $scope.ticket.keysMethod?.name || null;
+            const totalKeys = $scope.tkupdate.keys?.length || 0;
+            const totalNewKeys = $scope.rsNewKeychainList?.length || 0;
+            const hasKeysWithoutId = $scope.thereIsKeyWithoutIdKeychain === true;
+
+            // 2️⃣ Estado de ticket que bloquea la asignación
+            if (idStatus === 1) {
               return true;
             }
 
-            // 2️⃣ Falta información sobre el método de llaves
-            const hasInvalidKeyMethod =
-              $scope.ticket.keysMethod &&
-              (!$scope.ticket.keysMethod.name || $scope.ticket.keysMethod.name === '');
+            // 3️⃣ Verifica método de llaves válido
+            const hasInvalidKeyMethod = !keysMethod || keysMethod.trim() === "";
 
-            // 3️⃣ Faltan llaves por cargar
-            const missingKeys =
-              $scope.rsNewKeychainList.length !== $scope.tkupdate.keys.length;
+            // 4️⃣ Verifica coincidencia entre llaves del ticket y las nuevas llaves
+            const missingKeys = totalKeys !== totalNewKeys;
 
-            // 4️⃣ Existen llaves sin ID asignado
-            const hasKeysWithoutId = $scope.thereIsKeyWithoutIdKeychain === true;
-
+            // 🔍 Log de diagnóstico
+            console.log({
+              idStatus,
+              keysMethod,
+              totalKeys,
+              totalNewKeys,
+              hasKeysWithoutId,
+              hasInvalidKeyMethod,
+              missingKeys,
+            });
             console.log({
               idStatus: $scope.tkupdate.idStatusTicketKf,
               keysMethod: $scope.ticket.keysMethod ? $scope.ticket.keysMethod.name : 'undefined',
@@ -3014,12 +3024,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               tkKeys: $scope.tkupdate.keys ? $scope.tkupdate.keys.length : 'undefined',
               thereIsKeyWithoutIdKeychain: $scope.thereIsKeyWithoutIdKeychain
             });
-            // 5️⃣ Regla general de deshabilitado
-            return (
-              (hasInvalidKeyMethod && missingKeys) ||
-              missingKeys ||
-              hasKeysWithoutId
-            );
+
+            // 5️⃣ Lógica clara y separada:
+            // - Botón deshabilitado si hay inconsistencias o datos incompletos
+            // - Solo habilitado cuando todo está correcto
+            const isDisabled =
+              hasInvalidKeyMethod || // método no definido
+              missingKeys ||         // falta alguna llave
+              hasKeysWithoutId;      // hay llaves sin ID asignado
+
+            return isDisabled;
           };
     /**************************************************
     *                                                 *
