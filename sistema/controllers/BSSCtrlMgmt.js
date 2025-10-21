@@ -4039,7 +4039,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     case "3":
                     case "5":
                     case "6":
-                      $scope.functions.isKeysEnable = "2";
+                      $scope.functions.isKeysEnable = "0";
                       switch(obj.idTypeDeliveryKf){
                         case "1": //RETIRO EN OFICINA
                           if(obj.building.isHasInternetOnline === null || obj.building.isHasInternetOnline != null){ //NO INTERNET OR WITH INTERNET
@@ -4057,7 +4057,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       }
                     break;
                     case "2":
-                       $scope.functions.isKeysEnable = "2";
+                       $scope.functions.isKeysEnable = "0";
                       $scope.tkupdate.idDeliveryCompanyKf="2";
                       if (obj.building.isStockInOffice == "1" || obj.building.isStockInBuilding == "1"){
                        $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
