@@ -4086,6 +4086,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $scope.tkupdate.idMgmtMethodKf          = $scope.ticket.idMgmtMethodKf;
                 $scope.tkupdate.newKeychainList         = $scope.rsNewKeychainList;
                 $scope.tkupdate.whereKeysAreEnable      = $scope.functions.whereKeysAreEnable;
+                $scope.tkupdate.isKeysEnable            = $scope.functions.isKeysEnable;
                 $scope.tkupdate.refund                  = [];
                 $scope.tkupdate.history                 = [];
                 var idDepartmenKf                       = null;
@@ -4095,8 +4096,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"40"});
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
-
-                      $scope.tkupdate.isKeysEnable            = $scope.functions.isKeysEnable;
                       if ($scope.ticket.selected.idTypeRequestFor=="4"){
                         $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
                         $scope.tkupdate.idStatusTicketKf        = "1"
