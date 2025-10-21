@@ -368,12 +368,12 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log($scope.keyObj);
                   console.log($scope.functions);
                   $scope.mainSwitchFn('apply_isKeysEnable',$scope.keyObj)
-                $('#confirmRequestModalCustom').modal('hide');
+                  $('#confirmRequestModalCustom').modal('hide');
                 }else if (confirm==null){
                   if ($scope.tkupdate.isKeysEnable!=null){
                     $scope.functions.isKeysEnable=$scope.tkupdate.isKeysEnable
                   }else if ($scope.tkupdate.isKeysEnable==null && ($scope.keyObj.isKeysEnable==0 || $scope.keyObj.isKeysEnable==null)){
-                      $scope.functions.isKeysEnable=undefined
+                      $scope.functions.isKeysEnable="0"
                   }
                 }
               break;
@@ -4108,6 +4108,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   case "2":
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"28"});
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
+                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"45"});
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"39"});
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
                     var idKeychainStatusKf                  = 0;
