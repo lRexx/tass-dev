@@ -3157,15 +3157,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.monitor.filter.whereKeysAreEnable      = $scope.filters.activationKeyMethod?$scope.filters.activationKeyMethod:"";
                   $scope.monitor.filter.isKeysEnable            = $scope.filters.isKeysEnable?$scope.filters.isKeysEnable:"";
                   $scope.monitor.filter.idTypeRequestFor        = $scope.filters.filterCategoryKey?$scope.filters.filterCategoryKey:"";
+                  $scope.monitor.filter.isBillingUploaded       = $scope.filters.isBillingUploaded?1:0;
 
                   //console.log($scope.filters.paymentsType);
-                  if ((($scope.filters.paymentsType!='' && $scope.filters.paymentsType!=undefined && $scope.filters.paymentsType!=null && $scope.filters.paymentsType.id!=undefined) || ($scope.filters.paymentsType==undefined || $scope.filters.paymentsType==null || $scope.filters.paymentsType=='')) && ($scope.filters.ticketStatus!=undefined && $scope.filters.ticketStatus.idStatus!="3" && $scope.filters.ticketStatus.idStatus!="6") && $scope.filters.isPaymentSucceeded && ($scope.filters.isBillingUploaded)){
-                      $scope.monitor.filter.isBillingUploaded      = 1;
-                      $scope.filters.isBillingUploaded             = true
-                  }else{
-                      $scope.monitor.filter.isBillingUploaded      = 0;
-                      $scope.filters.isBillingUploaded             = false
-                  }
                   if ( // || ($scope.filters.paymentsType==undefined || $scope.filters.paymentsType==null || $scope.filters.paymentsType=='')
                       ((($scope.filters.paymentsType!=undefined && $scope.filters.paymentsType!=null && $scope.filters.paymentsType.id!='1' && $scope.filters.paymentsType.id!='2')) && (!$scope.filters.isPaymentSucceeded || $scope.filters.isPaymentSucceeded)) ||
                       ($scope.filters.paymentsType!=undefined && $scope.filters.paymentsType!=null && $scope.filters.paymentsType.id=="2" && $scope.filters.isPaymentSucceeded && $scope.filters.isBillingInitiated) ||
@@ -4013,6 +4007,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     case "3":
                     case "5":
                     case "6":
+                      $scope.functions.isKeysEnable = "1";
                       switch(obj.idTypeDeliveryKf){
                         case "1"://RETIRO EN OFICINA
                           $scope.tkupdate.mess2show="El Pedido pasara a \"Listo para Retirar\", por favor,     Confirmar?";
@@ -4022,10 +4017,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         case "2"://RENTREGA EN DOMICILIO
                           $scope.functions.whereKeysAreEnable = obj.building.isHasInternetOnline === null ? "2":"1";
                           if (obj.building.isStockInOffice == "1" || obj.building.isStockInBuilding == "1"){
-                            $scope.tkupdate.idDeliveryCompanyKf="1";
-                            $scope.functions.isKeysEnable = "1";
                             $scope.tkupdate.mess2show="El Pedido pasara a \"Pendiente de entrega\", por favor,     Confirmar?";
                           }
+                          $scope.tkupdate.idDeliveryCompanyKf="1";
                           console.log(obj)
                         break;
                       }
@@ -4045,6 +4039,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     case "3":
                     case "5":
                     case "6":
+                      $scope.functions.isKeysEnable = "2";
                       switch(obj.idTypeDeliveryKf){
                         case "1": //RETIRO EN OFICINA
                           if(obj.building.isHasInternetOnline === null || obj.building.isHasInternetOnline != null){ //NO INTERNET OR WITH INTERNET
