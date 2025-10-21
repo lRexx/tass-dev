@@ -144,12 +144,22 @@
                             </div>
                         </div>
                     </div>
-                    <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-4 col-xs-12">
+                    <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-2 col-xs-12 n-padding-r">
                         <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
                         <div class="col-md-12 col-xs-12" ><label class="clf-size">Entrega inicial <span class="badge badge-warning">activa</span></label></div>
                         <div class="col-md-4 col-xs-4">
                             <label class="switch switch-2x" for="isInitialDeliveryActive-search">
                                 <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isInitialDeliveryActive" id="isInitialDeliveryActive-search">
+                                <span class="slider slider-2x flat"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-2 col-xs-12 n-padding-l">
+                        <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
+                        <div class="col-md-12 col-xs-12" ><label class="clf-size">Pedidos con Stock <span class="badge badge-warning">En Edificio</span></label></div>
+                        <div class="col-md-4 col-xs-4">
+                            <label class="switch switch-2x" for="isHasStockInBuilding-search">
+                                <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isHasStockInBuilding" id="isHasStockInBuilding-search">
                                 <span class="slider slider-2x flat"></span>
                             </label>
                         </div>
@@ -241,16 +251,6 @@
                                 <option value="">Todos</option>
                                 </select>
                         </div>
-                        </div>
-                    </div>
-                    <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-4 col-xs-12">
-                        <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
-                        <div class="col-md-12 col-xs-12" ><label class="clf-size">Pedidos con Stock <span class="badge badge-warning">En Edificio</span></label></div>
-                        <div class="col-md-4 col-xs-4">
-                            <label class="switch switch-2x" for="isHasStockInBuilding-search">
-                                <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isHasStockInBuilding" id="isHasStockInBuilding-search">
-                                <span class="slider slider-2x flat"></span>
-                            </label>
                         </div>
                     </div>
                 </div>
