@@ -4057,6 +4057,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       }
                     break;
                     case "2":
+                       $scope.functions.isKeysEnable = "2";
                       $scope.tkupdate.idDeliveryCompanyKf="2";
                       if (obj.building.isStockInOffice == "1" || obj.building.isStockInBuilding == "1"){
                        $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
