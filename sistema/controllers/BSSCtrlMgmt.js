@@ -5146,7 +5146,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
                     console.log(ticket);
                     console.log($scope.update.ticket);
-                    /*ticketServices.changueStatus($scope.update).then(function(response){
+                    ticketServices.changueStatus($scope.update).then(function(response){
                       //console.log(response);
                       if(response.status==200){
                         console.log("Request Successfully processed");
@@ -5157,7 +5157,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                               ttl:5000, type: 'danger'
                         });
                       }
-                    });*/
+                    });
                   }, 1500)
               });
               $q.all(assignedtickets).then(function () {
