@@ -3542,8 +3542,6 @@ class Ticket_model extends CI_Model
 			return false;
 		}
 	}
-
-
 	public function sendPostBillingMailNotification($idTicket, $fileName)
 	{
 		$bill_url = "https://" . BSS_HOST . "/facturas/" . $fileName;
