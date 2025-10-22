@@ -267,19 +267,20 @@
                                   <div class="card-customer">
                                     <div ng-if="tkupdate.idTypeRequestFor=='4' && ((tkupdate.building.isStockInBuilding==null || tkupdate.building.isStockInBuilding=='0') && (tkupdate.building.isStockInOffice==null || tkupdate.building.isStockInOffice=='0'))" class="ribbon-h ribbon-h-danger"><span>No disponible</span></div>
                                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
-                                        <i ng-class="{'i-success':tkupdate.idTypeRequestFor!='2' && tkupdate.idDeliveryCompanyKf!=null && tkupdate.idDeliveryCompanyKf!=undefined,'i-warning':tkupdate.idTypeRequestFor!='2' && (tkupdate.idDeliveryCompanyKf==null || tkupdate.idDeliveryCompanyKf==undefined)}" class="fas fa-truck"></i>
+                                        <i ng-class="{'i-success':tkupdate.idTypeRequestFor!='2' && tkupdate.idDeliveryCompanyKf!=null && tkupdate.idDeliveryCompanyKf!=undefined,
+                                        'i-warning':tkupdate.idTypeRequestFor!='2' && (tkupdate.idDeliveryCompanyKf==null || tkupdate.idDeliveryCompanyKf==undefined)}" class="fas fa-truck"></i>
 
                                     </div>
                                     <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
                                                     'sticky-success':
-                                                    tkupdate.idTypeRequestFor!='2' && tkupdate.userDelivery!=null || tkupdate.deliveryAddress!=null || tkupdate.otherDeliveryAddress!=null || tkupdate.thirdPersonDelivery!=null,
+                                                    tkupdate.idTypeRequestFor!='2' && tkupdate.idDeliveryCompanyKf!=null && tkupdate.userDelivery!=null || tkupdate.deliveryAddress!=null || tkupdate.otherDeliveryAddress!=null || tkupdate.thirdPersonDelivery!=null,
                                                     'sticky-warning':
-                                                    tkupdate.idTypeRequestFor!='2' && tkupdate.userDelivery==null && tkupdate.deliveryAddress==null && tkupdate.otherDeliveryAddress==null && tkupdate.thirdPersonDelivery==null,
+                                                    tkupdate.idTypeRequestFor!='2' && (tkupdate.idDeliveryCompanyKf==null || tkupdate.idDeliveryCompanyKf==undefined) && tkupdate.userDelivery==null && tkupdate.deliveryAddress==null && tkupdate.otherDeliveryAddress==null && tkupdate.thirdPersonDelivery==null,
                                                   }">
                                       <span ng-if="tkupdate.idTypeRequestFor!='2' && tkupdate.userDelivery!=null || tkupdate.deliveryAddress!=null || tkupdate.otherDeliveryAddress!=null || tkupdate.thirdPersonDelivery!=null">
                                         <i class="fas fa-check-circle"></i>
                                       </span>
-                                      <span ng-if="tkupdate.idTypeRequestFor!='2' && tkupdate.userDelivery==null && tkupdate.deliveryAddress==null && tkupdate.otherDeliveryAddress==null && tkupdate.thirdPersonDelivery==null" data-toggle="tooltip" data-placement="top" title="Faltan datos de envío.">
+                                      <span ng-if="tkupdate.idTypeRequestFor!='2' && tkupdate.idDeliveryCompanyKf!=null && tkupdate.userDelivery==null && tkupdate.deliveryAddress==null && tkupdate.otherDeliveryAddress==null && tkupdate.thirdPersonDelivery==null" data-toggle="tooltip" data-placement="top" title="Faltan datos de envío.">
                                         <i class="fas fa-exclamation-triangle"></i>
                                       </span>
                                     </div>
