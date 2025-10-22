@@ -273,9 +273,9 @@
                                     </div>
                                     <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
                                                     'sticky-success':
-                                                    tkupdate.idTypeRequestFor!='2' && tkupdate.idDeliveryCompanyKf!=null && tkupdate.idDeliveryCompanyKf!=undefined && tkupdate.userDelivery!=null || tkupdate.deliveryAddress!=null || tkupdate.otherDeliveryAddress!=null || tkupdate.thirdPersonDelivery!=null,
+                                                    tkupdate.idTypeRequestFor!='2' && tkupdate.idDeliveryCompanyKf!=null && tkupdate.idDeliveryCompanyKf!=undefined && (tkupdate.userDelivery!=null || tkupdate.deliveryAddress!=null || tkupdate.otherDeliveryAddress!=null || tkupdate.thirdPersonDelivery!=null),
                                                     'sticky-warning':
-                                                    tkupdate.idTypeRequestFor!='2' && (tkupdate.idDeliveryCompanyKf==null || tkupdate.idDeliveryCompanyKf==undefined) && tkupdate.userDelivery==null && tkupdate.deliveryAddress==null && tkupdate.otherDeliveryAddress==null && tkupdate.thirdPersonDelivery==null,
+                                                    ((tkupdate.idDeliveryCompanyKf==null || tkupdate.idDeliveryCompanyKf==undefined) || (tkupdate.idTypeRequestFor!='2' && tkupdate.userDelivery==null && tkupdate.deliveryAddress==null && tkupdate.otherDeliveryAddress==null && tkupdate.thirdPersonDelivery==null)),
                                                   }">
                                       <span ng-if="tkupdate.idTypeRequestFor!='2' && tkupdate.idDeliveryCompanyKf!=null && tkupdate.idDeliveryCompanyKf!=undefined && (tkupdate.userDelivery!=null || tkupdate.deliveryAddress!=null || tkupdate.otherDeliveryAddress!=null || tkupdate.thirdPersonDelivery!=null)">
                                         <i class="fas fa-check-circle"></i>
