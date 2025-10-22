@@ -5143,7 +5143,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.update.ticket.idTypeRequestFor      = ticket.idTypeRequestFor;
                     $scope.update.ticket.history               = [];
                     $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"31"});
-                    $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
+                    $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"43"});
                     console.log(ticket);
                     console.log($scope.update.ticket);
                     ticketServices.changueStatus($scope.update).then(function(response){
@@ -5861,10 +5861,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           $scope.mainSwitchFn("linkMP",response.data.response,null);
                       }, 2700);
                     }else{
-                    $scope.mainSwitchFn("openTicket",pedido.ticket);
                     $scope.mainSwitchFn('search', null);
                       $timeout(function() {
-                          $scope.openTicketFn(pedido.ticket.idTicket);
+                          $scope.mainSwitchFn("openTicket",pedido.ticket);
                       }, 2000);
                     }
 
