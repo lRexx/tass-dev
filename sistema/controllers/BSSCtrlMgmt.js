@@ -7563,7 +7563,30 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               a.remove();
             };
 
+            $scope.isMPLinkDisabled = function(item) {
+              return (
+                item.total != '0' &&
+                item.idTypeTicketKf == '1' &&
+                item.isManualPayment != '1' &&
+                $scope.sysLoggedUser.idProfileKf == 1 &&
+                (item.idTypeRequestFor == 1 || item.idTypeRequestFor == 5) &&
+                item.idTypePaymentKf == 2 &&
+                item.idStatusTicketKf != 1 &&
+                item.idStatusTicketKf != 2 &&
+                item.idStatusTicketKf != 6 &&
+                item.isCancelRequested != '1' &&
+                (!item.paymentDetails || !item.paymentDetails.mp_payment_id)
+              );
+            };
 
+            $scope.isManualPaymentDisabled = function(item) {
+              return (
+                $scope.sysLoggedUser.idProfileKf == 1 &&
+                item.idTypeTicketKf <= 2 &&
+                item.idTypePaymentKf == '2' &&
+                item.idStatusTicketKf == '3'
+              );
+            };
         /*******************************************************
         *                                                      *
         *     ROUTE PARAMETERS FOR APPROVAL TICKET & DEPTO     *
