@@ -7563,28 +7563,40 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               a.remove();
             };
 
-            $scope.isMPLinkDisabled = function(item) {
+            $scope.isDeliveryDisabled = function(tk) {
+              return ((tk.isInitialDeliveryActive==undefined || tk.isInitialDeliveryActive==null || tk.isInitialDeliveryActive=='0')
+                && (tk.idTypeTicketKf<2 && tk.isDeliveryHasChanged!=1
+                && ((tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1)
+                || (tk.idStatusTicketKf==10 && tk.isCancelRequested==1))));
+            };
+
+            $scope.isMPLinkDisabled = function(tk) {
               return (
-                (item.total == '0' || item.total != '0') &&
-                item.idTypeTicketKf == "1" &&
-                item.isManualPayment != "1" &&
-                $scope.sysLoggedUser.idProfileKf == 1 &&
-                (item.idTypeRequestFor !=null) &&
-                (item.idTypePaymentKf == null || item.idTypePaymentKf == "2") &&
-                item.idStatusTicketKf != "1" &&
-                item.idStatusTicketKf != "2" &&
-                item.idStatusTicketKf != "6" &&
-                item.isCancelRequested != "1" &&
-                ((item.paymentDetails && item.paymentDetails.mp_payment_id)||(item.paymentDetails==null))
+                (tk.total!='0' && tk.idTypeTicketKf=='1' && tk.isManualPayment!='1' &&
+                ($scope.sysLoggedUser.idProfileKf==1 || $scope.sysLoggedUser.idProfileKf==4) &&
+                (tk.idTypeRequestFor==1 || tk.idTypeRequestFor==5) && tk.idTypePaymentKf==2 &&
+                tk.idStatusTicketKf!=1 && tk.idStatusTicketKf!=2 && tk.idStatusTicketKf!=6 &&
+                tk.isCancelRequested!='1' && tk.paymentDetails==null)
+              ||
+                (tk.total!='0' && tk.idTypeTicketKf=='1' && tk.isManualPayment!='1' &&
+                ($scope.sysLoggedUser.idProfileKf==1 || $scope.sysLoggedUser.idProfileKf==4) &&
+                (tk.idTypeRequestFor==1 || tk.idTypeRequestFor==5) &&
+                tk.idStatusTicketKf!=2 && tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1 &&
+                tk.isCancelRequested!='1' &&
+                (tk.paymentDetails.mp_payment_id==null || tk.paymentDetails.mp_payment_id==0 || tk.paymentDetails.mp_payment_id==''))
               );
             };
 
-            $scope.isManualPaymentDisabled = function(item) {
+            $scope.isManualPaymentDisabled = function(tk) {
               return (
-                $scope.sysLoggedUser.idProfileKf == 1 &&
-                item.idTypeTicketKf <= 2 &&
-                item.idTypePaymentKf == '2' &&
-                item.idStatusTicketKf == '3'
+                $scope.sysLoggedUser.idProfileKf==1 &&
+                tk.idTypeTicketKf<=2 &&
+                tk.idTypePaymentKf=='2' &&
+                (tk.paymentDetails==null || tk.paymentDetails!=null) &&
+                tk.idStatusTicketKf=='3' &&
+                tk.idStatusTicketKf!=2 &&
+                tk.idStatusTicketKf!=6 &&
+                tk.idStatusTicketKf!=1
               );
             };
         /*******************************************************
