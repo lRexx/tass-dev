@@ -7576,7 +7576,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 item.idStatusTicketKf != "2" &&
                 item.idStatusTicketKf != "6" &&
                 item.isCancelRequested != "1" &&
-                (!item.paymentDetails || !item.paymentDetails.mp_payment_id)
+                (item.paymentDetails && item.paymentDetails.mp_payment_id)
               );
             };
 
