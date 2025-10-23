@@ -1706,7 +1706,11 @@ input.fileUpload{
   color:#dc3545 !important;
 }
 
-
+.dropdown-menu a.disabled {
+  pointer-events: none;  /* bloquea clics */
+  opacity: 0.5;          /* da apariencia deshabilitada */
+  cursor: not-allowed;
+}
 /*******************************************************
 *                                                      *
 *             Booststrap custom CSS Class              *

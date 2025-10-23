@@ -31,11 +31,29 @@
                 <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu">
-                  <li class="dropdown-item"><a href="" ng-disabled="((item.isInitialDeliveryActive==undefined || item.isInitialDeliveryActive==null || item.isInitialDeliveryActive=='0') && (item.idTypeTicketKf<2 && item.isDeliveryHasChanged!=1 && ((item.idStatusTicketKf!=6 && item.idStatusTicketKf!=1) || (item.idStatusTicketKf==10 && item.isCancelRequested==1))))" ng-click="mainSwitchFn('ticket_delivery_change', item, null)""><i title="Delivery" class="fas fa-truck"></i> Cambiar Metodo de Envío</a></li>
+                  <li class="dropdown-item">
+                    <a href=""
+                      ng-class="{ 'disabled': ((item.isInitialDeliveryActive==undefined || item.isInitialDeliveryActive==null || item.isInitialDeliveryActive=='0') && (item.idTypeTicketKf<2 && item.isDeliveryHasChanged!=1 && ((item.idStatusTicketKf!=6 && item.idStatusTicketKf!=1) || (item.idStatusTicketKf==10 && item.isCancelRequested==1)))) }"
+                      ng-click="!((item.isInitialDeliveryActive==undefined || item.isInitialDeliveryActive==null || item.isInitialDeliveryActive=='0') && (item.idTypeTicketKf<2 && item.isDeliveryHasChanged!=1 && ((item.idStatusTicketKf!=6 && item.idStatusTicketKf!=1) || (item.idStatusTicketKf==10 && item.isCancelRequested==1)))) && mainSwitchFn('ticket_delivery_change', item, null)">
+                      <i title="Delivery" class="fas fa-truck"></i> Cambiar Método de Envío
+                    </a>
+                  </li>
                   <li role="presentation"><div class="divider"></div>
-                  <li ng-disabled="((item.total!='0' && item.idTypeTicketKf=='1' && item.isManualPayment!='1' && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && (item.idTypeRequestFor==1 || item.idTypeRequestFor==5) && item.idTypePaymentKf==2 && item.idStatusTicketKf!=1 && item.idStatusTicketKf!=2 && item.idStatusTicketKf!=6 && item.isCancelRequested!='1' && item.paymentDetails==null) ||(item.total!='0' && item.idTypeTicketKf=='1' && item.isManualPayment!='1' && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && (item.idTypeRequestFor==1 || item.idTypeRequestFor==5) && item.idStatusTicketKf!=2 && item.idStatusTicketKf!=6 && item.idStatusTicketKf!=1 && item.idStatusTicketKf!=2 && item.idStatusTicketKf!=6 && item.isCancelRequested!='1' && (item.paymentDetails.mp_payment_id==null || item.paymentDetails.mp_payment_id==0 || item.paymentDetails.mp_payment_id=='')))" class="dropdown-item"><a href="" ng-click="modalConfirmation('createMPLink',0, item)"><i title="Link de pago" class="fas fa-receipt"></i> Generar Link de MP</a></li>
+                  <li class="dropdown-item">
+                    <a href=""
+                      ng-class="{ 'disabled': ((item.total!='0' && item.idTypeTicketKf=='1' && item.isManualPayment!='1' && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && (item.idTypeRequestFor==1 || item.idTypeRequestFor==5) && item.idTypePaymentKf==2 && item.idStatusTicketKf!=1 && item.idStatusTicketKf!=2 && item.idStatusTicketKf!=6 && item.isCancelRequested!='1' && item.paymentDetails==null) ||(item.total!='0' && item.idTypeTicketKf=='1' && item.isManualPayment!='1' && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && (item.idTypeRequestFor==1 || item.idTypeRequestFor==5) && item.idStatusTicketKf!=2 && item.idStatusTicketKf!=6 && item.idStatusTicketKf!=1 && item.idStatusTicketKf!=2 && item.idStatusTicketKf!=6 && item.isCancelRequested!='1' && (item.paymentDetails.mp_payment_id==null || item.paymentDetails.mp_payment_id==0 || item.paymentDetails.mp_payment_id==''))) }"
+                      ng-click="!((item.total!='0' && item.idTypeTicketKf=='1' && item.isManualPayment!='1' && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && (item.idTypeRequestFor==1 || item.idTypeRequestFor==5) && item.idTypePaymentKf==2 && item.idStatusTicketKf!=1 && item.idStatusTicketKf!=2 && item.idStatusTicketKf!=6 && item.isCancelRequested!='1' && item.paymentDetails==null) ||(item.total!='0' && item.idTypeTicketKf=='1' && item.isManualPayment!='1' && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && (item.idTypeRequestFor==1 || item.idTypeRequestFor==5) && item.idStatusTicketKf!=2 && item.idStatusTicketKf!=6 && item.idStatusTicketKf!=1 && item.idStatusTicketKf!=2 && item.idStatusTicketKf!=6 && item.isCancelRequested!='1' && (item.paymentDetails.mp_payment_id==null || item.paymentDetails.mp_payment_id==0 || item.paymentDetails.mp_payment_id==''))) && modalConfirmation('createMPLink',0, item)">
+                      <i title="Link de pago" class="fas fa-receipt"></i> Generar Link de MP
+                    </a>
+                  </li>
                   <li role="presentation"><div class="divider"></div>
-                  <li ng-disabled="sysLoggedUser.idProfileKf==1 && item.idTypeTicketKf<=2 && item.idTypePaymentKf=='2' && (item.paymentDetails==null||item.paymentDetails!=null) && (item.idStatusTicketKf=='3') && item.idStatusTicketKf!=2 && item.idStatusTicketKf!=6 && item.idStatusTicketKf!=1" class="dropdown-item"><a href="" ng-click="mainSwitchFn('ticket_manual_payment', item, null)"><i title="Registrar pago" class="fas fa-file-signature"></i> Registrar pago</a></li>
+                  <li class="dropdown-item">
+                    <a href=""
+                      ng-class="{ 'disabled': sysLoggedUser.idProfileKf==1 && item.idTypeTicketKf<=2 && item.idTypePaymentKf=='2' && (item.paymentDetails==null||item.paymentDetails!=null) && (item.idStatusTicketKf=='3') && item.idStatusTicketKf!=2 && item.idStatusTicketKf!=6 && item.idStatusTicketKf!=1 }"
+                      ng-click="!sysLoggedUser.idProfileKf==1 && item.idTypeTicketKf<=2 && item.idTypePaymentKf=='2' && (item.paymentDetails==null||item.paymentDetails!=null) && (item.idStatusTicketKf=='3') && item.idStatusTicketKf!=2 && item.idStatusTicketKf!=6 && item.idStatusTicketKf!=1 && mainSwitchFn('ticket_manual_payment', item, null)">
+                      <i title="Registrar pago" class="fas fa-file-signature"></i> Registrar pago
+                    </a>
+                  </li>
                 </ul>
             </div>
           </td>
