@@ -7570,7 +7570,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 item.isManualPayment != "1" &&
                 $scope.sysLoggedUser.idProfileKf == 1 &&
                 (item.idTypeRequestFor == "1" || item.idTypeRequestFor == "5") &&
-                item.idTypeRequestFor != "2" &&
                 item.idTypePaymentKf == "2" &&
                 item.idStatusTicketKf != "1" &&
                 item.idStatusTicketKf != "2" &&
