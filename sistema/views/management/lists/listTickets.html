@@ -24,6 +24,41 @@
               <input type="checkbox" class="success" ng-model="item.selected" ng-disabled="(item.idDeliveryCompanyKf==undefined || item.idDeliveryCompanyKf==null)" ng-click="mainSwitchFn('check_list_item', listTickt)" id="ticket-{{item.idTicket}}">
               <span class="slider slider-2x flat"></span>
             </label>
+        	<div class="btn-group">
+		           <button type="button" class="btn btn-info  btn-sm btn-xs dropdown-toggle" data-toggle="dropdown"><i class="fas fa-bars"></i>
+		           <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  <a href="" ng-if="(tk.idStatusTicketKf==2 || tk.idStatusTicketKf==9 || tk.idStatusTicketKf==11) && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4)" id="aprroveTicket" ng-disabled="tk.isCancelRequested" ng-click="mainSwitchFn('approveTicket', tk)"><i title="Modificar Datos" class="fas fa-user-edit"></i>  Editar</a>
+                </li>
+                <li ng-if="item.idClientTypeFk==2" role="presentation"><div class="divider"></div>
+                <li ng-if="item.idClientTypeFk==2" class="dropdown-item"><a href="" ng-click="switchCustomersFn('securityCode', item);"><i title="Codigo" class="fas fa-cogs"></i> Generar codigo seguridad</a></li>
+                <li ng-if="item.idClientTypeFk==2" role="presentation"><div class="divider"></div>
+                <li ng-if="item.idClientTypeFk==2" class="dropdown-item"><a href="" ng-click="switchCustomersFn('adminChange', item);"><i title="Servicios" class="fas fa-exchange-alt"></i> Cambio de Administración</a></li>
+                <li role="presentation"><div class="divider"></div>
+                <!--<li><a href="" ng-click="switchCustomersFn('enabled', item)"><i title="Activar Usuario" class="far fa-check-circle"></i> Activar</a></li>
+                <li role="presentation"><div class="divider"></div>
+                <li><a href="" ng-click="switchCustomersFn('disabled',item)"><i title="Desactivar Usuario" class="fas fa-times-circle"></i> Desactivar</a></li>
+                <li role="presentation"><div class="divider"></div></li>-->
+                <!--<li class="dropdown-item"><a href="" ng-click="switchCustomersFn('remove', item)"><i title="Eliminar Usuario" class="fas fa-user-times"></i> Eliminar</a></li>
+                <li role="presentation"><div class="divider"></div>-->
+        				<li class="dropdown-item"><a href="" ng-click="switchCustomersFn('switchToServices', item);"><i title="Servicios" class="fas fa-globe"></i> Servicios</a></li>
+        				<li role="presentation"><div class="divider"></div></li>
+        				<li class="dropdown-item"><a href="" ng-click="switchCustomersFn('allowedUsers', item)"><i title="Usuarios autorizados" class="fas fa-user-check"></i> Autorizados</a></li>
+                <li ng-if="item.idClientTypeFk==2" role="presentation"><div class="divider"></div></li>
+                <li ng-if="item.idClientTypeFk==2" class="dropdown-item"><a href="" ng-click="switchCustomersFn('contactdUsers', item)"><i title="Contactos Referentes" class="fas fa-user-check"></i> Contactos Referentes</a></li>
+        				<li role="presentation"><div class="divider"></div></li>
+        				<li class="dropdown-item"><a href="" ng-click="switchCustomersFn('uploadFiles', item)"><i title="Subir archivos" class="fas fa-paperclip"></i> Subir archivos</a>
+                </li>
+                <li role="presentation"><div class="divider"></div></li>
+        				<li class="dropdown-item"><a href="" ng-click="switchCustomersFn('setClientPhotosURL', item)"><i title="Link de Fotos" class="fas fa-user-check"></i>
+                  <span ng-if="item.clientPhotosURL==null || item.clientPhotosURL==unefined ">Asignar Link de fotos</span>
+                  <span ng-if="item.clientPhotosURL!=null && item.clientPhotosURL!=unefined ">Modificar Link de fotos</span></a></li>
+        				<!--<li ng-if="item.idClientTypeFk==2" role="presentation"><div class="divider"></div></li>-->
+        				<!--<li ng-if="item.idClientTypeFk==2" class="dropdown-item"><a href="" ng-click="switchCustomersFn('enableInitialKeys', item)"><i title="Habilitar" class="fas fa-paperclip"></i> Entrega Inicial</a></li>-->
+              </ul>
+          </div>
           </td>
           <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;" class="media-middle text-center">{{item.idTicket}}</td>
           <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.codTicket}}</td>
