@@ -1709,7 +1709,7 @@ input.fileUpload{
 .dropdown-menu a.disabled {
   pointer-events: none;  /* bloquea clics */
   opacity: 0.5;          /* da apariencia deshabilitada */
-  cursor: not-allowed;
+  cursor: not-allowed !important;
 }
 /*******************************************************
 *                                                      *
