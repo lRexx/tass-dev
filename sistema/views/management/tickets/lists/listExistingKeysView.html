@@ -24,7 +24,7 @@
               (item.idKeychain == null || item.idKeychain == undefined)
             )
           }"
-          ng-repeat="item in rsExistingKeyList">
+          ng-repeat="item in rsExistingKeyList | orderBy:'codigo'">
       <td style="vertical-align: middle !important;text-align: center !important;width: 7.2% !important;" ng-click="switchCustomersFn('details_customer', item, 'show');">
         <span ng-if="item.idKeychain!=null && item.idKeychain!=undefined">{{item.idKeychain}}</span>
         <span ng-if="item.idKeychain==null || item.idKeychain==undefined" class="label label-default">-</span>
