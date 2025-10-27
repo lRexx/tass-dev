@@ -24,7 +24,7 @@
               (item.idKeychain == null || item.idKeychain == undefined)
             )
           }"
-          ng-repeat="item in rsExistingKeyList">
+          ng-repeat="item in rsExistingKeyList | orderBy:'codigo'">
       <td style="vertical-align: middle !important;text-align: center !important;width: 7.2% !important;" ng-click="switchCustomersFn('details_customer', item, 'show');">
         <span ng-if="item.idKeychain!=null && item.idKeychain!=undefined">{{item.idKeychain}}</span>
         <span ng-if="item.idKeychain==null || item.idKeychain==undefined" class="label label-default">-</span>
@@ -34,7 +34,16 @@
       <td ng-click="mainSwitchFn('existingKeyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 12% !important;">{{item.codExt}}</td>
       <td ng-click="mainSwitchFn('existingKeyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;">
         <span ng-if="item.idKeychainStatusKf!=null && item.idKeychainStatusKf!=undefined" class="label" ng-class="{'label-success': item.idKeychainStatusKf == '1', 'label-warning': item.idKeychainStatusKf == '0', 'label-danger': item.idKeychainStatusKf != null && item.idKeychainStatusKf != '0' && item.idKeychainStatusKf != '1', }"> {{item.statusKey}}</span>
-        <span ng-if="(((item.idKeychain!=null && item.idKeychain!=undefined) && item.tb_ticket_keychain.idTicketKeychain!=undefined && item.tb_ticket_keychain.idTicketKf==tkupdate.idTicket) || (item.idKeychain==null || item.idKeychain==undefined))" class="badge badge-warning"> Nuevo</span>
+        <span ng-if="(
+          (item.idKeychain!=null && item.idKeychain!=undefined) &&
+          (item.tb_ticket_keychain!=null && item.tb_ticket_keychain!=undefined) &&
+          (item.tb_ticket_keychain.idTicketKeychain!=undefined) &&
+          (item.tb_ticket_keychain.idTicketKf==tkupdate.idTicket)
+        ) ||
+        (item.idKeychain==null || item.idKeychain==undefined)"
+        class="badge badge-warning">
+          Nuevo
+        </span>
       </td>
     </tr>
     <tr ng-if="rsExistingKeyList.length==0">
