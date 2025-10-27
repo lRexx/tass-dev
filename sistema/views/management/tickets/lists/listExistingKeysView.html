@@ -13,7 +13,7 @@
       <tr ng-if="rsExistingKeyList.length>0"
           class="animate-repeat"
           style="align-content: center; cursor: pointer;"
-          ng-repeat="item in rsExistingKeyList | orderBy:'codigo'">
+          ng-repeat="item in rsExistingKeyList">
       <td style="vertical-align: middle !important;text-align: center !important;width: 7.2% !important;" ng-click="switchCustomersFn('details_customer', item, 'show');">
         <span ng-if="item.idKeychain!=null && item.idKeychain!=undefined">{{item.idKeychain}}</span>
         <span ng-if="item.idKeychain==null || item.idKeychain==undefined" class="label label-default">-</span>
