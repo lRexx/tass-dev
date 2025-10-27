@@ -3030,6 +3030,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             // Las llaves sin ID NO deshabilitan el botón
             return hasInvalidKeyMethod || missingKeys;
           };
+          $scope.isNewKey = function(item) {
+            if (!item) return false;
+            if (!item.idKeychain) return true;
+            if (!item.tb_ticket_keychain) return false;
+            if (!item.tb_ticket_keychain.idTicketKeychain) return false;
+            return item.tb_ticket_keychain.idTicketKf === $scope.tkupdate.idTicket;
+          };
     /**************************************************
     *                                                 *
     *            TICKETS MONITOR FUNCTION             *
