@@ -3031,13 +3031,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             return hasInvalidKeyMethod || missingKeys;
           };
           $scope.isNewKeyFn = function(item) {
-            console.log(item);
             //if (!item) return false;
             //if (!item.idKeychain) return true;
             //if (!item.tb_ticket_keychain) return false;
             //if (!item.tb_ticket_keychain.idTicketKeychain) return false;
-            //return item.tb_ticket_keychain && item.tb_ticket_keychain.idTicketKf === $scope.tkupdate.idTicket;
-            return item;
+            return item.tb_ticket_keychain && item.tb_ticket_keychain.idTicketKf === $scope.tkupdate.idTicket;
           };
     /**************************************************
     *                                                 *
