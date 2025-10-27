@@ -34,7 +34,7 @@
       <td ng-click="mainSwitchFn('existingKeyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 12% !important;">{{item.codExt}}</td>
       <td ng-click="mainSwitchFn('existingKeyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;">
         <span ng-if="item.idKeychainStatusKf!=null && item.idKeychainStatusKf!=undefined" class="label" ng-class="{'label-success': item.idKeychainStatusKf == '1', 'label-warning': item.idKeychainStatusKf == '0', 'label-danger': item.idKeychainStatusKf != null && item.idKeychainStatusKf != '0' && item.idKeychainStatusKf != '1', }"> {{item.statusKey}}</span>
-        <span ng-show="isNewKeyFn(item)" class="badge badge-warning">
+        <span class="badge badge-warning">
           Nuevo
         </span>
       </td>
