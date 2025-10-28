@@ -1147,7 +1147,20 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
       $scope.tktmporal = {};
       $scope.rsData = {};
       $scope.isEditTicket=false;
-      $scope.openTicketFn = function(idTicket){
+      $scope.openTicketFn = function(idTicket) {
+        console.log('Opening ticket', idTicket);
+        try {
+          ticketServices.ticketById(idTicket).then(function(response) {
+            console.log('ticketById response:', response.data);
+            $scope.rsExistingKeyList = response.data.tb_keychain || [];
+          }).catch(function(err) {
+            console.error('Error in ticketById:', err);
+          });
+        } catch (err) {
+          console.error('Error executing openTicketFn:', err);
+        }
+      };
+      $scope.openTicketFn2 = function(idTicket){
         //$scope.tkupdate  = obj;
         //$scope.tktmporal = obj;
         //ticketServices.ticketByToken(obj.urlToken);
