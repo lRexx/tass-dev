@@ -1151,6 +1151,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
         console.log('Opening ticket', idTicket);
         try {
           ticketServices.ticketById(idTicket).then(function(response) {
+            console.log('ticketById response:', angular.copy(response.data));
             console.log('ticketById response:', response.data);
             $scope.rsExistingKeyList = response.data.tb_keychain || [];
           }).catch(function(err) {
