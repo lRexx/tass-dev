@@ -1169,20 +1169,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",$scope.tkupdate.department.idClientDepartament,null,null,null,null,false,true,1,1).then(function(response) {
                         console.log(response);
                         if(response.status==200){
-                            $scope.rsExistingKeyList = response.data.tb_keychain;
-                            $timeout(function() {
-                              $scope.rsAllKeychainListDataFiltered = angular.copy(
-                                $scope.rsExistingKeyList.filter(
-                                  s => s.tb_ticket_keychain && s.tb_ticket_keychain.idTicketKf == $scope.tkupdate.idTicket
-                                )
-                              );
-                              $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered;
-                              console.info($scope.rsExistingKeyList);
-                              for (var key in $scope.rsAllKeychainListDataFiltered){
-                                $scope.rsAllKeychainListDataFiltered[key].selected = true;
-                                $scope.rsAllKeychainListDataFiltered[key].disabled = true;
-                              }
-                            }, 1500);
+
                         }else if(response.status==404){
                           console.log("404 Error");
                           console.log(response.statusText);
