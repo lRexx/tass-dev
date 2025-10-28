@@ -1157,7 +1157,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
         ticketServices.ticketById(idTicket).then(function(response){
             if(response.status==200){
               //console.log(response.data[0]);
-              //$scope.rsData.ticket = (response.data.tickets[0]);
+              $scope.rsData.ticket = (response.data.tickets[0]);
               $scope.tkupdate = response.data.tickets[0];
               //$scope.getContractsByCustomerIdFn($scope.tkupdate.building.idClient);
               $scope.getKeysAssociatedToACustomerFn($scope.tkupdate.building.idClient);
@@ -1170,11 +1170,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         console.log(response);
                         if(response.status==200){
                             $scope.rsExistingKeyList = response.data.tb_keychain;
-                              /*$scope.rsAllKeychainListDataFiltered = angular.copy(
+                              $scope.rsAllKeychainListDataFiltered = angular.copy(
                                 $scope.rsExistingKeyList.filter(
                                   s => s.tb_ticket_keychain && s.tb_ticket_keychain.idTicketKf == $scope.tkupdate.idTicket
                                 )
-                              );*/
+                              );
                               $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered;
                               console.info($scope.rsExistingKeyList);
                               for (var key in $scope.rsAllKeychainListDataFiltered){
@@ -3320,21 +3320,49 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               }
             break;
             case "openTicket":
-              $scope.thereIsKeyWithoutIdKeychain   = false;
-              $scope.rsAllKeychainListData         = [];
-              $scope.rsExistingKeyList             = [];
-              $scope.rsNewKeychainList             = [];
-              $scope.existingStockKeys             = [];
-              $scope.rsAllKeychainListDataFiltered = [];
-              $scope.ticket = {'administration':undefined, 'keysMethod':{'name':undefined}, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'keysMethod':{}, 'userRequestBy':{}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':null, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
-              $scope.functions={'isKeysEnable': false, 'whereKeysAreEnable': null};
-              $scope.rsNewKeychainList = [];
-              $scope.list_new_keys = [];
-              $scope.keys={"new":{}};
-              $scope.isEditTicket=false;
-              $scope.openTicketFn(obj.idTicket);
-              $('#UpdateModalTicket').modal({backdrop: 'static', keyboard: false});
-            break;
+              try {
+                $scope.thereIsKeyWithoutIdKeychain   = false;
+                $scope.rsAllKeychainListData         = [];
+                $scope.rsExistingKeyList             = [];
+                $scope.rsNewKeychainList             = [];
+                $scope.existingStockKeys             = [];
+                $scope.rsAllKeychainListDataFiltered = [];
+                $scope.ticket = {
+                  administration: undefined,
+                  keysMethod: { name: undefined },
+                  building: undefined,
+                  idClientDepartament: undefined,
+                  radioButtonDepartment: undefined,
+                  radioButtonBuilding: undefined,
+                  optionTypeSelected: {},
+                  keysMethod: {},
+                  userRequestBy: {},
+                  userNotify: null,
+                  keys: [],
+                  delivery: {
+                    idTypeDeliveryKf: null,
+                    whoPickUp: null,
+                    zone: {},
+                    thirdPerson: null,
+                    deliveryTo: {},
+                    otherAddress: undefined
+                  },
+                  cost: { keys: 0, delivery: 0, service: 0, total: 0 }
+                };
+                $scope.functions = { isKeysEnable: false, whereKeysAreEnable: null };
+                $scope.rsNewKeychainList = [];
+                $scope.list_new_keys = [];
+                $scope.keys = { new: {} };
+                $scope.isEditTicket = false;
+
+                // 🚨 Aquí el posible punto de fallo
+                $scope.openTicketFn(obj.idTicket);
+                $('#UpdateModalTicket').modal({ backdrop: 'static', keyboard: false });
+              } catch (err) {
+                console.error('Error in openTicket flow:', err);
+                alert('Error opening ticket: ' + (err.message || err));
+              }
+              break;
             case "getTicket":
               console.log(obj);
               $scope.openTicketFn(obj);
