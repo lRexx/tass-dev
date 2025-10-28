@@ -1155,8 +1155,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
         $scope.editComment=false;
         $scope.tkupdate = {};
         ticketServices.ticketById(idTicket).then(function(response){
-            /*if(response.status==200){
-              //console.log(response.data[0]);
+            if(response.status==200){
+              /*//console.log(response.data[0]);
               $scope.rsData.ticket = (response.data.tickets[0]);
               $scope.tkupdate = response.data.tickets[0];
               //$scope.getContractsByCustomerIdFn($scope.tkupdate.building.idClient);
