@@ -1161,7 +1161,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
           console.error('Error executing openTicketFn:', err);
         }
       };
-      $scope.openTicketFn2 = function(idTicket){
+      $scope.openTicketFn = function(idTicket){
         //$scope.tkupdate  = obj;
         //$scope.tktmporal = obj;
         //ticketServices.ticketByToken(obj.urlToken);
@@ -1180,6 +1180,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 switch($scope.tkupdate.idTypeRequestFor){
                   case "1":
                     $scope.getDeptoListByAddress($scope.tkupdate.building.idClient);
+                    if (typeof $scope.getKeychainListFnNew === 'function') {
+                      $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",$scope.tkupdate.department.idClientDepartament,null,null,null,null,false,true,1,1).then(response);
+                    } else {
+                      console.error('getKeychainListFnNew is not a function!');
+                    }
                     $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",$scope.tkupdate.department.idClientDepartament,null,null,null,null,false,true,1,1).then(function(response) {
                         console.log(response);
                         if(response.status==200){
