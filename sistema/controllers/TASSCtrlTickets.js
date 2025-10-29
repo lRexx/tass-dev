@@ -1400,10 +1400,12 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     blockUI.message('Asignando departamento del usuario.');
                                     $scope.fnAssignDepto($scope.depto);
                                 }, 2000);
-                                $timeout(function() {
-                                    blockUI.message('Aprobando departamento del usuario.');
-                                    $scope.approveDepto($scope.update.user.idTypeTenantKf, $scope.depto.department.idDepartment, 1);
-                                }, 2500);
+                                if ($scope.sysLoggedUser.idProfileKf=='4'){
+                                    $timeout(function() {
+                                        blockUI.message('Aprobando departamento del usuario.');
+                                        $scope.approveDepto($scope.update.user.idTypeTenantKf, $scope.depto.department.idDepartment, 1);
+                                    }, 2500);
+                                }
                                 $timeout(function() {
                                     blockUI.message('Actualizando listado.');
                                     if ($scope.ticket.optionTypeSelected.name=="department" && ($scope.ticket.radioButtonDepartment=="1" || $scope.ticket.radioButtonDepartment=="2")){
@@ -1414,16 +1416,18 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     blockUI.stop();
                                 }, 3000);
                             }else if(($scope.update.user.idProfileKf==4 || $scope.update.user.idProfileKf==5 || $scope.update.user.idProfileKf==6) && $scope.update.user.idTypeTenantKf==2 && $scope.update.user.idDepartmentKf){
-                                blockUI.start('Aprobando departamento del usuario.');
-                                $timeout(function() {
-                                    $scope.depto.department.idUserKf        = $scope.update.user.idUser;
-                                    $scope.depto.department.idDepartment    = $scope.update.user.idDepartmentKf;
-                                }, 1500);
-                                $timeout(function() {
-                                    //TENANT
-                                    $scope.approveDepto($scope.update.user.idTypeTenantKf, $scope.depto.department.idUserKf, 1);
-                                    blockUI.stop();
-                                }, 2000);
+                                if ($scope.sysLoggedUser.idProfileKf=='4'){
+                                    blockUI.start('Aprobando departamento del usuario.');
+                                    $timeout(function() {
+                                        $scope.depto.department.idUserKf        = $scope.update.user.idUser;
+                                        $scope.depto.department.idDepartment    = $scope.update.user.idDepartmentKf;
+                                    }, 1500);
+                                    $timeout(function() {
+                                        //TENANT
+                                        $scope.approveDepto($scope.update.user.idTypeTenantKf, $scope.depto.department.idUserKf, 1);
+                                        blockUI.stop();
+                                    }, 2000);
+                                }
                                 $timeout(function() {
                                     blockUI.message('Actualizando listado.');
                                     if ($scope.ticket.optionTypeSelected.name=="department" && ($scope.ticket.radioButtonDepartment=="1" || $scope.ticket.radioButtonDepartment=="2")){
