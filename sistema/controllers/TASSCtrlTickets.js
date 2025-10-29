@@ -1105,7 +1105,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         case "dni":
                                             $scope.sysDNIRegistered   = false;
                                             $scope.sysEmailRegistered = false;
-                                            $scope.tenant.new.mail          = "";
                                         break;
                                         case "mail":
                                             $scope.sysEmailRegistered=false;
