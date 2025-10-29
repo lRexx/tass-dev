@@ -3260,7 +3260,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.register.user.phoneLocalNumberUser   = obj.phonelocalNumberUser;
                         $scope.register.user.idTyepeAttendantKf     = obj.idProfileKf==6?obj.idTyepeAttendantKf:null;
                         $scope.register.user.dni                    = obj.dni;
-                        $scope.register.user.isCreateByAdmin        = $scope.sysLoggedUser.idProfileKf==1 || $scope.sysLoggedUser.idProfileKf==4?1:null;
+                        $scope.register.user.isCreateByAdmin        = $scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==4?1:null;
                         $scope.register.user.idAddresKf             = ($scope.register.user.idProfileKf==4 || $scope.register.user.idProfileKf==5) && ($scope.register.user.idTypeTenantKf!=null || $scope.register.user.idTypeTenantKf!=0)?obj.idAddresKf:null;
                         $scope.register.user.idTypeTenantKf         = obj.idTypeTenantKf;
                         $scope.register.user.idDepartmentKf         = (obj.idProfileKf==5 || obj.idProfileKf==6) && obj.idTypeTenantKf==2?obj.idDepartmentKf:null;
