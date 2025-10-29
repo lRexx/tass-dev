@@ -1084,6 +1084,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                                 $scope.tenant.new.mail = response.data[0].emailUser;
                                                 $scope.tenant.new.phoneMovilNumberUser = response.data[0].phoneNumberUser;
                                                 $scope.tenant.new.phonelocalNumberUser = response.data[0].phoneLocalNumberUser;
+                                            }else{
+                                                $scope.tenant.new.dni=undefined;
                                             }
                                         break;
                                         case "mail":
