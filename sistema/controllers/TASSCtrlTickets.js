@@ -1092,7 +1092,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                             });
                                             $scope.sysEmailRegistered=true;
                                             if ($scope.isNewTenant && $scope.tenant.new.idTypeTenantKf!="1"){
-                                                $scope.tenant.new.dni=undefined;
+                                                //$scope.tenant.new.dni=undefined;
                                             }
                                         break;
                                     }
