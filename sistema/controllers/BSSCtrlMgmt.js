@@ -1292,7 +1292,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.functions.isKeysEnable       = $scope.ticket.selected.isKeysEnable;
               if ($scope.tkupdate.idDeliveryCompanyKf!=null){
                   $timeout(function() {
-                    console.log(Array.isArray($scope.listDeliveryCompanies));
+                    //console.log(Array.isArray($scope.listDeliveryCompanies));
                     console.log($scope.listDeliveryCompanies);
                     $scope.tkupdate.deliveryCompany = $scope.listDeliveryCompanies.find(s => s.idDeliveryCompany == $scope.tkupdate.idDeliveryCompanyKf);
                   }, 1500);
