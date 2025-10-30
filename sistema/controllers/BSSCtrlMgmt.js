@@ -1177,7 +1177,79 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               //$scope.getKeysAssociatedToACustomerFn($scope.tkupdate.building.idClient);
               //$scope.getControlAccessDoorsAssociatedToACustomerFn($scope.tkupdate.building.idClient);
               if ($scope.tkupdate.idMgmtMethodKf!=null && $scope.tkupdate.idMgmtMethodKf!=undefined){
-
+                switch($scope.tkupdate.idTypeRequestFor){
+                  case "1":
+                    //$scope.getDeptoListByAddress($scope.tkupdate.building.idClient);
+                    /*$scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",$scope.tkupdate.department.idClientDepartament,null,null,null,null,false,true,1,1).then(function(response) {
+                        console.log(response);
+                        if(response.status==200){
+                            $scope.rsExistingKeyList = response.data.tb_keychain;
+                              $scope.rsAllKeychainListDataFiltered = angular.copy(
+                                $scope.rsExistingKeyList.filter(
+                                  s => s.tb_ticket_keychain && s.tb_ticket_keychain.idTicketKf == $scope.tkupdate.idTicket
+                                )
+                              );
+                              $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered;
+                              console.info($scope.rsExistingKeyList);
+                              for (var key in $scope.rsAllKeychainListDataFiltered){
+                                $scope.rsAllKeychainListDataFiltered[key].selected = true;
+                                $scope.rsAllKeychainListDataFiltered[key].disabled = true;
+                              }
+                        }else if(response.status==404){
+                          console.log("404 Error");
+                          console.log(response.statusText);
+                          $scope.rsExistingKeyList = [];
+                        }else if(response.status==500){
+                            inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                            ttl:5000, type: 'danger'
+                            });
+                          console.log("500 Error");
+                          console.log(response.statusText);
+                        }
+                      }, function(err) {
+                        $scope.rsExistingKeyList = [];
+                        console.log("Error: " + err);
+                        //$scope.pagination.totalCount  = 0;
+                    });*/
+                  break;
+                  case "2":
+                  case "3":
+                  case "4":
+                  case "5":
+                  case "6":
+                    $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",null,null,null,null,null,false,true,1,1).then(function(response) {
+                        console.log(response);
+                        if(response.status==200){
+                            $scope.rsExistingKeyList = response.data.tb_keychain;
+                            $scope.rsAllKeychainListDataFiltered = angular.copy(
+                              response.data.tb_keychain.filter(
+                                s => s.tb_ticket_keychain && s.tb_ticket_keychain.idTicketKf == $scope.tkupdate.idTicket
+                              )
+                            );
+                            $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered;
+                            console.info($scope.rsExistingKeyList);
+                            for (var key in $scope.rsAllKeychainListDataFiltered){
+                              $scope.rsAllKeychainListDataFiltered[key].selected = true;
+                              $scope.rsAllKeychainListDataFiltered[key].disabled = true;
+                            }
+                        }else if(response.status==404){
+                          console.log("404 Error");
+                          console.log(response.statusText);
+                          $scope.rsExistingKeyList = [];
+                        }else if(response.status==500){
+                            inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                            ttl:5000, type: 'danger'
+                            });
+                          console.log("500 Error");
+                          console.log(response.statusText);
+                        }
+                      }, function(err) {
+                        $scope.rsExistingKeyList = [];
+                        console.log("Error: " + err);
+                        //$scope.pagination.totalCount  = 0;
+                    });
+                  break;
+                }
               }else{
                 switch($scope.tkupdate.idTypeRequestFor){
                   case "1":
@@ -1209,7 +1281,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     //$scope.pagination.totalCount  = 0;
                 });*/
               }
-              $scope.ticket.selected              = response.data.tickets[0];
+              /*$scope.ticket.selected              = response.data.tickets[0];
               $scope.ticket.building              = $scope.tkupdate.building;
               $scope.ticket.administration        = $scope.tkupdate.clientAdmin;
               $scope.ticket.idClientDepartament   = $scope.tkupdate.department
@@ -1224,7 +1296,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     console.log($scope.listDeliveryCompanies);
                     $scope.tkupdate.deliveryCompany = $scope.listDeliveryCompanies.find(s => s.idDeliveryCompany == $scope.tkupdate.idDeliveryCompanyKf);
                   }, 1500);
-              }
+              }*/
               if ($scope.tkupdate.whereKeysAreEnable === null){
                 if ($scope.tkupdate.building.isHasInternetOnline === null){
                   $scope.functions.whereKeysAreEnable = "2";
