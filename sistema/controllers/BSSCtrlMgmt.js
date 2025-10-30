@@ -1315,6 +1315,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.functions.whereKeysAreEnable = $scope.tkupdate.whereKeysAreEnable;
                   $scope.ticket.whereKeysAreEnable    = $scope.tkupdate.whereKeysAreEnable;
                 }
+                console.log($scope.isNewKeyFn);
                 console.log($scope.tkupdate);
 
                 $scope.isEditTicket=true;
