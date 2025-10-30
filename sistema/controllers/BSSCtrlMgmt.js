@@ -1180,12 +1180,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 switch($scope.tkupdate.idTypeRequestFor){
                   case "1":
                     $scope.getDeptoListByAddress($scope.tkupdate.building.idClient);
-                    if (typeof $scope.getKeychainListFnNew === 'function') {
-                      $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",$scope.tkupdate.department.idClientDepartament,null,null,null,null,false,true,1,1).then(response);
-                    } else {
-                      console.error('getKeychainListFnNew is not a function!');
-                    }
-                    $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",$scope.tkupdate.department.idClientDepartament,null,null,null,null,false,true,1,1).then(function(response) {
+                    /*$scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",$scope.tkupdate.department.idClientDepartament,null,null,null,null,false,true,1,1).then(function(response) {
                         console.log(response);
                         if(response.status==200){
                             $scope.rsExistingKeyList = response.data.tb_keychain;
@@ -1215,7 +1210,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         $scope.rsExistingKeyList = [];
                         console.log("Error: " + err);
                         //$scope.pagination.totalCount  = 0;
-                    });
+                    });*/
                   break;
                   case "2":
                   case "3":
