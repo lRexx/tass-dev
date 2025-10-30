@@ -1147,7 +1147,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
       $scope.tktmporal = {};
       $scope.rsData = {};
       $scope.isEditTicket=false;
-      angular.reloadWithDebugInfo();
       $scope.openTicketFn = function(idTicket) {
         console.log('Opening ticket', idTicket);
         try {
