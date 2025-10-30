@@ -1281,7 +1281,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     //$scope.pagination.totalCount  = 0;
                 });*/
               }
-              /*$scope.ticket.selected              = response.data.tickets[0];
+              $scope.ticket.selected              = response.data.tickets[0];
               $scope.ticket.building              = $scope.tkupdate.building;
               $scope.ticket.administration        = $scope.tkupdate.clientAdmin;
               $scope.ticket.idClientDepartament   = $scope.tkupdate.department
@@ -1296,8 +1296,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     console.log($scope.listDeliveryCompanies);
                     $scope.tkupdate.deliveryCompany = $scope.listDeliveryCompanies.find(s => s.idDeliveryCompany == $scope.tkupdate.idDeliveryCompanyKf);
                   }, 1500);
-              }*/
-              if ($scope.tkupdate.whereKeysAreEnable === null){
+              }
+              /*if ($scope.tkupdate.whereKeysAreEnable === null){
                 if ($scope.tkupdate.building.isHasInternetOnline === null){
                   $scope.functions.whereKeysAreEnable = "2";
                   $scope.ticket.whereKeysAreEnable    = "2";
@@ -1311,7 +1311,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               }
               console.log($scope.tkupdate);
 
-              $scope.isEditTicket=true;
+              $scope.isEditTicket=true;*/
             }else if (response.status==404){
                 $scope.rsData = {};
                 $scope.tkupdate = {};
