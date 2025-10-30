@@ -1174,9 +1174,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 console.log(response.data[0]);
                 $scope.rsData.ticket = (response.data.tickets[0]);
                 if (response.data && Array.isArray(response.data.tickets) && response.data.tickets.length > 0) {
-                    $scope.tkupdate = (response.data.tickets[0]);
+                    $scope.tkupdate = response.data.tickets[0];
+                } else if (response.data && response.data.tickets) {
+                    $scope.tkupdate = response.data.tickets; // si no es array
                 } else {
-                    console.warn("tickets vacío o indefinido", response.data);
                     $scope.tkupdate = {};
                 }
                 $scope.getContractsByCustomerIdFn($scope.tkupdate.building.idClient);
@@ -3056,10 +3057,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             return hasInvalidKeyMethod || missingKeys;
           };
           $scope.isNewKeyFn = function(item) {
-            if (!item || !item.tb_ticket_keychain) return false;
-            if (!$scope.tkupdate || !$scope.tkupdate.idTicket) return false;
+              if (!item || !item.tb_ticket_keychain) return false;
+              if (!$scope.tkupdate || !$scope.tkupdate.idTicket) return false;
+              if (!item.tb_ticket_keychain.idTicketKf) return false;
 
-            return item.tb_ticket_keychain.idTicketKf === $scope.tkupdate.idTicket;
+              return item.tb_ticket_keychain.idTicketKf === $scope.tkupdate.idTicket;
           };
     /**************************************************
     *                                                 *
