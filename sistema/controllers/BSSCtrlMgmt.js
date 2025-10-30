@@ -1147,7 +1147,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
       $scope.tktmporal = {};
       $scope.rsData = {};
       $scope.isEditTicket=false;
-      $scope.openTicketFn = function(idTicket) {
+      /*$scope.openTicketFn = function(idTicket) {
         console.log('Opening ticket', idTicket);
         try {
           ticketServices.ticketById(idTicket).then(function(response) {
@@ -1160,7 +1160,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
         } catch (err) {
           console.error('Error executing openTicketFn:', err);
         }
-      };
+      };*/
       $scope.openTicketFn = function(idTicket){
         try {
           //$scope.tkupdate  = obj;
