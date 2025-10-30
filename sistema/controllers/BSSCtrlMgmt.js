@@ -1170,17 +1170,17 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
         $scope.tkupdate = {};
         ticketServices.ticketById(idTicket).then(function(response){
             if(response.status==200){
-              //console.log(response.data[0]);
-              //$scope.rsData.ticket = (response.data.tickets[0]);
+              console.log(response.data[0]);
+              $scope.rsData.ticket = (response.data.tickets[0]);
               $scope.tkupdate = response.data.tickets[0];
-              //$scope.getContractsByCustomerIdFn($scope.tkupdate.building.idClient);
-              //$scope.getKeysAssociatedToACustomerFn($scope.tkupdate.building.idClient);
-              //$scope.getControlAccessDoorsAssociatedToACustomerFn($scope.tkupdate.building.idClient);
+              $scope.getContractsByCustomerIdFn($scope.tkupdate.building.idClient);
+              $scope.getKeysAssociatedToACustomerFn($scope.tkupdate.building.idClient);
+              $scope.getControlAccessDoorsAssociatedToACustomerFn($scope.tkupdate.building.idClient);
               if ($scope.tkupdate.idMgmtMethodKf!=null && $scope.tkupdate.idMgmtMethodKf!=undefined){
                 switch($scope.tkupdate.idTypeRequestFor){
                   case "1":
                     //$scope.getDeptoListByAddress($scope.tkupdate.building.idClient);
-                    /*$scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",$scope.tkupdate.department.idClientDepartament,null,null,null,null,false,true,1,1).then(function(response) {
+                    $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",$scope.tkupdate.department.idClientDepartament,null,null,null,null,false,true,1,1).then(function(response) {
                         console.log(response);
                         if(response.status==200){
                             $scope.rsExistingKeyList = response.data.tb_keychain;
@@ -1210,7 +1210,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         $scope.rsExistingKeyList = [];
                         console.log("Error: " + err);
                         //$scope.pagination.totalCount  = 0;
-                    });*/
+                    });
                   break;
                   case "2":
                   case "3":
@@ -1259,7 +1259,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               }
               if (($scope.tkupdate.building.isStockInBuilding!='0' && $scope.tkupdate.building.isStockInBuilding!=null && $scope.tkupdate.building.isStockInBuilding!=undefined) || ($scope.tkupdate.building.isStockInOffice!='0' && $scope.tkupdate.building.isStockInOffice!=null && $scope.tkupdate.building.isStockInOffice!=undefined)){
                 console.log("Get Stock Key List");
-                /*$scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,null,null,false,true,1,1).then(function(response) {
+                $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,null,null,false,true,1,1).then(function(response) {
                     console.log(response);
                     if(response.status==200){
                         $scope.existingStockKeys = response.data.tb_keychain;
@@ -1279,7 +1279,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.existingStockKeys = [];
                     console.log("Error: " + err);
                     //$scope.pagination.totalCount  = 0;
-                });*/
+                });
               }
               $scope.ticket.selected              = response.data.tickets[0];
               $scope.ticket.building              = $scope.tkupdate.building;
@@ -1297,7 +1297,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.tkupdate.deliveryCompany = $scope.listDeliveryCompanies.find(s => s.idDeliveryCompany == $scope.tkupdate.idDeliveryCompanyKf);
                   }, 1500);
               }
-              /*if ($scope.tkupdate.whereKeysAreEnable === null){
+              if ($scope.tkupdate.whereKeysAreEnable === null){
                 if ($scope.tkupdate.building.isHasInternetOnline === null){
                   $scope.functions.whereKeysAreEnable = "2";
                   $scope.ticket.whereKeysAreEnable    = "2";
@@ -1311,7 +1311,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               }
               console.log($scope.tkupdate);
 
-              $scope.isEditTicket=true;*/
+              $scope.isEditTicket=true;
             }else if (response.status==404){
                 $scope.rsData = {};
                 $scope.tkupdate = {};
