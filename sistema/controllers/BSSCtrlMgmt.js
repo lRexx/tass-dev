@@ -1259,7 +1259,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               }
               if (($scope.tkupdate.building.isStockInBuilding!='0' && $scope.tkupdate.building.isStockInBuilding!=null && $scope.tkupdate.building.isStockInBuilding!=undefined) || ($scope.tkupdate.building.isStockInOffice!='0' && $scope.tkupdate.building.isStockInOffice!=null && $scope.tkupdate.building.isStockInOffice!=undefined)){
                 console.log("Get Stock Key List");
-                $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,null,null,false,true,1,1).then(function(response) {
+                /*$scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,null,null,false,true,1,1).then(function(response) {
                     console.log(response);
                     if(response.status==200){
                         $scope.existingStockKeys = response.data.tb_keychain;
@@ -1279,7 +1279,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.existingStockKeys = [];
                     console.log("Error: " + err);
                     //$scope.pagination.totalCount  = 0;
-                });
+                });*/
               }
               $scope.ticket.selected              = response.data.tickets[0];
               $scope.ticket.building              = $scope.tkupdate.building;
