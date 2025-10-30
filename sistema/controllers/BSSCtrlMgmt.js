@@ -1168,7 +1168,86 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
         //console.log(obj);
         $scope.editComment=false;
         $scope.tkupdate = {};
+        ticketServices.ticketById(idTicket).then(function(response){
+            if(response.status==200){
+              //console.log(response.data[0]);
+              //$scope.rsData.ticket = (response.data.tickets[0]);
+              $scope.tkupdate = response.data.tickets[0];
+              //$scope.getContractsByCustomerIdFn($scope.tkupdate.building.idClient);
+              //$scope.getKeysAssociatedToACustomerFn($scope.tkupdate.building.idClient);
+              //$scope.getControlAccessDoorsAssociatedToACustomerFn($scope.tkupdate.building.idClient);
+              if ($scope.tkupdate.idMgmtMethodKf!=null && $scope.tkupdate.idMgmtMethodKf!=undefined){
 
+              }else{
+                switch($scope.tkupdate.idTypeRequestFor){
+                  case "1":
+                      $scope.getDeptoListByAddress($scope.tkupdate.building.idClient);
+                  break;
+                }
+              }
+              if (($scope.tkupdate.building.isStockInBuilding!='0' && $scope.tkupdate.building.isStockInBuilding!=null && $scope.tkupdate.building.isStockInBuilding!=undefined) || ($scope.tkupdate.building.isStockInOffice!='0' && $scope.tkupdate.building.isStockInOffice!=null && $scope.tkupdate.building.isStockInOffice!=undefined)){
+                console.log("Get Stock Key List");
+                /*$scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,null,null,false,true,1,1).then(function(response) {
+                    console.log(response);
+                    if(response.status==200){
+                        $scope.existingStockKeys = response.data.tb_keychain;
+                        console.info($scope.existingStockKeys);
+                    }else if(response.status==404){
+                      console.log("404 Error");
+                      console.log(response.statusText);
+                      $scope.existingStockKeys = [];
+                    }else if(response.status==500){
+                        inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                        ttl:5000, type: 'danger'
+                        });
+                      console.log("500 Error");
+                      console.log(response.statusText);
+                    }
+                  }, function(err) {
+                    $scope.existingStockKeys = [];
+                    console.log("Error: " + err);
+                    //$scope.pagination.totalCount  = 0;
+                });*/
+              }
+              $scope.ticket.selected              = response.data.tickets[0];
+              $scope.ticket.building              = $scope.tkupdate.building;
+              $scope.ticket.administration        = $scope.tkupdate.clientAdmin;
+              $scope.ticket.idClientDepartament   = $scope.tkupdate.department
+              $scope.ticket.keysMethod            = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:{'name':null};
+              $scope.ticket.keysMethodSelected    = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:null;
+              $scope.customerFound                = $scope.tkupdate.building;
+              $scope.ticket.isKeysEnable          = $scope.ticket.selected.isKeysEnable;
+              $scope.functions.isKeysEnable       = $scope.ticket.selected.isKeysEnable;
+              if ($scope.tkupdate.idDeliveryCompanyKf!=null){
+                  $timeout(function() {
+                    //console.log(Array.isArray($scope.listDeliveryCompanies));
+                    console.log($scope.listDeliveryCompanies);
+                    $scope.tkupdate.deliveryCompany = $scope.listDeliveryCompanies.find(s => s.idDeliveryCompany == $scope.tkupdate.idDeliveryCompanyKf);
+                  }, 1500);
+              }
+              if ($scope.tkupdate.whereKeysAreEnable === null){
+                if ($scope.tkupdate.building.isHasInternetOnline === null){
+                  $scope.functions.whereKeysAreEnable = "2";
+                  $scope.ticket.whereKeysAreEnable    = "2";
+                }else{
+                  $scope.functions.whereKeysAreEnable = "1";
+                  $scope.ticket.whereKeysAreEnable    = "1";
+                }
+              }else{
+                $scope.functions.whereKeysAreEnable = $scope.tkupdate.whereKeysAreEnable;
+                $scope.ticket.whereKeysAreEnable    = $scope.tkupdate.whereKeysAreEnable;
+              }
+              console.log($scope.tkupdate);
+
+              $scope.isEditTicket=true;
+            }else if (response.status==404){
+                $scope.rsData = {};
+                $scope.tkupdate = {};
+            }else if (response.status==500){
+                $scope.rsData = {};
+                $scope.tkupdate = {};
+            }
+        });
         console.log("$scope.rsNewKeychainList lenght: "+$scope.rsNewKeychainList.length);
         console.log("$scope.rsExistingKeyList lenght: "+$scope.rsExistingKeyList.length);
         console.log("$scope.list_new_keys lenght:     "+$scope.list_new_keys.length);
