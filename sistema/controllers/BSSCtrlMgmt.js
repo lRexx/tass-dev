@@ -1173,7 +1173,12 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               if(response.status==200){
                 console.log(response.data[0]);
                 $scope.rsData.ticket = (response.data.tickets[0]);
-                $scope.tkupdate = response.data.tickets;
+                if (response.data && Array.isArray(response.data.tickets) && response.data.tickets.length > 0) {
+                    $scope.tkupdate = (response.data.tickets[0]);
+                } else {
+                    console.warn("tickets vacío o indefinido", response.data);
+                    $scope.tkupdate = {};
+                }
                 $scope.getContractsByCustomerIdFn($scope.tkupdate.building.idClient);
                 $scope.getKeysAssociatedToACustomerFn($scope.tkupdate.building.idClient);
                 $scope.getControlAccessDoorsAssociatedToACustomerFn($scope.tkupdate.building.idClient);
