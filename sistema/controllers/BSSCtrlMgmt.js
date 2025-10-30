@@ -3385,7 +3385,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
 
                 // 🚨 Aquí el posible punto de fallo
                 $scope.openTicketFn(obj.idTicket);
-                $('#UpdateModalTicket').modal({ backdrop: 'static', keyboard: false });
+                $timeout(function() {
+                  $('#UpdateModalTicket').modal({ backdrop: 'static', keyboard: false });
+                }, 2500)
               } catch (err) {
                 console.error('Error in openTicket flow:', err);
                 alert('Error opening ticket: ' + (err.message || err));
