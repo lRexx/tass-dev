@@ -1174,7 +1174,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 console.log(response.data[0]);
                 $scope.rsData.ticket = (response.data.tickets[0]);
                 if (response.data && Array.isArray(response.data.tickets) && response.data.tickets.length > 0) {
-                    $scope.tkupdate = response.data.tickets[0];
+                    $scope.tkupdate = (response.data.tickets[0]);
                 } else if (response.data && response.data.tickets) {
                     $scope.tkupdate = response.data.tickets; // si no es array
                 } else {
