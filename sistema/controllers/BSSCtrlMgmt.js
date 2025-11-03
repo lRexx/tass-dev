@@ -1319,6 +1319,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 }
                 console.log($scope.isNewKeyFn);
                 console.log($scope.tkupdate);
+                $scope.v6 = function() {
+                  return false; // or whatever safe default behavior makes sense
+                };
                 console.log("typeof $scope.v6 =", typeof $scope.v6, $scope.v6);
                 $scope.isEditTicket=true;
               }else if (response.status==404){
