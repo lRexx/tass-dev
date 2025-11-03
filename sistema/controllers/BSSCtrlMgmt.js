@@ -1319,7 +1319,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 }
                 console.log($scope.isNewKeyFn);
                 console.log($scope.tkupdate);
-
+                console.log("typeof $scope.v6 =", typeof $scope.v6, $scope.v6);
                 $scope.isEditTicket=true;
               }else if (response.status==404){
                   $scope.rsData = {};
@@ -3387,8 +3387,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 // 🚨 Aquí el posible punto de fallo
                 $scope.openTicketFn(obj.idTicket);
                 $timeout(function() {
+                  console.log("typeof $scope.v6 =", typeof $scope.v6, $scope.v6);
                   $('#UpdateModalTicket').modal({ backdrop: 'static', keyboard: false });
-                }, 2500)
+                }, 500)
               } catch (err) {
                 console.error('Error in openTicket flow:', err);
                 alert('Error opening ticket: ' + (err.message || err));
