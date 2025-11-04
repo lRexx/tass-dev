@@ -1188,11 +1188,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   switch($scope.tkupdate.idTypeRequestFor){
                     case "1":
                       //$scope.getDeptoListByAddress($scope.tkupdate.building.idClient);
-                      if (typeof $scope.v6 !== 'function') {
-                        $scope.v6 = function(arg) {
-                          console.warn("⚠️ Template called v6() with:", arg);
-                        };
-                      }
                       $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",$scope.tkupdate.department.idClientDepartament,null,null,null,null,false,true,1,1).then(function(response) {
                           console.log(response);
                           if(response.status==200){
@@ -1341,7 +1336,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
           throw e; // re-lanzar para que Angular muestre el stack
         }
       }
-      $scope.v6 = function() { console.warn('⚠️ View is calling v6() somewhere'); };
        $scope.openTicketFn = function(obj){
           console.log("Entered openTicketFn");
           $scope.tkupdate = obj;
@@ -3084,7 +3078,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
       $scope.monitor={'filters':{},'update':{},'edit':{}};
       $scope.filters={'paymentsType':'', 'typDelivery':'', 'ticketStatus':'', 'typeTicket':'', 'deliveryCompanyKf':'','isPaymentSucceeded': false,'isBillingInitiated':false, 'isHasRefundsOpen':false, 'isInitialDeliveryActive': false, 'isHasStockInBuilding': false, 'mgmtKeyMethod':'', 'activationKeyMethod':'', 'isKeysEnable':''};
       $scope.monitor.filter={'idUserRequestBy':'', 'idUserMadeBy':'', 'idBuildingKf':'', 'idClientAdminFk':'', 'idClientCompaniFk':'', 'idClientBranchFk':'', 'topfilter':'', 'idTypeTicketKf':'', 'idStatusTicketKf':'', 'codTicket':'', 'idTypePaymentKf':'', 'idTypeDeliveryKf':'', 'dateCreatedFrom':'', 'dateCreatedTo':'', 'dateDeliveredFrom':'', 'dateDeliveredTo':'', 'isBillingUploaded':null, 'isBillingInitiated':null, 'isHasRefundsOpen':null, 'idDeliveryCompanyKf':'', 'isPaymentSucceeded':'', 'isInitialDeliveryActive':null};
-      typeof $scope.v6 === 'function' ? console.log("v6 is function") : console.warn("v6 is not a function");
+      $scope.v6 = function(arg) {
+          console.log("v6 called with", arg);
+      };
       $scope.mainSwitchFn = function(opt, obj, obj2){
         console.log("mainSwitchFn called with:", opt);
         console.log("typeof opt:", typeof opt);
