@@ -2493,8 +2493,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
       $scope.v6 = function() { console.warn('⚠️ View is calling v6() somewhere'); };
        $scope.openTicketFn = function(obj){
           console.log("Entered openTicketFn");
-          console.log("typeof $scope.v6 =", typeof $scope.v6);
-                    $scope.tkupdate = obj;
+          $scope.tkupdate = obj;
           console.log($scope.tkupdate);
        }
       $scope.setOptionType = function(obj) {
@@ -4235,7 +4234,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
       $scope.filters={'paymentsType':'', 'typDelivery':'', 'ticketStatus':'', 'typeTicket':'', 'deliveryCompanyKf':'','isPaymentSucceeded': false,'isBillingInitiated':false, 'isHasRefundsOpen':false, 'isInitialDeliveryActive': false, 'isHasStockInBuilding': false, 'mgmtKeyMethod':'', 'activationKeyMethod':'', 'isKeysEnable':''};
       $scope.monitor.filter={'idUserRequestBy':'', 'idUserMadeBy':'', 'idBuildingKf':'', 'idClientAdminFk':'', 'idClientCompaniFk':'', 'idClientBranchFk':'', 'topfilter':'', 'idTypeTicketKf':'', 'idStatusTicketKf':'', 'codTicket':'', 'idTypePaymentKf':'', 'idTypeDeliveryKf':'', 'dateCreatedFrom':'', 'dateCreatedTo':'', 'dateDeliveredFrom':'', 'dateDeliveredTo':'', 'isBillingUploaded':null, 'isBillingInitiated':null, 'isHasRefundsOpen':null, 'idDeliveryCompanyKf':'', 'isPaymentSucceeded':'', 'isInitialDeliveryActive':null};
       typeof $scope.v6 === 'function' ? console.log("v6 is function") : console.warn("v6 is not a function");
-      console.log('uuid.v6 available?', typeof uuid !== 'undefined' && typeof uuid.v6 === 'function');
       $scope.mainSwitchFn = function(opt, obj, obj2){
         console.log("mainSwitchFn called with:", opt);
         console.log("typeof opt:", typeof opt);
@@ -4551,7 +4549,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 // 🚨 Aquí el posible punto de fallo
                 $scope.openTicketFn(obj.idTicket);
                 $timeout(function() {
-                  console.log("typeof $scope.v6 =", typeof $scope.v6, $scope.v6);
                   $('#UpdateModalTicket').modal({ backdrop: 'static', keyboard: false });
                 }, 500)
               } catch (err) {
