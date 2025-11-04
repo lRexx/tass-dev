@@ -1336,11 +1336,26 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
           throw e; // re-lanzar para que Angular muestre el stack
         }
       }
-       $scope.openTicketFn = function(obj){
-          console.log("Entered openTicketFn");
-          $scope.tkupdate = obj;
-          console.log($scope.tkupdate);
-       }
+      $scope.openTicketFn = function(idTicket){
+        //$scope.tkupdate  = obj;
+        //$scope.tktmporal = obj;
+        //ticketServices.ticketByToken(obj.urlToken);
+        //console.log(obj);
+        $scope.editComment=false;
+        ticketServices.ticketById(idTicket).then(function(response){
+            if(response.status==200){
+              $scope.rsData.ticket = (response.data.tickets[0]);
+              $scope.tkupdate = response.data.tickets[0];
+              console.log($scope.rsData);
+            }else if (response.status==404){
+                $scope.rsData = {};
+                $scope.tkupdate = {};
+            }else if (response.status==500){
+                $scope.rsData = {};
+                $scope.tkupdate = {};
+            }
+        });
+      }
       $scope.setOptionType = function(obj) {
         var elem = angular.element(obj.target);// or angular.element(obj.target);
         //console.log(elem[0])
