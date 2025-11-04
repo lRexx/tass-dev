@@ -5387,8 +5387,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
       typeof $scope.v6 === 'function' ? console.log("v6 is function") : console.warn("v6 is not a function");
       console.log('uuid.v6 available?', typeof uuid !== 'undefined' && typeof uuid.v6 === 'function');
       $scope.mainSwitchFn = function(opt, obj, obj2){
-        console.log("mainSwitchFn called with:", action);
-        console.log("typeof $scope[action]:", typeof $scope[action]);
+        console.log("mainSwitchFn called with:", opt);
+        console.log("typeof opt:", typeof opt);
         switch (opt){
             case "dashboard":
               $scope.getDeliveryTypesFn_filter();
