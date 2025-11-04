@@ -1188,6 +1188,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   switch($scope.tkupdate.idTypeRequestFor){
                     case "1":
                       //$scope.getDeptoListByAddress($scope.tkupdate.building.idClient);
+                      if (typeof $scope.v6 !== 'function') {
+                        $scope.v6 = function(arg) {
+                          console.warn("⚠️ Template called v6() with:", arg);
+                        };
+                      }
                       $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",$scope.tkupdate.department.idClientDepartament,null,null,null,null,false,true,1,1).then(function(response) {
                           console.log(response);
                           if(response.status==200){
