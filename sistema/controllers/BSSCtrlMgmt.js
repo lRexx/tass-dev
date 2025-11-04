@@ -3401,7 +3401,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $scope.viewTicketFn(obj.idTicket);
                 $timeout(function() {
                   $('#UpdateModalTicket').modal({ backdrop: 'static', keyboard: false });
-                }, 500)
+                }, 1500)
               } catch (err) {
                 console.error('Error in openTicket flow:', err);
                 alert('Error opening ticket: ' + (err.message || err));
