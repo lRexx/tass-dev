@@ -1171,8 +1171,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
           $scope.tkupdate = {};
           ticketServices.ticketById(idTicket).then(function(response){
               if(response.status==200){
-                console.log(response.data[0]);
-                $scope.rsData.ticket = (response.data.tickets[0]);
+                //console.log(response.data[0]);
+                //$scope.rsData.ticket = (response.data.tickets[0]);
                 console.log("typeof $scope.v6 =", typeof $scope.v6, $scope.v6);
                 if (response.data && Array.isArray(response.data.tickets) && response.data.tickets.length > 0) {
                     //$scope.tkupdate = (response.data.tickets[0]);
@@ -2330,6 +2330,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                                 },
                                                 "refundsDetails": null
                                             }
+                    console.log($scope.tkupdate);
                 } else if (response.data && response.data.tickets) {
                     $scope.tkupdate = response.data.tickets; // si no es array
                 } else {
