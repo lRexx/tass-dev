@@ -1173,6 +1173,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               if(response.status==200){
                 console.log(response.data[0]);
                 $scope.rsData.ticket = (response.data.tickets[0]);
+                console.log(JSON.stringify(response.data.tickets[0], null, 2));
                 console.log("typeof $scope.v6 =", typeof $scope.v6, $scope.v6);
                 if (response.data && Array.isArray(response.data.tickets) && response.data.tickets.length > 0) {
                     $scope.tkupdate = (response.data.tickets[0]);
@@ -1346,6 +1347,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             if(response.status==200){
               $scope.rsData.ticket = (response.data.tickets[0]);
               $scope.tkupdate = response.data.tickets[0];
+              console.log(JSON.stringify(response.data.tickets[0], null, 2));
               console.log($scope.rsData);
             }else if (response.status==404){
                 $scope.rsData = {};
