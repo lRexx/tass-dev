@@ -8,9 +8,10 @@
         <th style="vertical-align: middle !important;text-align: center !important;width: 10% !important;"><i class="glyphicon icon-flag"> </i> Estatus</th>
     </tr>
   </thead>
-  <tbody ng-if="rsExistingKeyList.length>0" style="overflow: auto;height: auto !important;">
+  <tbody style="overflow: auto;height: auto !important;">
     <!-- Show if there are Keys registered -->
-      <tr class="animate-repeat"
+      <tr ng-if="rsExistingKeyList.length>0"
+          class="animate-repeat"
           style="align-content: center; cursor: pointer;"
           ng-class="{
             'table-tr-hover-selected': (
@@ -33,9 +34,7 @@
       <td ng-click="mainSwitchFn('existingKeyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 12% !important;">{{item.codExt}}</td>
       <td ng-click="mainSwitchFn('existingKeyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;">
         <span ng-if="item.idKeychainStatusKf!=null && item.idKeychainStatusKf!=undefined" class="label" ng-class="{'label-success': item.idKeychainStatusKf == '1', 'label-warning': item.idKeychainStatusKf == '0', 'label-danger': item.idKeychainStatusKf != null && item.idKeychainStatusKf != '0' && item.idKeychainStatusKf != '1', }"> {{item.statusKey}}</span>
-        <span ng-show="isNewKeyFn(item)" class="badge badge-warning">
-          Nuevo
-        </span>
+        <span ng-if="(((item.idKeychain!=null && item.idKeychain!=undefined) && item.tb_ticket_keychain.idTicketKeychain!=undefined && item.tb_ticket_keychain.idTicketKf==tkupdate.idTicket) || (item.idKeychain==null || item.idKeychain==undefined))" class="badge badge-warning"> Nuevo</span>
       </td>
     </tr>
     <tr ng-if="rsExistingKeyList.length==0">
