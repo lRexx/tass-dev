@@ -2490,7 +2490,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
           throw e; // re-lanzar para que Angular muestre el stack
         }
       }
+      $scope.v6 = function() { console.warn('⚠️ View is calling v6() somewhere'); };
        $scope.openTicketFn = function(idTicket){
+          console.log("Entered openTicketFn");
+          console.log("typeof $scope.v6 =", typeof $scope.v6);
                     $scope.tkupdate =       {
                                                 "idTicket": "313",
                                                 "codTicket": "TK - 00000439",
@@ -5697,6 +5700,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $scope.keys = { new: {} };
                 $scope.isEditTicket = false;
 
+                console.log("Calling openTicketFn", obj.idTicket);
                 // 🚨 Aquí el posible punto de fallo
                 $scope.openTicketFn(obj.idTicket);
                 $timeout(function() {
