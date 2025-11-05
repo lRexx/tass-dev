@@ -1161,6 +1161,15 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
           console.error('Error executing openTicketFn:', err);
         }
       };*/
+      // Before any template using v6 is compiled
+      if (window.v6 && typeof window.v6 !== 'function') {
+        console.warn("⚠️ Detected conflicting global 'v6' in window, removing it.");
+        try { delete window.v6; } catch(e) { window.v6 = undefined; }
+      }
+
+      $scope.v6 = function(arg) {
+        console.log("✅ Safe v6 called with:", arg);
+      };
       $scope.viewTicketFn = function(idTicket){
         try {
           //$scope.tkupdate  = obj;
