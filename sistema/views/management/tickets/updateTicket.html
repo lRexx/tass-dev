@@ -495,7 +495,6 @@
                                     </h3>
                                 </div>
                                 <div id="panelBodyExistingKeys" class="panel-body collapse " ng-class="{'in': !panels.panelBodyExistingKeys}" style="padding-bottom: 0px !important;">
-                                    <div class="col-md-12 n-padding-l n-padding-r" ng-include="'views/management/tickets/lists/listExistingKeysView.html'"></div>
                                 </div>
                             </div>
                           </div>
@@ -581,6 +580,7 @@
     </div>
 </div>
 <!-- KE LIST-->
+<div ng-if="sysToken" ng-include="'views/management/tickets/lists/manageTicketKeyList.html'"></div>
 <div ng-if="sysToken" ng-include="'views/management/tickets/lists/refundsList.html'"></div>
 <div ng-if="sysToken" ng-include="'views/management/tickets/delivery_details.html'"></div>
 <div ng-if="sysToken" ng-include="'views/management/tickets/user_details.html'"></div>
