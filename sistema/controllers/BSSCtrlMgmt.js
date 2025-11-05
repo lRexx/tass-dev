@@ -1147,29 +1147,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
       $scope.tktmporal = {};
       $scope.rsData = {};
       $scope.isEditTicket=false;
-      /*$scope.openTicketFn = function(idTicket) {
-        console.log('Opening ticket', idTicket);
-        try {
-          ticketServices.ticketById(idTicket).then(function(response) {
-            console.log(JSON.stringify(response.data.tickets[0], null, 2));
-            console.log('ticketById response:', response.data);
-            $scope.rsExistingKeyList = response.data.tb_keychain || [];
-          }).catch(function(err) {
-            console.error('Error in ticketById:', err);
-          });
-        } catch (err) {
-          console.error('Error executing openTicketFn:', err);
-        }
-      };*/
-      // Before any template using v6 is compiled
-      if (window.v6 && typeof window.v6 !== 'function') {
-        console.warn("⚠️ Detected conflicting global 'v6' in window, removing it.");
-        try { delete window.v6; } catch(e) { window.v6 = undefined; }
-      }
-
-      $scope.v6 = function(arg) {
-        console.log("✅ Safe v6 called with:", arg);
-      };
       $scope.viewTicketFn = function(idTicket){
         try {
           //$scope.tkupdate  = obj;
@@ -1183,7 +1160,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 console.log(response.data[0]);
                 $scope.rsData.ticket = (response.data.tickets[0]);
                 console.log(JSON.stringify(response.data.tickets[0], null, 2));
-                console.log("typeof $scope.v6 =", typeof $scope.v6, $scope.v6);
                 if (response.data && Array.isArray(response.data.tickets) && response.data.tickets.length > 0) {
                     $scope.tkupdate = (response.data.tickets[0]);
                 } else if (response.data && response.data.tickets) {
@@ -1191,9 +1167,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 } else {
                     $scope.tkupdate = {};
                 }
-                //$scope.getContractsByCustomerIdFn($scope.tkupdate.building.idClient);
-                //$scope.getKeysAssociatedToACustomerFn($scope.tkupdate.building.idClient);
-                //$scope.getControlAccessDoorsAssociatedToACustomerFn($scope.tkupdate.building.idClient);
+                $scope.getContractsByCustomerIdFn($scope.tkupdate.building.idClient);
+                $scope.getKeysAssociatedToACustomerFn($scope.tkupdate.building.idClient);
+                $scope.getControlAccessDoorsAssociatedToACustomerFn($scope.tkupdate.building.idClient);
                 if ($scope.tkupdate.idMgmtMethodKf!=null && $scope.tkupdate.idMgmtMethodKf!=undefined){
                   switch($scope.tkupdate.idTypeRequestFor){
                     case "1":
@@ -3425,9 +3401,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 console.log("Calling openTicketFn", obj.idTicket);
                 // 🚨 Aquí el posible punto de fallo
                 $scope.viewTicketFn(obj.idTicket);
-                $timeout(function() {
-                  $('#UpdateModalTicket').modal({ backdrop: 'static', keyboard: false });
-                }, 1500)
+                $('#UpdateModalTicket').modal({ backdrop: 'static', keyboard: false });
               } catch (err) {
                 console.error('Error in openTicket flow:', err);
                 alert('Error opening ticket: ' + (err.message || err));
