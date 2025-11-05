@@ -1193,6 +1193,37 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log("⚡ tkupdate.keys has keychain?",
                         $scope.tkupdate.keys.some(k => k.keychain != null)
                       );
+                      $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",$scope.tkupdate.department.idClientDepartament,null,null,null,null,false,true,1,1).then(function(response) {
+                          console.log(response);
+                          if(response.status==200){
+                              $scope.rsExistingKeyList = response.data.tb_keychain;
+                                $scope.rsAllKeychainListDataFiltered = angular.copy(
+                                  $scope.rsExistingKeyList.filter(
+                                    s => s.tb_ticket_keychain && s.tb_ticket_keychain.idTicketKf == $scope.tkupdate.idTicket
+                                  )
+                                );
+                                $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered;
+                                console.info($scope.rsExistingKeyList);
+                                for (var key in $scope.rsAllKeychainListDataFiltered){
+                                  $scope.rsAllKeychainListDataFiltered[key].selected = true;
+                                  $scope.rsAllKeychainListDataFiltered[key].disabled = true;
+                                }
+                          }else if(response.status==404){
+                            console.log("404 Error");
+                            console.log(response.statusText);
+                            $scope.rsExistingKeyList = [];
+                          }else if(response.status==500){
+                              inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                              ttl:5000, type: 'danger'
+                              });
+                            console.log("500 Error");
+                            console.log(response.statusText);
+                          }
+                        }, function(err) {
+                          $scope.rsExistingKeyList = [];
+                          console.log("Error: " + err);
+                          //$scope.pagination.totalCount  = 0;
+                      });
                     break;
                     case "2":
                     case "3":
