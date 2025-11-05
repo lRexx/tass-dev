@@ -1182,9 +1182,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 } else {
                     $scope.tkupdate = {};
                 }
-                $scope.getContractsByCustomerIdFn($scope.tkupdate.building.idClient);
-                $scope.getKeysAssociatedToACustomerFn($scope.tkupdate.building.idClient);
-                $scope.getControlAccessDoorsAssociatedToACustomerFn($scope.tkupdate.building.idClient);
+                //$scope.getContractsByCustomerIdFn($scope.tkupdate.building.idClient);
+                //$scope.getKeysAssociatedToACustomerFn($scope.tkupdate.building.idClient);
+                //$scope.getControlAccessDoorsAssociatedToACustomerFn($scope.tkupdate.building.idClient);
                 if ($scope.tkupdate.idMgmtMethodKf!=null && $scope.tkupdate.idMgmtMethodKf!=undefined){
                   switch($scope.tkupdate.idTypeRequestFor){
                     case "1":
