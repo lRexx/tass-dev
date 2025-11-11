@@ -2074,7 +2074,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
       $scope.getServiceCostByCustomerFn = function(data){
         serviceServices.getServiceCostByCustomer(data).then(function(response) {
             if(response.status==200){
-                $scope.ticket.cost.service = Number(response.data[0].cost);
+                if (response.data && Array.isArray(response.data) && response.data.length > 0) {
+                    $scope.ticket.cost.service = Number(response.data[0].cost);
+                } else {
+                    $scope.ticket.cost.service = null;
+                }
                 $scope.customerCosts=true;
             }else if (response.status==404){
                 inform.add('El consorcio no presenta costos de servicios asociados, contacte al area de soporte de BSS.',{

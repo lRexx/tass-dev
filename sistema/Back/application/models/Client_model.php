@@ -2673,7 +2673,6 @@ class Client_model extends CI_Model
                     }
                 }
             }
-
             return $rs;
         } else {
             return null;
