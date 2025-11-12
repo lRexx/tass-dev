@@ -4824,8 +4824,25 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.update.ticket.costKeys               = obj.selected.costKeys;
                   var subTotalKeys                            = NaN2Zero(Number(obj.selected.costKeys));
                   var subTotalService                         = NaN2Zero(Number(obj.selected.costService));
-                  console.log("SE MODIFICA STATUS POR VALOR ACTUA");
+
+                  switch (obj.selected.idStatusTicketKf){
+                    case "4":
+                      if ($scope.update.ticket.idTypeDeliveryKf=="1"){
+                        console.log("SE MODIFICA Status");
+                        $scope.update.ticket.idStatusTicketKf="7"
+                        $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"46"});
+                      }
+                    break;
+                    case "7":
+                      if ($scope.update.ticket.idTypeDeliveryKf=="2"){
+                        console.log("SE MODIFICA Status");
+                        $scope.update.ticket.idStatusTicketKf="4"
+                        $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"42"});
+                      }
+                    break;
+                  }
                   console.log($scope.update.ticket.idStatusTicketKf);
+
                   //$scope.update.ticket.idStatusTicketKf     = obj.selected.idStatusTicketKf;
                   $scope.update.ticket.costDelivery           = $scope.subTotalDelivery;
                   subTotalCosts = NaN2Zero(Number(subTotalService))+NaN2Zero(Number(subTotalKeys))+NaN2Zero(Number($scope.subTotalDelivery));
