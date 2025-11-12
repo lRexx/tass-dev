@@ -4516,7 +4516,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.log("obj.selected.idDeliveryTo : "+ obj.selected.idDeliveryTo);
               console.log("obj.delivery.idTypeDeliveryKf : "+ obj.delivery.idTypeDeliveryKf);
               console.log("obj.delivery.idDeliveryTo : "+ obj.delivery.idDeliveryTo);
-              console.log(obj."delivery.whoPickUp.idUser : "+ delivery.whoPickUp.idUser);
+              console.log("obj.delivery.whoPickUp.idUser : "+ delivery.whoPickUp.idUser);
               console.log("obj.selected.idUserDelivery : "+ obj.selected.idUserDelivery);
               console.log("obj.cost.delivery : "+ obj.cost.delivery);
               console.log("obj.selected.costDelivery : "+ obj.selected.costDelivery);
