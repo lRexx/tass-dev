@@ -4515,7 +4515,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.log(obj.selected);
               console.log(obj.delivery);
               console.log(obj.cost);
-              if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && Number(obj.selected.idDeliveryTo)==obj.delivery.idDeliveryTo && obj.delivery.whoPickUp.idUser==obj.selected.idUserDelivery && obj.cost.delivery==obj.selected.costDelivery){
+              if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && Number(obj.selected.idDeliveryTo)===obj.delivery.idDeliveryTo && obj.delivery.whoPickUp.idUser==obj.selected.idUserDelivery && obj.cost.delivery==obj.selected.costDelivery){
                 inform.add('No hay cambio en su metodo de envío, intente nuevamente.',{
                   ttl:5000, type: 'info'
                 });
