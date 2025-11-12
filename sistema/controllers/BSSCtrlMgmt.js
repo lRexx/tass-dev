@@ -4515,7 +4515,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.log(obj.selected);
               console.log(obj.delivery);
               console.log(obj.cost);
-              if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo==obj.delivery.idDeliveryTo && obj.delivery.whoPickUp.idUser==obj.selected.idUserDelivery && obj.cost.delivery==obj.selected.costDelivery){
+              if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo==obj.delivery.idDeliveryTo.toString() && obj.delivery.whoPickUp.idUser==obj.selected.idUserDelivery && obj.cost.delivery==obj.selected.costDelivery){
                 inform.add('No hay cambio en su metodo de envío, intente nuevamente.',{
                   ttl:5000, type: 'info'
                 });
@@ -4711,7 +4711,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             ttl:6000, type: 'warning'
                           });
                           $scope.update.ticket.createNewMPLink = true;
-                          console.log("SE MODIFICA STATUS POR VALOR ACTUA");
+                          console.log("SE MODIFICA STATUS POR VALOR ACTUAL");
                           console.log($scope.update.ticket.idStatusTicketKf);
                           $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                         }
@@ -4720,7 +4720,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         inform.add('No se registran costos adicionales, por concepto de envío, al costo total de su pedido, BSS Seguridad.',{
                           ttl:6000, type: 'info'
                         });
-                        console.log("SE MODIFICA STATUS POR VALOR ACTUA");
+                        console.log("SE MODIFICA STATUS POR VALOR ACTUAL");
                         console.log($scope.update.ticket.idStatusTicketKf);
                         $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                       }else{
@@ -4728,7 +4728,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         inform.add('El pedido no tendra una recarga extra por envío al nuevo domicilio seleccionado, BSS Seguridad.',{
                           ttl:6000, type: 'success'
                         });
-                        console.log("SE MODIFICA STATUS POR VALOR ACTUA");
+                        console.log("SE MODIFICA STATUS POR VALOR ACTUAL");
                         console.log($scope.update.ticket.idStatusTicketKf);
                         $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                       }
