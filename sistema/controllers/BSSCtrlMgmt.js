@@ -4854,7 +4854,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $('#UpdateModalTicket').modal('hide');
                   //$('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
                   $timeout(function() {
-                    //$scope.updateUpRequestFn($scope.update);
+                    $scope.updateUpRequestFn($scope.update);
                   }, 2000);
                   //$scope.ticket = {'administration':undefined, 'idTypeRequestFor':null, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'userRequestBy':{}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':null, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
                   //$scope.ticket.building              = obj.building;
@@ -6139,7 +6139,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       //$('.checkmark').toggle();
                       $scope.ticketRegistered = response.data[0];
                       $scope.mainSwitchFn("openTicket",pedido.ticket);
-                      $scope.mainSwitchFn('search', null);
                       //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
                       $scope.mainSwitchFn('search', null);
                     }, 2500);
