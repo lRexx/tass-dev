@@ -4512,9 +4512,14 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.log($scope.ticket);
             break;
             case "apply_ticket_delivery_change":
-              console.log(obj.selected);
-              console.log(obj.delivery);
-              console.log(obj.cost);
+              console.log("obj.selected.idTypeDeliveryKf : "+ obj.selected.idTypeDeliveryKf);
+              console.log("obj.selected.idDeliveryTo : "+ obj.selected.idDeliveryTo);
+              console.log("obj.delivery.idTypeDeliveryKf : "+ obj.delivery.idTypeDeliveryKf);
+              console.log("obj.delivery.idDeliveryTo : "+ obj.delivery.idDeliveryTo);
+              console.log(obj."delivery.whoPickUp.idUser : "+ delivery.whoPickUp.idUser);
+              console.log("obj.selected.idUserDelivery : "+ obj.selected.idUserDelivery);
+              console.log("obj.cost.delivery : "+ obj.cost.delivery);
+              console.log("obj.selected.costDelivery : "+ obj.selected.costDelivery);
               if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && Number(obj.selected.idDeliveryTo)===obj.delivery.idDeliveryTo && obj.delivery.whoPickUp.idUser==obj.selected.idUserDelivery && obj.cost.delivery==obj.selected.costDelivery){
                 inform.add('No hay cambio en su metodo de envío, intente nuevamente.',{
                   ttl:5000, type: 'info'
