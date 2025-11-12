@@ -4512,14 +4512,15 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.log($scope.ticket);
             break;
             case "apply_ticket_delivery_change":
-              console.log("obj.selected.idTypeDeliveryKf : "+ obj.selected.idTypeDeliveryKf);
-              console.log("obj.selected.idDeliveryTo : "+ obj.selected.idDeliveryTo);
-              console.log("obj.delivery.idTypeDeliveryKf : "+ obj.delivery.idTypeDeliveryKf);
-              console.log("obj.delivery.idDeliveryTo : "+ obj.delivery.idDeliveryTo);
-              console.log("obj.delivery.whoPickUp.idUser : "+ obj.delivery.whoPickUp.idUser);
-              console.log("obj.selected.idUserDelivery : "+ obj.selected.idUserDelivery);
-              console.log("obj.cost.delivery : "+ obj.cost.delivery);
-              console.log("obj.selected.costDelivery : "+ obj.selected.costDelivery);
+              console.log('idTypeDeliveryKf:', obj.selected.idTypeDeliveryKf, '=>', typeof obj.selected.idTypeDeliveryKf);
+              console.log('idDeliveryTo:', obj.selected.idDeliveryTo, '=>', typeof obj.selected.idDeliveryTo);
+              console.log('idTypeDeliveryKf (delivery):', obj.delivery.idTypeDeliveryKf, '=>', typeof obj.delivery.idTypeDeliveryKf);
+              console.log('idDeliveryTo (delivery):', obj.delivery.idDeliveryTo, '=>', typeof obj.delivery.idDeliveryTo);
+              console.log('whoPickUp.idUser:', obj.delivery.whoPickUp.idUser, '=>', typeof obj.delivery.whoPickUp.idUser);
+              console.log('idUserDelivery:', obj.selected.idUserDelivery, '=>', typeof obj.selected.idUserDelivery);
+              console.log('cost.delivery:', obj.cost.delivery, '=>', typeof obj.cost.delivery);
+              console.log('selected.costDelivery:', obj.selected.costDelivery, '=>', typeof obj.selected.costDelivery);
+
               if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && Number(obj.selected.idDeliveryTo)===obj.delivery.idDeliveryTo && obj.delivery.whoPickUp.idUser==obj.selected.idUserDelivery && obj.cost.delivery==obj.selected.costDelivery){
                 inform.add('No hay cambio en su metodo de envío, intente nuevamente.',{
                   ttl:5000, type: 'info'
