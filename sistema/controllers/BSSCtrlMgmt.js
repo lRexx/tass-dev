@@ -5780,17 +5780,30 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 console.log(obj);
                 $scope.mp.link={'new':{'data':{}},'url':null}; //codTicket
                 $scope.mp.link.new.data={'idPago': null,'monto':  null,'linkDeNotificacion':  null,'back_url':  null,'metadata': {}};
-                $scope.mp.link.new.data.idTicket              = obj.idTicket;
-                $scope.mp.link.new.data.ticket_number         = obj.codTicket;
-                $scope.mp.link.new.data.monto                 = obj.createNewMPLinkForDelivery?Number(parseInt(obj.costDelivery)):Number(parseInt(obj.total));
+                $scope.mp.link.new.data.idTicket                = obj.idTicket;
+                $scope.mp.link.new.data.ticket_number           = obj.codTicket;
+                $scope.mp.link.new.data.monto                   = obj.createNewMPLinkForDelivery?Number(parseInt(obj.costDelivery)):Number(parseInt(obj.total));
                 //$scope.mp.link.new.data.linkDeNotificacion    = serverHost+"/Back/index.php/MercadoLibre/getNotificationOfMP";
                 //$scope.mp.link.new.data.back_url              = serverHost+"/monitor";
-                $scope.mp.link.new.data.linkDeNotificacion    = serverHost+"/Back/index.php/MercadoLibre/getNotificationOfMP";
-                $scope.mp.link.new.data.back_url              = "";
-                $scope.mp.link.new.data.description           = obj.typeticket.TypeTicketName;
-                $scope.mp.link.new.data.quantity              = obj.keys.length;
-                $scope.mp.link.new.data.idPayment             = obj.idPaymentKf!=null || obj.idPaymentKf!=undefined?obj.idPaymentKf:null;
-                $scope.mp.link.new.data.metadata.paymentFor   = obj.createNewMPLinkForDelivery?3:1;
+                $scope.mp.link.new.data.linkDeNotificacion      = serverHost+"/Back/index.php/MercadoLibre/getNotificationOfMP";
+                $scope.mp.link.new.data.back_url                = "";
+                $scope.mp.link.new.data.description             = obj.typeticket.TypeTicketName;
+                $scope.mp.link.new.data.quantity                = obj.keys.length;
+                console.log(obj.paymentDetails);
+                if (obj.createNewMPLinkForDelivery){
+                  $scope.mp.link.new.data.idPayment             = obj.idPaymentDeliveryKf;
+                  $scope.mp.link.new.data.mp_preference_id      = obj.paymentDetails.mp_preference_id;
+                  $scope.mp.link.new.data.metadata.createdBy    = $scope.sysLoggedUser.idUser;
+                }else if(!obj.createNewMPLinkForDelivery && (obj.idPaymentKf!=null && obj.idPaymentKf!=undefined)){
+                  $scope.mp.link.new.data.idPayment             = obj.idPaymentKf
+                  $scope.mp.link.new.data.mp_preference_id      = obj.paymentDetails.mp_preference_id;
+                  $scope.mp.link.new.data.metadata.createdBy    = $scope.sysLoggedUser.idUser;
+                }else{
+                  $scope.mp.link.new.data.idPayment             = null;
+                }
+                $scope.mp.link.new.data.metadata.idTicket       = obj.idTicket;
+                $scope.mp.link.new.data.metadata.ticket_number  = obj.codTicket;
+                $scope.mp.link.new.data.metadata.paymentFor     = obj.createNewMPLinkForDelivery?3:1;
                 console.log($scope.mp.link);
                 $scope.mpCreateLinkFn($scope.mp.link.new);
             break;
