@@ -1147,7 +1147,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
       $scope.tktmporal = {};
       $scope.rsData = {};
       $scope.isEditTicket=false;
-      $scope.viewTicketFn = function(idTicket){
+      $scope.openTicketFn = function(idTicket){
         try {
           //$scope.tkupdate  = obj;
           //$scope.tktmporal = obj;
@@ -1325,27 +1325,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
           console.error("Error dentro de openTicketFn:", e);
           throw e; // re-lanzar para que Angular muestre el stack
         }
-      }
-      $scope.openTicketFn = function(idTicket){
-        //$scope.tkupdate  = obj;
-        //$scope.tktmporal = obj;
-        //ticketServices.ticketByToken(obj.urlToken);
-        //console.log(obj);
-        $scope.editComment=false;
-        ticketServices.ticketById(idTicket).then(function(response){
-            if(response.status==200){
-              $scope.rsData.ticket = (response.data.tickets[0]);
-              $scope.tkupdate = response.data.tickets[0];
-              console.log(JSON.stringify(response.data.tickets[0], null, 2));
-              console.log($scope.rsData);
-            }else if (response.status==404){
-                $scope.rsData = {};
-                $scope.tkupdate = {};
-            }else if (response.status==500){
-                $scope.rsData = {};
-                $scope.tkupdate = {};
-            }
-        });
       }
       $scope.setOptionType = function(obj) {
         var elem = angular.element(obj.target);// or angular.element(obj.target);
@@ -3401,7 +3380,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
 
                 console.log("Calling openTicketFn", obj.idTicket);
                 // 🚨 Aquí el posible punto de fallo
-                $scope.viewTicketFn(obj.idTicket);
+                $scope.openTicketFn(obj.idTicket);
                 $('#UpdateModalTicket').modal({ backdrop: 'static', keyboard: false });
               } catch (err) {
                 console.error('Error in openTicket flow:', err);
@@ -4177,13 +4156,27 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"40"});
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
-                      if ($scope.ticket.selected.idTypeRequestFor=="4"){
-                        $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
-                        $scope.tkupdate.idStatusTicketKf        = "1"
-                      }else{
-                        $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"41"});
-                        $scope.tkupdate.idStatusTicketKf        = "4"
-                      }
+                    switch(obj.idTypeDeliveryKf){
+                      case "1"://RETIRO EN OFICINA
+                        if ($scope.ticket.selected.idTypeRequestFor=="4"){
+                          $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
+                          $scope.tkupdate.idStatusTicketKf        = "1"
+                        }else{
+                          $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"46"});
+                          $scope.tkupdate.idStatusTicketKf        = "7"
+                        }
+                      break;
+                      case "2"://RENTREGA EN DOMICILIO
+                        if ($scope.ticket.selected.idTypeRequestFor=="4"){
+                          $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
+                          $scope.tkupdate.idStatusTicketKf        = "1"
+                        }else{
+                          $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"41"});
+                          $scope.tkupdate.idStatusTicketKf        = "4"
+                        }
+                      break;
+                    }
+
                       var idKeychainStatusKf                  = 1;
                   break;
                   case "2":
