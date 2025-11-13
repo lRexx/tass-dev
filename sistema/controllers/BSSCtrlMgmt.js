@@ -6017,8 +6017,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         inform.add('Link de pago generado satisfactoriamente. ',{
                               ttl:5000, type: 'success'
                         });
-                        $scope.mp.link.url      = response.data[0].data.response.sandbox_init_point;
-                        $scope.mp.data          = response.data[0].data.response;
+                        $scope.mp.link.url                        = response.data[0].data.response.sandbox_init_point;
+                        $scope.mp.data                            = response.data[0].data.response;
                         console.log($scope.mp.data);
                         $scope.addPaymentFn(response.data[0].data.response);
                       }else{
@@ -6052,23 +6052,25 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 "sandbox_init_point": null,
                 "operation_type":null
             }}
-            $scope.addPaymentFn = function(payment){
+             $scope.addPaymentFn = function(payment){
                 console.log($scope.mp);
                 console.log(payment);
-                $scope.mp.payment.data.idTicketKf         = $scope.mp.link.new.data.idTicket;
-                $scope.mp.payment.data.client_id          = payment.client_id;
-                $scope.mp.payment.data.id                 = payment.id;
-                $scope.mp.payment.data.collector_id       = payment.collector_id;
-                $scope.mp.payment.data.date_created       = payment.date_created;
-                $scope.mp.payment.data.expires            = payment.expires;
-                $scope.mp.payment.data.external_reference = payment.external_reference;
-                $scope.mp.payment.data.init_point         = payment.init_point;
-                $scope.mp.payment.data.sandbox_init_point = payment.sandbox_init_point;
-                $scope.mp.payment.data.operation_type     = payment.operation_type;
-                $scope.mp.payment.data.isManualPayment    = false;
+                $scope.mp.payment.data.idTicketKf           = $scope.mp.link.new.data.idTicket;
+                $scope.mp.payment.data.idPayment            = $scope.mp.link.new.data.idPayment;
+                $scope.mp.payment.data.client_id            = payment.client_id;
+                $scope.mp.payment.data.id                   = payment.id;
+                $scope.mp.payment.data.collector_id         = payment.collector_id;
+                $scope.mp.payment.data.date_created         = payment.date_created;
+                $scope.mp.payment.data.expires              = payment.expires;
+                $scope.mp.payment.data.external_reference   = payment.external_reference;
+                $scope.mp.payment.data.init_point           = payment.init_point;
+                $scope.mp.payment.data.sandbox_init_point   = payment.sandbox_init_point;
+                $scope.mp.payment.data.operation_type       = payment.operation_type;
+                $scope.mp.payment.data.isManualPayment      = false;
+                $scope.mp.payment.data.mp_preference_id     = $scope.mp.link.new.data.mp_preference_id!=null?$scope.mp.link.new.data.mp_preference_id:null;
                 console.log($scope.mp.payment.data);
-                $scope.mp.payment.data.paymentForDelivery = $scope.update.ticket.createNewMPLinkForDelivery?$scope.update.ticket.createNewMPLinkForDelivery:false;
-                $scope.addPaymentDetailsFn = null;
+                $scope.mp.payment.data.paymentForDelivery   = $scope.update.ticket.createNewMPLinkForDelivery?$scope.update.ticket.createNewMPLinkForDelivery:false;
+                $scope.addPaymentDetailsFn                  = null;
                 console.log($scope.mp.payment.data);
                 ticketServices.addPayment($scope.mp.payment).then(function(response){
                     //console.log(response);
@@ -6077,7 +6079,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         inform.add('La solicitud de pago ha sido registrada Satisfactoriamente. ',{
                                 ttl:5000, type: 'success'
                         });
-                        $scope.addPaymentDetailsFn = response.data.response[0];
+                        $scope.addPaymentDetailsFn = response.data.response;
+                        $timeout(function() {
+                          $scope.openTicketFn($scope.mp.payment.data.idTicketKf);
+                        }, 500);
                     }else if(response.status==500){
                         $scope.addPaymentDetailsFn = null;
                         console.log("Payment request has failed, contact administrator");
