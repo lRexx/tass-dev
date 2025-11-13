@@ -2488,7 +2488,7 @@ class Ticket_model extends CI_Model
 					$where = "isCancelRequested = 1 AND idStatusTicketKf = " . @$data['idStatusTicketKf'];
 					$this->db->where($where);
 				} else if (@$data['idStatusTicketKf'] == '8') {
-					$where = "ISNULL(idMgmtMethodKf) AND ISNULL(whereKeysAreEnable) AND ISNULL(isKeysEnable)";
+					$where = "ISNULL(idMgmtMethodKf) AND ISNULL(whereKeysAreEnable) AND ISNULL(isKeysEnable) AND idStatusTicketKf = " . @$data['idStatusTicketKf'];
 					$this->db->where($where);
 				} else {
 					$this->db->where("idStatusTicketKf = ", @$data['idStatusTicketKf']);
