@@ -90,9 +90,9 @@ class Rates_model extends CI_Model
         $where = null;
         $todo = null;
         // First query
-        log_message('info', 'hasStocks' . $item['hasStock']);
-        log_message('info', 'deviceIsOnline' . $item['deviceIsOnline']);
-        log_message('info', 'idServiceTechnician' . $item['idServiceTechnician']);
+        log_message('error', 'hasStocks' . $item['hasStock']);
+        log_message('error', 'deviceIsOnline' . $item['deviceIsOnline']);
+        log_message('error', 'idServiceTechnician' . $item['idServiceTechnician']);
         $this->db->select("*");
         $this->db->from("tb_technician_services");
         $this->db->join('tb_technician_services_type', 'tb_technician_services_type.idServiceType = tb_technician_services.idServiceTypeFk', 'left');
