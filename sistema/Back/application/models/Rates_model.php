@@ -90,9 +90,9 @@ class Rates_model extends CI_Model
         $where = null;
         $todo = null;
         // First query
-        log_message('error', 'hasStocks' . $item['hasStock']);
-        log_message('error', 'deviceIsOnline' . $item['deviceIsOnline']);
-        log_message('error', 'idServiceTechnician' . $item['idServiceTechnician']);
+        log_message('error', 'hasStocks             : ' . $item['hasStock']);
+        log_message('error', 'deviceIsOnline        : ' . $item['deviceIsOnline']);
+        log_message('error', 'idServiceTechnician   : ' . $item['idServiceTechnician']);
         $this->db->select("*");
         $this->db->from("tb_technician_services");
         $this->db->join('tb_technician_services_type', 'tb_technician_services_type.idServiceType = tb_technician_services.idServiceTypeFk', 'left');
@@ -162,8 +162,8 @@ class Rates_model extends CI_Model
                     $this->db->where('tb_technician_service_cost.idServiceTechnicianKf', $tb_technician_services->idServiceTechnician);
                     //print($query2->num_rows());
                     if (
-                        ($query2->num_rows() >= 1 && $contract['maintenanceType'] != 4 && ($item['hasStock'] == '0' || $item['hasStock'] == null)) ||
-                        $query2->num_rows() == 1 && $contract['maintenanceType'] == 4 && ($item['hasStock'] == '1')
+                        (($query2->num_rows() >= 1 && $contract['maintenanceType'] != 4 && ($item['hasStock'] == '0' || $item['hasStock'] == null)) ||
+                            ($query2->num_rows() == 1 && $contract['maintenanceType'] == 4 && ($item['hasStock'] == '1' || $item['hasStock'] == '0' || $item['hasStock'] == null)))
                     ) {
                         $this->db->where('tb_technician_service_cost.idTipoMantenimientoKf', $contract['maintenanceType']);
                     } else {
