@@ -410,7 +410,7 @@ class User_model extends CI_Model
 		$this->db->select("
 			tb_user.*,
 			tb_profile.nameProfile,
-			tb_profiles.profileName AS systemProfileName,
+			tb_profiles.name AS systemProfileName,
 			tb_status.statusTenantName,
 			tb_client_departament.idClientDepartament,
 			tb_category_departament.nameCategory,
