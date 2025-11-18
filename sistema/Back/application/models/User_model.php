@@ -413,9 +413,9 @@ class User_model extends CI_Model
 			tb_profiles.name AS systemProfileName,
 			tb_status.statusTenantName,
 			tb_client_departament.idClientDepartament,
-			tb_category_departament.nameCategory,
+			tb_category_departament.categoryDepartament,
 			tb_typetenant.typeTenantName,
-			tb_type_attendant.typeAttendantName
+			tb_type_attendant.nameTypeAttendant
 		");
 
 		$this->db->from("tb_user");
