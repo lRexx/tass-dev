@@ -458,6 +458,45 @@ class User_model extends CI_Model
 		];
 	}
 
+	private function applyUserFilters($filters)
+	{
+		if (!empty($filters['idProfileKf'])) {
+			$this->db->where("tb_user.idProfileKf", $filters['idProfileKf']);
+		}
+
+		if (!empty($filters['idStatusKf'])) {
+			$this->db->where("tb_user.idStatusKf", $filters['idStatusKf']);
+		}
+
+		if (!empty($filters['dni'])) {
+			$this->db->where("tb_user.dni", $filters['dni']);
+		}
+
+		if (!empty($filters['fullNameUser'])) {
+			$this->db->like("tb_user.fullNameUser", $filters['fullNameUser']);
+		}
+
+		if (!empty($filters['emailUser'])) {
+			$this->db->like("tb_user.emailUser", $filters['emailUser']);
+		}
+
+		if (!empty($filters['search'])) {
+			$this->db->group_start();
+			$this->db->like("tb_user.fullNameUser", $filters['search']);
+			$this->db->or_like("tb_user.emailUser", $filters['search']);
+			$this->db->or_like("tb_user.dni", $filters['search']);
+			$this->db->group_end();
+		}
+
+		if (!empty($filters['date_from'])) {
+			$this->db->where("DATE(tb_user.dateCreated) >=", $filters['date_from']);
+		}
+
+		if (!empty($filters['date_to'])) {
+			$this->db->where("DATE(tb_user.dateCreated) <=", $filters['date_to']);
+		}
+	}
+
 
 	/* AGRAGR NUEVO USUARIO DE CUALQUIER TIPO */
 	public function add($user)
