@@ -1147,6 +1147,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
       $scope.tktmporal = {};
       $scope.rsData = {};
       $scope.isEditTicket=false;
+      $scope.rsAllKeychainListDataStockFiltered = [];
       $scope.openTicketFn = function(idTicket){
         try {
           //$scope.tkupdate  = obj;
