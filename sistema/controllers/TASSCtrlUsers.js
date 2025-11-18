@@ -2545,7 +2545,6 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     $scope.userList=[];
                     switch (val2){
                         case "users":
-                          $scope.getUserLists(1, 'users');
                           $timeout(function() {
                             $scope.sysContentList = "";
                             $scope.userList=$scope.rsList.users;
