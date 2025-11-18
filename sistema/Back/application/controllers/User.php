@@ -245,7 +245,7 @@ class User extends REST_Controller
         try {
 
             // Obtener usuarios desde el modelo
-            $result = $this->user_model->get(null, $filters);
+            $result = $this->user_model->getUsers(null, $filters);
 
             // Log de la query realmente ejecutada
             log_message('info', 'Última query ejecutada: ' . $this->db->last_query());
