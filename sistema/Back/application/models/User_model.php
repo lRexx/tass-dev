@@ -400,6 +400,65 @@ class User_model extends CI_Model
 	}
 
 
+	public function getUsers($filters = [], $limit = 20, $offset = 0)
+	{
+		// -------------------------
+		// BUILD BASE QUERY (filtros)
+		// -------------------------
+
+		// SELECT principal
+		$this->db->select("
+			tb_user.*,
+			tb_profile.nameProfile,
+			tb_profiles.profileName AS systemProfileName,
+			tb_status.statusTenantName,
+			tb_client_departament.idClientDepartament,
+			tb_category_departament.nameCategory,
+			tb_typetenant.typeTenantName,
+			tb_type_attendant.typeAttendantName
+		");
+
+		$this->db->from("tb_user");
+		$this->db->join("tb_profile", "tb_profile.idProfile = tb_user.idProfileKf", "left");
+		$this->db->join("tb_profiles", "tb_profiles.idProfiles = tb_user.idSysProfileFk", "left");
+		$this->db->join("tb_status", "tb_status.idStatusTenant = tb_user.idStatusKf", "left");
+		$this->db->join("tb_client_departament", "tb_client_departament.idClientDepartament = tb_user.idDepartmentKf", "left");
+		$this->db->join("tb_category_departament", "tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk", "left");
+		$this->db->join("tb_typetenant", "tb_typetenant.idTypeTenant = tb_user.idTypeTenantKf", "left");
+		$this->db->join("tb_type_attendant", "tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf", "left");
+
+		// condición base
+		$this->db->where("tb_user.idStatusKf !=", -1);
+
+		// -------------------------
+		// Aplicar filtros dinámicos
+		// -------------------------
+		$this->applyUserFilters($filters);
+
+		// -------------------------
+		// COMPILAR QUERY PARA REUTILIZARLA
+		// -------------------------
+		$baseQuery = $this->db->get_compiled_select("", false); // no reset
+
+		// -------------------------
+		// Obtener TOTAL filtrado
+		// -------------------------
+		$totalQuery = "SELECT COUNT(*) AS total FROM ($baseQuery) AS sub";
+		$total = $this->db->query($totalQuery)->row()->total;
+
+		// -------------------------
+		// Obtener datos paginados
+		// -------------------------
+		$this->db->limit($limit, $offset);
+		$query = $this->db->get();
+
+		return [
+			"total" => $total,
+			"data" => $query->result_array()
+		];
+	}
+
+
 	/* AGRAGR NUEVO USUARIO DE CUALQUIER TIPO */
 	public function add($user)
 	{
