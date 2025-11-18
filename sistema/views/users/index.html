@@ -91,7 +91,7 @@
 							<div class="col-md-2 col-xs-6" ng-repeat="item in listProfile">
 							  <input id="typeUser-{{item.idProfile}}" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio"
 							  ng-click="managedUsers('search', filters);"
-							  name="typeClient" value="item" ng-model="filters.userProfile">
+							  name="typeClient" value="{{item}}" ng-model="filters.userProfile">
 							  <label for="typeUser-{{item.idProfile}}" class="radio-2x-label">
 								<span>{{item.nameProfile}}</span>
 							  </label>
