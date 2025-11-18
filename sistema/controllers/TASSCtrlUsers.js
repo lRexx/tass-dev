@@ -23,7 +23,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
     }else{
       console.log("No login required!!");
     }
-    
+
     //if (!$scope.sysModules.idUsers){
     //  $location.path("/");
     //}
@@ -159,7 +159,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                         }else if(response.status==404){
                           $scope.listCustomerFound = [];
                           //$scope.pagination.totalCount  = 0;
-                        } 
+                        }
                       }, function(err) {
                         $scope.listCustomerFound = [];
                         //$scope.pagination.totalCount  = 0;
@@ -202,7 +202,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                         }else if(response.status==404){
                           $scope.listCustomerFound = [];
                           //$scope.pagination.totalCount  = 0;
-                        } 
+                        }
                       }, function(err) {
                         $scope.listCustomerFound = [];
                         //$scope.pagination.totalCount  = 0;
@@ -251,7 +251,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 if ($scope.customerFound.idClientBranchFk!=null && $scope.customerFound.idClientBranchFk!=undefined){
                   var arrCompany=[]
                   arrCompany=$scope.getCustomerBusinessNameByIdFn($scope.customerFound.idClientBranchFk);
-                  
+
                   $timeout(function() {
                     if (arrCompany.length==1){
                         $scope.select.company.selected=arrCompany[0];
@@ -297,7 +297,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 if ($scope.customerFound.idClientBranchFk!=null && $scope.customerFound.idClientBranchFk!=undefined){
                   var arrCompany=[]
                   arrCompany=$scope.getCustomerBusinessNameByIdFn($scope.customerFound.idClientBranchFk);
-                  
+
                   $timeout(function() {
                     if (arrCompany.length==1){
                         $scope.filterCompanyKf.selected=arrCompany[0];
@@ -464,7 +464,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                       console.log('Usuario a eliminar ID: '+obj.idProfiles+' BAJO EL NOMBRE: '+obj.name);
                       console.log("============================================================================")
                       console.log(obj);
-                  }      
+                  }
                 $('#confirmRequestModal').modal('toggle');
               }else if (confirm==1){
                     $scope.deleteSysProfileFn($scope.idSysProf);
@@ -480,7 +480,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                       console.log('Usuario a eliminar ID: '+$scope.idUserKf+' BAJO EL NOMBRE: '+obj.fullNameUser);
                       console.log("============================================================================")
                       console.log($scope.argObj);
-                  }      
+                  }
                 $('#confirmRequestModal').modal('toggle');
               }else if (confirm==1){
                     $scope.sysUpdateUserFn($scope.argObj);
@@ -496,7 +496,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                       console.log('Usuario a eliminar ID: '+$scope.idUserKf+' BAJO EL NOMBRE: '+obj.fullNameUser);
                       console.log("============================================================================")
                       console.log($scope.argObj);
-                  }      
+                  }
                 $('#confirmRequestModal').modal('toggle');
               }else if (confirm==1){
                     $scope.sysUpdateUserFn($scope.argObj);
@@ -546,11 +546,11 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 }else if (item[key].idProduct!=undefined && typeof item[key].idProduct === 'string'){
                   rowId=Number(item[key].idProduct);
                   item[key].idProduct=rowId;
-                  rowList.push(item[key]);            
+                  rowList.push(item[key]);
                 }else if (item[key].idDepartmentFk!=undefined && typeof item[key].idProduct === 'string'){
                   rowId=Number(item[key].idDepartmentFk);
                   item[key].idDepartmentFk=rowId;
-                  rowList.push(item[key]);            
+                  rowList.push(item[key]);
                 }else{
                   rowList.push(item[key]);
                 }
@@ -606,7 +606,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   } else {
                       //console.log("entro al else");
                       $scope.pagedItems[Math.floor(i / itemsPerPage)].push($scope.filteredItems[i]);
-                  } 
+                  }
                   //console.log($scope.pagedItems[Math.floor(i / itemsPerPage)]);
               }
               //console.log($scope.pagedItems.length);
@@ -625,21 +625,21 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
               }
           };
           //Last Page
-          $scope.lastPage = function(){          
+          $scope.lastPage = function(){
               $scope.currentPage=($scope.pagedItems.length-1);
           }
           //First Page
           $scope.firstPage = function () {
               $scope.currentPage=($scope.pagedItems.length-$scope.pagedItems.length);
           };
-    
+
           // change sorting order
           $scope.sort_by = function(newSortingOrder) {
               if ($scope.sortingOrder == newSortingOrder)
                   $scope.reverse = !$scope.reverse;
-    
+
               $scope.sortingOrder = newSortingOrder;
-    
+
               // icon setup
               //$('th i').each(function(){
               //    // icon reset
@@ -727,19 +727,16 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
             switch(objOpt){
               case "2":
                 return item.idClientTypeFk == "3";
-              break;
               case "4":
                 if (($scope.isNewUser || $scope.isUpdateUser) && $scope.att.ownerOption==3){
                   return item.idClientTypeFk == "1" || item.idClientTypeFk == "3";
                 }else{
                   return item.idClientTypeFk == "2"
                 }
-              break;
               case "3":
               case "5":
               case "6":
                 return item.idClientTypeFk == "2";
-              break;
             }
           };
           $scope.filterCustomerByType2 = function(item){
@@ -747,15 +744,12 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
             switch(objOpt){
               case "2":
                 return item.idClientTypeFk == "3";
-              break;
               case "4":
                   return item.idClientTypeFk == "1" || item.idClientTypeFk == "3";
-              break;
               case "3":
               case "5":
               case "6":
                 return item.idClientTypeFk == "2";
-              break;
             }
           };
         /**************************************************
@@ -769,14 +763,12 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
             switch(objOpt){
               case "1":
                 return obj.idProfiles;
-              break;
               case "2":
               case "3":
               case "4":
               case "5":
               case "6":
                 return obj.idProfiles != "1";
-              break;
             }
           };
         /**************************************************
@@ -819,7 +811,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
         *                 USER  SERVICES                  *
         *  [userLists]: clientUser, attendants, tenants   *
         *               sysUser, companyUser              *
-        **************************************************/ 
+        **************************************************/
           $scope.rsList = {};
           $scope.getUserLists = function(opt, group){
               $scope.rsList = {};
@@ -916,7 +908,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 $scope.userDepartamentList[depto].isNew = false;
               }
             }
-            
+
             $scope.users.update.idTypeTenantKf        = obj.idTypeTenantKf;
             switch (switchOption) {
               case "1": //SYS USER
@@ -974,7 +966,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
             }
             //$scope.getCustomersBuildingListFn($scope.users.update.idProfileKf, $scope.att.ownerOption);
             console.log($scope.users.update);
-           
+
           };
         /**************************************************
         *                                                 *
@@ -1094,8 +1086,8 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
           $scope.checkDepartmentListFn = function (objUser){
             console.log(objUser);
             if (objUser.idProfileKf!=undefined){
-              if (((((objUser.idProfileKf.idProfile == 5) || objUser.idProfileKf == 5) || 
-                  (((objUser.idProfileKf.idProfile == 4 || objUser.idProfileKf == 4) || (objUser.idProfileKf.idProfile == 6 || objUser.idProfileKf == 6)) && $scope.att.ownerOption==2)) && $scope.userDepartamentList.length>1) || 
+              if (((((objUser.idProfileKf.idProfile == 5) || objUser.idProfileKf == 5) ||
+                  (((objUser.idProfileKf.idProfile == 4 || objUser.idProfileKf == 4) || (objUser.idProfileKf.idProfile == 6 || objUser.idProfileKf == 6)) && $scope.att.ownerOption==2)) && $scope.userDepartamentList.length>1) ||
                   (((objUser.idProfileKf.idProfile == 4 || objUser.idProfileKf == 4) || (objUser.idProfileKf.idProfile == 6 || objUser.idProfileKf == 6)) && $scope.att.ownerOption==3)){
                 $scope.userDepartamentList = [];
               }
@@ -1137,7 +1129,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     ttl:5000, type: 'danger'
                     });
                 }
-      
+
               });
           }
         /**************************************************
@@ -1280,7 +1272,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                       }
                     break;
                     case "5": //TENANT USER
-                      $scope.update.user.idTypeTenantKf          = 2;                      
+                      $scope.update.user.idTypeTenantKf          = 2;
                       if ($scope.userDepartamentList==undefined || $scope.userDepartamentList.length==0){
                         $scope.update.user.idAddresKf            = null;
                         $scope.update.user.idDepartmentKf        = null;
@@ -1327,7 +1319,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
               case "enabled":
                 //Enabled User function
                 $scope.enabledUser(obj);
-              break; 
+              break;
               case "disabled":
                 //disabled User function
                 $scope.disabledUser(obj);
@@ -1434,7 +1426,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                                       inform.add('Departamentos Asignados y en proceso de aprobacion automatica.',{
                                         ttl:5000, type: 'success'
                                       });
-                                  });	
+                                  });
                                   var approvePromises = [];
                                   angular.forEach($scope.userDepartamentList,function(depto){
                                       var deferred = $q.defer();
@@ -1517,7 +1509,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                                   });
                                   $scope.refreshList();
                                   blockUI.stop();
-                                }, 2500); 
+                                }, 2500);
                               }
                             }
                           }else if (response_userFound.status==404){
@@ -1540,7 +1532,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                           });
                           $scope.refreshList();
                           blockUI.stop();
-                        }, 2500); 
+                        }, 2500);
                       }
                   }else if (response_userRegister.status==404){
                     inform.add('[Error]: '+response_userRegister.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
@@ -1612,7 +1604,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                           inform.add('Departamentos Asignados y en proceso de aprobacion automatica.',{
                             ttl:5000, type: 'success'
                           });
-                      });	
+                      });
                       var approvePromises = [];
                       angular.forEach($scope.userDepartamentList,function(depto){
                           var deferred = $q.defer();
@@ -1655,7 +1647,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                         inform.add('Departamentos Aprobados Satisfactoriamente.',{
                           ttl:5000, type: 'success'
                         });
-                      });	
+                      });
                       $timeout(function() {
                         $scope.refreshList();
                         blockUI.stop();
@@ -1678,7 +1670,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                             });
                             $scope.refreshList();
                             blockUI.stop();
-                        }, 2500); 
+                        }, 2500);
                       }else{
                         $timeout(function() {
                           //TENANT
@@ -1689,7 +1681,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                           });
                           $scope.refreshList();
                           blockUI.stop();
-                        }, 2500); 
+                        }, 2500);
                       }
                     }else{
                       $timeout(function() {
@@ -1704,7 +1696,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                         });
                         $scope.refreshList();
                         blockUI.stop();
-                      }, 2500); 
+                      }, 2500);
                     }
                   }else{
                     $timeout(function() {
@@ -1719,7 +1711,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                       });
                       $scope.refreshList();
                       blockUI.stop();
-                    }, 2500); 
+                    }, 2500);
                   }
                 }else if (response.status==404){
                   $timeout(function() {
@@ -1915,7 +1907,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                               ttl:3000, type: 'success'
                           });
                           $timeout(function() {
-                              
+
                               $scope.remove = {'info':{'idUser':null, 'idDepartmentKf2':null, 'idTypeTenant': null}}
                               blockUI.stop();
                           }, 2000);
@@ -1927,7 +1919,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   }
                   blockUI.stop();
               });
-            } 
+            }
         /**************************************************
         *                                                 *
         *                DISABLED AN USER                 *
@@ -2015,7 +2007,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   blockUI.message('El usuario ha sido habilitado con exito!');
                   $timeout(function() {
                     $scope.getUserLists(1, 'users');
-                    
+
                   }, 500);
                   $timeout(function() {
                     //console.log(nameProfile+statusTenantName+customerName+buildings+nameTypeAttendant+searchboxfilter);
@@ -2200,7 +2192,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
               console.log(item);
               return function(item){
                 if(($scope.users.new.idProfileKf.idProfile==3 || $scope.users.new.idProfileKf.idProfile==5) && (item.idUserKf!=null || item.idUserKf==null)  && (item.floor=="pb" || item.floor=="ba" || item.floor=="co" || item.floor=="lo")){
-                
+
                   //$scope.ownerFound=true;
                   //console.log("ownerFound1: "+$scope.ownerFound+"item.idUserKf: "+item.idUserKf)
                   return false;
@@ -2270,12 +2262,12 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   ttl:5000, type: 'warning'
                 });
               }
-              
+
             }else{
                 inform.add('Selecciona un modulo como minimo para crear el perfil',{
                   ttl:5000, type: 'warning'
                 });
-            }   
+            }
           }
       /**************************************************
        *                                                 *
@@ -2338,12 +2330,12 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   ttl:5000, type: 'warning'
                 });
               }
-              
+
             }else{
                 inform.add('Selecciona un modulo como minimo para crear el perfil',{
                   ttl:5000, type: 'warning'
                 });
-            } 
+            }
           }
           $scope.chkBox2={modulo: {}};
           $scope.sysProfFound=false;
@@ -2404,12 +2396,12 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   ttl:5000, type: 'warning'
                 });
               }
-              
+
             }else{
                 inform.add('Selecciona un modulo como minimo para crear el perfil',{
                   ttl:5000, type: 'warning'
                 });
-            } 
+            }
           }
           $scope.rsUpdProfileData={};
           $scope.updateSysProfileFn = function(dataProfile, opt){
@@ -2427,7 +2419,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     inform.add("Perfil Actualizado satisfactoriamente",{
                       ttl:5000, type: 'success'
                     });
-                    
+
                   }
                 break;
                 case 2:
@@ -2444,14 +2436,14 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   }
                 break;
               }
-              //console.log($scope.rsModulesData); 
+              //console.log($scope.rsModulesData);
             });
           }
           /**************************************************
           *                                                 *
           *             DELETE SYS PROFILE                  *
           *                                                 *
-          **************************************************/          
+          **************************************************/
             $scope.deleteSysProfileFn = function(idProfile){
               ProfileServices.deleteSysProfile(idProfile).then(function(data){
                 $scope.rsDelProfileData=data;
@@ -2463,9 +2455,9 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   inform.add("Perfil Eliminado satisfactoriamente",{
                     ttl:5000, type: 'success'
                   });
-                  
+
                 }
-                //console.log($scope.rsModulesData); 
+                //console.log($scope.rsModulesData);
               });
             }
           /**************************************************
@@ -2546,6 +2538,9 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                           break;
                       }
                   break;
+                  case "search":
+                      console.log(val2);
+                  break;
                   case "list":
                     $scope.userList=[];
                     switch (val2){
@@ -2554,7 +2549,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                           $timeout(function() {
                             $scope.sysContentList = "";
                             $scope.userList=$scope.rsList.users;
-                            $scope.loadPagination($scope.userList, "idUser", "10");
+
                             $scope.sysContentList = 'users';
                         }, 1000);
                         break;
