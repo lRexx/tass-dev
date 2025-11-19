@@ -2452,8 +2452,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
               "searchboxfilter": null,
               "userStatus":{},
               "date_from":null,
-              "date_to":null,
-              "date_to":date_to
+              "date_to":null
             };
          $scope.getUSersListFn = function(filters,limit,offset){
               var idProfileKf            = filters.userProfile!=undefined && filters.userProfile!=null?filters.userProfile.idProfile:null;
