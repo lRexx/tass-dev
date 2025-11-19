@@ -2644,7 +2644,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     $scope.userList=[];
                     switch (val2){
                         case "users":
-                        $scope.getUSersListFn(null, $scope.pagination.pageSizeSelected, ($scope.pagination.pageIndex-1)).then(function(response) {
+                        $scope.getUSersListFn($scope.filters, $scope.pagination.pageSizeSelected, ($scope.pagination.pageIndex-1)).then(function(response) {
                             console.log(response);
                             if(response.status==200){
                                 $scope.userList = response.data.data;
