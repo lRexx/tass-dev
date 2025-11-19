@@ -2459,7 +2459,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
               var search                 = filters.searchboxfilter!=undefined && filters.searchboxfilter!="" && filters.searchboxfilter!=null?filters.searchboxfilter:null;
               var date_from              = filters.date_from!=undefined && filters.date_from!="" && filters.date_from!=null?filters.date_from:null;
               var date_to                = filters.date_to!=undefined && filters.date_to!="" && filters.date_to!=null?filters.date_to:null;
-              var idStatusKf             = filters.userStatus!=undefined && filters.userStatus!="" && filters.userStatus!=null?filters.userStatus.idStatusTenant:null;
+              var idStatusKf             = filters.userStatus!=undefined && filters.userStatus!="" && filters.userStatus!=null?filters.userStatus.idStatusTenant:"-1";
               var limit                  = limit;
               var offset                 = offset;
               var create_at              = filters.create_at!=undefined && filters.create_at!="" && filters.create_at!=null?filters.create_at:null;
@@ -2646,6 +2646,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     $scope.userList=[];
                     switch (val2){
                         case "users":
+                        $scope.pagination.pageIndex               = 1;
                         $scope.getUSersListFn($scope.filters, $scope.pagination.pageSizeSelected, ($scope.pagination.pageIndex-1)).then(function(response) {
                             console.log(response);
                             if(response.status==200){

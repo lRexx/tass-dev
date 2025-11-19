@@ -532,7 +532,6 @@ class User_model extends CI_Model
 				"data" => $user
 			];
 		}
-
 	}
 
 	private function applyUserFilters($filters)
