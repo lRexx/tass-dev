@@ -118,7 +118,7 @@
 								<label style="padding-left: 15px;">Role</label>
 									<div class="input-group">
 										<span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
-										<select  name="userRoles" ng-change="search(filters.userProfile.nameProfile, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, true)" ng-options="item.name for item in listProfiles" class="form-control" ng-model="filters.userRoles" >
+										<select  name="userRoles" ng-change="managedUsers('search', filters);" ng-options="item.name for item in listProfiles" class="form-control" ng-model="filters.userRoles" >
 											<option value="" >Todos</option>
 										</select>
 									</div>
@@ -128,7 +128,7 @@
 								<label style="padding-left: 15px;">Estatus</label>
 									<div class="input-group">
 										<span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
-										<select name="userStatus" ng-change="search(filters.userProfile, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, true)" ng-options="item.statusTenantName for item in listStatus"  class="form-control" ng-model="filters.userStatus" >
+										<select name="userStatus" ng-change="managedUsers('search', filters);" ng-options="item.statusTenantName for item in listStatus"  class="form-control" ng-model="filters.userStatus" >
 												<option value="" >Todos</option>
 										</select>
 									</div>
