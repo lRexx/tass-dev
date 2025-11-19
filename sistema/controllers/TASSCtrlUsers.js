@@ -68,7 +68,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
           'maxSize': 5,     // Limit number for pagination display number.
           'totalCount': 0,  // Total number of items in all pages. initialize as a zero
           'pageIndex': 1,   // Current page number. First page is 1.-->
-          'pageSizeSelected': 20, // Maximum number of items per page.
+          'pageSizeSelected': 10, // Maximum number of items per page.
           'totalCount':0
       }
 
