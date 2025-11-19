@@ -64,6 +64,14 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
           "limit":"10",
           "strict": null
         }
+        $scope.pagination = {
+          'maxSize': 5,     // Limit number for pagination display number.
+          'totalCount': 0,  // Total number of items in all pages. initialize as a zero
+          'pageIndex': 1,   // Current page number. First page is 1.-->
+          'pageSizeSelected': 20, // Maximum number of items per page.
+          'totalCount':0
+      }
+
       /**************************************************
       *                                                 *
       *             LIST CUSTOMER SERVICE               *
@@ -2439,6 +2447,69 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
               //console.log($scope.rsModulesData);
             });
           }
+         $scope.getUSersListFn = function(filters,limit,offset){
+              var idProfileKf            = filters.idProfileKf!=undefined && filters.idProfileKf!=null?filters.idProfileKf:null;
+              var search                 = filters.search!=undefined && filters.search!="" && filters.search!=null?filters.search:null;
+              var date_from              = filters.date_from!=undefined && filters.date_from!="" && filters.date_from!=null?filters.date_from:null;
+              var date_to                = filters.date_to!=undefined && filters.date_to!="" && filters.date_to!=null?filters.date_to:null;
+              var idStatusKf             = filters.idStatusKf!=undefined && filters.idStatusKf!="" && filters.idStatusKf!=null?filters.idStatusKf:null;
+              var limit                  = limit;
+              var offset                 = offset;
+              var create_at              = filters.create_at!=undefined && filters.create_at!="" && filters.create_at!=null?filters.create_at:null;
+
+              console.log("=================================================");
+              console.log("                   getUSerList                   ");
+              console.log("=================================================");
+              console.log("idProfileKf      : "+idProfileKf);
+              console.log("search           : "+search);
+              console.log("date_from        : "+date_from);
+              console.log("date_to          : "+date_to);
+              console.log("idStatusKf       : "+idStatusKf);
+              console.log("limit            : "+limit);
+              console.log("offset           : "+offset);
+              console.log("create_at        : "+create_at);
+
+              $scope.usersSearch={
+                  "filters":{
+                    "idProfileKf":idProfileKf,
+                    "search":search,
+                    "date_from":date_from,
+                    "date_to":date_to,
+                    "idStatusKf":idStatusKf,
+                    "create_at":create_at
+                  },
+                  "limit":limit,
+                  "offset":offset
+                };
+              return userServices.getUserList($scope.usersSearch).then(function(response){
+                return response;
+              });
+          };
+          $scope.pageChanged = function(){
+            //console.info($scope.pagination.pageIndex);
+            var pagIndex = ($scope.pagination.pageIndex-1)*($scope.pagination.pageSizeSelected);
+            $scope.getUSersListFn(val2, pagIndex, $scope.pagination.pageSizeSelected).then(function(response) {
+              console.log(response);
+              if(response.status==200){
+                  $scope.userList = response.data;
+                  console.info($scope.userList);
+              }else if(response.status==404){
+                console.log("404 Error");
+                console.log(response.statusText);
+                $scope.userList = [];
+              }else if(response.status==500){
+                  inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                  ttl:5000, type: 'danger'
+                  });
+                console.log("500 Error");
+                console.log(response.statusText);
+              }
+            }, function(err) {
+              $scope.userList = [];
+              console.log("Error: " + err);
+              //$scope.pagination.totalCount  = 0;
+          });
+          }
           /**************************************************
           *                                                 *
           *             DELETE SYS PROFILE                  *
@@ -2540,6 +2611,27 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   break;
                   case "search":
                       console.log(val2);
+                      $scope.getUSersListFn(val2,1,1).then(function(response) {
+                          console.log(response);
+                          if(response.status==200){
+                              $scope.userList = response.data;
+                              console.info($scope.userList);
+                          }else if(response.status==404){
+                            console.log("404 Error");
+                            console.log(response.statusText);
+                            $scope.userList = [];
+                          }else if(response.status==500){
+                              inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                              ttl:5000, type: 'danger'
+                              });
+                            console.log("500 Error");
+                            console.log(response.statusText);
+                          }
+                        }, function(err) {
+                          $scope.userList = [];
+                          console.log("Error: " + err);
+                          //$scope.pagination.totalCount  = 0;
+                      });
                   break;
                   case "list":
                     $scope.userList=[];
