@@ -80,8 +80,8 @@
           <span >{{item.nameProfile}}</span>
           <label class="label label-default">{{item.nameTypeAttendant}}</label>
         </td>
-        <td style="vertical-align: middle;text-align: center;" ng-if="item.name"><label class="label label-default">{{item.name}}</label></td>
-        <td style="vertical-align: middle;text-align: center;" ng-if="item.name==null"><label class="label label-warning" data-toggle="tooltip" data-placement="left" title="Role no asociado">N/A</label></td>
+        <td style="vertical-align: middle;text-align: center;" ng-if="item.systemProfileName"><label class="label label-default">{{item.systemProfileName}}</label></td>
+        <td style="vertical-align: middle;text-align: center;" ng-if="item.systemProfileName==null"><label class="label label-warning" data-toggle="tooltip" data-placement="left" title="Role no asociado">N/A</label></td>
         <td style="vertical-align: middle;text-align: center;"> <!-- TD to Admins -->
             <label ng-if="item.idStatusKf==1" class="label label-success">ACTIVO
             </label>
