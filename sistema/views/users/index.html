@@ -52,7 +52,7 @@
 								<label style="padding-left: 15px;">Buscar</label>
 								<div class="input-group">
 										<span class="input-group-addon"><i class="glyphicon glyphicon-search "></i></span>
-										<input type="text" class="form-control" ng-change="search(filters.userProfile.nameProfile, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, false)"  ng-model="filters.searchboxfilter" placeholder="Buscar...">
+										<input type="text" class="form-control" ng-change="managedUsers('search', filters);"  ng-model="filters.searchboxfilter" placeholder="Buscar...">
 								</div>
 							</div>
 							<div class="col-md-2 btn-group-mg-top" ><br>
