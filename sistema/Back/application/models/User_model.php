@@ -558,7 +558,7 @@ class User_model extends CI_Model
 			$this->db->like("tb_user.emailUser", @$filters['emailUser']);
 		}
 
-		if (!is_null($filters['search'])) {
+		if (!empty($filters['search'])) {
 			$this->db->group_start();
 			$this->db->like("tb_user.fullNameUser", @$filters['search']);
 			$this->db->or_like("tb_user.emailUser", @$filters['search']);
