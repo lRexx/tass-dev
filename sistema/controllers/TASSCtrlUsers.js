@@ -2481,7 +2481,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   "limit":limit,
                   "offset":offset
                 };
-              return userServices.getUserList($scope.usersSearch).then(function(response){
+              return userServices.getUsersList($scope.usersSearch).then(function(response){
                 return response;
               });
           };
