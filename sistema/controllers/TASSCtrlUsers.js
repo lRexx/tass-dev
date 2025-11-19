@@ -2499,6 +2499,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
               console.log(response);
               if(response.status==200){
                   $scope.userList = response.data.data;
+                  $scope.pagination.totalCount = data.total;
                   console.info($scope.userList);
               }else if(response.status==404){
                 console.log("404 Error");
@@ -2622,6 +2623,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                           console.log(response);
                           if(response.status==200){
                               $scope.userList = response.data.data;
+                              $scope.pagination.totalCount = data.total;
                               console.info($scope.userList);
                           }else if(response.status==404){
                             console.log("404 Error");
@@ -2648,6 +2650,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                             console.log(response);
                             if(response.status==200){
                                 $scope.userList = response.data.data;
+                                $scope.pagination.totalCount = data.total;
                                 console.info($scope.userList);
                             }else if(response.status==404){
                               console.log("404 Error");
