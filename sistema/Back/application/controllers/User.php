@@ -247,9 +247,6 @@ class User extends REST_Controller
             // Obtener usuarios desde el modelo
             $result = $this->user_model->getUsers($filters, $this->post('limit'), $this->post('offset'));
 
-            // Log de la query realmente ejecutada
-            log_message('info', 'Última query ejecutada: ' . $this->db->last_query());
-
             if (!empty($result) && isset($result['data']) && count($result['data']) > 0) {
 
                 log_message('info', 'Usuarios encontrados: ' . count($result['data']));

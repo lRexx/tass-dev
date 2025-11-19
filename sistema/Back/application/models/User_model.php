@@ -450,6 +450,8 @@ class User_model extends CI_Model
 		// -------------------------
 		$this->db->limit($limit, $offset);
 		$quuery = $this->db->get();
+		// Log de la query realmente ejecutada
+		log_message('info', 'Última query ejecutada: ' . $this->db->last_query());
 		if ($quuery->num_rows() > 0) {
 			$user = $quuery->result_array();
 			foreach ($user as $key => $item) {
