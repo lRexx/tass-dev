@@ -538,40 +538,40 @@ class User_model extends CI_Model
 
 	private function applyUserFilters($filters)
 	{
-		if (!is_null($filters['idProfileKf'])) {
-			$this->db->where("tb_user.idProfileKf", $filters['idProfileKf']);
+		if (!is_null(@$filters['idProfileKf'])) {
+			$this->db->where("tb_user.idProfileKf", @$filters['idProfileKf']);
 		}
 
-		if (!is_null($filters['idStatusKf'])) {
-			$this->db->where("tb_user.idStatusKf", $filters['idStatusKf']);
+		if (!is_null(@$filters['idStatusKf'])) {
+			$this->db->where("tb_user.idStatusKf", @$filters['idStatusKf']);
 		}
 
-		if (!is_null($filters['dni'])) {
-			$this->db->where("tb_user.dni", $filters['dni']);
+		if (!is_null(@$filters['dni'])) {
+			$this->db->where("tb_user.dni", @$filters['dni']);
 		}
 
-		if (!is_null($filters['fullNameUser'])) {
-			$this->db->like("tb_user.fullNameUser", $filters['fullNameUser']);
+		if (!is_null(@$filters['fullNameUser'])) {
+			$this->db->like("tb_user.fullNameUser", @$filters['fullNameUser']);
 		}
 
-		if (!is_null($filters['emailUser'])) {
-			$this->db->like("tb_user.emailUser", $filters['emailUser']);
+		if (!is_null(@$filters['emailUser'])) {
+			$this->db->like("tb_user.emailUser", @$filters['emailUser']);
 		}
 
 		if (!is_null($filters['search'])) {
 			$this->db->group_start();
-			$this->db->like("tb_user.fullNameUser", $filters['search']);
-			$this->db->or_like("tb_user.emailUser", $filters['search']);
-			$this->db->or_like("tb_user.dni", $filters['search']);
+			$this->db->like("tb_user.fullNameUser", @$filters['search']);
+			$this->db->or_like("tb_user.emailUser", @$filters['search']);
+			$this->db->or_like("tb_user.dni", @$filters['search']);
 			$this->db->group_end();
 		}
 
-		if (!is_null($filters['date_from'])) {
-			$this->db->where("DATE(tb_user.dateCreated) >=", $filters['date_from']);
+		if (!is_null(@$filters['date_from'])) {
+			$this->db->where("DATE(tb_user.dateCreated) >=", @$filters['date_from']);
 		}
 
-		if (!is_null($filters['date_to'])) {
-			$this->db->where("DATE(tb_user.dateCreated) <=", $filters['date_to']);
+		if (!is_null(@$filters['date_to'])) {
+			$this->db->where("DATE(tb_user.dateCreated) <=", @$filters['date_to']);
 		}
 	}
 
