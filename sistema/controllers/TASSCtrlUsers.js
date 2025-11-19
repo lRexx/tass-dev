@@ -2491,7 +2491,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
             $scope.getUSersListFn(val2, pagIndex, $scope.pagination.pageSizeSelected).then(function(response) {
               console.log(response);
               if(response.status==200){
-                  $scope.userList = response.data;
+                  $scope.userList = response.data.data;
                   console.info($scope.userList);
               }else if(response.status==404){
                 console.log("404 Error");
