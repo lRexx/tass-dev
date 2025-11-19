@@ -429,7 +429,6 @@ class User_model extends CI_Model
 
 		// condición base
 		$this->db->where("tb_user.idStatusKf !=", -1);
-
 		// -------------------------
 		// Aplicar filtros dinámicos
 		// -------------------------
@@ -450,12 +449,90 @@ class User_model extends CI_Model
 		// Obtener datos paginados
 		// -------------------------
 		$this->db->limit($limit, $offset);
-		$query = $this->db->get();
+		$quuery = $this->db->get();
+		if ($quuery->num_rows() > 0) {
+			$user = $quuery->result_array();
+			foreach ($user as $key => $item) {
+				$idProfile = null;
+				$idProfile = $item['idProfileKf'];
+				$idProfiles = $item['idSysProfileFk'];
+				$query2 = null;
+				if (isset($idProfiles) && !is_null($idProfiles) && $idProfiles > 0) {
+					// Buscamos los perfiles de sistema //
+					$this->db->select("*")->from("tb_profiles");
+					$quuery = $this->db->where("tb_profiles.idProfiles =", $idProfiles)->get();
+					if ($quuery->num_rows() === 1) {
+						$rs = $quuery->row_array();
 
-		return [
-			"total" => $total,
-			"data" => $query->result_array()
-		];
+						$this->db->select("*")->from("tb_profiles_modules");
+						$this->db->join('tb_modules', 'tb_modules.idModule = tb_profiles_modules.idModuleFk', 'inner');
+						$quuery = $this->db->where("tb_profiles_modules.idProfilesFk =", $idProfiles)->get();
+
+						$rs2 = $quuery->result_array();
+
+						$user[$key]['modules'] = $rs2;
+					}
+					if (($idProfile == 2) && ($item['idTypeTenantKf'] == null || $item['idTypeTenantKf'] == '') || ($idProfile == 4) && (($item['idTypeTenantKf'] == null || $item['idTypeTenantKf'] == '') || ($item['idTypeTenantKf'] != null && $item['idTypeTenantKf'] != ''))) {
+						$query2 = $this->db->select("*")->from("tb_clients");
+						$query2 = $this->db->where('idClient', $item['idCompanyKf']);
+						$query2 = $this->db->get();
+						if ($query2->num_rows() > 0) {
+							$user[$key]['company'] = $query2->result_array();
+						}
+					}
+					if ($idProfile == 5 || ($idProfile == 4 && $item['idTypeTenantKf'] == 2) || ($idProfile == 6 && $item['idTyepeAttendantKf'] != 1 && $item['idTypeTenantKf'] == 2)) {
+						$query2 = $this->db->select("*")->from("tb_clients");
+						$query2 = $this->db->where('idClient', $item['idAddresKf']);
+						$query2 = $this->db->get();
+						if ($query2->num_rows() > 0) {
+							$user[$key]['building'] = $query2->result_array();
+						}
+					}
+					if ($idProfile == 6 && $item['idTyepeAttendantKf'] != null && ($item['idTypeTenantKf'] == null || $item['idTypeTenantKf'] != null)) {
+						$query2 = null;
+						$query2 = $this->db->select("*")->from("tb_clients");
+						$query2 = $this->db->where('idClient', $item['idAddresKf']);
+						$query2 = $this->db->get();
+						if ($query2->num_rows() > 0) {
+							$user[$key]['building'] = $query2->result_array();
+						}
+					}
+					if (($idProfile == 4 || $idProfile == 6) && $item['idTypeTenantKf'] == 1) {
+						$query2 = $this->db->select("*")->from("tb_clients");
+						$query2 = $this->db->where('idClient', $item['idAddresKf']);
+						$query2 = $this->db->get();
+						if ($query2->num_rows() > 0) {
+							$user[$key]['building'] = $query2->result_array();
+						}
+					}
+					if ($idProfile == 3 || ($idProfile == 4 && $item['idTypeTenantKf'] == 1) || ($idProfile == 6 && $item['idTypeTenantKf'] == 1)) {
+						$query2 = $this->db->select("*")->from("tb_client_departament");
+						$query2 = $this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
+						$query2 = $this->db->join('tb_clients', ' tb_clients.idClient= tb_client_departament.idClientFk', 'left');
+						$query2 = $this->db->where('idUserKf', $item['idUser']);
+						$query2 = $this->db->get();
+						if ($query2->num_rows() > 0) {
+							$user[$key]['deptos'] = $query2->result_array();
+						}
+					}
+					if ($idProfile == 5 || ($idProfile == 4 && $item['idTypeTenantKf'] == 2) || ($idProfile == 6 && $item['idTyepeAttendantKf'] != 1 && $item['idTypeTenantKf'] == 2)) {
+						$query2 = $this->db->select("*")->from("tb_client_departament");
+						$query2 = $this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
+						$query2 = $this->db->join('tb_clients', ' tb_clients.idClient= tb_client_departament.idClientFk', 'left');
+						$query2 = $this->db->where('idClientDepartament', $item['idDepartmentKf']);
+						$query2 = $this->db->get();
+						if ($query2->num_rows() > 0) {
+							$user[$key]['deptos'] = $query2->result_array();
+						}
+					}
+				}
+			}
+			return [
+				"total" => $total,
+				"data" => $user
+			];
+		}
+
 	}
 
 	private function applyUserFilters($filters)
