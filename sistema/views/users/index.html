@@ -212,7 +212,29 @@
 					<!-- TABLE LIST WHERE IS DISPLAYED THE SYS PROFILES -->
 					<div ng-if="sysContentList=='sysUsers'" ng-include="'views/users/lists/listSysUser.html'"></div>
 					<!-- PAGINATION -->
-					<div ng-if="pagedItems.length>1" style="text-align: center;" ng-include="'views/pagination/pager-tpl-v2.html'"></div>
+					<div ng-if="userList.length>0" style="text-align: center;">
+						<!--<dir-pagination-controls
+							max-size="10"
+							direction-links="true"
+							boundary-links="true" >
+						</dir-pagination-controls>-->
+						<div style="text-align: center;" ng-include="'views/pagination/pager-tpl-v3.html'"></div>
+						<!-- Filter Type of Tenant For Admins ng-if="sysContent=='customer'"-->
+						<!--<div class="col-md-3 col-sm-3">
+							<div class="input-group">
+								<label>Registros por pagina</label>
+								<select  name="itemPerPage"
+										ng-disabled="userList.status==404"
+										ng-change="groupToPages(itemPerPage)"
+										class="form-control"
+										ng-model="itemPerPage">
+									<option value="10" >10</option>
+									<option value="25" >25</option>
+									<option value="50" >50</option>
+								</select>
+							</div>
+						</div>-->
+					</div>
 					<!-- //PAGINATION -->
 				</div>
 			</div>
