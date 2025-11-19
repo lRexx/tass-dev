@@ -2488,7 +2488,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
           $scope.pageChanged = function(){
             //console.info($scope.pagination.pageIndex);
             var pagIndex = ($scope.pagination.pageIndex-1)*($scope.pagination.pageSizeSelected);
-            $scope.getUSersListFn(val2, pagIndex, $scope.pagination.pageSizeSelected).then(function(response) {
+            $scope.getUSersListFn(val2, $scope.pagination.pageSizeSelected, pagIndex).then(function(response) {
               console.log(response);
               if(response.status==200){
                   $scope.userList = response.data.data;
@@ -2611,7 +2611,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   break;
                   case "search":
                       console.log(val2);
-                      $scope.getUSersListFn(val2,1,1).then(function(response) {
+                      $scope.getUSersListFn(val2, $scope.pagination.pageSizeSelected, ($scope.pagination.pageIndex-1)).then(function(response) {
                           console.log(response);
                           if(response.status==200){
                               $scope.userList = response.data.data;
