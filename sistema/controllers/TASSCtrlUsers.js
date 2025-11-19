@@ -2670,8 +2670,6 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                         });
                           $timeout(function() {
                             $scope.sysContentList = "";
-                            $scope.userList=$scope.rsList.users;
-
                             $scope.sysContentList = 'users';
                         }, 1000);
                         break;
