@@ -2448,11 +2448,11 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
             });
           }
          $scope.getUSersListFn = function(filters,limit,offset){
-              var idProfileKf            = filters.userProfile.idProfile!=undefined && filters.userProfile.idProfile!=null?filters.userProfile.idProfile:null;
+              var idProfileKf            = filters.userProfile!=undefined && filters.userProfile!=null?filters.userProfile.idProfile:null;
               var search                 = filters.searchboxfilter!=undefined && filters.searchboxfilter!="" && filters.searchboxfilter!=null?filters.searchboxfilter:null;
               var date_from              = filters.date_from!=undefined && filters.date_from!="" && filters.date_from!=null?filters.date_from:null;
               var date_to                = filters.date_to!=undefined && filters.date_to!="" && filters.date_to!=null?filters.date_to:null;
-              var idStatusKf             = filters.userStatus.idStatusTenant!=undefined && filters.userStatus.idStatusTenant!="" && filters.userStatus.idStatusTenant!=null?filters.userStatus.idStatusTenant:null;
+              var idStatusKf             = filters.userStatus!=undefined && filters.userStatus!="" && filters.userStatus!=null?filters.userStatus.idStatusTenant:null;
               var limit                  = limit;
               var offset                 = offset;
               var create_at              = filters.create_at!=undefined && filters.create_at!="" && filters.create_at!=null?filters.create_at:null;
