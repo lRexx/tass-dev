@@ -2447,6 +2447,14 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
               //console.log($scope.rsModulesData);
             });
           }
+          $scope.filters={
+              "userProfile":{},
+              "searchboxfilter": null,
+              "userStatus":{},
+              "date_from":null,
+              "date_to":null,
+              "date_to":date_to
+            };
          $scope.getUSersListFn = function(filters,limit,offset){
               var idProfileKf            = filters.userProfile!=undefined && filters.userProfile!=null?filters.userProfile.idProfile:null;
               var search                 = filters.searchboxfilter!=undefined && filters.searchboxfilter!="" && filters.searchboxfilter!=null?filters.searchboxfilter:null;
