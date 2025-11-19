@@ -2495,7 +2495,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
           $scope.pageChanged = function(){
             //console.info($scope.pagination.pageIndex);
             var pagIndex = ($scope.pagination.pageIndex-1)*($scope.pagination.pageSizeSelected);
-            $scope.getUSersListFn(val2, $scope.pagination.pageSizeSelected, pagIndex).then(function(response) {
+            $scope.getUSersListFn($scope.filters, $scope.pagination.pageSizeSelected, pagIndex).then(function(response) {
               console.log(response);
               if(response.status==200){
                   $scope.userList = response.data.data;
