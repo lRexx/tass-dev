@@ -3930,20 +3930,20 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 case "6": //UPDATE APP MONITOR
                                     $scope.updateService = {};
                                     $timeout(function() {
-                                        $scope.updateService.name                   = obj.name
+                                        $scope.updateService.name                   = $scope.service.update.name
                                         $scope.updateService.idContracAssociated_SE = obj.idContracAssociated_SE
-                                        $scope.updateService.dateDown               = obj.dateDown;
-                                        $scope.updateService.idTypeMaintenanceFk    = obj.idTypeMaintenanceFk;
-                                        $scope.updateService.idCompanyMonitorFK     = obj.idCompanyMonitorFK;
-                                        $scope.updateService.sucribeNumber          = obj.sucribeNumber;
-                                        $scope.updateService.idApplicationFk        = obj.idApplicationFk;
-                                        $scope.updateService.passwdApp              = obj.passwordApp!=undefined && obj.passwordApp!=null && obj.idApplicationFk=="2"?obj.service.passwordApp:null;
-                                        $scope.updateService.countNewLicense        = obj.numbOfLicenceSet;
-                                        $scope.updateService.observation            = obj.observation
+                                        $scope.updateService.dateDown               = $scope.service.update.dateDown;
+                                        $scope.updateService.idTypeMaintenanceFk    = $scope.service.update.idTypeMaintenanceFk;
+                                        $scope.updateService.idCompanyMonitorFK     = $scope.service.update.idCompanyMonitorFK;
+                                        $scope.updateService.sucribeNumber          = $scope.service.update.sucribeNumber;
+                                        $scope.updateService.idApplicationFk        = $scope.service.update.idApplicationFk;
+                                        $scope.updateService.passwdApp              = $scope.service.update.passwordApp!=undefined && $scope.service.update.passwordApp!=null && $scope.service.update.idApplicationFk=="2"?$scope.service.update.passwordApp:null;
+                                        $scope.updateService.countNewLicense        = $scope.service.numbOfLicenceSet;
+                                        $scope.updateService.observation            = $scope.service.update.observation;
                                         $scope.updateService.licenses               = [];
                                         $scope.updateService.licenses               = $scope.list_user_licence;
                                         $scope.updateService.adicional              = {};
-                                        var rawDate                                 = moment(obj.dateUp).toDate();
+                                        var rawDate                                 = moment($scope.service.update.dateUp).toDate();
                                         var dateUpTmp                               = moment(rawDate).format('YYYY-MM-DD');
                                         $scope.updateService.dateUp                 = dateUpTmp;
                                         blockUI.message('Guardando Servicio '+obj.clientTypeServices);
