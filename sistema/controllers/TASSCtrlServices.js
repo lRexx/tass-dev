@@ -3936,8 +3936,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.updateService.idTypeMaintenanceFk    = $scope.service.update.idTypeMaintenanceFk;
                                         $scope.updateService.idCompanyMonitorFK     = $scope.service.update.idCompanyMonitorFK;
                                         $scope.updateService.sucribeNumber          = $scope.service.update.sucribeNumber;
-                                        $scope.updateService.idApplicationFk        = $scope.service.update.idApplicationFk;
-                                        $scope.updateService.passwdApp              = $scope.service.update.passwordApp!=undefined && $scope.service.update.passwordApp!=null && $scope.service.update.idApplicationFk=="2"?$scope.service.update.passwordApp:null;
+                                        $scope.updateService.idApplicationFk        = $scope.service.idApplicationFk;
+                                        $scope.updateService.passwdApp              = $scope.service.passwordApp!=undefined && $scope.service.passwordApp!=null && $scope.service.idApplicationFk=="2"?$scope.service.passwordApp:null;
                                         $scope.updateService.countNewLicense        = $scope.service.numbOfLicenceSet;
                                         $scope.updateService.observation            = $scope.service.update.observation;
                                         $scope.updateService.licenses               = [];
@@ -3952,7 +3952,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         console.log($scope.updateService);
                                         //$scope.updateCustomerServiceFn($scope.updateService);
                                     }, 1500);
-                                    $('#updateAppMonitorService').modal('hide');
+                                    //$('#updateAppMonitorService').modal('hide');
                                     blockUI.stop();
                                 break;
                             }
