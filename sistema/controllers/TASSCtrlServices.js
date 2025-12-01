@@ -3732,6 +3732,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             }
                         break;
                         case "update":
+                            obj=service;
                             switch(service.idTipeServiceFk){
                                 case "1": //UPDATE CONTROL ACCESS
                                     $timeout(function() {
@@ -3929,23 +3930,23 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 case "6": //UPDATE APP MONITOR
                                     $scope.updateService = {};
                                     $timeout(function() {
-                                        $scope.updateService.name                   = service.name
-                                        $scope.updateService.idContracAssociated_SE = service.idContracAssociated_SE
-                                        $scope.updateService.dateDown               = service.dateDown;
-                                        $scope.updateService.idTypeMaintenanceFk    = service.idTypeMaintenanceFk;
-                                        $scope.updateService.idCompanyMonitorFK     = service.idCompanyMonitorFK;
-                                        $scope.updateService.sucribeNumber          = service.sucribeNumber;
-                                        $scope.updateService.idApplicationFk        = service.idApplicationFk;
-                                        $scope.updateService.passwdApp              = $scope.service.passwordApp!=undefined && $scope.service.passwordApp!=null && $scope.service.idApplicationFk=="2"?$scope.service.passwordApp:null;
-                                        $scope.updateService.countNewLicense        = $scope.service.numbOfLicenceSet;
-                                        $scope.updateService.observation            = service.observation
+                                        $scope.updateService.name                   = obj.name
+                                        $scope.updateService.idContracAssociated_SE = obj.idContracAssociated_SE
+                                        $scope.updateService.dateDown               = obj.dateDown;
+                                        $scope.updateService.idTypeMaintenanceFk    = obj.idTypeMaintenanceFk;
+                                        $scope.updateService.idCompanyMonitorFK     = obj.idCompanyMonitorFK;
+                                        $scope.updateService.sucribeNumber          = obj.sucribeNumber;
+                                        $scope.updateService.idApplicationFk        = obj.idApplicationFk;
+                                        $scope.updateService.passwdApp              = obj.passwordApp!=undefined && obj.passwordApp!=null && obj.idApplicationFk=="2"?obj.service.passwordApp:null;
+                                        $scope.updateService.countNewLicense        = obj.numbOfLicenceSet;
+                                        $scope.updateService.observation            = obj.observation
                                         $scope.updateService.licenses               = [];
                                         $scope.updateService.licenses               = $scope.list_user_licence;
                                         $scope.updateService.adicional              = {};
-                                        var rawDate                                 = moment(service.dateUp).toDate();
+                                        var rawDate                                 = moment(obj.dateUp).toDate();
                                         var dateUpTmp                               = moment(rawDate).format('YYYY-MM-DD');
                                         $scope.updateService.dateUp                 = dateUpTmp;
-                                        blockUI.message('Guardando Servicio '+service.clientTypeServices);
+                                        blockUI.message('Guardando Servicio '+obj.clientTypeServices);
                                     }, 1500);
                                     $timeout(function() {
                                         console.log($scope.updateService);
