@@ -3927,10 +3927,10 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     blockUI.stop();
                                 break;
                                 case "6": //UPDATE APP MONITOR
+                                    $scope.updateService = {};
                                     $timeout(function() {
                                         $scope.updateService.name                   = service.name
                                         $scope.updateService.idContracAssociated_SE = service.idContracAssociated_SE
-
                                         $scope.updateService.dateDown               = service.dateDown;
                                         $scope.updateService.idTypeMaintenanceFk    = service.idTypeMaintenanceFk;
                                         $scope.updateService.idCompanyMonitorFK     = service.idCompanyMonitorFK;
@@ -3942,8 +3942,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.updateService.licenses               = [];
                                         $scope.updateService.licenses               = $scope.list_user_licence;
                                         $scope.updateService.adicional              = {};
-                                        var rawDate                 = moment(service.dateUp).toDate();
-                                        var dateUpTmp               = moment(rawDate).format('YYYY-MM-DD');
+                                        var rawDate                                 = moment(service.dateUp).toDate();
+                                        var dateUpTmp                               = moment(rawDate).format('YYYY-MM-DD');
                                         $scope.updateService.dateUp                 = dateUpTmp;
                                         blockUI.message('Guardando Servicio '+service.clientTypeServices);
                                     }, 1500);
