@@ -1,5 +1,5 @@
 <!-- APP MONITOR USER LICENCE FORM -->
-<div id="serviceLicenceDetails" class="modal fade bd-example-modal-lg" data-keyboard="false" data-backdrop="static" style="top: 10%"  role="dialog" ng-init="getOperatingSystemListFn()">
+<div id="serviceLicenceDetails" class="modal fade bd-example-modal-lg" data-keyboard="false" data-backdrop="static" style="top: 12%"  role="dialog" ng-init="getOperatingSystemListFn()">
   	<div class="modal-dialog modal-lg" >
 	    <div class="modal-content">
           	<div class="modal-header">
@@ -18,7 +18,7 @@
 		            	<div ng-if="isListCustomerService" class="col-md-12 col-xs-12"><label class="clf-size clf-p-left">Licencia asociada a</label></div>
 		            	<div ng-repeat="item in rsDestinationLicenceListData"
 		            		ng-class="{
-		            				'col-md-5 col-xs-5 n-padding-l n-padding-r': item.idDetinationOfLicense=='1',
+		            				'col-md-4 col-xs-4 n-padding-l n-padding-r': item.idDetinationOfLicense=='1',
 		            				'col-md-3 col-xs-3 n-padding-l n-padding-r': item.idDetinationOfLicense=='2',
 		            				'col-md-4 col-xs-4 n-padding-l n-padding-r': item.idDetinationOfLicense=='3',
 		            			}">
