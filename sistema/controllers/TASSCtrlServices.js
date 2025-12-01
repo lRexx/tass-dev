@@ -3695,9 +3695,10 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.service.update.idTypeMaintenanceFk = service.idTypeMaintenanceFk_array[0].idTypeMaintenance;
                                         $scope.service.update.MntType             = service.idTypeMaintenanceFk_array[0].typeMaintenance;
                                         $scope.service.idApplicationFk            = service.idApplicationFk_array[0].idApplication;
-                                        $scope.service.passwordApp                = service.sucribeNumber;
+                                        $scope.service.sucribeNumber              = service.sucribeNumber;
+                                        $scope.service.passwordApp                = service.passwdApp;
                                         $scope.rsCustomerContractListData         = $scope.rsContractsListByCustomerIdData;
-                                        $scope.rsContractItemListData             = $scope.getSelectedServiceByIdContractFn($scope.service.update.idContratoFk, $scope.service.update.      idClientTypeServices);
+                                        $scope.rsContractItemListData             = $scope.getSelectedServiceByIdContractFn($scope.service.update.idContratoFk, $scope.service.update.idClientTypeServices);
                                         $scope.service.idClientTypeFk             = $scope.customerFound.idClientTypeFk;
                                         $scope.service.numbOfNewLicence           = parseInt(service.countNewLicense);
                                         // Convertir la cadena a un objeto Date usando Moment-Timezone
@@ -3719,7 +3720,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             $scope.list_user_licence_idDepartmentList.Depto       = service.tb_user_license_array[key].Depto;
                                             $scope.list_user_licence_idDepartmentList.idBuilding  = service.tb_user_license_array[key].idBuilding;
                                             $scope.list_user_licence_idDepartmentList.Building    = service.tb_user_license_array[key].Building;
-                                            $scope.list_user_licence_tmp.push({'idDetinationOfLicenseFk':service.tb_user_license_array[key].idDetinationOfLicenseFk, 'idUserFk':service.        tb_user_license_array[key].idUserFk,'fullName':service.tb_user_license_array[key].fullName, 'idDepartmentFk':service.tb_user_license_array[key].        idDepartmentFk,'idDepartmentList': $scope.list_user_licence_idDepartmentList, 'idParticularAddressFk':service.tb_user_license_array[key].       idParticularAddressFk, 'email':service.tb_user_license_array[key].email, 'phone':service.tb_user_license_array[key].phone, 'keyword':service.   tb_user_license_array[key].keyword, 'idOS':service.tb_user_license_array[key].idOS, 'profileUser':service.tb_user_license_array[key].profileUser,        'userNumbPasswd':service.tb_user_license_array[key].numberUserPassword, 'nameProfile':service.tb_user_license_array[key].nameProfile});
+                                            $scope.list_user_licence_tmp.push({'idDetinationOfLicenseFk':service.tb_user_license_array[key].idDetinationOfLicenseFk, 'idUserFk':service.tb_user_license_array[key].idUserFk,'fullName':service.tb_user_license_array[key].fullName, 'idDepartmentFk':service.tb_user_license_array[key].idDepartmentFk,'idDepartmentList': $scope.list_user_licence_idDepartmentList, 'idParticularAddressFk':service.tb_user_license_array[key].idParticularAddressFk, 'email':service.tb_user_license_array[key].email, 'phone':service.tb_user_license_array[key].phone, 'keyword':service.tb_user_license_array[key].keyword, 'idOS':service.tb_user_license_array[key].idOS, 'profileUser':service.tb_user_license_array[key].profileUser, 'userNumbPasswd':service.tb_user_license_array[key].numberUserPassword, 'nameProfile':service.tb_user_license_array[key].nameProfile});
                                             //console.log($scope.list_user_licence_tmp);
                                             $scope.processUserLicenceFn($scope.list_user_licence_tmp[key], 'edit');
                                         }
@@ -3928,12 +3929,16 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 case "6": //UPDATE APP MONITOR
                                     $timeout(function() {
                                         service.licenses          = [];
-                                        service.licenses          = $scope.list_user_licence;
-                                        service.countNewLicense   = $scope.service.numbOfLicenceSet;
-                                        service.passwordApp       = $scope.service.passwordApp!=undefined && $scope.service.passwordApp!=null && $scope.service.idApplicationFk=="2"?$scope.service.passwordApp:null;
-                                        service.adicional         = {};
-                                        var rawDate               = moment(service.dateUp).toDate();
-                                        service.dateUp            = moment(rawDate).format('YYYY-MM-DD');
+                                        service.idCompanyMonitorFK  = service.idCompanyMonitorFK;
+                                        service.idApplicationFk     = service.idApplicationFk;
+                                        service.sucribeNumber       = service.sucribeNumber;
+                                        service.passwordApp         = service.passwordApp;
+                                        service.licenses            = $scope.list_user_licence;
+                                        service.countNewLicense     = $scope.service.numbOfLicenceSet;
+                                        service.passwordApp         = $scope.service.passwordApp!=undefined && $scope.service.passwordApp!=null && $scope.service.idApplicationFk=="2"?$scope.service.passwordApp:null;
+                                        service.adicional           = {};
+                                        var rawDate                 = moment(service.dateUp).toDate();
+                                        service.dateUp              = moment(rawDate).format('YYYY-MM-DD');
                                         blockUI.message('Guardando Servicio '+service.clientTypeServices);
                                     }, 1500);
                                     $timeout(function() {
