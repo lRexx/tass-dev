@@ -2428,7 +2428,7 @@ class Services_model extends CI_Model
                            tb_profiles.name as sysProfileName,
                            tb_category_departament.categoryDepartament,
                            tb_client_departament.*,
-                           tb_typetenant.typeTenant,
+                           tb_typetenant.typeTenantName,
                            tb_type_attendant.nameTypeAttendant,
                            tb_status.statusTenantName");
 
@@ -2452,7 +2452,7 @@ class Services_model extends CI_Model
                            tb_profiles.name as sysProfileName,
                            tb_category_departament.categoryDepartament,
                            tb_client_departament.*,
-                           tb_typetenant.typeTenant,
+                           tb_typetenant.typeTenantName,
                            tb_type_attendant.nameTypeAttendant,
                            tb_status.statusTenantName");
 
@@ -2474,7 +2474,7 @@ class Services_model extends CI_Model
                            tb_profiles.name as sysProfileName,
                            tb_category_departament.categoryDepartament,
                            tb_client_departament.*,
-                           tb_typetenant.typeTenant,
+                           tb_typetenant.typeTenantName,
                            tb_type_attendant.nameTypeAttendant,
                            tb_status.statusTenantName");
 
