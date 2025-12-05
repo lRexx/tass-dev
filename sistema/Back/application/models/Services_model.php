@@ -2435,7 +2435,7 @@ class Services_model extends CI_Model
         $this->buildUserJoinQuery();
 
         // Filtro: solo usuarios activos
-        $this->db->where('t1.idStatusKf', 1);
+        $this->db->where("t1.idStatusKf !=", -1);
 
         // Asociación directa o indirecta al departamento
         $this->db->group_start();
@@ -2464,7 +2464,7 @@ class Services_model extends CI_Model
 
         $this->buildUserJoinQuery();
 
-        $this->db->where('t1.idStatusKf', 1);   // usuario activo
+        $this->db->where("t1.idStatusKf !=", -1);   // usuario activo
         $this->db->where('t1.idProfileKf', 6);  // personal del edificio
         $this->db->where('t1.idCompanyKf', $idClientKf);
 
@@ -2487,7 +2487,7 @@ class Services_model extends CI_Model
 
         $this->buildUserJoinQuery();
 
-        $this->db->where('t1.idStatusKf', 1);   // usuario activo
+        $this->db->where("t1.idStatusKf !=", -1);   // usuario activo
         $this->db->where('t1.idProfileKf', 4);  // administración
         $this->db->where('t1.idCompanyKf', $idClientKf);
 
