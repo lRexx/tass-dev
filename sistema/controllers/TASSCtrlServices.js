@@ -3944,7 +3944,11 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.updateService.licenses                   = $scope.list_user_licence;
                                         $scope.updateService.adicional                  = {};
                                         $scope.updateService.idClientTypeServices       = obj.idClientTypeServices;
-                                        $scope.updateService.idClientServicesSmartPanic = obj.idClientServicesSmartPanic
+                                        $scope.updateService.idClientServicesSmartPanic = obj.idClientServicesSmartPanic;
+                                        $scope.updateService.idClientFk                 = obj.idClientFk;
+                                        $scope.updateService.idContratoFk               = obj.idContratoFk;
+                                        $scope.updateService.idServicesFk               = obj.idServicesFk;
+                                        $scope.updateService.idTipeServiceFk            = obj.idTipeServiceFk;
                                         var rawDate                                 = moment($scope.service.update.dateUp).toDate();
                                         var dateUpTmp                               = moment(rawDate).format('YYYY-MM-DD');
                                         $scope.updateService.dateUp                 = dateUpTmp;
