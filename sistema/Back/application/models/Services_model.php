@@ -2410,7 +2410,7 @@ class Services_model extends CI_Model
 
         $sql = "
             SELECT u.*
-            FROM tb_users u
+            FROM tb_user u
             WHERE u.idDepartmentKf = ?
             OR u.idUser IN (
                     SELECT idUserKf
@@ -2430,7 +2430,7 @@ class Services_model extends CI_Model
 
         $sql = "
             SELECT *
-            FROM tb_users
+            FROM tb_user
             WHERE idProfileKf = 6
             AND idCompanyKf = ?
         ";
@@ -2446,7 +2446,7 @@ class Services_model extends CI_Model
 
         $sql = "
             SELECT *
-            FROM tb_users
+            FROM tb_user
             WHERE idProfileKf = 4
             AND idCompanyKf = ?
         ";
