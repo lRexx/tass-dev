@@ -2426,11 +2426,11 @@ class Services_model extends CI_Model
         $this->db->select("t1.*,
                            tb_profile.nameProfile as profileName,
                            tb_profiles.name as sysProfileName,
-                           tb_category_departament.categoryName,
+                           tb_category_departament.categoryDepartament,
                            tb_client_departament.*,
                            tb_typetenant.typeTenant,
-                           tb_type_attendant.typeAttendantName,
-                           tb_status.statusName");
+                           tb_type_attendant.nameTypeAttendant,
+                           tb_status.statusTenantName");
 
         $this->buildUserJoinQuery();
 
@@ -2450,11 +2450,11 @@ class Services_model extends CI_Model
         $this->db->select("t1.*,
                            tb_profile.nameProfile as profileName,
                            tb_profiles.name as sysProfileName,
-                           tb_category_departament.categoryName,
+                           tb_category_departament.categoryDepartament,
                            tb_client_departament.*,
                            tb_typetenant.typeTenant,
-                           tb_type_attendant.typeAttendantName,
-                           tb_status.statusName");
+                           tb_type_attendant.nameTypeAttendant,
+                           tb_status.statusTenantName");
 
         $this->buildUserJoinQuery();
 
@@ -2472,11 +2472,11 @@ class Services_model extends CI_Model
         $this->db->select("t1.*,
                            tb_profile.nameProfile as profileName,
                            tb_profiles.name as sysProfileName,
-                           tb_category_departament.categoryName,
+                           tb_category_departament.categoryDepartament,
                            tb_client_departament.*,
                            tb_typetenant.typeTenant,
-                           tb_type_attendant.typeAttendantName,
-                           tb_status.statusName");
+                           tb_type_attendant.nameTypeAttendant,
+                           tb_status.statusTenantName");
 
         $this->buildUserJoinQuery();
 
