@@ -3144,7 +3144,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.addNewService.licenses                 = $scope.list_user_licence;
                                         $scope.addNewService.countNewLicense          = $scope.service.numbOfLicenceSet;
                                         $scope.addNewService.idApplicationFk          = $scope.service.idApplicationFk;
-                                        $scope.addNewService.passwordApp              = $scope.service.passwordApp!=undefined && $scope.service.passwordApp!=null && $scope.service.idApplicationFk=="2"?$scope.service.passwordApp:null;
+                                        $scope.addNewService.passwordApp              = $scope.service.passwordApp!=undefined && $scope.service.passwordApp!=null && $scope.service.idApplicationFk=="1"?$scope.service.passwordApp:null;
                                         $scope.addNewService.adicional={};
                                         blockUI.message('Guardando Servicio '+service.serviceName);
                                         }, 1500);
@@ -3937,7 +3937,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.updateService.idCompanyMonitorFK         = $scope.service.update.idCompanyMonitorFK;
                                         $scope.updateService.sucribeNumber              = $scope.service.update.sucribeNumber;
                                         $scope.updateService.idApplicationFk            = $scope.service.idApplicationFk;
-                                        $scope.updateService.passwordApp                = $scope.service.passwordApp!=undefined && $scope.service.passwordApp!=null && $scope.service.idApplicationFk=="2"?$scope.service.passwordApp:null;
+                                        $scope.updateService.passwordApp                = $scope.service.passwordApp!=undefined && $scope.service.passwordApp!=null && $scope.service.idApplicationFk=="1"?$scope.service.passwordApp:null;
                                         $scope.updateService.countNewLicense            = $scope.service.numbOfLicenceSet;
                                         $scope.updateService.observation                = $scope.service.update.observation;
                                         $scope.updateService.licenses                   = [];
