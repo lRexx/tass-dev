@@ -2402,24 +2402,44 @@ class Services_model extends CI_Model
         }
     }
 
+
+    // ============================================================
+    // JOIN BASE USADO EN TODOS LOS QUERIES
+    // ============================================================
+    private function buildUserJoinQuery()
+    {
+        $this->db->from("tb_user as t1");
+        $this->db->join('tb_profile', 'tb_profile.idProfile = t1.idProfileKf', 'left');
+        $this->db->join('tb_profiles', 'tb_profiles.idProfiles = t1.idSysProfileFk', 'left');
+        $this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = t1.idDepartmentKf', 'left');
+        $this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
+        $this->db->join('tb_typetenant', 'tb_typetenant.idTypeTenant = t1.idTypeTenantKf', 'left');
+        $this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = t1.idTyepeAttendantKf', 'left');
+        $this->db->join('tb_status', 'tb_status.idStatusTenant = t1.idStatusKf', 'left');
+    }
+
     // ============================================================
     // 🔹 OPCIÓN 1
     // ============================================================
     private function getUsersForOwner($idDepartmentSelected)
     {
+        $this->db->select("t1.*,
+                           tb_profile.profileName,
+                           tb_profiles.sysProfileName,
+                           tb_category_departament.categoryName,
+                           tb_client_departament.*,
+                           tb_typetenant.typeTenant,
+                           tb_type_attendant.typeAttendantName,
+                           tb_status.statusName");
 
-        $sql = "
-            SELECT u.*
-            FROM tb_user u
-            WHERE u.idDepartmentKf = ?
-            OR u.idUser IN (
-                    SELECT idUserKf
-                    FROM tb_client_departament
-                    WHERE idDepartmentKf = ?
-            )
-        ";
+        $this->buildUserJoinQuery();
 
-        return $this->db->query($sql, array($idDepartmentSelected, $idDepartmentSelected))->result_array();
+        $this->db->group_start();
+        $this->db->where('t1.idDepartmentKf', $idDepartmentSelected);
+        $this->db->or_where('t1.idUser IN (SELECT idUserKf FROM tb_client_departament WHERE idDepartmentKf = ' . $this->db->escape($idDepartmentSelected) . ')');
+        $this->db->group_end();
+
+        return $this->db->get()->result_array();
     }
 
     // ============================================================
@@ -2427,15 +2447,21 @@ class Services_model extends CI_Model
     // ============================================================
     private function getUsersForBuildingStaff($idClientKf)
     {
+        $this->db->select("t1.*,
+                           tb_profile.profileName,
+                           tb_profiles.sysProfileName,
+                           tb_category_departament.categoryName,
+                           tb_client_departament.*,
+                           tb_typetenant.typeTenant,
+                           tb_type_attendant.typeAttendantName,
+                           tb_status.statusName");
 
-        $sql = "
-            SELECT *
-            FROM tb_user
-            WHERE idProfileKf = 6
-            AND idCompanyKf = ?
-        ";
+        $this->buildUserJoinQuery();
 
-        return $this->db->query($sql, array($idClientKf))->result_array();
+        $this->db->where('t1.idProfileKf', 6);
+        $this->db->where('t1.idCompanyKf', $idClientKf);
+
+        return $this->db->get()->result_array();
     }
 
     // ============================================================
@@ -2443,15 +2469,21 @@ class Services_model extends CI_Model
     // ============================================================
     private function getUsersForAdmin($idClientKf)
     {
+        $this->db->select("t1.*,
+                           tb_profile.profileName,
+                           tb_profiles.sysProfileName,
+                           tb_category_departament.categoryName,
+                           tb_client_departament.*,
+                           tb_typetenant.typeTenant,
+                           tb_type_attendant.typeAttendantName,
+                           tb_status.statusName");
 
-        $sql = "
-            SELECT *
-            FROM tb_user
-            WHERE idProfileKf = 4
-            AND idCompanyKf = ?
-        ";
+        $this->buildUserJoinQuery();
 
-        return $this->db->query($sql, array($idClientKf))->result_array();
+        $this->db->where('t1.idProfileKf', 4);
+        $this->db->where('t1.idCompanyKf', $idClientKf);
+
+        return $this->db->get()->result_array();
     }
 
 }
