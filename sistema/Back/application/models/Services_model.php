@@ -2466,7 +2466,7 @@ class Services_model extends CI_Model
 
         $this->db->where("t1.idStatusKf !=", -1);   // usuario activo
         $this->db->where('t1.idProfileKf', 6);  // personal del edificio
-        $this->db->where('t1.idAddressKf', $idClientKf);
+        $this->db->where('t1.idAddresKf', $idClientKf);
 
         return $this->db->get()->result_array();
     }
