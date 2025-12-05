@@ -3930,20 +3930,21 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 case "6": //UPDATE APP MONITOR
                                     $scope.updateService = {};
                                     $timeout(function() {
-                                        $scope.updateService.name                   = $scope.service.update.name
-                                        $scope.updateService.idContracAssociated_SE = obj.idContracAssociated_SE
-                                        $scope.updateService.dateDown               = $scope.service.update.dateDown;
-                                        $scope.updateService.idTypeMaintenanceFk    = $scope.service.update.idTypeMaintenanceFk;
-                                        $scope.updateService.idCompanyMonitorFK     = $scope.service.update.idCompanyMonitorFK;
-                                        $scope.updateService.sucribeNumber          = $scope.service.update.sucribeNumber;
-                                        $scope.updateService.idApplicationFk        = $scope.service.idApplicationFk;
-                                        $scope.updateService.passwdApp              = $scope.service.passwordApp!=undefined && $scope.service.passwordApp!=null && $scope.service.idApplicationFk=="2"?$scope.service.passwordApp:null;
-                                        $scope.updateService.countNewLicense        = $scope.service.numbOfLicenceSet;
-                                        $scope.updateService.observation            = $scope.service.update.observation;
-                                        $scope.updateService.licenses               = [];
-                                        $scope.updateService.licenses               = $scope.list_user_licence;
-                                        $scope.updateService.adicional              = {};
-                                        $scope.updateService.idClientTypeServices   = obj.idClientTypeServices;
+                                        $scope.updateService.name                       = $scope.service.update.name
+                                        $scope.updateService.idContracAssociated_SE     = obj.idContracAssociated_SE
+                                        $scope.updateService.dateDown                   = $scope.service.update.dateDown;
+                                        $scope.updateService.idTypeMaintenanceFk        = $scope.service.update.idTypeMaintenanceFk;
+                                        $scope.updateService.idCompanyMonitorFK         = $scope.service.update.idCompanyMonitorFK;
+                                        $scope.updateService.sucribeNumber              = $scope.service.update.sucribeNumber;
+                                        $scope.updateService.idApplicationFk            = $scope.service.idApplicationFk;
+                                        $scope.updateService.passwordApp                = $scope.service.passwordApp!=undefined && $scope.service.passwordApp!=null && $scope.service.idApplicationFk=="2"?$scope.service.passwordApp:null;
+                                        $scope.updateService.countNewLicense            = $scope.service.numbOfLicenceSet;
+                                        $scope.updateService.observation                = $scope.service.update.observation;
+                                        $scope.updateService.licenses                   = [];
+                                        $scope.updateService.licenses                   = $scope.list_user_licence;
+                                        $scope.updateService.adicional                  = {};
+                                        $scope.updateService.idClientTypeServices       = obj.idClientTypeServices;
+                                        $scope.updateService.idClientServicesSmartPanic = obj.idClientServicesSmartPanic
                                         var rawDate                                 = moment($scope.service.update.dateUp).toDate();
                                         var dateUpTmp                               = moment(rawDate).format('YYYY-MM-DD');
                                         $scope.updateService.dateUp                 = dateUpTmp;
