@@ -568,7 +568,7 @@ class Services extends REST_Controller
         }
     }
 
-    public function getUsersByLicense()
+    public function getUsersByLicense_post()
     {
 
         $data = json_decode($this->input->raw_input_stream, true);
@@ -578,7 +578,7 @@ class Services extends REST_Controller
         $idClientKf = $data['idClientKf'];                  // empresa
         $userSelected = $data['idUserSelected'];              // service.sysUser.selected  (si necesitás usarlo)
 
-        $result = $this->LicenseUserModel->processDestination(
+        $result = $this->services_model->processDestination(
             $idDetinationOfLicenseFk,
             $idDepartmentSelected,
             $idClientKf,
