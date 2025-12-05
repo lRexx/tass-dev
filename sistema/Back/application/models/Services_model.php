@@ -2424,8 +2424,8 @@ class Services_model extends CI_Model
     private function getUsersForOwner($idDepartmentSelected)
     {
         $this->db->select("t1.*,
-                           tb_profile.nameProfile,
-                           tb_profiles.sysProfileName,
+                           tb_profile.nameProfile as profileName,
+                           tb_profiles.name as sysProfileName,
                            tb_category_departament.categoryName,
                            tb_client_departament.*,
                            tb_typetenant.typeTenant,
@@ -2448,8 +2448,8 @@ class Services_model extends CI_Model
     private function getUsersForBuildingStaff($idClientKf)
     {
         $this->db->select("t1.*,
-                           tb_profile.nameProfile,
-                           tb_profiles.sysProfileName,
+                           tb_profile.nameProfile as profileName,
+                           tb_profiles.name as sysProfileName,
                            tb_category_departament.categoryName,
                            tb_client_departament.*,
                            tb_typetenant.typeTenant,
@@ -2470,8 +2470,8 @@ class Services_model extends CI_Model
     private function getUsersForAdmin($idClientKf)
     {
         $this->db->select("t1.*,
-                           tb_profile.nameProfile,
-                           tb_profiles.sysProfileName,
+                           tb_profile.nameProfile as profileName,
+                           tb_profiles.name as sysProfileName,
                            tb_category_departament.categoryName,
                            tb_client_departament.*,
                            tb_typetenant.typeTenant,
