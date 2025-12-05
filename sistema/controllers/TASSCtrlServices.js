@@ -3949,6 +3949,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.updateService.idContratoFk               = obj.idContratoFk;
                                         $scope.updateService.idServicesFk               = obj.idServicesFk;
                                         $scope.updateService.idTipeServiceFk            = obj.idTipeServiceFk;
+                                        $scope.updateService.clientTypeServices         = obj.clientTypeServices;
                                         var rawDate                                 = moment($scope.service.update.dateUp).toDate();
                                         var dateUpTmp                               = moment(rawDate).format('YYYY-MM-DD');
                                         $scope.updateService.dateUp                 = dateUpTmp;
