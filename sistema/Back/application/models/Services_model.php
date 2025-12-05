@@ -2371,6 +2371,89 @@ class Services_model extends CI_Model
         return null;
 
     }
+
+    public function processDestination($idDetinationOfLicenseFk, $idDepartmentSelected, $idClientKf, $idUserSelected)
+    {
+
+        switch ($idDetinationOfLicenseFk) {
+
+            // ---------------------------------------------------------
+            // 1️⃣ OPCIÓN 1 → PROPIETARIO / HABITANTE
+            // ---------------------------------------------------------
+            case 1:
+                return $this->getUsersForOwner($idDepartmentSelected);
+
+
+            // ---------------------------------------------------------
+            // 2️⃣ OPCIÓN 2 → PERSONAL DEL EDIFICIO (perfil 6)
+            // ---------------------------------------------------------
+            case 2:
+                return $this->getUsersForBuildingStaff($idClientKf);
+
+
+            // ---------------------------------------------------------
+            // 3️⃣ OPCIÓN 3 → ADMINISTRACIÓN (perfil 4)
+            // ---------------------------------------------------------
+            case 3:
+                return $this->getUsersForAdmin($idClientKf);
+
+            default:
+                return array("error" => "Invalid idDetinationOfLicenseFk");
+        }
+    }
+
+    // ============================================================
+    // 🔹 OPCIÓN 1
+    // ============================================================
+    private function getUsersForOwner($idDepartmentSelected)
+    {
+
+        $sql = "
+            SELECT u.*
+            FROM tb_users u
+            WHERE u.idDepartmentKf = ?
+            OR u.idUser IN (
+                    SELECT idUserKf
+                    FROM tb_client_departament
+                    WHERE idDepartmentKf = ?
+            )
+        ";
+
+        return $this->db->query($sql, array($idDepartmentSelected, $idDepartmentSelected))->result_array();
+    }
+
+    // ============================================================
+    // 🔹 OPCIÓN 2
+    // ============================================================
+    private function getUsersForBuildingStaff($idClientKf)
+    {
+
+        $sql = "
+            SELECT *
+            FROM tb_users
+            WHERE idProfileKf = 6
+            AND idCompanyKf = ?
+        ";
+
+        return $this->db->query($sql, array($idClientKf))->result_array();
+    }
+
+    // ============================================================
+    // 🔹 OPCIÓN 3
+    // ============================================================
+    private function getUsersForAdmin($idClientKf)
+    {
+
+        $sql = "
+            SELECT *
+            FROM tb_users
+            WHERE idProfileKf = 4
+            AND idCompanyKf = ?
+        ";
+
+        return $this->db->query($sql, array($idClientKf))->result_array();
+    }
+
 }
 
 ?>

@@ -6125,7 +6125,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         $scope.service.users = {'fullName':'','email':'', 'phone':'', 'idOS':'', 'profileUser':'', 'userNumbPasswd':'', 'idDepartmentFk':'', 'idParticularAddressFk':'', 'idDetinationOfLicenseFk':null};
                         $scope.service.sysUser={'selected':undefined};
                         $scope.service.license_departments={'selected':undefined};
-                        $scope.service.idApplicationFk = null;
+                        //$scope.service.idApplicationFk = null;
                         $scope.service.isSysUser=false;
                         $scope.service.isUserLicenceEdit = false;
                         $('#serviceUserLicenceName').focus();
