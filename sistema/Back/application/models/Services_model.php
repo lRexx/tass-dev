@@ -2424,19 +2424,25 @@ class Services_model extends CI_Model
     private function getUsersForOwner($idDepartmentSelected)
     {
         $this->db->select("t1.*,
-                           tb_profile.nameProfile as profileName,
-                           tb_profiles.name as sysProfileName,
-                           tb_category_departament.categoryDepartament,
-                           tb_client_departament.*,
-                           tb_typetenant.typeTenantName,
-                           tb_type_attendant.nameTypeAttendant,
-                           tb_status.statusTenantName");
+                        tb_profile.nameProfile as profileName,
+                        tb_profiles.name as sysProfileName,
+                        tb_category_departament.categoryDepartament,
+                        tb_client_departament.*,
+                        tb_typetenant.typeTenantName,
+                        tb_type_attendant.nameTypeAttendant,
+                        tb_status.statusTenantName");
 
         $this->buildUserJoinQuery();
 
+        // Filtro: solo usuarios activos
+        $this->db->where('t1.idStatusKf', 1);
+
+        // Asociación directa o indirecta al departamento
         $this->db->group_start();
         $this->db->where('t1.idDepartmentKf', $idDepartmentSelected);
-        $this->db->or_where('t1.idUser IN (SELECT idUserKf FROM tb_client_departament WHERE idDepartmentKf = ' . $this->db->escape($idDepartmentSelected) . ')');
+        $this->db->or_where('t1.idUser IN (SELECT idUserKf
+                                        FROM tb_client_departament
+                                        WHERE idDepartmentKf = ' . $this->db->escape($idDepartmentSelected) . ')');
         $this->db->group_end();
 
         return $this->db->get()->result_array();
@@ -2445,20 +2451,21 @@ class Services_model extends CI_Model
     // ============================================================
     // 🔹 OPCIÓN 2
     // ============================================================
-    private function getUsersForBuildingStaff($idClientKf)
+    private function getUsersForAdmin($idClientKf)
     {
         $this->db->select("t1.*,
-                           tb_profile.nameProfile as profileName,
-                           tb_profiles.name as sysProfileName,
-                           tb_category_departament.categoryDepartament,
-                           tb_client_departament.*,
-                           tb_typetenant.typeTenantName,
-                           tb_type_attendant.nameTypeAttendant,
-                           tb_status.statusTenantName");
+                        tb_profile.nameProfile as profileName,
+                        tb_profiles.name as sysProfileName,
+                        tb_category_departament.categoryDepartament,
+                        tb_client_departament.*,
+                        tb_typetenant.typeTenantName,
+                        tb_type_attendant.nameTypeAttendant,
+                        tb_status.statusTenantName");
 
         $this->buildUserJoinQuery();
 
-        $this->db->where('t1.idProfileKf', 6);
+        $this->db->where('t1.idStatusKf', 1);   // usuario activo
+        $this->db->where('t1.idProfileKf', 4);  // administración
         $this->db->where('t1.idCompanyKf', $idClientKf);
 
         return $this->db->get()->result_array();
@@ -2467,25 +2474,6 @@ class Services_model extends CI_Model
     // ============================================================
     // 🔹 OPCIÓN 3
     // ============================================================
-    private function getUsersForAdmin($idClientKf)
-    {
-        $this->db->select("t1.*,
-                           tb_profile.nameProfile as profileName,
-                           tb_profiles.name as sysProfileName,
-                           tb_category_departament.categoryDepartament,
-                           tb_client_departament.*,
-                           tb_typetenant.typeTenantName,
-                           tb_type_attendant.nameTypeAttendant,
-                           tb_status.statusTenantName");
-
-        $this->buildUserJoinQuery();
-
-        $this->db->where('t1.idProfileKf', 4);
-        $this->db->where('t1.idCompanyKf', $idClientKf);
-
-        return $this->db->get()->result_array();
-    }
-
 }
 
 ?>
