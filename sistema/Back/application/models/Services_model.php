@@ -2451,6 +2451,29 @@ class Services_model extends CI_Model
     // ============================================================
     // 🔹 OPCIÓN 2
     // ============================================================
+    private function getUsersForBuildingStaff($idClientKf)
+    {
+        $this->db->select("t1.*,
+                        tb_profile.nameProfile as profileName,
+                        tb_profiles.name as sysProfileName,
+                        tb_category_departament.categoryDepartament,
+                        tb_client_departament.*,
+                        tb_typetenant.typeTenantName,
+                        tb_type_attendant.nameTypeAttendant,
+                        tb_status.statusTenantName");
+
+        $this->buildUserJoinQuery();
+
+        $this->db->where('t1.idStatusKf', 1);   // usuario activo
+        $this->db->where('t1.idProfileKf', 6);  // personal del edificio
+        $this->db->where('t1.idCompanyKf', $idClientKf);
+
+        return $this->db->get()->result_array();
+    }
+
+    // ============================================================
+    // 🔹 OPCIÓN 3
+    // ============================================================
     private function getUsersForAdmin($idClientKf)
     {
         $this->db->select("t1.*,
@@ -2470,10 +2493,6 @@ class Services_model extends CI_Model
 
         return $this->db->get()->result_array();
     }
-
-    // ============================================================
-    // 🔹 OPCIÓN 3
-    // ============================================================
 }
 
 ?>
