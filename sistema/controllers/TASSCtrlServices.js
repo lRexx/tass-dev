@@ -532,7 +532,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         console.log(cObj);
                         var userByLicense = {
                             "idDetinationOfLicenseFk":cObj.users.idDetinationOfLicenseFk,
-                            "idDepartmentSelected": cObj.license_departments.idDepto,
+                            "idDepartmentSelected": cObj.license_departments.selected.idDepto,
                             "idClientKf": cObj.update.idClientFk,
                             "idUserSelected": ""
                         }
