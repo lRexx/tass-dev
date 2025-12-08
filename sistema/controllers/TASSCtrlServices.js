@@ -530,6 +530,13 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         console.log($scope.rsList);
                         console.log($scope.rsUserList);
                         console.log(cObj);
+                        var userByLicense = {
+                            "idDetinationOfLicenseFk":cObj.users.idDetinationOfLicenseFk,
+                            "idDepartmentSelected": cObj.license_departments.idDepto,
+                            "idClientKf": cObj.update.idClientFk,
+                            "idUserSelected": ""
+                        }
+                        console.log(userByLicense);
                     break;
                 }
             break;
