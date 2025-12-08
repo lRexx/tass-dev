@@ -97,7 +97,7 @@
 				    	<label class="switch switch-1x">
 				    		<input type="checkbox"
 				    		class="success"
-							ng-change="switchCustomersFn('services', service.users, 'getUsersByLicense', '');"
+
 				    		ng-model="service.isSysUser"
 				    		ng-disabled="isListCustomerService"
 				    		id="isSysUser"
@@ -106,7 +106,7 @@
 						</label>
 						<label for="serviceSysUser" style="cursor: pointer; font-weight: 600; padding-left: 15px;">Usuario registrado</label>
 					</div>
-    				<!-- System user -->
+    				<!-- System user ng-change="switchCustomersFn('services', service.users, 'getUsersByLicense', '')"-->
 					<div class="form-group col-md-12 n-padding-r n-padding-l" ng-class="
 								  			{	'has-success':
 								  				service.sysUser.selected!=undefined && fServiceUserLicenceDetails.service_sysUser.$valid,
