@@ -97,7 +97,7 @@
 				    	<label class="switch switch-1x">
 				    		<input type="checkbox"
 				    		class="success"
-							ng-change="getUsersByLicense(service.users);"
+							ng-change="switchCustomersFn('services', service.users, 'getUsersByLicense', '');"
 				    		ng-model="service.isSysUser"
 				    		ng-disabled="isListCustomerService"
 				    		id="isSysUser"
@@ -183,7 +183,7 @@
 				    	</div>
 					</div>
 					<!-- Number of user or password -->
-					<div ng-if="(service.idApplicationFk!=null && (service.users.idDetinationOfLicenseFk!=null || service.users.idDetinationOfLicenseFk==null))" class="form-group col-md-12 n-padding-l n-padding-r" ng-class="
+					<div ng-if="(service.idApplicationFk!=null && (service.users.idDetinationOfLicenseFk!=null))" class="form-group col-md-12 n-padding-l n-padding-r" ng-class="
 							{	'has-success':
 								(service.users.userNumbPasswd!='' && service.users.userNumbPasswd!=undefined) && fServiceUserLicenceDetails.serviceUserLicencePhoneNumberUserOrPasswd.$valid,
 							 	'has-error':

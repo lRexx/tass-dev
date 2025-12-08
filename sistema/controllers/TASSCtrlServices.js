@@ -525,6 +525,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             $scope.setTokenCompletedFn($scope.token_param.token.tokenCode);
                         }, 2000);
                     break;
+                    case "getUsersByLicense":
+                        console.log(cObj)
+                    break;
                 }
             break;
             case "general":
@@ -608,6 +611,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     break;
                 }
             break;
+
             default:
             case "customers":
                 switch (opt2){
