@@ -528,6 +528,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     break;
                     case "getUsersByLicense":
                         console.log($scope.rsList);
+                        console.log($scope.rsUserList);
                         console.log(cObj);
                     break;
                 }
