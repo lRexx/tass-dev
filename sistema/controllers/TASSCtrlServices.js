@@ -535,8 +535,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             "idClientKf": cObj.update.idClientFk,
                             "idUserSelected": ""
                         }
-
                         console.log(userByLicense);
+                        $scope.getDestinationLicenceListFn(userByLicense);
                     break;
                 }
             break;
@@ -6226,11 +6226,12 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                 /***********************************
                 *         GET USER BY LICENCE      *
                 ************************************/
-                    $scope.rsUserList = {};
-                    $scope.getDestinationLicenceListFn = function(){
-                        services.getUsersByLicense().then(function(data){
+                    $scope.getDestinationLicenceListFn = function(obj){
+                        services.getUsersByLicense(obj).then(function(data){
                             if(data.status==200){
-                            $scope.rsUserList = data.data;
+                                $scope.rsList.sysUsers = data.data;
+                            }else{
+                                $scope.rsList.sysUsers = [];
                             }
                         });
                     };
