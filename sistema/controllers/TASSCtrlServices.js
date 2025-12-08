@@ -536,7 +536,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             "idUserSelected": ""
                         }
                         console.log(userByLicense);
-                        $scope.getDestinationLicenceListFn(userByLicense);
+                        $scope.getUsersByLicenseFn(userByLicense);
                     break;
                 }
             break;
@@ -6226,7 +6226,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                 /***********************************
                 *         GET USER BY LICENCE      *
                 ************************************/
-                    $scope.getDestinationLicenceListFn = function(obj){
+                    $scope.getUsersByLicenseFn = function(obj){
                         services.getUsersByLicense(obj).then(function(data){
                             if(data.status==200){
                                 $scope.rsList.sysUsers = data.data;
