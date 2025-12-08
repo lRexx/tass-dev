@@ -97,7 +97,6 @@
 				    	<label class="switch switch-1x">
 				    		<input type="checkbox"
 				    		class="success"
-
 				    		ng-model="service.isSysUser"
 				    		ng-disabled="isListCustomerService"
 				    		id="isSysUser"
@@ -131,7 +130,7 @@
 
 						            </ui-select-choices>
 						            <ui-select-no-choice>
-									    No hay resultados, contacte area de soporte.
+									    <span ng-if="rsUserList.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay Encargados registrados</span>
 								  	</ui-select-no-choice>
 						        </ui-select>
 						    </div>
@@ -183,7 +182,7 @@
 				    	</div>
 					</div>
 					<!-- Number of user or password -->
-					<div ng-if="(service.idApplicationFk!=null && (service.users.idDetinationOfLicenseFk!=null))" class="form-group col-md-12 n-padding-l n-padding-r" ng-class="
+					<div ng-if="(service.idApplicationFk!=null && service.users.idDetinationOfLicenseFk!=null)" class="form-group col-md-12 n-padding-l n-padding-r" ng-class="
 							{	'has-success':
 								(service.users.userNumbPasswd!='' && service.users.userNumbPasswd!=undefined) && fServiceUserLicenceDetails.serviceUserLicencePhoneNumberUserOrPasswd.$valid,
 							 	'has-error':
