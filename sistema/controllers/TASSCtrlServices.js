@@ -134,7 +134,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
     $scope.getSelectedCustomerData = tokenSystem.getTokenStorage(7);
     $scope.formats = ['dd-MM-yyyy', 'dd/MM/yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
     $scope.format = $scope.formats[2];
-    $scope.rsUserList={};
+    $scope.rsUserList={'selected':undefined};
     $scope.inputTokenCode = "";
     $scope.tmpVars ={};
     $scope.service = {
