@@ -134,7 +134,6 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
     $scope.getSelectedCustomerData = tokenSystem.getTokenStorage(7);
     $scope.formats = ['dd-MM-yyyy', 'dd/MM/yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
     $scope.format = $scope.formats[2];
-    $scope.rsUserList={'selected':undefined};
     $scope.inputTokenCode = "";
     $scope.tmpVars ={};
     $scope.service = {
@@ -527,8 +526,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         }, 2000);
                     break;
                     case "getUsersByLicense":
+                        $scope.rsList={'sysUsers':[]};
                         console.log($scope.rsList);
-                        console.log($scope.rsUserList);
                         console.log(cObj);
                         var userByLicense = {
                             "idDetinationOfLicenseFk":cObj.users.idDetinationOfLicenseFk,
@@ -536,6 +535,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             "idClientKf": cObj.update.idClientFk,
                             "idUserSelected": ""
                         }
+
                         console.log(userByLicense);
                     break;
                 }
