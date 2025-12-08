@@ -123,14 +123,14 @@
 						         	ng-disabled="isListCustomerService"
 						         	ng-required="service.isSysUser">
 						            <ui-select-match placeholder="Selecciona un usuario" >{{$select.selected.fullNameUser}}</ui-select-match>
-						            <ui-select-choices class="ui-select-choices" repeat="item in rsUserList | filter: $select.search">
+						            <ui-select-choices class="ui-select-choices" repeat="item in rsList.clientUser | filter: $select.search">
 						                <div ng-bind-html="item.fullNameUser | highlight: $select.search"></div>
 						                <small ng-bind-html="item.emailUser | highlight: $select.search"></small>
 						                <small class="label label-default" ng-bind-html="item.nameProfile | highlight: $select.search"></small>
 
 						            </ui-select-choices>
 						            <ui-select-no-choice>
-									    <span ng-if="rsUserList.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay Encargados registrados</span>
+									    <span ng-if="rsList.clientUser.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay Encargados registrados</span>
 								  	</ui-select-no-choice>
 						        </ui-select>
 						    </div>
