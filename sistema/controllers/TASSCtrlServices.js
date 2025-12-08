@@ -526,13 +526,17 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         }, 2000);
                     break;
                     case "getUsersByLicense":
+                        $scope.service.sysUser.selected = undefined;
                         $scope.rsList={'sysUsers':[]};
                         console.log($scope.rsList);
                         console.log(cObj);
+                        var idDetinationOfLicenseFk = cObj.users.idDetinationOfLicenseFk
+                        var idDepartmentSelected = cObj.users.idDetinationOfLicenseFk=="1"?cObj.license_departments.selected.idDepto:"";
+                        var idClientKf = cObj.cObj.update.idClientFk
                         var userByLicense = {
-                            "idDetinationOfLicenseFk":cObj.users.idDetinationOfLicenseFk,
-                            "idDepartmentSelected": cObj.license_departments.selected.idDepto,
-                            "idClientKf": cObj.update.idClientFk,
+                            "idDetinationOfLicenseFk":idDetinationOfLicenseFk,
+                            "idDepartmentSelected": idDepartmentSelected,
+                            "idClientKf": idClientKf,
                             "idUserSelected": ""
                         }
                         console.log(userByLicense);

@@ -76,6 +76,7 @@
 						        <ui-select
 						        	name="deparment_registered"
 						        	theme="bootstrap"
+									ng-change="service.isSysUser?switchCustomersFn('services', service, 'getUsersByLicense', ''):''"
 						         	ng-model="service.license_departments.selected"
 						         	ng-disabled="isListCustomerService"
 						         	ng-required="(service.idClientTypeFk=='2' && service.users.idDetinationOfLicenseFk=='1')">
@@ -97,7 +98,7 @@
 				    	<label class="switch switch-1x">
 				    		<input type="checkbox"
 				    		class="success"
-							ng-change="switchCustomersFn('services', service, 'getUsersByLicense', '')"
+							ng-change="service.isSysUser?switchCustomersFn('services', service, 'getUsersByLicense', ''):''"
 				    		ng-model="service.isSysUser"
 				    		ng-disabled="isListCustomerService"
 				    		id="isSysUser"
