@@ -6227,7 +6227,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                 *         GET USER BY LICENCE      *
                 ************************************/
                     $scope.getUsersByLicenseFn = function(obj){
-                        services.getUsersByLicense(obj).then(function(data){
+                        serviceServices.getUsersByLicense(obj).then(function(data){
                             if(data.status==200){
                                 $scope.rsList.sysUsers = data.data;
                             }else{
