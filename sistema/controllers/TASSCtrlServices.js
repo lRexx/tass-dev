@@ -527,6 +527,11 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     break;
                     case "getUsersByLicense":
                         $scope.service.sysUser.selected = undefined;
+                        $scope.service.users.idUser = "";
+                        $scope.service.users.fullName = "";
+                        $scope.service.users.email = "";
+                        $scope.service.users.phone = "";
+                        $scope.service.users.nameProfile = "";
                         $scope.rsList={'sysUsers':[]};
                         console.log($scope.rsList);
                         console.log(cObj);
@@ -6273,17 +6278,17 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         $scope.service.users.phone       = '';
                         $scope.service.users.nameProfile = '';
                         if ($scope.list_user_licence.length>0){
-                        for (var key in  $scope.list_user_licence){
-                            if ($scope.list_user_licence[key].idUserFk==obj.idUser){
-                            inform.add("El usuario: "+obj.fullNameUser+", ya le ha sido asignada una licencia.",{
-                                ttl:5000, type: 'success'
-                            });
-                            $scope.isSysUserExist=true;
-                            break;
-                            }else{
-                            $scope.isSysUserExist=false;
+                            for (var key in  $scope.list_user_licence){
+                                if ($scope.list_user_licence[key].idUserFk==obj.idUser){
+                                inform.add("El usuario: "+obj.fullNameUser+", ya le ha sido asignada una licencia.",{
+                                    ttl:5000, type: 'success'
+                                });
+                                $scope.isSysUserExist=true;
+                                break;
+                                }else{
+                                $scope.isSysUserExist=false;
+                                }
                             }
-                        }
                         }
                         if ($scope.list_user_licence.length==0 || !$scope.isSysUserExist){
                             console.log("$scope.list_user_licence.length: "+$scope.list_user_licence.length);
