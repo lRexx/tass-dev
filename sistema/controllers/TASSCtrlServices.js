@@ -4341,6 +4341,10 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 }
                             }, 2500);
                         break;
+                        case "getUsersByLicense":
+                            //$scope.service.sysUser.selected=undefined;
+                            console.log(obj);
+                        break;
                     }
                 }
                 /***********************************
@@ -6205,6 +6209,17 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         }
 
                     }
+                /***********************************
+                *         GET USER BY LICENCE      *
+                ************************************/
+                    $scope.rsUserList = {};
+                    $scope.getDestinationLicenceListFn = function(){
+                        services.getUsersByLicense().then(function(data){
+                            if(data.status==200){
+                            $scope.rsUserList = data.data;
+                            }
+                        });
+                    };
                 /***********************************
                 *    SOURCE LICENCE DESTINATION    *
                 ************************************/

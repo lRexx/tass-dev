@@ -76,7 +76,6 @@
 						        <ui-select
 						        	name="deparment_registered"
 						        	theme="bootstrap"
-						        	ng-change="loadUsersAssociatedToDepto(service.license_departments.selected);"
 						         	ng-model="service.license_departments.selected"
 						         	ng-disabled="isListCustomerService"
 						         	ng-required="(service.idClientTypeFk=='2' && service.users.idDetinationOfLicenseFk=='1')">
@@ -92,20 +91,20 @@
 						</div>
 					</div>
 					<div ng-if="service.users.idDetinationOfLicenseFk!=null || (service.idClientTypeFk!='2' && service.idClientTypeFk!='5')" class="form-group col-md-4">
-						<label ng-if="service.isSysUser" class="clf-p-left">Selecionar usuario</label>
+						<label ng-if="service.isSysUser" class="clf-p-left">Seleccionar usuario</label>
 					</div>
 					<div ng-if="(!isListCustomerService && service.users.idDetinationOfLicenseFk!=null) || (service.idClientTypeFk!='2' && service.idClientTypeFk!='5')" class="form-group col-md-7 text-danger">
 				    	<label class="switch switch-1x">
 				    		<input type="checkbox"
 				    		class="success"
-				    		ng-change="service.sysUser.selected=undefined;"
+							ng-change="getUsersByLicense(service.users);"
 				    		ng-model="service.isSysUser"
 				    		ng-disabled="isListCustomerService"
 				    		id="isSysUser"
 				    		style="margin: 0px !important; display: inherit !important;">
 							<span class="slider slider-1x flat"></span>
 						</label>
-						<label for="serviceSysUser" style="cursor: pointer; font-weight: 600; padding-left: 15px;">Usuario del sistema web</label>
+						<label for="serviceSysUser" style="cursor: pointer; font-weight: 600; padding-left: 15px;">Usuario registrado</label>
 					</div>
     				<!-- System user -->
 					<div class="form-group col-md-12 n-padding-r n-padding-l" ng-class="
@@ -125,7 +124,7 @@
 						         	ng-disabled="isListCustomerService"
 						         	ng-required="service.isSysUser">
 						            <ui-select-match placeholder="Selecciona un usuario" >{{$select.selected.fullNameUser}}</ui-select-match>
-						            <ui-select-choices class="ui-select-choices" repeat="item in rsList.clientUser | filter: $select.search">
+						            <ui-select-choices class="ui-select-choices" repeat="item in rsUserList | filter: $select.search">
 						                <div ng-bind-html="item.fullNameUser | highlight: $select.search"></div>
 						                <small ng-bind-html="item.emailUser | highlight: $select.search"></small>
 						                <small class="label label-default" ng-bind-html="item.nameProfile | highlight: $select.search"></small>
