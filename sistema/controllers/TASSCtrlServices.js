@@ -536,8 +536,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         console.log($scope.rsList);
                         console.log(cObj);
                         var idDetinationOfLicenseFk = cObj.users.idDetinationOfLicenseFk
-                        var idDepartmentSelected = cObj.users.idDetinationOfLicenseFk=="1"?cObj.license_departments.selected.idDepto:"";
-                        var idClientKf = cObj.update.idClientFk
+                        var idDepartmentSelected    = cObj.users.idDetinationOfLicenseFk=="1"?cObj.license_departments.selected.idDepto:"";
+                        $scope.service.license_departments.selected.idDepto = cObj.users.idDetinationOfLicenseFk!="1"?$scope.service.license_departments.selected = undefined:cObj.license_departments.selected.idDepto;
+                        var idClientKf              = cObj.update.idClientFk
                         var userByLicense = {
                             "idDetinationOfLicenseFk":idDetinationOfLicenseFk,
                             "idDepartmentSelected": idDepartmentSelected,
