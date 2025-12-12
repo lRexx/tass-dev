@@ -2442,7 +2442,7 @@ class Services_model extends CI_Model
         $this->db->where('t1.idDepartmentKf', $idDepartmentSelected);
         $this->db->or_where('t1.idUser IN (SELECT idUserKf
                                         FROM tb_client_departament
-                                        WHERE idDepartmentKf = ' . $this->db->escape($idDepartmentSelected) . ')');
+                                        WHERE idClientDepartament = ' . $this->db->escape($idDepartmentSelected) . ')');
         $this->db->group_end();
 
         return $this->db->get()->result_array();
