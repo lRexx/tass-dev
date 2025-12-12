@@ -2424,7 +2424,7 @@ class Services_model extends CI_Model
     private function getUsersForOwner($idDepartmentSelected)
     {
         $this->db->select("t1.*,
-                        tb_profile.nameProfile as profileName,
+                        tb_profile.nameProfile as nameProfile,
                         tb_profiles.name as sysProfileName,
                         tb_category_departament.categoryDepartament,
                         tb_client_departament.*,

@@ -22,7 +22,7 @@
           <span ng-if="item.idUserFk" data-toggle="tooltip" data-placement="top" title="Usuario Registrado" class="font-size-18px" style="color: #5cb85c">
               <i class="text-success fas fa-check-circle"></i>
           </span>
-          <span ng-if="item.idUserFk">{{item.profileName}}</span>
+          <span ng-if="item.idUserFk">{{item.nameProfile}}</span>
           <span ng-if="!item.idUserFk" data-toggle="tooltip" data-placement="top" title="No Registrado" class="text-warning media-middle text-center font-size-18px" ng-if="service.item_contracted<=0 || service.service_items==undefined"><i class="fas fa-exclamation-triangle"></i></span>
         </td>
         <!--NAMES -->
