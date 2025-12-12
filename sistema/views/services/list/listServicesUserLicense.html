@@ -63,7 +63,7 @@
                           <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
                           <select name="deparment_registered_list"
                               class="form-control input-sm"
-                              ng-change="search(service.idDepartmentList, '', true);"
+                              ng-change="search(service.idDepartmentList, '', '', '', '', '', true);"
                               ng-options="item.idDepto as item.Depto for item in rsBuildingDepartmentsData"
                               ng-required="false"
                               ng-model="service.idDepartmentList" autofocus >
