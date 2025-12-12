@@ -2933,6 +2933,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             $scope.service.new.contractNumb     = $scope.rsContractServiceData.numeroContrato;
                                             $scope.service.new.idTipeServiceFk  = $scope.rsContractServiceData.services[0].idServiceType;
                                             $scope.service.new.idServiceType    = $scope.service.new.idTipeServiceFk;
+                                            $scope.service.new.idApplicationFk  = "2"
                                             $scope.service.new.numbOfLicence    = 0;
                                             // Convertir la cadena a un objeto Date usando Moment-Timezone
                                             var current_date = new Date()
