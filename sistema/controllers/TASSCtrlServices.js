@@ -1331,7 +1331,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             case "updateSysUser":
                                 if (confirm==0){
                                     if ($scope.sessionidProfile==1 && obj.idUser!=0){
-                                    if (obj.idProfileKf){$scope.mess2show="El usuario ("+obj.fullNameUser+") bajo el perfil de "+obj.nameProfile+" sera Actualizado.     Confirmar?";}
+                                        if (obj.idProfileKf){
+                                            $scope.mess2show="El usuario ("+obj.fullNameUser+") bajo el perfil de "+obj.nameProfile+" sera Actualizado.     Confirmar?";
+                                        }
                                         $scope.idUserKf   =  obj.idUser;
                                         $scope.argObj = obj;
                                         console.log('Usuario a eliminar ID: '+$scope.idUserKf+' BAJO EL NOMBRE: '+obj.fullNameUser);
@@ -6322,13 +6324,16 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         console.log(obj);
                         if (!$scope.service.isUserLicenceEdit && (obj.idUser!=undefined || obj.idUser!=null) && ($scope.rsJsonUser.phoneNumberUser!=obj.phone)){
                             $scope.rsJsonUser.phoneNumberUser=$scope.service.users.phone;
+                            console.log($scope.rsJsonUser);
                             $scope.modalConfirmation('updateSysUser', 0, $scope.rsJsonUser);
                         }else if ($scope.service.isUserLicenceEdit && (obj.idUser!=undefined || obj.idUser!=null) && obj.idUser!=obj.idUserFk && ($scope.rsJsonUser.phoneNumberUser!=obj.phone)){
                             $scope.rsJsonUser.phoneNumberUser=$scope.service.users.phone;
+                            console.log($scope.rsJsonUser);
                             $scope.modalConfirmation('updateSysUser', 0, $scope.rsJsonUser);
                         }else if ($scope.service.isUserLicenceEdit && (obj.idUser==undefined || obj.idUser==null) && $scope.userLicenceSelected.phone!=obj.phone){
                             for (var usr in $scope.rsList.sysUsers){
                                 if ($scope.rsList.sysUsers[usr].idUser == obj.idUserFk){
+                                    console.log($scope.rsJsonUser);
                                 $scope.modalConfirmation('updateSysUser', 0, $scope.rsList.sysUsers[usr]);
                                 break;
                                 }
