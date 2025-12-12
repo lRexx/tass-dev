@@ -3990,6 +3990,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             }
                         break;
                         case "userLicense":
+                            $scope.isCollapsed                        = true;
                             $scope.service.list=service;
                             $timeout(function() {
                                     $scope.service.idClientTypeFk             = $scope.customerFound.idClientTypeFk;
