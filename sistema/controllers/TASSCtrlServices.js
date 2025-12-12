@@ -1089,7 +1089,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             switch ($scope.swMenu){
                             case "removeu":
                                 if (confirm==0){
-                                    if ($scope.sessionidProfile==1 && obj.idUser!=0){
+                                    if ($scope.sysLoggedUser.idProfileKf==1 && obj.idUser!=0){
                                     if (obj.idProfileKf){$scope.mess2show="El usuario ("+obj.fullNameUser+") bajo el perfil de "+obj.nameProfile+" sera Eliminado.     Confirmar?";}
                                         $scope.idUserKf   =  obj.idUser;
                                         $scope.argObj = obj;
@@ -1105,7 +1105,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "removeSysProf":
                                 if (confirm==0){
-                                    if ($scope.sessionidProfile==1 && obj.idProfiles!=0){
+                                    if ($scope.sysLoggedUser.idProfileKf==1 && obj.idProfiles!=0){
                                     $scope.idSysProf = obj.idProfiles;
                                     $scope.mess2show="El Perfil "+obj.name+" sera Eliminado.     Confirmar?";
                                         console.log('Usuario a eliminar ID: '+obj.idProfiles+' BAJO EL NOMBRE: '+obj.name);
@@ -1120,7 +1120,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "removeProduct":
                                 if (confirm==0){
-                                    if ($scope.sessionidProfile==1 && obj.idProduct!=0){
+                                    if ($scope.sysLoggedUser.idProfileKf==1 && obj.idProduct!=0){
                                     $scope.idProducto = obj.idProduct;
                                     $scope.mess2show="El Producto "+obj.descriptionProduct+" sera Eliminado.     Confirmar?";
                                         console.log('Producto a eliminar ID: '+obj.idProduct+' DESCRIPCION: '+obj.descriptionProduct);
@@ -1330,7 +1330,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "updateSysUser":
                                 if (confirm==0){
-                                    if ($scope.sessionidProfile==1 && obj.idUser!=0){
+                                    if ($scope.sysLoggedUser.idProfileKf==1 && obj.idUser!=0){
                                         if (obj.idProfileKf){
                                             $scope.mess2show="El usuario ("+obj.fullNameUser+") bajo el perfil de "+obj.nameProfile+" sera Actualizado.     Confirmar?";
                                         }
