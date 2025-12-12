@@ -3580,9 +3580,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             //ATTENDANT SELETECTED
                                             if (service.tb_datos_adicionales_alarmas_array[0].fk_idEncargado!=null && service.tb_datos_adicionales_alarmas_array[0].fk_idEncargado!=''){
                                                 $scope.service.isSysUser=true;
-                                                for (var key in $scope.rsList.clientUser){
-                                                if (service.tb_datos_adicionales_alarmas_array[0].fk_idEncargado==$scope.rsList.clientUser[key].idUser){
-                                                    $scope.service.aditional_alarm.sysUser.selected=$scope.rsList.clientUser[key];
+                                                for (var key in $scope.rsList.sysUsers){
+                                                if (service.tb_datos_adicionales_alarmas_array[0].fk_idEncargado==$scope.rsList.sysUsers[key].idUser){
+                                                    $scope.service.aditional_alarm.sysUser.selected=$scope.rsList.sysUsers[key];
                                                     //console.log($scope.service.aditional_alarm.sysUser.selected);
                                                     break;
                                                 }
@@ -6319,7 +6319,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     $scope.list_company_user_licence = [];
                     $scope.list_particular_user_licence = [];
                     $scope.processUserLicenceFn = function(obj, opt){
-                        //console.log(obj);
+                        console.log(obj);
                         if (!$scope.service.isUserLicenceEdit && (obj.idUser!=undefined || obj.idUser!=null) && ($scope.rsJsonUser.phoneNumberUser!=obj.phone)){
                             $scope.rsJsonUser.phoneNumberUser=$scope.service.users.phone;
                             $scope.modalConfirmation('updateSysUser', 0, $scope.rsJsonUser);
@@ -6327,9 +6327,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             $scope.rsJsonUser.phoneNumberUser=$scope.service.users.phone;
                             $scope.modalConfirmation('updateSysUser', 0, $scope.rsJsonUser);
                         }else if ($scope.service.isUserLicenceEdit && (obj.idUser==undefined || obj.idUser==null) && $scope.userLicenceSelected.phone!=obj.phone){
-                            for (var usr in $scope.rsList.clientUser){
-                                if ($scope.rsList.clientUser[usr].idUser == obj.idUserFk){
-                                $scope.modalConfirmation('updateSysUser', 0, $scope.rsList.clientUser[usr]);
+                            for (var usr in $scope.rsList.sysUsers){
+                                if ($scope.rsList.sysUsers[usr].idUser == obj.idUserFk){
+                                $scope.modalConfirmation('updateSysUser', 0, $scope.rsList.sysUsers[usr]);
                                 break;
                                 }
                             }
@@ -6561,7 +6561,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     }else{
                                         $scope.removeUserLicenceFn($scope.userLicenceSelected);
                                         $timeout(function() {
-                                        $scope.processUserLicenceFn(obj, 'new');
+                                            $scope.processUserLicenceFn(obj, 'new');
                                         }, 500);
 
                                     }
