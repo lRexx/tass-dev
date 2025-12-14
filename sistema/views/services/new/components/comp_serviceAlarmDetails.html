@@ -9,16 +9,17 @@
     		<div class="modal-body"  style="overflow-y: scroll;">
     			<form class="form-horizontal" name="fServiceAlarmDetails">
     				<!-- Client Type -->
-		            <div class="form-group col-md-12 col-xs-12 n-padding-r" ng-class="
+		            <div class="form-group col-md-12 col-xs-12 n-padding-r n-padding-l" ng-class="
 								  			{	'has-success':
 								  				(service.aditional_alarm.fk_idTipoCliente=='5' && fServiceAlarmDetails.serviceTypeOfClient_others.$valid),
 								  			 	'has-error':
 								  				(service.aditional_alarm.fk_idTipoCliente=='5' && (service.aditional_alarm.typeOfClient_others=='' || service.aditional_alarm.typeOfClient_others==undefined) && fServiceAlarmDetails.serviceTypeOfClient_others.$touched),
 								  			}">
 		            	<div class="col-md-12 col-xs-12"><label class="clf-size clf-p-left">Tipo de Cliente</label></div>
-		            	<div ng-repeat="type in rsTypeAlarmClientListData" class="col-md-3 col-xs-3"
+		            	<div ng-repeat="type in rsTypeAlarmClientListData" class="col-xs-3"
 		            		 ng-class="{
-		            					'n-padding-l n-padding-r': type.idTypeClientAlarm=='2' || type.idTypeClientAlarm=='3'
+		            					'col-md-3 n-padding-l n-padding-r': type.idTypeClientAlarm!='1' && type.idTypeClientAlarm!='5',
+										'col-md-2 n-padding-l n-padding-r': type.idTypeClientAlarm=='1' || type.idTypeClientAlarm=='5' ,
 		            					}">
 		                	<input id="typeOfClient{{$index}}" class="radio-2x" type="radio" ng-click="service.aditional_alarm.fk_idTipoCliente!='5'?service.aditional_alarm.typeOfClient_others='':service.aditional_alarm.typeOfClient_others" name="typeOfClient" value="{{type.idTypeClientAlarm}}" ng-model="service.aditional_alarm.fk_idTipoCliente" required autofocus>
 		                    <label for="typeOfClient{{$index}}" class="radio-2x-label">
