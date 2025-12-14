@@ -3148,6 +3148,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.addNewService.idTypeConectionRemote      = service.idTipoConexionRemoto;
                                         $scope.addNewService.observation                = service.observation==null || service.observation==undefined?null:service.observation;
                                         $scope.addNewService.installationPassword       = service.installationPassword;
+                                        $scope.addNewService.masterUserPassword         = service.masterUserPassword;
+                                        $scope.addNewService.userPassword1ForDisabling  = service.userPassword1ForDisabling;
                                         var productIdNumber=0;
                                         for (var key in $scope.list_batteries){
                                         $scope.baterias_instaladas.push({'idProductoFk':$scope.list_batteries[key].idBatteryFk, 'nroFabric':$scope.list_batteries[key].numberSerieFabric, 'nroInternal':$scope.list_batteries[key].numberSerieInternal,'dateExpired':$scope.list_batteries[key].dateExpiration, 'isControlSchedule':$scope.list_batteries[key].isControlSchedule});
