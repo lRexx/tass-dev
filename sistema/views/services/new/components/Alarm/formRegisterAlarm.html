@@ -223,6 +223,21 @@
 									</div>
 								</div>
 							</div>
+							<!-- Master User Password -->
+							<div class="form-group col-md-6 n-padding-l" ng-class="
+									{	'has-success':
+										(service.update.masterUserPassword!='' && service.update.masterUserPassword!=null && service.update.masterUserPassword!=undefined) && fCustomerUpdateService.service_masterUserPassword.$valid,
+										'has-error':
+										(service.update.masterUserPassword=='' || service.update.masterUserPassword==null || service.update.masterUserPassword==undefined) && fCustomerUpdateService.service_masterUserPassword.$touched,
+									}">
+								<label style="padding-left: 15px;">Clave Usuario Maestro</label>
+								<div class="col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fas fa-user-tie"></i></span>
+										<input name="service_masterUserPassword" type="text" class="form-control install-password-alarm" ng-keydown="fnLoadPhoneMask()" ng-model="service.update.masterUserPassword" ng-required="true" />
+									</div>
+								</div>
+							</div>
 							<!-- User Password 1 for Disabling -->
 							<div class="form-group col-md-6 n-padding-l" ng-class="
 									{	'has-success':
@@ -241,21 +256,6 @@
 						</div>
 						<!-- Right Colunm -->
 						<div class="well-checkbox form-group col-md-12">
-							<!-- Master User Password -->
-							<div class="form-group col-md-6 n-padding-l" ng-class="
-									{	'has-success':
-										(service.update.masterUserPassword!='' && service.update.masterUserPassword!=null && service.update.masterUserPassword!=undefined) && fCustomerUpdateService.service_masterUserPassword.$valid,
-										'has-error':
-										(service.update.masterUserPassword=='' || service.update.masterUserPassword==null || service.update.masterUserPassword==undefined) && fCustomerUpdateService.service_masterUserPassword.$touched,
-									}">
-								<label style="padding-left: 15px;">Clave Usuario Maestro</label>
-								<div class="col-xs-12">
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fas fa-user-tie"></i></span>
-										<input name="service_masterUserPassword" type="text" class="form-control install-password-alarm" ng-keydown="fnLoadPhoneMask()" ng-model="service.update.masterUserPassword" ng-required="true" />
-									</div>
-								</div>
-							</div>
 							<!-- ALARM: exitReader -->
 							<div class="form-group col-md-12 n-padding-l n-padding-r" ng-class="
 								  			{	'has-success':
