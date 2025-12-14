@@ -1821,6 +1821,8 @@ class Services_model extends CI_Model
                 "companyMonitor" => $item['companyMonitor'],
                 "numberPay" => $item['numberPay'],
                 "installationPassword" => $item['installationPassword'],
+                "masterUserPassword" => @$item['masterUserPassword'],
+                "userPassword1ForDisabling" => @$item['userPassword1ForDisabling'],
                 "panelAlarm" => $item['panelAlarm'],  //producto
                 "keyboardAlarm" => $item['keyboardAlarm'], //producto
                 "countZoneIntaled" => $item['countZoneIntaled'],
@@ -1885,6 +1887,8 @@ class Services_model extends CI_Model
                 "companyMonitor" => $item['companyMonitor'],
                 "numberPay" => $item['numberPay'],
                 "installationPassword" => $item['installationPassword'],
+                "masterUserPassword" => @$item['masterUserPassword'],
+                "userPassword1ForDisabling" => @$item['userPassword1ForDisabling'],
                 "panelAlarm" => $item['panelAlarm'],     //producto
                 "keyboardAlarm" => $item['keyboardAlarm'],  //producto
                 "countZoneIntaled" => $item['countZoneIntaled'],
