@@ -383,10 +383,10 @@
 						                    <span class="slider slider-2x flat"></span>
 						                </label>
 					                </div>
-					                <div class="col-md-7 col-xs-7 n-padding-l">
+					                <div ng-if="type.idTipoConexionRemoto!='2'" class="col-md-7 col-xs-7 n-padding-l">
 					                	<span>{{type.descripcion}}</span>
 					                </div>
-									<div ng-repeat="item in tipo_conexion_remoto" class="pull-right col-md-3">
+									<div ng-if="type.idTipoConexionRemoto!='2'" ng-repeat="item in tipo_conexion_remoto" class="pull-right col-md-3">
 										<button ng-if="item.idTipoConexionRemoto==type.idTipoConexionRemoto && type.selected" data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="type.idTipoConexionRemoto==''" ng-click="addServiceModuleConnectionDetailsFn(item, 'details', '')" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 									</div>
 								</div>
