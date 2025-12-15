@@ -33,7 +33,7 @@
 				    		</div>
 				    	</div>
 		            </div>
-    				<!-- System user -->
+    				<!-- System user ng-change="service.aditional_alarm.sysUser.selected=undefined; service.aditional_alarm.nombresEncargadoManual='';service.aditional_alarm.telefono=''" -->
 					<div class="well-checkbox form-group col-md-12 n-padding-l n-padding-r" ng-class="
 								  			{	'has-success':
 								  				(service.aditional_alarm.sysUser.selected!=undefined && fServiceAlarmDetails.service_sysUser.$valid) ||
@@ -50,7 +50,8 @@
 						    	<label class="switch switch-1x">
 						    		<input type="checkbox"
 						    		class="success"
-						    		ng-change="service.aditional_alarm.sysUser.selected=undefined; service.aditional_alarm.nombresEncargadoManual='';service.aditional_alarm.telefono=''"
+
+									ng-change="service.isSysUser?switchCustomersFn('services', service, 'getUsersByLicense', ''):''"
 						    		ng-model="service.isSysUser"
 						    		id="isSysUser"
 						    		style="margin: 0px !important; display: inherit !important;">
@@ -69,15 +70,15 @@
 							         	ng-disabled="!service.isSysUser"
 							         	ng-required="service.isSysUser">
 							            <ui-select-match allow-clear="true" placeholder="Selecciona un usuario" >{{$select.selected.fullNameUser}}</ui-select-match>
-							            <ui-select-choices class="ui-select-choices" repeat="user in rsList.clientUser | filter: $select.search">
+							            <ui-select-choices class="ui-select-choices" repeat="user in rsList.sysUsers | filter: $select.search">
 							                <div ng-bind-html="user.fullNameUser | highlight: $select.search"></div>
 							                <small ng-bind-html="user.emailUser | highlight: $select.search"></small>
 							                <small class="label label-default" ng-bind-html="user.nameProfile | highlight: $select.search"></small>
 
 							            </ui-select-choices>
-							            <ui-select-no-choice>
-										    No hay resultados, contacte area de soporte.
-									  	</ui-select-no-choice>
+										<ui-select-no-choice>
+											<span ng-if="rsList.sysUsers.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No se encontraron usuarios registrados</span>
+										</ui-select-no-choice>
 							        </ui-select>
 							    </div>
 							</div>
