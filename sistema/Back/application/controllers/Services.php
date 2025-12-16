@@ -588,7 +588,7 @@ class Services extends REST_Controller
         echo json_encode($result);
     }
 
-    public function users_by_client_get($idClient = null)
+    public function usersByClient_get($idClient = null)
     {
         log_message('info', 'GET /users/by-client - idClient: ' . $idClient);
 
