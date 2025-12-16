@@ -601,7 +601,7 @@ class Services extends REST_Controller
 
         try {
 
-            $users = $this->user_model->getUsersByClient((int) $idClient);
+            $users = $this->services_model->getUsersByClient((int) $idClient);
 
             return $this->response([
                 "status" => true,
