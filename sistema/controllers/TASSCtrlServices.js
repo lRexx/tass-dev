@@ -547,6 +547,15 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         console.log(userByLicense);
                         $scope.getUsersByLicenseFn(userByLicense);
                     break;
+                    case "getUsersByClient":
+                        $scope.service.aditional_alarm.sysUser.selected = undefined;
+                        $scope.service.aditional_alarm.telefono         = "";
+                        $scope.rsList={'sysUsers':[]};
+                        console.log($scope.rsList);
+                        console.log(cObj);
+                        console.log("$scope.customerFound.idClient: "+$scope.customerFound.idClient);
+                        $scope.getUsersByClientFn($scope.customerFound.idClient);
+                    break;
                 }
             break;
             case "general":
@@ -6243,6 +6252,18 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                 ************************************/
                     $scope.getUsersByLicenseFn = function(obj){
                         serviceServices.getUsersByLicense(obj).then(function(data){
+                            if(data.status==200){
+                                $scope.rsList.sysUsers = data.data;
+                            }else{
+                                $scope.rsList.sysUsers = [];
+                            }
+                        });
+                    };
+                /***********************************
+                *         GET USER BY Client      *
+                ************************************/
+                    $scope.getUsersByClientFn = function(obj){
+                        serviceServices.getUsersByClient(obj).then(function(data){
                             if(data.status==200){
                                 $scope.rsList.sysUsers = data.data;
                             }else{
