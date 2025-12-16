@@ -588,6 +588,38 @@ class Services extends REST_Controller
         echo json_encode($result);
     }
 
+    public function users_by_client_get($idClient = null)
+    {
+        log_message('info', 'GET /users/by-client - idClient: ' . $idClient);
+
+        if (empty($idClient) || !is_numeric($idClient)) {
+            return $this->response([
+                "status" => false,
+                "message" => "idClient inválido"
+            ], 400);
+        }
+
+        try {
+
+            $users = $this->user_model->getUsersByClient((int) $idClient);
+
+            return $this->response([
+                "status" => true,
+                "total" => count($users),
+                "data" => $users
+            ], 200);
+
+        } catch (Exception $e) {
+
+            log_message('error', 'Error users_by_client_get: ' . $e->getMessage());
+
+            return $this->response([
+                "status" => false,
+                "message" => "Error interno"
+            ], 500);
+        }
+    }
+
 }
 
 ?>

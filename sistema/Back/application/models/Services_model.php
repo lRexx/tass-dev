@@ -2495,6 +2495,50 @@ class Services_model extends CI_Model
 
         return $this->db->get()->result_array();
     }
+
+    public function getUsersByClient(int $idClient)
+    {
+        $this->db->select("
+            t1.*,
+            tb_profile.nameProfile,
+            tb_profiles.name AS sysProfileName,
+            tb_status.statusTenantName,
+            tb_typetenant.typeTenantName,
+            tb_type_attendant.nameTypeAttendant,
+            tb_category_departament.categoryDepartament
+        ");
+
+        $this->buildUserJoinQuery();
+
+        // Usuarios activos
+        $this->db->where('t1.idStatusKf !=', -1);
+
+        // Relación con el cliente
+        $this->db->group_start();
+
+        // Administración
+        $this->db->group_start();
+        $this->db->where('t1.idProfileKf', 4);
+        $this->db->where('t1.idCompanyKf', $idClient);
+        $this->db->group_end();
+
+        // OR Personal del edificio
+        $this->db->or_group_start();
+        $this->db->where('t1.idProfileKf', 6);
+        $this->db->where('t1.idAddresKf', $idClient);
+        $this->db->group_end();
+
+        $this->db->group_end();
+
+        $this->db->order_by('t1.fullNameUser', 'ASC');
+
+        $query = $this->db->get();
+
+        log_message('info', 'SQL getUsersByClient: ' . $this->db->last_query());
+
+        return $query->result_array();
+    }
+
 }
 
 ?>
