@@ -297,14 +297,16 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
                  return response;
             });
           },
-          getUsersByClient: function(data) {
+          getUsersByClient: function(id) {
             console.log("[Service][usersByClient] ");
-            return $http.post(serverHost+serverBackend+"services/usersByClient",data, serverHeaders)
-              .then(function mySucess(response) {
-                 return response;
-            }).catch(function onError(response) {
-                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
-                 return response;
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"services/usersByClient/"+id
+                  }).then(function mySuccess(response) {
+                    return response;
+                  }).catch(function onError(response) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                    return response;
             });
           },
       }
