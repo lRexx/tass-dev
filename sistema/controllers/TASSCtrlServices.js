@@ -3513,6 +3513,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     $scope.getAlarmServiceAditionalsListFn();
                                     $scope.getTypeConnectionListFn();
                                     $scope.getTransmissionFormatListFn();
+                                    $scope.switchCustomersFn('services', service, 'getUsersForAttByClient', '');
                                     $timeout(function() {
                                         $scope.service.update.idContratoFk          = service.idContracAssociated_SE;
                                         $scope.service.update.numeroContrato        = service.idContracAssociated_SE_array[0].numeroContrato;
