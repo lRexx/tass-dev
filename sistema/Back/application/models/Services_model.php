@@ -2538,7 +2538,7 @@ class Services_model extends CI_Model
         $this->db->where('t1.idAddresKf', $idClient);
         $this->db->group_end();
 
-        // 3️⃣ Owner / Habitante (perfil 3)
+        // 3️⃣ Owner / Habitante (perfil 3 y 5)
         $this->db->or_group_start();
         $this->db->where('t1.idProfileKf', 3, 5);
 
