@@ -2505,27 +2505,53 @@ class Services_model extends CI_Model
             tb_status.statusTenantName,
             tb_typetenant.typeTenantName,
             tb_type_attendant.nameTypeAttendant,
-            tb_category_departament.categoryDepartament
+            tb_category_departament.categoryDepartament,
+            tb_client_departament.idClientDepartament
         ");
 
         $this->buildUserJoinQuery();
 
-        // Usuarios activos
+        // Solo usuarios activos
         $this->db->where('t1.idStatusKf !=', -1);
 
-        // Relación con el cliente
+        /*
+        |--------------------------------------------------------------------------
+        | RELACIONES POR CLIENTE
+        |--------------------------------------------------------------------------
+        | 1️⃣ Administración (perfil 4) → idCompanyKf
+        | 2️⃣ Personal edificio (perfil 6) → idAddresKf
+        | 3️⃣ Owner / Habitante (perfil 3 y 5) → departamentos del cliente
+        |--------------------------------------------------------------------------
+        */
+
         $this->db->group_start();
 
-        // Administración
+        // 1️⃣ Administración
         $this->db->group_start();
         $this->db->where('t1.idProfileKf', 4);
         $this->db->where('t1.idCompanyKf', $idClient);
         $this->db->group_end();
 
-        // OR Personal del edificio
+        // 2️⃣ Personal del edificio
         $this->db->or_group_start();
         $this->db->where('t1.idProfileKf', 6);
         $this->db->where('t1.idAddresKf', $idClient);
+        $this->db->group_end();
+
+        // 3️⃣ Owner / Habitante (perfil 3)
+        $this->db->or_group_start();
+        $this->db->where('t1.idProfileKf', 3, 5);
+
+        // Asociación directa o indirecta al departamento del cliente
+        $this->db->group_start();
+        $this->db->where('tb_client_departament.idClientFk', $idClient);
+        $this->db->or_where('t1.idUser IN (
+                        SELECT cd.idUserKf
+                        FROM tb_client_departament cd
+                        WHERE cd.idClientFk = ' . (int) $idClient . '
+                    )');
+        $this->db->group_end();
+
         $this->db->group_end();
 
         $this->db->group_end();
@@ -2534,7 +2560,7 @@ class Services_model extends CI_Model
 
         $query = $this->db->get();
 
-        log_message('info', 'SQL getUsersByClient: ' . $this->db->last_query());
+        log_message('info', 'SQL getUsersByClient ejecutada: ' . $this->db->last_query());
 
         return $query->result_array();
     }
