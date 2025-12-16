@@ -6263,9 +6263,10 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                 *         GET USER BY Client      *
                 ************************************/
                     $scope.getUsersByClientFn = function(obj){
-                        serviceServices.getUsersByClient(obj).then(function(data){
-                            if(data.status==200){
-                                $scope.rsList.sysUsers = data.data;
+                        serviceServices.getUsersByClient(obj).then(function(response){
+                            console.log(response);
+                            if(response.status==200){
+                                $scope.rsList.sysUsers = response.data.data;
                             }else{
                                 $scope.rsList.sysUsers = [];
                             }
