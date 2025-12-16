@@ -6878,26 +6878,37 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                 /***********************************
                 *     REMOVE PEOPLE DATA DETAILS   *
                 ************************************/
-                    $scope.removeServicePeopleUserDetailsFn=function(obj){
-                        switch (obj.opt){
-                        case "getnotice":
-                            var objItem             = $scope.list_people_notice;
-                            var arrItem             = objItem.map(function(i){return i.id;});
-                            var indexItem           = arrItem.indexOf(obj.fk_idUserSystema);
-                            $scope.list_people_notice.splice(indexItem, 1);
-                        break;
-                        case "verifyplace":
-                            var objItem             = $scope.list_people_verify;
-                            var arrItem             = objItem.map(function(i){return i.id;});
-                            var indexItem           = arrItem.indexOf(obj.fk_idUserSystema);
-                            $scope.list_people_verify.splice(indexItem, 1);
-                        break;
+                    $scope.removeServicePeopleUserDetailsFn = function (obj) {
+
+                        let list;
+
+                        switch (obj.opt) {
+                            case "getnotice":
+                                list = $scope.list_people_notice;
+                                break;
+
+                            case "verifyplace":
+                                list = $scope.list_people_verify;
+                                break;
+
+                            default:
+                                return;
                         }
 
-                        inform.add("Persona de contacto: "+obj.nombre_apellido+" ha sido removido correctamente.",{
-                            ttl:5000, type: 'success'
-                        });
-                    }
+                        const index = list.findIndex(item => item.id === obj.id);
+
+                        if (index === -1) {
+                            console.warn('No se encontró el elemento a eliminar', obj);
+                            return;
+                        }
+
+                        list.splice(index, 1);
+
+                        inform.add(
+                            "Persona de contacto: " + obj.nombre_apellido + " ha sido removido correctamente.",
+                            { ttl: 5000, type: 'success' }
+                        );
+                    };
                 /***********************************
                 *     LOAD USER PHONE NUMBER       *
                 ************************************/
