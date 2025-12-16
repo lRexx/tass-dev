@@ -557,7 +557,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         $scope.getUsersByClientFn($scope.customerFound.idClient);
                     break;
                     case "getUsersForNoticeByClient":
-                        $scope.service.aditional_alarm.sysPeopleNoticeUser.selected=undefined
+                        $scope.service.aditional_alarm.sysPeopleNoticeUser={'selected': undefined};
                         $scope.service.aditional_alarm.telefono         = "";
                         $scope.rsList={'sysUsers':[]};
                         console.log($scope.rsList);
