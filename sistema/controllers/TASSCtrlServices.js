@@ -547,8 +547,17 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         console.log(userByLicense);
                         $scope.getUsersByLicenseFn(userByLicense);
                     break;
-                    case "getUsersByClient":
+                    case "getUsersForAttByClient":
                         $scope.service.aditional_alarm.sysUser.selected = undefined;
+                        $scope.service.aditional_alarm.telefono         = "";
+                        $scope.rsList={'sysUsers':[]};
+                        console.log($scope.rsList);
+                        console.log(cObj);
+                        console.log("$scope.customerFound.idClient: "+$scope.customerFound.idClient);
+                        $scope.getUsersByClientFn($scope.customerFound.idClient);
+                    break;
+                    case "getUsersForNoticeByClient":
+                        $scope.service.aditional_alarm.sysPeopleNoticeUser.selected=undefined
                         $scope.service.aditional_alarm.telefono         = "";
                         $scope.rsList={'sysUsers':[]};
                         console.log($scope.rsList);
