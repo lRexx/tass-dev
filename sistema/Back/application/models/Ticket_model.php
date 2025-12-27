@@ -2848,6 +2848,7 @@ class Ticket_model extends CI_Model
 			log_message('info', print_r($quuery->result_array(), true));
 			foreach ($rs_tickets['tickets'][$key]['keys'] as $ticketKeychain) {
 				$idTicketKeychain = $ticketKeychain['idTicketKeychain'] == "2" ? "1" : $ticketKeychain['idTicketKeychain'];
+				log_message('info', print_r("idTicketKeychain: " . $idTicketKeychain, true));
 				$this->db->select("*")->from("tb_keychain");
 				$quuery = $this->db->where("tb_keychain.idKeychain = ", @$ticketKeychain['idKeychainKf'])->get();
 				$rs_tickets['tickets'][$key]['keys'][$i]['keychain'] = @$quuery->result_array()[0];
