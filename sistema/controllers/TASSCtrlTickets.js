@@ -3755,8 +3755,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                             if(((($scope.ticket.building.isStockInBuilding==null || $scope.ticket.building.isStockInBuilding=='0') && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')) || ($scope.ticket.building.isStockInOffice!=null && $scope.ticket.building.isStockInOffice!='0'))){
                                                 var subTotalDelivery = 0;
                                                 if ($scope.ticket.delivery.idTypeDeliveryKf!=undefined && $scope.ticket.delivery.idTypeDeliveryKf!=null && $scope.ticket.delivery.idTypeDeliveryKf!=1){
-                                                    if (($scope.ticket.delivery.whoPickUp!=undefined && $scope.ticket.delivery.whoPickUp!=null && $scope.ticket.delivery.whoPickUp.id==undefined && $scope.ticket.delivery.idDeliveryTo!=null && $scope.ticket.delivery.idDeliveryTo<=1) ||
-                                                        ($scope.ticket.delivery.idDeliveryTo==null && $scope.ticket.delivery.whoPickUp.id==2)){
+                                                    if ($scope.ticket.delivery.whoPickUp!=undefined && $scope.ticket.delivery.whoPickUp!=null && (($scope.ticket.delivery.whoPickUp.id==undefined && $scope.ticket.delivery.idDeliveryTo!=null && $scope.ticket.delivery.idDeliveryTo<=1) ||
+                                                        ($scope.ticket.delivery.idDeliveryTo==null && $scope.ticket.delivery.whoPickUp.id==2))){
                                                         if ($scope.ticket.cost.service > 0){
                                                             subTotalDelivery            = Number(0);
                                                         }else{
@@ -4649,6 +4649,26 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             }else if (obj.radioButtonBuilding!=undefined && (obj.radioButtonBuilding!='1' && obj.radioButtonBuilding!='2')){
                                 $scope.new.ticket.mail +='<td align="left" valign="middle">Personal del Edificio</td>';
                             }
+                            if (obj.optionTypeSelected.name=='department'){
+                                $scope.new.ticket.mail +='</tr><tr><td align="center" valign="middle" style="width: 15%; background-color: #b8c3d2;font-size: 1vw;color: #fff;padding-left: 0.4%">Razón / Motivo</td>';
+                                if (obj.reason=='1'){
+                                    $scope.new.ticket.mail +='<td colspan="3" align="left" valign="middle">'+obj.reason_details.reasonDisabledItem+ '&nbsp<span style="font-size: 0.7vw; background-color:#f2dede;border-color: #ebccd1 !important;color: #a94442 !important; border-radius: 10px; padding: 3px 7px;"><strong>IMPORTANTE: </strong>Si sufrio un robo, por motivos de seguridad comuniquese a nuestro telefono de urgencias <a href="tel:0800">0800-BSS</a></span></td>';
+                                }else if (obj.reason=='3'){
+                                    $scope.new.ticket.mail +='<td colspan="3" align="left" valign="middle">'+obj.reason_details.reasonDisabledItem+ '&nbsp<span style="font-size: 0.7vw; background-color:#b8c3d2;border-color: #b8c3d2 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><strong>Información: </strong>BSS se pondra en contacto para informarle si el llavero se encuentra en garantía.</span></td>';
+                                }else{
+                                    $scope.new.ticket.mail +='<td colspan="4" align="left" valign="middle">'+obj.reason_details.reasonDisabledItem+ '&nbsp</td>';
+                                }
+                            }
+                            if (obj.optionTypeSelected.name=='building'){
+                                $scope.new.ticket.mail +='<td align="center" valign="middle" style="width: 15%; background-color: #b8c3d2;font-size: 1vw;color: #fff;padding-left: 0.4%">Razón / Motivo</td>';
+                                if (obj.reason=='1'){
+                                    $scope.new.ticket.mail +='<td colspan="3" align="left" valign="middle">'+obj.reason_details.reasonDisabledItem+'<span style="font-size: 0.7vw; background-color:#f2dede;border-color: #ebccd1 !important;color: #a94442 !important; border-radius: 10px; padding: 3px 7px;"><strong>IMPORTANTE: </strong>Si sufrio un robo, por motivos de seguridad comuniquese a nuestro telefono de urgencias <a href="tel:0800">0800-BSS</a></span></td>';
+                                }else if (obj.reason=='3'){
+                                    $scope.new.ticket.mail +='<td colspan="4" align="left" valign="middle">'+obj.reason_details.reasonDisabledItem+'<span style="font-size: 0.7vw; background-color:#d9edf7;border-color: #bce8f1 !important;color: #31708f !important; border-radius: 10px; padding: 3px 7px;"><strong>Información: </strong>BSS se pondra en contacto para informarle si el llavero se encuentra en garantía.</span></td>';
+                                }else{
+                                    $scope.new.ticket.mail +='<td colspan="4" align="left" valign="middle">'+obj.reason_details.reasonDisabledItem+'</td>';
+                                }
+                            }
                             $scope.new.ticket.mail +='</tr></tbody>';
                             $scope.new.ticket.mail += '<tbody><tr><td align="center" valign="middle" colspan="4" style="background:#427a9d;color:white; padding:0.4%">Detalles - Dirección</td></tr>';
                             $scope.new.ticket.mail += '<tr><td align="center" valign="middle" style="width: 10%; background-color: #b8c3d2;font-size: 1vw;color: #fff;padding-left: 0.4%">Administracíon</td>';
@@ -4706,29 +4726,26 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     $scope.new.ticket.mail += '<tbody><tr><td align="center" valign="middle" colspan="4" style="background:#427a9d;color:white; padding:0.4%">Detalles del Envío</td></tr>';
                                     $scope.new.ticket.mail +='<tr><td align="center" valign="middle" style="width: 10%; background-color: #b8c3d2;font-size: 1vw;color: #fff; padding-left: 0.4%">Método</td>';
                                     if (obj.delivery.idTypeDeliveryKf=='1'){
-                                        $scope.new.ticket.mail += '<td align="left" style="width: 40%;" valign="middle">Retiro en Oficina</td>';
+                                        $scope.new.ticket.mail += '<td align="left" style="width: 40%;" valign="middle">Proceso interno</td>';
                                     }else if (obj.delivery.idTypeDeliveryKf=='2'){
-                                        $scope.new.ticket.mail +='<td align="left" style="width: 40%;" valign="middle">Entrega en Domicilio ';
-                                        if ((obj.delivery.idTypeDeliveryKf==2 && obj.delivery.idDeliveryTo==1) || (obj.delivery.idTypeDeliveryKf==2 && obj.delivery.whoPickUp.id==2)){
+                                        $scope.new.ticket.mail +='<td align="left" style="width: 40%;" valign="middle">Proceso interno ';
+                                        if (obj.delivery.whoPickUp!=undefined && obj.delivery.whoPickUp!=null && ((obj.delivery.idTypeDeliveryKf==2 && obj.delivery.idDeliveryTo==1) || (obj.delivery.idTypeDeliveryKf==2 && obj.delivery.whoPickUp.id==2))){
                                             $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>Asociado</b></span>';
                                         }else if((obj.optionTypeSelected.name=='building' || obj.optionTypeSelected.name=='department') && obj.radioButtonBuilding==1 && obj.delivery.idTypeDeliveryKf==2 && (obj.delivery.idDeliveryTo==1 || obj.delivery.whoPickUp.id==2)){
                                             $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+obj.building.name+'</b></span>';
                                         }else if((obj.optionTypeSelected.name=='building' || obj.optionTypeSelected.name=='department') && (obj.radioButtonBuilding==2 || obj.radioButtonBuilding==3) && obj.delivery.idTypeDeliveryKf==2 && (obj.delivery.idDeliveryTo==1 || obj.delivery.whoPickUp.id==2)){
                                             $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+obj.administration.address+'</b></span>';
-                                        }else if((obj.optionTypeSelected.name=='department') && obj.delivery.idTypeDeliveryKf==2 && (obj.delivery.idDeliveryTo==1 || obj.delivery.whoPickUp.id==2)){
+                                        }else if((obj.optionTypeSelected.name=='department') && obj.delivery.idTypeDeliveryKf==2 && (obj.delivery.idDeliveryTo==1 || (obj.delivery.whoPickUp!=undefined && obj.delivery.whoPickUp!=null && obj.delivery.whoPickUp.id==2))){
                                             $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+obj.building.name+'</b></span>';
-                                        }else if(obj.delivery.idTypeDeliveryKf==2 && obj.delivery.idDeliveryTo==2 && (obj.delivery.whoPickUp.id==undefined || obj.delivery.whoPickUp.id==1)){
+                                        }else if(obj.delivery.idTypeDeliveryKf==2 && obj.delivery.idDeliveryTo==2 && (obj.delivery.whoPickUp.id==undefined || (obj.delivery.whoPickUp!=undefined && obj.delivery.whoPickUp!=null && obj.delivery.whoPickUp.id==1))){
                                             $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>Otro</b></span>';
                                             $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;text-transform: uppercase;"><b>'+obj.delivery.otherAddress.streetName+' '+obj.delivery.otherAddress.streetNumber+'</b></span>';
-                                        }else if(obj.delivery.idTypeDeliveryKf==2 && obj.delivery.idDeliveryTo==null && obj.delivery.whoPickUp.id==3){
+                                        }else if(obj.delivery.idTypeDeliveryKf==2 && obj.delivery.idDeliveryTo==null && obj.delivery.whoPickUp!=undefined && obj.delivery.whoPickUp!=null && obj.delivery.whoPickUp.id==3){
                                             $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;text-transform: uppercase;"><b>'+obj.delivery.thirdPerson.streetName+' '+obj.delivery.thirdPerson.streetNumber+'</b></span>';
                                         }
                                         $scope.new.ticket.mail +='</td>';
                                     }
-                                    if (obj.delivery.idTypeDeliveryKf==null){
-                                        $scope.new.ticket.mail += '<td align="left" style="width: 40%;" valign="middle">Proceso interno</td>';
-                                    }
-                                    if (obj.delivery.idTypeDeliveryKf!=null){
+                                    if (obj.delivery.idTypeDeliveryKf!=null && obj.delivery.deliveryTo!=null){
                                         if (obj.delivery.idTypeDeliveryKf=='1'){
                                             $scope.new.ticket.mail += '<td align="center" valign="middle" style="width: 10%; background-color: #b8c3d2;font-size: 1vw;color: #fff; padding-left: 0.4%">Quien retira</td>';
                                         }else if (obj.delivery.idTypeDeliveryKf=='2'){
@@ -4767,7 +4784,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     $scope.new.ticket.mail += '<td align="left" valign="middle" style="width: 90%;" colspan="7" >Pago en Abono</td>';
                                 }
                                 if (obj.cost.idTypePaymentKf=='2'){
-                                    $scope.new.ticket.mail += '<td align="left" valign="middle" style="width: 90%;" colspan="7"><img data-type="image" itemprop="image" src="'+serverHost+'"/images/mp_logo.png" style="width: 10%;max-width: 110% !important;"></td>';
+                                    $scope.new.ticket.mail += '<td align="left" valign="middle" style="width: 90%;" colspan="7"><img data-type="image" itemprop="image" src="'+serverHost+'/images/mp_logo.png" style="width: 10%;max-width: 110% !important;"></td>';
                                 }
                                 $scope.new.ticket.mail +='</tr></tbody>';
                             }
@@ -4908,20 +4925,20 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 }
                             }else if (obj.delivery.idTypeDeliveryKf=="2"){
                                 $scope.new.ticket.idDeliveryTo              = obj.delivery.idDeliveryTo;
-                                if (obj.delivery.whoPickUp.id==undefined && obj.delivery.idDeliveryTo==1){
+                                if (obj.delivery.whoPickUp!=null && obj.delivery.whoPickUp.id==undefined && obj.delivery.idDeliveryTo==1){
                                     $scope.new.ticket.idWhoPickUp           = "1";
                                     $scope.new.ticket.otherDeliveryAddress  = {'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
                                     $scope.new.ticket.thirdPersonDelivery   = {'fullName':null, 'movilPhone':null, 'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
                                     $scope.new.ticket.idUserDelivery        = obj.delivery.deliveryTo.idUser;
                                     $scope.new.ticket.idDeliveryAddress     = obj.building.idClient;
-                                }else if(obj.delivery.whoPickUp.id==undefined && obj.delivery.idDeliveryTo==2){
+                                }else if(obj.delivery.whoPickUp!=null && obj.delivery.whoPickUp.id==undefined && obj.delivery.idDeliveryTo==2){
                                     $scope.new.ticket.idWhoPickUp           = 1;
                                     $scope.new.ticket.otherDeliveryAddress  = {'address':obj.delivery.otherAddress.streetName,'number':obj.delivery.otherAddress.streetNumber,'floor':obj.delivery.otherAddress.floor+"-"+obj.delivery.otherAddress.department, 'idProvinceFk':obj.delivery.otherAddress.province.selected.idProvince, 'idLocationFk':obj.delivery.otherAddress.location.selected.idLocation};
                                     $scope.new.ticket.idUserDelivery        = obj.delivery.whoPickUp.idUser;
-                                }else if(obj.delivery.whoPickUp.id==2 && obj.delivery.idDeliveryTo==null){
+                                }else if(obj.delivery.whoPickUp!=null && obj.delivery.whoPickUp.id==2 && obj.delivery.idDeliveryTo==null){
                                     $scope.new.ticket.idWhoPickUp           = obj.delivery.whoPickUp.id;
                                     $scope.new.ticket.idUserDelivery        = obj.delivery.deliveryTo.idUser;
-                                }else if(obj.delivery.whoPickUp.id==3 && obj.delivery.idDeliveryTo==null){
+                                }else if(obj.delivery.whoPickUp!=null && obj.delivery.whoPickUp.id==3 && obj.delivery.idDeliveryTo==null){
                                     $scope.new.ticket.idWhoPickUp           = obj.delivery.whoPickUp.id;
                                     $scope.new.ticket.thirdPersonDelivery   = {'fullName':obj.delivery.thirdPerson.fullNameUser, 'movilPhone':obj.delivery.thirdPerson.movilPhone, 'dni':obj.delivery.thirdPerson.dni, 'address':obj.delivery.thirdPerson.streetName,'number':obj.delivery.thirdPerson.streetNumber,'floor':obj.delivery.thirdPerson.floor+"-"+obj.delivery.thirdPerson.department, 'idProvinceFk':obj.delivery.thirdPerson.province.selected.idProvince, 'idLocationFk':obj.delivery.thirdPerson.location.selected.idLocation};
                                 }
@@ -5091,7 +5108,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $timeout(function() {
                             $scope.addDownRequestFn($scope.new);
                         }, 2000);
-
                     break;
                     case "linkMP": // Payment Link Mercado Pago
                         console.log("---------------------------------------");
