@@ -2865,7 +2865,7 @@ class Ticket_model extends CI_Model
 					if ($query->num_rows() > 0) {
 						$idTicketKeychain = $query->row()->idTicketKeychain;
 					} else {
-						$idTicketKeychain = null; // o false, según tu lógica
+						$idTicketKeychain = $ticketKeychain['idTicketKeychain'];
 					}
 				} else {
 					$idTicketKeychain = $ticketKeychain['idTicketKeychain'];
