@@ -417,7 +417,7 @@
                                             <td class="media-middle text-center">
                                               {{key.doors[0].descriptionProduct}} <span class="badge badge-warning">{{key.doors[0].brand}}</span>
                                             </td>
-                                            <td ng-show="(tkupdate.idTypeTicketKf=='2' || tkupdate.idTypeTicketKf=='1') && tkupdate.idTypeRequestFor!='6'" class="media-middle text-center">{{key.doors[0].titulo}}</td>
+                                            <td ng-show="(tkupdate.idTypeTicketKf=='1') && tkupdate.idTypeRequestFor!='6'" class="media-middle text-center">{{key.doors[0].titulo}}</td>
                                             <td rowspan="{{key.doors.length}}" class="media-middle text-center" ng-show="tkupdate.idTypeTicketKf=='2'">{{key.keychain.codigo}}</td>
                                             <td rowspan="{{key.doors.length}}" class="media-middle text-center" ng-show="tkupdate.idTypeTicketKf=='2'">{{key.keychain.codExt}}</td>
                                             <td rowspan="{{key.doors.length}}" class="media-middle text-center" ng-show="tkupdate.idTypeTicketKf=='2' || (tkupdate.idTypeTicketKf=='1' && tkupdate.idTypeRequestFor=='6' && tkupdate.keys[0].idUserKf!=null)">{{key.user.fullNameUser}}</td>
