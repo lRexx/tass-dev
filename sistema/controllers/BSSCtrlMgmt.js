@@ -4056,6 +4056,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $('#CtrlAccessConexDetails').modal('show');
             break;
             case "setMgmtKeys":
+              console.log("###### setMgmtKeys ######");
+              console.log(obj);
               console.info("Source  : " +$scope.ticket.keysMethod.name);
               console.info("Internet: " +(obj.building.isHasInternetOnline === null ? "No" : "Si"));
               switch($scope.ticket.idMgmtMethodKf){
