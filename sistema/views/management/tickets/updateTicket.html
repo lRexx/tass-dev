@@ -248,7 +248,7 @@
                         </div>-->
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <!-- KEYS -->
-                              <div ng-click="tkupdate.idTypeTicketKf='1' && tkupdate.idTypeRequestFor=='4' && ((tkupdate.building.isStockInBuilding==null || tkupdate.building.isStockInBuilding=='0') && (tkupdate.building.isStockInOffice==null || tkupdate.building.isStockInOffice=='0'))?'':mainSwitchFn('mgmtPrecheck', tkupdate.keys, null)" style="margin-bottom: 1em;"
+                              <div ng-click="tkupdate.idTypeTicketKf=='1' && tkupdate.idTypeRequestFor=='4' && ((tkupdate.building.isStockInBuilding==null || tkupdate.building.isStockInBuilding=='0') && (tkupdate.building.isStockInOffice==null || tkupdate.building.isStockInOffice=='0'))?'':mainSwitchFn('mgmtPrecheck', tkupdate.keys, null)" style="margin-bottom: 1em;"
                               ng-class="{'col-md-3 col-xs-6':!tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1, 'col-md-2 col-xs-6':tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1}">
                                   <div class="card-customer">
                                     <div ng-if="tkupdate.idTypeRequestFor=='4' && ((tkupdate.building.isStockInBuilding==null || tkupdate.building.isStockInBuilding=='0') && (tkupdate.building.isStockInOffice==null || tkupdate.building.isStockInOffice=='0'))" class="ribbon-h ribbon-h-danger"><span>No disponible</span></div>
