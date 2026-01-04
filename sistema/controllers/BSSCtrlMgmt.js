@@ -4143,6 +4143,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               }*/
             break;
             case "applySetMgmtKeys":
+                console.log("###### applySetMgmtKeys ######");
                 $scope.thereIsKeyWithoutIdKeychain      = false;
                 $scope.tkupdate.idMgmtMethodKf          = $scope.ticket.idMgmtMethodKf;
                 $scope.tkupdate.newKeychainList         = $scope.rsNewKeychainList;
