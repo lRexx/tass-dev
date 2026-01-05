@@ -1012,7 +1012,7 @@ class Llavero_model extends CI_Model
 				$this->db->join('tb_profile pb', 'pb.idProfile = b.idProfileKf', 'left');
 				$this->db->join('tb_profiles sb', 'sb.idProfiles = b.idSysProfileFk', 'left');
 				$this->db->join('tb_status stb', 'stb.idStatusTenant = b.idStatusKf', 'left');
-				$this->db->where('tb_keychain_process_events.idKeychainKf', $item['idKeychain']);
+				//$this->db->where('tb_keychain_process_events.idKeychainKf', $item['idKeychain']);
 				$quuery_events = $this->db->order_by("tb_keychain_process_events.idTypeTicketKf", "ASC")->get();
 				#log_message('debug', 'SQL: ' . $this->db->last_query());
 				#log_message('debug', 'SQL N° Rows ' . $quuery->num_rows());
