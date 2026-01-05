@@ -2860,6 +2860,7 @@ class Ticket_model extends CI_Model
 							'left'
 						)
 						->where('tkkeychain.idKeychainKf', $rs_tickets['tickets'][$key]['keys'][$i]['keychain']['idKeychain'])
+						->where('idTicketKf', $ticket['idTicket'])
 						->where('tb_tickets_2.idTypeTicketKf', '1')
 						->get();
 					if ($query->num_rows() > 0) {
