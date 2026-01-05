@@ -825,14 +825,17 @@ class Llavero_model extends CI_Model
 
 	}
 
-	public function getProcess_event_by_idKeychain($idKeychainKf, $idTypeTicketKf)
+	public function getProcess_event_by_idKeychain($idKeychainKf, $idTypeTicketKf, $idTicketKf)
 	{
 		$quuery = null;
 		$rs = null;
 
 		$this->db->select("*")->from("tb_keychain_process_events");
 		$this->db->where('idKeychainKf', $idKeychainKf);
-		$quuery = $this->db->where("idTypeTicketKf", $idTypeTicketKf)->get();
+		$this->db->where('idTypeTicketKf', $idTypeTicketKf);
+		$quuery = $this->db->where("idTicketKf", $idTicketKf)->get();
+		log_message('debug', 'SQL Query: ' . $this->db->last_query() . '\nRow Number found # ' . $quuery->num_rows());
+		log_message('info', print_r($quuery->result_array(), true));
 		if ($quuery->num_rows() > 0) {
 			$rs = $quuery->result_array()[0];
 			return $rs;
@@ -843,7 +846,7 @@ class Llavero_model extends CI_Model
 	public function addProcess_event($data)
 	{
 		$now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));
-		if (!is_null($this->getProcess_event_by_idKeychain($data['idKeychainKf'], $data['idTypeTicketKf']))) {
+		if (!is_null($this->getProcess_event_by_idKeychain($data['idKeychainKf'], $data['idTypeTicketKf'], $data['idTicketKf']))) {
 			return 2;
 		} else {
 			$this->db->insert(
