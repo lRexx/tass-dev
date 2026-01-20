@@ -6007,10 +6007,11 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     floatPrecision: 16 // or "smart", default is 16
                                 });
                                 doc.addFileToVFS('Roboto-Regular.ttf',BSS_FONT.Roboto_Regular);
-                                doc.addFont('Roboto-Regular.ttf', 'Roboto', 'regular', 'Identity-H');
+                                doc.addFont('Roboto-Regular.ttf', 'Roboto', 'regular');
                                 console.log(":::::::::::::BSS_FONT.Roboto_Regular:::::::::::::");
-                                console.log(BSS_FONT.Roboto_Regular);
+                                //console.log(BSS_FONT.Roboto_Regular);
                                 console.log(doc.getFontList());
+                                console.log(doc.internal.fonts);
                                 doc.setProperties({
                                     name: 'hoja_acceso_usuario'+user.name+'.pdf',
                                     title: 'HOJA DE DATOS DE ACCESO',
