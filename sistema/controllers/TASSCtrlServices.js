@@ -6076,7 +6076,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     // /FIELD6
                                     /********************************************/
                                     doc.setFont('helvetica', 'normal');
-                                    doc.text('ÁÉÍÓÚ áéíóú ñ Ñ €', 20, 40);
+                                    //doc.text('ÁÉÍÓÚ áéíóú ñ Ñ €', 20, 40);
                                     doc.setTextColor(0,0,0);
                                     doc.setFontSize(16);
                                     //VALUE1
@@ -6101,7 +6101,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     doc.addImage(BSS.imageQR_Default, "png", 138, 183, 50, 50);
                                     doc.setFont('helvetica', 'normal');
                                     doc.setTextColor(0,0,0);
-                                    doc.setFontSize(13);
+                                    doc.setFontSize(12);
                                     //VALUE1
                                     doc.text(7, 190, "PARA VISUALIZAR TUS CÁMARAS escaneá el código QR y");
                                     doc.setFontSize(12);
