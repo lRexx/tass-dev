@@ -6008,6 +6008,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 });
                                 doc.addFileToVFS('Roboto-Regular.ttf',BSS_FONT.Roboto_Regular);
                                 doc.addFont('Roboto-Regular.ttf', 'Roboto', 'normal', 'Identity-H');
+                                console.log(":::::::::::::BSS_FONT.Roboto_Regular:::::::::::::");
+                                console.log(BSS_FONT.Roboto_Regular);
                                 console.log(doc.getFontList());
                                 doc.setProperties({
                                     name: 'hoja_acceso_usuario'+user.name+'.pdf',
