@@ -6007,7 +6007,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     floatPrecision: 16 // or "smart", default is 16
                                 });
                                 doc.addFileToVFS('Roboto-Regular.ttf',BSS_FONT.Roboto_Regular);
-                                doc.addFont('Roboto-Regular.ttf', 'Roboto', 'normal', 'Identity-H');
+                                doc.addFont('Roboto-Regular.ttf', 'Roboto', 'regular', 'Identity-H');
                                 console.log(":::::::::::::BSS_FONT.Roboto_Regular:::::::::::::");
                                 console.log(BSS_FONT.Roboto_Regular);
                                 console.log(doc.getFontList());
@@ -6074,7 +6074,10 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     //doc.text(18, 197, "CODIGO QR:");
                                     // /FIELD6
                                     /********************************************/
-                                    doc.setFont('Roboto', 'normal');
+                                    doc.setFont('Roboto', 'regular');
+                                    doc.text('ÁÉÍÓÚ áéíóú ñ Ñ €', 20, 40);
+                                    doc.setFont('Helvetica', 'normal');
+                                    doc.text('ÁÉÍÓÚ ñ Ñ áéíóú', 20, 20);
                                     doc.setTextColor(0,0,0);
                                     doc.setFontSize(16);
                                     //VALUE1
