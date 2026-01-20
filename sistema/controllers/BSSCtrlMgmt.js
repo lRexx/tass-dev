@@ -1263,6 +1263,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       if(response.status==200){
                           $scope.existingStockKeys = response.data.tb_keychain;
                           console.info($scope.existingStockKeys);
+                          $scope.rsAllKeychainListDataStockFiltered = angular.copy(
+                            $scope.existingStockKeys.filter(
+                              s => s.idProductKf == $scope.tkupdate.keys[0].idProductKf
+                            )
+                          );
+                          console.log("$scope.rsAllKeychainListDataStockFiltered");
+                          console.log($scope.rsAllKeychainListDataStockFiltered);
                       }else if(response.status==404){
                         console.log("404 Error");
                         console.log(response.statusText);

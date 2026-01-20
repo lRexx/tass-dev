@@ -479,6 +479,7 @@ class Ticket_model extends CI_Model
 						$rs = $this->mail_model->sendMail($title, $to, $body, $subject);
 					}
 					if ($rs == "Enviado" || ($ticket['sendNotify'] || !$ticket['sendNotify'])) {
+						log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [SENT]');
 						$this->db->select("tb_client_mails.mailContact")->from("tb_client_mails");
 						$this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
 						$where = "tb_client_mails.idTipoDeMailFk = 1 AND tb_client_mails.idClientFk = " . $building['idBuilding'];
@@ -493,14 +494,14 @@ class Ticket_model extends CI_Model
 							$subject = null;
 							$body = null;
 							$to = null;
+							#MAIL TO THE BUILDING OR ADMINISTRATION // Concatenar en string separado por coma
+							$to = implode(",", $emails);
 							if ($lastTicketAddQuery['userMadeBy']['idProfileKf'] == "4") {
 								$userMadeByEmail = $lastTicketAddQuery['userMadeBy']['emailUser'];
+								$to = $to . "," . $userMadeByEmail;
 							} else {
 								$userMadeByEmail = "";
 							}
-							#MAIL TO THE BUILDING OR ADMINISTRATION // Concatenar en string separado por coma
-							$to = implode(",", $emails);
-							$to = $to . "," . $userMadeByEmail;
 							log_message('info', 'Client Key Email Addresses: ' . $to);
 							$title = "Pedido Baja Llavero";
 							$subject = "Pedido Baja Llavero :: " . $building['Depto'];
@@ -538,6 +539,8 @@ class Ticket_model extends CI_Model
 								log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [FAILED]');
 							}
 						}
+					} else {
+						log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [FAILED]');
 					}
 				}
 			} else {
@@ -2172,14 +2175,19 @@ class Ticket_model extends CI_Model
 							$where = "(idMgmtMethodKf = '" . @$data['idMgmtMethodKf'] . "')";
 							$this->db->where($where);
 						}
-						//BILLING UPLOADED
-						if (@$data['isBillingUploaded'] == '1') {
-							$where = "(ISNULL(isBillingUploaded) OR isBillingUploaded != '" . @$data['isBillingUploaded'] . "')";
+						//ACTIVATION METHOD
+						if (@$data['whereKeysAreEnable'] != '' && @$data['whereKeysAreEnable'] != null) {
+							$where = "(whereKeysAreEnable = '" . @$data['whereKeysAreEnable'] . "')";
 							$this->db->where($where);
 						}
 						//KEYS ENABLE
 						if (@$data['isKeysEnable'] != '' && @$data['isKeysEnable'] != null) {
 							$where = "(isKeysEnable = '" . @$data['isKeysEnable'] . "')";
+							$this->db->where($where);
+						}
+						//BILLING UPLOADED
+						if (@$data['isBillingUploaded'] == '1') {
+							$where = "(ISNULL(isBillingUploaded) OR isBillingUploaded != '" . @$data['isBillingUploaded'] . "')";
 							$this->db->where($where);
 						}
 						//DELIVERY COMPANY SELECTED
