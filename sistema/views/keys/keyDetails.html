@@ -7,7 +7,7 @@
               <h3 class="modal-title"><i class="product-success fas fa-key"></i> DETALLES DEL LLAVERO :: <span class="label label-default font-size-12px text-uppercase">{{keys.details.categoryKeychain}}</span>
                 <span class="label font-size-12px text-uppercase" ng-class="{'label-success': keys.details.idKeychainStatus != undefined && keys.details.idKeychainStatus != null && keys.details.idKeychainStatusKf == '1', 'label-warning': keys.details.idKeychainStatus != undefined && keys.details.idKeychainStatus != null && keys.details.idKeychainStatus == '0', 'label-danger': keys.details.idKeychainStatus == undefined || keys.details.idKeychainStatus == null, }">
                   <span ng-if="keys.details.idKeychainStatus!=null && keys.details.idKeychainStatus!=undefined">{{keys.details.statusKey}}</span>
-                  <span ng-if="keys.details..idKeychainStatus==null || keys.details..idKeychainStatus==undefined">Sin estatus</span>
+                  <span ng-if="keys.details.idKeychainStatus==null || keys.details.idKeychainStatus==undefined">Sin estatus</span>
                 </span>
               </h3>
           </div>
