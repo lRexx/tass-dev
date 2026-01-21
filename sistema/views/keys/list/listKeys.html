@@ -78,7 +78,7 @@
         </td>
         <td ng-click="switchKeysFn('keyDetails', item);" ng-trim="true" style="vertical-align: middle;text-align: center;">
           <span ng-if="item.idKeychainStatus!=null && item.idKeychainStatus!=undefined" class="label" ng-class="{'label-success': item.idKeychainStatus == '1', 'label-warning': item.idKeychainStatus == '0', 'label-danger': item.idKeychainStatus != null && item.idKeychainStatus != '0' && item.idKeychainStatus != '1', }"> {{item.statusKey}}</span>
-          <span ng-if="item.idKeychainStatus==null && item.idKeychainStatus==undefined" class="label label-success"> Activo</span>
+          <span ng-if="item.idKeychainStatus==null || item.idKeychainStatus==undefined" class="label label-danger"> Sin estatus</span>
         </td>
         <td ng-click="">
         	<!--<div class="btn-group">
