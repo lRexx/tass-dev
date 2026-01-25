@@ -11,6 +11,8 @@ class Ticket_model extends CI_Model
 		$this->load->model('mail_model');
 		/*TICKET*/
 		$this->load->model('Mercadolibre_model');
+		/*KEYS*/
+		$this->load->model('Llavero_model');
 	}
 
 	/*Dar de alta*/
@@ -1348,10 +1350,11 @@ class Ticket_model extends CI_Model
 									$body .= '</tr>';
 								}
 								if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 1) {
+									$userRetiredByFullName = $lastTicketUpdatedQuery['retiredByFullName'] == null ? $lastTicketUpdatedQuery['retiredByFullName']['userDelivery']['fullNameUser'] : $lastTicketUpdatedQuery['retiredByFullName'];
 									setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
 									$deliveredDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivered_at']));
-									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">El Pedido ha sido retirado por <b>' . $lastTicketUpdatedQuery['retiredByFullName'] . '</b>, el dia ' . $deliveredDate . '</td>';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">El Pedido ha sido retirado por <b>' . $userRetiredByFullName . '</b>, el dia ' . $deliveredDate . '</td>';
 									$body .= '</tr>';
 									$body .= '<tr width="100%" bgcolor="#ffffff">';
 									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
@@ -1474,10 +1477,11 @@ class Ticket_model extends CI_Model
 									$body .= '</tr>';
 								}
 								if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 1) {
+									$userRetiredByFullName = $lastTicketUpdatedQuery['retiredByFullName'] == null ? $lastTicketUpdatedQuery['retiredByFullName']['userDelivery']['fullNameUser'] : $lastTicketUpdatedQuery['retiredByFullName'];
 									setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
 									$deliveredDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivered_at']));
-									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">El Pedido ha sido retirado por <b>' . $lastTicketUpdatedQuery['retiredByFullName'] . '</b>, el dia ' . $deliveredDate . '</td>';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">El Pedido ha sido retirado por <b>' . $userRetiredByFullName . '</b>, el dia ' . $deliveredDate . '</td>';
 									$body .= '</tr>';
 									$body .= '<tr width="100%" bgcolor="#ffffff">';
 									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
