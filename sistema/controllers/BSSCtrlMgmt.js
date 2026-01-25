@@ -5177,6 +5177,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.update.ticket.idDeliveryCompanyKf   = obj.newTicketStatus.idStatus=='5' && obj.idTypeDeliveryKf=='2' && obj.deliveryDate!=undefined?obj.idDeliveryCompanyKf:null;
               $scope.update.ticket.history               = [];
               $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"9"});
+              $scope.update.ticket.idUserActionKf = $scope.sysLoggedUser.idUser;
               console.log($scope.update);
               $('#changeModalStatus').modal('hide');
               $('#showModalRequestStatus').modal('hide');
