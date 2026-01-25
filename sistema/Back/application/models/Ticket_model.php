@@ -1350,7 +1350,7 @@ class Ticket_model extends CI_Model
 									$body .= '</tr>';
 								}
 								if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 1) {
-									$userRetiredByFullName = $lastTicketUpdatedQuery['retiredByFullName'] == null ? $lastTicketUpdatedQuery['retiredByFullName']['userDelivery']['fullNameUser'] : $lastTicketUpdatedQuery['retiredByFullName'];
+									$userRetiredByFullName = $lastTicketUpdatedQuery['retiredByFullName'] == null ? $lastTicketUpdatedQuery['userDelivery']['fullNameUser'] : $lastTicketUpdatedQuery['retiredByFullName'];
 									setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
 									$deliveredDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivered_at']));
@@ -1477,7 +1477,7 @@ class Ticket_model extends CI_Model
 									$body .= '</tr>';
 								}
 								if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 1) {
-									$userRetiredByFullName = $lastTicketUpdatedQuery['retiredByFullName'] == null ? $lastTicketUpdatedQuery['retiredByFullName']['userDelivery']['fullNameUser'] : $lastTicketUpdatedQuery['retiredByFullName'];
+									$userRetiredByFullName = $lastTicketUpdatedQuery['retiredByFullName'] == null ? $lastTicketUpdatedQuery['userDelivery']['fullNameUser'] : $lastTicketUpdatedQuery['retiredByFullName'];
 									setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
 									$deliveredDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivered_at']));
