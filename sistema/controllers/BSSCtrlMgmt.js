@@ -5160,8 +5160,17 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             case "apply_change_ticket_status_single":
               $scope.update.ticket.idTicket              = obj.idTicket;
               $scope.update.ticket.idTypeDeliveryKf      = obj.idTypeDeliveryKf;
-              $scope.update.ticket.retiredByDNI          = obj.newTicketStatus.idStatus=='1' && obj.idTypeDeliveryKf=='1'?obj.dni:null;
-              $scope.update.ticket.retiredByFullName     = obj.newTicketStatus.idStatus=='1' && obj.idTypeDeliveryKf=='1'?obj.fullname:null;
+                  if (obj.newTicketStatus.idStatus=='1' && obj.idTypeDeliveryKf=='1' && obj.idWhoPickUp=='1'){
+                    $scope.update.ticket.retiredByDNI          = obj.userDelivery.dni;
+                    $scope.update.ticket.retiredByFullName     = obj.userDelivery.fullNameUser;
+                  }else if (obj.newTicketStatus.idStatus=='1' && obj.idTypeDeliveryKf=='1' && obj.idWhoPickUp=='3'){
+                    $scope.update.ticket.retiredByDNI          = obj.thirdPersonDelivery.dni;
+                    $scope.update.ticket.retiredByFullName     = obj.thirdPersonDelivery.fullName;
+                  }else{
+                    $scope.update.ticket.retiredByDNI          = null;
+                    $scope.update.ticket.retiredByFullName     = null;
+                  }
+
               $scope.update.ticket.idNewStatusKf         = obj.newTicketStatus.idStatus;
               $scope.update.ticket.delivery_schedule_at  = obj.newTicketStatus.idStatus=='5' && obj.idTypeDeliveryKf=='2' && obj.deliveryDate!=undefined?obj.deliveryDate:null;
               $scope.update.ticket.delivered_at          = obj.newTicketStatus.idStatus=='1' && obj.deliveryDate!=undefined?obj.deliveryDate:null;
@@ -5174,7 +5183,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               //$('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
               console.log($scope.update);
               $timeout(function() {
-                $scope.changeTicketStatusRequestFn($scope.update);
+                //$scope.changeTicketStatusRequestFn($scope.update);
               }, 2000);
             break;
             case "setInTransitStatus":
