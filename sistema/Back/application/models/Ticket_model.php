@@ -1320,7 +1320,7 @@ class Ticket_model extends CI_Model
 					if (!is_null($key['keychain']['idDepartmenKf'])) {
 						log_message('info', ':::::::::::::::::Removing Department Assigned => idDepartmenKf:' . @$key['keychain']['idDepartmenKf']);
 					}
-					log_message('info', ':::::::::::::::::Setting Key Status as deleted  => idUserKf:' . @$key['keychain']['idKeychain']);
+					log_message('info', ':::::::::::::::::Setting Key Status as deleted  => idKeychain:' . @$key['keychain']['idKeychain']);
 					$rsKey = $this->Llavero_model->logEvent($keyObj);
 					if (!$rsKey) {
 						log_message('error', 'Keychain set as DELETED Failed, Please check ID: ' . $key['keychain']['idKeychain']);

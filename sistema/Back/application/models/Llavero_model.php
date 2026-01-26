@@ -1506,7 +1506,7 @@ class Llavero_model extends CI_Model
 	/**
 	 * Registra un evento en el historial de una llave
 	 */
-	public function logEvent(array $data)
+	public function logEvent($data)
 	{
 		$now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));
 		$insert = [
