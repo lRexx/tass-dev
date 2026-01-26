@@ -1503,5 +1503,48 @@ class Llavero_model extends CI_Model
 
 		return $rs;
 	}
+	/**
+	 * Registra un evento en el historial de una llave
+	 */
+	public function logEvent(array $data)
+	{
+		$now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));
+		$insert = [
+			'idKeychainKf' => $data['idKeychainKf'],
+			'actionType' => $data['actionType'],
+			'oldIdDepartmentKf' => $data['oldIdDepartmentKf'] ?? null,
+			'newIdDepartmentKf' => $data['newIdDepartmentKf'] ?? null,
+			'oldIdUserKf' => $data['oldIdUserKf'] ?? null,
+			'newIdUserKf' => $data['newIdUserKf'] ?? null,
+			'oldIdCategoryKf' => $data['oldIdCategoryKf'] ?? null,
+			'newIdCategoryKf' => $data['newIdCategoryKf'] ?? null,
+			'idTicketKf' => $data['idTicketKf'] ?? null,
+			'idUserActionKf' => $data['idSysLoggedUserKf'],
+			'created_at' => $now->format('Y-m-d H:i:s')
+		];
+
+		return $this->db->insert($this->tb_keychain_history, $insert);
+	}
+
+	/**
+	 * Obtiene el historial completo de una llave
+	 */
+	public function getHistoryByKeychain($idKeychain)
+	{
+		return $this->db
+			->select("*")->from("tb_keychain_history")
+			->where('idKeychainKf', $idKeychain)
+			->order_by('created_at', 'ASC')->get()
+			->result();
+	}
+	public function getByCode($code)
+	{
+		return $this->db
+			->select("*")->from("tb_keychain_action_type")
+			->where('code', $code)
+			->where('isActive', 1)->get()
+			->row();
+	}
+
 
 }
