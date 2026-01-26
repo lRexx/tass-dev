@@ -1325,7 +1325,7 @@ class Ticket_model extends CI_Model
 					if (!$rsKey) {
 						log_message('error', 'Keychain set as DELETED Failed, Please check ID: ' . $key['keychain']['idKeychain']);
 					} else {
-						log_message('error', 'Keychain set as DELETED Successfully ID: ' . $key['keychain']['idKeychain']);
+						log_message('info', 'Keychain set as DELETED Successfully ID: ' . $key['keychain']['idKeychain']);
 					}
 					#"idProductKf" => $item['idProductKf'],
 					#"codExt" => $item['codExt'],
@@ -1339,7 +1339,7 @@ class Ticket_model extends CI_Model
 					log_message('info', ':::::::::::::::::Adding Keychain Log Event History Action DELETED');
 					$keyLogObj = null;
 					$keyLogObj['idKeychainKf'] = $key['keychain']['idKeychain'];
-					$keyLogObj['actionType'] = "7";
+					$keyLogObj['idActionTypeKf'] = "7";
 					$keyLogObj['oldIdDepartmentKf'] = @$key['keychain']['idDepartmenKf'];
 					$keyLogObj['newIdDepartmentKf'] = null;
 					$keyLogObj['oldIdUserKf'] = @$key['keychain']['idUserKf'];
@@ -1352,7 +1352,7 @@ class Ticket_model extends CI_Model
 					if (!$rsKeyEvent) {
 						log_message('error', 'the logEvent process failed for Keychain ID: ' . $key['keychain']['idKeychain']);
 					} else {
-						log_message('error', 'the logEvent processed successfully for Keychain ID: ' . $key['keychain']['idKeychain']);
+						log_message('info', 'the logEvent processed successfully for Keychain ID: ' . $key['keychain']['idKeychain']);
 					}
 					#'idKeychainKf' => $data['idKeychainKf'],
 					#'actionType' => $data['actionType'],

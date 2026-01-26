@@ -1509,7 +1509,7 @@ class Llavero_model extends CI_Model
 		$now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));
 		$insert = [
 			'idKeychainKf' => $data['idKeychainKf'],
-			'actionType' => $data['actionType'],
+			'idActionTypeKf' => $data['idActionTypeKf'],
 			'oldIdDepartmentKf' => $data['oldIdDepartmentKf'] ?? null,
 			'newIdDepartmentKf' => $data['newIdDepartmentKf'] ?? null,
 			'oldIdUserKf' => $data['oldIdUserKf'] ?? null,
