@@ -5,14 +5,12 @@ require_once APPPATH . "third_party/PHPExcel/PHPExcel/IOFactory.php";
 
 class Llavero_model extends CI_Model
 {
-
+	protected $tb_keychain_history = 'tb_keychain_history';
 	public function __construct()
 	{
 		parent::__construct();
 		//$this->load->library('excel');
-
 	}
-
 
 	public function get()
 	{
