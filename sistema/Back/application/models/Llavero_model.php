@@ -1519,7 +1519,7 @@ class Llavero_model extends CI_Model
 			'oldIdCategoryKf' => $data['oldIdCategoryKf'] ?? null,
 			'newIdCategoryKf' => $data['newIdCategoryKf'] ?? null,
 			'idTicketKf' => $data['idTicketKf'] ?? null,
-			'idUserActionKf' => $data['idSysLoggedUserKf'],
+			'idUserActionKf' => $data['idUserActionKf'],
 			'created_at' => $now->format('Y-m-d H:i:s')
 		];
 
