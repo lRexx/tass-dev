@@ -1320,7 +1320,7 @@ class Ticket_model extends CI_Model
 					if (!is_null($key['keychain']['idDepartmenKf'])) {
 						log_message('info', ':::::::::::::::::Removing Department Assigned => idDepartmenKf:' . @$key['keychain']['idDepartmenKf']);
 					}
-					log_message('info', ':::::::::::::::::Setting Key Status as deleted  => idUserKf:' . @$key['keychain']['idUserKf']);
+					log_message('info', ':::::::::::::::::Setting Key Status as deleted  => idUserKf:' . @$key['keychain']['idKeychain']);
 					$rsKey = $this->Llavero_model->logEvent($keyObj);
 					if (!$rsKey) {
 						log_message('error', 'Keychain set as DELETED Failed, Please check ID: ' . $key['keychain']['idKeychain']);
@@ -1497,7 +1497,7 @@ class Ticket_model extends CI_Model
 								if (is_null($lastTicketUpdatedQuery['idTypeDeliveryKf'])) {
 									setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
-									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">El Pedido de Baja  a <b>' . $deliveredTo . '</b>, el dia ' . $deliveredDate . ' en la siguiente dirección: <b>' . $deliveredAddr . '</b></td>';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">El Pedido de Baja ha sido completado satisfactoriamente.</td>';
 									$body .= '</tr>';
 									$body .= '<tr width="100%" bgcolor="#ffffff">';
 									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
@@ -1639,8 +1639,7 @@ class Ticket_model extends CI_Model
 								if (is_null($lastTicketUpdatedQuery['idTypeDeliveryKf'])) {
 									setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
-									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">El Pedido de Baja  a <b>' . $deliveredTo . '</b>, el dia ' . $deliveredDate . ' en la siguiente dirección: <b>' . $deliveredAddr . '</b></td>';
-									$body .= '</tr>';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">El Pedido de Baja  a <b>' . ha sido completado satisfactoriamente.</tr>';
 									$body .= '<tr width="100%" bgcolor="#ffffff">';
 									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
 									$body .= '</tr>';
