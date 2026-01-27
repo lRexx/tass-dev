@@ -1417,7 +1417,7 @@ class Ticket_model extends CI_Model
 							$deliveredAddr = null;
 							$deliveryDate = null;
 							$body .= '<tr width="100%" bgcolor="#ffffff">';
-							if ($lastTicketUpdatedQuery['idTypeTicketKf'] == "1") {
+							if ($lastTicketUpdatedQuery['idTypeTicketKf'] == 1) {
 								if ($lastTicketUpdatedQuery['idTypeDeliveryKf'] == 1) {
 									if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 7) {
 										$deliveryMethod = 'retirar por nuestras oficinas, Dirección: Carlos Calvo 3430 <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #fff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://www.google.com/maps?ll=-34.623655,-58.414103&z=16&t=m&hl=es-ES&gl=US&mapclient=embed&q=Carlos+Calvo+3430+C1230ABH+CABA" target="_blank" style="text-decoration: none; color: #ffffff;">Ver en el mapa</a></span>';
@@ -1493,7 +1493,7 @@ class Ticket_model extends CI_Model
 									}
 
 								}
-							} else if ($lastTicketUpdatedQuery['idTypeTicketKf'] == "1") {
+							} else if ($lastTicketUpdatedQuery['idTypeTicketKf'] == 2) {
 								if (is_null($lastTicketUpdatedQuery['idTypeDeliveryKf'])) {
 									setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
@@ -1559,7 +1559,7 @@ class Ticket_model extends CI_Model
 							$deliveredAddr = null;
 							$deliveryDate = null;
 							$body .= '<tr width="100%" bgcolor="#ffffff">';
-							if ($lastTicketUpdatedQuery['idTypeTicketKf'] == "1") {
+							if ($lastTicketUpdatedQuery['idTypeTicketKf'] == 1) {
 								if ($lastTicketUpdatedQuery['idTypeDeliveryKf'] == 1) {
 									if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 7) {
 										$deliveryMethod = 'retirar por nuestras oficinas, Dirección: Carlos Calvo 3430 <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #fff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://www.google.com/maps?ll=-34.623655,-58.414103&z=16&t=m&hl=es-ES&gl=US&mapclient=embed&q=Carlos+Calvo+3430+C1230ABH+CABA" target="_blank" style="text-decoration: none; color: #ffffff;">Ver en el mapa</a></span>';
@@ -1635,7 +1635,7 @@ class Ticket_model extends CI_Model
 									}
 
 								}
-							} else if ($lastTicketUpdatedQuery['idTypeTicketKf'] == "1") {
+							} else if ($lastTicketUpdatedQuery['idTypeTicketKf'] == 2) {
 								if (is_null($lastTicketUpdatedQuery['idTypeDeliveryKf'])) {
 									setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
