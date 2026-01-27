@@ -154,18 +154,18 @@
                                   &nbsp;<span ng-if="tkupdate.building.isHasInternetOnline!=undefined && tkupdate.building.isHasInternetOnline=='true'" data-toggle="tooltip" data-placement="top" title="Ver conexiones a control de acceso" ng-click="mainSwitchFn('internetDetails', tkupdate, null)" class="btn btn-xs btn-success"><i class="fas fa-network-wired"></i> Ver</span>
                               </div>
                               <div ng-if="sysLoggedUser.idProfileKf==1" class="col-md-12">
-                                <div class="col-md-2 col-xs-2 n-padding-l" >
+                                <div class="col-md-5 col-xs-2 n-padding-l n-padding-r" >
                                   <span>Derivar al Aréa Tecnica:</span>
                                 </div>
-                                <div class="col-md-2 col-xs-2">
+                                <div class="col-md-1 col-xs-2 n-padding-l n-padding-r">
                                   <label class="switch switch-2x" for="isTechnicianAssigned-set">
                                       <input type="checkbox" class="warning" ng-click="modalConfirmation('isTechnicianAssigned', 0, tkupdate)" ng-model="tkupdate.isTechnicianAssigned" id="isTechnicianAssigned-set">
                                       <span class="slider slider-2x flat"></span>
                                   </label>
                                 </div>
-                                <div ng-if="tkupdate.isTechnicianAssigned" class="col-md-8 col-xs-8 n-padding-l n-padding-r" style="padding-top: 0.6%;">
+                                <div ng-if="tkupdate.isTechnicianAssigned" class="col-md-1 col-xs-1 n-padding-l n-padding-r ng-scope" style="padding-top: 0.6%;">
                                   <label ng-if="!tkupdate.isTechnicianAssigned" style="cursor: pointer;" class="badge badge-warning" >No</label>
-                                  <label ng-if="tkupdate.isTechnicianAssigned" style="cursor: pointer;" class="badge badge-warning" >Si</label>
+                                  <label ng-if="tkupdate.isTechnicianAssigned" style="cursor: pointer;" class="badge badge-success" >Si</label>
                                 </div>
                               </div>
                               <div ng-if="(tkupdate.idTypeRequestFor=='1' || tkupdate.idTypeRequestFor=='3' || tkupdate.idTypeRequestFor=='5' || tkupdate.idTypeRequestFor=='6') && tkupdate.delivery_schedule_at!=null" class="col-md-12"><span>Entrega estimada: </span>
