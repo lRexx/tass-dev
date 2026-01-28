@@ -513,7 +513,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.keyObj=obj;
                     $scope.ticketDetail=obj;
                     console.log($scope.keyObj);
-                    if($scope.keyObj.isTechnicianAssigned){
+                    if($scope.ticket.isTechnicianAssignedTmp){
                       $scope.mess2show="El Pedido "+$scope.keyObj.codTicket+" sera derivado al área técnica para ser procesado.     Confirmar?";
                     }else{
                       $scope.mess2show="No Derivar El Pedido "+$scope.keyObj.codTicket+" al Área Técnica.     Confirmar?";
@@ -522,7 +522,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $('#confirmRequestModalCustom').on('shown.bs.modal', function () {});
 
                   }else if (confirm==1){
-                      if($scope.keyObj.isTechnicianAssigned){
+                      if($scope.ticket.isTechnicianAssignedTmp){
                           $scope.ticketDetail.isTechnicianAssigned=1;
                       }else{
                           $scope.ticketDetail.isTechnicianAssigned=0;
@@ -531,12 +531,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       $scope.mainSwitchFn('isTechnicianAssigned', $scope.ticketDetail, null);
                   $('#confirmRequestModalCustom').modal('hide');
                   }else if (confirm==null){
-                      if ($scope.keyObj.isTechnicianAssigned==0 || $scope.keyObj.isTechnicianAssigned==null){
-                          $scope.keyObj.isTechnicianAssigned=false
+                      if ($scope.ticket.isTechnicianAssigned==0 || $scope.ticket.isTechnicianAssigned==null){
+                          $scope.ticket.isTechnicianAssignedTmp=false
                       }else{
-                          $scope.keyObj.isTechnicianAssigned=true
+                          $scope.ticket.isTechnicianAssignedTmp=true
                       }
-
                   }
               break;
               case "update":
@@ -1334,15 +1333,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       //$scope.pagination.totalCount  = 0;
                   });
                 }
-                $scope.ticket.selected              = response.data.tickets[0];
-                $scope.ticket.building              = $scope.tkupdate.building;
-                $scope.ticket.administration        = $scope.tkupdate.clientAdmin;
-                $scope.ticket.idClientDepartament   = $scope.tkupdate.department
-                $scope.ticket.keysMethod            = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:{'name':null};
-                $scope.ticket.keysMethodSelected    = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:null;
-                $scope.customerFound                = $scope.tkupdate.building;
-                $scope.ticket.isKeysEnable          = $scope.ticket.selected.isKeysEnable;
-                $scope.functions.isKeysEnable       = $scope.ticket.selected.isKeysEnable;
+                $scope.ticket.selected                          = response.data.tickets[0];
+                $scope.ticket.building                          = $scope.tkupdate.building;
+                $scope.ticket.administration                    = $scope.tkupdate.clientAdmin;
+                $scope.ticket.idClientDepartament               = $scope.tkupdate.department
+                $scope.ticket.keysMethod                        = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:{'name':null};
+                $scope.ticket.keysMethodSelected                = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:null;
+                $scope.customerFound                            = $scope.tkupdate.building;
+                $scope.ticket.isKeysEnable                      = $scope.ticket.selected.isKeysEnable;
+                $scope.functions.isKeysEnable                   = $scope.ticket.selected.isKeysEnable;
+                $scope.ticket.isTechnicianAssignedTmp = obj.isTechnicianAssigned==1?true:false;
                 if ($scope.tkupdate.idDeliveryCompanyKf!=null){
                     $timeout(function() {
                       //console.log(Array.isArray($scope.listDeliveryCompanies));
