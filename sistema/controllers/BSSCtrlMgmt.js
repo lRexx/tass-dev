@@ -1342,7 +1342,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $scope.customerFound                      = $scope.tkupdate.building;
                 $scope.ticket.isKeysEnable                = $scope.ticket.selected.isKeysEnable;
                 $scope.functions.isKeysEnable             = $scope.ticket.selected.isKeysEnable;
-                $scope.functions.isTechnicianAssignedTmp  = obj.isTechnicianAssigned==1?true:false;
+                $scope.functions.isTechnicianAssignedTmp  = $scope.tkupdate.isTechnicianAssigned==1?true:false;
                 if ($scope.tkupdate.idDeliveryCompanyKf!=null){
                     $timeout(function() {
                       //console.log(Array.isArray($scope.listDeliveryCompanies));
