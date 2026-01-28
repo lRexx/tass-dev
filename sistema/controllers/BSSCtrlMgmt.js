@@ -514,7 +514,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.ticketDetail=obj;
                     console.log($scope.keyObj);
                     if($scope.keyObj.isTechnicianAssigned){
-                      $scope.mess2show="El Pedido "+$scope.keyObj.codTicket+" sera derivado al área técnica para que sea procesado.     Confirmar?";
+                      $scope.mess2show="El Pedido "+$scope.keyObj.codTicket+" sera derivado al área técnica para ser procesado.     Confirmar?";
                     }else{
                       $scope.mess2show="No Derivar El Pedido "+$scope.keyObj.codTicket+" al Área Técnica.     Confirmar?";
                     }
@@ -5688,7 +5688,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               }, 2000);
             break;
             case "isTechnicianAssigned":
-              console.log(cObj);
+              console.log(obj);
               //$scope.setClientInDebtFn(cObj);
             break;
             case "deliveryToOtherAddress":
