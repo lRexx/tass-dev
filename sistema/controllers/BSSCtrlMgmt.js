@@ -530,6 +530,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       $scope.mainSwitchFn('isTechnicianAssigned', $scope.ticketDetail, null);
                   $('#confirmRequestModalCustom').modal('hide');
                   }else if (confirm==null){
+                      console.log($scope.functions);
                       if ($scope.tkupdate.isTechnicianAssigned==0 || $scope.tkupdate.isTechnicianAssigned==null){
                           $scope.functions.isTechnicianAssignedTmp=false
                       }else{
