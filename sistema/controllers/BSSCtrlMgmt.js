@@ -508,6 +508,37 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $('#confirmRequestModalCustom').modal('hide');
                 }
               break;
+              case "isTechnicianAssigned":
+                  if (confirm==0){
+                    $scope.keyObj=obj;
+                    $scope.ticketDetail=obj;
+                    console.log($scope.keyObj);
+                    if($scope.keyObj.isTechnicianAssigned){
+                      $scope.mess2show="El Pedido "+$scope.keyObj.codTicket+" sera derivado al área técnica para que sea procesado.     Confirmar?";
+                    }else{
+                      $scope.mess2show="No Derivar El Pedido "+$scope.keyObj.codTicket+" al Área Técnica.     Confirmar?";
+                    }
+                    $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
+                    $('#confirmRequestModalCustom').on('shown.bs.modal', function () {});
+
+                  }else if (confirm==1){
+                      if($scope.keyObj.isTechnicianAssigned){
+                          $scope.ticketDetail.isTechnicianAssigned=1;
+                      }else{
+                          $scope.ticketDetail.isTechnicianAssigned=0;
+                      }
+                      console.log($scope.ticketDetail);
+                      $scope.mainSwitchFn('isTechnicianAssigned', $scope.ticketDetail, null);
+                  $('#confirmRequestModalCustom').modal('hide');
+                  }else if (confirm==null){
+                      if ($scope.keyObj.isTechnicianAssigned==0 || $scope.keyObj.isTechnicianAssigned==null){
+                          $scope.keyObj.isTechnicianAssigned=false
+                      }else{
+                          $scope.keyObj.isTechnicianAssigned=true
+                      }
+
+                  }
+              break;
               case "update":
                   if (confirm==0){
                       $scope.tenantObj=obj;
@@ -5655,6 +5686,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $timeout(function() {
                 $scope.changeTicketStatusRequestFn($scope.update);
               }, 2000);
+            break;
+            case "isTechnicianAssigned":
+              console.log(cObj);
+              //$scope.setClientInDebtFn(cObj);
             break;
             case "deliveryToOtherAddress":
               console.log(obj);
