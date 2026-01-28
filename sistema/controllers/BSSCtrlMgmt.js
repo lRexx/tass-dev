@@ -512,7 +512,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   if (confirm==0){
                     $scope.ticketDetail=obj;
                     console.log($scope.ticketDetail);
-                    if($scope.tkupdate.isTechnicianAssignedTmp){
+                    if($scope.functions.isTechnicianAssignedTmp){
                       $scope.mess2show="El Pedido "+$scope.ticketDetail.codTicket+" sera derivado al área técnica para ser procesado.     Confirmar?";
                     }else{
                       $scope.mess2show="No Derivar El Pedido "+$scope.ticketDetail.codTicket+" al Área Técnica.     Confirmar?";
@@ -521,7 +521,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $('#confirmRequestModalCustom').on('shown.bs.modal', function () {});
 
                   }else if (confirm==1){
-                      if($scope.tkupdate.isTechnicianAssignedTmp){
+                      if($scope.functions.isTechnicianAssignedTmp){
                           $scope.ticketDetail.isTechnicianAssigned=1;
                       }else{
                           $scope.ticketDetail.isTechnicianAssigned=0;
@@ -531,9 +531,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $('#confirmRequestModalCustom').modal('hide');
                   }else if (confirm==null){
                       if ($scope.tkupdate.isTechnicianAssigned==0 || $scope.tkupdate.isTechnicianAssigned==null){
-                          $scope.tkupdate.isTechnicianAssignedTmp=false
+                          $scope.functions.isTechnicianAssignedTmp=false
                       }else{
-                          $scope.tkupdate.isTechnicianAssignedTmp=true
+                          $scope.functions.isTechnicianAssignedTmp=true
                       }
                   }
               break;
@@ -1332,16 +1332,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       //$scope.pagination.totalCount  = 0;
                   });
                 }
-                $scope.ticket.selected                = response.data.tickets[0];
-                $scope.ticket.building                = $scope.tkupdate.building;
-                $scope.ticket.administration          = $scope.tkupdate.clientAdmin;
-                $scope.ticket.idClientDepartament     = $scope.tkupdate.department
-                $scope.ticket.keysMethod              = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:{'name':null};
-                $scope.ticket.keysMethodSelected      = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:null;
-                $scope.customerFound                  = $scope.tkupdate.building;
-                $scope.ticket.isKeysEnable            = $scope.ticket.selected.isKeysEnable;
-                $scope.functions.isKeysEnable         = $scope.ticket.selected.isKeysEnable;
-                $scope.ticket.isTechnicianAssignedTmp = obj.isTechnicianAssigned==1?true:false;
+                $scope.ticket.selected                    = response.data.tickets[0];
+                $scope.ticket.building                    = $scope.tkupdate.building;
+                $scope.ticket.administration              = $scope.tkupdate.clientAdmin;
+                $scope.ticket.idClientDepartament         = $scope.tkupdate.department
+                $scope.ticket.keysMethod                  = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:{'name':null};
+                $scope.ticket.keysMethodSelected          = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:null;
+                $scope.customerFound                      = $scope.tkupdate.building;
+                $scope.ticket.isKeysEnable                = $scope.ticket.selected.isKeysEnable;
+                $scope.functions.isKeysEnable             = $scope.ticket.selected.isKeysEnable;
+                $scope.functions.isTechnicianAssignedTmp  = obj.isTechnicianAssigned==1?true:false;
                 if ($scope.tkupdate.idDeliveryCompanyKf!=null){
                     $timeout(function() {
                       //console.log(Array.isArray($scope.listDeliveryCompanies));
@@ -1361,7 +1361,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.functions.whereKeysAreEnable = $scope.tkupdate.whereKeysAreEnable;
                   $scope.ticket.whereKeysAreEnable    = $scope.tkupdate.whereKeysAreEnable;
                 }
-                $scope.tkupdate.isTechnicianAssignedTmp = $scope.tkupdate.isTechnicianAssigned==1?true:false;
                 console.log($scope.isNewKeyFn);
                 console.log($scope.tkupdate);
                 $scope.isEditTicket=true;
@@ -3438,7 +3437,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 // 🚨 Aquí el posible punto de fallo
                 $scope.openTicketFn(obj.idTicket);
                 $('#UpdateModalTicket').modal({ backdrop: 'static', keyboard: false });
-                console.log($scope.tkupdate);
+                console.log($scope.functions);
               } catch (err) {
                 console.error('Error in openTicket flow:', err);
                 alert('Error opening ticket: ' + (err.message || err));
