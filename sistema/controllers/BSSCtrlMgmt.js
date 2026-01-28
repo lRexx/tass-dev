@@ -3427,7 +3427,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   },
                   cost: { keys: 0, delivery: 0, service: 0, total: 0 }
                 };
-                $scope.functions = { isKeysEnable: false, whereKeysAreEnable: null };
+                $scope.functions = { isKeysEnable: false, whereKeysAreEnable: null, isTechnicianAssignedTmp: null };
                 $scope.rsNewKeychainList = [];
                 $scope.list_new_keys = [];
                 $scope.keys = { new: {} };
