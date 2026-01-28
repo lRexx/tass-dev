@@ -510,19 +510,18 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               break;
               case "isTechnicianAssigned":
                   if (confirm==0){
-                    $scope.keyObj=obj;
                     $scope.ticketDetail=obj;
-                    console.log($scope.keyObj);
-                    if($scope.ticket.isTechnicianAssignedTmp){
-                      $scope.mess2show="El Pedido "+$scope.keyObj.codTicket+" sera derivado al área técnica para ser procesado.     Confirmar?";
+                    console.log($scope.ticketDetail);
+                    if($scope.tkupdate.isTechnicianAssignedTmp){
+                      $scope.mess2show="El Pedido "+$scope.ticketDetail.codTicket+" sera derivado al área técnica para ser procesado.     Confirmar?";
                     }else{
-                      $scope.mess2show="No Derivar El Pedido "+$scope.keyObj.codTicket+" al Área Técnica.     Confirmar?";
+                      $scope.mess2show="No Derivar El Pedido "+$scope.ticketDetail.codTicket+" al Área Técnica.     Confirmar?";
                     }
                     $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
                     $('#confirmRequestModalCustom').on('shown.bs.modal', function () {});
 
                   }else if (confirm==1){
-                      if($scope.ticket.isTechnicianAssignedTmp){
+                      if($scope.tkupdate.isTechnicianAssignedTmp){
                           $scope.ticketDetail.isTechnicianAssigned=1;
                       }else{
                           $scope.ticketDetail.isTechnicianAssigned=0;
@@ -531,10 +530,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       $scope.mainSwitchFn('isTechnicianAssigned', $scope.ticketDetail, null);
                   $('#confirmRequestModalCustom').modal('hide');
                   }else if (confirm==null){
-                      if ($scope.ticket.isTechnicianAssigned==0 || $scope.ticket.isTechnicianAssigned==null){
-                          $scope.ticket.isTechnicianAssignedTmp=false
+                      if ($scope.tkupdate.isTechnicianAssigned==0 || $scope.tkupdate.isTechnicianAssigned==null){
+                          $scope.tkupdate.isTechnicianAssignedTmp=false
                       }else{
-                          $scope.ticket.isTechnicianAssignedTmp=true
+                          $scope.tkupdate.isTechnicianAssignedTmp=true
                       }
                   }
               break;
@@ -1362,6 +1361,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.functions.whereKeysAreEnable = $scope.tkupdate.whereKeysAreEnable;
                   $scope.ticket.whereKeysAreEnable    = $scope.tkupdate.whereKeysAreEnable;
                 }
+                $scope.tkupdate.isTechnicianAssignedTmp = $scope.tkupdate.isTechnicianAssigned==1?true:false;
                 console.log($scope.isNewKeyFn);
                 console.log($scope.tkupdate);
                 $scope.isEditTicket=true;
