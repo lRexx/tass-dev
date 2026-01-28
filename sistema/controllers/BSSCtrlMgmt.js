@@ -1332,15 +1332,15 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       //$scope.pagination.totalCount  = 0;
                   });
                 }
-                $scope.ticket.selected                          = response.data.tickets[0];
-                $scope.ticket.building                          = $scope.tkupdate.building;
-                $scope.ticket.administration                    = $scope.tkupdate.clientAdmin;
-                $scope.ticket.idClientDepartament               = $scope.tkupdate.department
-                $scope.ticket.keysMethod                        = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:{'name':null};
-                $scope.ticket.keysMethodSelected                = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:null;
-                $scope.customerFound                            = $scope.tkupdate.building;
-                $scope.ticket.isKeysEnable                      = $scope.ticket.selected.isKeysEnable;
-                $scope.functions.isKeysEnable                   = $scope.ticket.selected.isKeysEnable;
+                $scope.ticket.selected                = response.data.tickets[0];
+                $scope.ticket.building                = $scope.tkupdate.building;
+                $scope.ticket.administration          = $scope.tkupdate.clientAdmin;
+                $scope.ticket.idClientDepartament     = $scope.tkupdate.department
+                $scope.ticket.keysMethod              = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:{'name':null};
+                $scope.ticket.keysMethodSelected      = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:null;
+                $scope.customerFound                  = $scope.tkupdate.building;
+                $scope.ticket.isKeysEnable            = $scope.ticket.selected.isKeysEnable;
+                $scope.functions.isKeysEnable         = $scope.ticket.selected.isKeysEnable;
                 $scope.ticket.isTechnicianAssignedTmp = obj.isTechnicianAssigned==1?true:false;
                 if ($scope.tkupdate.idDeliveryCompanyKf!=null){
                     $timeout(function() {
