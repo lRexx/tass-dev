@@ -5695,7 +5695,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             case "isTechnicianAssigned":
               console.log(obj);
               $scope.update.ticket.idTicket              = obj.idTicket;
-              $scope.update.ticket.isTechnicianAssigned  = $scope.functions.isTechnicianAssignedTmp;
+              $scope.update.ticket.isTechnicianAssigned  = obj.isTechnicianAssigned;
               $scope.update.ticket.history               = [];
               $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
               $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"49"});
