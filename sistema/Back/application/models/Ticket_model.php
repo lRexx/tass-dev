@@ -2613,6 +2613,17 @@ class Ticket_model extends CI_Model
 					$this->db->where("idStatusTicketKf = ", @$data['idStatusTicketKf']);
 				}
 			}
+			//TECHNNICIAN ASSIGNED
+			if (@$data['isTechnicianAssigned'] == '1') {
+				$where = "(ISNULL(isTechnicianAssigned) OR isTechnicianAssigned = '" . @$data['isTechnicianAssigned'] . "')";
+				$this->db->where($where);
+			} else if (@$data['isTechnicianAssigned'] == '0') {
+				$where = "(ISNULL(isTechnicianAssigned) OR isTechnicianAssigned = '" . @$data['isTechnicianAssigned'] . "')";
+				$this->db->where($where);
+			} else {
+				$where = "(ISNULL(isTechnicianAssigned) OR isTechnicianAssigned = '0' OR isTechnicianAssigned = '1')";
+				$this->db->where($where);
+			}
 			//TICKET REQUESTED FOR
 			if (@$data['idTypeRequestFor'] != '') {
 				$this->db->where("idTypeRequestFor = ", @$data['idTypeRequestFor']);

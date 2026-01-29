@@ -3121,8 +3121,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
       $scope.showCalender = false;
       $scope.thereIsKeyWithoutIdKeychain=false;
       $scope.monitor={'filters':{},'update':{},'edit':{}};
-      $scope.filters={'paymentsType':'', 'typDelivery':'', 'ticketStatus':'', 'typeTicket':'', 'deliveryCompanyKf':'','isPaymentSucceeded': false,'isBillingInitiated':false, 'isHasRefundsOpen':false, 'isInitialDeliveryActive': false, 'isHasStockInBuilding': false, 'mgmtKeyMethod':'', 'activationKeyMethod':'', 'isKeysEnable':''};
-      $scope.monitor.filter={'idUserRequestBy':'', 'idUserMadeBy':'', 'idBuildingKf':'', 'idClientAdminFk':'', 'idClientCompaniFk':'', 'idClientBranchFk':'', 'topfilter':'', 'idTypeTicketKf':'', 'idStatusTicketKf':'', 'codTicket':'', 'idTypePaymentKf':'', 'idTypeDeliveryKf':'', 'dateCreatedFrom':'', 'dateCreatedTo':'', 'dateDeliveredFrom':'', 'dateDeliveredTo':'', 'isBillingUploaded':null, 'isBillingInitiated':null, 'isHasRefundsOpen':null, 'idDeliveryCompanyKf':'', 'isPaymentSucceeded':'', 'isInitialDeliveryActive':null};
+      $scope.filters={'paymentsType':'', 'typDelivery':'', 'ticketStatus':'', 'typeTicket':'', 'deliveryCompanyKf':'','isPaymentSucceeded': false,'isBillingInitiated':false, 'isTechnicianAssigned':false, 'isHasRefundsOpen':false, 'isInitialDeliveryActive': false, 'isHasStockInBuilding': false, 'mgmtKeyMethod':'', 'activationKeyMethod':'', 'isKeysEnable':''};
+      $scope.monitor.filter={'idUserRequestBy':'', 'idUserMadeBy':'', 'idBuildingKf':'', 'idClientAdminFk':'', 'idClientCompaniFk':'', 'idClientBranchFk':'', 'topfilter':'', 'idTypeTicketKf':'', 'idStatusTicketKf':'', 'isTechnicianAssigned':'', 'codTicket':'', 'idTypePaymentKf':'', 'idTypeDeliveryKf':'', 'dateCreatedFrom':'', 'dateCreatedTo':'', 'dateDeliveredFrom':'', 'dateDeliveredTo':'', 'isBillingUploaded':null, 'isBillingInitiated':null, 'isHasRefundsOpen':null, 'idDeliveryCompanyKf':'', 'isPaymentSucceeded':'', 'isInitialDeliveryActive':null};
       $scope.mainSwitchFn = function(opt, obj, obj2){
         console.log("mainSwitchFn called with:", opt);
         console.log("typeof opt:", typeof opt);
@@ -3161,13 +3161,14 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     //});
                   console.log($scope.sysLoggedUser);
                   $scope.filters.topDH="10";
-                  $scope.monitor.filter.idProfileKf         = $scope.sysLoggedUser.idProfileKf;
-                  $scope.monitor.filter.isBillingInitiated  = 1;
-                  $scope.monitor.filter.isBillingUploaded   = null;
-                  $scope.monitor.filter.isPaymentSucceeded  = null;
-                  $scope.monitor.filter.topfilter           = $scope.filters.topDH;
-                  $scope.monitor.filter.idMgmtMethodKf      = null;
-                  $scope.monitor.filter.idStatusTicketKf    = "8";
+                  $scope.monitor.filter.idProfileKf           = $scope.sysLoggedUser.idProfileKf;
+                  $scope.monitor.filter.isBillingInitiated    = 1;
+                  $scope.monitor.filter.isBillingUploaded     = null;
+                  $scope.monitor.filter.isTechnicianAssigned  = null;
+                  $scope.monitor.filter.isPaymentSucceeded    = null;
+                  $scope.monitor.filter.topfilter             = $scope.filters.topDH;
+                  $scope.monitor.filter.idMgmtMethodKf        = null;
+                  $scope.monitor.filter.idStatusTicketKf      = "8";
                   $timeout(function() {
                     console.log(Array.isArray($scope.listStatusTicket));
                     console.log($scope.listStatusTicket);
@@ -3182,14 +3183,15 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.isHomeSelected=false;
                   $scope.getLisOfCustomersByIdFn($scope.sysLoggedUser.company[0]);
                   $scope.filters.topDH="10";
-                  $scope.monitor.filter.idClientAdminFk     = $scope.sysLoggedUser.company[0].idClient;
-                  $scope.monitor.filter.topfilter           = $scope.filters.topDH;
-                  $scope.monitor.filter.idProfileKf         = $scope.sysLoggedUser.idProfileKf;
-                  $scope.monitor.filter.idTypeTenantKf      = $scope.sysLoggedUser.idTypeTenantKf;
-                  $scope.monitor.filter.idDepartmentKf      = $scope.sysLoggedUser.idTypeTenantKf=="2"?$scope.sysLoggedUser.idDepartmentKf:"";
-                  $scope.monitor.filter.isHomeSelected      = $scope.isHomeSelected;
-                  $scope.monitor.filter.isBillingInitiated  = 1;
-                  $scope.monitor.filter.isPaymentSucceeded  = null;
+                  $scope.monitor.filter.idClientAdminFk       = $scope.sysLoggedUser.company[0].idClient;
+                  $scope.monitor.filter.topfilter             = $scope.filters.topDH;
+                  $scope.monitor.filter.idProfileKf           = $scope.sysLoggedUser.idProfileKf;
+                  $scope.monitor.filter.idTypeTenantKf        = $scope.sysLoggedUser.idTypeTenantKf;
+                  $scope.monitor.filter.idDepartmentKf        = $scope.sysLoggedUser.idTypeTenantKf=="2"?$scope.sysLoggedUser.idDepartmentKf:"";
+                  $scope.monitor.filter.isHomeSelected        = $scope.isHomeSelected;
+                  $scope.monitor.filter.isTechnicianAssigned  = null;
+                  $scope.monitor.filter.isBillingInitiated    = null;
+                  $scope.monitor.filter.isPaymentSucceeded    = null;
                   $scope.listTickets($scope.monitor.filter);
                 break;
                 case "3":
@@ -3243,6 +3245,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.monitor.filter.isKeysEnable            = $scope.filters.isKeysEnable?$scope.filters.isKeysEnable:"";
                   $scope.monitor.filter.idTypeRequestFor        = $scope.filters.filterCategoryKey?$scope.filters.filterCategoryKey:"";
                   $scope.monitor.filter.isBillingUploaded       = $scope.filters.isBillingUploaded?1:0;
+                  $scope.monitor.filter.isTechnicianAssigned    = $scope.filters.isTechnicianAssigned?1:0;
 
                   //console.log($scope.filters.paymentsType);
                   if ( // || ($scope.filters.paymentsType==undefined || $scope.filters.paymentsType==null || $scope.filters.paymentsType=='')
