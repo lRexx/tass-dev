@@ -5694,7 +5694,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             break;
             case "isTechnicianAssigned":
               console.log(obj);
-              //$scope.setClientInDebtFn(cObj);
+              $scope.update.ticket.idTicket              = obj.idTicket;
+              $scope.update.ticket.isTechnicianAssigned  = $scope.functions.isTechnicianAssignedTmp;
+              $scope.update.ticket.history               = [];
+              $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
+              $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"49"});
+              $scope.update.ticket.idUserActionKf        = $scope.sysLoggedUser.idUser;
+              console.log($scope.update);
+              $timeout(function() {
+                //$scope.changeTicketStatusRequestFn($scope.update);
+              }, 2000);
             break;
             case "deliveryToOtherAddress":
               console.log(obj);
