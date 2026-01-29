@@ -2615,7 +2615,8 @@ class Ticket_model extends CI_Model
 			}
 			//TECHNNICIAN ASSIGNED
 			if (@$data['isTechnicianAssigned'] == '1') {
-				$this->db->where("isTechnicianAssigned = ", @$data['isTechnicianAssigned']);
+				$where = "(ISNULL(isTechnicianAssigned) OR isTechnicianAssigned = '" . @$data['isTechnicianAssigned'] . "')";
+				$this->db->where($where);
 			} else if (@$data['isTechnicianAssigned'] == '0') {
 				$where = "(ISNULL(isTechnicianAssigned) OR isTechnicianAssigned = '" . @$data['isTechnicianAssigned'] . "')";
 				$this->db->where($where);
