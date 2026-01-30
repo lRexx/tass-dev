@@ -3912,6 +3912,42 @@ class Ticket_model extends CI_Model
 		}
 
 	}
+
+
+	public function isTechnicianAssigned($ticket)
+	{
+		$val = false;
+		$query = $this->db->select("*")->from("tb_tickets_2")->where('idTicket', $ticket['idTicket'])->get();
+		if ($query->num_rows() > 0) { //si existe el cliente
+			if (!is_null($ticket['isTechnicianAssigned'])) {
+				$this->db->set(
+					[
+						'isTechnicianAssigned' => $ticket['isTechnicianAssigned'],
+					]
+				)->where("idTicket", $ticket['idTicket'])->update("tb_tickets_2");
+				if ($this->db->affected_rows() == 1) {
+					$idTicketKf = $ticket['idTicket'];
+					$now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));
+					if (count(@$ticket['history']) > 0) {
+						foreach ($ticket['history'] as $key) {
+							$this->db->insert('tb_ticket_changes_history', array(
+								"idUserKf" => @$key['idUserKf'],
+								"idTicketKf" => $idTicketKf,
+								"created_at" => $now->format('Y-m-d H:i:s'),
+								"descripcion" => @$key['descripcion'],
+								"idCambiosTicketKf" => @$key['idCambiosTicketKf'],
+							));
+						}
+					}
+					return 1;
+				} else {
+					return 0;
+				}
+			}
+		} else {
+			return 0;
+		}
+	}
 }
 ?>
 

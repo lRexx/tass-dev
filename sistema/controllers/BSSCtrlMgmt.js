@@ -5702,7 +5702,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.update.ticket.idUserActionKf        = $scope.sysLoggedUser.idUser;
               console.log($scope.update);
               $timeout(function() {
-                //$scope.changeTicketStatusRequestFn($scope.update);
+                $scope.setIsTechnicianAssignedFn($scope.update);
               }, 2000);
             break;
             case "deliveryToOtherAddress":
@@ -6533,7 +6533,37 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 }
               });
             }
-
+          /******************************
+          *     SET TECHNICIAN DELIVER  *
+          ******************************/
+            $scope.ticketUpdated = null;
+            $scope.setIsTechnicianAssignedFn = function(ticket){
+              console.log(ticket);
+              $scope.ticketRegistered = null;
+              ticketServices.setIsTechnicianAssigned(ticket).then(function(response){
+                  //console.log(response);
+                  if(response.status==200){
+                    $timeout(function() {
+                      console.log("Request Successfully processed");
+                      inform.add('Ticket derivado al Área Ténica satisfactoriamente. ',{
+                            ttl:5000, type: 'success'
+                      });
+                      //$('.circle-loader').toggleClass('load-complete');
+                      //$('.checkmark').toggle();
+                      $scope.ticketRegistered = response.data[0];
+                      $scope.openTicketFn($scope.ticketRegistered.idTicket);
+                      //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
+                      $scope.mainSwitchFn('search', null);
+                    }, 2500);
+                  }else if(response.status==500){
+                      $scope.ticketRegistered = null;
+                    console.log("Status no updated, contact administrator");
+                    inform.add('Error: [500] Contacta al area de soporte. ',{
+                          ttl:5000, type: 'danger'
+                    });
+                  }
+              });
+            };
           /****************************
           *        LIST TICKETS       *
           ****************************/

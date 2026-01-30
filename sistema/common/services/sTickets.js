@@ -564,5 +564,17 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
                 return response;
               });
           },
+          setIsTechnicianAssigned: function(data) {
+            console.log("[Ticket Service][setIsTechnicianAssigned]---> Ticket Set isTechnicianAssigned to TRUE");
+            return $http.post(serverHost+serverBackend+"Clientes/IsTechnicianAssigned",data, serverHeaders)
+              .then(function mySucess(response) {
+                deferred.resolve(response);
+                return deferred.promise;
+              }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                deferred.resolve(response);
+                return deferred.promise;
+              });
+          },
       }
 }]);
