@@ -568,13 +568,11 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
             console.log("[Ticket Service][setIsTechnicianAssigned]---> Ticket Set isTechnicianAssigned to TRUE");
             return $http.post(serverHost+serverBackend+"Ticket/IsTechnicianAssigned",data, serverHeaders)
               .then(function mySucess(response) {
-                deferred.resolve(response);
-                return deferred.promise;
-              }).catch(function onError(response) {
-                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
-                deferred.resolve(response);
-                return deferred.promise;
-              });
+                return response;
+              },function myError(response) {
+                console.log("Error: "+response.data.error);
+                return response;
+              })
           },
       }
 }]);
