@@ -3940,7 +3940,7 @@ class Ticket_model extends CI_Model
 						}
 					}
 					$ticketUpdated = null;
-					$ticketUpdated = $this->Ticket_model->ticketById($idTicketKf);
+					$ticketUpdated = $this->ticketById($idTicketKf);
 					$lastTicketUpdatedQuery = $ticketUpdated['tickets'][0];
 					return $lastTicketUpdatedQuery;
 				} else {
