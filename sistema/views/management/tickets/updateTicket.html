@@ -153,11 +153,11 @@
                                   <span ng-if="(tkupdate.building.isHasInternetOnline==undefined || tkupdate.building.isHasInternetOnline==null || tkupdate.building.isHasInternetOnline=='false')" data-toggle="tooltip" data-placement="top" title="No" class="font-size-18px"><i class="text-danger fas fa-times-circle"></i></span>
                                   &nbsp;<span ng-if="tkupdate.building.isHasInternetOnline!=undefined && tkupdate.building.isHasInternetOnline=='true'" data-toggle="tooltip" data-placement="top" title="Ver conexiones a control de acceso" ng-click="mainSwitchFn('internetDetails', tkupdate, null)" class="btn btn-xs btn-success"><i class="fas fa-network-wired"></i> Ver</span>
                               </div>
-                              <div ng-if="sysLoggedUser.idProfileKf==1" class="col-md-12">
+                              <div ng-if="sysLoggedUser.idProfileKf==1 && (tkupdate.idTypeTicketKf=='2' || ((tkupdate.idTypeTicketKf=='1' && tkupdate.whereKeysAreEnable=='2') || (tkupdate.idTypeTicketKf=='1' && tkupdate.whereKeysAreEnable=='2' && tkupdate.isKeysEnable=='0')))" class="col-md-12">
                                 <div class="col-md-5 col-xs-2 n-padding-l n-padding-r" >
                                   <span>Derivar al Área Técnica:</span>
                                 </div>
-                                <div ng-if="tkupdate.idTypeTicketKf=='2' || ((tkupdate.idTypeTicketKf=='1' && tkupdate.whereKeysAreEnable=='2') || (tkupdate.idTypeTicketKf=='1' && tkupdate.whereKeysAreEnable=='2' && tkupdate.isKeysEnable=='0'))" class="col-md-1 col-xs-2 n-padding-l n-padding-r">
+                                <div class="col-md-1 col-xs-2 n-padding-l n-padding-r">
                                   <label class="switch switch-2x" for="isTechnicianAssigned-set">
                                       <input type="checkbox" class="success" ng-click="modalConfirmation('isTechnicianAssigned', 0, tkupdate)" ng-model="functions.isTechnicianAssignedTmp" id="isTechnicianAssigned-set">
                                       <span class="slider slider-2x flat"></span>
