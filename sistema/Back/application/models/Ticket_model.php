@@ -3942,7 +3942,7 @@ class Ticket_model extends CI_Model
 					$newTicketAdded = null;
 					$newTicketAdded = $this->ticketById($idTicketKf);
 					$lastTicketAddQuery = $newTicketAdded['tickets'][0];
-					return $newTicketAdded;
+					return $lastTicketAddQuery;
 				} else {
 					return 0;
 				}
