@@ -6541,7 +6541,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.log(ticket);
               $scope.ticketRegistered = null;
               ticketServices.setIsTechnicianAssigned(ticket).then(function(response){
-                  //console.log(response);
+                  console.log(response);
                   if(response.status==200){
                     $timeout(function() {
                       console.log("Request Successfully processed");
