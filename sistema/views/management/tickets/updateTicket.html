@@ -157,7 +157,7 @@
                                 <div class="col-md-5 col-xs-2 n-padding-l n-padding-r" >
                                   <span>Derivar al Área Técnica:</span>
                                 </div>
-                                <div class="col-md-1 col-xs-2 n-padding-l n-padding-r">
+                                <div ng-if="tkupdate.idTypeTicketKf=='2' || ((tkupdate.idTypeTicketKf=='1' && tkupdate.whereKeysAreEnable=='2') || (tkupdate.idTypeTicketKf=='1' && tkupdate.whereKeysAreEnable=='2' && tkupdate.isKeysEnable=='0'))" class="col-md-1 col-xs-2 n-padding-l n-padding-r">
                                   <label class="switch switch-2x" for="isTechnicianAssigned-set">
                                       <input type="checkbox" class="success" ng-click="modalConfirmation('isTechnicianAssigned', 0, tkupdate)" ng-model="functions.isTechnicianAssignedTmp" id="isTechnicianAssigned-set">
                                       <span class="slider slider-2x flat"></span>
