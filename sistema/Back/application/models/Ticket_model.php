@@ -3939,8 +3939,10 @@ class Ticket_model extends CI_Model
 							));
 						}
 					}
-					$lastTicketUpdatedQuery = null;
-					$lastTicketUpdatedQueryTmp = $this->ticketById($ticket['idTicket']);
+					$newTicketAdded = null;
+					$newTicketAdded = $this->ticketById($idTicketKf);
+					$lastTicketAddQuery = $newTicketAdded['tickets'][0];
+					return $newTicketAdded;
 				} else {
 					return 0;
 				}
