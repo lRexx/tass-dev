@@ -737,7 +737,7 @@ class Ticket extends REST_Controller
 
         $rs = $this->ticket_model->IsTechnicianAssigned($this->post('ticket'));
         if ($rs == 1) {
-            $this->response("Registro exitoso", 200);
+            $this->response(array('response' => $rs), 200);
             log_message('info', ':::::::::::::::::IsTechnicianAssigned Process ::: [COMPLETED]');
         } elseif ($rs == 0) {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 500);
