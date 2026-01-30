@@ -6537,10 +6537,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
           *     SET TECHNICIAN DELIVER  *
           ******************************/
             $scope.ticketUpdated = null;
-            $scope.setIsTechnicianAssignedFn = function(ticket){
-              console.log(ticket);
+            $scope.setIsTechnicianAssignedFn = function(obj){
+              console.log(obj);
               $scope.ticketRegistered = null;
-              ticketServices.setIsTechnicianAssigned(ticket).then(function(response){
+              ticketServices.setIsTechnicianAssigned(obj).then(function(response){
                   console.log(response);
                   if(response.status==200){
                     $timeout(function() {
@@ -6550,8 +6550,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       });
                       //$('.circle-loader').toggleClass('load-complete');
                       //$('.checkmark').toggle();
-                      $scope.ticketRegistered = response.data;
-                      $scope.openTicketFn($scope.ticketRegistered.idTicket);
+                      $scope.openTicketFn(obj.ticket.idTicket);
                       //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
                       $scope.mainSwitchFn('search', null);
                     }, 2500);
