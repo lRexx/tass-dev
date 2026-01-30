@@ -303,7 +303,11 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               break;
               case "cancel_user":
                 if (confirm==0){
-                  $scope.mess2show="Solicitar la cancelación del Pedido ["+obj.codTicket+"], Esta seguro que desea realizar la solicitud,     Confirmar?";
+                  if (obj.isKeysEnable=="1" && (obj.building.iporsStockInOffice==null || obj.building.iporsStockInOffice=="1" || obj.building.isStockInBuilding==null || obj.building.isStockInBuilding=="1")){
+                    $scope.mess2show="Solicitar la cancelación del Pedido ["+obj.codTicket+"], Esta seguro que desea realizar la solicitud,     Confirmar?";
+                  }else{
+                    $scope.mess2show="El Pedido ["+obj.codTicket+"] sera cancelado, Esta seguro que desea realizar esta acción,     Confirmar?";
+                  }
                   $scope.argObj = obj;
                   console.log('Solicitud de cancelacion del Pedido '+obj.codTicket+' ID: '+obj.idTicket+' solicitado por el usuario: '+$scope.sysLoggedUser.fullNameUser);
                   console.log("============================================================================")
