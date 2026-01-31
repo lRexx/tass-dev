@@ -5000,6 +5000,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               }else{
                 $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"7"});
               }
+              if (obj.isPaymentMade==null){
+                $scope.update.ticket.isHasRefundsOpen = 0;
+                $scope.update.ticket.removePaymentDelivery = false;
+              }
               switch (obj.idTypePaymentKf){
                 case "1":// Expensas
                   if (obj.idTypeDeliveryKf!=null){
