@@ -2875,8 +2875,10 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         break;
                                         //console.log($scope.isUserExist);
                                     }else{
+                                        console.log($scope.list_keys[key]);
                                         $scope.isUserExist=false;
                                         //console.log($scope.isUserExist);
+                                        console.log(productSelected);
                                     }
                                 }
                                 if(!$scope.isUserExist){
