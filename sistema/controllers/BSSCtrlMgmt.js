@@ -5128,7 +5128,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           var codExt              = key.keychain.codExt;
                           var codigo              = key.keychain.codigo;
                           var idKeychain          = key.keychain.idKeychain;
-                          var idKeychainStatusKf  = key.keychain.idKeychainStatusKf;
+                          var idKeychainStatusKf  = obj.isKeysEnable=="0" || obj.isKeysEnable==null?"-1":"1";
                           var keys = {
                             idProductKf         : key.idProductKf,
                             codExt              : codExt,
