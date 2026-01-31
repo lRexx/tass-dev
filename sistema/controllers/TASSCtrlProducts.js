@@ -213,6 +213,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
     * SELECT PRODUCT TO EDIT
     **/
         $scope.selectProductDataFn=function(obj){
+            console.log(obj);
             $scope.update={product:{}};
             $scope.list_id_divice = [];
             $scope.list_divices   = [];
@@ -227,8 +228,8 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
             $scope.update.product.isDateExpiration          = obj.isDateExpiration==1?true:false;
             $scope.update.product.isControlSchedule         = obj.isControlSchedule==1?true:false;
             $scope.update.product.idProductClassificationFk = obj.idProductClassificationFk;
-            $scope.update.product.isRequestNumber           = obj.isRequestNumber!=undefined?true:false;
-            $scope.update.product.isLicenseDevice           = obj.isLicenseDevice!=undefined?true:false;
+            $scope.update.product.isRequestNumber           = obj.isRequestNumber==1?true:false;
+            $scope.update.product.isLicenseDevice           = obj.isLicenseDevice==1?true:false;
             $scope.update_ProductTemp_diviceOpening         = obj.diviceOpening;
 
             //console.log(obj.diviceOpening);
