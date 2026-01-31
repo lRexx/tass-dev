@@ -2737,6 +2737,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             productSelected.isNumberSerieFabric         = obj.isNumberSerieFabric;
                             productSelected.isNumberSerieInternal       = obj.isNumberSerieInternal;
                             productSelected.isRequestNumber             = obj.isRequestNumber;
+                            productSelected.isLicenseDevice             = obj.isLicenseDevice;
                             productSelected.model                       = obj.model;
                             productSelected.priceFabric                 = obj.priceFabric;
                             productSelected.serviceName                 = obj.serviceName;
