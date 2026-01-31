@@ -2745,6 +2745,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }else{
                             productSelected = null;
                         }
+                        if (productSelected.isLicenseDevice==1){
+                            $scope.ticket.isLicenseDevice = true;
+                        }
                         $scope.item_added           = false;
                         var userSelected            = $scope.selectedUser!=undefined?$scope.selectedUser:null;
                         var radioButtonDepartment   = $scope.ticket.radioButtonDepartment!=undefined?$scope.ticket.radioButtonDepartment:null;
