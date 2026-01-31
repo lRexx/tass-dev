@@ -254,7 +254,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
             $scope.update.product.isNumberSerieInternal= $scope.update.product.isNumberSerieInternal==undefined?false:$scope.update.product.isNumberSerieInternal
             $scope.update.product.isDateExpiration     = $scope.update.product.isDateExpiration==undefined?false:$scope.update.product.isDateExpiration;
             $scope.update.product.isControlSchedule    = $scope.update.product.idProductClassificationFk==1 && $scope.update.product.isControlSchedule!=undefined?$scope.update.product.isControlSchedule:false;
-            $scope.update.product.isRequestNumber      = $scope.update.product.idProductClassificationFk==19 && $scope.update.product.isRequestNumber!=undefined?1:0;
+            $scope.update.product.isRequestNumber      = $scope.update.product.idProductClassificationFk==19 && $scope.update.product.isRequestNumber!=undefined&&$scope.update.product.isRequestNumber!=null&&$scope.update.product.isRequestNumber!=false?1:0;
             $scope.update.product.isLicenseDevice      = $scope.update.product.idProductClassificationFk==19 && $scope.update.product.isLicenseDevice!=undefined?1:0;
             console.log($scope.update);
             ProductsServices.update($scope.update).then(function(data){
