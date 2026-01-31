@@ -2745,9 +2745,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }else{
                             productSelected = null;
                         }
-                        if (productSelected.isLicenseDevice==1){
-                            $scope.ticket.isLicenseDevice = true;
-                        }
                         $scope.item_added           = false;
                         var userSelected            = $scope.selectedUser!=undefined?$scope.selectedUser:null;
                         var radioButtonDepartment   = $scope.ticket.radioButtonDepartment!=undefined?$scope.ticket.radioButtonDepartment:null;
@@ -2850,6 +2847,11 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             console.log(productSelected);
                             $scope.list_keys.push({'id':id, 'optionTypeSelected':$scope.ticket.optionTypeSelected.name, 'radioButtonDepartment':radioButtonDepartment, 'radioButtonBuilding':radioButtonBuilding, 'key':productSelected, 'user':userSelected, 'doors':doorsSelected});
                             $scope.item_added = true;
+                            if (productSelected.isLicenseDevice==1){
+                                $scope.ticket.isLicenseDevice = true;
+                            }else{
+                                $scope.ticket.isLicenseDevice = null
+                            }
                         }else{
                             if ($scope.list_keys.length<$scope.keysAllowedTmp){
                                 for (var key in $scope.list_keys){
@@ -2867,18 +2869,22 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         $scope.isUserExist=false;
                                         //console.log($scope.isUserExist);
                                     }
-                                    if ($scope.list_keys[key].key.isLicenseDevice!=null || productSelected.isLicenseDevice!=null){
-                                        inform.add("Solo puedes solicitar Llaveros o Licencias pero no es posible combinar en el mismo pedido.",{
-                                            ttl:5000, type: 'warning'
-                                        });
-                                        $scope.isUserExist=true;
-                                        break;
-                                        //console.log($scope.isUserExist);
+                                    if (productSelected.isLicenseDevice==null){
+                                        if ($scope.list_keys[key].key.isLicenseDevice!=null){
+                                            inform.add("Solo puedes solicitar Llaveros o Licencias pero no es posible combinar en el mismo pedido.",{
+                                                ttl:5000, type: 'warning'
+                                            });
+                                            $scope.isUserExist=true;
+                                            break;
+                                            //console.log($scope.isUserExist);
+                                        }else{
+                                            console.log($scope.list_keys[key].key);
+                                            $scope.isUserExist=false;
+                                            //console.log($scope.isUserExist);
+                                            console.log(productSelected);
+                                        }
                                     }else{
-                                        console.log($scope.list_keys[key].key);
                                         $scope.isUserExist=false;
-                                        //console.log($scope.isUserExist);
-                                        console.log(productSelected);
                                     }
                                 }
                                 if(!$scope.isUserExist){
@@ -2892,6 +2898,11 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     }
                                     $scope.list_keys.push({'id':id, 'optionTypeSelected':$scope.ticket.optionTypeSelected.name, 'radioButtonDepartment':radioButtonDepartment, 'radioButtonBuilding':radioButtonBuilding, 'key':productSelected, 'user':userSelected, 'doors':doorsSelected});
                                     $scope.item_added = true;
+                                    if (productSelected.isLicenseDevice==1){
+                                        $scope.ticket.isLicenseDevice = true;
+                                    }else{
+                                        $scope.ticket.isLicenseDevice = null
+                                    }
                                 }
                             }else{
                                 inform.add("Puede solicitar hasta un maximo de "+$scope.keysAllowedTmp+", si desea hacer un pedido mayor, contactar con el equipo de BSS Seguridad.",{
