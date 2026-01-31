@@ -5128,7 +5128,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           var codExt              = key.keychain.codExt;
                           var codigo              = key.keychain.codigo;
                           var idKeychain          = key.keychain.idKeychain;
-                          var idKeychainStatusKf  = obj.isKeysEnable=="0" || obj.isKeysEnable==null?"-1":"1";
+                          var idKeychainStatusKf  = key.keychain.idKeychainStatusKf;
                           var keys = {
                             idProductKf         : key.idProductKf,
                             codExt              : codExt,
@@ -5149,7 +5149,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           };
 
                           console.log(keys);
-                          if (obj.isKeysEnable && key.keychain!=null && key.keychain!=undefined && (obj.building.isStockInBuilding || obj.building.isStockInOffice)){
+                          if (obj.isKeysEnable=="1" && key.keychain!=null && key.keychain!=undefined && (obj.building.isStockInBuilding || obj.building.isStockInOffice)){
                             console.log("Llavero a Actualizar: "+keys.codigo);
                             $scope.updateKeyFn({llavero: keys});
                           }else{
