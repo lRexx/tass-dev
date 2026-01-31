@@ -628,7 +628,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               break;
               case "cancel_user":
                 if (confirm==0){
-                  if ((obj.isKeysEnable=="1" || obj.isKeysEnable=="0" || obj.isKeysEnable==null) && obj.idMgmtMethodKf !=null && (obj.building.iStockInOffice==null || obj.building.iStockInOffice=="1" || obj.building.isStockInBuilding==null || obj.building.isStockInBuilding=="1")){
+                  if ((obj.isKeysEnable=="1" || obj.isKeysEnable=="0" || obj.isKeysEnable==null) && obj.idMgmtMethodKf!=null && (obj.building.iStockInOffice==null || obj.building.iStockInOffice=="1" || obj.building.isStockInBuilding==null || obj.building.isStockInBuilding=="1")){
                     $scope.mess2show="Solicitar la cancelación del Pedido ["+obj.codTicket+"], Esta seguro que desea realizar la solicitud,     Confirmar?";
                   }else{
                     $scope.mess2show="El Pedido ["+obj.codTicket+"] sera cancelado, Esta seguro que desea realizar esta acción,     Confirmar?";
@@ -686,19 +686,31 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               break;
               case "cancel_sys":
                 if (confirm==0){
-                  $scope.mess2show="El Pedido ["+obj.codTicket+"] sera cancelado, Esta seguro que desea realizar esta acción,     Confirmar?";
+                  obj.isKeysEnableRequested = false;
+                  if ((obj.isKeysEnable=="0" || obj.isKeysEnable==null) && obj.idMgmtMethodKf!=null){
+                    obj.isKeysEnableRequested = true;
+                    $scope.mess2show="Los llaveros asignados al pedido ["+obj.codTicket+"], han sido habilitados,     Confirmar?";
+                  }else{
+                    $scope.mess2show="El Pedido ["+obj.codTicket+"] sera cancelado, Esta seguro que desea realizar esta acción,     Confirmar?";
+                  }
                   $scope.argObj = obj;
                   console.log('El Ticket '+obj.codTicket+' ID: '+obj.idTicket+' Sera Cancelado por el usuario: '+$scope.sysLoggedUser.fullNameUser);
                   console.log("============================================================================")
                   console.log($scope.argObj);
-                  $('#confirmRequestModal').modal('toggle');
+                  $('#confirmRequestModalCustom').modal('toggle');
                 }else if (confirm==1){
-                  $('#confirmRequestModal').modal('hide');
-                  if (($scope.argObj.building.isStockInOffice=="1" || $scope.argObj.building.isStockInBuilding=="1") && ($scope.argObj.idMgmtMethodKf=="1" || ($scope.argObj.idMgmtMethodKf=="2" && $scope.argObj.isKeysEnable=="1"))){
+                  $('#confirmRequestModalCustom').modal('hide');
+                  if (($scope.argObj.building.isStockInOffice=="1" || $scope.argObj.building.isStockInBuilding=="1") && (($scope.argObj.idMgmtMethodKf=="1" || $scope.argObj.idMgmtMethodKf=="2") && ($scope.argObj.isKeysEnable==null || $scope.argObj.isKeysEnable=="0" || $scope.argObj.isKeysEnable=="1"))){
+                    $scope.argObj.isKeysEnable = $scope.argObj.isKeysEnableRequested && ($scope.argObj.isKeysEnable=="0" || $scope.argObj.isKeysEnable==null) && $scope.argObj.idMgmtMethodKf!=null?"1":$scope.argObj.isKeysEnable;
                     $scope.modalConfirmation('confirmTicketCancel',0,$scope.argObj);
                   }else{
                     $scope.mainSwitchFn('approve_ticket_request_cancel', $scope.argObj, null);
                   }
+                }else if (confirm==null){
+                      $('#confirmRequestModalCustom').modal('hide');
+                      if ($scope.argObj.isKeysEnableRequested){
+                        $scope.mainSwitchFn('approve_ticket_request_cancel', $scope.argObj, null);
+                      }
                 }
               break;
               case "apply_ticket_delivery_change":
