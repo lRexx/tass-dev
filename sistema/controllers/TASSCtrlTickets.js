@@ -299,7 +299,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 nextStep=4;
                                 $scope.btnShow=false;
                             }else if (nextStep==2 && $scope.ticket.optionTypeSelected.name=='department' && $scope.ticket.isLicenseDevice){
-                                $scope.mySwitch = $scope.pasos[4];
+                                $scope.mySwitch = $scope.pasos[3];
                                 nextStep=3;
                                 $scope.btnShow=false;
                             }
