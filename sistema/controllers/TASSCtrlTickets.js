@@ -285,7 +285,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         nextStep = stepIndex + 1;
                         console.log("nextStep: "+nextStep);
                         $scope.stepIndexTmp = nextStep;
-                        console.log("$scope.mySwitch => "+$scope.pasos[nextStep]);
+                        console.log("$scope.mySwitch     => "+$scope.pasos[nextStep]);
+                        console.log("$scope.pasos.length => "+$scope.pasos.length);
                         $scope.mySwitch = $scope.pasos[nextStep];
                         $scope.formValidated=false;
                         $scope.btnBack=true;
@@ -299,7 +300,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 $scope.btnShow=false;
                             }else if (nextStep==2 && $scope.ticket.optionTypeSelected.name=='department' && $scope.ticket.isLicenseDevice){
                                 $scope.mySwitch = $scope.pasos[4];
-                                nextStep=4;
+                                nextStep=3;
                                 $scope.btnShow=false;
                             }
                         }else if($scope.fSwitch=="d" && nextStep==3 && $scope.ticket.cost.service!=null && $scope.ticket.cost.service!=undefined && $scope.ticket.cost.service==0){
