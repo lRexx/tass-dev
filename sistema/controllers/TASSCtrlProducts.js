@@ -194,8 +194,8 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
             $scope.new.product.isNumberSerieInternal= $scope.new.product.isNumberSerieInternal==undefined?false:$scope.new.product.isNumberSerieInternal
             $scope.new.product.isDateExpiration     = $scope.new.product.isDateExpiration==undefined?false:$scope.new.product.isDateExpiration;
             $scope.new.product.isControlSchedule    = $scope.new.product.idProductClassificationFk==1?$scope.new.product.isControlSchedule:null;
-            $scope.new.product.isRequestNumber      = $scope.new.product.idProductClassificationFk==19 && $scope.new.product.isRequestNumber!=undefined?$scope.new.product.isRequestNumber:null;
-            $scope.new.product.isLicenseDevice      = $scope.new.product.idProductClassificationFk==19 && $scope.new.product.isLicenseDevice!=undefined?$scope.new.product.isLicenseDevice:null;
+            $scope.new.product.isRequestNumber      = $scope.new.product.idProductClassificationFk==19 && $scope.new.product.isRequestNumber!=undefined?1:0;
+            $scope.new.product.isLicenseDevice      = $scope.new.product.idProductClassificationFk==19 && $scope.new.product.isLicenseDevice!=undefined?1:0;
             console.log($scope.new);
             ProductsServices.new($scope.new).then(function(data){
                 $scope.rsNewProductData = data;
@@ -253,8 +253,8 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
             $scope.update.product.isNumberSerieInternal= $scope.update.product.isNumberSerieInternal==undefined?false:$scope.update.product.isNumberSerieInternal
             $scope.update.product.isDateExpiration     = $scope.update.product.isDateExpiration==undefined?false:$scope.update.product.isDateExpiration;
             $scope.update.product.isControlSchedule    = $scope.update.product.idProductClassificationFk==1 && $scope.update.product.isControlSchedule!=undefined?$scope.update.product.isControlSchedule:false;
-            $scope.update.product.isRequestNumber      = $scope.update.product.idProductClassificationFk==19 && $scope.update.product.isRequestNumber!=undefined?$scope.update.product.isRequestNumber:false;
-            $scope.update.product.isLicenseDevice      = $scope.update.product.idProductClassificationFk==19 && $scope.update.product.isLicenseDevice!=undefined?$scope.update.product.isLicenseDevice:false;
+            $scope.update.product.isRequestNumber      = $scope.update.product.idProductClassificationFk==19 && $scope.update.product.isRequestNumber!=undefined?1:0;
+            $scope.update.product.isLicenseDevice      = $scope.update.product.idProductClassificationFk==19 && $scope.update.product.isLicenseDevice!=undefined?1:0;
             console.log($scope.update);
             ProductsServices.update($scope.update).then(function(data){
                 $scope.rsupdateProductData = data;
