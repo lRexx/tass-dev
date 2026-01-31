@@ -2867,7 +2867,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         $scope.isUserExist=false;
                                         //console.log($scope.isUserExist);
                                     }
-                                    if ($scope.list_keys[key].isLicenseDevice!=null || productSelected.isLicenseDevice!=null){
+                                    if ($scope.list_keys[key].key.isLicenseDevice!=null || productSelected.isLicenseDevice!=null){
                                         inform.add("Solo puedes solicitar Llaveros o Licencias pero no es posible combinar en el mismo pedido.",{
                                             ttl:5000, type: 'warning'
                                         });
@@ -2875,7 +2875,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         break;
                                         //console.log($scope.isUserExist);
                                     }else{
-                                        console.log($scope.list_keys[key]);
+                                        console.log($scope.list_keys[key].key);
                                         $scope.isUserExist=false;
                                         //console.log($scope.isUserExist);
                                         console.log(productSelected);
