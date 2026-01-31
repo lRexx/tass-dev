@@ -302,6 +302,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 $scope.mySwitch = $scope.pasos[3];
                                 nextStep=3;
                                 $scope.btnShow=true;
+                                $scope.ticket.cost.idTypePaymentKf="2";
                             }
                         }else if($scope.fSwitch=="d" && nextStep==3 && $scope.ticket.cost.service!=null && $scope.ticket.cost.service!=undefined && $scope.ticket.cost.service==0){
                             $scope.mySwitch = $scope.pasos[4];
