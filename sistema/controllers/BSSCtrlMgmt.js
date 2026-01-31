@@ -629,7 +629,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               case "cancel_user":
                 if (confirm==0){
                   if ((obj.isKeysEnable=="1" || obj.isKeysEnable=="0" || obj.isKeysEnable==null) && obj.idMgmtMethodKf!=null && (obj.building.iStockInOffice==null || obj.building.iStockInOffice=="1" || obj.building.isStockInBuilding==null || obj.building.isStockInBuilding=="1")){
-                    $scope.mess2show="Solicitar la cancelación del Pedido ["+obj.codTicket+"], Esta seguro que desea realizar la solicitud,     Confirmar?";
+                    $scope.mess2show="Solicitar la cancelación del Pedido ["+obj.codTicket+"], Esta seguro que desea realizar esta acción,     Confirmar?";
                   }else{
                     $scope.mess2show="El Pedido ["+obj.codTicket+"] sera cancelado, Esta seguro que desea realizar esta acción,     Confirmar?";
                   }
