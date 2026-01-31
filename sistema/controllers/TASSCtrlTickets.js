@@ -2853,11 +2853,22 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }else{
                             if ($scope.list_keys.length<$scope.keysAllowedTmp){
                                 for (var key in $scope.list_keys){
-                                    if ($scope.list_keys[key].user!=null && userSelected!=null && $scope.list_keys[key].user.idUser == $scope.selectedUser.idUser){
+                                    if ($scope.list_keys[key].isLicenseDevice==null && $scope.list_keys[key].user!=null && userSelected!=null && $scope.list_keys[key].user.idUser == $scope.selectedUser.idUser){
                                         inform.add("El Llavero seleccionado no ha sido agregado a la lista.",{
                                             ttl:5000, type: 'warning'
                                         });
                                         inform.add("El Usuario "+$scope.selectedUser.fullNameUser+", ya se encuentra asociado a un llavero de la lista.",{
+                                            ttl:5000, type: 'warning'
+                                        });
+                                        $scope.isUserExist=true;
+                                        break;
+                                        //console.log($scope.isUserExist);
+                                    }else{
+                                        $scope.isUserExist=false;
+                                        //console.log($scope.isUserExist);
+                                    }
+                                    if ($scope.list_keys[key].isLicenseDevice!=null || productSelected.isLicenseDevice!=null){
+                                        inform.add("Solo puedes solicitar Llaveros o Licencias pero no es posible combinar en el mismo pedido.",{
                                             ttl:5000, type: 'warning'
                                         });
                                         $scope.isUserExist=true;
