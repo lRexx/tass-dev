@@ -2884,7 +2884,19 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                             console.log(productSelected);
                                         }
                                     }else{
-                                        $scope.isUserExist=false;
+                                        if ($scope.list_keys[key].key.isLicenseDevice==null){
+                                            inform.add("Solo puedes solicitar Llaveros o Licencias pero no es posible combinar en el mismo pedido.",{
+                                                ttl:5000, type: 'warning'
+                                            });
+                                            $scope.isUserExist=true;
+                                            break;
+                                            //console.log($scope.isUserExist);
+                                        }else{
+                                            console.log($scope.list_keys[key].key);
+                                            $scope.isUserExist=false;
+                                            //console.log($scope.isUserExist);
+                                            console.log(productSelected);
+                                        }
                                     }
                                 }
                                 if(!$scope.isUserExist){
