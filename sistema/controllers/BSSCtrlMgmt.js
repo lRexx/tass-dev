@@ -5143,14 +5143,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             idKeychainStatusKf  : idKeychainStatusKf,
                             idTicketKeychain    : $scope.tkupdate.keys[i].idTicketKeychain
                           };
-                          console.log("Llavero a actualizar: "+keys.codigo);
+
                           console.log(keys);
-                          if (obj.isKeysEnable && key.keychain!=undefined && (obj.building.isStockInBuilding || obj.building.isStockInOffice)){
+                          if (obj.isKeysEnable && key.keychain!=null && key.keychain!=undefined && (obj.building.isStockInBuilding || obj.building.isStockInOffice)){
+                            console.log("Llavero a Actualizar: "+keys.codigo);
                             $scope.updateKeyFn({llavero: keys});
                           }else{
+                            console.log("Llavero a Eliminar: "+keys.codigo);
                             $scope.deleteKeyFn({llavero: keys});
+                            $scope.deleteProcessEventFn({llavero: keys});
                           }
-                          $scope.deleteProcessEventFn({llavero: keys});
                           deferredKeys.resolve();
                       }, 1000);
                     });

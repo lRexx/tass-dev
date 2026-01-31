@@ -1308,7 +1308,7 @@ class Ticket_model extends CI_Model
 					$keyObj['idProductKf'] = $key['keychain']['idProductKf'];
 					$keyObj['codExt'] = $key['keychain']['codExt'];
 					$keyObj['codigo'] = $key['keychain']['codigo'];
-					$keyObj['idDepartmenKf'] = null;
+					$keyObj['idDepartmenKf'] = $key['keychain']['idDepartmenKf'];
 					$keyObj['idClientKf'] = $key['keychain']['idClientKf'];
 					$keyObj['idUserKf'] = null;
 					$keyObj['idCategoryKf'] = $key['keychain']['idCategoryKf'];
@@ -1316,9 +1316,6 @@ class Ticket_model extends CI_Model
 					$keyObj['idKeychainStatusKf'] = "-1";
 					if (!is_null($key['keychain']['idUserKf'])) {
 						log_message('info', ':::::::::::::::::Removing User Assigned => idUserKf:' . @$key['keychain']['idUserKf']);
-					}
-					if (!is_null($key['keychain']['idDepartmenKf'])) {
-						log_message('info', ':::::::::::::::::Removing Department Assigned => idDepartmenKf:' . @$key['keychain']['idDepartmenKf']);
 					}
 					log_message('info', ':::::::::::::::::Setting Key Status as deleted  => idKeychain:' . @$key['keychain']['idKeychain']);
 					$rsKey = $this->Llavero_model->edit($keyObj);
