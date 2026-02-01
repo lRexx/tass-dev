@@ -908,8 +908,10 @@ class Ticket_model extends CI_Model
 			$ticketObj['history']['descripcion'] = "Link de MP inhabilitado, debido a cancelación del pedido.";
 			$ticketObj['history']['idCambiosTicketKf'] = "37";
 			$this->addTicketTimeline($ticketObj);
-			$updateMPExpirationRs = null;
-			$updateMPExpirationRs = $this->Mercadolibre_model->updateMPExpiration($lastTicketUpdatedQuery['paymentDetails']['mp_preference_id']);
+			if (isset($lastTicketUpdatedQuery['paymentDetails'])) {
+				$updateMPExpirationRs = null;
+				$updateMPExpirationRs = $this->Mercadolibre_model->updateMPExpiration($lastTicketUpdatedQuery['paymentDetails']['mp_preference_id']);
+			}
 			//MAIL
 			$user = null;
 			$building = null;
