@@ -315,8 +315,9 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                   $('#confirmRequestModal').modal('hide');
+                  console.log($scope.argObj);
                   if (($scope.argObj.isKeysEnable=="1" || $scope.argObj.isKeysEnable=="0" || $scope.argObj.isKeysEnable==null) && $scope.argObj.idMgmtMethodKf!=null && ($scope.argObj.building.iStockInOffice==null || $scope.argObj.building.iStockInOffice=="1" || $scope.argObj.building.isStockInBuilding==null || $scope.argObj.building.isStockInBuilding=="1")){
-                    $scope.mainSwitchFn('approve_ticket_request_cancel', $scope.argObj, null);
+                    //$scope.mainSwitchFn('approve_ticket_request_cancel', $scope.argObj, null);
                   }else{
                     $scope.mainSwitchFn('ticket_request_cancel', $scope.argObj, null);
                   }
