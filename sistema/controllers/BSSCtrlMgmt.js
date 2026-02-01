@@ -5697,7 +5697,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.log(obj);
               $scope.update.ticket.idTicket              = obj.idTicket;
               $scope.update.ticket.idTypeDeliveryKf      = obj.idTypeDeliveryKf;
-              $scope.update.ticket.idNewStatusKf         = 1;
+              $scope.update.ticket.idNewStatusKf         = 13;
               var delivered_at                           = obj.newTicketStatus.idStatus=='1' && obj.idTypeDeliveryKf=='2' && obj.deliveryDate!=undefined?formatDateForDB(obj.deliveryDate):new Date();
               $scope.update.ticket.delivery_schedule_at  = obj.delivery_schedule_at!=null && obj.delivery_schedule_at!=undefined?obj.delivery_schedule_at:null;
               $scope.update.ticket.delivered_at          = delivered_at;
@@ -7013,13 +7013,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   city            = obj[f].thirdPersonDelivery.province;
                   taddress        = obj[f].thirdPersonDelivery.address;
                   address         = address.toUpperCase()+" "+obj[f].thirdPersonDelivery.number;
-                  emailAddr       = obj[f].userRequestBy.emailUser;
+                  emailAddr       = obj[f].userRequestBy!=null && obj[f].userRequestBy!=undefined?obj[f].userRequestBy.emailUser:"No asignado";
                   phoneNumberUser = obj[f].thirdPersonDelivery.movilPhone;
                   dni             = obj[f].thirdPersonDelivery.dni;
                   $scope.getAddressDetailsFn(address, obj[f].thirdPersonDelivery.idProvinceFk);
                   ubicacion_lat   = $scope.ubicacion_lat;
                   ubicacion_lon   = $scope.ubicacion_lon;
-                  whoReceive      = obj[f].userDelivery.fullName;
+                  whoReceive      = obj[f].thirdPersonDelivery.fullName!=undefined?obj[f].thirdPersonDelivery.fullName:"No asignado";
                 }
 
                 var codTicket     = obj[f].codTicket;
