@@ -2409,6 +2409,8 @@ class Ticket_model extends CI_Model
 							$this->db->where("idStatusTicketKf = ", @$data['idStatusTicketKf']);
 						}
 					}
+					//TICKET REQUESTED FOR
+					$this->db->where_in('idTypeRequestFor', [1, 5, 6]);
 					//TICKET TYPE DELIVERY
 					if (@$data['idTypeDeliveryKf'] != '') {
 						$this->db->where("idTypeDeliveryKf = ", @$data['idTypeDeliveryKf']);
@@ -3743,8 +3745,11 @@ class Ticket_model extends CI_Model
 				$body .= '</tr>';
 				$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
 				if ($rsMail == "Enviado") {
-					log_message('info', 'Billing mail notification for ticket ID: ' . $idTicket . ' ::: [SENT]');
+					log_message('info', 'PostBillingMailNotification for ticket ' . $lastTicketUpdatedQuery['codTicket'] . ' - ID: ' . $idTicket . ' ::: [SENT]');
 					return true;
+				} else {
+					log_message('info', 'PostBillingMailNotification for ticket ' . $lastTicketUpdatedQuery['codTicket'] . ' - ID: ' . $idTicket . ' ::: [NOT SENT]');
+					return false;
 				}
 			}
 		} else {

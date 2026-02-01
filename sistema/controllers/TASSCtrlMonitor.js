@@ -3158,6 +3158,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               $scope.update.ticket.delivery_schedule_at  = obj.newTicketStatus.idStatus=='5' && obj.idTypeDeliveryKf=='2' && obj.deliveryDate!=undefined?obj.deliveryDate:null;
               $scope.update.ticket.delivered_at          = obj.newTicketStatus.idStatus=='1' && obj.deliveryDate!=undefined?obj.deliveryDate:null;
               $scope.update.ticket.idDeliveryCompanyKf   = obj.newTicketStatus.idStatus=='5' && obj.idTypeDeliveryKf=='2' && obj.deliveryDate!=undefined?obj.idDeliveryCompanyKf:null;
+              $scope.update.ticket.idTypeRequestFor      = obj.idTypeRequestFor;
               $scope.update.ticket.history               = [];
               $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"9"});
               console.log($scope.update);
@@ -3603,8 +3604,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                                             subTotalDelivery = Number($scope.ticket.building.valor_envio);
                                             $scope.costs.delivery.cost=subTotalDelivery.toFixed(2);
                                         }else{
-                                            $scope.ticket.cost.delivery=$scope.ticket.delivery.zone.valor_envio;
-                                            subTotalDelivery = Number($scope.ticket.delivery.zone.valor_envio);
+                                            $scope.ticket.cost.delivery=$scope.ticket.delivery.zone==undefined?$scope.ticket.building.valor_envio:$scope.ticket.delivery.zone.valor_envio;
+                                            subTotalDelivery = Number($scope.ticket.cost.delivery);
                                             $scope.costs.delivery.cost=subTotalDelivery.toFixed(2);
                                         }
                                     }else{
@@ -4549,7 +4550,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   city            = obj[f].thirdPersonDelivery.province;
                   taddress        = obj[f].thirdPersonDelivery.address;
                   address         = address.toUpperCase()+" "+obj[f].thirdPersonDelivery.number;
-                  emailAddr       = obj[f].userRequestBy.emailUser;
+                  emailAddr       = obj[f].userRequestBy!=null && obj[f].userRequestBy!=undefined?obj[f].userRequestBy.emailUser:"No asignado";
                   phoneNumberUser = obj[f].thirdPersonDelivery.movilPhone;
                   dni             = obj[f].thirdPersonDelivery.dni;
                   $scope.getAddressDetailsFn(address, obj[f].thirdPersonDelivery.idProvinceFk);
@@ -4638,13 +4639,13 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   city            = obj[f].thirdPersonDelivery.province;
                   taddress        = obj[f].thirdPersonDelivery.address;
                   address         = address.toUpperCase()+" "+obj[f].thirdPersonDelivery.number;
-                  emailAddr       = obj[f].userRequestBy.emailUser;
+                  emailAddr       = obj[f].userRequestBy!=null && obj[f].userRequestBy!=undefined?obj[f].userRequestBy.emailUser:"No asignado";
                   phoneNumberUser = obj[f].thirdPersonDelivery.movilPhone;
                   dni             = obj[f].thirdPersonDelivery.dni;
                   $scope.getAddressDetailsFn(address, obj[f].thirdPersonDelivery.idProvinceFk);
                   ubicacion_lat   = $scope.ubicacion_lat;
                   ubicacion_lon   = $scope.ubicacion_lon;
-                  whoReceive      = obj[f].userDelivery.fullName;
+                  whoReceive      = obj[f].thirdPersonDelivery.fullName!=undefined?obj[f].thirdPersonDelivery.fullName:"No asignado";
                 }
 
                 var codTicket     = obj[f].codTicket;
