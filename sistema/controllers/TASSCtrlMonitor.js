@@ -3062,7 +3062,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                           var codExt              = key.keychain.codExt;
                           var codigo              = key.keychain.codigo;
                           var idKeychain          = key.keychain.idKeychain;
-                          var idKeychainStatusKf  = key.keychain.idKeychainStatusKf;
+                          var idKeychainStatusKf  = "1"; // Active
                           var keys = {
                             idProductKf         : key.idProductKf,
                             codExt              : codExt,
