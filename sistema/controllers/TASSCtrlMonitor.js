@@ -389,9 +389,9 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 }
               case "apply_ticket_delivery_change":
                 if (confirm==0){
-                      $scope.mess2show="El Metodo de envio del pedido ["+obj.selected.codTicket+"] sera modificado, este cambio puede generar cargos adicionales, Esta seguro que desea realizar el cambio, Confirmar?";
+                      $scope.mess2show="El Metodo de envio del pedido ["+obj.codTicket+"] sera modificado, este cambio puede generar cargos adicionales, Esta seguro que desea realizar el cambio, Confirmar?";
                       $scope.argObj = obj;
-                      console.log('El Metodo de envio del pedido '+obj.selected.codTicket+' ID: '+obj.selected.idTicket+' Solicitado por el usuario: '+$scope.sysLoggedUser.fullNameUser);
+                      console.log('El Metodo de envio del pedido '+obj.codTicket+' ID: '+obj.idTicket+' Solicitado por el usuario: '+$scope.sysLoggedUser.fullNameUser);
                       console.log("============================================================================")
                       console.log($scope.argObj);
                       $('#confirmRequestModal').modal('toggle');
