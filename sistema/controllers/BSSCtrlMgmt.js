@@ -5249,6 +5249,14 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.update.ticket.history               = [];
               $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"9"});
               $scope.update.ticket.idUserActionKf = $scope.sysLoggedUser.idUser;
+              switch($scope.update.ticket.idNewStatusKf){
+                case '1':
+                  $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
+                break;
+                case '5':
+                  $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"43"});
+                break;
+              }
               console.log($scope.update);
               $('#changeModalStatus').modal('hide');
               $('#showModalRequestStatus').modal('hide');
@@ -5367,7 +5375,14 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.update.ticket.idTypeTicketKf        = ticket.idTypeTicketKf;
                     $scope.update.ticket.history               = [];
                     $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"31"});
-                    $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"43"});
+                    switch($scope.update.ticket.idNewStatusKf){
+                      case '1':
+                        $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
+                      break;
+                      case '5':
+                        $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"43"});
+                      break;
+                    }
                     console.log(ticket);
                     console.log($scope.update.ticket);
                     ticketServices.changueStatus($scope.update).then(function(response){
