@@ -351,7 +351,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     $("#updateSysProfile").modal('hide');
                     $("#UpdateUser").modal('hide');
                     if ($scope.sysContentList=="users" && ($scope.isNewUser==true || $scope.isUpdateUser==true)){
-                      $scope.refreshList();
+                      $scope.managedUsers('search', $scope.filters);
                     }else if ($scope.isNewProfileRole==true || $scope.isUpdateProfileRole==true){
                       $scope.getSysProfilesFn("");
                     }
