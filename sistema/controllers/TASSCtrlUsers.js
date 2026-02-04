@@ -2715,6 +2715,4 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   default:
                 }
             }
-
-
 });
