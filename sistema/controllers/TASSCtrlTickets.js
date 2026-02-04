@@ -2612,6 +2612,11 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $('#tenantList').modal("hide");
                         $scope.ticket.userRequestBy = $scope.selectedRequestKeyOwnerUser;
                         $scope.mainSwitchFn('setWhoPickUpList', null, null);
+                        for (var key in $scope.rsKeyProductsData){
+                            if ($scope.rsKeyProductsData[key].isLicenseDevice=="1" && $scope.rsKeyProductsData.length>=2){
+                                $scope.mainSwitchFn('selectDeviceType', null, null);
+                            }
+                        }
                     break;
                     case "selectDeviceType":
                         $("#selectDeviceType").modal({backdrop: 'static', keyboard: false});
@@ -2721,11 +2726,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         });
                         $('#tenantListByDepto').modal("hide");
                         $('#attendantList').modal("hide");
-                        for (var key in $scope.rsKeyProductsData){
-                            if ($scope.rsKeyProductsData[key].isLicenseDevice=="1" && $scope.rsKeyProductsData.length>=2){
-                                $scope.mainSwitchFn('selectDeviceType', null, null);
-                            }
-                        }
                     break;
                     case "addKeyFieldsToList":
                         console.log(obj);
