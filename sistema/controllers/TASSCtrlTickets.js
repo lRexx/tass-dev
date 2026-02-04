@@ -2351,11 +2351,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         $scope.ticket.cost.idTypePaymentKf=2;
                                         console.log($scope.ticket.cost);
                                     }
-                                    for (var key in $scope.rsKeyProductsData){
-                                        if ($scope.rsKeyProductsData[key].isLicenseDevice=="1"){
-                                            console.log("Licencia de dispositivo encontrada, se agrega al pedido automaticamente.");
-                                        }
-                                    }
                                 }, 1700);
                                 $timeout(function() {
                                     if ($scope.isRequest=="costs"){
@@ -2726,6 +2721,11 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         });
                         $('#tenantListByDepto').modal("hide");
                         $('#attendantList').modal("hide");
+                        for (var key in $scope.rsKeyProductsData){
+                            if ($scope.rsKeyProductsData[key].isLicenseDevice=="1" && $scope.rsKeyProductsData.length>=2){
+                                $scope.mainSwitchFn('selectDeviceType', null, null);
+                            }
+                        }
                     break;
                     case "addKeyFieldsToList":
                         console.log(obj);
