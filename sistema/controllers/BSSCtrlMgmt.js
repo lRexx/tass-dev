@@ -3077,7 +3077,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.keys.new.autoComplete = false;
             }
           }
-          $scope.filterByStatusPanel = function(statusBy){
+          $scope.filterByStatusPanel = function(statusBy, opt){
             //onsole.log(statusBy);
             $scope.filters={'paymentsType':'', 'typDelivery':'', 'ticketStatus':'', 'typeTicket':'', 'deliveryCompanyKf':'','isPaymentSucceeded': false,'isBillingInitiated':false, 'isTechnicianAssigned':false, 'isHasRefundsOpen':false, 'isInitialDeliveryActive': false, 'isHasStockInBuilding': false, 'mgmtKeyMethod':'', 'activationKeyMethod':'', 'isKeysEnable':''};
             $scope.filters.ticketStatus = $scope.listStatusTicket.find(s => s.idStatus == statusBy);
@@ -3085,13 +3085,12 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               case "6":
                 $scope.filters.paymentsType             = $scope.paymentsType.find(s => s.id == 2);
                 $scope.monitor.filter.idTypePaymentKf   = $scope.filters.paymentsType.id;
-                $scope.filters.isHasRefundsOpen         = true
+                $scope.filters.isHasRefundsOpen         = opt
                 $scope.monitor.filter.isHasRefundsOpen  = $scope.filters.isHasRefundsOpen?1:0;
               break;
               case "8":
-                $scope.filters.isInitialDeliveryActive        = true
+                $scope.filters.isInitialDeliveryActive        = opt
                 $scope.monitor.filter.isInitialDeliveryActive = $scope.filters.isInitialDeliveryActive?1:0;
-                $scope.filters.isHasRefundsOpen               = true
                 $scope.monitor.filter.isHasRefundsOpen        = $scope.filters.isHasRefundsOpen?1:0;
               break;
             }
