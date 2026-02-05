@@ -3082,7 +3082,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             $scope.filters.ticketStatus = $scope.listStatusTicket.find(s => s.idStatus == statusBy);
             switch (statusBy){
               case "6":
-                $scope.filters.paymentsType={"id":2};
+                $scope.filters.paymentsType             = $scope.paymentsType.find(s => s.id == 2);;
                 $scope.monitor.filter.idTypePaymentKf   = $scope.filters.paymentsType.id;
                 $scope.filters.isHasRefundsOpen         = true
                 $scope.monitor.filter.isHasRefundsOpen  = $scope.filters.isHasRefundsOpen
