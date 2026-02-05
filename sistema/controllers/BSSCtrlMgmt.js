@@ -3079,6 +3079,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
           }
           $scope.filterByStatusPanel = function(statusBy){
             //onsole.log(statusBy);
+            $scope.filters={'paymentsType':'', 'typDelivery':'', 'ticketStatus':'', 'typeTicket':'', 'deliveryCompanyKf':'','isPaymentSucceeded': false,'isBillingInitiated':false, 'isTechnicianAssigned':false, 'isHasRefundsOpen':false, 'isInitialDeliveryActive': false, 'isHasStockInBuilding': false, 'mgmtKeyMethod':'', 'activationKeyMethod':'', 'isKeysEnable':''};
             $scope.filters.ticketStatus = $scope.listStatusTicket.find(s => s.idStatus == statusBy);
             switch (statusBy){
               case "6":
