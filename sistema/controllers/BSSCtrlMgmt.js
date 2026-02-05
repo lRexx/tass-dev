@@ -3082,10 +3082,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             $scope.filters.ticketStatus = $scope.listStatusTicket.find(s => s.idStatus == statusBy);
             switch (statusBy){
               case "6":
-                $scope.filters.paymentsType             = $scope.paymentsType.find(s => s.id == 2);;
+                $scope.filters.paymentsType             = $scope.paymentsType.find(s => s.id == 2);
                 $scope.monitor.filter.idTypePaymentKf   = $scope.filters.paymentsType.id;
                 $scope.filters.isHasRefundsOpen         = true
-                $scope.monitor.filter.isHasRefundsOpen  = $scope.filters.isHasRefundsOpen
+                $scope.monitor.filter.isHasRefundsOpen  = $scope.filters.isHasRefundsOpen?1:0;
+              break;
+              case "8":
+                $scope.filters.isInitialDeliveryActive        = true
+                $scope.monitor.filter.isInitialDeliveryActive = $scope.filters.isInitialDeliveryActive?1:0;
+                $scope.filters.isHasRefundsOpen               = true
+                $scope.monitor.filter.isHasRefundsOpen        = $scope.filters.isHasRefundsOpen?1:0;
               break;
             }
             console.log($scope.filters.ticketStatus);
