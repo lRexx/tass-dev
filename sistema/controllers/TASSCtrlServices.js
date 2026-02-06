@@ -1889,7 +1889,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     $scope.customerFound.isStockInBuildingTmp   = obj.isStockInBuilding==1?true:false;
                     $scope.customerFound.isStockInOfficeTmp     = obj.isStockInOffice==1?true:false;
                     $scope.customerFound.servicesStatustURL     = serverHost+"/status/services/"+$scope.customerFound.idClient;
-                    $scope.customerFound.infoURL                = serverHost+"/info/client/"+$scope.customer.details.idClient;
+                    $scope.customerFound.infoURL                = serverHost+"/info/client/"+$scope.customerFound.idClient;
                     console.log($scope.customerFound.idClient);
                     var zonaInfo=$scope.getZoneNameFn($scope.customerFound.idZonaFk);
                     $scope.getContractsByCustomerIdFn($scope.customerFound.idClient,'assign');
