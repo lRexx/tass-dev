@@ -301,11 +301,11 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             if(nextStep == ($scope.pasos.length-1)){
                                 $scope.btnShow=false;
 
-                            }else if (nextStep==2 && $scope.ticket.optionTypeSelected.name=='building' && ($scope.ticket.radioButtonBuilding!='1' && $scope.ticket.radioButtonBuilding!='2' && $scope.ticket.radioButtonBuilding!='3')){
+                            }else if (nextStep==2 && $scope.ticket.optionTypeSelected.name=='building' && $scope.ticket.isLicenseDevice==null && ($scope.ticket.radioButtonBuilding!='1' && $scope.ticket.radioButtonBuilding!='2' && $scope.ticket.radioButtonBuilding!='3')){
                                 $scope.mySwitch = $scope.pasos[4];
                                 nextStep=4;
                                 $scope.btnShow=false;
-                            }else if (nextStep==2 && $scope.ticket.optionTypeSelected.name=='department' && $scope.ticket.isLicenseDevice){
+                            }else if ((nextStep==2 && $scope.ticket.optionTypeSelected.name=='department' && $scope.ticket.isLicenseDevice)|| (nextStep==2 && $scope.ticket.optionTypeSelected.name=='building' && $scope.ticket.isLicenseDevice && ($scope.ticket.radioButtonBuilding!='1' && $scope.ticket.radioButtonBuilding!='2' && $scope.ticket.radioButtonBuilding!='3'))){
                                 $scope.mySwitch = $scope.pasos[3];
                                 nextStep=3;
                                 $scope.btnShow=true;
