@@ -294,6 +294,10 @@
 								</div>
 							</div>
 						</div>
+						<div class="clearfix"> </div>
+						<div ng-if="!ticket.deviceSelected" class="blur-overlay">
+							<div class="centered-message">Ya ha cargado todos los llaveros del pedido.</div>
+						</div>
                         <div class="row">
                             <div ng-if="rsKeyProductsData.length>0" class="container-fluid justify-content-md-center">
 								<legend style="text-align: center;">Llaves / Licencias disponibles</legend>
