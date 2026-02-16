@@ -2746,7 +2746,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }else if($scope.sysLoggedUser.idProfileKf!=0 && $scope.ticket.radioButtonDepartment!="0"){
                             $scope.IsTenant=true;
                             console.log("$scope.ticket.radioButtonDepartment :"+$scope.ticket.radioButtonDepartment)
-                            $scope.lisTenantsByDepto($scope.ticket.idClientDepartament.idClientDepartament, -1);
+                            $scope.lisTenantsByDepto($scope.ticket.idClientDepartament.idClientDepartament, null);
                         }
                         $('#tenantListByDepto').modal({backdrop: 'static', keyboard: true});
                     break;
