@@ -2318,6 +2318,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.selectedDeliveryAttendant        = undefined;
                         $scope.selectedDeliveryAttendant        = undefined;
                         //$scope.select.products.selected         = undefined;
+                        $scope.ticket.deviceTypeSelected        = null;
+                        $scope.ticket.idDeviceTypeKf            = null;
+                        $scope.ticket.deviceSelected            = false;
                         $scope.selectedRequestKeyOwnerUser      = undefined;
                         $scope.ticket.delivery.deliveryTo       = null;
                         if ($scope.isRequest == "down"){
