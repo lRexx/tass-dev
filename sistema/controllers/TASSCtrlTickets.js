@@ -2706,21 +2706,25 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 $timeout(function() {
                                     $scope.select.products.selected={'idStatusFk':$scope.rsKeyProductsDataByType[0].idStatusFk,'contractStatus':$scope.rsKeyProductsDataByType[0].contractStatus,'serviceName':$scope.rsKeyProductsDataByType[0].serviceName,'idProduct':$scope.rsKeyProductsDataByType[0].idProduct,'descriptionProduct':$scope.rsKeyProductsDataByType[0].descriptionProduct,'codigoFabric':$scope.rsKeyProductsDataByType[0].codigoFabric,'brand':$scope.rsKeyProductsDataByType[0].brand,'model':$scope.rsKeyProductsDataByType[0].model,'idProductClassificationFk':$scope.rsKeyProductsDataByType[0].idProductClassificationFk,'isNumberSerieFabric':$scope.rsKeyProductsDataByType[0].isNumberSerieFabric,'isNumberSerieInternal':$scope.rsKeyProductsDataByType[0].isNumberSerieInternal,'isDateExpiration':$scope.rsKeyProductsDataByType[0].isDateExpiration,'isControlSchedule':$scope.rsKeyProductsDataByType[0].isControlSchedule,'isRequestNumber':$scope.rsKeyProductsDataByType[0].isRequestNumber, 'isLicenseDevice':$scope.rsKeyProductsDataByType[0].isLicenseDevice,'priceFabric':$scope.rsKeyProductsDataByType[0].priceFabric,'classification':$scope.rsKeyProductsDataByType[0].classification};
                                     console.log($scope.select.products.selected);
-                                }, 1000);
+                                }, 500);
                             break;
                             case "2":
-                                $scope.rsKeyProductsDataByType = $scope.rsKeyProductsData.find(s => s.isLicenseDevice == "1");
+                                $scope.rsKeyProductsDataByType = angular.copy(
+                                    ($scope.rsKeyProductsData || []).filter(s => s.isLicenseDevice == "1")
+                                );
                                 $timeout(function() {
                                     $scope.select.products.selected={'idStatusFk':$scope.rsKeyProductsDataByType[0].idStatusFk,'contractStatus':$scope.rsKeyProductsDataByType[0].contractStatus,'serviceName':$scope.rsKeyProductsDataByType[0].serviceName,'idProduct':$scope.rsKeyProductsDataByType[0].idProduct,'descriptionProduct':$scope.rsKeyProductsDataByType[0].descriptionProduct,'codigoFabric':$scope.rsKeyProductsDataByType[0].codigoFabric,'brand':$scope.rsKeyProductsDataByType[0].brand,'model':$scope.rsKeyProductsDataByType[0].model,'idProductClassificationFk':$scope.rsKeyProductsDataByType[0].idProductClassificationFk,'isNumberSerieFabric':$scope.rsKeyProductsDataByType[0].isNumberSerieFabric,'isNumberSerieInternal':$scope.rsKeyProductsDataByType[0].isNumberSerieInternal,'isDateExpiration':$scope.rsKeyProductsDataByType[0].isDateExpiration,'isControlSchedule':$scope.rsKeyProductsDataByType[0].isControlSchedule,'isRequestNumber':$scope.rsKeyProductsDataByType[0].isRequestNumber, 'isLicenseDevice':$scope.rsKeyProductsDataByType[0].isLicenseDevice,'priceFabric':$scope.rsKeyProductsDataByType[0].priceFabric,'classification':$scope.rsKeyProductsDataByType[0].classification};
                                     console.log($scope.select.products.selected);
-                                }, 1000);
+                                }, 500);
                             break;
                             case "3":
-                                $scope.rsKeyProductsDataByType = $scope.rsKeyProductsData.find(s => s.isLicenseDevice == "3");
+                                $scope.rsKeyProductsDataByType = angular.copy(
+                                    ($scope.rsKeyProductsData || []).filter(s => s.isLicenseDevice == "3")
+                                );
                                 $timeout(function() {
                                     $scope.select.products.selected={'idStatusFk':$scope.rsKeyProductsDataByType[0].idStatusFk,'contractStatus':$scope.rsKeyProductsDataByType[0].contractStatus,'serviceName':$scope.rsKeyProductsDataByType[0].serviceName,'idProduct':$scope.rsKeyProductsDataByType[0].idProduct,'descriptionProduct':$scope.rsKeyProductsDataByType[0].descriptionProduct,'codigoFabric':$scope.rsKeyProductsDataByType[0].codigoFabric,'brand':$scope.rsKeyProductsDataByType[0].brand,'model':$scope.rsKeyProductsDataByType[0].model,'idProductClassificationFk':$scope.rsKeyProductsDataByType[0].idProductClassificationFk,'isNumberSerieFabric':$scope.rsKeyProductsDataByType[0].isNumberSerieFabric,'isNumberSerieInternal':$scope.rsKeyProductsDataByType[0].isNumberSerieInternal,'isDateExpiration':$scope.rsKeyProductsDataByType[0].isDateExpiration,'isControlSchedule':$scope.rsKeyProductsDataByType[0].isControlSchedule,'isRequestNumber':$scope.rsKeyProductsDataByType[0].isRequestNumber, 'isLicenseDevice':$scope.rsKeyProductsDataByType[0].isLicenseDevice,'priceFabric':$scope.rsKeyProductsDataByType[0].priceFabric,'classification':$scope.rsKeyProductsDataByType[0].classification};
                                     console.log($scope.select.products.selected);
-                                }, 1000);
+                                }, 500);
                             break;
                         }
                         console.log($scope.ticket);
