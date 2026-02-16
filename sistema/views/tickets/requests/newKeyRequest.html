@@ -374,7 +374,7 @@
 										<span ng-if="selectedUser!=undefined">Encargado seleccionado</span>
 										<span ng-if="selectedUser==undefined">Seleccionar Personal</span>
 									</button>
-									<button ng-if="ticket.optionTypeSelected.name=='department' || (ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding=='1' || ticket.radioButtonBuilding=='2' || ticket.radioButtonBuilding=='3' || ticket.radioButtonBuilding=='5'))" style="margin-top:2em;" data-toggle="tooltip" data-placement="right" title="Agregar Llave"
+									<button ng-if="ticket.optionTypeSelected.name=='department' || (ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding=='1' || ticket.radioButtonBuilding=='2' || ticket.radioButtonBuilding=='3' || ticket.radioButtonBuilding=='5'))" style="margin-top:2em;" data-toggle="tooltip" data-placement="right" title="Agregar"
 									ng-disabled="((ticket.optionTypeSelected.name=='department' && ((selectedRequestKeyOwnerUser==undefined || selectedRequestKeyOwnerUser==null) || select.products.selected==undefined || list_doors.length==0)) ||
 												(ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='1' && (select.products.selected==undefined || list_doors.length==0 || selectedUser==undefined)) ||
 												(ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='2' && select.products.selected==undefined || list_doors.length==0)||
@@ -382,15 +382,15 @@
 												(ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='5' && select.products.selected==undefined || list_doors.length==0))"
 									ng-click="mainSwitchFn('addKeyFieldsToList', select.products.selected, rsCustomerAccessControlDoors)" type="button" class="btn btn-labeled btn-sm btn-success">
 										<span class="btn-label"><i class="fas fa-plus"></i> </span>Agregar</button>
-									<button ng-if="(ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && ticket.radioButtonBuilding!='3' && ticket.radioButtonBuilding!='5'))" style="margin-top:2em;" data-toggle="tooltip" data-placement="right" title="Agregar Llave"
+									<button ng-if="(ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && ticket.radioButtonBuilding!='3' && ticket.radioButtonBuilding!='5'))" style="margin-top:2em;" data-toggle="tooltip" data-placement="right" title="Agregar"
 									ng-disabled="((ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='4' && (select.products.selected==undefined || list_doors.length==0)))"
 									ng-click="mainSwitchFn('setKeysToList', select.products.selected, rsCustomerAccessControlDoors)" type="button" class="btn btn-labeled btn-sm btn-success">
 										<span class="btn-label"><i class="fas fa-plus"></i> </span>Agregar</button>
 								</div>
 								<div ng-if="rsKeyProductsData.length==0" class="container-fluid justify-content-md-center">
-									<legend style="text-align: center;">Llaves disponibles</legend>
+									<legend style="text-align: center; text-transform: capitalize;">{{ticket.deviceTypeSelected.deviceName.toLowerCase()}} disponibles</legend>
 									<div class="col-md-12 col-xs-12 form-group n-padding-l n-padding-r">
-										<div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay Llaves disponibles</h5></div>
+										<div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay {{ticket.deviceTypeSelected.deviceName.toLowerCase()}} disponibles</h5></div>
 									</div>
 								</div>
 							</div>
@@ -432,11 +432,11 @@
 											<tr>
 												<th width="5px" class="dpto-th-head" style="border-right: 1px solid #ddd !important; "> N°</th>
 
-												<th class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-key"> </i> Llavero</th>
+												<th class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-key"> </i> Dispositivo</th>
 												<th class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-dollar-sign"> </i> Precio</th>
 												<th ng-if="ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Categoria</th>
 												<th ng-if="ticket.optionTypeSelected.name=='department' || ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Asignado</th>
-												<!--<th ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="glyphicon glyphicon-user"></i> Usuario </th>-->
+												<th ng-if="ticket.deviceSelected && ticket.idDeviceTypeKf!=undefined && ticket.idDeviceTypeKf=='2' && (ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="glyphicon glyphicon-user"></i> Usuario </th>
 												<th class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-door-open"></i> Puertas</th>
 												<th class="dpto-th-head " style="text-align: center;"><i class="fas fa-ellipsis-h"></i></th>
 											</tr>
@@ -469,14 +469,14 @@
 														<span class="label label-default">{{ticket.idClientDepartament.Depto}}</span>
 													</span>
 												</td>
-												<!--<td ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" style="vertical-align: middle;text-align: center;">
+												<td ng-if="ticket.deviceSelected && ticket.idDeviceTypeKf!=undefined && ticket.idDeviceTypeKf=='2'" ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" style="vertical-align: middle;text-align: center;">
 													<span ng-if="tckt.user!=undefined && tckt.user!=null" data-toggle="tooltip" data-placement="right" title="Asignado" class="font-size-18px" style="color: #5cb85c">
 														<i class="text-success fas fa-check-circle"></i>
 													</span>
 													<span ng-if="tckt.user==undefined || tckt.user==null" data-toggle="tooltip" data-placement="right" title="No asignado" class="text-danger media-middle text-center font-size-18px">
 														<i class="fas fa-times-circle"></i>
 													</span>
-												</td>-->
+												</td>
 												<td style="vertical-align: middle;text-align: center;">
 													<span ng-if="tckt.doors.length>0" data-toggle="tooltip" data-placement="bottom" title="Puertas a Habilitar" class="label label-success">
 														{{tckt.doors.length}}

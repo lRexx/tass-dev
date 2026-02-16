@@ -3048,31 +3048,31 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         if ($scope.item_added){
                             if($scope.ticket.optionTypeSelected.name=='department'){
                                 if (userSelected==null){
-                                    inform.add('El llavero '+productSelected.descriptionProduct+' asociado al Departamento:  '+$scope.ticket.idClientDepartament.Depto+' ha sido agregado al pedido.',{
+                                    inform.add('El dispositivo '+productSelected.descriptionProduct+' asociado al Departamento:  '+$scope.ticket.idClientDepartament.Depto+' ha sido agregado al pedido.',{
                                         ttl:5000, type: 'success'
                                     });
                                 }else{
-                                    inform.add('El llavero '+productSelected.descriptionProduct+' asociado usuario '+userSelected.fullNameUser+' ha sido agregado al pedido.',{
+                                    inform.add('El dispositivo '+productSelected.descriptionProduct+' asociado usuario '+userSelected.fullNameUser+' ha sido agregado al pedido.',{
                                         ttl:5000, type: 'success'
                                     });
                                 }
                             }else{
                                 if($scope.ticket.radioButtonBuilding=="1"){
                                     if (userSelected==null){
-                                        inform.add('El llavero '+productSelected.descriptionProduct+' asociado al Personal del Edificio:  '+$scope.select.buildings.selected.name+' ha sido agregado al pedido.',{
+                                        inform.add('El dispositivo '+productSelected.descriptionProduct+' asociado al Personal del Edificio:  '+$scope.select.buildings.selected.name+' ha sido agregado al pedido.',{
                                             ttl:5000, type: 'success'
                                         });
                                     }else{
-                                        inform.add('El llavero '+productSelected.descriptionProduct+' asociado usuario '+userSelected.fullNameUser+' ha sido agregado al pedido.',{
+                                        inform.add('El dispositivo '+productSelected.descriptionProduct+' asociado usuario '+userSelected.fullNameUser+' ha sido agregado al pedido.',{
                                             ttl:5000, type: 'success'
                                         });
                                     }
                                 }else if($scope.ticket.radioButtonBuilding=="5"){
-                                    inform.add('El llavero '+productSelected.descriptionProduct+' asociado al consorcio:  '+$scope.select.buildings.selected.name+' ha sido agregado al pedido.',{
+                                    inform.add('El dispositivo '+productSelected.descriptionProduct+' asociado al consorcio:  '+$scope.select.buildings.selected.name+' ha sido agregado al pedido.',{
                                         ttl:5000, type: 'success'
                                     });
                                 }else{
-                                    inform.add('El llavero '+productSelected.descriptionProduct+' asociado a la Administracion:  '+$scope.select.admins.selected.name+' ha sido agregado al pedido.',{
+                                    inform.add('El dispositivo '+productSelected.descriptionProduct+' asociado a la Administracion:  '+$scope.select.admins.selected.name+' ha sido agregado al pedido.',{
                                         ttl:5000, type: 'success'
                                     });
                                 }
