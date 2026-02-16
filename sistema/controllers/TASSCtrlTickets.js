@@ -4020,12 +4020,17 @@ tickets.controller(
               $scope.rsKeyProductsData[key].isLicenseDevice == "1" &&
               $scope.rsKeyProductsData.length >= 2
             ) {
+              $scope.ticket.deviceSelected = false;
               $scope.mainSwitchFn("selectDeviceType", null, null);
             }
           }
           break;
         case "selectDeviceType":
           $("#selectDeviceType").modal({ backdrop: "static", keyboard: false });
+          break;
+        case "setRequestDevice":
+          $scope.ticket.deviceSelected = true;
+          console.log($scope.ticket);
           break;
         case "list_depto_tenant":
           $scope.tenant = {
