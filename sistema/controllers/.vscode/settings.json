@@ -1,0 +1,72 @@
+{
+  // Theme & UI
+  "workbench.colorTheme": "One Dark Pro Mix",
+  "workbench.iconTheme": "material-icon-theme",
+  "workbench.productIconTheme": "fluent-icons",
+
+  // Editor
+  "editor.formatOnSave": false,
+  "editor.formatOnPaste": false,
+  "editor.formatOnType": false,
+
+  "editor.minimap.enabled": false,
+  "editor.scrollbar.vertical": "hidden",
+  "editor.overviewRulerBorder": false,
+  "editor.hideCursorInOverviewRuler": true,
+  "editor.guides.indentation": false,
+  "editor.matchBrackets": "never",
+
+  "editor.fontFamily": "'Fira Code', Consolas, 'Courier New', monospace",
+  "editor.fontLigatures": true,
+  "editor.cursorBlinking": "phase",
+  "editor.cursorSmoothCaretAnimation": "on",
+
+  // Disable automatic fixes that may format code
+  "editor.codeActionsOnSave": {},
+
+  // Terminal
+  "terminal.integrated.defaultProfile.windows": "Git Bash",
+  "terminal.integrated.env.windows": {},
+  "terminal.integrated.fontSize": 13,
+  "terminal.integrated.cursorBlinking": true,
+
+  // Git
+  "git.autofetch": true,
+  "git.confirmSync": false,
+
+  // Tabs
+  "workbench.editor.showTabs": "single",
+  "workbench.editor.enablePreview": false,
+
+  // Security
+  "security.workspace.trust.untrustedFiles": "open",
+
+  // PHP / Extensions
+  "php-intellisense.trace.server": "messages",
+  "vsicons.dontShowNewVersionMessage": true,
+
+  // Indenticator
+  "indenticator.width": 0.1,
+  "indenticator.color.dark": "rgba(255,255,255,0.1)",
+
+  // Files
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+
+  // Inline suggestions
+  "editor.inlineSuggest.showToolbar": "onHover",
+
+  // Bito AI
+  "bitoAI.codeCompletion.enableAutoCompletion": false,
+  "bitoAI.codeCompletion.enableCommentToCode": true,
+
+  // SQL Developer
+  "sqldeveloper.sqlHistory.historyLimit": 500,
+  "sqldeveloper.datagrid.fontFamily": "Consolas, 'Courier New', monospace",
+
+  // JSON language override
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.formatOnSave": false
+  }
+}
