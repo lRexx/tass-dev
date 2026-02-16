@@ -295,10 +295,6 @@
 							</div>
 						</div>
 						<div>
-							<div class="clearfix"> </div>
-							<div ng-if="!ticket.deviceSelected" class="blur-overlay">
-								<div class="centered-message">Seleccione el dispositivo.</div>
-							</div>
 							<div class="row">
 								<div ng-if="rsKeyProductsData.length>0" class="container-fluid justify-content-md-center">
 									<legend style="text-align: center;">Llaves / Licencias disponibles</legend>
@@ -494,6 +490,10 @@
 									</table>
 									<div ng-if="list_keys.length==0 " class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay llaveros cargados al pedido</h5></div>
 								</div>
+							</div>
+							<div class="clearfix"> </div>
+							<div ng-if="!ticket.deviceSelected" class="blur-overlay">
+								<div class="centered-message">Seleccione el dispositivo.</div>
 							</div>
 						</div>
 					</fieldset>
