@@ -346,7 +346,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     if (previousStep==1 && $scope.ticket.optionTypeSelected.name=='building' && ($scope.ticket.radioButtonBuilding!='1' && $scope.ticket.radioButtonBuilding!='2' && $scope.ticket.radioButtonBuilding!='3')){
                         $scope.mySwitch = $scope.pasos[1];
                         nextStep=1;
-                    }else if (previousStep==1 && $scope.ticket.optionTypeSelected.name=='department' && $scope.ticket.isLicenseDevice){
+                    }else if (previousStep==2 && $scope.ticket.optionTypeSelected.name=='department' && $scope.ticket.isLicenseDevice){
                         $scope.mySwitch = $scope.pasos[1];
                         nextStep=1;
                         $scope.btnBack=true;
