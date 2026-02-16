@@ -340,27 +340,27 @@
 									</div>
 									<!-- Input Amount of keys that will be added to the request Apply Only for BSS -->
 									<div ng-if="(ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && ticket.radioButtonBuilding!='3' && ticket.radioButtonBuilding!='5'))" class="form-group col-md-2 n-padding-l"  ng-class="
-								{	'has-success':
-										ticket.keyQtty!=undefined && ticket.keyQtty!=0 && fkeyup.ticket_keyQtty.$valid,
-									'has-error':
-									(ticket.keyQtty==undefined || ticket.keyQtty==0) && fkeyup.products.$touched
-								}">
-								<label style="padding-left: 15px;">Cantidad </label>
-								<div class="col-xs-12 selectContainer">
-									<div class="input-group">
-										<span class="input-group-addon"><i class="fas fa-key"></i></span>
-										<input type="text"
-										id="ticket_keyQtty"
-										name="ticket_keyQtty"
-										ng-model="ticket.keyQtty"
-										placeholder="Cantidad"
-										ng-keydown="fnLoadPhoneMask();"
-										class="form-control input--number--2"
-										ng-required="(ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && ticket.radioButtonBuilding!='3' && ticket.radioButtonBuilding!='5'))" />
+										{	'has-success':
+												ticket.keyQtty!=undefined && ticket.keyQtty!=0 && fkeyup.ticket_keyQtty.$valid,
+											'has-error':
+											(ticket.keyQtty==undefined || ticket.keyQtty==0) && fkeyup.products.$touched
+										}">
+										<label style="padding-left: 15px;">Cantidad </label>
+										<div class="col-xs-12 selectContainer">
+											<div class="input-group">
+												<span class="input-group-addon"><i class="fas fa-key"></i></span>
+												<input type="text"
+												id="ticket_keyQtty"
+												name="ticket_keyQtty"
+												ng-model="ticket.keyQtty"
+												placeholder="Cantidad"
+												ng-keydown="fnLoadPhoneMask();"
+												class="form-control input--number--2"
+												ng-required="(ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && ticket.radioButtonBuilding!='3' && ticket.radioButtonBuilding!='5'))" />
+											</div>
+										</div>
 									</div>
-								</div>
-									</div>
-									<button ng-if="ticket.deviceSelected && ticket.idDeviceTypeKf!=undefined && ticket.idDeviceTypeKf=='1'" style="margin-top:2em;" data-toggle="tooltip" data-placement="top" title="Asignar usuario"  ng-click="mainSwitchFn('list_depto_tenant', null)" type="button"
+									<button ng-if="ticket.deviceSelected && ticket.idDeviceTypeKf!=undefined && ticket.idDeviceTypeKf=='2'" style="margin-top:2em;" data-toggle="tooltip" data-placement="top" title="Asignar usuario"  ng-click="mainSwitchFn('list_depto_tenant', null)" type="button"
 										class="btn btn-labeled btn-sm " ng-class="{'btn-info':selectedUser==undefined, 'btn-warning':selectedUser!=undefined}">
 										<span ng-if="selectedUser==undefined" class="btn-label"><i class="fas fa-user-tag"></i> </span>
 										<span ng-if="selectedUser!=undefined" class="btn-label"><i class="fas fa-check-square"></i> </span>
