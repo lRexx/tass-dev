@@ -765,6 +765,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         for (var key in $scope.rsKeyProductsData){
                             if ($scope.rsKeyProductsData[key].isLicenseDevice=="1" && $scope.rsKeyProductsData.length>=2){
                                 $scope.ticket.deviceSelected=false;
+                                $scope.ticket.isHasMutiplesDevicesTypes = true;
                             }
                         }
                     }else if (response.status==404){
@@ -2089,7 +2090,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.sysSubContent                      = "";
                         $scope.select = {'admins':{'selected':undefined}, 'buildings':{'selected':undefined},'depto':undefined,'floor':undefined};
                         $scope.tenant = {'namesTenant':null, 'addressTenant':null, 'movilPhoneTenant':null, 'localPhoneTenant':null, 'emailTenant':null}
-                        $scope.ticket = {'administration':undefined, 'building':undefined, 'deviceSelected':true, 'deviceTypeSelected':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':undefined, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
+                        $scope.ticket = {'administration':undefined, 'building':undefined, 'deviceSelected':true, 'isHasMutiplesDevicesTypes':false, 'deviceTypeSelected':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':undefined, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
                         $scope.ticket.delivery.thirdPerson={};
                         $scope.costs={'keys':{'cost':formatDecimalLatam(0), 'manual':false}, 'delivery':{'cost':formatDecimalLatam(0), 'manual':false}, 'service':{'cost':formatDecimalLatam(0), 'manual':false}, 'total':formatDecimalLatam(0)};
                         console.log($scope.costs);
@@ -2265,6 +2266,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.ticket.keyQtty                   = null;
                         $scope.ticket.deviceTypeSelected        = null;
                         $scope.ticket.idDeviceTypeKf            = null;
+                        $scope.ticket.deviceSelected            = false;
                         $scope.selectedDeliveryAttendant        = undefined;
                         //$scope.select.products.selected         = undefined;
                         $scope.selectedRequestKeyOwnerUser      = undefined;
@@ -2298,7 +2300,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $scope.mainSwitchFn('autoSelectDoors', null, null)
                             $scope.getAttendantListFn(obj.idClient);
                             $scope.getKeyListByBuildingIdFn(obj.idClient);
-                            if (!$scope.ticket.deviceSelected){
+                            if (!$scope.ticket.deviceSelected && $scope.ticket.isHasMutiplesDevicesTypes){
                                 $scope.mainSwitchFn('selectDeviceType', null, null);
                             }else{
                                 $scope.ticket.deviceTypeSelected = $scope.rsTicketDevicesType.find(s => s.idDeviceType == "1");
@@ -2672,7 +2674,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $('#tenantList').modal("hide");
                         $scope.ticket.userRequestBy = $scope.selectedRequestKeyOwnerUser;
                         $scope.mainSwitchFn('setWhoPickUpList', null, null);
-                        if (!$scope.ticket.deviceSelected){
+                        if (!$scope.ticket.deviceSelected && $scope.ticket.isHasMutiplesDevicesTypes){
                             $scope.mainSwitchFn('selectDeviceType', null, null);
                         }else{
                             $scope.ticket.deviceTypeSelected = $scope.rsTicketDevicesType.find(s => s.idDeviceType == "1");
