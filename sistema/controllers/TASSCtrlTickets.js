@@ -343,10 +343,10 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 $scope.formValidated=true;
                 $scope.btnShow=true;
                 if ($scope.fSwitch=="n"){
-                    if (previousStep==1 && $scope.ticket.optionTypeSelected.name=='building' && ($scope.ticket.radioButtonBuilding!='1' && $scope.ticket.radioButtonBuilding!='2' && $scope.ticket.radioButtonBuilding!='3')){
+                    if (previousStep==1 && $scope.ticket.optionTypeSelected.name=='building' && $scope.ticket.isLicenseDevice==null && ($scope.ticket.radioButtonBuilding!='1' && $scope.ticket.radioButtonBuilding!='2' && $scope.ticket.radioButtonBuilding!='3')){
                         $scope.mySwitch = $scope.pasos[1];
                         nextStep=1;
-                    }else if (previousStep==2 && $scope.ticket.optionTypeSelected.name=='department' && $scope.ticket.isLicenseDevice){
+                    }else if ((previousStep==2 && $scope.ticket.optionTypeSelected.name=='department' && $scope.ticket.isLicenseDevice) || (previousStep==2 && $scope.ticket.optionTypeSelected.name=='building' && $scope.ticket.isLicenseDevice && ($scope.ticket.radioButtonBuilding!='4' && $scope.ticket.radioButtonBuilding!='5' && $scope.ticket.radioButtonBuilding!='3'))){
                         $scope.mySwitch = $scope.pasos[1];
                         nextStep=1;
                         $scope.btnBack=true;
