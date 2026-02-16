@@ -2648,6 +2648,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }else{
                             $scope.ticket.deviceTypeSelected = $scope.rsTicketDevicesType.find(s => s.idDeviceType == "1");
                             $scope.ticket.idDeviceTypeKf = $scope.ticket.deviceTypeSelected.idDeciveType
+                            console.log($scope.ticket);
                         }
                     break;
                     case "selectDeviceType":
@@ -2658,6 +2659,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.ticket.deviceTypeSelected = $scope.rsTicketDevicesType.find(s => s.idDeviceType == obj);
                         $scope.ticket.idDeviceTypeKf = $scope.ticket.deviceTypeSelected.idDeciveType
                         console.log($scope.ticket);
+                        $('#selectDeviceType').modal("hide");
                     break;
                     case "list_depto_tenant":
                             $scope.tenant = {'namesTenant':null, 'addressTenant':null, 'movilPhoneTenant':null, 'localPhoneTenant':null, 'emailTenant':null}
