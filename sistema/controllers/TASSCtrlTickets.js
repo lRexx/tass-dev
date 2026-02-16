@@ -2266,6 +2266,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.ticket.keyQtty                   = null;
                         $scope.ticket.deviceTypeSelected        = null;
                         $scope.ticket.idDeviceTypeKf            = null;
+                        $scope.ticket.isLicenseDevice           = null;
                         $scope.ticket.deviceSelected            = false;
                         $scope.selectedDeliveryAttendant        = undefined;
                         //$scope.select.products.selected         = undefined;
@@ -2321,6 +2322,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.ticket.deviceTypeSelected        = null;
                         $scope.ticket.idDeviceTypeKf            = null;
                         $scope.ticket.deviceSelected            = false;
+                        $scope.ticket.isLicenseDevice           = null;
                         $scope.selectedRequestKeyOwnerUser      = undefined;
                         $scope.ticket.delivery.deliveryTo       = null;
                         if ($scope.isRequest == "down"){
