@@ -343,9 +343,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 $scope.formValidated=true;
                 $scope.btnShow=true;
                 if ($scope.fSwitch=="n"){
-                    if(previousStep==0){
-                        $scope.btnBack=false;
-                    }else if (previousStep==1 && $scope.ticket.optionTypeSelected.name=='building' && ($scope.ticket.radioButtonBuilding!='1' && $scope.ticket.radioButtonBuilding!='2' && $scope.ticket.radioButtonBuilding!='3')){
+                    if (previousStep==1 && $scope.ticket.optionTypeSelected.name=='building' && ($scope.ticket.radioButtonBuilding!='1' && $scope.ticket.radioButtonBuilding!='2' && $scope.ticket.radioButtonBuilding!='3')){
                         $scope.mySwitch = $scope.pasos[1];
                         nextStep=1;
                     }else if (previousStep==1 && $scope.ticket.optionTypeSelected.name=='department' && $scope.ticket.isLicenseDevice){
@@ -362,6 +360,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     $scope.btnShow=true;
                 }else{
                     $scope.mySwitch = $scope.pasos[previousStep];
+                }
+                if(previousStep==0){
+                    $scope.btnBack=false;
                 }
             }
             };
