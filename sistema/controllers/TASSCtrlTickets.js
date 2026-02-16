@@ -2700,10 +2700,10 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.ticket.idDeviceTypeKf = $scope.ticket.deviceTypeSelected.idDeviceType
                         switch ($scope.ticket.deviceTypeSelected.idDeviceType){
                             case "1":
-                                $scope.rsKeyProductsDataByType = $scope.rsKeyProductsData.find(s => s.isLicenseDevice == 1);
+                                $scope.rsKeyProductsDataByType = $scope.rsKeyProductsData.find(s => s.isLicenseDevice == null);
                             break;
                             case "2":
-                                $scope.rsKeyProductsDataByType = $scope.rsKeyProductsData.find(s => s.isLicenseDevice == null);
+                                $scope.rsKeyProductsDataByType = $scope.rsKeyProductsData.find(s => s.isLicenseDevice == 1);
                             break;
                             case "3":
                                 $scope.rsKeyProductsDataByType = $scope.rsKeyProductsData.find(s => s.isLicenseDevice == 3);
