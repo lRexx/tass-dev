@@ -1180,6 +1180,14 @@ tickets.controller(
               };
               console.log($scope.select.products.selected);
             }, 1700);
+            for (var key in $scope.rsKeyProductsData) {
+              if (
+                $scope.rsKeyProductsData[key].isLicenseDevice == "1" &&
+                $scope.rsKeyProductsData.length >= 2
+              ) {
+                $scope.ticket.deviceSelected = false;
+              }
+            }
           } else if (response.status == 404) {
             $scope.rsKeyProductsData = [];
           } else if (response.status == 500) {
@@ -4020,7 +4028,7 @@ tickets.controller(
               $scope.rsKeyProductsData[key].isLicenseDevice == "1" &&
               $scope.rsKeyProductsData.length >= 2
             ) {
-              $scope.ticket.deviceSelected = false;
+              //$scope.ticket.deviceSelected=false;
               $scope.mainSwitchFn("selectDeviceType", null, null);
             }
           }
