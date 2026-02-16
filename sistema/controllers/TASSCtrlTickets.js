@@ -292,7 +292,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         console.log("$scope.getCurrentStepIndex : "+$scope.getCurrentStepIndex())
                         console.log("stepIndex                  : " + stepIndex);
                         console.log("nextStep                   : " + nextStep);
-                        console.log("previousStep               : " + previousStep);
                         console.log("$scope.mySwitch            : " + $scope.pasos[previousStep]);
                         console.log("$scope.pasos.length        : " + $scope.pasos.length);
                         $scope.mySwitch = $scope.pasos[nextStep];
@@ -337,7 +336,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 var previousStep = stepIndex - 1;
                 console.log("$scope.getCurrentStepIndex : "+$scope.getCurrentStepIndex())
                 console.log("stepIndex                  : " + stepIndex);
-                console.log("nextStep                   : " + nextStep);
                 console.log("previousStep               : " + previousStep);
                 console.log("$scope.mySwitch            : " + $scope.pasos[previousStep]);
                 console.log("$scope.pasos.length        : " + $scope.pasos.length);
