@@ -2646,17 +2646,17 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         if (!$scope.ticket.deviceSelected){
                             $scope.mainSwitchFn('selectDeviceType', null, null);
                         }else{
-                            $scope.ticket.idDeviceTypeKf="1";
+                            $scope.ticket.deviceTypeSelected = $scope.rsTicketDevicesType.find(s => s.idDeviceType == "1");
+                            $scope.ticket.idDeviceTypeKf = $scope.ticket.deviceTypeSelected.idDeciveType
                         }
                     break;
                     case "selectDeviceType":
                         $("#selectDeviceType").modal({backdrop: 'static', keyboard: false});
                     break;
                     case "setRequestDevice":
-
                         $scope.ticket.deviceSelected=true;
-                        $scope.ticket.idDeviceTypeKf = $scope.rsTicketDevicesType.find(s => s.idDeviceType == obj);
-                        $scope.ticket.deviceName=obj;
+                        $scope.ticket.deviceTypeSelected = $scope.rsTicketDevicesType.find(s => s.idDeviceType == obj);
+                        $scope.ticket.idDeviceTypeKf = $scope.ticket.deviceTypeSelected.idDeciveType
                         console.log($scope.ticket);
                     break;
                     case "list_depto_tenant":
