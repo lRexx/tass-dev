@@ -286,13 +286,15 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 console.log("$scope.hasNextStep: "+$scope.hasNextStep())
                 if ( $scope.hasNextStep() )
                     {
-                        console.log("$scope.getCurrentStepIndex: "+$scope.getCurrentStepIndex())
                         var stepIndex = $scope.getCurrentStepIndex();
                         nextStep = stepIndex + 1;
-                        console.log("nextStep: "+nextStep);
                         $scope.stepIndexTmp = nextStep;
-                        console.log("$scope.mySwitch     => "+$scope.pasos[nextStep]);
-                        console.log("$scope.pasos.length => "+$scope.pasos.length);
+                        console.log("$scope.getCurrentStepIndex : "+$scope.getCurrentStepIndex())
+                        console.log("stepIndex                  : " + stepIndex);
+                        console.log("nextStep                   : " + nextStep);
+                        console.log("previousStep               : " + previousStep);
+                        console.log("$scope.mySwitch            : " + $scope.pasos[previousStep]);
+                        console.log("$scope.pasos.length        : " + $scope.pasos.length);
                         $scope.mySwitch = $scope.pasos[nextStep];
                         $scope.formValidated=false;
                         $scope.btnBack=true;
@@ -333,16 +335,17 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
             {
                 var stepIndex = $scope.getCurrentStepIndex();
                 var previousStep = stepIndex - 1;
-                console.log("stepIndex            : " + stepIndex);
-                console.log("nextStep             : " + nextStep);
-                console.log("previousStep         : " + previousStep);
-                console.log("$scope.mySwitch     => " + $scope.pasos[previousStep]);
-                console.log("$scope.pasos.length => " + $scope.pasos.length);
+                console.log("$scope.getCurrentStepIndex : "+$scope.getCurrentStepIndex())
+                console.log("stepIndex                  : " + stepIndex);
+                console.log("nextStep                   : " + nextStep);
+                console.log("previousStep               : " + previousStep);
+                console.log("$scope.mySwitch            : " + $scope.pasos[previousStep]);
+                console.log("$scope.pasos.length        : " + $scope.pasos.length);
                 $scope.stepIndexTmp = previousStep;
                 $scope.formValidated=true;
                 $scope.btnShow=true;
                 if ($scope.fSwitch=="n"){
-                    if (previousStep==4 && $scope.ticket.optionTypeSelected.name=='building' && ($scope.ticket.radioButtonBuilding!='1' && $scope.ticket.radioButtonBuilding!='2' && $scope.ticket.radioButtonBuilding!='3')){
+                    if (previousStep==1 && $scope.ticket.optionTypeSelected.name=='building' && ($scope.ticket.radioButtonBuilding!='1' && $scope.ticket.radioButtonBuilding!='2' && $scope.ticket.radioButtonBuilding!='3')){
                         $scope.mySwitch = $scope.pasos[1];
                         nextStep=1;
                     }else if (previousStep==2 && $scope.ticket.optionTypeSelected.name=='department' && $scope.ticket.isLicenseDevice){
