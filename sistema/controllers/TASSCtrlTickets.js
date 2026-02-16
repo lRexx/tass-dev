@@ -2,7 +2,13 @@
 * Products Controller
 **/
 var tickets = angular.module("module.Tickets", ["tokenSystem", "angular.filter", "services.Customers", "services.Keys", "ui.select", "services.Ticket", "services.Products", "services.Utilities", "services.Departments", "bootstrapLightbox","services.Service", "services.Contracts", "services.Products", "services.User"]);
-
+tickets.filter('capitalize', function () {
+  return function (input) {
+    if (!input) return '';
+    input = input.toLowerCase();
+    return input.charAt(0).toUpperCase() + input.slice(1);
+  };
+});
 tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interval, $q, $routeParams, blockUI, Lightbox, $timeout, inform, ProductsServices, KeysServices,  ticketServices, CustomerServices, serviceServices, ContractServices, DepartmentsServices, addressServices, userServices, tokenSystem, $window, serverHost, UtilitiesServices, $filter, APP_SYS, APP_REGEX){
     console.log(APP_SYS.app_name+" Modulo Tickets");
     if (!$scope.sysToken || !$scope.sysLoggedUser ){

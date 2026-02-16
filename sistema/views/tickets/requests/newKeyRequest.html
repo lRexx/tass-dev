@@ -1,7 +1,7 @@
 <!-- USER REQUEST KEY UP FORM  rukeyup=Register Key Up-->
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<h3 class="panel-title"><i class="product-success fas fa-file-upload">&nbsp</i>ALTA - {{mySwitch}}</h3>
+		<h3 class="panel-title"><i class="product-success fas fa-file-upload">&nbsp</i>ALTA - {{mySwitch}} <span ng-if="ticket.deviceSelected && ticket.deviceTypeSelected!=undefined" class="badge badge-warning">{{ticket.deviceTypeSelected.deviceName | capitalize}}</span></h3>
 	</div>
 	<div class="panel-body">
 		<div ng-if="sysLoggedUser.idProfileKf!=0">
@@ -297,7 +297,7 @@
 						<div class="col-md-12 n-padding-l n-padding-r">
 							<div class="row">
 								<div ng-if="rsKeyProductsData.length>0" class="container-fluid justify-content-md-center">
-									<legend style="text-align: center;">Llaves / Licencias disponibles</legend>
+									<legend style="text-align: center;">{{ticket.deviceTypeSelected.deviceName | capitalize}} disponibles</legend>
 									<div class="col-md-12" ng-if="ticket.building!=undefined && ticket.building.initial_delivery.length==1 && ticket.building.initial_delivery[0].expiration_state!=undefined && !ticket.building.initial_delivery[0].expiration_state">
 										<div class="alert alert-info" role="alert" >
 											<span style="padding: 4px !important;">
@@ -316,7 +316,7 @@
 											'has-error':
 											(select.products.selected==undefined) && fkeyup.products.$touched
 										}">
-										<label style="padding-left: 15px;">Llavero / Licencias </label>
+										<label style="padding-left: 15px;">{{ticket.deviceTypeSelected.deviceName | capitalize}}</label>
 										<div class="col-xs-12 selectContainer">
 											<div class="input-group">
 												<span class="input-group-addon"><i class="fas fa-key"></i></span>
