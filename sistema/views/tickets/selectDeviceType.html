@@ -23,7 +23,7 @@
           <!-- ALTA-->
           <div
             class="col-md-4 col-xs-4 card-depto-colum"
-            ng-click="mainSwitchFn('setRequestDevice', false);"
+            ng-click="mainSwitchFn('setRequestDevice', 1);"
           >
             <div class="card-depto cyan white-text">
               <div class="card-depto-content">
@@ -37,7 +37,7 @@
           <!-- BAJA ng-click="mainSwitchFn('removeKeyRequest', false); -->
           <div
             class="col-md-4 col-xs-4 card-depto-colum"
-            ng-click="mainSwitchFn('setRequestDevice', false)"
+            ng-click="mainSwitchFn('setRequestDevice', 2)"
           >
             <div class="card-depto cyan white-text">
               <!--<div class="ribbon ribbon-top-right"><span>proximamente</span></div>-->
@@ -50,7 +50,10 @@
             </div>
           </div>
           <!-- CAMBIO ng-click="mainSwitchFn('removeKeyRequest', false); -->
-          <div class="col-md-4 col-xs-4 card-depto-colum" ng-click="">
+          <div
+            class="col-md-4 col-xs-4 card-depto-colum"
+            ng-click="mainSwitchFn('setRequestDevice', 3)"
+          >
             <div class="card-depto cyan white-text">
               <div class="ribbon ribbon-top-right">
                 <span class="text-warning">proximamente</span>

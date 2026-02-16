@@ -4038,6 +4038,7 @@ tickets.controller(
           break;
         case "setRequestDevice":
           $scope.ticket.deviceSelected = true;
+          $scope.ticket.idDeviceTypeKf = obj;
           console.log($scope.ticket);
           break;
         case "list_depto_tenant":
