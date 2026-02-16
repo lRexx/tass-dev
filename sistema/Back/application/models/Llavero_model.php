@@ -86,46 +86,79 @@ class Llavero_model extends CI_Model
 		}
 		return null;
 	}
-	public function getByBuilding($idClientKf = null)
+public function getByBuilding_old($idClientKf = null)
 	{
-		$quuery = null;
-		$rs = [];
-		$fields_selected = "tb_keychain_process_events.*, tb_reason_disabled_item.*, tb_keychain.idKeychain, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo, tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf, tb_keychain.isKeyTenantOnly, tb_keychain.idKeychainStatusKf, tb_keychain_status.idKeychainStatus, tb_keychain_status.keychainStatusName AS statusKey,
-		UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto, tb_category_keychain.idCategory as idCategoryKf, tb_category_keychain.name as categoryKeychain, a.idClient as idClientKfDepto, a.address as addressA, b.idClient as idClientKfKeychain, b.address as addressB,
-		tb_products.descriptionProduct, tb_products.model, tb_user.*, tb_profile.nameProfile, tb_profiles.name AS nameSysProfile";
-		$this->db->select($fields_selected)->from("tb_keychain");
-		$this->db->join('tb_keychain_process_events', 'tb_keychain_process_events.idKeychainKf = tb_keychain.idKeychain', 'left');
-		$this->db->join('tb_reason_disabled_item', 'tb_reason_disabled_item.idReasonDisabledItem = tb_keychain_process_events.idReasonKf', 'left');
-		$this->db->join('tb_keychain_status', 'tb_keychain_status.idKeychainStatus = tb_keychain.idKeychainStatusKf', 'left');
-		$this->db->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left');
-		$this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left');
-		$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_keychain.idDepartmenKf', 'left');
-		//$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
-		$this->db->join('tb_clients as a', 'a.idClient = tb_client_departament.idClientFk', 'left');
-		$this->db->join('tb_clients as b', 'b.idClient = tb_keychain.idClientKf', 'left');
-		$this->db->join('tb_user', 'tb_user.idUser = tb_keychain.idUserKf', 'left');
-		$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
-		$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
-
-		//$this->db->where('idCategory', 1);
-		$this->db->where('a.idClient', $idClientKf);
-		$this->db->or_where('b.idClient', $idClientKf);
-		//$this->db->group_start()
-		//->where_in('tb_keychain.idKeychainStatusKf', [1])  // Matches 1
-		//->or_where('tb_keychain.idKeychainStatusKf', null)  // Matches NULL
-		//->group_end();
-		$quuery = $this->db->order_by("tb_keychain.idKeychain", "ASC")->get();
-		log_message('info', $this->db->last_query());
-		if ($quuery->num_rows() > 0) {
-			foreach ($quuery->result_array() as $key => $item) {
-				if ($item['idReasonKf'] != "4" && $item['idReasonKf'] != "5") {
-					array_push($rs, $item);
-				}
-			}
-			//$rs = $quuery->result_array();
-			//print_r($rs);
-			return $rs;
+		if (!$idClientKf) {
+			return null;
 		}
+
+		$rs = [];
+
+		// --- Subquery: filter keychains first (critical optimization)
+		$subquery = "
+			SELECT k.idKeychain
+			FROM tb_keychain k
+			WHERE k.idClientKf = " . $this->db->escape($idClientKf) . "
+
+			UNION
+
+			SELECT k.idKeychain
+			FROM tb_keychain k
+			JOIN tb_client_departament d
+				ON d.idClientDepartament = k.idDepartmenKf
+			WHERE d.idClientFk = " . $this->db->escape($idClientKf);
+
+		$fields_selected = "
+			tb_keychain_process_events.*,
+			tb_reason_disabled_item.*,
+			tb_keychain.idKeychain,
+			tb_keychain.idProductKf,
+			tb_keychain.codExt,
+			tb_keychain.codigo,
+			tb_keychain.idDepartmenKf,
+			tb_keychain.idClientKf,
+			tb_keychain.idUserKf,
+			tb_keychain.isKeyTenantOnly,
+			tb_keychain.idKeychainStatusKf,
+			tb_keychain_status.idKeychainStatus,
+			tb_keychain_status.keychainStatusName AS statusKey,
+			UPPER(CONCAT(tb_client_departament.floor, '-', tb_client_departament.departament)) AS Depto,
+			tb_category_keychain.idCategory AS idCategoryKf,
+			tb_category_keychain.name AS categoryKeychain,
+			a.idClient AS idClientKfDepto,
+			a.address AS addressA,
+			b.idClient AS idClientKfKeychain,
+			b.address AS addressB,
+			tb_products.descriptionProduct,
+			tb_products.model,
+			tb_user.*,
+			tb_profile.nameProfile,
+			tb_profiles.name AS nameSysProfile
+		";
+
+		$query = $this->db
+			->select($fields_selected)
+			->from("($subquery) AS fk")
+			->join('tb_keychain', 'tb_keychain.idKeychain = fk.idKeychain', 'inner')
+			->join('tb_keychain_process_events', 'tb_keychain_process_events.idKeychainKf = tb_keychain.idKeychain', 'left')
+			->join('tb_reason_disabled_item', 'tb_reason_disabled_item.idReasonDisabledItem = tb_keychain_process_events.idReasonKf', 'left')
+			->join('tb_keychain_status', 'tb_keychain_status.idKeychainStatus = tb_keychain.idKeychainStatusKf', 'left')
+			->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left')
+			->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left')
+			->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_keychain.idDepartmenKf', 'left')
+			->join('tb_clients as a', 'a.idClient = tb_client_departament.idClientFk', 'left')
+			->join('tb_clients as b', 'b.idClient = tb_keychain.idClientKf', 'left')
+			->join('tb_user', 'tb_user.idUser = tb_keychain.idUserKf', 'left')
+			->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left')
+			->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left')
+			->where_not_in('tb_keychain_process_events.idReasonKf', [4, 5])
+			->order_by("tb_keychain.idKeychain", "ASC")
+			->get();
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		}
+
 		return null;
 	}
 
