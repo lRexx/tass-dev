@@ -2300,13 +2300,13 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $scope.mainSwitchFn('autoSelectDoors', null, null)
                             $scope.getAttendantListFn(obj.idClient);
                             $scope.getKeyListByBuildingIdFn(obj.idClient);
-                            if (!$scope.ticket.deviceSelected && $scope.ticket.isHasMutiplesDevicesTypes){
-                                $scope.mainSwitchFn('selectDeviceType', null, null);
-                            }else{
-                                $scope.ticket.deviceTypeSelected = $scope.rsTicketDevicesType.find(s => s.idDeviceType == "1");
-                                $scope.ticket.idDeviceTypeKf = $scope.ticket.deviceTypeSelected.idDeviceType
-                                console.log($scope.ticket);
-                            }
+                        }
+                        if (($scope.ticket.radioButtonBuilding=="1"||$scope.ticket.radioButtonBuilding=="2") && !$scope.ticket.deviceSelected && $scope.ticket.isHasMutiplesDevicesTypes){
+                            $scope.mainSwitchFn('selectDeviceType', null, null);
+                        }else{
+                            $scope.ticket.deviceTypeSelected = $scope.rsTicketDevicesType.find(s => s.idDeviceType == "1");
+                            $scope.ticket.idDeviceTypeKf = $scope.ticket.deviceTypeSelected.idDeviceType
+                            console.log($scope.ticket);
                         }
                         console.log($scope.ticket);
                     break;
