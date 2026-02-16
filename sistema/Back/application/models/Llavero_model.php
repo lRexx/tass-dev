@@ -86,7 +86,7 @@ class Llavero_model extends CI_Model
 		}
 		return null;
 	}
-public function getByBuilding_old($idClientKf = null)
+	public function getByBuilding($idClientKf = null)
 	{
 		if (!$idClientKf) {
 			return null;
