@@ -752,22 +752,26 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
         *                                                 *
         **************************************************/
             $scope.rsKeyProductsData = [];
+            $scope.rsKeyProductsDataByType = [];
             $scope.getKeysAssociatedToACustomerFn = function(idClient){
                 console.log("getKeysAssociatedToACustomerFn-->Service")
                 CustomerServices.getKeysAssociatedToACustomerService(idClient).then(function(response){
                     if(response.status==200){
                         $scope.rsKeyProductsData = response.data;
-                        console.info($scope.keyList);
-                        $timeout(function() {
-                            $scope.select.products.selected={'idStatusFk':$scope.rsKeyProductsData[0].idStatusFk,'contractStatus':$scope.rsKeyProductsData[0].contractStatus,'serviceName':$scope.rsKeyProductsData[0].serviceName,'idProduct':$scope.rsKeyProductsData[0].idProduct,'descriptionProduct':$scope.rsKeyProductsData[0].descriptionProduct,'codigoFabric':$scope.rsKeyProductsData[0].codigoFabric,'brand':$scope.rsKeyProductsData[0].brand,'model':$scope.rsKeyProductsData[0].model,'idProductClassificationFk':$scope.rsKeyProductsData[0].idProductClassificationFk,'isNumberSerieFabric':$scope.rsKeyProductsData[0].isNumberSerieFabric,'isNumberSerieInternal':$scope.rsKeyProductsData[0].isNumberSerieInternal,'isDateExpiration':$scope.rsKeyProductsData[0].isDateExpiration,'isControlSchedule':$scope.rsKeyProductsData[0].isControlSchedule,'isRequestNumber':$scope.rsKeyProductsData[0].isRequestNumber, 'isLicenseDevice':$scope.rsKeyProductsData[0].isLicenseDevice,'priceFabric':$scope.rsKeyProductsData[0].priceFabric,'classification':$scope.rsKeyProductsData[0].classification};
-                            console.log($scope.select.products.selected);
-                        }, 1700);
                         for (var key in $scope.rsKeyProductsData){
                             if ($scope.rsKeyProductsData[key].isLicenseDevice=="1" && $scope.rsKeyProductsData.length>=2){
                                 $scope.ticket.deviceSelected=false;
                                 $scope.ticket.isHasMutiplesDevicesTypes = true;
                             }
                         }
+                        if (!$scope.ticket.isHasMutiplesDevicesTypes){
+                            console.info($scope.keyList);
+                            $timeout(function() {
+                                $scope.select.products.selected={'idStatusFk':$scope.rsKeyProductsData[0].idStatusFk,'contractStatus':$scope.rsKeyProductsData[0].contractStatus,'serviceName':$scope.rsKeyProductsData[0].serviceName,'idProduct':$scope.rsKeyProductsData[0].idProduct,'descriptionProduct':$scope.rsKeyProductsData[0].descriptionProduct,'codigoFabric':$scope.rsKeyProductsData[0].codigoFabric,'brand':$scope.rsKeyProductsData[0].brand,'model':$scope.rsKeyProductsData[0].model,'idProductClassificationFk':$scope.rsKeyProductsData[0].idProductClassificationFk,'isNumberSerieFabric':$scope.rsKeyProductsData[0].isNumberSerieFabric,'isNumberSerieInternal':$scope.rsKeyProductsData[0].isNumberSerieInternal,'isDateExpiration':$scope.rsKeyProductsData[0].isDateExpiration,'isControlSchedule':$scope.rsKeyProductsData[0].isControlSchedule,'isRequestNumber':$scope.rsKeyProductsData[0].isRequestNumber, 'isLicenseDevice':$scope.rsKeyProductsData[0].isLicenseDevice,'priceFabric':$scope.rsKeyProductsData[0].priceFabric,'classification':$scope.rsKeyProductsData[0].classification};
+                                console.log($scope.select.products.selected);
+                            }, 1700);
+                        }
+
                     }else if (response.status==404){
                         $scope.rsKeyProductsData = [];
                     }else if (response.status==500){
@@ -2694,6 +2698,17 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.ticket.deviceSelected=true;
                         $scope.ticket.deviceTypeSelected = $scope.rsTicketDevicesType.find(s => s.idDeviceType == obj);
                         $scope.ticket.idDeviceTypeKf = $scope.ticket.deviceTypeSelected.idDeviceType
+                        switch ($scope.ticket.deviceTypeSelected.idDeviceType){
+                            case "1":
+                                $scope.rsKeyProductsDataByType = $scope.rsKeyProductsData.find(s => s.isLicenseDevice == 1);
+                            break;
+                            case "2":
+                                $scope.rsKeyProductsDataByType = $scope.rsKeyProductsData.find(s => s.isLicenseDevice == null);
+                            break;
+                            case "3":
+                                $scope.rsKeyProductsDataByType = $scope.rsKeyProductsData.find(s => s.isLicenseDevice == 3);
+                            break;
+                        }
                         console.log($scope.ticket);
                         $('#selectDeviceType').modal("hide");
                     break;
