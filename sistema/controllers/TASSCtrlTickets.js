@@ -2647,7 +2647,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $scope.mainSwitchFn('selectDeviceType', null, null);
                         }else{
                             $scope.ticket.deviceTypeSelected = $scope.rsTicketDevicesType.find(s => s.idDeviceType == "1");
-                            $scope.ticket.idDeviceTypeKf = $scope.ticket.deviceTypeSelected.idDeciveType
+                            $scope.ticket.idDeviceTypeKf = $scope.ticket.deviceTypeSelected.idDeviceType
                             console.log($scope.ticket);
                         }
                     break;
@@ -2657,7 +2657,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     case "setRequestDevice":
                         $scope.ticket.deviceSelected=true;
                         $scope.ticket.deviceTypeSelected = $scope.rsTicketDevicesType.find(s => s.idDeviceType == obj);
-                        $scope.ticket.idDeviceTypeKf = $scope.ticket.deviceTypeSelected.idDeciveType
+                        $scope.ticket.idDeviceTypeKf = $scope.ticket.deviceTypeSelected.idDeviceType
                         console.log($scope.ticket);
                         $('#selectDeviceType').modal("hide");
                     break;
