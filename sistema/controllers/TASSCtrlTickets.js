@@ -335,6 +335,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 var previousStep = stepIndex - 1;
                 console.log("stepIndex: "+stepIndex);
                 console.log("nextStep: "+nextStep);
+                console.log("$scope.mySwitch     => " + $scope.pasos[previousStep]);
+                console.log("$scope.pasos.length => " + $scope.pasos.length);
                 $scope.stepIndexTmp = previousStep;
                 $scope.formValidated=true;
                 $scope.btnShow=true;
@@ -342,7 +344,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     if (previousStep==4 && $scope.ticket.optionTypeSelected.name=='building' && ($scope.ticket.radioButtonBuilding!='1' && $scope.ticket.radioButtonBuilding!='2' && $scope.ticket.radioButtonBuilding!='3')){
                         $scope.mySwitch = $scope.pasos[1];
                         nextStep=1;
-                    }else if (nextStep==2 && $scope.ticket.optionTypeSelected.name=='department' && $scope.ticket.isLicenseDevice){
+                    }else if (previousStep==2 && $scope.ticket.optionTypeSelected.name=='department' && $scope.ticket.isLicenseDevice){
                         $scope.mySwitch = $scope.pasos[1];
                         nextStep=1;
                         $scope.btnShow=true;
