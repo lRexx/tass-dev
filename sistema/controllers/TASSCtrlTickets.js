@@ -986,6 +986,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     }
                                 break;
                                 default:
+                                    $scope.listTenantByDepto=response.data;
                             }
                             console.log($scope.listTenantByDepto);
                             $scope.tenantNotFound=false;
