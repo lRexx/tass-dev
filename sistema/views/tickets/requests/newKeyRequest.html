@@ -417,7 +417,7 @@
 							</div>
 							<!--LLAVES A SOLICITAR-->
 							<div class="col-md-6 col-xs-12 form-group">
-								<legend style="text-align: center;">Llaves/Licencias a solicitar</legend>
+								<legend style="text-align: center;">{{ticket.deviceTypeSelected.deviceName | capitalize}} a solicitar</legend>
 								<div class="col-md-12" ng-if="deliveryCostFree==1">
 									<div class="alert alert-success" style="border: 3px solid;border-radius: 15px;" role="alert">
 										<span style="text-align: center; padding-right: 5px;" class="">
@@ -492,7 +492,7 @@
 								</div>
 							</div>
 							<div class="clearfix"> </div>
-							<div ng-if="!ticket.deviceSelected" class="blur-overlay" style="z-index: 1049 !important;">
+							<div ng-if="!ticket.deviceSelected || ticket.deviceSelected" class="blur-overlay" style="z-index: 1049 !important;">
 								<div class="centered-message">Seleccione el dispositivo.</div>
 							</div>
 						</div>
