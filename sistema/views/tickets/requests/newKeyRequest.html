@@ -374,15 +374,15 @@
 										<span ng-if="selectedUser!=undefined">Encargado seleccionado</span>
 										<span ng-if="selectedUser==undefined">Seleccionar Personal</span>
 									</button>
-									<button ng-if="ticket.optionTypeSelected.name=='department' || (ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding=='1' || ticket.radioButtonBuilding=='2' || ticket.radioButtonBuilding=='3' || ticket.radioButtonBuilding=='5'))" style="margin-top:2em;" data-toggle="tooltip" data-placement="right" title="Agregar"
-									ng-disabled="((ticket.optionTypeSelected.name=='department' && ((selectedRequestKeyOwnerUser==undefined || selectedRequestKeyOwnerUser==null) || select.products.selected==undefined || list_doors.length==0)) ||
+									<button ng-if="(ticket.deviceSelected && ticket.idDeviceTypeKf!=undefined && ticket.idDeviceTypeKf!='2' && (ticket.optionTypeSelected.name=='department' || (ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding=='1' || ticket.radioButtonBuilding=='2' || ticket.radioButtonBuilding=='3' || ticket.radioButtonBuilding=='5'))))" style="margin-top:2em;" data-toggle="tooltip" data-placement="right" title="Agregar"
+									ng-disabled="((ticket.deviceSelected && ticket.idDeviceTypeKf!=undefined && ticket.idDeviceTypeKf!='2' && ticket.optionTypeSelected.name=='department' && ((selectedRequestKeyOwnerUser==undefined || selectedRequestKeyOwnerUser==null) || select.products.selected==undefined || list_doors.length==0)) ||
 												(ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='1' && (select.products.selected==undefined || list_doors.length==0 || selectedUser==undefined)) ||
 												(ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='2' && select.products.selected==undefined || list_doors.length==0)||
 												(ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='3' && select.products.selected==undefined || list_doors.length==0)||
 												(ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='5' && select.products.selected==undefined || list_doors.length==0))"
 									ng-click="mainSwitchFn('addKeyFieldsToList', select.products.selected, rsCustomerAccessControlDoors)" type="button" class="btn btn-labeled btn-sm btn-success">
 										<span class="btn-label"><i class="fas fa-plus"></i> </span>Agregar</button>
-									<button ng-if="(ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && ticket.radioButtonBuilding!='3' && ticket.radioButtonBuilding!='5'))" style="margin-top:2em;" data-toggle="tooltip" data-placement="right" title="Agregar"
+									<button ng-if="(ticket.deviceSelected && ticket.idDeviceTypeKf!=undefined && ticket.idDeviceTypeKf!='2' && ticket.optionTypeSelected.name=='department')||(ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && ticket.radioButtonBuilding!='3' && ticket.radioButtonBuilding!='5'))" style="margin-top:2em;" data-toggle="tooltip" data-placement="right" title="Agregar"
 									ng-disabled="((ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='4' && (select.products.selected==undefined || list_doors.length==0)))"
 									ng-click="mainSwitchFn('setKeysToList', select.products.selected, rsCustomerAccessControlDoors)" type="button" class="btn btn-labeled btn-sm btn-success">
 										<span class="btn-label"><i class="fas fa-plus"></i> </span>Agregar</button>
