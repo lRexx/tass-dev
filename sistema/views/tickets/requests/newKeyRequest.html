@@ -259,7 +259,7 @@
 							</div>
 						</div>
 					</fieldset>
-					<fieldset class="animate-switch" ng-switch-when="PASO 2: LLAVEROS DE LA SOLICITUD">
+					<fieldset class="animate-switch" ng-switch-when="PASO 2: DISPOSITIVOS DE LA SOLICITUD">
 						<div class="row" ng-show="ticket.optionTypeSelected.name=='department'">
 							<div class="container-fluid justify-content-md-center">
 								<legend style="text-align: center;">Solicitante</legend>
@@ -492,7 +492,7 @@
 								</div>
 							</div>
 							<div class="clearfix"> </div>
-							<div ng-if="ticket.deviceSelected" class="blur-overlay">
+							<div ng-if="ticket.deviceSelected" class="blur-overlay" style="z-index: 1049 !important;">
 								<div class="centered-message">Seleccione el dispositivo.</div>
 							</div>
 						</div>

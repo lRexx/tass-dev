@@ -404,7 +404,7 @@ tickets.controller(
     $scope.pasos = [];
     $scope.pasos1 = [
       "PASO 1: DIRECCIÓN",
-      "PASO 2: LLAVEROS DE LA SOLICITUD",
+      "PASO 2: DISPOSITIVOS DE LA SOLICITUD",
       "PASO 3: MÉTODO DE ENVÍO O ENTREGA",
       "PASO 4: MÉTODO DE PAGO",
       "VERIFICAR Y CONFIRMAR",
@@ -412,7 +412,7 @@ tickets.controller(
     $scope.pasos2 = [
       "PASO 1: RAZÓN",
       "PASO 2: DIRECCIÓN",
-      "PASO 3: LLAVEROS DE LA SOLICITUD",
+      "PASO 3: DISPOSITIVOS DE LA SOLICITUD",
       "PASO 4: MÉTODO DE PAGO",
       "VERIFICAR Y CONFIRMAR",
     ];
