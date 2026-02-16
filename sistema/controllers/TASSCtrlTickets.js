@@ -2263,6 +2263,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.ticket.delivery.whoPickUp        = null;
                         $scope.ticket.idClientDepartament       = null;
                         $scope.ticket.keyQtty                   = null;
+                        $scope.ticket.deviceTypeSelected        = null;
+                        $scope.ticket.idDeviceTypeKf            = null;
                         $scope.selectedDeliveryAttendant        = undefined;
                         //$scope.select.products.selected         = undefined;
                         $scope.selectedRequestKeyOwnerUser      = undefined;
@@ -2291,10 +2293,17 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     //    ttl:6000, type: 'warning'
                                     //});
                                 }
-                                $scope.enabledNextBtn();
-                                $scope.mainSwitchFn('autoSelectDoors', null, null)
-                                $scope.getAttendantListFn(obj.idClient);
-                                $scope.getKeyListByBuildingIdFn(obj.idClient);
+                            }
+                            $scope.enabledNextBtn();
+                            $scope.mainSwitchFn('autoSelectDoors', null, null)
+                            $scope.getAttendantListFn(obj.idClient);
+                            $scope.getKeyListByBuildingIdFn(obj.idClient);
+                            if (!$scope.ticket.deviceSelected){
+                                $scope.mainSwitchFn('selectDeviceType', null, null);
+                            }else{
+                                $scope.ticket.deviceTypeSelected = $scope.rsTicketDevicesType.find(s => s.idDeviceType == "1");
+                                $scope.ticket.idDeviceTypeKf = $scope.ticket.deviceTypeSelected.idDeviceType
+                                console.log($scope.ticket);
                             }
                         }
                         console.log($scope.ticket);
