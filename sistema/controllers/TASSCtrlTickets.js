@@ -4023,14 +4023,10 @@ tickets.controller(
           $("#tenantList").modal("hide");
           $scope.ticket.userRequestBy = $scope.selectedRequestKeyOwnerUser;
           $scope.mainSwitchFn("setWhoPickUpList", null, null);
-          for (var key in $scope.rsKeyProductsData) {
-            if (
-              $scope.rsKeyProductsData[key].isLicenseDevice == "1" &&
-              $scope.rsKeyProductsData.length >= 2
-            ) {
-              //$scope.ticket.deviceSelected=false;
-              $scope.mainSwitchFn("selectDeviceType", null, null);
-            }
+          if (!$scope.ticket.deviceSelected) {
+            $scope.mainSwitchFn("selectDeviceType", null, null);
+          } else {
+            $scope.ticket.idDeviceTypeKf = "1";
           }
           break;
         case "selectDeviceType":
