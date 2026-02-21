@@ -3133,6 +3133,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             productSelected.isNumberSerieFabric         = obj.isNumberSerieFabric;
                             productSelected.isNumberSerieInternal       = obj.isNumberSerieInternal;
                             productSelected.isRequestNumber             = obj.isRequestNumber;
+                            productSelected.isLicenseDevice             = obj.isLicenseDevice;
                             productSelected.model                       = obj.model;
                             productSelected.priceFabric                 = obj.priceFabric;
                             productSelected.serviceName                 = obj.serviceName;
@@ -3208,7 +3209,11 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 productSelected.idClientAdminKf         = null;
                                 productSelected.isKeyTenantOnly         = null;
                             break;
-
+                        }
+                        if (productSelected.isLicenseDevice==1){
+                            $scope.ticket.isLicenseDevice = true;
+                        }else{
+                            $scope.ticket.isLicenseDevice = null
                         }
                         for (var i = 0; i < $scope.ticket.keyQtty; i++) {
                             $scope.list_keys.push({'id':(i+1), 'optionTypeSelected':$scope.ticket.optionTypeSelected.name, 'radioButtonDepartment':radioButtonDepartment, 'radioButtonBuilding':radioButtonBuilding, 'key':productSelected, 'user':userSelected, 'doors':doorsSelected});
