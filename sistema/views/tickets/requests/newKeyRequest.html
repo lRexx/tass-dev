@@ -375,7 +375,7 @@
 										<span ng-if="selectedUser==undefined">Seleccionar Personal</span>
 									</button>
 									<button ng-if="(ticket.deviceSelected && ticket.idDeviceTypeKf!=undefined && (ticket.optionTypeSelected.name=='department' || (ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding=='1' || ticket.radioButtonBuilding=='2' || ticket.radioButtonBuilding=='3' || ticket.radioButtonBuilding=='5'))))" style="margin-top:2em;" data-toggle="tooltip" data-placement="right" title="Agregar"
-									ng-disabled="(((ticket.deviceSelected && ticket.idDeviceTypeKf!=undefined && ticket.idDeviceTypeKf=='2' && select.products.selected==undefined) && ticket.optionTypeSelected.name=='department' && ((selectedRequestKeyOwnerUser==undefined || selectedRequestKeyOwnerUser==null) || select.products.selected==undefined || list_doors.length==0)) ||
+									ng-disabled="(((ticket.deviceSelected && ticket.idDeviceTypeKf!=undefined && ticket.idDeviceTypeKf=='2' && select.products.selected==undefined) && ticket.optionTypeSelected.name=='department' && ((selectedRequestKeyOwnerUser==undefined || selectedRequestKeyOwnerUser==null) || select.products.selected==undefined || selectedUser==undefined || list_doors.length==0)) ||
 												(ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='1' && (select.products.selected==undefined || list_doors.length==0 || selectedUser==undefined)) ||
 												(ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='2' && select.products.selected==undefined || list_doors.length==0)||
 												(ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='3' && select.products.selected==undefined || list_doors.length==0)||
