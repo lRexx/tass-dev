@@ -300,7 +300,11 @@ class Util extends REST_Controller {
 
             $result = $this->util_model->getCountryCode();
 
-            echo json_encode($result);
+            if (! is_null($result)) {
+                $this->response($result, 200);
+            } else {
+                $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
+            }
 
         } catch (Exception $e) {
 
