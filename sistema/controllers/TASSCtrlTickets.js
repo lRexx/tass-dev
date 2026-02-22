@@ -2702,7 +2702,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     case "setRequestDevice":
                         $scope.ticket.deviceSelected=true;
                         $scope.ticket.deviceTypeSelected = $scope.rsTicketDevicesType.find(s => s.idDeviceType == obj);
-                        $scope.ticket.idDeviceTypeKf = $scope.ticket.deviceTypeSelected.idDeviceType
+                        $scope.ticket.idDeviceTypeKf = $scope.ticket.deviceTypeSelected.idDeviceType;
+
                         switch ($scope.ticket.deviceTypeSelected.idDeviceType){
                             case "1":
                                 $scope.rsKeyProductsDataByType = angular.copy(
@@ -2717,6 +2718,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 $scope.rsKeyProductsDataByType = angular.copy(
                                     ($scope.rsKeyProductsData || []).filter(s => s.isLicenseDevice == "1")
                                 );
+                                $scope.ticket.delivery.idTypeDeliveryKf = "3";
                                 $timeout(function() {
                                     $scope.select.products.selected={'idStatusFk':$scope.rsKeyProductsDataByType[0].idStatusFk,'contractStatus':$scope.rsKeyProductsDataByType[0].contractStatus,'serviceName':$scope.rsKeyProductsDataByType[0].serviceName,'idProduct':$scope.rsKeyProductsDataByType[0].idProduct,'descriptionProduct':$scope.rsKeyProductsDataByType[0].descriptionProduct,'codigoFabric':$scope.rsKeyProductsDataByType[0].codigoFabric,'brand':$scope.rsKeyProductsDataByType[0].brand,'model':$scope.rsKeyProductsDataByType[0].model,'idProductClassificationFk':$scope.rsKeyProductsDataByType[0].idProductClassificationFk,'isNumberSerieFabric':$scope.rsKeyProductsDataByType[0].isNumberSerieFabric,'isNumberSerieInternal':$scope.rsKeyProductsDataByType[0].isNumberSerieInternal,'isDateExpiration':$scope.rsKeyProductsDataByType[0].isDateExpiration,'isControlSchedule':$scope.rsKeyProductsDataByType[0].isControlSchedule,'isRequestNumber':$scope.rsKeyProductsDataByType[0].isRequestNumber, 'isLicenseDevice':$scope.rsKeyProductsDataByType[0].isLicenseDevice,'priceFabric':$scope.rsKeyProductsDataByType[0].priceFabric,'classification':$scope.rsKeyProductsDataByType[0].classification};
                                     console.log($scope.select.products.selected);
@@ -4419,39 +4421,43 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }
                         if(obj.radioButtonBuilding!="4" && obj.radioButtonBuilding!="5"){
                             if (obj.delivery.idTypeDeliveryKf=="1"){
-                                $scope.new.ticket.idDeliveryTo              = null
-                                $scope.new.ticket.otherDeliveryAddress      = {'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
-                                if (obj.delivery.whoPickUp.id==undefined){
-                                    $scope.new.ticket.idWhoPickUp           = "1";
-                                    $scope.new.ticket.idUserDelivery        = obj.delivery.deliveryTo.idUser;
-                                    $scope.new.ticket.thirdPersonDelivery   = {'fullName':null, 'movilPhone':null, 'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
-                                }else if (obj.delivery.whoPickUp.id==2){
-                                    $scope.new.ticket.idWhoPickUp           = obj.delivery.whoPickUp.id;
-                                    $scope.new.ticket.idUserDelivery        = obj.delivery.deliveryTo.idUser;
-                                    $scope.new.ticket.thirdPersonDelivery   = {'fullName':null, 'movilPhone':null, 'dni':null, 'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
-                                }else{
-                                    $scope.new.ticket.idWhoPickUp           = obj.delivery.whoPickUp.id;
-                                    $scope.new.ticket.thirdPersonDelivery   = {'fullName':obj.delivery.thirdPerson.fullNameUser, 'movilPhone':obj.delivery.thirdPerson.movilPhone, 'dni':obj.delivery.thirdPerson.dni, 'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
+                                if ($scope.ticket.idDeviceTypeKf!=2){
+                                    $scope.new.ticket.idDeliveryTo              = null
+                                    $scope.new.ticket.otherDeliveryAddress      = {'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
+                                    if (obj.delivery.whoPickUp.id==undefined){
+                                        $scope.new.ticket.idWhoPickUp           = "1";
+                                        $scope.new.ticket.idUserDelivery        = obj.delivery.deliveryTo.idUser;
+                                        $scope.new.ticket.thirdPersonDelivery   = {'fullName':null, 'movilPhone':null, 'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
+                                    }else if (obj.delivery.whoPickUp.id==2){
+                                        $scope.new.ticket.idWhoPickUp           = obj.delivery.whoPickUp.id;
+                                        $scope.new.ticket.idUserDelivery        = obj.delivery.deliveryTo.idUser;
+                                        $scope.new.ticket.thirdPersonDelivery   = {'fullName':null, 'movilPhone':null, 'dni':null, 'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
+                                    }else{
+                                        $scope.new.ticket.idWhoPickUp           = obj.delivery.whoPickUp.id;
+                                        $scope.new.ticket.thirdPersonDelivery   = {'fullName':obj.delivery.thirdPerson.fullNameUser, 'movilPhone':obj.delivery.thirdPerson.movilPhone, 'dni':obj.delivery.thirdPerson.dni, 'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
+                                    }
                                 }
                             }else{
                                 if($scope.new.ticket.idTypeRequestFor=="1" ||$scope.new.ticket.idTypeRequestFor=="3" || $scope.new.ticket.idTypeRequestFor=="5" || $scope.new.ticket.idTypeRequestFor=="6"){
-                                    $scope.new.ticket.idDeliveryTo              = obj.delivery.idDeliveryTo;
-                                    if (obj.delivery.whoPickUp.id==undefined && obj.delivery.idDeliveryTo==1){
-                                        $scope.new.ticket.idWhoPickUp           = "1";
-                                        $scope.new.ticket.otherDeliveryAddress  = {'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
-                                        $scope.new.ticket.thirdPersonDelivery   = {'fullName':null, 'movilPhone':null, 'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
-                                        $scope.new.ticket.idUserDelivery        = obj.delivery.deliveryTo.idUser;
-                                        $scope.new.ticket.idDeliveryAddress     = obj.building.idClient;
-                                    }else if(obj.delivery.whoPickUp.id==undefined && obj.delivery.idDeliveryTo==2){
-                                        $scope.new.ticket.idWhoPickUp           = 1;
-                                        $scope.new.ticket.otherDeliveryAddress  = {'address':obj.delivery.otherAddress.streetName,'number':obj.delivery.otherAddress.streetNumber,'floor':obj.delivery.otherAddress.floor+"-"+obj.delivery.otherAddress.department, 'idProvinceFk':obj.delivery.otherAddress.province.selected.idProvince, 'idLocationFk':obj.delivery.otherAddress.location.selected.idLocation};
-                                        $scope.new.ticket.idUserDelivery        = obj.delivery.whoPickUp.idUser;
-                                    }else if(obj.delivery.whoPickUp.id==2 && obj.delivery.idDeliveryTo==null){
-                                        $scope.new.ticket.idWhoPickUp           = obj.delivery.whoPickUp.id;
-                                        $scope.new.ticket.idUserDelivery        = obj.delivery.deliveryTo.idUser;
-                                    }else if(obj.delivery.whoPickUp.id==3 && obj.delivery.idDeliveryTo==null){
-                                        $scope.new.ticket.idWhoPickUp           = obj.delivery.whoPickUp.id;
-                                        $scope.new.ticket.thirdPersonDelivery   = {'fullName':obj.delivery.thirdPerson.fullNameUser, 'movilPhone':obj.delivery.thirdPerson.movilPhone, 'dni':obj.delivery.thirdPerson.dni, 'address':obj.delivery.thirdPerson.streetName,'number':obj.delivery.thirdPerson.streetNumber,'floor':obj.delivery.thirdPerson.floor+"-"+obj.delivery.thirdPerson.department, 'idProvinceFk':obj.delivery.thirdPerson.province.selected.idProvince, 'idLocationFk':obj.delivery.thirdPerson.location.selected.idLocation};
+                                    if ($scope.ticket.idDeviceTypeKf!=2){
+                                        $scope.new.ticket.idDeliveryTo              = obj.delivery.idDeliveryTo;
+                                        if (obj.delivery.whoPickUp.id==undefined && obj.delivery.idDeliveryTo==1){
+                                            $scope.new.ticket.idWhoPickUp           = "1";
+                                            $scope.new.ticket.otherDeliveryAddress  = {'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
+                                            $scope.new.ticket.thirdPersonDelivery   = {'fullName':null, 'movilPhone':null, 'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
+                                            $scope.new.ticket.idUserDelivery        = obj.delivery.deliveryTo.idUser;
+                                            $scope.new.ticket.idDeliveryAddress     = obj.building.idClient;
+                                        }else if(obj.delivery.whoPickUp.id==undefined && obj.delivery.idDeliveryTo==2){
+                                            $scope.new.ticket.idWhoPickUp           = 1;
+                                            $scope.new.ticket.otherDeliveryAddress  = {'address':obj.delivery.otherAddress.streetName,'number':obj.delivery.otherAddress.streetNumber,'floor':obj.delivery.otherAddress.floor+"-"+obj.delivery.otherAddress.department, 'idProvinceFk':obj.delivery.otherAddress.province.selected.idProvince, 'idLocationFk':obj.delivery.otherAddress.location.selected.idLocation};
+                                            $scope.new.ticket.idUserDelivery        = obj.delivery.whoPickUp.idUser;
+                                        }else if(obj.delivery.whoPickUp.id==2 && obj.delivery.idDeliveryTo==null){
+                                            $scope.new.ticket.idWhoPickUp           = obj.delivery.whoPickUp.id;
+                                            $scope.new.ticket.idUserDelivery        = obj.delivery.deliveryTo.idUser;
+                                        }else if(obj.delivery.whoPickUp.id==3 && obj.delivery.idDeliveryTo==null){
+                                            $scope.new.ticket.idWhoPickUp           = obj.delivery.whoPickUp.id;
+                                            $scope.new.ticket.thirdPersonDelivery   = {'fullName':obj.delivery.thirdPerson.fullNameUser, 'movilPhone':obj.delivery.thirdPerson.movilPhone, 'dni':obj.delivery.thirdPerson.dni, 'address':obj.delivery.thirdPerson.streetName,'number':obj.delivery.thirdPerson.streetNumber,'floor':obj.delivery.thirdPerson.floor+"-"+obj.delivery.thirdPerson.department, 'idProvinceFk':obj.delivery.thirdPerson.province.selected.idProvince, 'idLocationFk':obj.delivery.thirdPerson.location.selected.idLocation};
+                                        }
                                     }
                                 }
                             }
