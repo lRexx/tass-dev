@@ -190,7 +190,7 @@
                                     ng-required=""
                                     ng-model="select.countryCode.selected"
                                     on-select="onSelectCallback()" >
-                                <ui-select-match allow-clear="true" placeholder="Todos" >{{$select.selected.name | uppercase}}</ui-select-match>
+                                <ui-select-match allow-clear="true" placeholder="Todos" >{{$select.selected.countryCode | uppercase}}</ui-select-match>
                                     <ui-select-choices repeat="item in countryPhoneCodesList | filter: $select.search">
                                         <div ng-bind-html="item.countryCode | highlight: $select.search"></div>
                                         <small>Pais: </small><small class="label label-default" ng-bind-html="item.countryName | highlight: $select.search"></small>
