@@ -3458,6 +3458,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.register.user.idTypeTenantKf         = obj.idTypeTenantKf;
                         $scope.register.user.idDepartmentKf         = (obj.idProfileKf==5 || obj.idProfileKf==6) && obj.idTypeTenantKf==2?obj.idDepartmentKf:null;
                         $scope.register.user.idDeparment_Tmp        = (obj.idProfileKf==3 || obj.idProfileKf==6) && obj.idTypeTenantKf==1?obj.idDepartmentKf:null;
+                        $scope.register.user.blockUserLogin         = obj.blockUserLoginTmp!=undefined && obj.blockUserLoginTmp?1:0;
                         console.log($scope.register.user);
                         //$scope.sysRegisterTenantFn();
                     break;
