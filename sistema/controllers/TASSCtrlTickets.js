@@ -4223,8 +4223,11 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     }
                                     $scope.new.ticket.mail +='</td>';
                                 }
-                                if (obj.delivery.idTypeDeliveryKf==null){
+                                if ($scope.ticket.idDeviceTypeKf!=2 && obj.delivery.idTypeDeliveryKf==null){
                                     $scope.new.ticket.mail += '<td align="left" style="width: 40%;" valign="middle">Proceso interno</td>';
+                                }
+                                if ($scope.ticket.idDeviceTypeKf==2 && obj.delivery.idTypeDeliveryKf==null){
+                                    $scope.new.ticket.mail += '<td align="left" style="width: 40%;" valign="middle">Proceso Online</td>';
                                 }
                                 if (obj.delivery.idTypeDeliveryKf!=null){
                                     if (obj.delivery.idTypeDeliveryKf=='1'){
