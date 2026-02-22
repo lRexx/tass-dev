@@ -3417,13 +3417,20 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.isUpdateTenant                       = false;
                         $scope.sysDNIRegistered                     = false;
                         $scope.sysEmailRegistered                   = false;
-                        $scope.tenant.new.idSysProfileFk            = "10";
+
                         $scope.tenant.new.idDepartmentKf            = obj.idClientDepartament;
                         $scope.tenant.new.depto                     = obj.Depto;
-                        if ($scope.ticket.optionTypeSelected.name=="department" && $scope.ticket.radioButtonDepartment=="1"){
+                        if ($scope.ticket.idDeviceTypeKf!=2 && $scope.ticket.optionTypeSelected.name=="department" && $scope.ticket.radioButtonDepartment=="1"){
+                            $scope.tenant.new.idSysProfileFk        = "10";
                             $scope.tenant.new.idTypeTenantKf        = "1";
                             $scope.tenant.new.idProfileKf           = "3";
-                        }else if($scope.ticket.optionTypeSelected.name=="department" && $scope.ticket.radioButtonDepartment=="2"){
+                        }else if($scope.ticket.idDeviceTypeKf!=2 && $scope.ticket.optionTypeSelected.name=="department" && $scope.ticket.radioButtonDepartment=="2"){
+                            $scope.tenant.new.idSysProfileFk        = "10";
+                            $scope.tenant.new.idAddresKf            = obj.idClientFk;
+                            $scope.tenant.new.idTypeTenantKf        = "2";
+                            $scope.tenant.new.idProfileKf           = "5";
+                        }else if($scope.ticket.idDeviceTypeKf!=2){
+                            $scope.tenant.new.idSysProfileFk        = null;
                             $scope.tenant.new.idAddresKf            = obj.idClientFk;
                             $scope.tenant.new.idTypeTenantKf        = "2";
                             $scope.tenant.new.idProfileKf           = "5";
@@ -3452,7 +3459,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.register.user.idDepartmentKf         = (obj.idProfileKf==5 || obj.idProfileKf==6) && obj.idTypeTenantKf==2?obj.idDepartmentKf:null;
                         $scope.register.user.idDeparment_Tmp        = (obj.idProfileKf==3 || obj.idProfileKf==6) && obj.idTypeTenantKf==1?obj.idDepartmentKf:null;
                         console.log($scope.register.user);
-                        $scope.sysRegisterTenantFn();
+                        //$scope.sysRegisterTenantFn();
                     break;
                     case "associateTenant":
                         console.log(obj);
