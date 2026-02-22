@@ -730,6 +730,7 @@
           $scope.countryPhoneCodesList = [];
           $scope.getCountryPhoneCodesFn = function(){
               UtilitiesServices.getCountryPhoneCodes().then(function(response){
+                console.log(response);
               if(response.status==200){
                       $scope.countryPhoneCodesList = response.data;
               }else if (response.status==404){
