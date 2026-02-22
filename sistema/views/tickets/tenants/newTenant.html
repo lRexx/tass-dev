@@ -179,6 +179,29 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Country Code List-->
+                    <div class="form-group col-md-12" ng-if="">
+                        <label ng-if="" style="padding-left: 15px;">Codigo</label>
+                        <div class="col-xs-12 selectContainer">
+                            <div class="input-group">
+                            <span class="input-group-addon"><i class="icon-suitcase"></i></span>
+                                <ui-select
+                                    name="companyw"
+                                    ng-required=""
+                                    ng-model="select.countryCode.selected"
+                                    on-select="onSelectCallback()" >
+                                <ui-select-match allow-clear="true" placeholder="Todos" >{{$select.selected.name | uppercase}}</ui-select-match>
+                                    <ui-select-choices repeat="item in countryPhoneCodesList | filter: $select.search">
+                                        <div ng-bind-html="item.countryCode | highlight: $select.search"></div>
+                                        <small>Pais: </small><small class="label label-default" ng-bind-html="item.countryName | highlight: $select.search"></small>
+                                    </ui-select-choices>
+                                    <ui-select-no-choice>
+                                        <span ng-if="countryPhoneCodesList.length > 0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay datos</span>
+                                    </ui-select-no-choice>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
                     <div ng-if="!sysDNIRegistered" class="col-md-12 col-xs-12" style="margin-right: 0.2em; padding: 5px !important;">
                         <div class="alert alert-info" role="alert">
                             <h4><strong>IMPORTANTE!! </strong>PARA QUE UTILIZA BSS LOS DATOS ?</h4><br>

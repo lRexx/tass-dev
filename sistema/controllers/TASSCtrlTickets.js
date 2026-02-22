@@ -632,7 +632,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     default:
                 }
                 console.log($scope.ticket);
-             };
+            };
         /**************************************************
         *                                                 *
         *            GET ADMINISTRATION LIST              *
@@ -645,7 +645,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 }, function(err) {
                     $scope.administrationList = [];
                 });
-              };
+            };
         /**************************************************
         *                                                 *
         *                GET BUILDING LIST                *
@@ -670,57 +670,57 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         });
                     }
                 });
-             };
+            };
         /**************************************************
         *                                                 *
         *                GET DELIVERY TYPES               *
         *                                                 *
         **************************************************/
-         $scope.typedelivery = [];
-         $scope.getDeliveryTypesFn = function(obj){
-             $scope.typedelivery = [];
-             ticketServices.typeDelivery().then(function(response){
-                 if(response.status==200){
-                     $scope.typedelivery = response.data;
-                 }else if (response.status==404){
-                     $scope.typedelivery = [];
-                     inform.add('No hay tipos de deliverys registrados, contacte al area de soporte de BSS.',{
-                     ttl:5000, type: 'warning'
-                     });
-                 }else if (response.status==500){
-                     $scope.typedelivery = [];
-                     inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
-                     ttl:5000, type: 'danger'
-                     });
-                 }
-             });
-          };
+            $scope.typedelivery = [];
+            $scope.getDeliveryTypesFn = function(obj){
+                $scope.typedelivery = [];
+                ticketServices.typeDelivery().then(function(response){
+                    if(response.status==200){
+                        $scope.typedelivery = response.data;
+                    }else if (response.status==404){
+                        $scope.typedelivery = [];
+                        inform.add('No hay tipos de deliverys registrados, contacte al area de soporte de BSS.',{
+                        ttl:5000, type: 'warning'
+                        });
+                    }else if (response.status==500){
+                        $scope.typedelivery = [];
+                        inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                        ttl:5000, type: 'danger'
+                        });
+                    }
+                });
+            };
         /**************************************************
         *                                                 *
         * DEPARTMENT LIST BY SELECTED ADDRESS AND TENANT  *
         *                                                 *
         **************************************************/
-             $scope.ListDpto=[];
-             $scope.dptoNotFound = true;
-             $scope.getDeptoListByAddress = function (idAddress){
-                 if(idAddress!=undefined){
-                     $scope.ListDpto=[];
-                     var idStatusFk='-1';
-                     DepartmentsServices.byIdDireccion(idAddress, idStatusFk).then(function(response) {
-                         if(response.status==200){
-                            $scope.dptoNotFound = false;
-                            $scope.ListDpto = response.data;
-                             //console.log($scope.ListDpto);
-                         }else if (response.status==404){
-                             $scope.ListDpto=[];
-                             $scope.dptoNotFound = true;
-                             inform.add('No hay departamentos en esta direccion para ser asociados, contacte al area de soporte de BSS.',{
-                             ttl:5000, type: 'danger'
-                             });
-                         }
-                     });
-                 }
-             };
+            $scope.ListDpto=[];
+            $scope.dptoNotFound = true;
+            $scope.getDeptoListByAddress = function (idAddress){
+                if(idAddress!=undefined){
+                    $scope.ListDpto=[];
+                    var idStatusFk='-1';
+                    DepartmentsServices.byIdDireccion(idAddress, idStatusFk).then(function(response) {
+                        if(response.status==200){
+                        $scope.dptoNotFound = false;
+                        $scope.ListDpto = response.data;
+                            //console.log($scope.ListDpto);
+                        }else if (response.status==404){
+                            $scope.ListDpto=[];
+                            $scope.dptoNotFound = true;
+                            inform.add('No hay departamentos en esta direccion para ser asociados, contacte al area de soporte de BSS.',{
+                            ttl:5000, type: 'danger'
+                            });
+                        }
+                    });
+                }
+            };
         /**************************************************
         *                                                 *
         *         LIST OF ATTENDANTS BY ID ADDRESS        *
