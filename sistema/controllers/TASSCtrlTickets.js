@@ -2005,7 +2005,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 console.log("|  SERVICE CUSTOMER SELECTED  |");
                 console.log("===============================");
                 console.log(obj);
-                $scope.ticket = {'administration':undefined, 'building':undefined, 'deviceSelected':true, 'deviceTypeSelected':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':undefined, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
+                $scope.ticket.administration = undefined;
+                $scope.ticket.building = undefined;
+                $scope.ticket.idClientDepartament = undefined;
                 $scope.select.admins.selected = undefined;
                 $scope.customerFound=obj;
                 $scope.customerSearch.name = obj.name;
