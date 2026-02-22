@@ -2126,7 +2126,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.isRequest="up";
                         $scope.keysAllowedTmp = 0;
                         $scope.selectedRequestKeyOwnerUser=undefined;
-
+                        console.log($scope.ticket);
                         selectSwitch ('n');
                         if ($scope.sysLoggedUser.idProfileKf==1){
                             //$scope.getAdminListFn(); //LOAD ADMINISTRATION LIST
