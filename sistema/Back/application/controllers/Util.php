@@ -300,9 +300,7 @@ class Util extends REST_Controller {
 
             $result = $this->util_model->getCountryCode();
 
-            echo json_encode([
-                $result
-            ]);
+            echo json_encode($result);
 
         } catch (Exception $e) {
 
