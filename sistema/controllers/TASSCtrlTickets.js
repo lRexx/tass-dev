@@ -459,43 +459,47 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     case 2: console.log($scope.ticket);
                         if ($scope.fSwitch=="n" && $scope.sysLoggedUser.idProfileKf!=0){
                             console.info("ENTRO AL CASE 3 : ALTA DE LLAVE - PASO 3: MÉTODO DE ENVÍO O ENTREGA");
-                            if ($scope.ticket.delivery.idTypeDeliveryKf==undefined || $scope.ticket.delivery.idTypeDeliveryKf==null){
+                            if ($scope.ticket.idDeviceTypeKf!=2 && ($scope.ticket.delivery.idTypeDeliveryKf==undefined || $scope.ticket.delivery.idTypeDeliveryKf==null)){
                                 $scope.formValidated=false;
                             }else{
-                                if ($scope.ticket.delivery.idTypeDeliveryKf=="1"){
-                                    console.log($scope.ticket);
-                                    //if (($scope.ticket.delivery.whoPickUp==null || $scope.ticket.delivery.whoPickUp.idUser!=undefined)  &&  ($scope.ticket.delivery.deliveryTo==null || $scope.ticket.delivery.deliveryTo.idUser==undefined)){
-                                    //    console.log("Entro a la primera condicion del tipo de entrega 'Retiro en Oficina'");
-                                    //    console.log($scope.ticket);
-                                    //}
-                                    //if($scope.ticket.delivery.whoPickUp.id==2 && ($scope.ticket.delivery.deliveryTo==null || $scope.ticket.delivery.deliveryTo.idUser==undefined)){
-                                    //    console.log("Entro a la segunda condicion del tipo de entrega 'Retiro en Oficina'");
-                                    //    console.log($scope.ticket);
-                                    //}
+                                if ($scope.ticket.idDeviceTypeKf!=2){
+                                    if ($scope.ticket.delivery.idTypeDeliveryKf=="1"){
+                                        console.log($scope.ticket);
+                                        //if (($scope.ticket.delivery.whoPickUp==null || $scope.ticket.delivery.whoPickUp.idUser!=undefined)  &&  ($scope.ticket.delivery.deliveryTo==null || $scope.ticket.delivery.deliveryTo.idUser==undefined)){
+                                        //    console.log("Entro a la primera condicion del tipo de entrega 'Retiro en Oficina'");
+                                        //    console.log($scope.ticket);
+                                        //}
+                                        //if($scope.ticket.delivery.whoPickUp.id==2 && ($scope.ticket.delivery.deliveryTo==null || $scope.ticket.delivery.deliveryTo.idUser==undefined)){
+                                        //    console.log("Entro a la segunda condicion del tipo de entrega 'Retiro en Oficina'");
+                                        //    console.log($scope.ticket);
+                                        //}
 
-                                    if ((($scope.ticket.delivery.whoPickUp==null || $scope.ticket.delivery.whoPickUp.idUser!=undefined)  &&  ($scope.ticket.delivery.deliveryTo==null || $scope.ticket.delivery.deliveryTo.idUser==undefined))||
-                                        ($scope.ticket.delivery.whoPickUp.id==2 && ($scope.ticket.delivery.deliveryTo==null || $scope.ticket.delivery.deliveryTo.idUser==undefined))||
-                                        ($scope.ticket.delivery.whoPickUp.id==3 && ($scope.ticket.delivery.thirdPerson==null || $scope.ticket.delivery.thirdPerson.dni==undefined))){
+                                        if ((($scope.ticket.delivery.whoPickUp==null || $scope.ticket.delivery.whoPickUp.idUser!=undefined)  &&  ($scope.ticket.delivery.deliveryTo==null || $scope.ticket.delivery.deliveryTo.idUser==undefined))||
+                                            ($scope.ticket.delivery.whoPickUp.id==2 && ($scope.ticket.delivery.deliveryTo==null || $scope.ticket.delivery.deliveryTo.idUser==undefined))||
+                                            ($scope.ticket.delivery.whoPickUp.id==3 && ($scope.ticket.delivery.thirdPerson==null || $scope.ticket.delivery.thirdPerson.dni==undefined))){
+                                                $scope.formValidated=false;
+                                        }else{
+                                                $scope.formValidated=true;
+                                        }
+                                        //deliveryTo: null
+                                        //idTypeDeliveryKf: "2"
+                                        //otherAddress: undefined
+                                        //thirdPerson: null
+                                        //whoPickUp: null
+                                    }else if ($scope.ticket.delivery.idTypeDeliveryKf=="2"){
+                                        console.log($scope.ticket);
+                                        if (((($scope.ticket.delivery.whoPickUp==null || $scope.ticket.delivery.whoPickUp.idUser!=undefined)  && ($scope.ticket.delivery.idDeliveryTo==undefined || $scope.ticket.delivery.idDeliveryTo==1 || $scope.ticket.delivery.idDeliveryTo==2)) && ($scope.ticket.delivery.deliveryTo==null || $scope.ticket.delivery.deliveryTo.idUser==undefined)) ||
+                                        ($scope.ticket.delivery.idDeliveryTo==2 && ($scope.ticket.delivery.whoPickUp==null || $scope.ticket.delivery.whoPickUp.idUser!=undefined) && ($scope.ticket.delivery.otherAddress==null || $scope.ticket.delivery.otherAddress.streetName==undefined || $scope.ticket.delivery.otherAddress.streetNumber==undefined)) ||
+                                        ($scope.ticket.delivery.whoPickUp!=null && $scope.ticket.delivery.whoPickUp.id==2 && ($scope.ticket.delivery.deliveryTo==null || $scope.ticket.delivery.deliveryTo.idUser==undefined)) ||
+                                        ($scope.ticket.delivery.whoPickUp!=null && $scope.ticket.delivery.whoPickUp.id==3 && ($scope.ticket.delivery.idDeliveryTo==null) && ($scope.ticket.delivery.otherAddress==null || $scope.ticket.delivery.otherAddress.streetName==undefined || $scope.ticket.delivery.otherAddress.streetNumber==undefined) && ($scope.ticket.delivery.thirdPerson==null || $scope.ticket.delivery.thirdPerson.fullNameUser==undefined || $scope.ticket.delivery.thirdPerson.dni==undefined))){
                                             $scope.formValidated=false;
-                                    }else{
+                                        }else{
                                             $scope.formValidated=true;
-                                    }
-                                    //deliveryTo: null
-                                    //idTypeDeliveryKf: "2"
-                                    //otherAddress: undefined
-                                    //thirdPerson: null
-                                    //whoPickUp: null
-                                }else if ($scope.ticket.delivery.idTypeDeliveryKf=="2"){
-                                    console.log($scope.ticket);
-                                    if (((($scope.ticket.delivery.whoPickUp==null || $scope.ticket.delivery.whoPickUp.idUser!=undefined)  && ($scope.ticket.delivery.idDeliveryTo==undefined || $scope.ticket.delivery.idDeliveryTo==1 || $scope.ticket.delivery.idDeliveryTo==2)) && ($scope.ticket.delivery.deliveryTo==null || $scope.ticket.delivery.deliveryTo.idUser==undefined)) ||
-                                       ($scope.ticket.delivery.idDeliveryTo==2 && ($scope.ticket.delivery.whoPickUp==null || $scope.ticket.delivery.whoPickUp.idUser!=undefined) && ($scope.ticket.delivery.otherAddress==null || $scope.ticket.delivery.otherAddress.streetName==undefined || $scope.ticket.delivery.otherAddress.streetNumber==undefined)) ||
-                                       ($scope.ticket.delivery.whoPickUp!=null && $scope.ticket.delivery.whoPickUp.id==2 && ($scope.ticket.delivery.deliveryTo==null || $scope.ticket.delivery.deliveryTo.idUser==undefined)) ||
-                                       ($scope.ticket.delivery.whoPickUp!=null && $scope.ticket.delivery.whoPickUp.id==3 && ($scope.ticket.delivery.idDeliveryTo==null) && ($scope.ticket.delivery.otherAddress==null || $scope.ticket.delivery.otherAddress.streetName==undefined || $scope.ticket.delivery.otherAddress.streetNumber==undefined) && ($scope.ticket.delivery.thirdPerson==null || $scope.ticket.delivery.thirdPerson.fullNameUser==undefined || $scope.ticket.delivery.thirdPerson.dni==undefined))){
-                                        $scope.formValidated=false;
-                                    }else{
+                                        }
+                                    }else if ($scope.ticket.delivery.idTypeDeliveryKf=="3"){
                                         $scope.formValidated=true;
                                     }
-                                }else if ($scope.ticket.delivery.idTypeDeliveryKf=="3"){
+                                }else{
                                     $scope.formValidated=true;
                                 }
                             }
