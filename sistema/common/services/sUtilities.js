@@ -391,7 +391,7 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
               method: "GET",
               url: serverHost + serverBackend + "Util/phoneCodes"
           }).then(function(response) {
-              return response.data;
+              return response;
           }).catch(function(response) {
               console.log("Method: " + response.config.method +" - Error code[" + response.status + "]");
               return response;
