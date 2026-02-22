@@ -3420,16 +3420,16 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
 
                         $scope.tenant.new.idDepartmentKf            = obj.idClientDepartament;
                         $scope.tenant.new.depto                     = obj.Depto;
-                        if ($scope.ticket.idDeviceTypeKf!=2 && $scope.ticket.optionTypeSelected.name=="department" && $scope.ticket.radioButtonDepartment=="1"){
+                        if ($scope.ticket.idDeviceTypeKf!=undefined && $scope.ticket.idDeviceTypeKf!=2 && $scope.ticket.optionTypeSelected.name=="department" && $scope.ticket.radioButtonDepartment=="1"){
                             $scope.tenant.new.idSysProfileFk        = "10";
                             $scope.tenant.new.idTypeTenantKf        = "1";
                             $scope.tenant.new.idProfileKf           = "3";
-                        }else if($scope.ticket.idDeviceTypeKf!=2 && $scope.ticket.optionTypeSelected.name=="department" && $scope.ticket.radioButtonDepartment=="2"){
+                        }else if($scope.ticket.idDeviceTypeKf!=undefined && $scope.ticket.idDeviceTypeKf!=2 && $scope.ticket.optionTypeSelected.name=="department" && $scope.ticket.radioButtonDepartment=="2"){
                             $scope.tenant.new.idSysProfileFk        = "10";
                             $scope.tenant.new.idAddresKf            = obj.idClientFk;
                             $scope.tenant.new.idTypeTenantKf        = "2";
                             $scope.tenant.new.idProfileKf           = "5";
-                        }else if($scope.ticket.idDeviceTypeKf!=2){
+                        }else if($scope.ticket.idDeviceTypeKf!=undefined && $scope.ticket.idDeviceTypeKf==2){
                             $scope.tenant.new.idSysProfileFk        = null;
                             $scope.tenant.new.idAddresKf            = obj.idClientFk;
                             $scope.tenant.new.idTypeTenantKf        = "2";
