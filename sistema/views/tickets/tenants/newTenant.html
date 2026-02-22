@@ -41,7 +41,7 @@
                     <!-- Allow profile -->
                     <div class="form-group col-md-6" ng-show="sessionidProfile!=2 && sessionidProfile!=3">
                         <div class="col-md-5 col-xs-2 n-padding-l n-padding-r" >
-                            <span>Sin acceso al sistema:</span>
+                            <span>Sin Acceso al sistema:</span>
                         </div>
                         <div class="col-md-1 col-xs-2 n-padding-l n-padding-r">
                             <label class="switch switch-2x" for="blockUserLogin-set">
@@ -49,39 +49,45 @@
                                 <span class="slider slider-2x flat"></span>
                             </label>
                         </div>
-                        <div class="col-md-1 col-xs-1 n-padding-l n-padding-r" style="padding-top: 0%;">
-                            <span ng-if="fNewTenant.blockUserLoginTmp" style="cursor: pointer;" class="font-size-18px" ><i class="text-danger fas fa-ban"></i></span>
-                        </div>
                     </div>
-                    <!-- Text DNI-->
-                    <div class="form-group col-md-6" ng-class="
-                    {	'has-success':
-                        tenant.new.dni!='' && fNewTenant.dniUser.$valid,
-                        'has-error':
-                        (tenant.new.dni=='' || tenant.new.dni==undefined) && fNewTenant.dniUser.$touched,
-                    }">
-                    <label style="padding-left: 15px;">DNI</label>
-                        <div class="col-xs-12">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fas fa-id-card"></i></span>
-                                <input id="dniUser" name="dniUser" ng-blur="sysCheck4Duplicates(tenant.new.dni, 'dni');" placeholder="Documento de identidad" class="form-control input--dni" ng-model="tenant.new.dni"  type="text" ng-keydown="fnLoadPhoneMask();" required autofocus />
+                    <div ng-if="fNewTenant.blockUserLoginTmp" class="form-group row n-margin-t n-margin-b">
+                        <div ng-if="fNewTenant.blockUserLoginTmp" class="form-group n-margin-t n-margin-b col-md-12">
+                            <div class="alert alert-danger" role="alert">
+                                <strong><i class="fas fa-ban">&nbsp </i>ATENCION: </strong>El usuario no contara con permiso para acceder a MiBss.
                             </div>
                         </div>
                     </div>
-                    <!-- Text Mail-->
-                    <div class="form-group col-md-6" ng-class="
+                    <div class="row">
+                        <!-- Text DNI-->
+                        <div class="form-group col-md-6" ng-class="
                         {	'has-success':
-                            tenant.new.mail!='' && fNewTenant.emailUser.$valid,
+                            tenant.new.dni!='' && fNewTenant.dniUser.$valid,
                             'has-error':
-                            (tenant.new.mail=='' || tenant.new.mail==undefined) && fNewTenant.emailUser.$touched,
+                            (tenant.new.dni=='' || tenant.new.dni==undefined) && fNewTenant.dniUser.$touched,
                         }">
-                        <label style="padding-left: 15px;">E-Mail</label>
+                        <label style="padding-left: 15px;">DNI</label>
                             <div class="col-xs-12">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                    <input name="emailUser" ng-blur="sysCheck4Duplicates(tenant.new.mail, 'mail');" placeholder="E-Mail" class="form-control" ng-model="tenant.new.mail"  type="email" ng-disabled="sysDNIRegistered" required autofocus />
+                                    <span class="input-group-addon"><i class="fas fa-id-card"></i></span>
+                                    <input id="dniUser" name="dniUser" ng-blur="sysCheck4Duplicates(tenant.new.dni, 'dni');" placeholder="Documento de identidad" class="form-control input--dni" ng-model="tenant.new.dni"  type="text" ng-keydown="fnLoadPhoneMask();" required autofocus />
                                 </div>
                             </div>
+                        </div>
+                        <!-- Text Mail-->
+                        <div class="form-group col-md-6" ng-class="
+                            {	'has-success':
+                                tenant.new.mail!='' && fNewTenant.emailUser.$valid,
+                                'has-error':
+                                (tenant.new.mail=='' || tenant.new.mail==undefined) && fNewTenant.emailUser.$touched,
+                            }">
+                            <label style="padding-left: 15px;">E-Mail</label>
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                        <input name="emailUser" ng-blur="sysCheck4Duplicates(tenant.new.mail, 'mail');" placeholder="E-Mail" class="form-control" ng-model="tenant.new.mail"  type="email" ng-disabled="sysDNIRegistered" required autofocus />
+                                    </div>
+                                </div>
+                        </div>
                     </div>
                     <div ng-if="sysDNIRegistered || sysEmailRegistered" class="form-group row n-margin-t n-margin-b">
                         <div ng-if="sysDNIRegistered" class="form-group n-margin-t n-margin-b" ng-class="{
