@@ -301,8 +301,7 @@ class Util extends REST_Controller {
             $result = $this->util_model->getCountryCode();
 
             echo json_encode([
-                'status' => 'success',
-                'data'   => $result
+                $result
             ]);
 
         } catch (Exception $e) {
