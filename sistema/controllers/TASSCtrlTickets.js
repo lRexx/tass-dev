@@ -3410,7 +3410,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.tenant={
                         'new':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf':'','depto':''},
                         'update':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf2':''},
-                        'tmp':{'dni':'','mail':''}};
+                        'tmp':{'dni':'','mail':''},'blockUserLoginTmp':false};
                         $scope.depto={'department':{'idDepartment':null, 'idUserKf':null}};
                         $scope.ownerFound=false;
                         $scope.isNewTenant                          = true;
@@ -3458,7 +3458,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.register.user.idTypeTenantKf         = obj.idTypeTenantKf;
                         $scope.register.user.idDepartmentKf         = (obj.idProfileKf==5 || obj.idProfileKf==6) && obj.idTypeTenantKf==2?obj.idDepartmentKf:null;
                         $scope.register.user.idDeparment_Tmp        = (obj.idProfileKf==3 || obj.idProfileKf==6) && obj.idTypeTenantKf==1?obj.idDepartmentKf:null;
-                        $scope.register.user.blockUserLogin         = obj.blockUserLoginTmp!=undefined && obj.blockUserLoginTmp?1:0;
+                        $scope.register.user.requireAuthentication  = obj.blockUserLoginTmp!=undefined && obj.blockUserLoginTmp?1:0;
                         console.log($scope.register.user);
                         //$scope.sysRegisterTenantFn();
                     break;
