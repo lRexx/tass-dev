@@ -649,38 +649,39 @@ class User_model extends CI_Model
 				$query = $this->db->where("tb_user.idUser = ", $idUser)->get();
 
 				if ($query->num_rows() > 0) {
-					$userRs = $query->row_array();
-					#MAIL
-					$to = $userRs['emailUser'];
-					$title = "Nuevo Usuario";
-					$subject = "Registro de usuario";
-					$body = '<tr width="100%" bgcolor="#ffffff">';
-					$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>' . $userRs['fullNameUser'] . '</b>,</td>';
-					$body .= '</tr>';
-					$body .= '<tr width="100%" bgcolor="#ffffff">';
-					$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Su cuenta ha sido creada satisfactoriamente.</td>';
-					$body .= '</tr>';
-					if ($userRs['isConfirmatedMail'] == null || $userRs['isConfirmatedMail'] == 0) {
-						$body .= '<tr width="100%" bgcolor="#ffffff">';
-						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:2%;padding-bottom:2%;">Antes de ingresar debe confirmar su dirección de correo a través del siguiente link: <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/validate/token/' . $tokenMail . '" target="_blank" title="Confirmar correo" style="text-decoration: none; color: #fff;">Confirmar</a></span></td>';
+					if ($user['requireAuthentication']!=0){
+						$userRs = $query->row_array();
+						#MAIL
+						$to = $userRs['emailUser'];
+						$title = "Nuevo Usuario";
+						$subject = "Registro de usuario";
+						$body = '<tr width="100%" bgcolor="#ffffff">';
+						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>' . $userRs['fullNameUser'] . '</b>,</td>';
 						$body .= '</tr>';
-					} else if ($userRs['isConfirmatedMail'] == 1 && $userRs['idStatusKf'] == 1) {
 						$body .= '<tr width="100%" bgcolor="#ffffff">';
-						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:2%;padding-bottom:2%;">Su cuenta de usuario se encuentra <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' . $userRs['statusTenantName'] . '</span></td>';
+						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Su cuenta ha sido creada satisfactoriamente.</td>';
 						$body .= '</tr>';
+						if ($userRs['isConfirmatedMail'] == null || $userRs['isConfirmatedMail'] == 0) {
+							$body .= '<tr width="100%" bgcolor="#ffffff">';
+							$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:2%;padding-bottom:2%;">Antes de ingresar debe confirmar su dirección de correo a través del siguiente link: <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/validate/token/' . $tokenMail . '" target="_blank" title="Confirmar correo" style="text-decoration: none; color: #fff;">Confirmar</a></span></td>';
+							$body .= '</tr>';
+						} else if ($userRs['isConfirmatedMail'] == 1 && $userRs['idStatusKf'] == 1) {
+							$body .= '<tr width="100%" bgcolor="#ffffff">';
+							$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:2%;padding-bottom:2%;">Su cuenta de usuario se encuentra <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' . $userRs['statusTenantName'] . '</span></td>';
+							$body .= '</tr>';
+						}
+						$body .= '<tr width="100%" bgcolor="#ffffff">';
+						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:2%;padding-bottom:2%;">Contraseña: <b>' . $ramdonPwd . '</b></td>';
+						$body .= '</tr>';
+						$body .= '<tr width="100%" bgcolor="#ffffff">';
+						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%">En el proximo inicio de sesión el sistema solicitara el cambio de su contraseña &nbsp;</td>';
+						$body .= '</tr>';
+						$body .= '<tr width="100%" bgcolor="#ffffff">';
+						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+						$body .= '</tr>';
+						//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
+						$this->mail_model->sendMail($title, $to, $body, $subject);
 					}
-					$body .= '<tr width="100%" bgcolor="#ffffff">';
-					$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:2%;padding-bottom:2%;">Contraseña: <b>' . $ramdonPwd . '</b></td>';
-					$body .= '</tr>';
-					$body .= '<tr width="100%" bgcolor="#ffffff">';
-					$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%">En el proximo inicio de sesión el sistema solicitara el cambio de su contraseña &nbsp;</td>';
-					$body .= '</tr>';
-					$body .= '<tr width="100%" bgcolor="#ffffff">';
-					$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
-					$body .= '</tr>';
-					//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
-					$this->mail_model->sendMail($title, $to, $body, $subject);
-
 				}
 				// Validamos que es de tipo coferba //
 				if ($user['idProfileKf'] == 1) {
