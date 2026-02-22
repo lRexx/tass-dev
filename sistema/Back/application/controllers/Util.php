@@ -292,7 +292,7 @@ class Util extends REST_Controller {
     /**
      * GET: /Country/phoneCodes
      */
-    public function phoneCodes() {
+    public function phoneCodes_get() {
 
         header('Content-Type: application/json');
 
