@@ -4154,7 +4154,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $scope.new.ticket.mail += '<table width="100%" style="max-width:768px;min-width:100%;background-color: #fff;">';
                             $scope.new.ticket.mail += '<thead><tr>';
                             $scope.new.ticket.mail += '<th width="5px"  style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "> N°</th>';
-                            $scope.new.ticket.mail += '<th style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "> Llavero</th>';
+                            $scope.new.ticket.mail += '<th style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; ">'+obj.deviceTypeSelected.deviceName.toLowerCase()+'</th>';
                             $scope.new.ticket.mail += '<th style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "> Precio</th>';
 
                             if (obj.optionTypeSelected.name=='department' || obj.optionTypeSelected.name=='building'){
