@@ -14,7 +14,7 @@
                 <form class="form-horizontal" name="fNewTenant" novalidate>
                     <fieldset>
                     <!-- Select profile -->
-                    <div class="form-group col-md-12" ng-show="sessionidProfile!=2 && sessionidProfile!=3"
+                    <div class="form-group col-md-6" ng-show="sessionidProfile!=2 && sessionidProfile!=3"
                     ng-class="
                     {	'has-success':
                         tenant.new.idTypeTenantKf!='' && fNewTenant.idTypeTenantKf.$valid,
@@ -36,6 +36,21 @@
                             <div class="alert alert-danger" role="alert">
                                 <strong><i class="fas fa-ban">&nbsp </i>ATENCION: </strong>el departamento ya posee un propietario registrado.
                             </div>
+                        </div>
+                    </div>
+                    <!-- Allow profile -->
+                    <div class="form-group col-md-6" ng-show="sessionidProfile!=2 && sessionidProfile!=3">
+                        <div class="col-md-5 col-xs-2 n-padding-l n-padding-r" >
+                            <span>Sin acceso al sistema:</span>
+                        </div>
+                        <div class="col-md-1 col-xs-2 n-padding-l n-padding-r">
+                            <label class="switch switch-2x" for="blockUserLogin-set">
+                                <input type="checkbox" class="success" ng-model="fNewTenant.blockUserLoginTmp" id="blockUserLogin-set">
+                                <span class="slider slider-2x flat"></span>
+                            </label>
+                        </div>
+                        <div class="col-md-1 col-xs-1 n-padding-l n-padding-r" style="padding-top: 0%;">
+                            <span ng-if="fNewTenant.blockUserLoginTmp" style="cursor: pointer;" class="font-size-18px" ><i class="text-danger fas fa-ban"></i></span>
                         </div>
                     </div>
                     <!-- Text DNI-->
