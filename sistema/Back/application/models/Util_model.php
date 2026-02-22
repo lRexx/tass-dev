@@ -358,7 +358,7 @@ class Util_model extends CI_Model {
      */
     public function getCountryCode() {
         $query = $this->db
-            ->select('id, countryCode')
+            ->select("*")
             ->from("tb_country_phone_codes")
             ->order_by('countryCode', 'ASC')
             ->get();
