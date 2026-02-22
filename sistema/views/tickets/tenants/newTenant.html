@@ -187,7 +187,7 @@
                             </div>
                         </div>
                         <!-- Text Phone-->
-                        <div class="form-group col-md-6" ng-class="{
+                        <div class="form-group col-md-3" ng-class="{
                             'has-success':
                                 tenant.new.phoneMovilNumberUser!='' && tenant.new.phoneMovilNumberUser!=null  && fNewTenant.phoneMovil.$valid,
                             'has-warning':
@@ -198,7 +198,6 @@
                         <label style="padding-left: 15px;">Telefono Movil</label>
                             <div class="col-xs-12">
                                 <div class="input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
                                     <input name="phoneMovil" ng-minlength="8" class="form-control input--phone" ng-model="tenant.new.phoneMovilNumberUser"  type="text"  ng-keydown="fnLoadPhoneMask();" ng-disabled="sysDNIRegistered" ng-required="tenant.new.phonelocalNumberUser==''" autofocus />
                                 </div>
                             </div>
