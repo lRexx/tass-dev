@@ -2081,14 +2081,14 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     break;
                 }
             }
-            $scope.normalizePhoneE164 = function (countryCode, phoneNumber) {
+            $scope.normalizePhoneE164 = function (countryCodeTmp, phoneNumber) {
 
-                if (!countryCode ||
+                if (!countryCodeTmp ||
                     !phoneNumber) {
                     return null;
                 }
 
-                let countryCode = countryCode.countryCode;
+                let countryCode = countryCodeTmp.countryCode;
                 let localNumber = phoneNumber;
 
                 // 1️⃣ Quitar todo lo que no sea número
