@@ -1018,6 +1018,10 @@ class User_model extends CI_Model
 		$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
 		//$this->db->join('tb_clients', 'tb_clients.idClient = tb_user.idAddresKf', 'left');
 		//$this->db->join('tb_company', 'tb_company.idCompany = tb_user.idCompanyKf', 'left');
+		$this->db->group_start();
+		$this->db->where("tb_user.requireAuthentication", 1);
+		$this->db->or_where("tb_user.requireAuthentication IS NULL", null, false);
+		$this->db->group_end();
 		$this->db->where("tb_user.emailUser", $mail);
 		$this->db->or_where("tb_user.dni", $mail);
 
