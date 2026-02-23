@@ -3459,6 +3459,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.register.user.idDepartmentKf         = (obj.idProfileKf==5 || obj.idProfileKf==6) && obj.idTypeTenantKf==2?obj.idDepartmentKf:null;
                         $scope.register.user.idDeparment_Tmp        = (obj.idProfileKf==3 || obj.idProfileKf==6) && obj.idTypeTenantKf==1?obj.idDepartmentKf:null;
                         $scope.register.user.requireAuthentication  = obj.blockUserLoginTmp!=undefined && obj.blockUserLoginTmp?0:1;
+                        console.log($scope.select.countryCode.selected);
                         console.log($scope.register.user);
                         //$scope.sysRegisterTenantFn();
                     break;
