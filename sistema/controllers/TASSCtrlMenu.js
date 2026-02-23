@@ -807,6 +807,21 @@
                 },
                 placeholder: "+54 (_____) (15) ____ ____"
               });
+              $('.input--local-new').mask('(####) ####-####',
+              {
+                reverse: false,
+                translation:{
+                  '0': null,
+                  '1': null,
+                  '4': null,
+                  '5': null,
+                  '+': null,
+                  '#':{
+                    pattern: /[0-9]/
+                  }
+                },
+                placeholder: "(_____) ____ ____"
+              });
               $('.input--local').mask('+54 (####) ####-####',
               {
                 reverse: false,
