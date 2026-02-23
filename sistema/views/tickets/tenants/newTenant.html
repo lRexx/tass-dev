@@ -171,10 +171,10 @@
 
                                     <!-- Country Code -->
                                     <div class="input-group-btn" style="width: 120px;">
+                                        <span class="input-group-addon"><i class="fas fa-location-arrow"></i></span>
                                         <ui-select
                                             name="countryCode"
                                             ng-model="select.countryCode.selected"
-                                            theme="bootstrap"
                                             search-enabled="true">
 
                                             <ui-select-match allow-clear="false">
@@ -183,7 +183,7 @@
 
                                             <ui-select-choices repeat="item in countryPhoneCodesList | filter: $select.search">
                                                 <div ng-bind-html="item.countryCode | highlight: $select.search"></div>
-                                                <small class="label label-default">
+                                                <small  ng-bind-html="item.countryName | highlight: $select.search" class="label label-default">
                                                     {{item.countryName}}
                                                 </small>
                                             </ui-select-choices>
@@ -195,16 +195,17 @@
                                         name="phoneMovil"
                                         ng-model="tenant.new.phoneMovilNumberUser"
                                         type="text"
-                                        class="form-control"
+                                        class="form-control input--phone"
                                         ng-minlength="8"
+                                        ng-keydown="fnLoadPhoneMask();"
                                         ng-disabled="sysDNIRegistered"
                                         placeholder="Número de teléfono"
+                                        ng-required="tenant.new.phonelocalNumberUser==''"
                                     />
 
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <div ng-if="!sysDNIRegistered" class="col-md-12 col-xs-12" style="margin-right: 0.2em; padding: 5px !important;">
                         <div class="alert alert-info" role="alert">
