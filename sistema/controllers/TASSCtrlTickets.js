@@ -3481,7 +3481,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.register.user.idSysProfileFk         = obj.idSysProfileFk;
                         $scope.register.user.fullNameUser           = obj.fullname;
                         $scope.register.user.emailUser              = obj.mail;
-                        $scope.register.user.phoneNumberUser        = $scope.getFullMobilePhone();
+                        $scope.register.user.phoneNumberUser        = $scope.normalizePhoneE164();
                         $scope.register.user.phoneLocalNumberUser   = obj.phonelocalNumberUser;
                         $scope.register.user.idTyepeAttendantKf     = obj.idProfileKf==6?obj.idTyepeAttendantKf:null;
                         $scope.register.user.dni                    = obj.dni;
