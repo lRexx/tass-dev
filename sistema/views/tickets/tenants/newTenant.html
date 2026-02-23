@@ -171,14 +171,11 @@
                                     <!-- Country Code -->
                                     <div class="input-group-btn" style="width: 120px;">
                                         <ui-select
-                                            style="outline: 0;border-bottom-left-radius: 4px !important;border-top-left-radius: 4px !important;border-top-right-radius: 0px !important;border-bottom-right-radius: 0px !important;"
+                                            class="ui-select-bootstrap-phone"
                                             name="countryCode"
                                             ng-model="select.countryCode.selected"
                                             search-enabled="true">
-                                            <ui-select-match allow-clear="false">
-                                                {{$select.selected.countryCode}}
-                                            </ui-select-match>
-
+                                            <ui-select-match allow-clear="false">{{$select.selected.countryCode}}</ui-select-match>
                                             <ui-select-choices repeat="item in countryPhoneCodesList | filter: $select.search">
                                                 <div ng-bind-html="item.countryCode | highlight: $select.search"></div>
                                                 <small  ng-bind-html="item.countryName | highlight: $select.search" class="label label-default">
