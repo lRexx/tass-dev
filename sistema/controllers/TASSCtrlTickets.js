@@ -2081,6 +2081,18 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     break;
                 }
             }
+            $scope.getFullMobilePhone = function () {
+
+                if (!$scope.select.countryCode.selected ||
+                    !$scope.tenant.new.phoneMovilNumberUser) {
+                    return null;
+                }
+
+                let code = $scope.select.countryCode.selected.countryCode.replace('+', '');
+                let phone = $scope.tenant.new.phoneMovilNumberUser.replace(/\D/g, '');
+
+                return '+' + code + phone;
+            };
         /**************************************************
         *                                                 *
         *            TICKETS MENU FUNCTION                *
@@ -3449,7 +3461,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.register.user.idSysProfileFk         = obj.idSysProfileFk;
                         $scope.register.user.fullNameUser           = obj.fullname;
                         $scope.register.user.emailUser              = obj.mail;
-                        $scope.register.user.phoneNumberUser        = obj.phoneMovilNumberUser;
+                        $scope.register.user.phoneNumberUser        = $scope.getFullMobilePhone();
                         $scope.register.user.phoneLocalNumberUser   = obj.phonelocalNumberUser;
                         $scope.register.user.idTyepeAttendantKf     = obj.idProfileKf==6?obj.idTyepeAttendantKf:null;
                         $scope.register.user.dni                    = obj.dni;
