@@ -1490,6 +1490,16 @@ input.fileUpload{
       top:0.3em;
       padding-top: 1em;
     }
+
+
+.ui-select-bootstrap-phone > .ui-select-match > .btn{
+  /* Instead of center because of .btn */
+  text-align: left !important;
+  border-bottom-left-radius: 4px !important;
+  border-top-left-radius: 4px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+}
 /*MONITOR TICKETS */
 .filter-bar{
   position: fixed;
@@ -4082,14 +4092,6 @@ img.circle-border {
   }
   .input-group > .ui-select-bootstrap.dropdown {
     /*margin-left: -1.5em !important;*/
-  }
-  .ui-select-bootstrap-phone > .ui-select-match > .btn{
-    /* Instead of center because of .btn */
-    text-align: left !important;
-    border-bottom-left-radius: 4px !important;
-    border-top-left-radius: 4px !important;
-    border-top-right-radius: 0px !important;
-    border-bottom-right-radius: 0px !important;
   }
   .show-tag-1, .show-tag-2{
     display: none;
