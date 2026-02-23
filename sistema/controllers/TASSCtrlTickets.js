@@ -2081,15 +2081,15 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     break;
                 }
             }
-            $scope.normalizePhoneE164 = function () {
+            $scope.normalizePhoneE164 = function (countryCode, phoneNumber) {
 
-                if (!$scope.select.countryCode.selected ||
-                    !$scope.tenant.new.phoneMovilNumberUser) {
+                if (!countryCode ||
+                    !phoneNumber) {
                     return null;
                 }
 
-                let countryCode = $scope.select.countryCode.selected.countryCode;
-                let localNumber = $scope.tenant.new.phoneMovilNumberUser;
+                let countryCode = countryCode.countryCode;
+                let localNumber = phoneNumber;
 
                 // 1️⃣ Quitar todo lo que no sea número
                 localNumber = localNumber.replace(/\D/g, '');
@@ -3481,8 +3481,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.register.user.idSysProfileFk         = obj.idSysProfileFk;
                         $scope.register.user.fullNameUser           = obj.fullname;
                         $scope.register.user.emailUser              = obj.mail;
-                        $scope.register.user.phoneNumberUser        = $scope.normalizePhoneE164();
-                        $scope.register.user.phoneLocalNumberUser   = obj.phonelocalNumberUser;
+                        $scope.register.user.phoneNumberUser        = $scope.normalizePhoneE164($scope.select.countryCodeMovil.selected,obj.phoneMovilNumberUser);
+                        $scope.register.user.phoneLocalNumberUser   = $scope.normalizePhoneE164($scope.select.countryCodeLocal.selected,obj.phonelocalNumberUser);
                         $scope.register.user.idTyepeAttendantKf     = obj.idProfileKf==6?obj.idTyepeAttendantKf:null;
                         $scope.register.user.dni                    = obj.dni;
                         $scope.register.user.isCreateByAdmin        = $scope.sysLoggedUser.idProfileKf==4?1:null;
