@@ -2081,17 +2081,37 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     break;
                 }
             }
-            $scope.getFullMobilePhone = function () {
+            $scope.normalizePhoneE164 = function () {
 
                 if (!$scope.select.countryCode.selected ||
                     !$scope.tenant.new.phoneMovilNumberUser) {
                     return null;
                 }
 
-                let code = $scope.select.countryCode.selected.countryCode.replace('+', '');
-                let phone = $scope.tenant.new.phoneMovilNumberUser.replace(/\D/g, '');
+                let countryCode = $scope.select.countryCode.selected.countryCode;
+                let localNumber = $scope.tenant.new.phoneMovilNumberUser;
 
-                return '+' + code + phone;
+                // 1️⃣ Quitar todo lo que no sea número
+                localNumber = localNumber.replace(/\D/g, '');
+
+                // 2️⃣ Eliminar ceros iniciales
+                localNumber = localNumber.replace(/^0+/, '');
+
+                // 3️⃣ Quitar + del countryCode
+                countryCode = countryCode.replace('+', '');
+
+                let fullNumber = '+' + countryCode + localNumber;
+
+                // 4️⃣ Validar longitud máxima E.164
+                if (fullNumber.length > 16) { // + incluido
+                    return null;
+                }
+
+                return fullNumber;
+            };
+            $scope.isValidE164 = function (number) {
+                const regex = /^\+[1-9]\d{1,14}$/;
+                return regex.test(number);
             };
         /**************************************************
         *                                                 *
