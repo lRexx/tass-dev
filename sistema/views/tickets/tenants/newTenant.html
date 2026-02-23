@@ -163,43 +163,48 @@
                         </div>
                     </div>
                     <div class="col-md-12 n-padding-l n-padding-r">
-                        <!-- Country Code List-->
-                        <div class="form-group col-md-3">
-                            <label style="padding-left: 15px;">Codigo</label>
-                            <div class="col-xs-12 selectContainer">
+                        <div class="form-group col-md-6">
+                            <label style="padding-left: 15px;">Teléfono Móvil</label>
+
+                            <div class="col-xs-12">
                                 <div class="input-group">
-                                <span class="input-group-addon"><i class="fas fa-location-arrow"></i></span>
-                                    <ui-select
-                                        name="countryCode"
-                                        ng-required=""
-                                        ng-model="select.countryCode.selected"
-                                        on-select="onSelectCallback()" >
-                                    <ui-select-match allow-clear="false" placeholder="Codigo pais" >{{$select.selected.countryCode | uppercase}}</ui-select-match>
-                                        <ui-select-choices repeat="item in countryPhoneCodesList | filter: $select.search">
-                                            <div ng-bind-html="item.countryCode | highlight: $select.search"></div>
-                                            <small>Pais: </small><small class="label label-default" ng-bind-html="item.countryName | highlight: $select.search"></small>
-                                        </ui-select-choices>
-                                        <ui-select-no-choice>
-                                            <span ng-if="countryPhoneCodesList.length > 0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay datos</span>
-                                        </ui-select-no-choice>
-                                    </ui-select>
+
+                                    <!-- Country Code -->
+                                    <div class="input-group-btn" style="width: 120px;">
+                                        <ui-select
+                                            name="countryCode"
+                                            ng-model="select.countryCode.selected"
+                                            theme="bootstrap"
+                                            search-enabled="false">
+
+                                            <ui-select-match allow-clear="false">
+                                                {{$select.selected.countryCode}}
+                                            </ui-select-match>
+
+                                            <ui-select-choices repeat="item in countryPhoneCodesList | filter: $select.search">
+                                                <div ng-bind-html="item.countryCode | highlight: $select.search"></div>
+                                                <small class="label label-default">
+                                                    {{item.countryName}}
+                                                </small>
+                                            </ui-select-choices>
+                                        </ui-select>
+                                    </div>
+
+                                    <!-- Phone number -->
+                                    <input
+                                        name="phoneMovil"
+                                        ng-model="tenant.new.phoneMovilNumberUser"
+                                        type="text"
+                                        class="form-control"
+                                        ng-minlength="8"
+                                        ng-disabled="sysDNIRegistered"
+                                        placeholder="Número de teléfono"
+                                    />
+
                                 </div>
                             </div>
                         </div>
-                        <!-- Text Phone-->
-                        <div class="form-group col-md-3 n-padding-l" ng-class="{
-                            'has-success':
-                                tenant.new.phoneMovilNumberUser!='' && tenant.new.phoneMovilNumberUser!=null  && fNewTenant.phoneMovil.$valid,
-                            'has-warning':
-                                !tenant.new.phoneMovilNumberUser && tenant.new.phonelocalNumberUser,
-                            'has-error':
-                                !tenant.new.phonelocalNumberUser && !tenant.new.phoneMovilNumberUser && fNewTenant.phoneMovil.$touched,
-                            }">
-                        <label style="padding-left: 15px;">Telefono Movil</label>
-                            <div class="col-xs-12">
-                                <input name="phoneMovil" ng-minlength="8" class="form-control input--phone" ng-model="tenant.new.phoneMovilNumberUser"  type="text"  ng-keydown="fnLoadPhoneMask();" ng-disabled="sysDNIRegistered" ng-required="tenant.new.phonelocalNumberUser==''" autofocus />
-                            </div>
-                        </div>
+
                     </div>
                     <div ng-if="!sysDNIRegistered" class="col-md-12 col-xs-12" style="margin-right: 0.2em; padding: 5px !important;">
                         <div class="alert alert-info" role="alert">
