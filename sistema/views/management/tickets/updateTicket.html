@@ -75,7 +75,7 @@
                               </div>
                               <div ng-if="tkupdate.idMgmtMethodKf" class="col-md-12" style="padding-top: 0.5% !important">
                                 <div class="col-md-5 n-padding-l n-padding-r" style="width: 36% !important">
-                                  <span>Gestion de Llaveros:</span>
+                                  <span>Gestion de Dispositivos:</span>
                                 </div>
                                 <div class="col-md-5 n-padding-l">
                                   <span ng-if="tkupdate.idMgmtMethodKf=='2'" class="badge badge-warning">{{tkupdate.keysMethod.name | capitalize}}</span>
@@ -103,7 +103,7 @@
                               </div>
                               <div ng-if="tkupdate.idMgmtMethodKf" class="col-md-12" style="padding-top: 0.5% !important">
                                 <div class="col-md-5 n-padding-l n-padding-r" style="width: 36% !important">
-                                  <span>Llaveros Habilitados:</span>
+                                  <span>Dispositivos Habilitados:</span>
                                 </div>
                                 <div class="col-md-3 col-xs-6 n-padding-l" style="margin-top: -0.6% !important;">
                                   <input id="isKeysEnableYes" ng-click="modalConfirmation('isKeysEnable', 0, functions)" ng-disabled="tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='6'" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" name="isKeysEnable" value="1" ng-model="functions.isKeysEnable">
@@ -196,7 +196,7 @@
                                   <div class="counter-ticket">
                                     <!-- <i class="fas fa-key fa-lg fa-ticket-2x"></i>-->
                                     <h2 class="timer count-ticket-title count-number" data-to="100" data-speed="1500">$ {{tkupdate.costKeys  | number:0}}</h2>
-                                    <p class="count-ticket-text ">Llaveros</p>
+                                    <p class="count-ticket-text ">Dispositivos</p>
                                   </div>
                                 </div>
                               </div>
@@ -279,13 +279,13 @@
                                       <span ng-if="rsNewKeychainList.length==tkupdate.keys.length">
                                         <i class="fas fa-check-circle"></i>
                                       </span>
-                                      <span ng-if="rsNewKeychainList.length<tkupdate.keys.length" data-toggle="tooltip" data-placement="top" title="Llaveros pendiente por gestion.">
-                                      <span ng-if="rsNewKeychainList.length==tkupdate.keys.length" data-toggle="tooltip" data-placement="top" title="Llaveros asignados."></span>
+                                      <span ng-if="rsNewKeychainList.length<tkupdate.keys.length" data-toggle="tooltip" data-placement="top" title="Dispositivos pendiente por gestion.">
+                                      <span ng-if="rsNewKeychainList.length==tkupdate.keys.length" data-toggle="tooltip" data-placement="top" title="Dispositivos asignados."></span>
                                         <i class="fas fa-exclamation-triangle"></i>
                                       </span>
                                     </div>
                                     <div class="col-md-12 card-title">
-                                      <h4 class="text-uppercase right">Llaveros</h4>
+                                      <h4 class="text-uppercase right">Dispositivos</h4>
                                     </div>
                                   </div>
                               </div>
@@ -404,7 +404,7 @@
                             <div class="panel panel-info">
                               <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyRequestedKeys" ng-click="togglePanel('panelBodyRequestedKeys')" style="cursor: pointer;">
                                   <h3 class="panel-title">
-                                      <i class="product-success fas fa-key"></i> LLAVEROS SOLICITADOS
+                                      <i class="product-success fas fa-key"></i> DISPOSITIVOS SOLICITADOS
                                       <i ng-class="{'fa-chevron-up': !panels.panelBodyRequestedKeys, 'fa-chevron-down': panels.panelBodyRequestedKeys}" class="fas pull-right"></i>
                                   </h3>
                               </div>
@@ -506,7 +506,7 @@
                             <div class="panel panel-success">
                                 <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyExistingKeys" ng-click="togglePanel('panelBodyExistingKeys')" style="cursor: pointer;">
                                     <h3 class="panel-title">
-                                        <i class="product-success fas fa-key"></i> LLAVEROS GESTIONADOS
+                                        <i class="product-success fas fa-key"></i> DISPOSITIVOS GESTIONADOS
                                         <i ng-class="{'fa-chevron-up': !panels.panelBodyExistingKeys, 'fa-chevron-down': panels.panelBodyExistingKeys}" class="fas pull-right"></i>
                                     </h3>
                                 </div>
