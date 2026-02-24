@@ -3494,7 +3494,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         console.log($scope.select.countryCodeMovil.selected);
                         console.log($scope.select.countryCodeLocal.selected);
                         console.log($scope.register.user);
-                        //$scope.sysRegisterTenantFn();
+                        $scope.sysRegisterTenantFn();
                     break;
                     case "associateTenant":
                         console.log(obj);
@@ -4827,7 +4827,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         console.log($scope.new.ticket);
                         $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
                         $timeout(function() {
-                           //$scope.addUpRequestFn($scope.new);
+                            $scope.addUpRequestFn($scope.new);
                         }, 2000);
 
                     break;
