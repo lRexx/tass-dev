@@ -3169,7 +3169,7 @@ class Ticket_model extends CI_Model
 			$this->db->select("*")->from("tb_ticket_devicetype");
 			$quuery = $this->db->where("idDeviceType = ", @$ticket['idDeviceTypeKf'])->get();
 			if ($quuery->num_rows() > 0) {
-				$rs_tickets['tickets'][$key]['devicetypeDetails'] = @$quuery->result_array();
+				$rs_tickets['tickets'][$key]['devicetypeDetails'] = @$quuery->result_array()[0];
 			} else {
 				$rs_tickets['tickets'][$key]['devicetypeDetails'] = null;
 			}
