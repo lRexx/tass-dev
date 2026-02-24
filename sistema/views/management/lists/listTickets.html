@@ -106,7 +106,7 @@
             <span ng-if="item.building.isStockInBuilding!='1' && item.building.isStockInOffice!='1'" class="badge badge-warning">No definido</span>
           </td>
           <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;"><span class="badge badge-default">{{item.typeRequestFor.name}}</span></td>
-          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;"><span class="badge badge-default">{{item.keys.length}}</span><span ng-if="item.devicetypeDetails!=undefined && item.devicetypeDetails!=nul" class="badge badge-warning">{{ item.devicetypeDetails.deviceName.toLowerCase() }}</span></td>
+          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;"><span class="badge badge-default">{{item.keys.length}}</span>&nbsp;<span ng-if="item.devicetypeDetails!=undefined && item.devicetypeDetails!=nul" class="badge badge-warning">{{ item.devicetypeDetails.deviceName.toLowerCase() }}</span></td>
           <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">
 
             <span ng-if="item.isCancelRequested=='1' || item.isCancelRequested!='1'" class="label" ng-class="{
