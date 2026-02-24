@@ -3166,6 +3166,13 @@ class Ticket_model extends CI_Model
 			} else {
 				$rs_tickets['tickets'][$key]['building']['isInitialDeliveryActive'] = [];
 			}
+			$this->db->select("*")->from("tb_tickets_refunds");
+			$quuery = $this->db->where("idDeviceType = ", @$ticket['idDeviceTypeKf'])->get();
+			if ($quuery->num_rows() > 0) {
+				$rs_tickets['tickets'][$key]['devicetypeDetails'] = @$quuery->result_array();
+			} else {
+				$rs_tickets['tickets'][$key]['devicetypeDetails'] = null;
+			}
 		}
 		if (count($rs_tickets['tickets']) >= 0) {
 			return $rs_tickets;
