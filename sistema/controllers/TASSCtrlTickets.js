@@ -4524,6 +4524,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.new.ticket.costDelivery                  = NaN2Zero(normalizeDecimal(obj.cost.delivery));
                         $scope.new.ticket.total                         = NaN2Zero(normalizeDecimal(obj.cost.total));
                         $scope.new.ticket.urlToken                      = $scope.sysTokenFn(128);
+                        $scope.new.ticket.idDeviceTypeKf                = obj.idDeviceTypeKf;
                         $scope.new.ticket.autoApproved                  = obj.building.autoApproveAll == "1" || (($scope.new.ticket.idUserRequestByProfile=="3" || $scope.new.ticket.idUserRequestByProfile=="4" || $scope.new.ticket.idUserRequestByProfile=="6")&&$scope.new.ticket.idUserRequestByTypeTenant=="1" && obj.building.autoApproveOwners=="1")?1:0;
                         $scope.new.ticket.isNew                         = 1;
                         //HISTORY TICKET CHANGES

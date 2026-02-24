@@ -6,7 +6,7 @@
 
               <button ng-show="((tkupdate.idStatusTicketKf=='1'|| tkupdate.idStatusTicketKf=='6') || (tkupdate.idMgmtMethodKf!=undefined && rsNewKeychainList.length==tkupdate.keys.length && !thereIsKeyWithoutIdKeychain))"  id="closeModalWindow" data-dismiss="modal" type="button" class="close"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
               <button ng-show="(tkupdate.idStatusTicketKf!='1' && tkupdate.idStatusTicketKf!='6' && (tkupdate.idMgmtMethodKf==null || rsNewKeychainList.length!=tkupdate.keys.length || thereIsKeyWithoutIdKeychain))" id="cancelModalWindow" ng-click="modalConfirmation('cancelSetMgmtKeys',0, tkupdate)" type="button" class="close"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
-              <h3 class="modal-title"><i class="fas fa-key"></i> LLAVEROS A ASIGNAR -
+              <h3 class="modal-title"><i class="fas fa-key"></i> DISPOSITIVOS A ASIGNAR -
                 <span class="badge" ng-class="{
                 'badge-success': rsNewKeychainList.length==tkupdate.keys.length,
                 'badge-warning': rsNewKeychainList.length!=tkupdate.keys.length,
@@ -29,8 +29,8 @@
                             <i class="fas fa-boxes"></i> STOCK
                             <span ng-click="" ng-if="tkupdate.building.isStockInOffice!=undefined && tkupdate.building.isStockInOffice=='1'" class="badge badge-warning"> En Oficina</span>
                             <span ng-click="" ng-if="tkupdate.building.isStockInBuilding!=undefined && tkupdate.building.isStockInBuilding=='1'" class="badge badge-warning"> En Edificio</span>&nbsp;
-                            <span ng-if="tkupdate.idStatusTicketKf!='1' && ((tkupdate.building.isStockInOffice!='0' && tkupdate.building.isStockInOffice!=null) || (tkupdate.building.isStockInBuilding!='0' && tkupdate.building.isStockInBuilding!=null))" ng-click="" class="badge badge-warning" data-toggle="tooltip" data-placement="right" title="Cantidad de LLaveros">{{existingStockKeys.length}}</span>
-                            <span ng-if="tkupdate.idStatusTicketKf=='1'" ng-click="" class="badge badge-warning" data-toggle="tooltip" data-placement="right" title="Cantidad de LLaveros">{{rsAllKeychainListDataFiltered.length}}</span>
+                            <span ng-if="tkupdate.idStatusTicketKf!='1' && ((tkupdate.building.isStockInOffice!='0' && tkupdate.building.isStockInOffice!=null) || (tkupdate.building.isStockInBuilding!='0' && tkupdate.building.isStockInBuilding!=null))" ng-click="" class="badge badge-warning" data-toggle="tooltip" data-placement="right" title="Cantidad de Dispositivos">{{existingStockKeys.length}}</span>
+                            <span ng-if="tkupdate.idStatusTicketKf=='1'" ng-click="" class="badge badge-warning" data-toggle="tooltip" data-placement="right" title="Cantidad de Dispositivos">{{rsAllKeychainListDataFiltered.length}}</span>
                         </button>
                     </div>
                     <!-- //NEW TICKET -->
@@ -41,21 +41,21 @@
                     </div>
                     <div ng-if="ticket.selected.idTypeRequestFor=='2' && tkupdate.idMgmtMethodKf==null" class="col-md-12" style="padding-top: 1% !important;">
                         <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 alert alert-info" style="margin-bottom:0px !important;">
-                        <h5 class="col-md-offset-1"><i class="fas fa-info-circle"> </i> <span style="font-size: 18px; font-weight: 600;">Los llaveros destinados al Stock solo podran ser gestionados de forma manual.</span></h5>
+                        <h5 class="col-md-offset-1"><i class="fas fa-info-circle"> </i> <span style="font-size: 18px; font-weight: 600;">Los Dispositivos destinados al Stock solo podran ser gestionados de forma manual.</span></h5>
                         </div>
                     </div>
                     <div ng-if="(ticket.idMgmtMethodKf==undefined || ticket.idMgmtMethodKf=='1') && ticket.selected.idTypeRequestFor=='1' &&
                     tkupdate.idMgmtMethodKf==null && existingStockKeys.length>0 && rsAllKeychainListDataFiltered.length>0 && rsAllKeychainListDataFiltered.length<tkupdate.keys.length" class="col-md-12" style="padding-top: 1% !important;">
                         <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 alert alert-info" style="margin-bottom:0px !important;">
-                        <h5 class="col-md-offset-1"><i class="fas fa-info-circle"> </i> <span style="font-size: 18px; font-weight: 600;">Hay llaveros suficientes en stock para gestionar el pedido.</span></h5>
+                        <h5 class="col-md-offset-1"><i class="fas fa-info-circle"> </i> <span style="font-size: 18px; font-weight: 600;">Hay Dispositivos suficientes en stock para gestionar el pedido.</span></h5>
                         </div>
                     </div>
                     <div ng-if="(ticket.idMgmtMethodKf==undefined || ticket.idMgmtMethodKf=='1') && (ticket.selected.idTypeRequestFor=='1' || ticket.selected.idTypeRequestFor=='6') &&
                     tkupdate.idMgmtMethodKf==null && ((existingStockKeys.length==0) || (existingStockKeys.length<tkupdate.keys.length && rsAllKeychainListDataStockFiltered.length<tkupdate.keys.length)||(rsAllKeychainListDataStockFiltered.length>=0 && rsAllKeychainListDataStockFiltered.length<tkupdate.keys.length))" class="col-md-12" style="padding-top: 1% !important;">
                         <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning">
                         <h5><i class="fas fa-exclamation-triangle"> </i>
-                            <span ng-if="existingStockKeys.length==0" style="font-size: 18px; font-weight: 600;">No Hay llaveros en stock para gestionar el pedido, realizar la carga manual.</span>
-                            <span ng-if="existingStockKeys.length>0 && rsAllKeychainListDataStockFiltered.length<tkupdate.keys.length" style="font-size: 18px; font-weight: 600;">No Hay llaveros <span class="badge badge-warning">{{tkupdate.keys[0].descriptionProduct}}</span> suficientes en el stock para gestionar el pedido, realizar la carga manual.</span>
+                            <span ng-if="existingStockKeys.length==0" style="font-size: 18px; font-weight: 600;">No Hay Dispositivos en stock para gestionar el pedido, realizar la carga manual.</span>
+                            <span ng-if="existingStockKeys.length>0 && rsAllKeychainListDataStockFiltered.length<tkupdate.keys.length" style="font-size: 18px; font-weight: 600;">No Hay Dispositivos <span class="badge badge-warning">{{tkupdate.keys[0].descriptionProduct}}</span> suficientes en el stock para gestionar el pedido, realizar la carga manual.</span>
                         </h5>
                         </div>
                     </div>
@@ -67,7 +67,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyKeyStock" ng-click="togglePanel('panelBodyKeyStock')" style="cursor: pointer;">
                                 <h3 class="panel-title">
-                                    <i ng-click="" class="product-success fas fa-key"></i> Llaveros de Stock
+                                    <i ng-click="" class="product-success fas fa-key"></i> Dispositivos de Stock
                                     <i ng-class="{'fas fa-chevron-up': !panels.panelBodyKeyStock, 'fas fa-chevron-down': panels.panelBodyKeyStock}" class="pull-right"></i>
                                 </h3>
                             </div>
@@ -84,7 +84,7 @@
                         <div class="panel" ng-class="{'panel-success':fNewKey.$valid, 'panel-default': fNewKey.$invalid}">
                             <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyForm" ng-click="togglePanel('panelBodyForm')" style="cursor: pointer;">
                                 <h3 class="panel-title">
-                                    <i class="product-success fas fa-key"></i> NUEVO LLAVERO
+                                    <i class="product-success fas fa-key"></i> NUEVO DISPOSITIVO
                                     <i ng-class="{'fa-chevron-up': !panels.panelBodyForm, 'fa-chevron-down': panels.panelBodyForm}" class="fas pull-right"></i>
                                 </h3>
                             </div>
@@ -290,7 +290,7 @@
                                 </form>
                                 <div class="clearfix"> </div>
                                 <div ng-if="rsNewKeychainList.length==tkupdate.keys.length" class="blur-overlay">
-                                    <div class="centered-message">Ya ha cargado todos los llaveros del pedido.</div>
+                                    <div class="centered-message">Ya ha cargado todos los Dispositivos del pedido.</div>
                                 </div>
                             </div>
                         </div>
@@ -300,7 +300,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyExistingKeys" ng-click="togglePanel('panelBodyExistingKeys')" style="cursor: pointer;">
                                 <h3 class="panel-title">
-                                    <i class="product-success fas fa-key"></i> LLAVEROS ASOCIADOS
+                                    <i class="product-success fas fa-key"></i> DISPOSITIVO ASOCIADOS
                                     <i ng-class="{'fa-chevron-up': !panels.panelBodyExistingKeys, 'fa-chevron-down': panels.panelBodyExistingKeys}" class="fas pull-right"></i>
                                 </h3>
                             </div>
