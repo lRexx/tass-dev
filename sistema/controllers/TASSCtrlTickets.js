@@ -3019,10 +3019,10 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             if ($scope.list_keys.length<$scope.keysAllowedTmp){
                                 for (var key in $scope.list_keys){
                                     if ($scope.list_keys[key].isLicenseDevice==null && $scope.list_keys[key].user!=null && userSelected!=null && $scope.list_keys[key].user.idUser == $scope.selectedUser.idUser){
-                                        inform.add("El Llavero seleccionado no ha sido agregado a la lista.",{
+                                        inform.add($scope.ticket.deviceTypeSelected.deviceName.toLowerCase()+" seleccionado/a no ha sido agregado a la lista.",{
                                             ttl:5000, type: 'warning'
                                         });
-                                        inform.add("El Usuario "+$scope.selectedUser.fullNameUser+", ya se encuentra asociado a un llavero de la lista.",{
+                                        inform.add("El Usuario "+$scope.selectedUser.fullNameUser+", ya se encuentra asociado a un/a "+$scope.ticket.deviceTypeSelected.deviceName.toLowerCase()+" de la lista.",{
                                             ttl:5000, type: 'warning'
                                         });
                                         $scope.isUserExist=true;
