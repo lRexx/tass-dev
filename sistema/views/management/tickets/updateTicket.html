@@ -84,7 +84,7 @@
                                   <span ng-if="tkupdate.idMgmtMethodKf=='1' && tkupdate.building.isStockInBuilding!=undefined && tkupdate.building.isStockInBuilding=='1'" class="badge badge-warning"> En Edificio</span>
                                 </div>
                               </div>
-                              <div ng-if="tkupdate.idMgmtMethodKf" class="col-md-12" style="padding-top: 0.5% !important">
+                              <div ng-if="tkupdate.idMgmtMethodKf || tkupdate.idDeviceTypeKf=='2'" class="col-md-12" style="padding-top: 0.5% !important">
                                 <div class="col-md-5 n-padding-l n-padding-r" style="width: 40% !important">
                                   <span>Forma de Habilitación:</span>
                                 </div>
@@ -101,7 +101,7 @@
                                     </label>
                                 </div>
                               </div>
-                              <div ng-if="tkupdate.idMgmtMethodKf" class="col-md-12" style="padding-top: 0.5% !important">
+                              <div ng-if="tkupdate.idMgmtMethodKf || tkupdate.idDeviceTypeKf=='2'" class="col-md-12" style="padding-top: 0.5% !important">
                                 <div class="col-md-5 n-padding-l n-padding-r" style="width: 36% !important">
                                   <span>Dispositivos Habilitados:</span>
                                 </div>
@@ -263,7 +263,7 @@
                         </div>-->
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <!-- KEYS -->
-                              <div ng-show="tkupdate.idTypeTicketKf=='1'" ng-click="tkupdate.idTypeTicketKf=='1' && tkupdate.idTypeRequestFor=='4' && ((tkupdate.building.isStockInBuilding==null || tkupdate.building.isStockInBuilding=='0') && (tkupdate.building.isStockInOffice==null || tkupdate.building.isStockInOffice=='0'))?'':mainSwitchFn('mgmtPrecheck', tkupdate.keys, null)" style="margin-bottom: 1em;"
+                              <div ng-show="tkupdate.idTypeTicketKf=='1' && tkupdate.idDeviceTypeKf!='2'" ng-click="tkupdate.idTypeTicketKf=='1' && tkupdate.idTypeRequestFor=='4' && ((tkupdate.building.isStockInBuilding==null || tkupdate.building.isStockInBuilding=='0') && (tkupdate.building.isStockInOffice==null || tkupdate.building.isStockInOffice=='0'))?'':mainSwitchFn('mgmtPrecheck', tkupdate.keys, null)" style="margin-bottom: 1em;"
                               ng-class="{'col-md-3 col-xs-6':!tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1, 'col-md-2 col-xs-6':tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1}">
                                   <div class="card-customer">
                                     <div ng-if="tkupdate.idTypeRequestFor=='4' && ((tkupdate.building.isStockInBuilding==null || tkupdate.building.isStockInBuilding=='0') && (tkupdate.building.isStockInOffice==null || tkupdate.building.isStockInOffice=='0'))" class="ribbon-h ribbon-h-danger"><span>No disponible</span></div>
@@ -315,7 +315,7 @@
                                   </div>
                               </div>
                             <!-- DELIVERY -->
-                              <div ng-if="tkupdate.idTypeTicketKf=='1'" ng-click="tkupdate.idTypeRequestFor=='4' && ((tkupdate.building.isStockInBuilding==null || tkupdate.building.isStockInBuilding=='0') && (tkupdate.building.isStockInOffice==null || tkupdate.building.isStockInOffice=='0'))?'':mainSwitchFn('ticket_delivery', tkupdate, null)" class="" style="margin-bottom: 1em;"
+                              <div ng-if="tkupdate.idTypeTicketKf=='1' && tkupdate.idDeviceTypeKf!='2'" ng-click="tkupdate.idTypeRequestFor=='4' && ((tkupdate.building.isStockInBuilding==null || tkupdate.building.isStockInBuilding=='0') && (tkupdate.building.isStockInOffice==null || tkupdate.building.isStockInOffice=='0'))?'':mainSwitchFn('ticket_delivery', tkupdate, null)" class="" style="margin-bottom: 1em;"
                               ng-class="{'col-md-3 col-xs-6':!tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1, 'col-md-2 col-xs-6':tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1}">
                                   <div class="card-customer">
                                     <div ng-if="tkupdate.idTypeRequestFor=='4' && ((tkupdate.building.isStockInBuilding==null || tkupdate.building.isStockInBuilding=='0') && (tkupdate.building.isStockInOffice==null || tkupdate.building.isStockInOffice=='0'))" class="ribbon-h ribbon-h-danger"><span>No disponible</span></div>
