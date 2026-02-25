@@ -20,7 +20,7 @@
 					<label ng-if="!customerSearch.strict" style="cursor: pointer;" class="badge badge-warning">Busquéda exacta</label>
 				  </div>
 				</div>
-				<div class="row n-margin-l n-margin-r">  
+				<div class="row n-margin-l n-margin-r">
 				  <div ng-class="col-md-12">
 					<div class="col-md-2 col-xs-5">
 						<input id="typeClientAll" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" ng-checked="true" name="typeClient" value="" ng-model="customerSearch.typeClient" required autofocus>
@@ -38,25 +38,25 @@
 						<input id="typeClient2" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="2" ng-model="customerSearch.typeClient" required autofocus>
 						<label for="typeClient2" class="radio-2x-label">
 							<span>Edificio</span>
-						</label> 
+						</label>
 					</div>
 					<!--<div class="col-md-2 col-xs-5">
 						<input id="typeClient3" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="3" ng-model="customerSearch.typeClient" required autofocus>
 						<label for="typeClient3" class="radio-2x-label">
 							<span>Empresa</span>
-						</label> 
+						</label>
 					</div>
 					<div class="col-md-2 col-xs-5">
 						<input id="typeClient4" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="4" ng-model="customerSearch.typeClient" required autofocus>
 						<label for="typeClient4" class="radio-2x-label">
 							<span>Sucursal</span>
-						</label> 
+						</label>
 					</div>
 					<div class="col-md-2 col-xs-5">
 						<input id="typeClient5" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="5" ng-model="customerSearch.typeClient" required autofocus>
 						<label for="typeClient5" class="radio-2x-label">
 							<span>Particular</span>
-						</label> 
+						</label>
 					</div>-->
 				  </div>
 				</div>
@@ -66,11 +66,11 @@
 				<label style="padding-left: 15px" ng-show="buildingList.length>=0">{{customerFound.ClientType}}</label>
 				<div class="input-group s-ui-width s-ui-m-left">
 					<span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
-					<input type="text" name="customerSearch" 
-						id="customerSearch" 
+					<input type="text" name="customerSearch"
+						id="customerSearch"
 						ng-model="customerSearch.name"
 						ng-keydown="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict);"
-						class="form-control text-uppercase" 
+						class="form-control text-uppercase"
 						move-to-list input-selector="'.input-search'"
 						list-items-selector="'.list-group li'"
 						placeholder="Presione Enter para buscar..."
@@ -83,16 +83,16 @@
 			</div>
 			<!-- Text Address for Admins & BSS-->
 			<div ng-if="(sysLoggedUser.idProfileKf!=1 && sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && !isHomeSelected && buildingList.length>0) || (sysLoggedUser.idProfileKf==1 && buildingList.length>0)" class="form-group n-padding-r" ng-class="
-				{	'col-md-6': 
+				{	'col-md-6':
 					sysLoggedUser.idProfileKf=='1',
-					'col-md-12':  
+					'col-md-12':
 					sysLoggedUser.idProfileKf!='1',
 				}">
 				<label style="padding-left: 15px;">Consorcio</label>
 				<div class="col-xs-12 selectContainer">
 					<div class="input-group">
 					<span class="input-group-addon"><i class="icon-suitcase"></i></span>
-						<ui-select 
+						<ui-select
 							name="buildings"
 							ng-change="mainSwitchFn('loadBuildingData', select.buildings.selected, null); ticket.idClientDepartament=undefined;"
 							ng-disabled="select.admins.selected==undefined"
@@ -117,7 +117,7 @@
 		</div>
 		<div ng-if="ticket.idClientDepartament!=null || select.buildings.selected!=undefined" >
 				<div class="container-fluid justify-content-md-center col-md-12 col-md-offset-3">
-					<div class="col-md-3">    	    
+					<div class="col-md-3">
 						<div class="hero-widget well well-sm">
 							<div class="icon">
 								<i class="fas fa-edit"></i>
@@ -130,7 +130,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-md-3">    	    
+					<div class="col-md-3">
 						<div class="hero-widget well well-sm">
 							<div class="icon">
 								<i class="fas fa-truck"></i>
@@ -162,7 +162,7 @@
 			</div>
 		</div>
 		<div class="col-md-6 col-xs-12 form-group" ng-if="ticket.idClientDepartament!=null || select.buildings.selected!=undefined">
-			<legend style="text-align: center;">Llaveros disponibles</legend>
+			<legend style="text-align: center;">Dispositivos disponibles</legend>
 			<div ng-if="rsKeyProductsData.length>=1" class="modal-body pre-scrollable">
 				<table class="table  table-striped ">
 					<thead style=" background: #4d5d6f; color: white;">
@@ -174,7 +174,7 @@
 					</thead>
 					<tbody >
 						<tr style="align-content: center;" ng-repeat="keys in rsKeyProductsData | filter:showNoNullValues">
-						
+
 							<td>{{$index+1}}</td>
 							<td><span ng-if="keys.item=='Llaveros'"><i class="fas fa-key"> </i></span>
 								<span ng-if="keys.item=='Sticket Vehicular'"><i class="fas fa-car"> </i></span>
