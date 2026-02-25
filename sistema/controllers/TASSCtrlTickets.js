@@ -4527,6 +4527,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.new.ticket.urlToken                      = $scope.sysTokenFn(128);
                         $scope.new.ticket.idDeviceTypeKf                = obj.idDeviceTypeKf;
                         $scope.new.ticket.whereKeysAreEnable            = obj.idDeviceTypeKf=='2'?"1":null;
+                        $scope.new.ticket.isKeysEnable                  = obj.idDeviceTypeKf=='2'?"0":null;
                         $scope.new.ticket.autoApproved                  = obj.building.autoApproveAll == "1" || (($scope.new.ticket.idUserRequestByProfile=="3" || $scope.new.ticket.idUserRequestByProfile=="4" || $scope.new.ticket.idUserRequestByProfile=="6")&&$scope.new.ticket.idUserRequestByTypeTenant=="1" && obj.building.autoApproveOwners=="1")?1:0;
                         $scope.new.ticket.isNew                         = 1;
                         //HISTORY TICKET CHANGES

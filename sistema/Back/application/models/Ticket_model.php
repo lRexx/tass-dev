@@ -98,6 +98,7 @@ class Ticket_model extends CI_Model
 			'isInitialDeliveryActive' => @$ticket['isInitialDeliveryActive'],
 			'idDeviceTypeKf' => @$ticket['idDeviceTypeKf'],
 			'whereKeysAreEnable' => @$ticket['whereKeysAreEnable'],
+			'isKeysEnable' => @$ticket['isKeysEnable'],
 			'idStatusTicketKf' => @$ticket['status']
 
 		));
