@@ -96,6 +96,8 @@ class Ticket_model extends CI_Model
 			'autoApproved' => @$ticket['autoApproved'],
 			'isNew' => @$ticket['isNew'],
 			'isInitialDeliveryActive' => @$ticket['isInitialDeliveryActive'],
+			'idDeviceTypeKf' => @$ticket['idDeviceTypeKf'],
+			'whereKeysAreEnable' => @$ticket['whereKeysAreEnable'],
 			'idStatusTicketKf' => @$ticket['status']
 
 		));
@@ -1165,6 +1167,7 @@ class Ticket_model extends CI_Model
 				'idThirdPersonDeliveryKf' => $idThirdPersonDelivery,
 				'isDeliveryHasChanged' => @$ticket['isDeliveryHasChanged'],
 				'idMgmtMethodKf' => @$ticket['idMgmtMethodKf'],
+				'idDeviceTypeKf' => @$ticket['idDeviceTypeKf'],
 				'whereKeysAreEnable' => @$ticket['whereKeysAreEnable'],
 				'isKeysEnable' => @$ticket['isKeysEnable'],
 				'idDeliveryCompanyKf' => @$ticket['idDeliveryCompanyKf'],

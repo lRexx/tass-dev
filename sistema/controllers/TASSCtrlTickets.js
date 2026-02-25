@@ -4142,6 +4142,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.new.ticket.idUserMadeBy              = $scope.sysLoggedUser.idUser;
                         $scope.new.ticket.idTypeDeliveryKf          = obj.delivery.idTypeDeliveryKf
                         $scope.new.ticket.isInitialDeliveryActive   = obj.building.isInitialDeliveryActive?1:0;
+
                         $scope.new.ticket.keys = [];
                             $scope.new.ticket.mail = '';
                             $scope.new.ticket.mail = '<table width="100%" style="max-width: 768px;min-width: 100%;border-collapse: collapse; padding-top:2%; padding-bottom:2%;font-size:1vw;font-family:sans-serif;color:#555555;padding:2%">';
@@ -4525,6 +4526,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.new.ticket.total                         = NaN2Zero(normalizeDecimal(obj.cost.total));
                         $scope.new.ticket.urlToken                      = $scope.sysTokenFn(128);
                         $scope.new.ticket.idDeviceTypeKf                = obj.idDeviceTypeKf;
+                        $scope.new.ticket.whereKeysAreEnable            = obj.idDeviceTypeKf=='2'?"1":null;
                         $scope.new.ticket.autoApproved                  = obj.building.autoApproveAll == "1" || (($scope.new.ticket.idUserRequestByProfile=="3" || $scope.new.ticket.idUserRequestByProfile=="4" || $scope.new.ticket.idUserRequestByProfile=="6")&&$scope.new.ticket.idUserRequestByTypeTenant=="1" && obj.building.autoApproveOwners=="1")?1:0;
                         $scope.new.ticket.isNew                         = 1;
                         //HISTORY TICKET CHANGES
@@ -4828,7 +4830,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         console.log($scope.new.ticket);
                         $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
                         $timeout(function() {
-                            $scope.addUpRequestFn($scope.new);
+                            //$scope.addUpRequestFn($scope.new);
                         }, 2000);
 
                     break;

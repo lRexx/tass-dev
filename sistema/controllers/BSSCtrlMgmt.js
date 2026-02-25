@@ -341,24 +341,24 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       if($scope.functions.isKeysEnable=='1'){
                         if ($scope.functions.whereKeysAreEnable=='1'){
                           $scope.ticket.whereKeysAreEnableTmp = "1"
-                          $scope.mess2show="Los Llaveros han sido habilitados de forma online,     Confirmar?";
+                          $scope.mess2show="Los Dispositivos han sido habilitados de forma online,     Confirmar?";
                         }else{
                           $scope.ticket.whereKeysAreEnableTmp = "2"
-                          $scope.mess2show="Los Llaveros han sido habilitados en el edificio,     Confirmar?";
+                          $scope.mess2show="Los Dispositivos han sido habilitados en el edificio,     Confirmar?";
                         }
                           console.log("============================================================================");
-                          console.log("Los Llaveros han sido habilitados");
+                          console.log("Los Dispositivos han sido habilitados");
                           console.log("============================================================================");
                       }else{
                         if ($scope.functions.whereKeysAreEnable=='1'){
-                          $scope.mess2show="Los Llaveros no han sido habilitados de forma online, seran habilitados en el Edificio,     Confirmar?";
+                          $scope.mess2show="Los Dispositivos no han sido habilitados de forma online, seran habilitados en el Edificio,     Confirmar?";
                           $scope.ticket.whereKeysAreEnableTmp = "2"
                         }else{
                           $scope.ticket.whereKeysAreEnableTmp = "2"
-                          $scope.mess2show="Los Llaveros no han sido habilitados en el edificio,      Confirmar?";
+                          $scope.mess2show="Los Dispositivos no han sido habilitados en el edificio,      Confirmar?";
                         }
                           console.log("============================================================================");
-                          console.log("Los Llaveros no han sido habilitados");
+                          console.log("Los Dispositivos no han sido habilitados");
                           console.log("============================================================================");
                       }
                       console.log($scope.keyObj);
