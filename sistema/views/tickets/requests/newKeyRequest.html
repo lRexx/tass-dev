@@ -723,10 +723,10 @@
 											<input ng-disabled="sysLoggedUser.idProfileKf!='1'"  style="text-align: right;" name="costs.keys" ng-blur="mainSwitchFn('recalculateCosts', costs.keys.cost, 'keys');" autofocus="true" placeholder="$0,00" class="form-control input--decimal" ng-keydown="fnLoadPhoneMask()" ng-model="costs.keys.cost" value="{{costs.keys.cost  | currency }}"  type="text" required autofocus />
 										</div>
 									</div>
-									<div ng-if="ticket.idDeviceTypeKf!='2'" class="col-md-3 col-xs-3">
+									<div class="col-md-3 col-xs-3">
 										<div class="input-group pull-right">
-											<span class="input-group-addon">Envío</span>
-											<input ng-disabled="sysLoggedUser.idProfileKf!='1'" id="inputDelivery" title="Envio sin Costo" style="text-align: right;" name="costs.delivery" ng-blur="mainSwitchFn('recalculateCosts', costs.delivery.cost, 'delivery');" placeholder="$0,00" class="form-control input--decimal" ng-keydown="fnLoadPhoneMask()" ng-model="costs.delivery.cost" value="{{costs.delivery.cost  | currency }}" type="text" required autofocus />
+											<span ng-if="ticket.idDeviceTypeKf!='2'" class="input-group-addon">Envío</span>
+											<input ng-if="ticket.idDeviceTypeKf!='2'" ng-disabled="sysLoggedUser.idProfileKf!='1'" id="inputDelivery" title="Envio sin Costo" style="text-align: right;" name="costs.delivery" ng-blur="mainSwitchFn('recalculateCosts', costs.delivery.cost, 'delivery');" placeholder="$0,00" class="form-control input--decimal" ng-keydown="fnLoadPhoneMask()" ng-model="costs.delivery.cost" value="{{costs.delivery.cost  | currency }}" type="text" required autofocus />
 										</div>
 									</div>
 									<div class="col-md-3 col-xs-3">
