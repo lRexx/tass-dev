@@ -909,7 +909,7 @@
 													<tr>
 														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Gestión</td><td>$ {{ ticket.cost.service }}</td>
 														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Llaves</td><td>$ {{ ticket.cost.keys }}</td>
-														<td ng-if="ticket.idDeviceTypeKf!='2'" style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Envío</td><td>$ {{ ticket.cost.delivery }}</td>
+														<td ng-if="ticket.idDeviceTypeKf!='2'" style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Envío</td><td ng-if="ticket.idDeviceTypeKf!='2'">$ {{ ticket.cost.delivery }}</td>
 														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Total</td><td>$ {{ ticket.cost.total }}</td>
 													</tr>
 												</tbody>
