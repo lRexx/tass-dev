@@ -2747,7 +2747,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             $('#RegisterTotemService').modal({backdrop: 'static', keyboard: false});
                                             $('#RegisterTotemService').on('shown.bs.modal', function () {
                                                 $('#service_name').focus();
-                                                    $scope.getUserLists();
+                                                    //$scope.getUserLists();
                                             });
                                             for (var key in $scope.rsTypeOfMaintenanceData){
                                                 if ($scope.rsContractServiceData.maintenanceType==$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance){
@@ -2806,7 +2806,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             $('#RegisterCamerasService').modal({backdrop: 'static', keyboard: false});
                                             $('#RegisterCamerasService').on('shown.bs.modal', function () {
                                                 $('#service_name').focus();
-                                                    $scope.getUserLists();
+                                                    //$scope.getUserLists();
                                             });
                                             for (var key in $scope.rsTypeOfMaintenanceData){
                                                 if ($scope.rsContractServiceData.maintenanceType==$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance){
@@ -2865,7 +2865,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             $('#RegisterAlarmService').modal({backdrop: 'static', keyboard: false});
                                             $('#RegisterAlarmService').on('shown.bs.modal', function () {
                                                 $('#service_name').focus();
-                                                    $scope.getUserLists();
+                                                    //$scope.getUserLists();
                                             });
                                             for (var key in $scope.rsTypeOfMaintenanceData){
                                                 if ($scope.rsContractServiceData.maintenanceType==$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance){
@@ -2931,7 +2931,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             $('#RegisterAppMonitorService').modal({backdrop: 'static', keyboard: false});
                                             $('#RegisterAppMonitorService').on('shown.bs.modal', function () {
                                                 $('#service_name').focus();
-                                                    $scope.getUserLists();
+                                                    //$scope.getUserLists();
                                             });
                                             for (var key in $scope.rsTypeOfMaintenanceData){
                                                 if ($scope.rsContractServiceData.maintenanceType==$scope.rsTypeOfMaintenanceData[key].idTypeMaintenance){
@@ -3405,7 +3405,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     }
                                     }
                                     //LOAD DVR USERS
-                                    $scope.getUserLists();
+                                    //$scope.getUserLists();
                                     var idListItem = 1;
                                     for (var dvrUser in service.tb_client_totem_array){
                                     $scope.list_user.push({'idItem':idListItem,'idClientFk':service.tb_client_totem_array[dvrUser].idClientFk,'name':service.tb_client_totem_array[dvrUser].name, 'user':service.tb_client_totem_array[dvrUser].user, 'pass':service.tb_client_totem_array[dvrUser].pass, 'profile':service.tb_client_totem_array[dvrUser].userProfile, 'userProfile':service.tb_client_totem_array[dvrUser].userProfile, 'qrCode':service.tb_client_totem_array[dvrUser].qrBase64, 'qrBase64':service.tb_client_totem_array[dvrUser].qrBase64});
@@ -3759,7 +3759,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             //$scope.service.idContracAssociated_SE=
                                         }
                                         $scope.changeLicencesFn("set");
-                                        $scope.getUserLists();
+                                        //$scope.getUserLists();
                                         $scope.list_user_licence_tmp=[];
                                         $scope.list_user_licence_idDepartmentList={'idDepto':'', 'Depto':'', 'idBuilding':'', 'Building':''};
                                         for (var key in service.tb_user_license_array){

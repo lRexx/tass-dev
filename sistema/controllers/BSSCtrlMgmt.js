@@ -4558,6 +4558,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       });
                       $scope.update.ticket.idTicket              = obj.selected.idTicket;
                       $scope.update.ticket.idNewStatusKf         = "8";
+                      $scope.update.ticket.idTypeTicketKf        = obj.selected.idTypeTicketKf;
                       $scope.update.ticket.delivery_schedule_at  = null;
                       $scope.update.ticket.delivered_at          = null
                       $scope.update.ticket.history               = [];
@@ -4704,22 +4705,25 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         if((obj.selected.paymentDetails!=undefined && obj.selected.paymentDetails!=null) && obj.selected.paymentDetails.mp_collection_status=='approved' && obj.selected.paymentDetails.mp_status_detail=='accredited'){
                           $scope.update.ticket.refund = [];
                           $scope.update.ticket.refund.push({'idTicketKf': obj.selected.idTicket, 'idRefundTypeKf':'1',  'description':'',  'refundAmount':obj.selected.costDelivery});
-                          $scope.update.ticket.isHasRefundsOpen = 1;
                           $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
-                          $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"15"});
-                          inform.add('Se realizara un reintegro de ($ '+obj.selected.costDelivery+'), del costo inicial de su pedido, BSS Seguridad.',{
-                            ttl:6000, type: 'info'
-                          });
+                          if ((num($scope.costDelivery)!=null || num($scope.costDelivery)>0) && num(obj.cost.delivery)>0){
+                            $scope.update.ticket.isHasRefundsOpen = 1;
+                            $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"15"});
+                            inform.add('Se realizara un reintegro de ($ '+obj.selected.costDelivery+'), del costo inicial de su pedido, BSS Seguridad.',{
+                              ttl:6000, type: 'info'
+                            });
+                          }
                           $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                         }else{
                           $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
-                          $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"16"});
-                          inform.add('Se descontaran ($ '+obj.selected.costDelivery+'), del costo inicial de su pedido, BSS Seguridad.',{
-                            ttl:6000, type: 'success'
-                          });
-                          if (($scope.costDelivery==null || $scope.costDelivery==0) && obj.cost.delivery==0){
+
+                          if ((num($scope.costDelivery)==null || num($scope.costDelivery)==0) && num(obj.cost.delivery)==0){
                             $scope.update.ticket.createNewMPLink = false;
                           }else{
+                            $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"16"});
+                            inform.add('Se descontaran ($ '+obj.selected.costDelivery+'), del costo inicial de su pedido, BSS Seguridad.',{
+                              ttl:6000, type: 'success'
+                            });
                             $scope.update.ticket.createNewMPLink = true;
                             inform.add('Nuevo link de pago sera generado para el pago de su pedido, BSS Seguridad.',{
                               ttl:6000, type: 'warning'
@@ -6427,9 +6431,21 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                 console.log($scope.update.ticket);
                                 $scope.modalConfirmation('ticketDelivered',0, $scope.update.ticket);
                               }else{
-                                console.log("setDeliveryPending");
-                                pedido.ticket.idNewStatusKf="4";
-                                $scope.modalConfirmation('setDeliveryPending',0, pedido);
+                                if (pedido.ticket.idTypeDeliveryKf!=null && pedido.ticket.idTypeDeliveryKf=="2"){
+                                  console.log("setDeliveryPending");
+                                  pedido.ticket.idNewStatusKf="4";
+                                  $scope.modalConfirmation('setDeliveryPending',0, pedido);
+                                }else if (pedido.ticket.idTypeDeliveryKf!=null && pedido.ticket.idTypeDeliveryKf=="1"){
+                                  console.log("setDeliveryInOfficePending");
+                                  $scope.keyObj = {};
+                                  $scope.keyObj.ticket.newTicketStatus={'idStatus':null};
+                                  $scope.keyObj.ticket.newTicketStatus.idStatus = "7";
+                                  inform.add('El Pedido pasara automaticamente a Listo para Retirar ',{
+                                        ttl:8000, type: 'info'
+                                  });
+                                  console.log($scope.keyObj.ticket);
+                                  $scope.mainSwitchFn('apply_change_ticket_status_single', $scope.keyObj.ticket, null);
+                                }
                               }
                             break;
                             case "2":
