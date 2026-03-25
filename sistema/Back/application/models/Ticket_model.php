@@ -2131,6 +2131,41 @@ class Ticket_model extends CI_Model
 		}
 	}
 
+	/* GET TICKET BY ID */
+	public function ticketById($id)
+	{
+		$quuery = null;
+		$rs = null;
+
+		$this->db->select("*")->from("tb_tickets_2");
+		$this->db->where("idTicket = ", $id);
+		$this->db->or_where("urlToken", $id);
+		$quuery = $this->db->get();
+		log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $quuery->num_rows());
+		if ($quuery->num_rows() > 0) {
+			$todo = $quuery->result_array();
+			return $this->buscar_relaciones_ticket($todo);
+		}
+		return null;
+	}
+
+	public function ticketByType($data)
+	{
+		$quuery = null;
+
+		$this->db->select("COUNT(*)")->from("tb_tickets_2");
+		$this->db->where("idTypeRequestFor = ", $data['idTypeRequestFor']);
+		$this->db->where("idBuildingKf = ", $data['idBuildingKf']);
+		$this->db->where("isInitialDeliveryActive = ", $data['isInitialDeliveryActive']);
+		$this->db->where("idDepartmentKf = ", $data['idDepartmentKf']);
+		$quuery = $this->db->get();
+		if ($quuery->num_rows() > 0) {
+			return true;
+		}
+		return null;
+	}
+
+
 	// GET DE LISTADO BUSQUEDA DE TICKETS //
 	public function get_new($data)
 	{
