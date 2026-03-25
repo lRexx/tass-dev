@@ -2169,7 +2169,7 @@ class Ticket_model extends CI_Model
 			) {
 				$rsA = [];
 
-				$this->db->select("*")->from("tb_clients");
+				$this->db->select("idClient")->from("tb_clients");
 				if (@$data['idClientAdminFk'] != '' && @$data['idBuildingKf'] != '' && @$data['idClientCompaniFk'] == '' && @$data['idClientBranchFk'] == '') {
 					$this->db->where("idClient = ", @$data['idBuildingKf']);
 					$buildingList = $this->db->where("idClientAdminFk = ", @$data['idClientAdminFk'])->get();
@@ -2310,7 +2310,7 @@ class Ticket_model extends CI_Model
 						}
 						if (@$data['codTicket'] != '') {
 							//$this->db->where("codTicket = " , @$data['codTicket']);
-							$where = "codTicket LIKE '%" . @$data['codTicket'] . "%'";
+							$where = "codTicket LIKE '" . @$data['codTicket'] . "%'";
 							$this->db->where($where);
 						}
 						if (@$data['topfilter'] != '') {
@@ -2343,7 +2343,7 @@ class Ticket_model extends CI_Model
 			}
 		} else if (@$data['idProfileKf'] == '4' && !@$data['isHomeSelected']) {
 			$rsA = [];
-			$this->db->select("*")->from("tb_clients");
+			$this->db->select("idClient")->from("tb_clients");
 			if (@$data['idClientAdminFk'] != '' && @$data['idBuildingKf'] != '' && @$data['idClientCompaniFk'] == '' && @$data['idClientBranchFk'] == '') {
 				$this->db->where("idClient = ", @$data['idBuildingKf']);
 				$buildingList = $this->db->where("idClientAdminFk = ", @$data['idClientAdminFk'])->get();
@@ -2543,7 +2543,7 @@ class Ticket_model extends CI_Model
 						$this->db->where("idTypePaymentKf = ", @$data['idTypePaymentKf']);
 					}
 					if (@$data['codTicket'] != '') {
-						$where = "codTicket LIKE '%" . @$data['codTicket'] . "%'";
+						$where = "codTicket LIKE '" . @$data['codTicket'] . "%'";
 						$this->db->where($where);
 					}
 
@@ -2551,6 +2551,7 @@ class Ticket_model extends CI_Model
 						$this->db->limit($data['topfilter']);
 					}
 					$quuery = $this->db->order_by("idTicket", "DESC")->get();
+					log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $quuery->num_rows());
 					//print_r($quuery->result_array());
 					if (count($quuery->result_array()) >= 1) {
 						//print_r("entro ". $i);
@@ -2695,492 +2696,562 @@ class Ticket_model extends CI_Model
 			if (@$data['idDeliveryCompanyKf'] != '') {
 				$this->db->where("idDeliveryCompanyKf = ", @$data['idDeliveryCompanyKf']);
 			}
-			if (@$data['codTicket'] != '') {
-				//$this->db->where("codTicket = " , @$data['codTicket']);
-				$where = "codTicket LIKE '%" . @$data['codTicket'] . "%'";
-				$this->db->where($where);
+			// codTicket con LIKE de prefijo (puede usar índice)
+			if (!empty($data['codTicket'])) {
+				$codTicket = $this->db->escape_like_str($data['codTicket']);
+				$this->db->where("codTicket LIKE '%{$codTicket}%'");
 			}
-			if (@$data['topfilter'] != '') {
-				$this->db->limit($data['topfilter']);
-			}
-			$quuery = $this->db->order_by("idTicket", "DESC")->get();
-			log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $quuery->num_rows());
-			if ($quuery->num_rows() >= 0) {
+
+			// SIEMPRE poner un LIMIT — sin esto ordenas toda la tabla
+			$limit = !empty($data['topfilter']) ? (int)$data['topfilter'] : 500;
+			$this->db->limit($limit);
+
+			$start = microtime(true);
+			$query = $this->db->order_by("idTicket", "DESC")->get();
+			$end = microtime(true);
+
+			log_message('debug', 'Query time: ' . round(($end - $start) * 1000, 2) . 'ms');
+			log_message('debug', 'Num rows: ' . $query->num_rows());
+			log_message('debug', 'SQL: ' . $this->db->last_query());
+			log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $query->num_rows());
+			if ($query->num_rows() >= 0) {
 				//print_r($quuery->result_array());
-				return $this->buscar_relaciones_ticket($quuery->result_array());
+				return $this->buscar_relaciones_ticket($query->result_array());
 			}
 		}
 	}
 
-	/* GET TICKET BY ID */
-	public function ticketById($id)
-	{
-		$quuery = null;
-		$rs = null;
-
-		$this->db->select("*")->from("tb_tickets_2");
-		$this->db->where("idTicket = ", $id);
-		$this->db->or_where("urlToken", $id);
-		$quuery = $this->db->get();
-
-		if ($quuery->num_rows() > 0) {
-			$todo = $quuery->result_array();
-			return $this->buscar_relaciones_ticket($todo);
-		}
-		return null;
-	}
-
-	public function ticketByType($data)
-	{
-		$quuery = null;
-
-		$this->db->select("COUNT(*)")->from("tb_tickets_2");
-		$this->db->where("idTypeRequestFor = ", $data['idTypeRequestFor']);
-		$this->db->where("idBuildingKf = ", $data['idBuildingKf']);
-		$this->db->where("isInitialDeliveryActive = ", $data['isInitialDeliveryActive']);
-		$this->db->where("idDepartmentKf = ", $data['idDepartmentKf']);
-		$quuery = $this->db->get();
-		if ($quuery->num_rows() > 0) {
-			return true;
-		}
-		return null;
-	}
-	public function ticketInitialDeliveryActiveByDeptoId($data)
-	{
-		$quuery = null;
-
-		$this->db->select("*")->from("tb_tickets_2");
-		$this->db->where("idTypeRequestFor = ", 1);
-		$this->db->where("idBuildingKf = ", $data['idBuildingKf']);
-		$this->db->where("isInitialDeliveryActive = ", 1);
-		$this->db->where("idDepartmentKf = ", $data['idDepartmentKf']);
-		$this->db->where("idStatusTicketKf !=", 6);
-		$quuery = $this->db->get();
-		//print_r($quuery->result_array());
-		if ($quuery->num_rows() > 0) {
-			return true;
-		}
-		return null;
-	}
-	/* VERIFY IF BILLING RECEIPT TICKET IS UPLOADED ALREADY BY TICKET ID */
-	public function billingUploaded($id)
-	{
-		$quuery = null;
-		$rs = null;
-
-		$this->db->select("*")->from("tb_ticket_files_list");
-		$quuery = $this->db->where("idTicketKf = ", $id)->get();
-
-		if ($quuery->num_rows() > 0) {
-			$todo = $quuery->result_array();
-			return $this->buscar_relaciones_ticket($todo);
-		}
-		return null;
-	}
-
-	public function checkIsDeviceOnline($idClient)
-	{
-		$this->db->select("tb_client_services_internet.idClientServicesInternet AS idService, tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_contratos.idContrato, tb_servicios_del_contrato_cuerpo.idServiciosDelContratoCuerpo, tb_servicios_del_contrato_cuerpo.itemAclaracion, tb_client_services_internet.*", FALSE)->from("tb_contratos");
-		$this->db->join('tb_servicios_del_contrato_cabecera', 'tb_servicios_del_contrato_cabecera.idContratoFk = tb_contratos.idContrato', 'left');
-		$this->db->join('tb_servicios_del_contrato_cuerpo', 'tb_servicios_del_contrato_cuerpo.idServiciosDelContratoFk = tb_servicios_del_contrato_cabecera.idServiciosDelContrato', 'left');
-		$this->db->join('tb_client_services_internet', 'tb_client_services_internet.idContracAssociated_SE = tb_contratos.idContrato', 'left');
-		$this->db->join('tb_tipos_servicios_internet', 'tb_tipos_servicios_internet.idTipoServicioInternet = tb_client_services_internet.idTypeInternetFk', 'left');
-		$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
-		$where_string = "tb_contratos.idClientFk = $idClient AND tb_contratos.idStatusFk = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 2 AND tb_client_services_internet.idContracAssociated_SE!='' AND (tb_client_services_internet.dateDown = '' OR tb_client_services_internet.dateDown IS NULL)
-		GROUP BY tb_servicios_del_contrato_cuerpo.idAccCrtlDoor,tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_tipos_servicios_internet.idTipoServicioInternet;";
-		$quuery_intservice = $this->db->where($where_string)->get();
-		$servicesAssociated = null;
-		if ($quuery_intservice->num_rows() > 0) {
-			foreach ($quuery_intservice->result_array() as $key => $item) {
-				//Check if the Internet Type if BSS Wifi.
-				//print($ticket['idTypeInternetFk']);
-				//print($item['idTypeInternetFk']);
-				if ($item['idTypeInternetFk'] == 1 || $item['idTypeInternetFk'] == 2) {
-					$rs = $quuery_intservice->result_array();
-					$servicesAssociated = json_decode($item['idServiceAsociateFk']);
-					//print_r($item['idServiceAsociateFk']);
-					if (count($servicesAssociated) > 0) {
-						$serviceAsociate_arr = [];
-						foreach ($servicesAssociated as $idServiceAssociated) {
-							$aux = null;
-							$this->db->select("*")->from("tb_client_services_access_control");
-							$quuery2 = $this->db->where("tb_client_services_access_control.idClientServicesFk", $idServiceAssociated)->get();
-							//print_r($quuery2->num_rows());
-							if ($quuery2->num_rows() > 0) {
-								$aux = $quuery2->result_array();
-								//print_r($quuery2->result_array());
-								array_push($serviceAsociate_arr, $aux);
-								break;
-							}
-
-						}
-						$rs[0]['idServiceAsociateFk_array'] = $serviceAsociate_arr;
-						break;
-					}
-				}
-			}
-			//print_r($rs[0]['idServiceAsociateFk_array']);
-			// Now perform the checks
-			//print_r(isset($rs[0]['idServiceAsociateFk_array'])."\n");
-			//print_r(is_array($rs[0]['idServiceAsociateFk_array'])."\n");
-			//print_r(count($rs[0]['idServiceAsociateFk_array'])."\n");
-			//print_r($rs[0]['idServiceAsociateFk_array'] !== null);
-			if (
-				isset($rs[0]['idServiceAsociateFk_array']) && // Check if array is set
-				is_array($rs[0]['idServiceAsociateFk_array']) && // Ensure it's an array
-				count($rs[0]['idServiceAsociateFk_array']) > 0 && // Length is greater than 0
-				$rs[0]['idServiceAsociateFk_array'] !== null // Check if it's not null
-			) {
-				//print_r($rs[0]['idServiceAsociateFk_array']);
-				// Loop through the array to check if 'idClientServicesAccessControl' is not undefined
-				foreach ($rs[0]['idServiceAsociateFk_array'] as $key => $service) {
-					//print_r($service);
-					if (isset($service[0]['idClientServicesAccessControl'])) {
-						return "true";
-					} else {
-						//print_r($service);
-						return "false";
-					}
-				}
-			} else {
-				return "false";
-			}
-		}
-	}
 	public function buscar_relaciones_ticket($todo)
 	{
-		//var_dump($todo);
-		$rs_tickets['tickets'] = $todo;
-		//log_message('info', 'SQL: ' . $rs_tickets['tickets']);
-		$quuery = $this->db->select("*")->from("tb_statusticket")->get();
-		$dashboard['dashboard']['total'] = null;
-		if (count($rs_tickets['tickets']) >= 0) {
-			foreach (@$quuery->result_array() as $status) {
-				//print_r(" id: ".strval($status['idStatus'])." status: ".str_replace(' ', '_', $status['statusName'])."\n");
-				if ($status['idStatus'] == "8") {
-					$this->db->select("*")->from("tb_tickets_2");
-					$this->db->where("idStatusTicketKf", (int) $status['idStatus']);
-					$this->db->where("isInitialDeliveryActive", 1);
-					$query_init_total = $this->db->get();
-					log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $query_init_total->num_rows());
-					$count = $query_init_total->num_rows() == 0 ? 0 : $query_init_total->num_rows();
-					$name_status = str_replace(' ', '_', $status['statusName']);
-					$final_name = $name_status . "_entrega_inicial";
-					$dashboard['dashboard'][$final_name] = @$count;
-				}
-				if ($status['idStatus'] == "6") {
-					$this->db->select("*")->from("tb_tickets_2");
-					$this->db->where("idStatusTicketKf", (int) $status['idStatus']);
-					$this->db->where("isHasRefundsOpen", 1);
-					$query_init_total = $this->db->get();
-					log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $query_init_total->num_rows());
-					$count = $query_init_total->num_rows() == 0 ? 0 : $query_init_total->num_rows();
-					$name_status = str_replace(' ', '_', $status['statusName']);
-					$final_name = $name_status . "_reintegro_pendiente";
-					$dashboard['dashboard'][$final_name] = @$count;
-				}
-				if (is_null($dashboard['dashboard']['total'])) {
-					$this->db->select("*")->from("tb_tickets_2");
-					$query_total = $this->db->get();
-					$count = $query_total->num_rows();
-					$dashboard['dashboard']['total'] = $count;
-				}
-				$this->db->select("*")->from("tb_tickets_2");
-				$this->db->where("idStatusTicketKf", (int) $status['idStatus']);
-				$query_dash = $this->db->get();
-				log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $query_dash->num_rows());
-				$count = $query_dash->num_rows() == 0 ? 0 : $query_dash->num_rows();
-				// Replace spaces with underscores / strval($status['idStatus'])
-				$name_status = str_replace(' ', '_', $status['statusName']);
-				$dashboard['dashboard'][$name_status] = @$count;
-			}
-			$rs_tickets['dashboard'] = $dashboard['dashboard'];
+		if (empty($todo)) {
+			return ['tickets' => [], 'dashboard' => []];
 		}
+
+		$rs_tickets['tickets'] = $todo;
+
+		// ─────────────────────────────────────────────
+		// 1. RECOLECTAR TODOS LOS IDs NECESARIOS
+		// ─────────────────────────────────────────────
+		$ticketIds               = array_values(array_filter(array_unique(array_column($todo, 'idTicket'))));
+		$buildingIds             = array_values(array_filter(array_unique(array_column($todo, 'idBuildingKf'))));
+		$userMadeByIds           = array_values(array_filter(array_unique(array_column($todo, 'idUserMadeBy'))));
+		$userRequestByIds        = array_values(array_filter(array_unique(array_column($todo, 'idUserRequestBy'))));
+		$userDeliveryIds         = array_values(array_filter(array_unique(array_column($todo, 'idUserDelivery'))));
+		$paymentIds              = array_values(array_filter(array_unique(array_column($todo, 'idPaymentKf'))));
+		$paymentDeliveryIds      = array_values(array_filter(array_unique(array_column($todo, 'idPaymentDeliveryKf'))));
+		$typeRequestForIds       = array_values(array_filter(array_unique(array_column($todo, 'idTypeRequestFor'))));
+		$typeTicketIds           = array_values(array_filter(array_unique(array_column($todo, 'idTypeTicketKf'))));
+		$typeDeliveryIds         = array_values(array_filter(array_unique(array_column($todo, 'idTypeDeliveryKf'))));
+		$typePaymentIds          = array_values(array_filter(array_unique(array_column($todo, 'idTypePaymentKf'))));
+		$statusTicketIds         = array_values(array_filter(array_unique(array_column($todo, 'idStatusTicketKf'))));
+		$deliveryAddressIds      = array_values(array_filter(array_unique(array_column($todo, 'idDeliveryAddress'))));
+		$deliveryToIds           = array_values(array_filter(array_unique(array_column($todo, 'idDeliveryTo'))));
+		$whoPickUpIds            = array_values(array_filter(array_unique(array_column($todo, 'idWhoPickUp'))));
+		$otherDeliveryIds        = array_values(array_filter(array_unique(array_column($todo, 'idOtherDeliveryAddressKf'))));
+		$thirdPersonDeliveryIds  = array_values(array_filter(array_unique(array_column($todo, 'idThirdPersonDeliveryKf'))));
+		$deliveryCompanyIds      = array_values(array_filter(array_unique(array_column($todo, 'idDeliveryCompanyKf'))));
+		$mgmtMethodIds           = array_values(array_filter(array_unique(array_column($todo, 'idMgmtMethodKf'))));
+		$departmentIds           = array_values(array_filter(array_unique(array_column($todo, 'idDepartmentKf'))));
+		$allUserIds              = array_values(array_filter(array_unique(array_merge($userMadeByIds, $userRequestByIds, $userDeliveryIds))));
+
+		// ─────────────────────────────────────────────
+		// 2. DASHBOARD — 1 sola query de conteo
+		// ─────────────────────────────────────────────
+		$allStatuses = $this->db->select("*")->from("tb_statusticket")->get()->result_array();
+
+		// Conteo general por status (1 query en lugar de N)
+		$statusCounts = $this->db
+			->select('idStatusTicketKf, COUNT(*) as total')
+			->from('tb_tickets_2')
+			->group_by('idStatusTicketKf')
+			->get()->result_array();
+		$countByStatus = array_column($statusCounts, 'total', 'idStatusTicketKf');
+
+		// Total general (1 query)
+		$totalTickets = $this->db->select('COUNT(*) as total')->from('tb_tickets_2')->get()->row()->total;
+
+		// Conteos especiales: status 8 con entrega inicial y status 6 con reintegro
+		$countStatus8InitDelivery = $this->db->select('COUNT(*) as total')->from('tb_tickets_2')
+			->where('idStatusTicketKf', 8)
+			->where('isInitialDeliveryActive', 1)
+			->get()->row()->total;
+
+		$countStatus6Refunds = $this->db->select('COUNT(*) as total')->from('tb_tickets_2')
+			->where('idStatusTicketKf', 6)
+			->where('isHasRefundsOpen', 1)
+			->get()->row()->total;
+
+		$dashboard = ['total' => $totalTickets];
+		foreach ($allStatuses as $status) {
+			$name = str_replace(' ', '_', $status['statusName']);
+			$dashboard[$name] = $countByStatus[$status['idStatus']] ?? 0;
+			if ($status['idStatus'] == '8') {
+				$dashboard[$name . '_entrega_inicial'] = $countStatus8InitDelivery;
+			}
+			if ($status['idStatus'] == '6') {
+				$dashboard[$name . '_reintegro_pendiente'] = $countStatus6Refunds;
+			}
+		}
+		$rs_tickets['dashboard'] = $dashboard;
+
+		// ─────────────────────────────────────────────
+		// 3. BATCH QUERIES — 1 query por tabla
+		// ─────────────────────────────────────────────
+
+		// Buildings
+		$buildings = [];
+		if (!empty($buildingIds)) {
+			$rows = $this->db
+				->select('tb_clients.*, tb_zonas.*, tb_location.*, tb_province.*')
+				->from('tb_clients')
+				->join('tb_zonas',     'tb_zonas.idZona         = tb_clients.idZonaFk',     'left')
+				->join('tb_location',  'tb_location.idLocation  = tb_clients.idLocationFk', 'left')
+				->join('tb_province',  'tb_province.idProvince  = tb_clients.idProvinceFk', 'left')
+				->where_in('tb_clients.idClient', $buildingIds)
+				->get()->result_array();
+			$buildings = array_column($rows, null, 'idClient');
+		}
+
+		// Client admins (idClientAdminFk de los buildings ya cargados)
+		$clientAdminIds = array_values(array_filter(array_unique(array_column($buildings, 'idClientAdminFk'))));
+		$clientAdmins = [];
+		if (!empty($clientAdminIds)) {
+			$rows = $this->db->select('*')->from('tb_clients')
+				->where_in('idClient', $clientAdminIds)
+				->get()->result_array();
+			$clientAdmins = array_column($rows, null, 'idClient');
+		}
+
+		// Users (todos en 1 query)
+		$users = [];
+		if (!empty($allUserIds)) {
+			$rows = $this->db
+				->select('tb_user.*, tb_profile.*, tb_profiles.*, tb_status.statusTenantName, tb_type_attendant.*')
+				->from('tb_user')
+				->join('tb_profile',        'tb_profile.idProfile              = tb_user.idProfileKf',        'left')
+				->join('tb_profiles',       'tb_profiles.idProfiles            = tb_user.idSysProfileFk',     'left')
+				->join('tb_status',         'tb_status.idStatusTenant          = tb_user.idStatusKf',         'left')
+				->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left')
+				->where_in('tb_user.idUser', $allUserIds)
+				->get()->result_array();
+			$users = array_column($rows, null, 'idUser');
+		}
+
+		// Type request for (categorías)
+		$typeRequestForMap = [];
+		if (!empty($typeRequestForIds)) {
+			$rows = $this->db->select('*')->from('tb_category_keychain')
+				->where_in('idCategory', $typeRequestForIds)
+				->get()->result_array();
+			$typeRequestForMap = array_column($rows, null, 'idCategory');
+		}
+
+		// Type tickets
+		$typeTicketMap = [];
+		if (!empty($typeTicketIds)) {
+			$rows = $this->db->select('*')->from('tb_typeticket')
+				->where_in('idTypeTicket', $typeTicketIds)
+				->get()->result_array();
+			$typeTicketMap = array_column($rows, null, 'idTypeTicket');
+		}
+
+		// Type delivery
+		$typeDeliveryMap = [];
+		if (!empty($typeDeliveryIds)) {
+			$rows = $this->db->select('*')->from('tb_type_delivery')
+				->where_in('idTypeDelivery', $typeDeliveryIds)
+				->get()->result_array();
+			$typeDeliveryMap = array_column($rows, null, 'idTypeDelivery');
+		}
+
+		// Type payment
+		$typePaymentMap = [];
+		if (!empty($typePaymentIds)) {
+			$rows = $this->db->select('*')->from('tb_ticket_payment_type')
+				->where_in('id', $typePaymentIds)
+				->get()->result_array();
+			$typePaymentMap = array_column($rows, null, 'id');
+		}
+
+		// Status tickets
+		$statusTicketMap = [];
+		if (!empty($statusTicketIds)) {
+			$rows = $this->db->select('*')->from('tb_statusticket')
+				->where_in('idStatus', $statusTicketIds)
+				->get()->result_array();
+			$statusTicketMap = array_column($rows, null, 'idStatus');
+		}
+
+		// Payments con JOIN
+		$paymentsMap = [];
+		if (!empty($paymentIds)) {
+			$rows = $this->db
+				->select('tb_mp_payments.*, tb_ticket_payment_manual_type.*')
+				->from('tb_mp_payments')
+				->join('tb_ticket_payment_manual_type', 'tb_ticket_payment_manual_type.id = tb_mp_payments.idManualPaymentTypeKf', 'left')
+				->where_in('tb_mp_payments.idPayment', $paymentIds)
+				->get()->result_array();
+			$paymentsMap = array_column($rows, null, 'idPayment');
+		}
+
+		// Payments delivery
+		$paymentsDeliveryMap = [];
+		if (!empty($paymentDeliveryIds)) {
+			$rows = $this->db->select('*')->from('tb_mp_payments')
+				->where_in('idPayment', $paymentDeliveryIds)
+				->get()->result_array();
+			$paymentsDeliveryMap = array_column($rows, null, 'idPayment');
+		}
+
+		// Delivery addresses
+		$deliveryAddressMap = [];
+		if (!empty($deliveryAddressIds)) {
+			$rows = $this->db
+				->select('tb_clients.*, tb_zonas.*, tb_location.*, tb_province.*')
+				->from('tb_clients')
+				->join('tb_zonas',    'tb_zonas.idZona        = tb_clients.idZonaFk',     'left')
+				->join('tb_location', 'tb_location.idLocation = tb_clients.idLocationFk', 'left')
+				->join('tb_province', 'tb_province.idProvince = tb_clients.idProvinceFk', 'left')
+				->where_in('tb_clients.idClient', $deliveryAddressIds)
+				->get()->result_array();
+			$deliveryAddressMap = array_column($rows, null, 'idClient');
+		}
+
+		// Delivery to
+		$deliveryToMap = [];
+		if (!empty($deliveryToIds)) {
+			$rows = $this->db->select('*')->from('tb_ticket_delivery')
+				->where_in('id', $deliveryToIds)
+				->get()->result_array();
+			$deliveryToMap = array_column($rows, null, 'id');
+		}
+
+		// Who pick up
+		$whoPickUpMap = [];
+		if (!empty($whoPickUpIds)) {
+			$rows = $this->db->select('*')->from('tb_pick_receive')
+				->where_in('idWhoPickUp', $whoPickUpIds)
+				->get()->result_array();
+			$whoPickUpMap = array_column($rows, null, 'idWhoPickUp');
+		}
+
+		// Other delivery address
+		$otherDeliveryMap = [];
+		if (!empty($otherDeliveryIds)) {
+			$rows = $this->db
+				->select('tb_ticket_other_delivery_address.*, tb_location.*, tb_province.*')
+				->from('tb_ticket_other_delivery_address')
+				->join('tb_location', 'tb_location.idLocation = tb_ticket_other_delivery_address.idLocationFk', 'left')
+				->join('tb_province', 'tb_province.idProvince = tb_ticket_other_delivery_address.idProvinceFk', 'left')
+				->where_in('id', $otherDeliveryIds)
+				->get()->result_array();
+			$otherDeliveryMap = array_column($rows, null, 'id');
+		}
+
+		// Third person delivery
+		$thirdPersonMap = [];
+		if (!empty($thirdPersonDeliveryIds)) {
+			$rows = $this->db
+				->select('tb_ticket_third_person_delivery.*, tb_location.*, tb_province.*')
+				->from('tb_ticket_third_person_delivery')
+				->join('tb_location', 'tb_location.idLocation = tb_ticket_third_person_delivery.idLocationFk', 'left')
+				->join('tb_province', 'tb_province.idProvince = tb_ticket_third_person_delivery.idProvinceFk', 'left')
+				->where_in('id', $thirdPersonDeliveryIds)
+				->get()->result_array();
+			$thirdPersonMap = array_column($rows, null, 'id');
+		}
+
+		// Delivery companies
+		$deliveryCompanyMap = [];
+		if (!empty($deliveryCompanyIds)) {
+			$rows = $this->db->select('*')->from('tb_ticket_delivery_company')
+				->where_in('idDeliveryCompany', $deliveryCompanyIds)
+				->get()->result_array();
+			$deliveryCompanyMap = array_column($rows, null, 'idDeliveryCompany');
+		}
+
+		// Mgmt methods
+		$mgmtMethodMap = [];
+		if (!empty($mgmtMethodIds)) {
+			$rows = $this->db->select('idMgmtMethod, mgmtMethod AS name')->from('tb_ticket_mgmt_method')
+				->where_in('idMgmtMethod', $mgmtMethodIds)
+				->get()->result_array();
+			$mgmtMethodMap = array_column($rows, null, 'idMgmtMethod');
+		}
+
+		// Departments
+		$departmentMap = [];
+		if (!empty($departmentIds)) {
+			$rows = $this->db->select('*')->from('tb_client_departament')
+				->where_in('idClientDepartament', $departmentIds)
+				->get()->result_array();
+			$departmentMap = array_column($rows, null, 'idClientDepartament');
+		}
+
+		// Keys de todos los tickets (1 query)
+		$allKeysGrouped = [];
+		$allKeychainIds = [];
+		if (!empty($ticketIds)) {
+			$rows = $this->db
+				->select('tb_products.idProduct, tb_products.descriptionProduct, tb_products.codigoFabric, tb_products.brand, tb_products.model, tb_ticket_keychain.*, tb_category_keychain.name AS categoryName, tb_products_classification.*')
+				->from('tb_ticket_keychain')
+				->join('tb_category_keychain',      'tb_category_keychain.idCategory                         = tb_ticket_keychain.idCategoryKf',                         'left')
+				->join('tb_products',               'tb_products.idProduct                                    = tb_ticket_keychain.idProductKf',                          'left')
+				->join('tb_products_classification','tb_products_classification.idProductClassification        = tb_products.idProductClassificationFk',                   'left')
+				->where_in('idTicketKf', $ticketIds)
+				->get()->result_array();
+			foreach ($rows as $row) {
+				$allKeysGrouped[$row['idTicketKf']][] = $row;
+				if (!empty($row['idKeychainKf'])) {
+					$allKeychainIds[] = $row['idKeychainKf'];
+				}
+			}
+		}
+
+		// Keychains (1 query para todas las llaves)
+		$keychainMap = [];
+		$allKeychainIds = array_values(array_filter(array_unique($allKeychainIds)));
+		if (!empty($allKeychainIds)) {
+			$rows = $this->db->select('*')->from('tb_keychain')
+				->where_in('idKeychain', $allKeychainIds)
+				->get()->result_array();
+			$keychainMap = array_column($rows, null, 'idKeychain');
+		}
+
+		// Ticket keychain IDs (para doors y users de keychains)
+		$allTicketKeychainIds = [];
+		$keychainUserIds = [];
+		foreach ($allKeysGrouped as $keys) {
+			foreach ($keys as $key) {
+				if (!empty($key['idTicketKeychain'])) $allTicketKeychainIds[] = $key['idTicketKeychain'];
+				if (!empty($key['idUserKf']))         $keychainUserIds[]      = $key['idUserKf'];
+			}
+		}
+		$allTicketKeychainIds = array_values(array_filter(array_unique($allTicketKeychainIds)));
+
+		// Users de keychains (si no están ya cargados)
+		$keychainUserIds = array_values(array_filter(array_unique($keychainUserIds)));
+		$missingUserIds = array_diff($keychainUserIds, array_keys($users));
+		if (!empty($missingUserIds)) {
+			$rows = $this->db
+				->select('tb_user.*, tb_profile.*, tb_profiles.*, tb_status.statusTenantName, tb_type_attendant.*')
+				->from('tb_user')
+				->join('tb_profile',        'tb_profile.idProfile               = tb_user.idProfileKf',         'left')
+				->join('tb_profiles',       'tb_profiles.idProfiles             = tb_user.idSysProfileFk',      'left')
+				->join('tb_status',         'tb_status.idStatusTenant           = tb_user.idStatusKf',          'left')
+				->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf',  'left')
+				->where_in('tb_user.idUser', $missingUserIds)
+				->get()->result_array();
+			foreach ($rows as $row) {
+				$users[$row['idUser']] = $row;
+			}
+		}
+
+		// Doors para todas las ticket_keychains (1 query con todos los JOINs)
+		$doorsGrouped = [];
+		if (!empty($allTicketKeychainIds)) {
+			$rows = $this->db
+				->select('tb_contratos.idContrato, tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_type_contrato.description, tb_type_maintenance.typeMaintenance, tb_products.idProduct, tb_products.descriptionProduct, tb_products.codigoFabric, tb_products.brand, tb_products.model, tb_products.idStatusFk, tb_access_control_door.*, tb_ticket_keychain.*, tb_ticket_keychain_doors.*')
+				->from('tb_ticket_keychain_doors')
+				->join('tb_ticket_keychain',                  'tb_ticket_keychain.idTicketKeychain                          = tb_ticket_keychain_doors.idTicketKeychainKf',                       'left')
+				->join('tb_contratos',                        'tb_contratos.idContrato                                      = tb_ticket_keychain_doors.idContractKf',                             'left')
+				->join('tb_type_contrato',                    'tb_type_contrato.idTypeContrato                              = tb_contratos.contratoType',                                         'left')
+				->join('tb_type_maintenance',                 'tb_type_maintenance.idTypeMaintenance                        = tb_contratos.maintenanceType',                                      'left')
+				->join('tb_servicios_del_contrato_cabecera',  'tb_servicios_del_contrato_cabecera.idContratoFk              = tb_contratos.idContrato',                                           'left')
+				->join('tb_servicios_del_contrato_cuerpo',    'tb_servicios_del_contrato_cuerpo.idServiciosDelContratoFk    = tb_servicios_del_contrato_cabecera.idServiciosDelContrato',          'left')
+				->join('tb_client_services_access_control',   'tb_client_services_access_control.idClientServicesAccessControl = tb_ticket_keychain_doors.idServiceKf',                          'left')
+				->join('tb_products',                         'tb_products.idProduct                                        = tb_client_services_access_control.idAccessControlFk',              'left')
+				->join('tb_products_classification',          'tb_products_classification.idProductClassification           = tb_products.idProductClassificationFk',                            'left')
+				->join('tb_access_control_door',              'tb_access_control_door.idAccessControlDoor                   = tb_ticket_keychain_doors.idAccessControlDoorKf',                   'left')
+				->join('tb_status',                           'tb_status.idStatusTenant                                     = tb_contratos.idStatusFk',                                          'left')
+				->where_in('tb_ticket_keychain_doors.idTicketKeychainKf', $allTicketKeychainIds)
+				->where('tb_contratos.idStatusFk', 1)
+				->where('tb_ticket_keychain_doors.doorSelected', 1)
+				->where('tb_servicios_del_contrato_cabecera.idServiceType', 1)
+				->group_by('tb_access_control_door.idAccessControlDoor, tb_servicios_del_contrato_cabecera.serviceName, tb_ticket_keychain_doors.idTicketKeychainKf')
+				->order_by('tb_access_control_door.idAccessControlDoor')
+				->get()->result_array();
+			foreach ($rows as $row) {
+				$doorsGrouped[$row['idTicketKeychainKf']][] = $row;
+			}
+		}
+
+		// Ticket anterior para keys de tipo 2 (1 query en lugar de 1 por llave)
+		$previousTicketKeychainMap = [];
+		if (!empty($allKeychainIds)) {
+			// Traemos el idTicketKeychain más reciente de tipo 1 por cada keychain
+			$rows = $this->db
+				->select('tkkeychain.idTicketKeychain, tkkeychain.idKeychainKf')
+				->from('tb_ticket_keychain AS tkkeychain')
+				->join('tb_tickets_2', 'tb_tickets_2.idTicket = tkkeychain.idTicketKf', 'left')
+				->where('tb_tickets_2.idTypeTicketKf', '1')
+				->where_in('tkkeychain.idKeychainKf', $allKeychainIds)
+				->order_by('tkkeychain.idTicketKeychain', 'DESC')
+				->get()->result_array();
+			// Guardar solo el primero (más reciente) por keychain
+			foreach ($rows as $row) {
+				if (!isset($previousTicketKeychainMap[$row['idKeychainKf']])) {
+					$previousTicketKeychainMap[$row['idKeychainKf']] = $row['idTicketKeychain'];
+				}
+			}
+		}
+
+		// Changes history de todos los tickets (1 query)
+		$historyGrouped = [];
+		if (!empty($ticketIds)) {
+			$rows = $this->db
+				->select('tb_ticket_changes_history.*, tb_ticket_changes_history.descripcion as description, tb_ticket_changes_category.*, tb_user.*, tb_profile.*, tb_profiles.*, tb_status.statusTenantName, tb_type_attendant.*')
+				->from('tb_ticket_changes_history')
+				->join('tb_ticket_changes_category', 'tb_ticket_changes_category.id                          = tb_ticket_changes_history.idCambiosTicketKf',  'left')
+				->join('tb_user',                    'tb_user.idUser                                         = tb_ticket_changes_history.idUserKf',            'left')
+				->join('tb_profile',                 'tb_profile.idProfile                                   = tb_user.idProfileKf',                          'left')
+				->join('tb_profiles',                'tb_profiles.idProfiles                                 = tb_user.idSysProfileFk',                       'left')
+				->join('tb_status',                  'tb_status.idStatusTenant                               = tb_user.idStatusKf',                           'left')
+				->join('tb_type_attendant',          'tb_type_attendant.idTyepeAttendant                     = tb_user.idTyepeAttendantKf',                   'left')
+				->where_in('tb_ticket_changes_history.idTicketKf', $ticketIds)
+				->get()->result_array();
+			foreach ($rows as $row) {
+				$historyGrouped[$row['idTicketKf']][] = $row;
+			}
+		}
+
+		// Billing files
+		$billingFilesGrouped = [];
+		$ticketsWithBilling = array_column(array_filter($todo, fn($t) => !empty($t['isBillingUploaded']) && $t['isBillingUploaded'] == 1), 'idTicket');
+		if (!empty($ticketsWithBilling)) {
+			$rows = $this->db->select('*')->from('tb_ticket_files_list')
+				->where_in('idTicketKf', $ticketsWithBilling)
+				->get()->result_array();
+			foreach ($rows as $row) {
+				$billingFilesGrouped[$row['idTicketKf']][] = $row;
+			}
+		}
+
+		// Refunds
+		$refundsGrouped = [];
+		if (!empty($ticketIds)) {
+			$rows = $this->db
+				->select('tb_tickets_refunds.*, tb_tickets_refunds_status.*')
+				->from('tb_tickets_refunds')
+				->join('tb_tickets_refunds_status', 'tb_tickets_refunds_status.idRefundType = tb_tickets_refunds.idRefundTypeKf', 'left')
+				->where_in('tb_tickets_refunds.idTicketKf', $ticketIds)
+				->get()->result_array();
+			foreach ($rows as $row) {
+				$refundsGrouped[$row['idTicketKf']][] = $row;
+			}
+		}
+
+		// Initial delivery de todos los buildings (1 query)
+		$initialDeliveryGrouped = [];
+		if (!empty($buildingIds)) {
+			$rows = $this->db->select('*')->from('tb_client_initial_delivery')
+				->where_in('idClientKf', $buildingIds)
+				->get()->result_array();
+			foreach ($rows as $row) {
+				$initialDeliveryGrouped[$row['idClientKf']][] = $row;
+			}
+		}
+
+		// ─────────────────────────────────────────────
+		// 4. LOOP PRINCIPAL — solo asignación, 0 queries
+		// ─────────────────────────────────────────────
+		$now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));
+		$currentDateFormatted = $now->format('Y-m-d');
+
 		foreach ($rs_tickets['tickets'] as $key => $ticket) {
-			//print_r($ticket['idTypeRequestFor']);
-			//print_r($ticket['idTypeRequestFor']);
-			$this->db->select("*")->from("tb_category_keychain");
-			$quuery = $this->db->where("idCategory = ", @$ticket['idTypeRequestFor'])->get();
-			$rs_tickets['tickets'][$key]['typeRequestFor'] = @$quuery->result_array()[0];
+			$tid = $ticket['idTicket'];
+			$bid = $ticket['idBuildingKf'];
 
-			$this->db->select("*")->from("tb_typeticket");
-			$quuery = $this->db->where("idTypeTicket = ", @$ticket['idTypeTicketKf'])->get();
-			$rs_tickets['tickets'][$key]['typeticket'] = @$quuery->result_array()[0];
+			// Datos básicos
+			$rs_tickets['tickets'][$key]['typeRequestFor'] = $typeRequestForMap[$ticket['idTypeRequestFor']] ?? null;
+			$rs_tickets['tickets'][$key]['typeticket']     = $typeTicketMap[$ticket['idTypeTicketKf']]       ?? null;
+			$rs_tickets['tickets'][$key]['typeDeliver']    = $typeDeliveryMap[$ticket['idTypeDeliveryKf']]   ?? null;
+			$rs_tickets['tickets'][$key]['typePaymentKf']  = $typePaymentMap[$ticket['idTypePaymentKf']]     ?? null;
+			$rs_tickets['tickets'][$key]['statusTicket']   = $statusTicketMap[$ticket['idStatusTicketKf']]   ?? null;
+			$rs_tickets['tickets'][$key]['keysMethod']     = $mgmtMethodMap[$ticket['idMgmtMethodKf']]       ?? null;
+			$rs_tickets['tickets'][$key]['whoPickUp']      = $whoPickUpMap[$ticket['idWhoPickUp']]            ?? null;
+			$rs_tickets['tickets'][$key]['deliveryTo']     = $deliveryToMap[$ticket['idDeliveryTo']]          ?? null;
+			$rs_tickets['tickets'][$key]['deliveryCompanyDetails'] = $deliveryCompanyMap[$ticket['idDeliveryCompanyKf']] ?? null;
+			$rs_tickets['tickets'][$key]['paymentDetails']         = $paymentsMap[$ticket['idPaymentKf']]           ?? null;
+			$rs_tickets['tickets'][$key]['paymentDeliveryDetails'] = $paymentsDeliveryMap[$ticket['idPaymentDeliveryKf']] ?? null;
+			$rs_tickets['tickets'][$key]['otherDeliveryAddress']   = $otherDeliveryMap[$ticket['idOtherDeliveryAddressKf']] ?? null;
+			$rs_tickets['tickets'][$key]['thirdPersonDelivery']    = $thirdPersonMap[$ticket['idThirdPersonDeliveryKf']]    ?? null;
+			$rs_tickets['tickets'][$key]['userDelivery']           = $users[$ticket['idUserDelivery']] ?? null;
+			$rs_tickets['tickets'][$key]['changes_history']        = $historyGrouped[$tid] ?? [];
+			$rs_tickets['tickets'][$key]['refundsDetails']         = $refundsGrouped[$tid] ?? null;
+			$rs_tickets['tickets'][$key]['billingReceiptDetails']  = (!empty($ticket['isBillingUploaded']) && $ticket['isBillingUploaded'] == 1)
+				? ($billingFilesGrouped[$tid] ?? [])
+				: null;
 
-			$this->db->select("*")->from("tb_clients");
-			$this->db->join('tb_zonas', 'tb_zonas.idZona = tb_clients.idZonaFk', 'left');
-			$this->db->join('tb_location', 'tb_location.idLocation = tb_clients.idLocationFk', 'left');
-			$this->db->join('tb_province', 'tb_province.idProvince = tb_clients.idProvinceFk', 'left');
-			$quuery = $this->db->where("idClient = ", @$ticket['idBuildingKf'])->get();
-			$rs_tickets['tickets'][$key]['building'] = @$quuery->result_array()[0];
-			if (!is_null(@$ticket['idBuildingKf'])) {
-				//print($this->checkIsDeviceOnline($ticket['idBuildingKf']));
-				$rs_tickets['tickets'][$key]['building']['isHasInternetOnline'] = $this->checkIsDeviceOnline(@$ticket['idBuildingKf']);
+			// Delivery address
+			$deliveryAddress = $deliveryAddressMap[$ticket['idDeliveryAddress']] ?? null;
+			if ($ticket['idTypeDeliveryKf'] == '1' && is_null($deliveryAddress)) {
+				$deliveryAddress = [
+					'address'  => 'Carlos Calvo 3430',
+					'province' => 'Ciudad Autonoma de Buenos Aires',
+					'location' => 'Boedo',
+				];
+			}
+			$rs_tickets['tickets'][$key]['deliveryAddress'] = $deliveryAddress;
+
+			// Building
+			$building = $buildings[$bid] ?? null;
+			if (!is_null($bid)) {
+				$building['isHasInternetOnline'] = $this->checkIsDeviceOnline($bid);
 			} else {
-				//print("No defined");
-				$rs_tickets['tickets'][$key]['building']['isHasInternetOnline'] = "false";
+				$building['isHasInternetOnline'] = 'false';
 			}
 
-			if (@$ticket['idTypeRequestFor'] == 1) {
-
-				$this->db->select("*")->from("tb_client_departament");
-				$quuery = $this->db->where("idClientDepartament = ", $ticket['idDepartmentKf'])->get();
-				$rs_tickets['tickets'][$key]['department'] = @$quuery->result_array()[0];
-
-				$this->db->select("*")->from("tb_user");
-				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
-				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
-				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-				$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-				$quuery = $this->db->where("idUser = ", @$ticket['idUserMadeBy'])->get();
-				$rs_tickets['tickets'][$key]['userMadeBy'] = @$quuery->result_array()[0];
-
-				$this->db->select("*")->from("tb_user");
-				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
-				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
-				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-				$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-				$quuery = $this->db->where("idUser = ", @$ticket['idUserRequestBy'])->get();
-				$rs_tickets['tickets'][$key]['userRequestBy'] = @$quuery->result_array()[0];
-
-				$this->db->select("*")->from("tb_clients");
-				$quuery = $this->db->where("idClient = ", $rs_tickets['tickets'][$key]['building']['idClientAdminFk'])->get();
-				$rs_tickets['tickets'][$key]['clientAdmin'] = @$quuery->result_array()[0];
-
-			} else if (@$ticket['idTypeRequestFor'] == 2 || @$ticket['idTypeRequestFor'] == 3 || @$ticket['idTypeRequestFor'] == 4 || @$ticket['idTypeRequestFor'] == 5 || @$ticket['idTypeRequestFor'] == 6) {
-
-				$this->db->select("*")->from("tb_user");
-				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
-				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
-				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-				$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-				$quuery = $this->db->where("idUser = ", $ticket['idUserMadeBy'])->get();
-				$rs_tickets['tickets'][$key]['userMadeBy'] = @$quuery->result_array()[0];
-
-				$this->db->select("*")->from("tb_clients");
-				$quuery = $this->db->where("idClient = ", $rs_tickets['tickets'][$key]['building']['idClientAdminFk'])->get();
-				$rs_tickets['tickets'][$key]['clientAdmin'] = @$quuery->result_array()[0];
-
-
+			// Initial delivery
+			$initialDelivery = $initialDeliveryGrouped[$bid] ?? [];
+			if (!empty($initialDelivery)) {
+				$dateToCompare        = new DateTime($initialDelivery[0]['expirationDate']);
+				$expiration_state     = $currentDateFormatted > $dateToCompare->format('Y-m-d');
+				$initialDelivery[0]['expiration_state'] = $expiration_state;
+				$building['isInitialDeliveryActive'] = $initialDelivery;
+				$building['initial_delivery']        = $initialDelivery;
 			} else {
-				$this->db->select("*")->from("tb_user");
-				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
-				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
-				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-				$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-				$quuery = $this->db->where("idUser = ", @$ticket['idUserMadeBy'])->get();
-				$rs_tickets['tickets'][$key]['userMadeBy'] = @$quuery->result_array()[0];
-
-				$this->db->select("*")->from("tb_clients");
-				$quuery = $this->db->where("idClient = ", @$ticket['idUserRequestBy'])->get();
-				$rs_tickets['tickets'][$key]['clientCompani'] = @$quuery->result_array()[0];
-
-				$this->db->select("*")->from("tb_clients");
-				$quuery = $this->db->where("idClient = ", @$ticket['idUserRequestBy'])->get();
-				$rs_tickets['tickets'][$key]['clientAdmin'] = @$quuery->result_array()[0];
-
+				$building['isInitialDeliveryActive'] = [];
+				$building['initial_delivery']        = [];
 			}
-			$this->db->select("tb_products.idProduct,tb_products.descriptionProduct, tb_products.codigoFabric, tb_products.brand, tb_products.model, tb_ticket_keychain.*, tb_category_keychain.name AS categoryName, tb_products_classification.*")->from("tb_ticket_keychain");
-			#$this->db->join('tb_keychain' , 'tb_keychain.idKeychain = tb_ticket_keychain.idKeychainKf' , 'left');
-			$this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_ticket_keychain.idCategoryKf', 'left');
-			$this->db->join('tb_products', 'tb_products.idProduct = tb_ticket_keychain.idProductKf', 'left');
-			$this->db->join('tb_products_classification', 'tb_products_classification.idProductClassification = tb_products.idProductClassificationFk', 'left');
-			$quuery = $this->db->where("idTicketKf = ", @$ticket['idTicket'])->get();
-			$rs_tickets['tickets'][$key]['keys'] = @$quuery->result_array();
-			$i = 0;
-			log_message('info', print_r($quuery->result_array(), true));
-			foreach ($rs_tickets['tickets'][$key]['keys'] as $ticketKeychain) {
-				$this->db->select("*")->from("tb_keychain");
-				$quuery = $this->db->where("tb_keychain.idKeychain = ", @$ticketKeychain['idKeychainKf'])->get();
-				$rs_tickets['tickets'][$key]['keys'][$i]['keychain'] = @$quuery->result_array()[0];
-				if ($ticket['idTypeTicketKf'] == "2") {
-					$query = $this->db
-						->select('tkkeychain.idTicketKeychain')
-						->from('tb_ticket_keychain AS tkkeychain')
-						->join(
-							'tb_tickets_2',
-							'tb_tickets_2.idTicket = tkkeychain.idTicketKf',
-							'left'
-						)
-						->where('tkkeychain.idKeychainKf', $rs_tickets['tickets'][$key]['keys'][$i]['keychain']['idKeychain'])
-						->where('tb_tickets_2.idTypeTicketKf', '1')
-						->order_by('tkkeychain.idTicketKeychain', 'DESC')
-						->limit(1)
-						->get();
-					if ($query->num_rows() > 0) {
-						$idTicketKeychain = $query->row()->idTicketKeychain;
-					} else {
-						$idTicketKeychain = $ticketKeychain['idTicketKeychain'];
-					}
+			$rs_tickets['tickets'][$key]['building'] = $building;
+
+			// Datos según tipo de solicitud
+			$typeReqFor = $ticket['idTypeRequestFor'];
+			if ($typeReqFor == 1) {
+				$rs_tickets['tickets'][$key]['department']    = $departmentMap[$ticket['idDepartmentKf']]         ?? null;
+				$rs_tickets['tickets'][$key]['userMadeBy']    = $users[$ticket['idUserMadeBy']]                   ?? null;
+				$rs_tickets['tickets'][$key]['userRequestBy'] = $users[$ticket['idUserRequestBy']]                ?? null;
+				$rs_tickets['tickets'][$key]['clientAdmin']   = $clientAdmins[$building['idClientAdminFk'] ?? ''] ?? null;
+			} elseif (in_array($typeReqFor, [2, 3, 4, 5, 6])) {
+				$rs_tickets['tickets'][$key]['userMadeBy']  = $users[$ticket['idUserMadeBy']]                   ?? null;
+				$rs_tickets['tickets'][$key]['clientAdmin'] = $clientAdmins[$building['idClientAdminFk'] ?? ''] ?? null;
+			} else {
+				$rs_tickets['tickets'][$key]['userMadeBy']     = $users[$ticket['idUserMadeBy']]    ?? null;
+				$rs_tickets['tickets'][$key]['clientCompani']  = $clientAdmins[$ticket['idUserRequestBy']] ?? null;
+				$rs_tickets['tickets'][$key]['clientAdmin']    = $clientAdmins[$ticket['idUserRequestBy']] ?? null;
+			}
+
+			// Keys con doors y users (sin queries adicionales)
+			$keys = $allKeysGrouped[$tid] ?? [];
+			foreach ($keys as $i => $ticketKeychain) {
+				$keychainId = $ticketKeychain['idKeychainKf'] ?? null;
+				$keys[$i]['keychain'] = $keychainMap[$keychainId] ?? null;
+
+				// Ticket keychain ID para doors: si es tipo 2, buscar el anterior de tipo 1
+				if ($ticket['idTypeTicketKf'] == '2' && isset($previousTicketKeychainMap[$keychainId])) {
+					$idTicketKeychain = $previousTicketKeychainMap[$keychainId];
 				} else {
 					$idTicketKeychain = $ticketKeychain['idTicketKeychain'];
 				}
-				log_message('info', print_r("idTicketKeychain: " . $idTicketKeychain, true));
-				$this->db->select("tb_contratos.idContrato, tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_type_contrato.description, tb_type_maintenance.typeMaintenance, tb_products.idProduct, tb_products.descriptionProduct, tb_products.codigoFabric, tb_products.brand, tb_products.model,  tb_products.idStatusFk, tb_access_control_door.*, tb_ticket_keychain.*, tb_ticket_keychain_doors.*")->from("tb_ticket_keychain_doors");
-				$this->db->join('tb_ticket_keychain', 'tb_ticket_keychain.idTicketKeychain = tb_ticket_keychain_doors.idTicketKeychainKf', 'left');
-				$this->db->join('tb_contratos', 'tb_contratos.idContrato = tb_ticket_keychain_doors.idContractKf', 'left');
-				$this->db->join('tb_type_contrato', 'tb_type_contrato.idTypeContrato = tb_contratos.contratoType', 'left');
-				$this->db->join('tb_type_maintenance', 'tb_type_maintenance.idTypeMaintenance = tb_contratos.maintenanceType', 'left');
-				$this->db->join('tb_servicios_del_contrato_cabecera', 'tb_servicios_del_contrato_cabecera.idContratoFk = tb_contratos.idContrato', 'left');
-				$this->db->join('tb_servicios_del_contrato_cuerpo', 'tb_servicios_del_contrato_cuerpo.idServiciosDelContratoFk = tb_servicios_del_contrato_cabecera.idServiciosDelContrato', 'left');
-				$this->db->join('tb_client_services_access_control', 'tb_client_services_access_control.idClientServicesAccessControl = tb_ticket_keychain_doors.idServiceKf', 'left');
-				$this->db->join('tb_products', 'tb_products.idProduct = tb_client_services_access_control.idAccessControlFk', 'left');
-				$this->db->join('tb_products_classification', 'tb_products_classification.idProductClassification = tb_products.idProductClassificationFk', 'left');
-				$this->db->join('tb_access_control_door', 'tb_access_control_door.idAccessControlDoor = tb_ticket_keychain_doors.idAccessControlDoorKf', 'left');
-				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
-				$where_string = "tb_ticket_keychain_doors.idTicketKeychainKf = $idTicketKeychain AND tb_contratos.idStatusFk = 1 AND tb_ticket_keychain_doors.doorSelected = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 1
-					GROUP BY tb_access_control_door.idAccessControlDoor,tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_access_control_door.idAccessControlDoor;";
-				$quuery = $this->db->where($where_string)->get();
-				log_message('info', print_r($quuery->result_array(), true));
-				$rs_tickets['tickets'][$key]['keys'][$i]['doors'] = @$quuery->result_array();
 
-				$this->db->select("*")->from("tb_user");
-				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
-				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
-				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-				$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-				$quuery = $this->db->where("tb_user.idUser = ", @$ticketKeychain["idUserKf"])->get();
-				$rs_tickets['tickets'][$key]['keys'][$i]['user'] = @$quuery->result_array()[0];
-				$i++;
+				$keys[$i]['doors'] = $doorsGrouped[$idTicketKeychain] ?? [];
+				$keys[$i]['user']  = $users[$ticketKeychain['idUserKf']] ?? null;
 			}
-			$this->db->select("*")->from("tb_type_delivery");
-			$quuery = $this->db->where("idTypeDelivery = ", @$ticket['idTypeDeliveryKf'])->get();
-			$rs_tickets['tickets'][$key]['typeDeliver'] = @$quuery->result_array()[0];
-
-			$this->db->select("*")->from("tb_pick_receive");
-			$quuery = $this->db->where("idWhoPickUp = ", @$ticket['idWhoPickUp'])->get();
-			$rs_tickets['tickets'][$key]['whoPickUp'] = @$quuery->result_array()[0];
-
-			$this->db->select("*")->from("tb_user");
-			$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
-			$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
-			$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-			$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-			$quuery = $this->db->where("idUser = ", @$ticket['idUserDelivery'])->get();
-			$rs_tickets['tickets'][$key]['userDelivery'] = @$quuery->result_array()[0];
-
-			$this->db->select("*")->from("tb_ticket_delivery");
-			$quuery = $this->db->where("id = ", @$ticket['idDeliveryTo'])->get();
-			$rs_tickets['tickets'][$key]['deliveryTo'] = @$quuery->result_array()[0];
-
-			$this->db->select("*")->from("tb_clients");
-			$this->db->join('tb_zonas', 'tb_zonas.idZona = tb_clients.idZonaFk', 'left');
-			$this->db->join('tb_location', 'tb_location.idLocation = tb_clients.idLocationFk', 'left');
-			$this->db->join('tb_province', 'tb_province.idProvince = tb_clients.idProvinceFk', 'left');
-			$quuery = $this->db->where("idClient = ", @$ticket['idDeliveryAddress'])->get();
-			$rs_tickets['tickets'][$key]['deliveryAddress'] = @$quuery->result_array()[0];
-			if (@$ticket['idTypeDeliveryKf'] == '1' && $rs_tickets['tickets'][$key]['deliveryAddress'] == null) {
-				$rs_tickets['tickets'][$key]['deliveryAddress']['address'] = "Carlos Calvo 3430";
-				$rs_tickets['tickets'][$key]['deliveryAddress']['province'] = "Ciudad Autonoma de Buenos Aires";
-				$rs_tickets['tickets'][$key]['deliveryAddress']['location'] = "Boedo";
-			}
-
-			$this->db->select("*")->from("tb_ticket_other_delivery_address");
-			$this->db->join('tb_location', 'tb_location.idLocation = tb_ticket_other_delivery_address.idLocationFk', 'left');
-			$this->db->join('tb_province', 'tb_province.idProvince = tb_ticket_other_delivery_address.idProvinceFk', 'left');
-			$quuery = $this->db->where("id = ", @$ticket['idOtherDeliveryAddressKf'])->get();
-			$rs_tickets['tickets'][$key]['otherDeliveryAddress'] = @$quuery->result_array()[0];
-
-			$this->db->select("*")->from("tb_ticket_third_person_delivery");
-			$this->db->join('tb_location', 'tb_location.idLocation = tb_ticket_third_person_delivery.idLocationFk', 'left');
-			$this->db->join('tb_province', 'tb_province.idProvince = tb_ticket_third_person_delivery.idProvinceFk', 'left');
-			$quuery = $this->db->where("id = ", @$ticket['idThirdPersonDeliveryKf'])->get();
-			$rs_tickets['tickets'][$key]['thirdPersonDelivery'] = @$quuery->result_array()[0];
-
-			$this->db->select("*")->from("tb_ticket_payment_type");
-			$quuery = $this->db->where("id = ", @$ticket['idTypePaymentKf'])->get();
-			$rs_tickets['tickets'][$key]['typePaymentKf'] = @$quuery->result_array()[0];
-
-			$this->db->select("*")->from("tb_statusticket");
-			$quuery = $this->db->where("idStatus = ", @$ticket['idStatusTicketKf'])->get();
-			$rs_tickets['tickets'][$key]['statusTicket'] = @$quuery->result_array()[0];
-
-			$this->db->select("*")->from("tb_mp_payments");
-			$this->db->join('tb_ticket_payment_manual_type', 'tb_ticket_payment_manual_type.id = tb_mp_payments.idManualPaymentTypeKf', 'left');
-			$quuery = $this->db->where("idPayment = ", @$ticket['idPaymentKf'])->get();
-			$rs_tickets['tickets'][$key]['paymentDetails'] = @$quuery->result_array()[0];
-
-			$this->db->select("*")->from("tb_mp_payments");
-			$quuery = $this->db->where("idPayment = ", @$ticket['idPaymentDeliveryKf'])->get();
-			$rs_tickets['tickets'][$key]['paymentDeliveryDetails'] = @$quuery->result_array()[0];
-
-			$this->db->select("idMgmtMethod, mgmtMethod AS name")->from("tb_ticket_mgmt_method");
-			$quuery = $this->db->where("idMgmtMethod = ", @$ticket['idMgmtMethodKf'])->get();
-			$rs_tickets['tickets'][$key]['keysMethod'] = @$quuery->result_array()[0];
-
-			$this->db->select("*,tb_ticket_changes_history.descripcion as description,")->from("tb_ticket_changes_history");
-			$this->db->join('tb_ticket_changes_category', 'tb_ticket_changes_category.id = tb_ticket_changes_history.idCambiosTicketKf', 'left');
-			$this->db->join('tb_user', 'tb_user.idUser = tb_ticket_changes_history.idUserKf', 'left');
-			$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
-			$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
-			$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-			$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-			$quuery = $this->db->where("idTicketKf = ", @$ticket['idTicket'])->get();
-			$rs_tickets['tickets'][$key]['changes_history'] = @$quuery->result_array();
-			if (@$ticket['isBillingUploaded'] == 1) {
-				$this->db->select("*")->from("tb_ticket_files_list");
-				$quuery = $this->db->where("idTicketKf = ", $ticket['idTicket'])->get();
-				$rs_tickets['tickets'][$key]['billingReceiptDetails'] = @$quuery->result_array();
-			} else {
-				$rs_tickets['tickets'][$key]['billingReceiptDetails'] = null;
-			}
-			$this->db->select("*")->from("tb_ticket_delivery_company");
-			$quuery = $this->db->where("idDeliveryCompany = ", @$ticket['idDeliveryCompanyKf'])->get();
-			$rs_tickets['tickets'][$key]['deliveryCompanyDetails'] = @$quuery->result_array()[0];
-
-			$this->db->select("*")->from("tb_tickets_refunds");
-			$this->db->join('tb_tickets_refunds_status', 'tb_tickets_refunds_status.idRefundType = tb_tickets_refunds.idRefundTypeKf', 'left');
-			$quuery = $this->db->where("idTicketKf = ", @$ticket['idTicket'])->get();
-			if ($quuery->num_rows() > 0) {
-				$rs_tickets['tickets'][$key]['refundsDetails'] = @$quuery->result_array();
-			} else {
-				$rs_tickets['tickets'][$key]['refundsDetails'] = null;
-			}
-			//INITIAL DELIVERY DATA
-			$this->db->select("*")->from("tb_client_initial_delivery");
-			$quuery = $this->db->where("tb_client_initial_delivery.idClientKf =", @$ticket['idBuildingKf'])->get();
-
-			$rs9 = $quuery->result_array();
-			$rs_tickets['tickets'][$key]['building']['isInitialDeliveryActive'] = $rs9;
-			$rs_tickets['tickets'][$key]['building']['initial_delivery'] = $rs9;
-			if ($quuery->num_rows() > 0) {
-				//print_r($rs['customers'][$i]['initial_delivery'][0]['expirationDate']);
-				$dateString = $rs_tickets['tickets'][$key]['building']['isInitialDeliveryActive'][0]['expirationDate'];
-				$dateString = $rs_tickets['tickets'][$key]['building']['initial_delivery'][0]['expirationDate'];
-				// Date string to compare
-				// Convert date string to a DateTime object
-				$dateToCompare = new DateTime($dateString);
-
-				// Get the current date as a DateTime object
-				$now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));
-
-				$dateToCompareFormatted = $dateToCompare->format('Y-m-d');
-				$currentDateFormatted = $now->format('Y-m-d');
-				//print_r("currentDate   : ".$currentDateFormatted);
-				//print("dateString    : ".$dateString);
-				//print("dateToCompare : ".$dateToCompareFormatted);
-				//print("currentDate   : ".$currentDate);
-				if ($currentDateFormatted > $dateToCompareFormatted) {
-					$rs_tickets['tickets'][$key]['building']['isInitialDeliveryActive'][0]['expiration_state'] = true;
-					$rs_tickets['tickets'][$key]['building']['initial_delivery'][0]['expiration_state'] = true;
-				} else {
-					$rs_tickets['tickets'][$key]['building']['isInitialDeliveryActive'][0]['expiration_state'] = false;
-					$rs_tickets['tickets'][$key]['building']['initial_delivery'][0]['expiration_state'] = false;
-				}
-			} else {
-				$rs_tickets['tickets'][$key]['building']['isInitialDeliveryActive'] = [];
-			}
-			$this->db->select("*")->from("tb_ticket_devicetype");
-			$quuery = $this->db->where("idDeviceType = ", @$ticket['idDeviceTypeKf'])->get();
-			if ($quuery->num_rows() > 0) {
-				$rs_tickets['tickets'][$key]['devicetypeDetails'] = @$quuery->result_array()[0];
-			} else {
-				$rs_tickets['tickets'][$key]['devicetypeDetails'] = null;
-			}
+			$rs_tickets['tickets'][$key]['keys'] = $keys;
 		}
-		if (count($rs_tickets['tickets']) >= 0) {
-			return $rs_tickets;
-		}
+
+		return $rs_tickets;
 	}
 
 	/* GET TICKET BY TOKEN */
