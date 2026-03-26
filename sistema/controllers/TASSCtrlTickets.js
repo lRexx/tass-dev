@@ -2726,7 +2726,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $scope.mainSwitchFn('selectDeviceType', null, null);
                         }else{
                             $scope.ticket.deviceTypeSelected = $scope.rsTicketDevicesType.find(s => s.idDeviceType == "1");
-                            $scope.ticket.idDeviceTypeKf = $scope.ticket.deviceTypeSelected.idDeviceType
+                            $scope.ticket.idDeviceTypeKf = $scope.ticket.deviceTypeSelected.idDeviceType;
+                            $scope.ticket.deviceSelected = true;
                             console.log($scope.ticket);
                         }
                     break;
