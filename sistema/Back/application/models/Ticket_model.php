@@ -1445,6 +1445,7 @@ class Ticket_model extends CI_Model
 									setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
 									if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 5) {
+										setlocale(LC_TIME, 'es_ES.UTF-8', 'es_ES', 'spanish');
 										$deliveryDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivery_schedule_at']));
 										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">La entrega de su pedido esta programado para el dia  ' . $deliveryDate . ' en la franja horaria de 16h a 22h.</td>';
 										$body .= '</tr>';
