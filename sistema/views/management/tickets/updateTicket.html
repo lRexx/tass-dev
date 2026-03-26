@@ -423,7 +423,7 @@
                                           </tr>
                                       </thead>
                                       <tbody style="overflow: auto;height: auto !important;" class="">
-                                          <tr ng-repeat-start="key in tkupdate.keys track by $index" ng-click="mainSwitchFn('device_user', key.user, null)">
+                                          <tr ng-repeat-start="key in tkupdate.keys track by $index" style="align-content: center; cursor: pointer;" ng-click="tkupdate.idDeviceTypeKf=='2'?mainSwitchFn('device_user', key.user, null):''">
                                             <td rowspan="{{key.doors.length}}" class="media-middle text-center" style="vertical-align:middle !important;">{{$index+1}}</td>
                                             <td rowspan="{{key.doors.length}}" class="media-middle text-center" style="vertical-align:middle !important;">
                                               {{key.descriptionProduct}} <span class="badge badge-warning">{{key.brand}}</span>
