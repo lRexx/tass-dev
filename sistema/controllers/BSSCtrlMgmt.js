@@ -4482,6 +4482,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             case "ticket_user":
               $('#userModalDetails').modal('show');
             break;
+            case "device_user":
+              $scope.userLicense = obj;
+              $('#userLicenseModalDetails').modal('show');
+            break;
             case "ticket_delivery":
               $('#deliveryModalDetails').modal('show');
             break;

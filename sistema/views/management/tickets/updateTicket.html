@@ -423,7 +423,7 @@
                                           </tr>
                                       </thead>
                                       <tbody style="overflow: auto;height: auto !important;" class="">
-                                          <tr ng-repeat-start="key in tkupdate.keys track by $index">
+                                          <tr ng-repeat-start="key in tkupdate.keys track by $index" ng-click="mainSwitchFn('device_user', key.user, null)">
                                             <td rowspan="{{key.doors.length}}" class="media-middle text-center" style="vertical-align:middle !important;">{{$index+1}}</td>
                                             <td rowspan="{{key.doors.length}}" class="media-middle text-center" style="vertical-align:middle !important;">
                                               {{key.descriptionProduct}} <span class="badge badge-warning">{{key.brand}}</span>
@@ -616,6 +616,7 @@
 <div ng-if="sysToken" ng-include="'views/monitor/tickets/lists/refundsList.html'"></div>
 <div ng-if="sysToken" ng-include="'views/management/tickets/delivery_details.html'"></div>
 <div ng-if="sysToken" ng-include="'views/management/tickets/user_details.html'"></div>
+<div ng-if="sysToken" ng-include="'views/management/tickets/user_license_details.html'"></div>
 <div ng-if="sysToken" ng-include="'views/management/tickets/payment_details.html'"></div>
 <div ng-if="sysToken" ng-include="'views/management/tickets/delivery_update.html'"></div>
 <div ng-if="sysToken" ng-include="'views/management/tickets/register_manual_payment.html'"></div>
