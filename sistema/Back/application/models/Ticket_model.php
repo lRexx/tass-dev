@@ -1453,20 +1453,6 @@ class Ticket_model extends CI_Model
 										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
 										$body .= '</tr>';
 									}
-									if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 1 && $lastTicketUpdatedQuery['idDeviceTypeKf'] == "2") {
-										$userRetiredByFullName = $lastTicketUpdatedQuery['retiredByFullName'] == null ? $lastTicketUpdatedQuery['userDelivery']['fullNameUser'] : $lastTicketUpdatedQuery['retiredByFullName'];
-										setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
-										date_default_timezone_set('America/Argentina/Buenos_Aires');
-										$deliveredDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivered_at']));
-										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">El Pedido ha sido completado, el dia ' . $deliveredDate . '</td>';
-										$body .= '</tr>';
-										$body .= '<tr width="100%" bgcolor="#ffffff">';
-										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
-										$body .= '</tr>';
-										$body .= '<tr width="100%" bgcolor="#ffffff">';
-										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
-										$body .= '</tr>';
-									}
 								} else if ($lastTicketUpdatedQuery['idTypeDeliveryKf'] == 2) {
 									setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
@@ -1522,6 +1508,19 @@ class Ticket_model extends CI_Model
 										$body .= '</tr>';
 									}
 
+								} else if (is_null($lastTicketUpdatedQuery['idTypeDeliveryKf']) && $lastTicketUpdatedQuery['idStatusTicketKf'] == 13 && $lastTicketUpdatedQuery['idDeviceTypeKf'] == "2") {
+									$userRetiredByFullName = $lastTicketUpdatedQuery['retiredByFullName'] == null ? $lastTicketUpdatedQuery['userDelivery']['fullNameUser'] : $lastTicketUpdatedQuery['retiredByFullName'];
+									setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
+									date_default_timezone_set('America/Argentina/Buenos_Aires');
+									$deliveredDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivered_at']));
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">El Pedido ha sido completado, el dia ' . $deliveredDate . '</td>';
+									$body .= '</tr>';
+									$body .= '<tr width="100%" bgcolor="#ffffff">';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+									$body .= '</tr>';
+									$body .= '<tr width="100%" bgcolor="#ffffff">';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+									$body .= '</tr>';
 								}
 							} else if ($lastTicketUpdatedQuery['idTypeTicketKf'] == 2) {
 								if (is_null($lastTicketUpdatedQuery['idTypeDeliveryKf'])) {
