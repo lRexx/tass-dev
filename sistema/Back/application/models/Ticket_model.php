@@ -1509,7 +1509,6 @@ class Ticket_model extends CI_Model
 									}
 
 								} else if (is_null($lastTicketUpdatedQuery['idTypeDeliveryKf']) && $lastTicketUpdatedQuery['idStatusTicketKf'] == 13 && $lastTicketUpdatedQuery['idDeviceTypeKf'] == "2") {
-									$userRetiredByFullName = $lastTicketUpdatedQuery['retiredByFullName'] == null ? $lastTicketUpdatedQuery['userDelivery']['fullNameUser'] : $lastTicketUpdatedQuery['retiredByFullName'];
 									setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
 									$deliveredDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivered_at']));
