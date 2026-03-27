@@ -4456,9 +4456,25 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   });
                 }
               }else{
-                inform.add('La solicitud de Habilitación de Licencia esta siendo procesada. ',{
-                        ttl:7000, type: 'info'
-                });
+                  if (($scope.tkupdate.whereKeysAreEnable==null || $scope.tkupdate.isKeysEnable==null)||($scope.tkupdate.isKeysEnable!=null && $scope.tkupdate.isKeysEnable!=$scope.functions.isKeysEnable)){
+                    $scope.tkupdate.newKeychainList         = $scope.rsNewKeychainList;
+                    $scope.tkupdate.isKeysEnable            = $scope.functions.isKeysEnable;
+                    $scope.tkupdate.whereKeysAreEnable      = $scope.ticket.whereKeysAreEnableTmp!=null?$scope.ticket.whereKeysAreEnableTmp:null;
+                    $scope.tkupdate.history                 = [];
+                    console.log("Ticket Update: "+$scope.tkupdate.codTicket);
+                    console.log($scope.tkupdate);
+                    $scope.update.ticket = $scope.tkupdate;
+                    console.log($scope.update);
+                    //$scope.setKeysEnableDisableFn($scope.update);
+                    inform.add('La solicitud de Habilitación de Licencia esta siendo procesada. ',{
+                            ttl:7000, type: 'info'
+                    });
+                  }else{
+                  inform.add('No hay cambios en el Pedido para actualizar. ',{
+                        ttl:5000, type: 'info'
+                  });
+                }
+
               }
             break;
             case "checkAllList":
