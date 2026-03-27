@@ -1255,7 +1255,7 @@ class Ticket_model extends CI_Model
 		log_message('info', ':::::::::::::::::changueStatus => delivered_at:' . @$ticket['delivered_at']);
 		log_message('info', ':::::::::::::::::changueStatus => delivery_schedule_at:' . @$ticket['delivery_schedule_at']);
 		if ($ticket['idTypeTicketKf'] == "1") {
-			if (is_null($ticket['delivered_at']) && is_null($ticket['delivery_schedule_at']) && $ticket['idNewStatusKf'] != 5 && $ticket['idNewStatusKf'] != 1) {
+			if (is_null($ticket['delivered_at']) && (is_null($ticket['delivery_schedule_at']) || empty($ticket['delivery_schedule_at'])) && $ticket['idNewStatusKf'] != 5 && $ticket['idNewStatusKf'] != 1) {
 				$this->db->set(
 					array(
 						'idStatusTicketKf' => @$ticket['idNewStatusKf']
