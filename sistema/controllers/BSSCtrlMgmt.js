@@ -6455,9 +6455,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   if(response.status==200){
                     $timeout(function() {
                       console.log("Request Successfully processed");
-                      console.log("pedido.ticket.idMgmtMethodKf  : "+pedido.ticket.idMgmtMethodKf);
-                      console.log("pedido.ticket.keysMethod.name : "+pedido.ticket.keysMethod.name);
                       if($scope.tkupdate.idDeviceTypeKf!='2'){
+                        console.log("pedido.ticket.idMgmtMethodKf  : "+pedido.ticket.idMgmtMethodKf);
+                        console.log("pedido.ticket.keysMethod.name : "+pedido.ticket.keysMethod.name);
                         switch(pedido.ticket.idMgmtMethodKf){
                           case "1":
                             switch(pedido.ticket.idTypeRequestFor){
