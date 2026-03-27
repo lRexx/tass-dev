@@ -1261,6 +1261,12 @@ class Ticket_model extends CI_Model
 						'idStatusTicketKf' => @$ticket['idNewStatusKf']
 					)
 				)->where("idTicket", $ticket['idTicket'])->update("tb_tickets_2");
+			} else if ($ticket['idDeviceTypeKf'] == "2" && !is_null($ticket['delivered_at']) && (is_null($ticket['delivery_schedule_at']) || empty($ticket['delivery_schedule_at'])) && $ticket['idNewStatusKf'] != 5 && $ticket['idNewStatusKf'] != 1) {
+				$this->db->set(
+					array(
+						'idStatusTicketKf' => @$ticket['idNewStatusKf']
+					)
+				)->where("idTicket", $ticket['idTicket'])->update("tb_tickets_2");
 			} else if (($ticket['idTypeRequestFor'] == "1" || $ticket['idTypeRequestFor'] == "2" || $ticket['idTypeRequestFor'] == "3" || $ticket['idTypeRequestFor'] == "5" || $ticket['idTypeRequestFor'] == "6") && !is_null($ticket['idTypeDeliveryKf']) && $ticket['idTypeDeliveryKf'] == "2" && !is_null($ticket['delivery_schedule_at']) && is_null($ticket['delivered_at'])) {
 				$this->db->set(
 					array(
