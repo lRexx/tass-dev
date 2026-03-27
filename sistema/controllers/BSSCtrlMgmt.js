@@ -453,6 +453,18 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.modalConfirmation('setDeliveryPending',0, $scope.update);
                 }
               break;
+              case "ticketCompleted":
+                if (confirm==0){
+                  $scope.keyObj=obj;
+                  console.log($scope.keyObj);
+                  $scope.mess2show="El Pedido "+$scope.keyObj.codTicket+" ha sido completado,     Confirmar?";
+                  $('#confirmOnlyRequestModal').modal({backdrop: 'static', keyboard: false});
+                }else if (confirm==1){
+                  console.log($scope.keyObj);
+                  $scope.mainSwitchFn('ticketCompleted', $scope.keyObj, null);
+                  $('#confirmOnlyRequestModal').modal('hide');
+                }
+              break
               case "ticketDeliveredBuilding":
                 if (confirm==0){
                   $scope.keyObj=obj;
@@ -4461,11 +4473,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.tkupdate.isKeysEnable            = $scope.functions.isKeysEnable;
                     $scope.tkupdate.whereKeysAreEnable      = $scope.ticket.whereKeysAreEnableTmp!=null?$scope.ticket.whereKeysAreEnableTmp:null;
                     $scope.tkupdate.history                 = [];
+                    if ($scope.tkupdate.isKeysEnable=="1"){
+                      $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"50"});
+                    }else{
+                      $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"51"});
+                    }
                     console.log("Ticket Update: "+$scope.tkupdate.codTicket);
                     console.log($scope.tkupdate);
                     $scope.update.ticket = $scope.tkupdate;
                     console.log($scope.update);
-                    //$scope.setKeysEnableDisableFn($scope.update);
+                    $scope.setKeysEnableDisableFn($scope.update);
                     inform.add('La solicitud de Habilitación de Licencia esta siendo procesada. ',{
                             ttl:7000, type: 'info'
                     });
@@ -5789,6 +5806,27 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $scope.changeTicketStatusRequestFn($scope.update);
               }, 2000);
             break;
+            case "ticketCompleted":
+              $('#showModalRequestStatus').hide();
+              console.log(obj);
+              $scope.update.ticket.idTicket              = obj.idTicket;
+              $scope.update.ticket.idTypeDeliveryKf      = obj.idTypeDeliveryKf;
+              $scope.update.ticket.idNewStatusKf         = 13;
+              var delivered_at                           = obj.newTicketStatus.idStatus=='1' && obj.idTypeDeliveryKf=='2' && obj.deliveryDate!=undefined?formatDateForDB(obj.deliveryDate):new Date();
+              $scope.update.ticket.delivery_schedule_at  = obj.delivery_schedule_at!=null && obj.delivery_schedule_at!=undefined?obj.delivery_schedule_at:null;
+              $scope.update.ticket.delivered_at          = delivered_at;
+              $scope.update.ticket.idTypeRequestFor      = $scope.tkupdate.idTypeRequestFor;
+              $scope.update.ticket.history               = [];
+              $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"48"});
+              $scope.update.ticket.idUserActionKf = $scope.sysLoggedUser.idUser;
+              console.log($scope.update);
+              $('#changeModalStatus').modal('hide');
+              $('#showModalRequestStatus').modal('hide');
+              console.log($scope.update);
+              $timeout(function() {
+                $scope.changeTicketStatusRequestFn($scope.update);
+              }, 2000);
+            break;
             case "isTechnicianAssigned":
               console.log(obj);
               $scope.update.ticket.idTicket              = obj.idTicket;
@@ -6419,82 +6457,91 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log("Request Successfully processed");
                       console.log("pedido.ticket.idMgmtMethodKf  : "+pedido.ticket.idMgmtMethodKf);
                       console.log("pedido.ticket.keysMethod.name : "+pedido.ticket.keysMethod.name);
-                      switch(pedido.ticket.idMgmtMethodKf){
-                        case "1":
-                          switch(pedido.ticket.idTypeRequestFor){
-                            case "1":
-                            case "3":
-                            case "5":
-                            case "6":
-                              console.log("pedido.ticket.idTypeRequestFor  : "+pedido.ticket.idTypeRequestFor);
-                              console.log("pedido.ticket.whereKeysAreEnable: "+pedido.ticket.whereKeysAreEnable);
-                              console.log("pedido.ticket.isKeysEnable      : "+pedido.ticket.isKeysEnable);
-                              if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="2" && pedido.ticket.isKeysEnable=="1"){
-                                pedido.ticket.newTicketStatus = {'idStatus':null}
-                                pedido.ticket.newTicketStatus.idStatus = "1";
-                                console.log("ticketDelivered");
-                                $scope.modalConfirmation('ticketDelivered',0, pedido.ticket);
-                              }else{
-                                console.log("setDeliveryPending");
-                                pedido.ticket.idNewStatusKf="4";
-                                $scope.modalConfirmation('setDeliveryPending',0, pedido);
-                              }
-                            break;
-                          }
-                        break;
-                        case "2":
-                          switch(pedido.ticket.idTypeRequestFor){
-                            case "1":
-                            case "3":
-                            case "5":
-                            case "6":
-                              console.log("pedido.ticket.whereKeysAreEnable: "+pedido.ticket.whereKeysAreEnable);
-                              console.log("pedido.ticket.isKeysEnable      : "+pedido.ticket.isKeysEnable);
-                              if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="2" && pedido.ticket.isKeysEnable=="1"){
-                                console.log("ticketDelivered");
-                                $scope.update.ticket.newTicketStatus = {'idStatus':null}
-                                $scope.update.ticket.newTicketStatus.idStatus = "1";
-                                console.log($scope.update.ticket);
-                                $scope.modalConfirmation('ticketDelivered',0, $scope.update.ticket);
-                              }else{
-                                if (pedido.ticket.idTypeDeliveryKf!=null && pedido.ticket.idTypeDeliveryKf=="2"){
-                                  console.log("setDeliveryPending");
-                                  pedido.ticket.idNewStatusKf="4";
-                                  $scope.modalConfirmation('setDeliveryPending',0, pedido);
-                                }else if (pedido.ticket.idTypeDeliveryKf!=null && pedido.ticket.idTypeDeliveryKf=="1"){
-                                  console.log("setDeliveryInOfficePending");
-                                  $scope.keyObj = {};
-                                  $scope.keyObj.ticket.newTicketStatus={'idStatus':null};
-                                  $scope.keyObj.ticket.newTicketStatus.idStatus = "7";
-                                  inform.add('El Pedido pasara automaticamente a Listo para Retirar ',{
-                                        ttl:8000, type: 'info'
-                                  });
-                                  console.log($scope.keyObj.ticket);
-                                  $scope.mainSwitchFn('apply_change_ticket_status_single', $scope.keyObj.ticket, null);
-                                }
-                              }
-                            break;
-                            case "2":
-                              if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="2" && pedido.ticket.isKeysEnable=="1"){
-                                if(pedido.ticket.building.isStockInBuilding=="1"){
-                                  $scope.modalConfirmation('ticketDeliveredBuilding',0, pedido.ticket);
-                                }
-                                if(pedido.ticket.building.isStockInOffice=="1"){
-                                  $scope.modalConfirmation('ticketDeliveredOffice',0, pedido.ticket);
-                                }
-                              }else if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="1" && pedido.ticket.isKeysEnable=="1"){
-                                if(pedido.ticket.building.isStockInBuilding=="1"){
+                      if($scope.tkupdate.idDeviceTypeKf!='2'){
+                        switch(pedido.ticket.idMgmtMethodKf){
+                          case "1":
+                            switch(pedido.ticket.idTypeRequestFor){
+                              case "1":
+                              case "3":
+                              case "5":
+                              case "6":
+                                console.log("pedido.ticket.idTypeRequestFor  : "+pedido.ticket.idTypeRequestFor);
+                                console.log("pedido.ticket.whereKeysAreEnable: "+pedido.ticket.whereKeysAreEnable);
+                                console.log("pedido.ticket.isKeysEnable      : "+pedido.ticket.isKeysEnable);
+                                if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="2" && pedido.ticket.isKeysEnable=="1"){
+                                  pedido.ticket.newTicketStatus = {'idStatus':null}
+                                  pedido.ticket.newTicketStatus.idStatus = "1";
+                                  console.log("ticketDelivered");
+                                  $scope.modalConfirmation('ticketDelivered',0, pedido.ticket);
+                                }else{
                                   console.log("setDeliveryPending");
                                   pedido.ticket.idNewStatusKf="4";
                                   $scope.modalConfirmation('setDeliveryPending',0, pedido);
                                 }
-                                if(pedido.ticket.building.isStockInOffice=="1"){
-                                  $scope.modalConfirmation('ticketDeliveredOffice',0, pedido.ticket);
+                              break;
+                            }
+                          break;
+                          case "2":
+                            switch(pedido.ticket.idTypeRequestFor){
+                              case "1":
+                              case "3":
+                              case "5":
+                              case "6":
+                                console.log("pedido.ticket.whereKeysAreEnable: "+pedido.ticket.whereKeysAreEnable);
+                                console.log("pedido.ticket.isKeysEnable      : "+pedido.ticket.isKeysEnable);
+                                if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="2" && pedido.ticket.isKeysEnable=="1"){
+                                  console.log("ticketDelivered");
+                                  $scope.update.ticket.newTicketStatus = {'idStatus':null}
+                                  $scope.update.ticket.newTicketStatus.idStatus = "1";
+                                  console.log($scope.update.ticket);
+                                  $scope.modalConfirmation('ticketDelivered',0, $scope.update.ticket);
+                                }else{
+                                  if (pedido.ticket.idTypeDeliveryKf!=null && pedido.ticket.idTypeDeliveryKf=="2"){
+                                    console.log("setDeliveryPending");
+                                    pedido.ticket.idNewStatusKf="4";
+                                    $scope.modalConfirmation('setDeliveryPending',0, pedido);
+                                  }else if (pedido.ticket.idTypeDeliveryKf!=null && pedido.ticket.idTypeDeliveryKf=="1"){
+                                    console.log("setDeliveryInOfficePending");
+                                    $scope.keyObj = {};
+                                    $scope.keyObj.ticket.newTicketStatus={'idStatus':null};
+                                    $scope.keyObj.ticket.newTicketStatus.idStatus = "7";
+                                    inform.add('El Pedido pasara automaticamente a Listo para Retirar ',{
+                                          ttl:8000, type: 'info'
+                                    });
+                                    console.log($scope.keyObj.ticket);
+                                    $scope.mainSwitchFn('apply_change_ticket_status_single', $scope.keyObj.ticket, null);
+                                  }
                                 }
-                              }
-                            break;
-                          }
-                        break;
+                              break;
+                              case "2":
+                                if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="2" && pedido.ticket.isKeysEnable=="1"){
+                                  if(pedido.ticket.building.isStockInBuilding=="1"){
+                                    $scope.modalConfirmation('ticketDeliveredBuilding',0, pedido.ticket);
+                                  }
+                                  if(pedido.ticket.building.isStockInOffice=="1"){
+                                    $scope.modalConfirmation('ticketDeliveredOffice',0, pedido.ticket);
+                                  }
+                                }else if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="1" && pedido.ticket.isKeysEnable=="1"){
+                                  if(pedido.ticket.building.isStockInBuilding=="1"){
+                                    console.log("setDeliveryPending");
+                                    pedido.ticket.idNewStatusKf="4";
+                                    $scope.modalConfirmation('setDeliveryPending',0, pedido);
+                                  }
+                                  if(pedido.ticket.building.isStockInOffice=="1"){
+                                    $scope.modalConfirmation('ticketDeliveredOffice',0, pedido.ticket);
+                                  }
+                                }
+                              break;
+                            }
+                          break;
+                        }
+                      }else{
+                        if (pedido.ticket.whereKeysAreEnable!=null && pedido.ticket.whereKeysAreEnable=="1" && pedido.ticket.isKeysEnable=="1"){
+                          pedido.ticket.newTicketStatus = {'idStatus':null}
+                          pedido.ticket.newTicketStatus.idStatus = "1";
+                          console.log("ticketCompleted");
+                          $scope.modalConfirmation('ticketCompleted',0, pedido.ticket);
+                        }
                       }
                       $scope.ticketRegistered = response.data[0];
                       $scope.mainSwitchFn("openTicket",pedido.ticket);
