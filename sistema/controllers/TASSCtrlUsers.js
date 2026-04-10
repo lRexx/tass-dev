@@ -1042,7 +1042,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     console.log("Profile                  : "+objUser.idProfileKf.idProfile);
                     console.log("OwnerOption              : "+$scope.att.ownerOption);
                     console.log("Cantidad de Departamentos: "+$scope.userDepartamentList.length);
-                      if ((((objUser.idProfileKf!=undefined && objUser.idProfileKf.idProfile == 5) || objUser.idProfileKf == 5) || ((((objUser.idProfileKf!=undefined && objUser.idProfileKf.idProfile == 4) || objUser.idProfileKf == 4) || (objUser.idProfileKf.idProfile == 6 || objUser.idProfileKf == 6)) && $scope.att.ownerOption==2)) && $scope.userDepartamentList.length==1){
+                      if ((((objUser.idProfileKf!=undefined && objUser.idProfileKf.idProfile == 5) || objUser.idProfileKf == 5) || ((((objUser.idProfileKf!=undefined && objUser.idProfileKf.idProfile == 4) || objUser.idProfileKf == 4) || (objUser.idProfileKf.idProfile == 6 || objUser.idProfileKf == 6)) && $scope.att.ownerOption==2)) && $scope.userDepartamentList.length==100){
                         inform.add("El usuario (Habitante), ya posee un departamento asociado o que sera asociado.",{
                           ttl:5000, type: 'warning'
                         });
@@ -1496,17 +1496,61 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                                   $scope.department.user  = response_userFound.data[0];
                                   $scope.department.user.registerBy = $scope.register.user.loggedUser;
                               }, 1500);
-                                $timeout(function() {
-                                    //TENANT
-                                    $scope.approveTenantDeptoFn($scope.department);
-                                  $('#RegisterUser').modal('hide');
-                                  console.log("REGISTERED SUCCESSFULLY");
-                                  inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
-                                    ttl:5000, type: 'success'
+                                //$timeout(function() {
+                                //    //TENANT
+                                //  $scope.approveTenantDeptoFn($scope.department);
+                                //  $('#RegisterUser').modal('hide');
+                                //  console.log("REGISTERED SUCCESSFULLY");
+                                //  inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
+                                //    ttl:5000, type: 'success'
+                                //  });
+                                //  $scope.refreshList();
+                                //  blockUI.stop();
+                                //}, 2500);
+                                  var approvePromises = [];
+                                  angular.forEach($scope.userDepartamentList,function(depto){
+                                      var deferred = $q.defer();
+                                      approvePromises.push(deferred.promise);
+                                      blockUI.start('Asignando el Departamento '+depto.floor+'-'+depto.departament+' seleccionado.');
+                                      console.log(depto.idClientDepartament);
+                                      //APPROVE DEPARTMENT SERVICE
+                                      $timeout(function() {
+                                        deferred.resolve();
+                                        DepartmentsServices.assignTenantDepartment(depto.idClientDepartament).then(function(response_approve) {
+                                          if(response_approve.status==200){
+                                            //inform.add('Departamento del propietario autorizado satisfactoriamente.',{
+                                            //  ttl:5000, type: 'success'
+                                            //});
+                                            console.log("[Service][assignTenantDepartment]---> idDepto: "+depto.idClientDepartament+" (Successfully Assigned and Approved)");
+                                          }else if (response_approve.status==404){
+                                            inform.add('Departamento del Habitante/Inquilino no ha sido asignado, contacte al area de soporte.',{
+                                              ttl:5000, type: 'warning'
+                                              });
+                                          }else if (response_approve.status==500){
+                                            inform.add('[Error]: '+response_approve.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                                              ttl:3000, type: 'danger'
+                                            });
+                                          }
+                                        });
+                                      }, 2000);
+                                      $timeout(function() {
+                                        blockUI.stop();
+                                      }, 3000);
                                   });
-                                  $scope.refreshList();
-                                  blockUI.stop();
-                                }, 2500);
+                                  $q.all(approvePromises).then(function () {
+                                    console.log("REGISTERED SUCCESSFULLY");
+                                    inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
+                                      ttl:5000, type: 'success'
+                                    });
+                                    inform.add('Departamentos Aprobados Satisfactoriamente.',{
+                                      ttl:5000, type: 'success'
+                                    });
+                                    $('#RegisterUser').modal('hide');
+                                    $timeout(function() {
+                                      $scope.refreshList();
+                                      blockUI.stop();
+                                    }, 1500);
+                                  });
                               }else{
                                 $timeout(function() {
                                   //TENANT
