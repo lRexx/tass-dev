@@ -1194,8 +1194,8 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                       $scope.register.user.idAddresKf            = null;
                       $scope.register.user.idDepartmentKf        = null;
                     }else{
-                      $scope.register.user.idAddresKf            = $scope.userDepartamentList[0].idClient;
-                      $scope.register.user.idDepartmentKf        = $scope.userDepartamentList[0].idClientDepartament;
+                      $scope.register.user.idAddresKf            = null;
+                      $scope.register.user.idDepartmentKf        = null;
                     }
                   break;
                   case "6": //ATTENDANT USER
@@ -1207,7 +1207,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                         $scope.register.user.idDepartmentKf      = null;
                         $scope.register.user.departmentIsNew     = null;
                       }else{
-                        $scope.register.user.idDepartmentKf      = $scope.userDepartamentList[0].idClientDepartament;
+                        $scope.register.user.idDepartmentKf      = null;
                       }
                     }else{
                       $scope.register.user.idTypeTenantKf        = null;
