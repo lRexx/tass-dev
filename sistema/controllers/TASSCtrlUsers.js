@@ -1230,7 +1230,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 //for (var depto in $scope.userDepartamentList){
                 //  console.log($scope.userDepartamentList[depto]);
                 //}
-                $scope.sysRegisterFn();
+                //$scope.sysRegisterFn();
               break;
               case "update":
                 blockUI.start('Actualizando usuario.');
