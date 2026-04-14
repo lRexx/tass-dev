@@ -1,6 +1,6 @@
 <!-- Deptos -->
 <div class=" col-md-12">
-    <table ng-if="userDepartamentList.length>0">
+    <table ng-if="userDepartamentList.length>=0">
         <tr ng-repeat="depto in userDepartamentList" style="font-size: 16px;">
             <td style="width: 10%">
             <span class="text-muted text-box">
@@ -13,7 +13,7 @@
                 <span  style="font-weight: 600; color: #f0ad4e"> {{depto.categoryDepartament | uppercase}}</span>
                 </td>
             <td style="width: 5%">
-            <label style="font-size: 80%" class="label label-info">{{depto.floor | uppercase}}-{{depto.departament | uppercase}}</label>
+                <label style="font-size: 80%" class="label label-info">{{depto.floor | uppercase}}-{{depto.departament | uppercase}}</label>
             </td>
             <td style="width: 60%"><span class="text-muted text-box"><label style="font-size: 80%" class="label label-default">{{depto.address}}</label></span></td>
             <td style="padding-bottom: 5px;">
