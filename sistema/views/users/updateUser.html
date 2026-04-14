@@ -326,7 +326,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h3 class="panel-title">Departamentos asociados
-                                        <button ng-if="(users.new.idProfileKf.idProfile==2 || users.new.idProfileKf.idProfile==3 || users.new.idProfileKf.idProfile==4 || users.new.idProfileKf.idProfile==6) || (users.update.idProfileKf==2 || users.update.idProfileKf==3 || (users.update.idProfileKf==5 && userDepartamentList.length==0) || users.update.idProfileKf==4 || users.update.idProfileKf==6)" data-toggle="tooltip" data-placement="right" title="Nuevo departamento"  ng-click="switchUsersFn('selectDepto', users.update);" type="button" class="btn btn-labeled btn-sm btn-info">
+                                        <button ng-if="(users.new.idProfileKf.idProfile==2 || users.new.idProfileKf.idProfile==3 || users.new.idProfileKf.idProfile==4 || users.new.idProfileKf.idProfile==6) || (users.update.idProfileKf==2 || users.update.idProfileKf==3 || (users.update.idProfileKf==5 && userDepartamentList.length>=0) || users.update.idProfileKf==4 || users.update.idProfileKf==6)" data-toggle="tooltip" data-placement="right" title="Nuevo departamento"  ng-click="switchUsersFn('selectDepto', users.update);" type="button" class="btn btn-labeled btn-sm btn-info">
                                             <span class="btn-label"><i title="nuevo" class="fas fa-plus"></i> </span>Departamento</button>
                                     </h3>
                                 </div>
