@@ -1286,9 +1286,9 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                         $scope.update.user.idDepartmentKf        = null;
                         $scope.update.user.departmentIsNew       = null;
                       }else{
-                        $scope.update.user.idAddresKf            = $scope.userDepartamentList[0].idClient;
-                        $scope.update.user.idDepartmentKf        = $scope.userDepartamentList[0].idClientDepartament;
-                        $scope.update.user.departmentIsNew       = $scope.userDepartamentList[0].isNew;
+                        $scope.update.user.idAddresKf            = null;
+                        $scope.update.user.idDepartmentKf        = null;
+                        $scope.update.user.departmentIsNew       = null;
                       }
                     break;
                     case "6": //ATTENDANT USER
@@ -1714,14 +1714,14 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                       }, 1500);
                         $timeout(function() {
                             //TENANT
-                            $scope.approveTenantDeptoFn($scope.department);
+                            //$scope.approveTenantDeptoFn($scope.department);
                             $('#UpdateUser').modal('hide');
                             console.log("Usuario: "+$scope.update.user.fullNameUser+" Successfully updated");
                             inform.add('El Usuario: '+$scope.update.user.fullNameUser+' ha sido actualizado con exito. ',{
                                   ttl:3000, type: 'success'
                             });
-                            $scope.refreshList();
-                            blockUI.stop();
+                            //$scope.refreshList();
+                            //blockUI.stop();
                         }, 2500);
                       }else{
                         $timeout(function() {
@@ -1731,10 +1731,55 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                           inform.add('El Usuario: '+$scope.update.user.fullNameUser+' ha sido actualizado con exito. ',{
                                 ttl:3000, type: 'success'
                           });
-                          $scope.refreshList();
+                          //$scope.refreshList();
                           blockUI.stop();
                         }, 2500);
                       }
+                      var approvePromises = [];
+                      console.log($scope.userDepartamentList)
+                      //angular.forEach($scope.userDepartamentList,function(depto){
+                      //    var deferred = $q.defer();
+                      //    approvePromises.push(deferred.promise);
+                      //    blockUI.start('Asignando el Departamento '+depto.floor+'-'+depto.departament+' seleccionado.');
+                      //    console.log(depto.idClientDepartament);
+                      //    //APPROVE DEPARTMENT SERVICE
+                      //    $timeout(function() {
+                      //      deferred.resolve();
+                      //      DepartmentsServices.assignTenantDepartment(depto).then(function(response_approve) {
+                      //        if(response_approve.status==200){
+                      //          //inform.add('Departamento del propietario autorizado satisfactoriamente.',{
+                      //          //  ttl:5000, type: 'success'
+                      //          //});
+                      //          console.log("[Service][assignTenantDepartment]---> idDepto: "+depto.idClientDepartament+" (Successfully Assigned and Approved)");
+                      //        }else if (response_approve.status==404){
+                      //          inform.add('Departamento del Habitante/Inquilino no ha sido asignado, contacte al area de soporte.',{
+                      //            ttl:5000, type: 'warning'
+                      //            });
+                      //        }else if (response_approve.status==500){
+                      //          inform.add('[Error]: '+response_approve.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                      //            ttl:3000, type: 'danger'
+                      //          });
+                      //        }
+                      //      });
+                      //    }, 2000);
+                      //    $timeout(function() {
+                      //      blockUI.stop();
+                      //    }, 3000);
+                      //});
+                      $q.all(approvePromises).then(function () {
+                        console.log("UPDATE SUCCESSFULLY");
+                        inform.add('Usuario '+$scope.update.user.fullNameUser+' actualizado satisfactoriamente.',{
+                          ttl:5000, type: 'success'
+                        });
+                        inform.add('Departamentos asignados satisfactoriamente.',{
+                          ttl:5000, type: 'success'
+                        });
+                        $('#UpdateUser').modal('hide');
+                        $timeout(function() {
+                          //$scope.refreshList();
+                          blockUI.stop();
+                        }, 1500);
+                      });
                     }else{
                       $timeout(function() {
                         blockUI.message('Usuario: '+$scope.update.user.fullNameUser+' actualizado con exito');
