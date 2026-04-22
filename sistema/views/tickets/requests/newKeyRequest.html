@@ -303,7 +303,7 @@
 											<span style="padding: 4px !important;">
 												<strong>INFORMACION IMPORTANTE: </strong><br></span>
 												<ul>
-													<li><span>Se cargaran automaticamente ({{ticket.building.initial_delivery[0].initial_qtty}}) llaveros al pedido a consto $0.</li>
+													<li ng-if="ticket.building.initial_delivery[0].initial_qtty>0"><span>Se cargaran automaticamente ({{ticket.building.initial_delivery[0].initial_qtty}}) llaveros al pedido a consto $0.</li>
 													<li><span>Si desea agregar uno o más llaveros adicionales tendran un costo de $ {{ticket.building.initial_delivery[0].initial_price | number: 2}}</li>
 												</ul>
 											</span>
@@ -472,7 +472,7 @@
 												</td>
 												<td ng-if="ticket.deviceSelected && ticket.idDeviceTypeKf!=undefined && ticket.idDeviceTypeKf=='2'" ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" style="vertical-align: middle;text-align: center;">
 													<span ng-if="tckt.user!=undefined && tckt.user!=null" data-toggle="tooltip" data-placement="right" title="Asignado" class="font-size-18px" style="color: #5cb85c">
-														<i class="text-success fas fa-check-circle"></i>
+														{{tckt.user.fullNameUser}}
 													</span>
 													<span ng-if="tckt.user==undefined || tckt.user==null" data-toggle="tooltip" data-placement="right" title="No asignado" class="text-danger media-middle text-center font-size-18px">
 														<i class="fas fa-times-circle"></i>
@@ -489,13 +489,13 @@
 											</tr>
 										</tbody>
 									</table>
-									<div ng-if="list_keys.length==0 " class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay llaveros cargados al pedido</h5></div>
+									<div ng-if="list_keys.length==0 " class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay {{ticket.deviceTypeSelected.deviceName.toLowerCase()}} cargados al pedido</h5></div>
 								</div>
 							</div>
 							<div class="clearfix"> </div>
 							<div ng-if="ticket.deviceTypeSelected==undefined && (!ticket.deviceSelected || ticket.deviceSelected)" class="blur-overlay" style="z-index: 1049 !important;">
-								<div ng-if="!ticket.deviceSelected && ticket.isHasMutiplesDevicesTypes" class="centered-message">Seleccione el dispositivo.</div>
-								<div ng-if="ticket.deviceSelected" class="centered-message">Seleccione el solicitante.</div>
+								<div ng-if="ticket.userRequestBy!=undefined && ticket.userRequestBy!=null && !ticket.deviceSelected && ticket.isHasMutiplesDevicesTypes" class="centered-message">Seleccione el dispositivo.</div>
+								<div ng-if="(ticket.userRequestBy==undefined || ticket.userRequestBy==null) && ticket.deviceSelected" class="centered-message">Seleccione el solicitante.</div>
 							</div>
 						</div>
 					</fieldset>

@@ -4930,7 +4930,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             $scope.update.ticket.idUserDelivery        = obj.delivery.deliveryTo.idUser;
                             $scope.update.ticket.idDeliveryAddress     = obj.building.idClient;
                         }else if(obj.delivery.whoPickUp.id==undefined && obj.delivery.idDeliveryTo==2){
-                            $scope.update.ticket.idWhoPickUp           = 1;
+                            $scope.update.ticket.idWhoPickUp           = "1";
                             $scope.otherDeliveryAddress.id             = obj.selected.otherDeliveryAddress!=undefined && obj.selected.otherDeliveryAddress!=null?obj.selected.otherDeliveryAddress.id:null;
                             $scope.update.ticket.otherDeliveryAddress  = {'id':$scope.otherDeliveryAddress.id, 'address':obj.delivery.otherAddress.streetName,'number':obj.delivery.otherAddress.streetNumber,'floor':obj.delivery.otherAddress.floor+"-"+obj.delivery.otherAddress.department, 'idProvinceFk':obj.delivery.otherAddress.province.selected.idProvince, 'idLocationFk':obj.delivery.otherAddress.location.selected.idLocation};
                             $scope.update.ticket.thirdPersonDelivery   = {'id':$scope.thirdPersonDelivery.id, 'fullName':null, 'movilPhone':null, 'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
@@ -4989,6 +4989,43 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         console.log("SE MODIFICA Status");
                         $scope.update.ticket.idStatusTicketKf="4"
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"42"});
+
+                        switch(obj.selected.idMgmtMethodKf){
+                          case "1": //STOCK
+                            switch(obj.selected.idTypeRequestFor){
+                              case "1":
+                              case "3":
+                              case "5":
+                              case "6":
+                                    if (obj.selected.building.isStockInBuilding == "1"){$scope.update.ticket.idDeliveryCompanyKf="3";}
+                                    if (obj.selected.building.isStockInOffice == "1"){$scope.update.ticket.idDeliveryCompanyKf="1";}
+                              break;
+                              case "4":
+                                if (obj.selected.building.isStockInBuilding == "1"){$scope.update.ticket.idDeliveryCompanyKf="3";}
+                                if (obj.selected.building.isStockInOffice == "1"){$scope.update.ticket.idDeliveryCompanyKf="1";}
+                              break;
+                            }
+                          break;
+                          case "2": //MANUAL
+                            switch(obj.selected.idTypeRequestFor){
+                              case "1":
+                              case "3":
+                              case "5":
+                              case "6":
+                                    if(obj.selected.building.isHasInternetOnline === null || obj.selected.building.isHasInternetOnline != null){ //NO INTERNET OR WITH INTERNET
+                                      if (obj.selected.isKeysEnable=="1"){
+                                        $scope.update.ticket.idDeliveryCompanyKf="1";
+                                      }else{
+                                        $scope.update.ticket.idDeliveryCompanyKf="2";
+                                      }
+                                    }
+                              break;
+                              case "2":
+                                $scope.update.ticket.idDeliveryCompanyKf="2";
+                              break;
+                            }
+                          break;
+                        }
                       }
                     break;
                   }
@@ -5005,7 +5042,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $('#UpdateModalTicket').modal('hide');
                   //$('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
                   $timeout(function() {
-                    $scope.updateUpRequestFn($scope.update);
+                    //$scope.updateUpRequestFn($scope.update);
                   }, 2000);
                   //$scope.ticket = {'administration':undefined, 'idTypeRequestFor':null, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'userRequestBy':{}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':null, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
                   //$scope.ticket.building              = obj.building;
@@ -5164,7 +5201,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             isKeyTenantOnly     : null,
                             idClientAdminKf     : null,
                             createdBy           : $scope.sysLoggedUser.idUser,
-                            idTicketKf          : $scope.tkupdate.idTicket,
+                            idTicketKf          : $scope.update.ticket.idTicket,
                             idTypeTicketKf      : $scope.tkupdate.idTypeTicketKf,
                             idKeychain          : key.keychain.idKeychain,
                             idKeychainKf        : null,
@@ -7123,25 +7160,36 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 var ubicacion_lat     = "";
                 var ubicacion_lon     = "";
                 var whoReceive        = "";
+                var departmentUnit    = obj[f].idTypeRequestFor=="1"?obj[f].department.floor+"-"+obj[f].department.departament:"No asignado";
                 var addressLat        = obj[f].deliveryAddress!=null && obj[f].deliveryAddress!=undefined && obj[f].deliveryAddress.addressLat!=undefined?obj[f].deliveryAddress.addressLat:"No asignado";
                 var addressLon        = obj[f].deliveryAddress!=null && obj[f].deliveryAddress!=undefined && obj[f].deliveryAddress.addressLon!=undefined?obj[f].deliveryAddress.addressLon:"No asignado";
                 if (obj[f].idDeliveryTo=="1" && obj[f].idWhoPickUp=="1"){ //DELIVERY OWNER PERSON TO CURRENT ADDRESS
+                  if (obj[f].userDelivery.phoneNumberUser!=null && obj[f].userDelivery.phoneNumberUser!=undefined){
+                    var phoneNumber       = obj[f].userDelivery.phoneNumberUser;
+                  }else{
+                    var phoneNumber       = obj[f].userDelivery.phoneLocalNumberUser;
+                  }
                   location        = obj[f].deliveryAddress.location;
                   city            = obj[f].deliveryAddress.province;
-                  address         = obj[f].deliveryAddress.address;
+                  address         = obj[f].deliveryAddress.address+", "+departmentUnit;;
                   emailAddr       = obj[f].userDelivery.emailUser;
-                  phoneNumberUser = obj[f].userDelivery.phoneNumberUser;
+                  phoneNumberUser = phoneNumber;
                   dni             = obj[f].userDelivery.dni;
                   ubicacion_lat   = addressLat;
                   ubicacion_lon   = addressLon;
                   whoReceive      = obj[f].userDelivery.fullNameUser;
                 }else if (obj[f].idDeliveryTo=="2" && obj[f].idWhoPickUp=="1"){ //DELIVERY OWNER PERSON TO DIFFERENT ADDRESS
+                  if (obj[f].userDelivery.phoneNumberUser!=null && obj[f].userDelivery.phoneNumberUser!=undefined){
+                    var phoneNumber       = obj[f].userDelivery.phoneNumberUser;
+                  }else{
+                    var phoneNumber       = obj[f].userDelivery.phoneLocalNumberUser;
+                  }
                   location        = obj[f].otherDeliveryAddress.location;
                   city            = obj[f].otherDeliveryAddress.province;
                   taddress        = obj[f].otherDeliveryAddress.address;
-                  address         = address.toUpperCase()+" "+obj[f].otherDeliveryAddress.number;
+                  address         = taddress.toUpperCase()+" "+obj[f].otherDeliveryAddress.number+", "+obj[f].otherDeliveryAddress.floor;
                   emailAddr       = obj[f].userDelivery.emailUser;
-                  phoneNumberUser = obj[f].userDelivery.phoneNumberUser;
+                  phoneNumberUser = phoneNumber
                   dni             = obj[f].userDelivery.dni;
                   $scope.getAddressDetailsFn(address, obj[f].otherDeliveryAddress.idProvinceFk);
                   ubicacion_lat   = $scope.ubicacion_lat;
@@ -7150,7 +7198,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 }else if (obj[f].idDeliveryTo==null && obj[f].idWhoPickUp=="2"){ //DELIVERY ENCARGADO PERSON TO CURRENT ADDRESS
                   location        = obj[f].building.location;
                   city            = obj[f].building.province;
-                  address         = obj[f].building.address;
+                  address         = obj[f].building.address+", "+departmentUnit;;
                   emailAddr       = obj[f].userDelivery.emailUser;
                   phoneNumberUser = obj[f].userDelivery.phoneNumberUser;
                   dni             = obj[f].userDelivery.dni;
@@ -7161,7 +7209,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   location        = obj[f].thirdPersonDelivery.location;
                   city            = obj[f].thirdPersonDelivery.province;
                   taddress        = obj[f].thirdPersonDelivery.address;
-                  address         = address.toUpperCase()+" "+obj[f].thirdPersonDelivery.number;
+                  address         = taddress.toUpperCase()+" "+obj[f].thirdPersonDelivery.number+", "+obj[f].thirdPersonDelivery.floor;
                   emailAddr       = obj[f].userRequestBy!=null && obj[f].userRequestBy!=undefined?obj[f].userRequestBy.emailUser:"No asignado";
                   phoneNumberUser = obj[f].thirdPersonDelivery.movilPhone;
                   dni             = obj[f].thirdPersonDelivery.dni;
@@ -7171,29 +7219,60 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   whoReceive      = obj[f].thirdPersonDelivery.fullName!=undefined?obj[f].thirdPersonDelivery.fullName:"No asignado";
                 }
 
-                var codTicket     = obj[f].codTicket;
-                $scope.list_requests.push({
-                  //'idTicket':obj[f].idTicket,
-                  'Alto (cm)':'',
-                  'Ancho (cm)':'',
-                  'Largo (cm)':'',
-                  'Peso (kg)':'',
-                  'Referencia externa':codTicket,
-                  'OxLog': '',
-                  'Nombre quien recibe':whoReceive,
-                  '* Direccion de destino':address,
-                  'Barrio/Comuna':location,
-                  'Codigo Postal':'',
-                  'Ciudad':city,
-                  'Aclaraciones en destino':'',
-                  'Email':emailAddr,
-                  'Telefono':phoneNumberUser,
-                  'Latitud':ubicacion_lat,
-                  'Longuitud':ubicacion_lon,
-                  'Retiro (si/no)': 'NO',
-                  'Cambio (si/no)':'NO',
-                  'DNI quien recibe':dni
-              });
+                  var codTicket     = parseInt(obj[f].codTicket.replace(/\D/g,''),10);
+                  /*$scope.list_requests.push({
+                    //'idTicket':obj[f].idTicket,
+                    'Alto (cm)':'',
+                    'Ancho (cm)':'',
+                    'Largo (cm)':'',
+                    'Valor declarado':'',
+                    'Referencia externa':codTicket,
+                    'OxLog': '',
+                    'Nombre quien recibe':whoReceive,
+                    '* Direccion de destino':address,
+                    'Barrio/Comuna':location,
+                    'Codigo Postal':'',
+                    'Ciudad':city,
+                    'Aclaraciones en destino':'',
+                    'Email':emailAddr,
+                    'Telefono':phoneNumberUser,
+                    'Latitud':ubicacion_lat,
+                    'Longuitud':ubicacion_lon,
+                    'Retiro (si/no)': 'NO',
+                    'Cambio (si/no)':'NO',
+                    'DNI quien recibe':dni
+                });*/
+                    var formattedTotal = obj[f].total.toLocaleString('de-DE', {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2
+                    });
+
+                  if (city.toUpperCase()=="CIUDAD AUTONOMA DE BUENOS AIRES"){
+                    var newLocation = "CABA";
+                  }else{
+                    var newLocation = location;
+                  }
+                  var fecha = new Date(obj[f].created_at);
+                  var fechaFormateada = fecha.toLocaleDateString('es-ES', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                  }).split('/').join('-');
+                  $scope.list_requests.push({
+                    'Numero de tracking':codTicket,
+                    'Fecha de venta':fechaFormateada.split(' ')[0],
+                    'Valor declarado':"$"+formattedTotal,
+                    'Peso declarado':'',
+                    'Destinatario':whoReceive,
+                    'Teléfono de contacto':phoneNumberUser,
+                    'Dirección':address,
+                    'Localidad':newLocation,
+                    'Codigo Postal':'',
+                    'Observaciones':obj[f].description,
+                    'Email':emailAddr,
+                    '4 Total a cobrar': '',
+                    '1 Logistica Inversa':''
+                });
               }
               console.log($scope.list_requests);
               $scope.buildXLS($scope.list_requests);
@@ -7250,7 +7329,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   location        = obj[f].thirdPersonDelivery.location;
                   city            = obj[f].thirdPersonDelivery.province;
                   taddress        = obj[f].thirdPersonDelivery.address;
-                  address         = address.toUpperCase()+" "+obj[f].thirdPersonDelivery.number;
+                  address         = taddress.toUpperCase()+" "+obj[f].thirdPersonDelivery.number+" "+departmentUnit;;
                   emailAddr       = obj[f].userRequestBy.emailUser;
                   phoneNumberUser = obj[f].thirdPersonDelivery.movilPhone;
                   dni             = obj[f].thirdPersonDelivery.dni;

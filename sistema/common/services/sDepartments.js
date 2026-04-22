@@ -1,6 +1,6 @@
 var moduleDepartmentsServices = angular.module("services.Departments", ["tokenSystem", "services.User"]);
 
-moduleDepartmentsServices.service("DepartmentsServices", ['$http', '$q', 'tokenSystem', '$timeout', 'serverHost', 'serverBackend', 'serverHeaders', 
+moduleDepartmentsServices.service("DepartmentsServices", ['$http', '$q', 'tokenSystem', '$timeout', 'serverHost', 'serverBackend', 'serverHeaders',
   function($http, $q, tokenSystem, $timeout, serverHost, serverBackend, serverHeaders){
       var rsJson = {};
       var sndJson= {};
@@ -17,7 +17,7 @@ moduleDepartmentsServices.service("DepartmentsServices", ['$http', '$q', 'tokenS
                     deferred.resolve(response);
                     return deferred.promise;
                 }).catch(function onError(response) {
-                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     deferred.resolve(response);
                     return deferred.promise;
                 });
@@ -32,7 +32,7 @@ moduleDepartmentsServices.service("DepartmentsServices", ['$http', '$q', 'tokenS
                       return response;
 
                   }).catch(function onError(response) {
-                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                       return response;
                   });
         },
@@ -45,9 +45,9 @@ moduleDepartmentsServices.service("DepartmentsServices", ['$http', '$q', 'tokenS
             }).then(function onSuccess(response) {
               return response;
             }).catch(function onError(response) {
-              console.log("Error: "+response.status+" ["+response.statusText+"]");  
+              console.log("Error: "+response.status+" ["+response.statusText+"]");
               return response;
-            });   
+            });
         },
         approveDepto: function(idDepto) {
           //console.log(serverHeaders);
@@ -60,7 +60,7 @@ moduleDepartmentsServices.service("DepartmentsServices", ['$http', '$q', 'tokenS
                 return response;
 
             }).catch(function onError(response) {
-                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                 return response;
             });
         },
@@ -74,7 +74,7 @@ moduleDepartmentsServices.service("DepartmentsServices", ['$http', '$q', 'tokenS
                     deferred.resolve(response);
                     return deferred.promise;
                 }).catch(function onError(response) {
-                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     deferred.resolve(response);
                     return deferred.promise;
                 });
@@ -90,7 +90,7 @@ moduleDepartmentsServices.service("DepartmentsServices", ['$http', '$q', 'tokenS
                     return response;
 
                 }).catch(function onError(response) {
-                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
                 });
         },
@@ -100,7 +100,7 @@ moduleDepartmentsServices.service("DepartmentsServices", ['$http', '$q', 'tokenS
             .then(function mySucess(response) {
                return response;
           }).catch(function onError(response) {
-              console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+              console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                return response;
           });
       },
@@ -110,7 +110,7 @@ moduleDepartmentsServices.service("DepartmentsServices", ['$http', '$q', 'tokenS
               .then(function mySucess(response) {
                  return response;
             }).catch(function onError(response) {
-                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                  return response;
             });
         },
@@ -121,7 +121,7 @@ moduleDepartmentsServices.service("DepartmentsServices", ['$http', '$q', 'tokenS
               deferred.resolve(response);
               return deferred.promise;
           }).catch(function onError(response) {
-              console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+              console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
               deferred.resolve(response);
               return deferred.promise;
           });
@@ -133,7 +133,7 @@ moduleDepartmentsServices.service("DepartmentsServices", ['$http', '$q', 'tokenS
                 console.log("[Service][removeTenantDepto]---> Department N°: "+userData2Remove.info.idDepartmentKf+" (Successfully removed)");
                 return response;
             }).catch(function onError(response) {
-                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                 return response
             });
         },
@@ -145,7 +145,7 @@ moduleDepartmentsServices.service("DepartmentsServices", ['$http', '$q', 'tokenS
             }).then(function onSuccess(response) {
                 return response;
             }).catch(function onError(response) {
-              console.log("Error: "+response.status+" ["+response.statusText+"]");  
+              console.log("Error: "+response.status+" ["+response.statusText+"]");
                 return response;
             });
         },
@@ -157,7 +157,7 @@ moduleDepartmentsServices.service("DepartmentsServices", ['$http', '$q', 'tokenS
             }).then(function onSuccess(response) {
                 return response;
             }).catch(function onError(response) {
-              console.log("Error: "+response.status+" ["+response.statusText+"]");  
+              console.log("Error: "+response.status+" ["+response.statusText+"]");
                 return response;
             });
         },
@@ -169,7 +169,7 @@ moduleDepartmentsServices.service("DepartmentsServices", ['$http', '$q', 'tokenS
             }).then(function onSuccess(response) {
                 return response;
             }).catch(function onError(response) {
-              console.log("Error: "+response.status+" ["+response.statusText+"]");  
+              console.log("Error: "+response.status+" ["+response.statusText+"]");
                 return response;
             });
         },
@@ -181,7 +181,7 @@ moduleDepartmentsServices.service("DepartmentsServices", ['$http', '$q', 'tokenS
             }).then(function onSuccess(response) {
               return response;
             }).catch(function onError(response) {
-              console.log("Error: "+response.status+" ["+response.statusText+"]");  
+              console.log("Error: "+response.status+" ["+response.statusText+"]");
               return response;
             });
         },
@@ -193,7 +193,7 @@ moduleDepartmentsServices.service("DepartmentsServices", ['$http', '$q', 'tokenS
             }).then(function onSuccess(response) {
               return response;
             }).catch(function onError(response) {
-              console.log("Error: "+response.status+" ["+response.statusText+"]");  
+              console.log("Error: "+response.status+" ["+response.statusText+"]");
               return response;
             });
         },
@@ -204,7 +204,7 @@ moduleDepartmentsServices.service("DepartmentsServices", ['$http', '$q', 'tokenS
             }).then(function onSuccess(response) {
               return response;
             }).catch(function onError(response) {
-              console.log("Error: "+response.status+" ["+response.statusText+"]");  
+              console.log("Error: "+response.status+" ["+response.statusText+"]");
               return response;
             });
         },
@@ -215,7 +215,7 @@ moduleDepartmentsServices.service("DepartmentsServices", ['$http', '$q', 'tokenS
             }).then(function onSuccess(response) {
               return response;
             }).catch(function onError(response) {
-              console.log("Error: "+response.status+" ["+response.statusText+"]");  
+              console.log("Error: "+response.status+" ["+response.statusText+"]");
               return response;
             });
         },
