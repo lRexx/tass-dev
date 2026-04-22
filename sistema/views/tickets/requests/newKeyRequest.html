@@ -292,13 +292,12 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-md-12" ng-if="ticket.building!=undefined && ticket.building.initial_delivery.length==1 && ticket.building.initial_delivery[0].expiration_state!=undefined && !ticket.building.initial_delivery[0].expiration_state">
+								<div class="col-md-6 col-md-offset-3" ng-if="ticket.building!=undefined && ticket.building.initial_delivery.length==1 && ticket.building.initial_delivery[0].expiration_state!=undefined && !ticket.building.initial_delivery[0].expiration_state">
 									<div class="alert alert-info" role="alert" >
 										<span style="padding: 4px !important;">
 											<strong>INFORMACION IMPORTANTE: </strong><br></span>
 											<ul>
-												<li ng-if="ticket.building.initial_delivery[0].initial_qtty>0"><span>Se cargaran automaticamente ({{ticket.building.initial_delivery[0].initial_qtty}}) llaveros al pedido a consto $0.</li>
-												<li><span>Si desea agregar uno o más llaveros adicionales tendran un costo de $ {{ticket.building.initial_delivery[0].initial_price | number: 2}}</li>
+												<li><span>El usuario solicitante recibira las notificaciones y detalle del pedido, asi como el link de pago en su correo electronico.</li>
 											</ul>
 										</span>
 									</div>
