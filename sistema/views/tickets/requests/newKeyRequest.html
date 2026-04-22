@@ -730,7 +730,7 @@
 									</div>
 									<div class="col-md-3 col-xs-3" ng-class="{'col-md-offset-1':ticket.idDeviceTypeKf=='2'}">
 										<div class="input-group pull-right">
-											<span class="input-group-addon">{{ticket.deviceTypeSelected.deviceName.toLowerCase()}}</span>
+											<span class="input-group-addon" style="text-align: center; text-transform: capitalize;">{{ticket.deviceTypeSelected.deviceName.toLowerCase()}}</span>
 											<input ng-disabled="sysLoggedUser.idProfileKf!='1'"  style="text-align: right;" name="costs.keys" ng-blur="mainSwitchFn('recalculateCosts', costs.keys.cost, 'keys');" autofocus="true" placeholder="$0,00" class="form-control input--decimal" ng-keydown="fnLoadPhoneMask()" ng-model="costs.keys.cost" value="{{costs.keys.cost  | currency }}"  type="text" required autofocus />
 										</div>
 									</div>
@@ -805,7 +805,7 @@
 												<thead class="dpto-t-head">
 													<tr>
 														<th width="5px" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "> N°</th>
-														<th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-key"> </i> {{ticket.deviceTypeSelected.deviceName.toLowerCase()}}</th>
+														<th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; text-transform: capitalize;"><i class="fas fa-key"> </i> {{ticket.deviceTypeSelected.deviceName.toLowerCase()}}</th>
 														<th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-dollar-sign"> </i> Precio</th>
 														<th ng-if="ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Categoria</th>
 														<th ng-if="ticket.optionTypeSelected.name=='department' || ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Asignado</th>
