@@ -852,10 +852,10 @@
 								</tbody>
 								<!-- DELIVERY METHOD -->
 								<tbody>
-									<tr>
+									<tr ng-if="ticket.idDeviceTypeKf==1">
                                         <td colspan="4" style="background-color: #f2f2f2;font-size: 18px;">Detalles del Envío</td>
                                     </tr>
-                                    <tr>
+                                    <tr ng-if="ticket.idDeviceTypeKf==1">
 										<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;">Método</td>
 										<td ng-if="ticket.delivery.idTypeDeliveryKf=='1'">Retiro en Oficina</td>
 										<td ng-if="ticket.delivery.idTypeDeliveryKf=='2'">Entrega en Domicilio
