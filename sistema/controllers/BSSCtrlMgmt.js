@@ -3503,6 +3503,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $scope.keys = { new: {} };
                 $scope.isEditTicket = false;
                 $scope.update.ticket.editCommentBtn = false;
+                $scope.update.ticket.editInternalCommentBtn = false;
                 console.log("Calling openTicketFn", obj.idTicket);
                 // 🚨 Aquí el posible punto de fallo
                 $scope.openTicketFn(obj.idTicket);
