@@ -495,7 +495,7 @@
 							<div class="clearfix"> </div>
 							<div ng-if="ticket.deviceTypeSelected==undefined && (!ticket.deviceSelected || ticket.deviceSelected)" class="blur-overlay" style="z-index: 1049 !important;">
 								<div ng-if="ticket.userRequestBy!=undefined && ticket.userRequestBy!=null && !ticket.deviceSelected && ticket.isHasMutiplesDevicesTypes" class="centered-message">Seleccione el dispositivo.</div>
-								<div ng-if="(ticket.userRequestBy==undefined || ticket.userRequestBy==null) && ticket.deviceSelected" class="centered-message">Seleccione el solicitante.</div>
+								<div ng-if="(ticket.userRequestBy==undefined || ticket.userRequestBy==null) && !ticket.deviceSelected" class="centered-message">Seleccione el solicitante.</div>
 							</div>
 						</div>
 					</fieldset>
