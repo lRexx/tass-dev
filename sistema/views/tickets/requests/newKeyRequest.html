@@ -292,6 +292,17 @@
 										</div>
 									</div>
 								</div>
+								<div class="col-md-12" ng-if="ticket.building!=undefined && ticket.building.initial_delivery.length==1 && ticket.building.initial_delivery[0].expiration_state!=undefined && !ticket.building.initial_delivery[0].expiration_state">
+									<div class="alert alert-info" role="alert" >
+										<span style="padding: 4px !important;">
+											<strong>INFORMACION IMPORTANTE: </strong><br></span>
+											<ul>
+												<li ng-if="ticket.building.initial_delivery[0].initial_qtty>0"><span>Se cargaran automaticamente ({{ticket.building.initial_delivery[0].initial_qtty}}) llaveros al pedido a consto $0.</li>
+												<li><span>Si desea agregar uno o más llaveros adicionales tendran un costo de $ {{ticket.building.initial_delivery[0].initial_price | number: 2}}</li>
+											</ul>
+										</span>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="col-md-12 n-padding-l n-padding-r">
@@ -395,7 +406,8 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-md-6 col-xs-12 form-group n-padding-l n-padding-r">
+							<!--PUERTAS A ASOCIAR-->
+							<div class="col-md-4 col-xs-12 form-group n-padding-l n-padding-r">
 								<legend style="text-align: center;">Puertas disponibles</legend>
 								<!-- NEW TICKET -->
 								<div class="col-md-12 col-xs-12 n-padding-l n-padding-r">
@@ -417,7 +429,7 @@
 								</div>
 							</div>
 							<!--LLAVES A SOLICITAR-->
-							<div class="col-md-6 col-xs-12 form-group">
+							<div class="col-md-8 col-xs-12 form-group">
 								<legend style="text-align: center; text-transform: capitalize;">{{ticket.deviceTypeSelected.deviceName.toLowerCase()}} a solicitar</legend>
 								<div class="col-md-12" ng-if="deliveryCostFree==1">
 									<div class="alert alert-success" style="border: 3px solid;border-radius: 15px;" role="alert">
@@ -433,12 +445,12 @@
 											<tr>
 												<th width="5px" class="dpto-th-head" style="border-right: 1px solid #ddd !important; "> N°</th>
 
-												<th class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-key"> </i> Dispositivo</th>
-												<th class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-dollar-sign"> </i> Precio</th>
-												<th ng-if="ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Categoria</th>
-												<th ng-if="ticket.optionTypeSelected.name=='department' || ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Asignado</th>
-												<th ng-if="ticket.deviceSelected && ticket.idDeviceTypeKf!=undefined && ticket.idDeviceTypeKf=='2' && (ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="glyphicon glyphicon-user"></i> Usuario </th>
-												<th class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-door-open"></i> Puertas</th>
+												<th class="dpto-th-head" style="border-right: 1px solid #ddd !important; ">Dispositivo</th>
+												<th class="dpto-th-head" style="border-right: 1px solid #ddd !important; ">Precio</th>
+												<th ng-if="ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="border-right: 1px solid #ddd !important; ">Categoria</th>
+												<th ng-if="ticket.optionTypeSelected.name=='department' || ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="border-right: 1px solid #ddd !important; ">Asignado</th>
+												<th ng-if="ticket.deviceSelected && ticket.idDeviceTypeKf!=undefined && ticket.idDeviceTypeKf=='2' && (ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" class="dpto-th-head" style="border-right: 1px solid #ddd !important; ">Usuario </th>
+												<th class="dpto-th-head" style="border-right: 1px solid #ddd !important; ">Puertas</th>
 												<th class="dpto-th-head " style="text-align: center;"><i class="fas fa-ellipsis-h"></i></th>
 											</tr>
 										</thead>
@@ -719,7 +731,7 @@
 									</div>
 									<div class="col-md-3 col-xs-3" ng-class="{'col-md-offset-1':ticket.idDeviceTypeKf=='2'}">
 										<div class="input-group pull-right">
-											<span class="input-group-addon">Llaves</span>
+											<span class="input-group-addon">{{ticket.deviceTypeSelected.deviceName.toLowerCase()}}</span>
 											<input ng-disabled="sysLoggedUser.idProfileKf!='1'"  style="text-align: right;" name="costs.keys" ng-blur="mainSwitchFn('recalculateCosts', costs.keys.cost, 'keys');" autofocus="true" placeholder="$0,00" class="form-control input--decimal" ng-keydown="fnLoadPhoneMask()" ng-model="costs.keys.cost" value="{{costs.keys.cost  | currency }}"  type="text" required autofocus />
 										</div>
 									</div>
@@ -908,7 +920,7 @@
 												<tbody style="text-align: right;">
 													<tr>
 														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Gestión</td><td>$ {{ ticket.cost.service }}</td>
-														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Llaves</td><td>$ {{ ticket.cost.keys }}</td>
+														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">{{ticket.deviceTypeSelected.deviceName.toLowerCase()}}</td><td>$ {{ ticket.cost.keys }}</td>
 														<td ng-if="ticket.idDeviceTypeKf!='2'" style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Envío</td><td ng-if="ticket.idDeviceTypeKf!='2'">$ {{ ticket.cost.delivery }}</td>
 														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Total</td><td>$ {{ ticket.cost.total }}</td>
 													</tr>
