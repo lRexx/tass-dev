@@ -5180,7 +5180,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 }
                             }
                         }
-                        $scope.new.ticket.idTypePaymentKf               = obj.cost.total>0?obj.cost.idTypePaymentKf:null;
+                        $scope.new.ticket.idTypePaymentKf               = obj.cost.idTypePaymentKf;
                         $scope.new.ticket.sendNotify                    = $scope.sysLoggedUser.idProfileKf=="1"?obj.userNotify:null;
                         $scope.new.ticket.description                   = obj.description;
                         $scope.new.ticket.costService                   = NaN2Zero(normalizeDecimal(obj.cost.service));
