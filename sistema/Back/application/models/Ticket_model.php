@@ -2794,12 +2794,11 @@ class Ticket_model extends CI_Model
 			$query = $this->db->order_by("idTicket", "DESC")->get();
 			$end = microtime(true);
 
-			log_message('debug', 'Query time: ' . round(($end - $start) * 1000, 2) . 'ms');
-			log_message('debug', 'Num rows: ' . $query->num_rows());
-			log_message('debug', 'SQL: ' . $this->db->last_query());
-			log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $query->num_rows());
 			if ($query->num_rows() >= 0) {
 				//print_r($quuery->result_array());
+				log_message('debug', 'Query time: ' . round(($end - $start) * 1000, 2) . 'ms');
+				log_message('debug', 'Num rows: ' . $query->num_rows());
+				log_message('debug', 'SQL: ' . $this->db->last_query());
 				return $this->buscar_relaciones_ticket($query->result_array());
 			}
 		}
@@ -3654,7 +3653,6 @@ class Ticket_model extends CI_Model
 
 		return $typeAtendant;
 	}
-
 
 	/* VERIFICAR SI UN PROPIETARIO O INQUILINO POSEE UN TICKET SIN FINALIZAR  */
 	public function verificateTicketByidUser($id)
