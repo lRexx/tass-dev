@@ -5345,7 +5345,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         console.log($scope.new.ticket);
                         $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
                         $timeout(function() {
-                            $scope.addDownRequestFn($scope.new);
+                            //$scope.addDownRequestFn($scope.new);
                         }, 2000);
                     break;
                     case "linkMP": // Payment Link Mercado Pago

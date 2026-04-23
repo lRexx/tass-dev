@@ -2196,6 +2196,24 @@ class Ticket_model extends CI_Model
 		return null;
 	}
 
+	public function ticketInitialDeliveryActiveByDeptoId($data)
+	{
+		$quuery = null;
+
+		$this->db->select("*")->from("tb_tickets_2");
+		$this->db->where("idTypeRequestFor = ", 1);
+		$this->db->where("idBuildingKf = ", $data['idBuildingKf']);
+		$this->db->where("isInitialDeliveryActive = ", 1);
+		$this->db->where("idDepartmentKf = ", $data['idDepartmentKf']);
+		$this->db->where("idStatusTicketKf !=", 6);
+		$quuery = $this->db->get();
+		//print_r($quuery->result_array());
+		if ($quuery->num_rows() > 0) {
+			return true;
+		}
+		return null;
+	}
+
 
 	// GET DE LISTADO BUSQUEDA DE TICKETS //
 	public function get_new($data)
