@@ -2195,6 +2195,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.getCostByCustomer.rate.idServiceType="2";
                         $scope.getCostByCustomer.rate.idServiceTechnician="2";
                         $scope.getDeliveryTypesFn();
+                        $scope.getTicketDevicesTypeFn();
                         $scope.ticket.requestDate = new Date();
                         $("#selectType").modal('hide');
                         $scope.btnShow=true;
