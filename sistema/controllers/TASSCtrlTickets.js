@@ -4843,10 +4843,11 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         console.log("[Baja Ticket]");
                         console.log(obj);
                         $scope.new.ticket={'idTypeRequestFor': null,'idTypeTicketKf':  null,'idUserMadeBy':  null,'idUserRequestBy':  null,'idBuildingKf': null,'idDepartmentKf': null,'keys': [],'idTypeDeliveryKf': null,'idWhoPickUp': null,'idUserDelivery': null,'idDeliveryTo': null,'idDeliveryAddress': null,'otherDeliveryAddress': {'address': null,'number': null,'floor': null,'idProvinceFk': null,'idLocationFk': null},'thirdPersonDelivery': {'fullName': null,'dni': null,'movilPhone': null,'address': null,'number': null,'floor': null,'idProvinceFk': null,'idLocationFk': null},'idTypePaymentKf': null,'sendNotify': null,'description': null,'costService': null,'costKeys': null,'costDelivery': null,'total': null,'urlToken': null,'autoApproved': null,'isNew': null,'history': []};
-                        $scope.new.ticket.idTypeTicketKf    = 2;
-                        $scope.new.ticket.idBuildingKf      = obj.building.idClient;
-                        $scope.new.ticket.idUserMadeBy      = $scope.sysLoggedUser.idUser;
-                        $scope.new.ticket.idTypeDeliveryKf  = obj.delivery.idTypeDeliveryKf
+                        $scope.new.ticket.idTypeTicketKf        = 2;
+                        $scope.new.ticket.idBuildingKf          = obj.building.idClient;
+                        $scope.new.ticket.idUserMadeBy          = $scope.sysLoggedUser.idUser;
+                        $scope.new.ticket.idTypeDeliveryKf      = obj.delivery.idTypeDeliveryKf;
+                        $scope.new.ticket.idDisabledReasonKf    = obj.reason_details.idReasonDisabledItem;
                         $scope.new.ticket.keys = [];
                             $scope.new.ticket.mail = '';
                             $scope.new.ticket.mail = '<table width="100%" style="max-width: 768px;min-width: 100%;border-collapse: collapse; padding-top:2%; padding-bottom:2%;font-size:1vw;font-family:sans-serif;color:#555555;padding:2%">';
@@ -5391,7 +5392,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $('.checkmark').toggle();
                         $scope.ticketRegistered = response.data.response;
                     }, 2500);
-                    if((response.data.response.idStatusTicketKf=="3" || response.data.response.idStatusTicketKf=="9") && response.data.response.idTypePaymentKf=="2" && response.data.response.total>0){
+                    if((response.data.response.idStatusTicketKf=="3" || response.data.response.idStatusTicketKf=="9" || response.data.response.idStatusTicketKf=="12") && response.data.response.idTypePaymentKf=="2" && response.data.response.total>0){
                         $timeout(function() {
                             $scope.mainSwitchFn("linkMP",response.data.response,null);
                         }, 2700);

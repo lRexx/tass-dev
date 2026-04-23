@@ -5342,6 +5342,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.update.ticket.idTicket              = obj.idTicket;
               $scope.update.ticket.idTypeTicketKf        = obj.idTypeTicketKf;
               $scope.update.ticket.idTypeDeliveryKf      = obj.idTypeDeliveryKf;
+
                   if (obj.newTicketStatus.idStatus=='1' && obj.idTypeDeliveryKf=='1' && obj.idWhoPickUp=='1'){
                     $scope.update.ticket.retiredByDNI          = obj.userDelivery.dni;
                     $scope.update.ticket.retiredByFullName     = obj.userDelivery.fullNameUser;
@@ -5405,6 +5406,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.update.ticket.delivered_at          = null;
               $scope.update.ticket.idDeliveryCompanyKf   = $scope.tkupdate.idDeliveryCompanyKf;
               $scope.update.ticket.idTypeRequestFor      = $scope.tkupdate.idTypeRequestFor;
+              $scope.update.ticket.idDeviceTypeKf        = obj.idDeviceTypeKf;
 
               $scope.update.ticket.history               = [];
               $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"43"});
@@ -5821,6 +5823,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.update.ticket.delivery_schedule_at  = obj.delivery_schedule_at!=null && obj.delivery_schedule_at!=undefined?obj.delivery_schedule_at:null;
               $scope.update.ticket.delivered_at          = delivered_at;
               $scope.update.ticket.idTypeRequestFor      = $scope.tkupdate.idTypeRequestFor;
+              $scope.update.ticket.idDeviceTypeKf        = obj.idDeviceTypeKf;
               $scope.update.ticket.history               = [];
               $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
               console.log($scope.update);
@@ -7337,9 +7340,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   emailAddr       = obj[f].userDelivery.emailUser;
                   phoneNumberUser = obj[f].userDelivery.phoneNumberUser;
                   dni             = obj[f].userDelivery.dni;
-                  $scope.getAddressDetailsFn(address, obj[f].otherDeliveryAddress.idProvinceFk);
-                  ubicacion_lat   = $scope.ubicacion_lat;
-                  ubicacion_lon   = $scope.ubicacion_lon;
+                  //$scope.getAddressDetailsFn(address, obj[f].otherDeliveryAddress.idProvinceFk);
+                  //ubicacion_lat   = $scope.ubicacion_lat;
+                  //ubicacion_lon   = $scope.ubicacion_lon;
                   whoReceive      = obj[f].userDelivery.fullNameUser;
                 }else if (obj[f].idDeliveryTo==null && obj[f].idWhoPickUp=="2"){ //DELIVERY ENCARGADO PERSON TO CURRENT ADDRESS
                   location        = obj[f].building.location;
@@ -7355,13 +7358,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   location        = obj[f].thirdPersonDelivery.location;
                   city            = obj[f].thirdPersonDelivery.province;
                   taddress        = obj[f].thirdPersonDelivery.address;
-                  address         = taddress.toUpperCase()+" "+obj[f].thirdPersonDelivery.number+" "+departmentUnit;;
+                  address         = address.toUpperCase()+" "+obj[f].thirdPersonDelivery.number;
                   emailAddr       = obj[f].userRequestBy.emailUser;
                   phoneNumberUser = obj[f].thirdPersonDelivery.movilPhone;
                   dni             = obj[f].thirdPersonDelivery.dni;
-                  $scope.getAddressDetailsFn(address, obj[f].thirdPersonDelivery.idProvinceFk);
-                  ubicacion_lat   = $scope.ubicacion_lat;
-                  ubicacion_lon   = $scope.ubicacion_lon;
+                  //$scope.getAddressDetailsFn(address, obj[f].thirdPersonDelivery.idProvinceFk);
+                  //ubicacion_lat   = $scope.ubicacion_lat;
+                  //ubicacion_lon   = $scope.ubicacion_lon;
                   whoReceive      = obj[f].userDelivery.fullName;
                 }
 

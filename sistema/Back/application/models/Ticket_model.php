@@ -95,6 +95,7 @@ class Ticket_model extends CI_Model
 			'total' => @$ticket['total'],
 			'urlToken' => @$ticket['urlToken'],
 			'autoApproved' => @$ticket['autoApproved'],
+			'idDisabledReasonKf' => @$ticket['idDisabledReasonKf'],
 			'isNew' => @$ticket['isNew'],
 			'isInitialDeliveryActive' => @$ticket['isInitialDeliveryActive'],
 			'idDeviceTypeKf' => @$ticket['idDeviceTypeKf'],
@@ -395,6 +396,7 @@ class Ticket_model extends CI_Model
 			'total' => @$ticket['total'],
 			'urlToken' => @$ticket['urlToken'],
 			'autoApproved' => @$ticket['autoApproved'],
+			'idDisabledReasonKf' => $ticket['idDisabledReasonKf'],
 			'isNew' => @$ticket['isNew'],
 			'idStatusTicketKf' => @$ticket['status'],
 		));
@@ -1165,6 +1167,7 @@ class Ticket_model extends CI_Model
 				'total' => @$ticket['total'],
 				'urlToken' => @$ticket['urlToken'],
 				'autoApproved' => @$ticket['autoApproved'],
+				'idDisabledReasonKf' => @$ticket['idDisabledReasonKf'],
 				'isNew' => @$ticket['isNew'],
 				'idStatusTicketKf' => @$ticket['idStatusTicketKf'],
 				'idOtherDeliveryAddressKf' => $idOtherDeliveryAddress,
