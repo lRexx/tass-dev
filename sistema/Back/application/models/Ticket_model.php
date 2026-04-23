@@ -2876,38 +2876,35 @@ class Ticket_model extends CI_Model
 
 	public function buscar_relaciones_ticket($todo)
 	{
-		if (empty($todo)) {
-			return ['tickets' => [], 'dashboard' => []];
-		}
-
-		$rs_tickets['tickets'] = $todo;
+		$rs_tickets['tickets'] = !empty($todo) ? $todo : [];
 
 		// ─────────────────────────────────────────────
 		// 1. RECOLECTAR TODOS LOS IDs NECESARIOS
 		// ─────────────────────────────────────────────
-		$ticketIds               = array_values(array_filter(array_unique(array_column($todo, 'idTicket'))));
-		$buildingIds             = array_values(array_filter(array_unique(array_column($todo, 'idBuildingKf'))));
-		$userMadeByIds           = array_values(array_filter(array_unique(array_column($todo, 'idUserMadeBy'))));
-		$userRequestByIds        = array_values(array_filter(array_unique(array_column($todo, 'idUserRequestBy'))));
-		$userDeliveryIds         = array_values(array_filter(array_unique(array_column($todo, 'idUserDelivery'))));
-		$paymentIds              = array_values(array_filter(array_unique(array_column($todo, 'idPaymentKf'))));
-		$paymentDeliveryIds      = array_values(array_filter(array_unique(array_column($todo, 'idPaymentDeliveryKf'))));
-		$typeRequestForIds       = array_values(array_filter(array_unique(array_column($todo, 'idTypeRequestFor'))));
-		$typeTicketIds           = array_values(array_filter(array_unique(array_column($todo, 'idTypeTicketKf'))));
-		$typeDeliveryIds         = array_values(array_filter(array_unique(array_column($todo, 'idTypeDeliveryKf'))));
-		$typePaymentIds          = array_values(array_filter(array_unique(array_column($todo, 'idTypePaymentKf'))));
-		$statusTicketIds         = array_values(array_filter(array_unique(array_column($todo, 'idStatusTicketKf'))));
-		$deliveryAddressIds      = array_values(array_filter(array_unique(array_column($todo, 'idDeliveryAddress'))));
-		$deliveryToIds           = array_values(array_filter(array_unique(array_column($todo, 'idDeliveryTo'))));
-		$whoPickUpIds            = array_values(array_filter(array_unique(array_column($todo, 'idWhoPickUp'))));
-		$otherDeliveryIds        = array_values(array_filter(array_unique(array_column($todo, 'idOtherDeliveryAddressKf'))));
-		$thirdPersonDeliveryIds  = array_values(array_filter(array_unique(array_column($todo, 'idThirdPersonDeliveryKf'))));
-		$deliveryCompanyIds      = array_values(array_filter(array_unique(array_column($todo, 'idDeliveryCompanyKf'))));
-		$mgmtMethodIds           = array_values(array_filter(array_unique(array_column($todo, 'idMgmtMethodKf'))));
-		$departmentIds           = array_values(array_filter(array_unique(array_column($todo, 'idDepartmentKf'))));
-		$disabledReasonIds       = array_values(array_filter(array_unique(array_column($todo, 'idDisabledReasonKf'))));
-		$allUserIds              = array_values(array_filter(array_unique(array_merge($userMadeByIds, $userRequestByIds, $userDeliveryIds))));
-
+		if (!empty($todo)) {
+			$ticketIds               = array_values(array_filter(array_unique(array_column($todo, 'idTicket'))));
+			$buildingIds             = array_values(array_filter(array_unique(array_column($todo, 'idBuildingKf'))));
+			$userMadeByIds           = array_values(array_filter(array_unique(array_column($todo, 'idUserMadeBy'))));
+			$userRequestByIds        = array_values(array_filter(array_unique(array_column($todo, 'idUserRequestBy'))));
+			$userDeliveryIds         = array_values(array_filter(array_unique(array_column($todo, 'idUserDelivery'))));
+			$paymentIds              = array_values(array_filter(array_unique(array_column($todo, 'idPaymentKf'))));
+			$paymentDeliveryIds      = array_values(array_filter(array_unique(array_column($todo, 'idPaymentDeliveryKf'))));
+			$typeRequestForIds       = array_values(array_filter(array_unique(array_column($todo, 'idTypeRequestFor'))));
+			$typeTicketIds           = array_values(array_filter(array_unique(array_column($todo, 'idTypeTicketKf'))));
+			$typeDeliveryIds         = array_values(array_filter(array_unique(array_column($todo, 'idTypeDeliveryKf'))));
+			$typePaymentIds          = array_values(array_filter(array_unique(array_column($todo, 'idTypePaymentKf'))));
+			$statusTicketIds         = array_values(array_filter(array_unique(array_column($todo, 'idStatusTicketKf'))));
+			$deliveryAddressIds      = array_values(array_filter(array_unique(array_column($todo, 'idDeliveryAddress'))));
+			$deliveryToIds           = array_values(array_filter(array_unique(array_column($todo, 'idDeliveryTo'))));
+			$whoPickUpIds            = array_values(array_filter(array_unique(array_column($todo, 'idWhoPickUp'))));
+			$otherDeliveryIds        = array_values(array_filter(array_unique(array_column($todo, 'idOtherDeliveryAddressKf'))));
+			$thirdPersonDeliveryIds  = array_values(array_filter(array_unique(array_column($todo, 'idThirdPersonDeliveryKf'))));
+			$deliveryCompanyIds      = array_values(array_filter(array_unique(array_column($todo, 'idDeliveryCompanyKf'))));
+			$mgmtMethodIds           = array_values(array_filter(array_unique(array_column($todo, 'idMgmtMethodKf'))));
+			$departmentIds           = array_values(array_filter(array_unique(array_column($todo, 'idDepartmentKf'))));
+			$disabledReasonIds       = array_values(array_filter(array_unique(array_column($todo, 'idDisabledReasonKf'))));
+			$allUserIds              = array_values(array_filter(array_unique(array_merge($userMadeByIds, $userRequestByIds, $userDeliveryIds))));
+		}
 		// ─────────────────────────────────────────────
 		// 2. DASHBOARD — 1 sola query de conteo
 		// ─────────────────────────────────────────────
