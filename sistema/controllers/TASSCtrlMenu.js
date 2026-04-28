@@ -778,6 +778,21 @@
                     }
                   }
               );
+
+              $('.input-movil-phone').mask('9 11 ####-####',
+              {
+                reverse: false,
+                translation:{
+                  '0': 9,
+                  '1': 11,
+                  '4': null,
+                  '5': null,
+                  '#':{
+                    pattern: /[0-9]/
+                  }
+                },
+                placeholder: "9 11 ____-____"
+              });
               $('.input--movil-new').mask('(15) ####-####',
               {
                 reverse: false,
