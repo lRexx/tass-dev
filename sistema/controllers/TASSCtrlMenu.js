@@ -779,15 +779,9 @@
                   }
               );
 
-              $('.input-movil-phone').mask('9 11 ####-####',
-              {
-                reverse: false,
-                translation:{
-                  '#':{
-                    pattern: /[0-9]/
-                  }
-                },
-                placeholder: "9 11 ____-____"
+              $('.input-movil-phone').mask('9 11 0000-0000', {
+                clearIfNotMatch: true,
+                placeholder: '9 11 ____-____'
               });
               $('.input--movil-new').mask('(15) ####-####',
               {
