@@ -783,8 +783,8 @@
               {
                 reverse: false,
                 translation:{
-                  '0': 9,
-                  '1': 11,
+                  '0': null,
+                  '1': null,
                   '4': null,
                   '5': null,
                   '#':{
