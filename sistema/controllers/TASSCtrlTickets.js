@@ -5304,11 +5304,10 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido aprobado por el consorcio, automaticamente, para todos los habitantes.', 'idCambiosTicketKf':"2"});
                                     }
                                     if ($scope.new.ticket.total>0){
-                                        $scope.new.ticket.status = 3;
+                                        $scope.new.ticket.status = 5;
                                     }else{
-                                        $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"4"});
-                                        $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"13"});
-                                        $scope.new.ticket.status = 8;
+                                        $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"27"});
+                                        $scope.new.ticket.status = 12;
                                     }
                                 }
                             }
