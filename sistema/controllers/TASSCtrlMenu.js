@@ -783,10 +783,6 @@
               {
                 reverse: false,
                 translation:{
-                  '0': null,
-                  '1': null,
-                  '4': null,
-                  '5': null,
                   '#':{
                     pattern: /[0-9]/
                   }
