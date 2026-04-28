@@ -779,22 +779,8 @@
                   }
               );
 
-              $('.input-movil-phone').on('keydown', function (e) {
-                const pos = this.selectionStart;
-
-                // Evita borrar dentro del prefijo "9 11 "
-                if ((e.key === 'Backspace' && pos <= 5) ||
-                    (e.key === 'Delete' && pos < 5)) {
-                  e.preventDefault();
-                }
-              });
-
-              $('.input-movil-phone').on('focus', function () {
-                // Asegura que el cursor arranque después del prefijo
-                if (!this.value) {
-                  this.value = '9 11 ';
-                }
-                this.setSelectionRange(5, 5);
+              $('.input-movil-phone').mask('9 11 0000-0000', {
+                placeholder: '9 11 ____-____'
               });
               $('.input--movil-new').mask('(15) ####-####',
               {
