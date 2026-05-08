@@ -419,19 +419,33 @@ class Clientes extends REST_Controller
         }
     }
 
-    public function searchAddress_post()
-    {
-
-        $address = $this->post('address');
+    public function searchAddress_post() {
+        $headers = $this->input->request_headers();
+        log_message('info', '============================ Inicio Busqueda de Dirección ============================');
+        log_message('info', 'Host               :' . @$headers['Host']);
+        log_message('info', 'User-Agent         :' . @$headers['User-Agent']);
+        log_message('info', 'Accept             :' . @$headers['Accept']);
+        log_message('info', 'Content-Typ        :' . @$headers['Content-Type']);
+        log_message('info', 'X-Forwarded-For    :' . @$headers['X-Forwarded-For']);
+        log_message('info', 'X-Forwarded-Host   :' . @$headers['X-Forwarded-Host']);
+        log_message('info', 'X-Forwarded-Server :' . @$headers['X-Forwarded-Server']);
+        log_message('info', 'Content-Length     :' . @$headers['Content-Length']);
+        log_message('info', 'Connection         :' . @$headers['Connection']);
+        //log_message('info', 'x-signature        :' . @$headers['x-signature']);
+        //log_message('info', 'x-request-id       :' . @$headers['x-request-id']);
+        $body = file_get_contents('php://input');
+        log_message('info', 'Cuerpo del pedido: ' . $body);
+        log_message('info', '============================ Cierre Busqueda de Dirección ============================');
+        $address    = $this->post('address');
         $idProvince = $this->post('idProvinceFk');
         $idLocation = $this->post('idLocationFk');
         //$idClientTypeFk = $this->post('idClientTypeFk');
         $client = $this->client_model->searchAddress($address, $idProvince, $idLocation);
 
-        if (!is_null($client) && $client != '0') {
+        if (! is_null($client) && $client!='0') {
             $this->response($client, 200);
         } else {
-            $this->response(['error' => 'NO HAY RESULTADOS'], 404);
+            $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
         }
     }
     public function getDepartmentId_post()
