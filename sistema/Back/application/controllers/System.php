@@ -404,15 +404,17 @@ class System extends CI_Controller {
                 }
 
                 /*
+                /*
                 |--------------------------------------------------------------------------
-                | AUTOSIZE COLUMNS
+                | AUTOSIZE
                 |--------------------------------------------------------------------------
                 */
-                foreach (range('A', $highestColumn) as $columnID) {
+                for ($col = 0; $col < count($headers); $col++) {
+
+                    $columnID = PHPExcel_Cell::stringFromColumnIndex($col);
 
                     $sheet->getColumnDimension($columnID)
                         ->setAutoSize(true);
-
                 }
 
                 /*
@@ -424,12 +426,14 @@ class System extends CI_Controller {
 
                 /*
                 |--------------------------------------------------------------------------
-                | ENABLE FILTERS
+                | SAFE AUTOFILTER
                 |--------------------------------------------------------------------------
                 */
+                $highestColumn = $sheet->getHighestColumn();
+                $highestRow    = $sheet->getHighestRow();
+
                 $sheet->setAutoFilter(
-                    $sheet->calculateWorksheetDimension()
-                );
+                    'A1:' . $highestColumn . $highestRow
 
                 /*
                 |--------------------------------------------------------------------------
