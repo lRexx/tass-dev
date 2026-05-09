@@ -462,7 +462,7 @@ class System extends CI_Controller {
                 $title = 'Sistema';
 
                 $to = [
-                    'finance@company.com'
+                    'davideduardo.luengo@hotmail.com'
                 ];
 
                 $subject = 'Pedidos Pendientes por Facturar';
