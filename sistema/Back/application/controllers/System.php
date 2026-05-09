@@ -304,55 +304,88 @@ class System extends CI_Controller {
     }
 
     public function send_pending_billing_report()
-        {
-            log_message('info', ':::::::::::::::::PendingBillingReport');
+    {
+        log_message('info', ':::::::::::::::::PendingBillingReport');
 
-            try {
+        try {
 
-                ini_set('memory_limit', '1024M');
-                set_time_limit(0);
+            ini_set('memory_limit', '1024M');
+            set_time_limit(0);
 
-                /*
-                |--------------------------------------------------------------------------
-                | QUERY VIEW
-                |--------------------------------------------------------------------------
-                */
-                $query = $this->db->query("
-                    SELECT *
-                    FROM verPedidosPendientesPorFacturar
-                ");
+            /*
+            |--------------------------------------------------------------------------
+            | QUERY VIEW
+            |--------------------------------------------------------------------------
+            */
+            $query = $this->db->query("
+                SELECT *
+                FROM verPedidosPendientesPorFacturar
+            ");
 
-                $rows = $query->result_array();
+            $rows = $query->result_array();
 
-                if (empty($rows)) {
+            if (empty($rows)) {
 
-                    log_message(
-                        'info',
-                        'No hay pedidos pendientes por facturar.'
-                    );
+                log_message(
+                    'info',
+                    'No hay pedidos pendientes por facturar.'
+                );
 
-                    return;
-                }
+                return;
+            }
 
-                /*
-                |--------------------------------------------------------------------------
-                | CREATE EXCEL
-                |--------------------------------------------------------------------------
-                */
-                $objPHPExcel = new PHPExcel();
+            /*
+            |--------------------------------------------------------------------------
+            | CREATE EXCEL
+            |--------------------------------------------------------------------------
+            */
+            $objPHPExcel = new PHPExcel();
 
-                $objPHPExcel->setActiveSheetIndex(0);
+            $objPHPExcel->setActiveSheetIndex(0);
 
-                $sheet = $objPHPExcel->getActiveSheet();
+            $sheet = $objPHPExcel->getActiveSheet();
 
-                $sheet->setTitle('Pendientes Facturar');
+            $sheet->setTitle('Pendientes Facturar');
 
-                /*
-                |--------------------------------------------------------------------------
-                | HEADERS
-                |--------------------------------------------------------------------------
-                */
-                $headers = array_keys($rows[0]);
+            /*
+            |--------------------------------------------------------------------------
+            | HEADERS
+            |--------------------------------------------------------------------------
+            */
+            $headers = array_keys($rows[0]);
+
+            $col = 0;
+
+            foreach ($headers as $header) {
+
+                $sheet->setCellValueByColumnAndRow(
+                    $col,
+                    1,
+                    $header
+                );
+
+                $col++;
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | HEADER STYLE
+            |--------------------------------------------------------------------------
+            */
+            $highestColumn = $sheet->getHighestColumn();
+
+            $sheet->getStyle('A1:' . $highestColumn . '1')
+                ->getFont()
+                ->setBold(true);
+
+            /*
+            |--------------------------------------------------------------------------
+            | DATA
+            |--------------------------------------------------------------------------
+            */
+            $rowNumber = 2;
+
+            foreach ($rows as $row) {
 
                 $col = 0;
 
@@ -360,191 +393,183 @@ class System extends CI_Controller {
 
                     $sheet->setCellValueByColumnAndRow(
                         $col,
-                        1,
-                        $header
+                        $rowNumber,
+                        $row[$header]
                     );
 
                     $col++;
                 }
 
-                /*
-                |--------------------------------------------------------------------------
-                | HEADER STYLE
-                |--------------------------------------------------------------------------
-                */
-                $highestColumn = $sheet->getHighestColumn();
+                $rowNumber++;
+            }
 
-                $sheet->getStyle('A1:' . $highestColumn . '1')
-                    ->getFont()
-                    ->setBold(true);
+            /*
+            |--------------------------------------------------------------------------
+            | AUTOSIZE COLUMNS
+            |--------------------------------------------------------------------------
+            */
+            for ($col = 0; $col < count($headers); $col++) {
 
-                /*
-                |--------------------------------------------------------------------------
-                | DATA
-                |--------------------------------------------------------------------------
-                */
-                $rowNumber = 2;
+                $columnID = PHPExcel_Cell::stringFromColumnIndex($col);
 
-                foreach ($rows as $row) {
+                $sheet->getColumnDimension($columnID)
+                    ->setAutoSize(true);
+            }
 
-                    $col = 0;
+            /*
+            |--------------------------------------------------------------------------
+            | FREEZE HEADER
+            |--------------------------------------------------------------------------
+            */
+            $sheet->freezePane('A2');
 
-                    foreach ($headers as $header) {
+            /*
+            |--------------------------------------------------------------------------
+            | SAFE AUTOFILTER
+            |--------------------------------------------------------------------------
+            */
+            $highestColumn = $sheet->getHighestColumn();
+            $highestRow    = $sheet->getHighestRow();
 
-                        $sheet->setCellValueByColumnAndRow(
-                            $col,
-                            $rowNumber,
-                            $row[$header]
-                        );
+            $sheet->setAutoFilter(
+                'A1:' . $highestColumn . $highestRow
+            );
 
-                        $col++;
-                    }
+            /*
+            |--------------------------------------------------------------------------
+            | SAVE FILE
+            |--------------------------------------------------------------------------
+            */
+            $filename = 'PedidosPendientesFacturar_' .
+                        date('Ymd_His') .
+                        '.xlsx';
 
-                    $rowNumber++;
-                }
+            $filepath = APPPATH . 'cache/' . $filename;
 
-                /*
-                /*
-                |--------------------------------------------------------------------------
-                | AUTOSIZE
-                |--------------------------------------------------------------------------
-                */
-                for ($col = 0; $col < count($headers); $col++) {
+            $objWriter = PHPExcel_IOFactory::createWriter(
+                $objPHPExcel,
+                'Excel2007'
+            );
 
-                    $columnID = PHPExcel_Cell::stringFromColumnIndex($col);
+            $objWriter->save($filepath);
 
-                    $sheet->getColumnDimension($columnID)
-                        ->setAutoSize(true);
-                }
+            /*
+            |--------------------------------------------------------------------------
+            | VALIDATE FILE
+            |--------------------------------------------------------------------------
+            */
+            if (!file_exists($filepath)) {
 
-                /*
-                |--------------------------------------------------------------------------
-                | FREEZE HEADER
-                |--------------------------------------------------------------------------
-                */
-                $sheet->freezePane('A2');
-
-                /*
-                |--------------------------------------------------------------------------
-                | SAFE AUTOFILTER
-                |--------------------------------------------------------------------------
-                */
-                $highestColumn = $sheet->getHighestColumn();
-                $highestRow    = $sheet->getHighestRow();
-
-                $sheet->setAutoFilter(
-                    'A1:' . $highestColumn . $highestRow
-
-                /*
-                |--------------------------------------------------------------------------
-                | SAVE FILE
-                |--------------------------------------------------------------------------
-                */
-                $filename = 'PedidosPendientesFacturar_' .
-                            date('Ymd_His') .
-                            '.xlsx';
-
-                $filepath = APPPATH . 'cache/' . $filename;
-
-                $objWriter = PHPExcel_IOFactory::createWriter(
-                    $objPHPExcel,
-                    'Excel2007'
+                throw new Exception(
+                    'Excel file was not generated.'
                 );
+            }
 
-                $objWriter->save($filepath);
+            $fileSize = filesize($filepath);
+
+            log_message(
+                'info',
+                'Excel SIZE: ' . $fileSize . ' bytes'
+            );
+
+            if ($fileSize <= 0) {
+
+                throw new Exception(
+                    'Excel file generated with invalid size.'
+                );
+            }
+
+            log_message(
+                'info',
+                'Excel generado correctamente: ' . $filepath
+            );
+
+            /*
+            |--------------------------------------------------------------------------
+            | EMAIL DATA
+            |--------------------------------------------------------------------------
+            */
+            $title = 'Sistema';
+
+            $to = [
+                'davideduardo.luengo@hotmail.com'
+            ];
+
+            $subject = 'Pedidos Pendientes por Facturar';
+
+            $body = '
+                <h2>Reporte Automático</h2>
+
+                <p>
+                    Se adjunta el reporte de pedidos pendientes por facturar.
+                </p>
+
+                <p>
+                    <b>Cantidad registros:</b> ' . count($rows) . '
+                </p>
+
+                <p>
+                    <b>Fecha generación:</b>
+                    ' . date('Y-m-d H:i:s') . '
+                </p>
+            ';
+
+            /*
+            |--------------------------------------------------------------------------
+            | SEND EMAIL
+            |--------------------------------------------------------------------------
+            */
+            $mailSent = $this->mail_model->sendMail(
+                $title,
+                $to,
+                $body,
+                $subject,
+                [$filepath]
+            );
+
+            if ($mailSent) {
 
                 log_message(
                     'info',
-                    'Excel generado correctamente: ' . $filepath
+                    'Correo enviado correctamente.'
                 );
 
-                /*
-                |--------------------------------------------------------------------------
-                | EMAIL DATA
-                |--------------------------------------------------------------------------
-                */
-                $title = 'Sistema';
-
-                $to = [
-                    'davideduardo.luengo@hotmail.com'
-                ];
-
-                $subject = 'Pedidos Pendientes por Facturar';
-
-                $body = '
-                    <h2>Reporte Automático</h2>
-
-                    <p>
-                        Se adjunta el reporte de pedidos pendientes por facturar.
-                    </p>
-
-                    <p>
-                        <b>Cantidad registros:</b> '.count($rows).'
-                    </p>
-
-                    <p>
-                        <b>Fecha generación:</b>
-                        '.date('Y-m-d H:i:s').'
-                    </p>
-                ';
-
-                /*
-                |--------------------------------------------------------------------------
-                | SEND EMAIL
-                |--------------------------------------------------------------------------
-                */
-                $mailSent = $this->mail_model->sendMail(
-                    $title,
-                    $to,
-                    $body,
-                    $subject,
-                    [$filepath]
-                );
-
-                if ($mailSent) {
-
-                    log_message(
-                        'info',
-                        'Correo enviado correctamente.'
-                    );
-
-                } else {
-
-                    log_message(
-                        'error',
-                        'ERROR enviando correo.'
-                    );
-
-                }
-
-                /*
-                |--------------------------------------------------------------------------
-                | DELETE TEMP FILE
-                |--------------------------------------------------------------------------
-                */
-                if (file_exists($filepath)) {
-
-                    unlink($filepath);
-
-                    log_message(
-                        'info',
-                        'Archivo temporal eliminado.'
-                    );
-                }
-
-                log_message(
-                    'info',
-                    ':::::::::::::::::PendingBillingReport ::: SUCCEEDED'
-                );
-
-            } catch (Exception $e) {
+            } else {
 
                 log_message(
                     'error',
-                    'PendingBillingReport ERROR: ' .
-                    $e->getMessage()
+                    'ERROR enviando correo.'
                 );
 
             }
+
+            /*
+            |--------------------------------------------------------------------------
+            | DELETE TEMP FILE
+            |--------------------------------------------------------------------------
+            */
+            if (file_exists($filepath)) {
+
+                unlink($filepath);
+
+                log_message(
+                    'info',
+                    'Archivo temporal eliminado.'
+                );
+            }
+
+            log_message(
+                'info',
+                ':::::::::::::::::PendingBillingReport ::: SUCCEEDED'
+            );
+
+        } catch (Exception $e) {
+
+            log_message(
+                'error',
+                'PendingBillingReport ERROR: ' .
+                $e->getMessage()
+            );
+        }
     }
 }
