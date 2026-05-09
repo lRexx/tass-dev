@@ -314,7 +314,7 @@ class System extends CI_Controller {
                 ");
 
                 $rows = $query->result_array();
-
+                log_message('info', $this->db->last_query());
                 if (empty($rows)) {
 
                     log_message('info', 'No hay pedidos pendientes.');
