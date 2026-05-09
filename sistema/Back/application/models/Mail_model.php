@@ -128,6 +128,21 @@ class Mail_model extends CI_Model
         #$this->email->message("<h1>Welcome, ${to}!!!</h1>");
         $this->email->message($body);
         $this->email->to($to);
+        |--------------------------------------------------------------------------
+        | ATTACHMENTS
+        |--------------------------------------------------------------------------
+        */
+        if (!empty($attachments)) {
+
+            foreach ($attachments as $attachment) {
+
+                if (file_exists($attachment)) {
+                    $this->email->attach($attachment);
+                }
+
+            }
+
+        }
         //$this->email->send();
         if (!$this->email->send()) {
             $r = $this->email->print_debugger(); // Generate error
