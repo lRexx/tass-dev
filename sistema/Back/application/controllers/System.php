@@ -9,7 +9,6 @@ class System extends CI_Controller {
         $this->load->helper('url');
         $this->load->model('mail_model');
 
-        require APPPATH . '../vendor/autoload.php';
         require_once APPPATH . "third_party/PHPExcel/PHPExcel.php";
         require_once APPPATH . "third_party/PHPExcel/PHPExcel/IOFactory.php";
     }
