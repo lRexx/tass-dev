@@ -4605,7 +4605,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.mp.payment.data.idUserKf                 = $scope.sysLoggedUser.idUser;
               $scope.mp.payment.data.isManualPayment          = true;
               console.log($scope.mp.payment.data);
-                /*ticketServices.addPayment($scope.mp.payment).then(function(response){
+                ticketServices.addPayment($scope.mp.payment).then(function(response){
                   console.log(response);
                   if(response.status==200){
                       console.log("Solicitud de Pago registrada satisfactoriamente");
@@ -4633,7 +4633,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                               ttl:5000, type: 'danger'
                       });
                   }
-                });*/
+                });
             break;
             case "ticket_delivery_change":
               $scope.ticket = {'administration':undefined, 'idTypeRequestFor':null, 'building':undefined, 'selected':{},'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'userRequestBy':{}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':null, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
