@@ -131,7 +131,10 @@ class Mail_model extends CI_Model
         //$this->email->send();
         if (!$this->email->send()) {
             $r = $this->email->print_debugger(); // Generate error
+            log_message('info', 'Email has been failed to send ::: [FAILED]');
+            log_message('info', 'Email error details: ' . $r);
         } else {
+            log_message('info', 'Email has been sent successfully ::: [OK]');
             $r = "Enviado";
         }
 
@@ -140,7 +143,8 @@ class Mail_model extends CI_Model
 
         return $r;
     }
-    public function sendMailAttachment($title, $to, $body, $subject, $attachments = [])
+
+    public function sendMailAttachment($title, $to, $cc, $body, $subject, $attachments = [])
     {
         $param = $this->getMailSmtp();
         //print_r($param['0']['value']);
@@ -176,7 +180,7 @@ class Mail_model extends CI_Model
         $this->email->set_newline("\r\n");
         $this->email->from($param['0']['value'], 'BSS Seguridad');
         $this->email->subject($subject);
-
+        $this->email->cc($cc);
 
         $body = '
             <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -286,6 +290,7 @@ class Mail_model extends CI_Model
 
         return $r;
     }
+
     public function sendMail2($title, $to, $body, $subject)
     {
         $param = $this->getMailSmtp();
@@ -377,9 +382,11 @@ class Mail_model extends CI_Model
         $this->email->message($message);
 
         if ($this->email->send()) {
-            echo 'Your Email has successfully been sent.';
+            log_message('info', 'Email has been sent successfully ::: [OK]');
         } else {
-            show_error($this->email->print_debugger());
+            $err_details=$this->email->print_debugger();
+            log_message('info', 'Email has been failed to send ::: [FAILED]');
+            log_message('info', 'Email error details: ' . $err_details);
         }
 
         $filename = '/img/photo1.jpg';
@@ -406,4 +413,3 @@ class Mail_model extends CI_Model
 
 }
 ?>
-

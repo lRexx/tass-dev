@@ -482,7 +482,9 @@ class System extends CI_Controller {
             $to = [
                 'davideduardo.luengo@hotmail.com'
             ];
-
+            $cc = [
+                'davideduardo.luengo@hotmail.com'
+            ];
             $subject = 'Pedidos Pendientes por Facturar';
 
             $body = '<tr width="100%" bgcolor="#ffffff">';
@@ -521,6 +523,7 @@ class System extends CI_Controller {
             $mailSent = $this->mail_model->sendMailAttachment(
                 $title,
                 $to,
+                $cc,
                 $body,
                 $subject,
                 [$filepath]
