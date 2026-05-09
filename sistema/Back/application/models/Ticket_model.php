@@ -2401,7 +2401,7 @@ class Ticket_model extends CI_Model
 						}
 						//BILLING UPLOADED
 						if (@$data['isBillingUploaded'] == '1') {
-							$where = "(ISNULL(isBillingUploaded) OR isBillingUploaded != '" . @$data['isBillingUploaded'] . "')";
+							$where = "(ISNULL(isBillingUploaded) OR isBillingUploaded != '" . @$data['isBillingUploaded'] . "') AND total > 0";
 							$this->db->where($where);
 						}
 						//DELIVERY COMPANY SELECTED
@@ -2789,7 +2789,7 @@ class Ticket_model extends CI_Model
 			}
 			//BILLING UPLOADED
 			if (@$data['isBillingUploaded'] == '1') {
-				$where = "(ISNULL(isBillingUploaded) OR isBillingUploaded != '" . @$data['isBillingUploaded'] . "')";
+				$where = "(ISNULL(isBillingUploaded) OR isBillingUploaded != '" . @$data['isBillingUploaded'] . "') AND total > 0";
 				$this->db->where($where);
 			}
 			//DELIVERY COMPANY SELECTED
