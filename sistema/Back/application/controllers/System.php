@@ -477,7 +477,7 @@ class System extends CI_Controller {
             | EMAIL DATA
             |--------------------------------------------------------------------------
             */
-            $title = 'Sistema';
+            $title = 'Pedidos Pendientes por Facturar';
 
             $to = [
                 'davideduardo.luengo@hotmail.com'
@@ -485,8 +485,8 @@ class System extends CI_Controller {
 
             $subject = 'Pedidos Pendientes por Facturar';
 
-            $body = '<table width="100%" cellspacing="0" cellpadding="10" border="0">';
-            $body .= '<tr width="100%" bgcolor="#ffffff">';
+            $body = '<tr width="100%" bgcolor="#ffffff">';
+            $body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">';
             $body .= '
                 <h2>Reporte Automático</h2>
 
@@ -503,8 +503,12 @@ class System extends CI_Controller {
                     ' . date('Y-m-d H:i:s') . '
                 </p>
             ';
+            $body .= '
+                <p>
+                    <i>Este es un correo automático, por favor no responder.</i>
+                </p>';
+            $body .= '</td>';
             $body .= '</tr>';
-            $body .= '</table>';
 
             /*
             |--------------------------------------------------------------------------
