@@ -5,6 +5,13 @@ class System extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->load->database();
+        $this->load->helper('url');
+        $this->load->model('mail_model');
+
+        require APPPATH . '../vendor/autoload.php';
+        require_once APPPATH . "third_party/PHPExcel/PHPExcel.php";
+        require_once APPPATH . "third_party/PHPExcel/PHPExcel/IOFactory.php";
     }
 
     public function clean_old_logs($days = 60)
@@ -303,9 +310,12 @@ class System extends CI_Controller {
 
             try {
 
+                ini_set('memory_limit', '1024M');
+                set_time_limit(0);
+
                 /*
                 |--------------------------------------------------------------------------
-                | GET DATA
+                | QUERY VIEW
                 |--------------------------------------------------------------------------
                 */
                 $query = $this->db->query("
@@ -314,10 +324,13 @@ class System extends CI_Controller {
                 ");
 
                 $rows = $query->result_array();
-                log_message('info', $this->db->last_query());
+
                 if (empty($rows)) {
 
-                    log_message('info', 'No hay pedidos pendientes.');
+                    log_message(
+                        'info',
+                        'No hay pedidos pendientes por facturar.'
+                    );
 
                     return;
                 }
@@ -327,42 +340,65 @@ class System extends CI_Controller {
                 | CREATE EXCEL
                 |--------------------------------------------------------------------------
                 */
-                $spreadsheet = new Spreadsheet();
+                $objPHPExcel = new PHPExcel();
 
-                $sheet = $spreadsheet->getActiveSheet();
+                $objPHPExcel->setActiveSheetIndex(0);
 
+                $sheet = $objPHPExcel->getActiveSheet();
+
+                $sheet->setTitle('Pendientes Facturar');
+
+                /*
+                |--------------------------------------------------------------------------
+                | HEADERS
+                |--------------------------------------------------------------------------
+                */
                 $headers = array_keys($rows[0]);
 
-                // HEADERS
-                $column = 1;
+                $col = 0;
 
                 foreach ($headers as $header) {
 
                     $sheet->setCellValueByColumnAndRow(
-                        $column,
+                        $col,
                         1,
                         $header
                     );
 
-                    $column++;
+                    $col++;
                 }
 
-                // DATA
+                /*
+                |--------------------------------------------------------------------------
+                | HEADER STYLE
+                |--------------------------------------------------------------------------
+                */
+                $highestColumn = $sheet->getHighestColumn();
+
+                $sheet->getStyle('A1:' . $highestColumn . '1')
+                    ->getFont()
+                    ->setBold(true);
+
+                /*
+                |--------------------------------------------------------------------------
+                | DATA
+                |--------------------------------------------------------------------------
+                */
                 $rowNumber = 2;
 
                 foreach ($rows as $row) {
 
-                    $column = 1;
+                    $col = 0;
 
                     foreach ($headers as $header) {
 
                         $sheet->setCellValueByColumnAndRow(
-                            $column,
+                            $col,
                             $rowNumber,
                             $row[$header]
                         );
 
-                        $column++;
+                        $col++;
                     }
 
                     $rowNumber++;
@@ -370,34 +406,58 @@ class System extends CI_Controller {
 
                 /*
                 |--------------------------------------------------------------------------
-                | AUTOSIZE
+                | AUTOSIZE COLUMNS
                 |--------------------------------------------------------------------------
                 */
-                foreach (range('A', $sheet->getHighestColumn()) as $col) {
+                foreach (range('A', $highestColumn) as $columnID) {
 
-                    $sheet->getColumnDimension($col)
+                    $sheet->getColumnDimension($columnID)
                         ->setAutoSize(true);
 
                 }
 
                 /*
                 |--------------------------------------------------------------------------
-                | SAVE FILE
+                | FREEZE HEADER
                 |--------------------------------------------------------------------------
                 */
-                $filename = 'PedidosPendientesFacturar_' . date('Ymd_His') . '.xlsx';
-
-                $filepath = APPPATH . 'cache/' . $filename;
-
-                $writer = new Xlsx($spreadsheet);
-
-                $writer->save($filepath);
-
-                log_message('info', 'Excel generado: '.$filepath);
+                $sheet->freezePane('A2');
 
                 /*
                 |--------------------------------------------------------------------------
-                | EMAIL
+                | ENABLE FILTERS
+                |--------------------------------------------------------------------------
+                */
+                $sheet->setAutoFilter(
+                    $sheet->calculateWorksheetDimension()
+                );
+
+                /*
+                |--------------------------------------------------------------------------
+                | SAVE FILE
+                |--------------------------------------------------------------------------
+                */
+                $filename = 'PedidosPendientesFacturar_' .
+                            date('Ymd_His') .
+                            '.xlsx';
+
+                $filepath = APPPATH . 'cache/' . $filename;
+
+                $objWriter = PHPExcel_IOFactory::createWriter(
+                    $objPHPExcel,
+                    'Excel2007'
+                );
+
+                $objWriter->save($filepath);
+
+                log_message(
+                    'info',
+                    'Excel generado correctamente: ' . $filepath
+                );
+
+                /*
+                |--------------------------------------------------------------------------
+                | EMAIL DATA
                 |--------------------------------------------------------------------------
                 */
                 $title = 'Sistema';
@@ -409,23 +469,28 @@ class System extends CI_Controller {
                 $subject = 'Pedidos Pendientes por Facturar';
 
                 $body = '
-                    <h3>Reporte Automático</h3>
+                    <h2>Reporte Automático</h2>
 
                     <p>
                         Se adjunta el reporte de pedidos pendientes por facturar.
                     </p>
 
                     <p>
-                        Cantidad registros: <b>'.count($rows).'</b>
+                        <b>Cantidad registros:</b> '.count($rows).'
                     </p>
 
                     <p>
-                        Fecha generación:
+                        <b>Fecha generación:</b>
                         '.date('Y-m-d H:i:s').'
                     </p>
                 ';
 
-                $sent = $this->mail_model->sendMail(
+                /*
+                |--------------------------------------------------------------------------
+                | SEND EMAIL
+                |--------------------------------------------------------------------------
+                */
+                $mailSent = $this->mail_model->sendMail(
                     $title,
                     $to,
                     $body,
@@ -433,34 +498,48 @@ class System extends CI_Controller {
                     [$filepath]
                 );
 
-                if ($sent) {
+                if ($mailSent) {
 
-                    log_message('info', 'Correo enviado correctamente.');
+                    log_message(
+                        'info',
+                        'Correo enviado correctamente.'
+                    );
 
                 } else {
 
-                    log_message('error', 'ERROR enviando correo.');
+                    log_message(
+                        'error',
+                        'ERROR enviando correo.'
+                    );
 
                 }
 
                 /*
                 |--------------------------------------------------------------------------
-                | CLEANUP
+                | DELETE TEMP FILE
                 |--------------------------------------------------------------------------
                 */
                 if (file_exists($filepath)) {
 
                     unlink($filepath);
 
+                    log_message(
+                        'info',
+                        'Archivo temporal eliminado.'
+                    );
                 }
 
-                log_message('info', ':::::::::::::::::PendingBillingReport ::: SUCCEEDED');
+                log_message(
+                    'info',
+                    ':::::::::::::::::PendingBillingReport ::: SUCCEEDED'
+                );
 
             } catch (Exception $e) {
 
                 log_message(
                     'error',
-                    'PendingBillingReport ERROR: '.$e->getMessage()
+                    'PendingBillingReport ERROR: ' .
+                    $e->getMessage()
                 );
 
             }
