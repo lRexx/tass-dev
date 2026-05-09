@@ -485,7 +485,9 @@ class System extends CI_Controller {
 
             $subject = 'Pedidos Pendientes por Facturar';
 
-            $body = '
+            $body = '<table width="100%" cellspacing="0" cellpadding="10" border="0">';
+            $body .= '<tr width="100%" bgcolor="#ffffff">';
+            $body .= '
                 <h2>Reporte Automático</h2>
 
                 <p>
@@ -501,6 +503,8 @@ class System extends CI_Controller {
                     ' . date('Y-m-d H:i:s') . '
                 </p>
             ';
+            $body .= '</tr>';
+            $body .= '</table>';
 
             /*
             |--------------------------------------------------------------------------
