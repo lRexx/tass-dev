@@ -488,7 +488,7 @@ class System extends CI_Controller {
             $body = '<tr width="100%" bgcolor="#ffffff">';
             $body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">';
             $body .= '
-                <h2>Reporte Automático</h2>
+                <h2>Reporte Automatizado</h2>
 
                 <p>
                     Se adjunta el reporte de pedidos pendientes por facturar.
@@ -503,13 +503,16 @@ class System extends CI_Controller {
                     ' . date('Y-m-d H:i:s') . '
                 </p>
             ';
+            $body .= '</td>';
+            $body .= '</tr>';
+            $body = '<tr width="100%" bgcolor="#ffffff">';
+            $body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">';
             $body .= '
                 <p>
                     <i>Este es un correo automático, por favor no responder.</i>
                 </p>';
             $body .= '</td>';
             $body .= '</tr>';
-
             /*
             |--------------------------------------------------------------------------
             | SEND EMAIL
