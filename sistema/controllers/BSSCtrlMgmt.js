@@ -4574,19 +4574,20 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.mp.payment.data.idTicketKf               = obj.selected.idTicket;
               $scope.mp.payment.data.client_id                = "8877359900700578";
               $scope.mp.payment.data.collector_id             = null;
-              var manualPaymentDate = moment(obj.manualPaymentDate)
-                  .tz("America/Argentina/Buenos_Aires")
-                  .format("YYYY-MM-DD HH:mm:ss");
-              $scope.mp.payment.data.manualPaymentDate = manualPaymentDate;
+              var manualPaymentDate = new Date(obj.manualPaymentDate);
+              var date = moment.tz(manualPaymentDate, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
+              var newPaymentDate = date.toDate();
+              $scope.mp.payment.data.manualPaymentDate        = obj.manualPaymentDate;
               var current_date = new Date();
-              var newDate = moment(current_date).tz("America/Argentina/Buenos_Aires")
-                  .format("YYYY-MM-DD HH:mm:ss");
+              var date = moment.tz(current_date, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
+              var newDate = date.toDate();
               var dateTimeString =
                   String(current_date.getDate()).padStart(2, '0') +      // dd
                   String(current_date.getMonth() + 1).padStart(2, '0') + // mm (mes empieza en 0)
                   current_date.getFullYear() +                           // yyyy
                   String(current_date.getHours()).padStart(2, '0') +     // hh
                   String(current_date.getMinutes()).padStart(2, '0');    // mm
+              $scope.mp.payment.data.idPayment                = obj.selected.paymentDetails.idPayment;
               $scope.mp.payment.data.date_created             = newDate;
               $scope.mp.payment.data.id                       = "90000"+dateTimeString;
               $scope.mp.payment.data.expires                  = null;
