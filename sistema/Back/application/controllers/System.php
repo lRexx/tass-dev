@@ -505,7 +505,7 @@ class System extends CI_Controller {
             ';
             $body .= '</td>';
             $body .= '</tr>';
-            $body = '<tr width="100%" bgcolor="#ffffff">';
+            $body .= '<tr width="100%" bgcolor="#ffffff">';
             $body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">';
             $body .= '
                 <p>
