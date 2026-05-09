@@ -4579,9 +4579,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   .format("YYYY-MM-DD HH:mm:ss");
               $scope.mp.payment.data.manualPaymentDate = manualPaymentDate;
               var current_date = new Date();
-              var date = moment(current_date).tz("America/Argentina/Buenos_Aires")
-                  .format("YYYY-MM-DD HH:mm:ss");
-              var newDate = date.toDate();
+              var newDate = moment(current_date).tz("America/Argentina/Buenos_Aires")
+                  .format("YYYY-MM-DD");
               var dateTimeString =
                   String(current_date.getDate()).padStart(2, '0') +      // dd
                   String(current_date.getMonth() + 1).padStart(2, '0') + // mm (mes empieza en 0)
