@@ -429,7 +429,7 @@ class System extends CI_Controller {
             |--------------------------------------------------------------------------
             */
             $filename = 'PedidosPendientesFacturar_' .
-                        date('Ymd_His') .
+                        date('Ymd') .
                         '.xlsx';
 
             $filepath = APPPATH . 'cache/' . $filename;
