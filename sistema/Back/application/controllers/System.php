@@ -309,6 +309,28 @@ class System extends CI_Controller {
 
         try {
 
+            /*
+            |--------------------------------------------------------------------------
+            | AUDIT START
+            |--------------------------------------------------------------------------
+            */
+            $executionId = uniqid('PBR_', true);
+
+            $auditData = [
+                'executionId' => $executionId,
+                'status'      => 'RUNNING',
+                'startedAt'   => date('Y-m-d H:i:s')
+            ];
+
+            $this->db->insert(
+                'tb_audit_pending_billing_report',
+                $auditData
+            );
+
+            $auditId = $this->db->insert_id();
+
+            $executionStart = microtime(true);
+
             ini_set('memory_limit', '1024M');
             set_time_limit(0);
 
@@ -329,6 +351,23 @@ class System extends CI_Controller {
                 log_message(
                     'info',
                     'No hay pedidos pendientes por facturar.'
+                );
+
+                $this->db->where(
+                    'idAuditPendingBillingReport',
+                    $auditId
+                );
+
+                $this->db->update(
+                    'tb_audit_pending_billing_report',
+                    [
+                        'status'      => 'EMPTY',
+                        'finishedAt'  => date('Y-m-d H:i:s'),
+                        'totalRows'   => 0,
+                        'emailSent'   => 0,
+                        'executionTimeSeconds' =>
+                            round(microtime(true) - $executionStart, 2)
+                    ]
                 );
 
                 return;
@@ -485,7 +524,30 @@ class System extends CI_Controller {
             $cc = [
                 'davideduardo.luengo@hotmail.com'
             ];
+
             $subject = 'Pedidos Pendientes por Facturar';
+
+            /*
+            |--------------------------------------------------------------------------
+            | UPDATE AUDIT FILE INFO
+            |--------------------------------------------------------------------------
+            */
+            $this->db->where(
+                'idAuditPendingBillingReport',
+                $auditId
+            );
+
+            $this->db->update(
+                'tb_audit_pending_billing_report',
+                [
+                    'totalRows'    => count($rows),
+                    'filename'     => $filename,
+                    'filepath'     => $filepath,
+                    'fileSizeBytes'=> $fileSize,
+                    'emailTo'      => implode(',', $to),
+                    'emailCc'      => implode(',', $cc)
+                ]
+            );
 
             $body = '<tr width="100%" bgcolor="#ffffff">';
             $body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">';
@@ -533,7 +595,24 @@ class System extends CI_Controller {
 
                 log_message(
                     'info',
-                    'Correo enviado correctamente.'
+                    'Correo enviado correctamente a ' .
+                    implode(', ', $to)
+                );
+
+                $this->db->where(
+                    'idAuditPendingBillingReport',
+                    $auditId
+                );
+
+                $this->db->update(
+                    'tb_audit_pending_billing_report',
+                    [
+                        'status'      => 'SUCCESS',
+                        'emailSent'   => 1,
+                        'finishedAt'  => date('Y-m-d H:i:s'),
+                        'executionTimeSeconds' =>
+                            round(microtime(true) - $executionStart, 2)
+                    ]
                 );
 
             } else {
@@ -541,6 +620,23 @@ class System extends CI_Controller {
                 log_message(
                     'error',
                     'ERROR enviando correo.'
+                );
+
+                $this->db->where(
+                    'idAuditPendingBillingReport',
+                    $auditId
+                );
+
+                $this->db->update(
+                    'tb_audit_pending_billing_report',
+                    [
+                        'status'      => 'ERROR',
+                        'emailSent'   => 0,
+                        'finishedAt'  => date('Y-m-d H:i:s'),
+                        'executionTimeSeconds' =>
+                            round(microtime(true) - $executionStart, 2),
+                        'errorMessage'=> 'ERROR enviando correo'
+                    ]
                 );
 
             }
@@ -556,7 +652,7 @@ class System extends CI_Controller {
 
                 log_message(
                     'info',
-                    'Archivo temporal eliminado.'
+                    'Archivo ' . $filepath . ' temporal eliminado.'
                 );
             }
 
@@ -572,6 +668,33 @@ class System extends CI_Controller {
                 'PendingBillingReport ERROR: ' .
                 $e->getMessage()
             );
+
+            if (!empty($auditId)) {
+
+                $this->db->where(
+                    'idAuditPendingBillingReport',
+                    $auditId
+                );
+
+                $this->db->update(
+                    'tb_audit_pending_billing_report',
+                    [
+                        'status'      => 'ERROR',
+                        'finishedAt'  => date('Y-m-d H:i:s'),
+                        'emailSent'   => 0,
+                        'errorMessage'=> substr(
+                            $e->getMessage(),
+                            0,
+                            65000
+                        ),
+                        'executionTimeSeconds' =>
+                            round(
+                                microtime(true) - $executionStart,
+                                2
+                            )
+                    ]
+                );
+            }
         }
     }
 }
