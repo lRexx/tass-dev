@@ -507,7 +507,7 @@ class System extends CI_Controller {
             | SEND EMAIL
             |--------------------------------------------------------------------------
             */
-            $mailSent = $this->mail_model->sendMail(
+            $mailSent = $this->mail_model->sendMailAttachment(
                 $title,
                 $to,
                 $body,
