@@ -4578,9 +4578,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   .tz("America/Argentina/Buenos_Aires")
                   .format("YYYY-MM-DD HH:mm:ss");
               $scope.mp.payment.data.manualPaymentDate = manualPaymentDate;
-              var newPaymentDate = date.toDate();
               var current_date = new Date();
-              var date = moment.tz(current_date, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
+              var date = moment(current_date).tz("America/Argentina/Buenos_Aires")
+                  .format("YYYY-MM-DD HH:mm:ss");
               var newDate = date.toDate();
               var dateTimeString =
                   String(current_date.getDate()).padStart(2, '0') +      // dd
