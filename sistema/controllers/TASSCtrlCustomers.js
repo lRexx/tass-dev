@@ -4298,7 +4298,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                             $timeout(function() {
                               console.log($scope.rsBuildingDepartmentsData[0]);
                               $scope.customerSearch.address = $scope.customer.update.idClientDepartamentFk!=null?$scope.rsBuildingDepartmentsData[0].Building:undefined;
-                              $scope.customer.select.main.address.selected=$scope.customer.update.idClientDepartamentFk!=null?{'idClient':$scope.rsBuildingDepartmentsData[0].idBuilding,'name':$scope.rsBuildingDepartmentsData[0].Building, 'ClientType':'Edificio'}:undefined;
+                              $scope.customer.select.main.address.selected=$scope.customer.update.idClientDepartamentFk!=null?$scope.rsBuildingDepartmentsData[0].Building:undefined;
                             }, 500);
                           }else{
                             $scope.customer.update.isNotClient=false;
@@ -6136,7 +6136,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                             $scope.listCustomerFound = [];
                             //$scope.pagination.totalCount  = 0;
                         });
-                    }else if (string!=undefined && string!="" && ($scope.customer.new.idClientTypeFk!='2' && $scope.customer.new.isNotClient || $scope.customer.update.idClientTypeFk!='2' && $scope.customer.update.isNotClient)){
+                    }else if (string!=undefined && string!="" && ($scope.customer.new.idClientTypeFk!='2' && $scope.customer.new.isNotClient || $scope.customer.update.idClientTypeFk!='2' && ($scope.customer.update.isNotClient || !$scope.customer.update.isNotClient))){
                       $scope.customerFound={};
                       $scope.getCustomerLisServiceFn2(string, null, "2", null, 0, 10, strict).then(function(response) {
                           if(response.status==undefined){
