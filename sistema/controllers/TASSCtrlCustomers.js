@@ -4826,7 +4826,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                         console.log($scope.customer.select.main.department);
                         if ($scope.customer.update.idTipoInmuebleFk==1 && $scope.customer.update.isNotClient==true){
                           $scope.customer.update.idClientDepartamentFk                   = $scope.customer.select.main.department;
-                          $scope.customer.update.address                                 = $scope.customer.select.main.address.selected.address!=$scope.customer.nameAddress?$scope.customer.nameAddress:$scope.customer.select.main.address.selected.address;
+                          $scope.customer.update.address                                 = $scope.customer.nameAddress!=undefined && $scope.customer.select.main.address.selected.address!=$scope.customer.nameAddress?$scope.customer.nameAddress:$scope.customer.select.main.address.selected.address;
                           $scope.customer.update.idProvinceFk                            = $scope.customer.select.main.address.selected.idProvinceFk==undefined?obj.idProvinceFk:$scope.customer.select.main.address.selected.idProvinceFk;
                           $scope.customer.update.idLocationFk                            = $scope.customer.select.main.address.selected.idLocationFk==undefined?obj.idLocationFk:$scope.customer.select.main.address.selected.idLocationFk;
                           $scope.customer.update.addressLat                              = obj.addressLat;
@@ -4850,7 +4850,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                         //Printing the current array before add the customer
                         console.log($scope.customer.update);
                         //Send the customer data to the addcustomer service
-                        $scope.updateCustomerFn($scope.customer.update);
+                        //$scope.updateCustomerFn($scope.customer.update);
                       break;
                       case "2": //BUILDING CUSTOMER
                             //Getting the customer schedule setting
