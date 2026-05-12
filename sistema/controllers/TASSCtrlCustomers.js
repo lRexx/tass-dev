@@ -4286,16 +4286,24 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                               ttl:12000, type: 'info'
                               });
                           }
-                          $scope.customer.update.nameAddress=$scope.customer.update.idClientDepartamentFk==null||$scope.customer.update.idClientDepartamentFk==''?$scope.customer.update.address:'';
-                          $scope.customerSearch.address = $scope.customer.update.idClientDepartamentFk!=null?$scope.customer.update.name:undefined;
-                          $scope.customer.select.main.address.selected=$scope.customer.update.idClientDepartamentFk!=null?{address:$scope.customer.update.address}:undefined;
+                          if (obj.address==undefined){
+                              inform.add('El cliente '+$scope.customer.update.name+' No tiene asignada una dirección, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'danger'
+                              });
+                          }
                           if($scope.customer.update.idClientDepartamentFk){
                             $scope.customer.update.isNotClient=true;
                             $scope.getBuildingsDeptosByDeptoIdFn($scope.customer.update.idClientDepartamentFk);
                             $scope.customer.select.main.department=$scope.customer.update.idClientDepartamentFk;
+                            $timeout(function() {
+                              console.log($scope.rsBuildingDepartmentsData[0]);
+                              $scope.customerSearch.address = $scope.customer.update.idClientDepartamentFk!=null?$scope.rsBuildingDepartmentsData[0].Building:undefined;
+                              $scope.customer.select.main.address.selected=$scope.customer.update.idClientDepartamentFk!=null?{'idClient':$scope.rsBuildingDepartmentsData[0].idBuilding,'name':$scope.rsBuildingDepartmentsData[0].Building, 'ClientType':'Edificio'}:undefined;
+                            }, 500);
                           }else{
                             $scope.customer.update.isNotClient=false;
                             $scope.addrrSelected=true;
+                            $scope.customer.update.nameAddress=$scope.customer.update.idClientDepartamentFk==null||$scope.customer.update.idClientDepartamentFk==''?$scope.customer.update.address:'';
                           }
                           //blockUI.message('Cargando telefonos del cliente '+obj.list_phone_contact.length);
                           //PHONES
@@ -6057,7 +6065,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                 console.log($scope.customerSearch);
                 console.log(idClientTypeFk);
                 var searchFilter    = searchFilter!=undefined && searchFilter!="" && searchFilter!=null?searchFilter:null;
-                var isNotCliente    = isNotCliente!=undefined && isNotCliente!=null?isNotCliente:"0";
+                var isNotCliente    = isNotCliente!=undefined?isNotCliente:"0";
                 var idClientTypeFk  = idClientTypeFk!=undefined && idClientTypeFk!="" && idClientTypeFk!=null?idClientTypeFk:null;
                 var isInDebt        = isInDebt!=false && isInDebt!=undefined && isInDebt!=null?1:null;
                 var start           = start!=undefined && start!=null && (!isInDebt && !strict)?start:"";
@@ -6130,7 +6138,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                         });
                     }else if (string!=undefined && string!="" && ($scope.customer.new.idClientTypeFk!='2' && $scope.customer.new.isNotClient || $scope.customer.update.idClientTypeFk!='2' && $scope.customer.update.isNotClient)){
                       $scope.customerFound={};
-                      $scope.getCustomerLisServiceFn2(string, "0", "2", null, 0, 10, strict).then(function(response) {
+                      $scope.getCustomerLisServiceFn2(string, null, "2", null, 0, 10, strict).then(function(response) {
                           if(response.status==undefined){
                             $scope.listCustomerFound = response.customers;
                             //$scope.pagination.totalCount = response.customers.length;
