@@ -4291,6 +4291,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                               ttl:12000, type: 'danger'
                               });
                           }
+                          $scope.customer.update.nameAddress=$scope.customer.update.idClientDepartamentFk==null||$scope.customer.update.idClientDepartamentFk==''?$scope.customer.update.address:'';
                           if($scope.customer.update.idClientDepartamentFk){
                             $scope.customer.update.isNotClient=true;
                             $scope.getBuildingsDeptosByDeptoIdFn($scope.customer.update.idClientDepartamentFk);
@@ -4303,7 +4304,6 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                           }else{
                             $scope.customer.update.isNotClient=false;
                             $scope.addrrSelected=true;
-                            $scope.customer.update.nameAddress=$scope.customer.update.idClientDepartamentFk==null||$scope.customer.update.idClientDepartamentFk==''?$scope.customer.update.address:'';
                           }
                           //blockUI.message('Cargando telefonos del cliente '+obj.list_phone_contact.length);
                           //PHONES
@@ -4819,8 +4819,11 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                         //Getting the authorized user to the new customer
                         $scope.customer.update.list_client_user                          = [];
                         $scope.customer.update.list_client_user                          = $scope.list_client_user;
+                        console.log(obj);
                         console.log(obj.address);
                         console.log(obj.nameAddress);
+                        console.log($scope.customer.select.main.address.selected);
+                        console.log($scope.customer.select.main.department);
                         if ($scope.customer.update.idTipoInmuebleFk==1 && $scope.customer.update.isNotClient==true){
                           $scope.customer.update.idClientDepartamentFk                   = $scope.customer.select.main.department;
                           $scope.customer.update.address                                 = $scope.customer.select.main.address.selected.address!=$scope.customer.nameAddress?$scope.customer.nameAddress:$scope.customer.select.main.address.selected.address;
