@@ -4255,6 +4255,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
               //console.log(obj);
               switch (switchOption){
                   case "edit":
+                    $scope.customer.update.isNotClient=false;
                     var subOption = obj.idClientTypeFk;
                     switch (subOption){
                       case "1": //ADMINISTRATION CUSTOMER
@@ -4831,19 +4832,20 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                           $scope.customer.update.idLocationFk                            = $scope.customer.select.main.address.selected.idLocationFk==undefined?obj.idLocationFk:$scope.customer.select.main.address.selected.idLocationFk;
                           $scope.customer.update.addressLat                              = obj.addressLat;
                           $scope.customer.update.addressLon                              = obj.addressLon;
+                          $scope.customer.update.isNotCliente                            = 1;
                         }else{
                           $scope.customer.update.idClientDepartamentFk                   = null;
                           $scope.customer.update.address                                 = obj.address!=obj.nameAddress?obj.nameAddress:obj.address;
                           $scope.customer.update.idProvinceFk                            = $scope.customer.select.main.province.selected.idProvince;
                           $scope.customer.update.idLocationFk                            = $scope.customer.select.main.location.selected.idLocation;
                           $scope.customer.update.numberUNF                               = null;
+                          $scope.customer.update.isNotCliente                            = 0;
                         }
                         $scope.customer.update.billing_information                       = {};
                         $scope.customer.update.billing_information                       = obj.billing_information_details;
                         $scope.customer.update.billing_information.idProvinceBillingFk   = $scope.customer.select.payment.province.selected.idProvince;
                         $scope.customer.update.billing_information.idLocationBillingFk   = $scope.customer.select.payment.location.selected.idLocation;
                         //Assigning the default value to 0
-                        $scope.customer.update.isNotClient                               = 0;
                         $scope.customer.update.idClientAdminFk                           = 0;
                         $scope.customer.update.idClientCompaniFk                         = 0;
                         //Printing the current array before add the customer
