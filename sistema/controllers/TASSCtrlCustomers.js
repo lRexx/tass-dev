@@ -4832,14 +4832,12 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                           $scope.customer.update.idLocationFk                            = $scope.customer.select.main.address.selected.idLocationFk==undefined?obj.idLocationFk:$scope.customer.select.main.address.selected.idLocationFk;
                           $scope.customer.update.addressLat                              = obj.addressLat;
                           $scope.customer.update.addressLon                              = obj.addressLon;
-                          $scope.customer.update.isNotCliente                            = 1;
                         }else{
                           $scope.customer.update.idClientDepartamentFk                   = null;
                           $scope.customer.update.address                                 = obj.address!=obj.nameAddress?obj.nameAddress:obj.address;
                           $scope.customer.update.idProvinceFk                            = $scope.customer.select.main.province.selected.idProvince;
                           $scope.customer.update.idLocationFk                            = $scope.customer.select.main.location.selected.idLocation;
                           $scope.customer.update.numberUNF                               = null;
-                          $scope.customer.update.isNotCliente                            = 0;
                         }
                         $scope.customer.update.billing_information                       = {};
                         $scope.customer.update.billing_information                       = obj.billing_information_details;
