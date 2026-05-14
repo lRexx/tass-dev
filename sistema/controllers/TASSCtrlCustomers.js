@@ -4849,7 +4849,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                         //Printing the current array before add the customer
                         console.log($scope.customer.update);
                         //Send the customer data to the addcustomer service
-                        //$scope.updateCustomerFn($scope.customer.update);
+                        $scope.updateCustomerFn($scope.customer.update);
                       break;
                       case "2": //BUILDING CUSTOMER
                             //Getting the customer schedule setting
