@@ -4999,15 +4999,16 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                     $scope.list_phone_contact=[];
                     $scope.list_phones=[];
                     $scope.customer.info = obj;
-                    //console.log(obj.list_phone_contact);
+                    console.log(obj.list_phone_contact);
+                    console.log($scope.customer.info.list_schedule_atention);
                     if (obj.list_phone_contact.length>0){
                       for (var key in  obj.list_phone_contact){
-                        //console.log(obj.list_phone_contact[key]);
+                        console.log(obj.list_phone_contact[key]);
                         $scope.list_phone_contact.push({'phoneTag':obj.list_phone_contact[key].phoneTag, 'phoneContact':obj.list_phone_contact[key].phoneContact});
                         $scope.list_phones.push({'phoneTag':obj.list_phone_contact[key].phoneTag, 'phoneContact':obj.list_phone_contact[key].phoneContact});
                       }
                     }else{
-                      //console.log("obj.list_phone_contact is empty");
+                      console.log("obj.list_phone_contact is empty");
                     }
                     $('#customerPhonesContact').modal('toggle');
                   break;
