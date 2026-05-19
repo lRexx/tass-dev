@@ -2725,7 +2725,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.mainSwitchFn('setWhoPickUpList', null, null);
                         if ($scope.isRequest=="up" && !$scope.ticket.deviceSelected && $scope.ticket.isHasMutiplesDevicesTypes){
                             $scope.mainSwitchFn('selectDeviceType', null, null);
-                        }else if ($scope.isRequest=="up" && $scope.ticket.deviceSelected && !$scope.ticket.isHasMutiplesDevicesTypes){
+                        }else if ($scope.isRequest=="up" && !$scope.ticket.deviceSelected && !$scope.ticket.isHasMutiplesDevicesTypes){
                             $scope.ticket.deviceTypeSelected = $scope.rsTicketDevicesType.find(s => s.idDeviceType == "1");
                             $scope.ticket.idDeviceTypeKf = $scope.ticket.deviceTypeSelected.idDeviceType;
                             $scope.ticket.deviceSelected = true;
@@ -4246,6 +4246,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $scope.new.ticket.mail += '</tbody></table>';
                             $scope.new.ticket.mail +='</td></tr></tbody>';
                             /*-- DELIVERY METHOD --*/
+                            if (obj.idDeviceTypeKf!=2){
                                 $scope.new.ticket.mail += '<tbody><tr><td align="center" valign="middle" colspan="4" style="background:#427a9d;color:white; padding:0.4%">Detalles del Envío</td></tr>';
                                 $scope.new.ticket.mail +='<tr><td align="center" valign="middle" style="width: 10%; background-color: #b8c3d2;font-size: 1vw;color: #fff; padding-left: 0.4%">Método</td>';
                                 if (obj.delivery.idTypeDeliveryKf=='1'){
@@ -4317,8 +4318,10 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     $scope.new.ticket.mail += '<li style="list-style:none;text-align: justify;"><br>Podrá verificar el estado en todo momento desde la pantalla MONITOR DE PEDIDOS</li>';
                                     $scope.new.ticket.mail += '</ul></td>';
                                 }
+
+                                $scope.new.ticket.mail +='</tr></tbody>';
+                            }
                             /*-- DELIVERY METHOD --*/
-                            $scope.new.ticket.mail +='</tr></tbody>';
                             /*--  PAYMENT METHOD --*/
                                 $scope.new.ticket.mail += '<tbody><tr><td align="center" valign="middle" colspan="10" style="background:#427a9d;color:white; padding:0.4%">Metodo de Pago</td></tr>';
                                 $scope.new.ticket.mail +='<tr><td align="center" valign="middle" style="vertical-align: middle;width: 10%; background-color: #b8c3d2;font-size: 1vw;color: #fff; padding-left: 0.4%">Método</td>';
