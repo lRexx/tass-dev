@@ -4243,7 +4243,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     $scope.new.ticket.mail +='</td>';
                                     $scope.new.ticket.mail += '<td style="vertical-align: middle;text-align: center;">';
                                     $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+$scope.list_keys[i].user.fullNameUser+'</b></span>';
-                                    $scope.new.ticket.mail +='</td>';
                                 }
                                 $scope.new.ticket.mail +='</td>';
                                 $scope.new.ticket.mail += '<td style="vertical-align: middle;text-align: center;">';
