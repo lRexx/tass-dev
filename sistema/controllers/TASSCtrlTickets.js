@@ -4206,6 +4206,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
 
                                 $scope.new.ticket.mail += '<th style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "> Asignado</th>';
                             }
+                            if (obj.idDeviceTypeKf!=2){
+                                $scope.new.ticket.mail += '<th style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "> Usuario</th>';
+                            }
                             if (obj.optionTypeSelected.name=='building'){
                                 $scope.new.ticket.mail += '<th style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "> Categoria</th>';
                             }
@@ -4236,6 +4239,12 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 }
                                 if (obj.optionTypeSelected.name=='department' && (obj.radioButtonDepartment==null || obj.radioButtonDepartment=='1' || obj.radioButtonDepartment=='2')){
                                     $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+obj.idClientDepartament.Depto+'</b></span>';
+                                }
+                                if (obj.idDeviceTypeKf!=2){
+                                    $scope.new.ticket.mail +='</td>';
+                                    $scope.new.ticket.mail += '<td style="vertical-align: middle;text-align: center;">';
+                                    $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+$scope.list_keys[i].user.fullNameUser+'</b></span>';
+                                    $scope.new.ticket.mail +='</td>';
                                 }
                                 $scope.new.ticket.mail +='</td>';
                                 $scope.new.ticket.mail += '<td style="vertical-align: middle;text-align: center;">';
@@ -4349,8 +4358,10 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 $scope.new.ticket.mail += '<td style="width: 15%;"> $ '+obj.cost.service+'</td>';
                                 $scope.new.ticket.mail += '<td style="width: 10%; background-color: #b8c3d2;font-size: 1vw;color: #fff;text-align: center;">Llaves</td>';
                                 $scope.new.ticket.mail += '<td style="width: 15%;"> $ '+obj.cost.keys+'</td>';
-                                $scope.new.ticket.mail += '<td style="width: 10%; background-color: #b8c3d2;font-size: 1vw;color: #fff;text-align: center;">Envío</td>';
-                                $scope.new.ticket.mail += '<td style="width: 15%;"> $ '+obj.cost.delivery+'</td>';
+                                if (obj.idDeviceTypeKf!=2){
+                                    $scope.new.ticket.mail += '<td style="width: 10%; background-color: #b8c3d2;font-size: 1vw;color: #fff;text-align: center;">Envío</td>';
+                                    $scope.new.ticket.mail += '<td style="width: 15%;"> $ '+obj.cost.delivery+'</td>';
+                                }
                                 $scope.new.ticket.mail += '<td style="width: 10%; background-color: #b8c3d2;font-size: 1vw;color: #fff;text-align: center;">Total</td>';
                                 $scope.new.ticket.mail += '<td style="width: 15%;"> $ '+obj.cost.total+'</td>';
                                 $scope.new.ticket.mail +='</tr></tbody></table>';
