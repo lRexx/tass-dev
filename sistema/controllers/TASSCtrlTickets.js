@@ -4193,7 +4193,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $scope.new.ticket.mail +='<td align="left" valign="middle">'+obj.building.name+'</td>';
                             $scope.new.ticket.mail +='</tr></tbody>';
                             /*-- KEYS REQUESTED --*/
-                            $scope.new.ticket.mail += '<tbody><tr><td align="center" valign="middle" colspan="4" style="background:#427a9d;color:white; padding:0.4%">Llaves solicitadas</td></tr>';
+                            $scope.new.ticket.mail += '<tbody><tr><td align="center" valign="middle" colspan="4" style="background:#427a9d;color:white; padding:0.4%">Dispositivos solicitadas</td></tr>';
                             $scope.new.ticket.mail +='<tr><td colspan="4" style="background:#fff;">';
 
                             $scope.new.ticket.mail += '<table width="100%" style="max-width:768px;min-width:100%;background-color: #fff;">';
@@ -4206,7 +4206,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
 
                                 $scope.new.ticket.mail += '<th style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "> Asignado</th>';
                             }
-                            if (obj.idDeviceTypeKf!=2){
+                            if (obj.idDeviceTypeKf==2){
                                 $scope.new.ticket.mail += '<th style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "> Usuario</th>';
                             }
                             if (obj.optionTypeSelected.name=='building'){
@@ -4226,7 +4226,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 if (obj.optionTypeSelected.name=='building'){
                                     $scope.new.ticket.mail += '<td style="vertical-align: middle;text-align: center;"><span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+$scope.list_keys[i].key.categoryName+'</b></span></td>';
                                 }
-
                                 $scope.new.ticket.mail += '<td style="vertical-align: middle;text-align: center;">';
                                 if (obj.optionTypeSelected.name=='building' && obj.radioButtonBuilding!=undefined && obj.radioButtonBuilding=='1'){
                                     $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+$scope.list_keys[i].user.nameProfile+'</b></span>';
@@ -4240,7 +4239,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 if (obj.optionTypeSelected.name=='department' && (obj.radioButtonDepartment==null || obj.radioButtonDepartment=='1' || obj.radioButtonDepartment=='2')){
                                     $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+obj.idClientDepartament.Depto+'</b></span>';
                                 }
-                                if (obj.idDeviceTypeKf!=2){
+                                if (obj.idDeviceTypeKf==2){
                                     $scope.new.ticket.mail +='</td>';
                                     $scope.new.ticket.mail += '<td style="vertical-align: middle;text-align: center;">';
                                     $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+$scope.list_keys[i].user.fullNameUser+'</b></span>';
