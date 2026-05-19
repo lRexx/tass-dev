@@ -2914,7 +2914,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             productSelected = null;
                         }
                         $scope.item_added           = false;
-                        var userSelected            = $scope.selectedUser!=undefined?$scope.selectedUser:null;
+                        var userKeySelected            = $scope.selectedUser!=undefined?$scope.selectedUser:null;
                         var radioButtonDepartment   = $scope.ticket.radioButtonDepartment!=undefined?$scope.ticket.radioButtonDepartment:null;
                         var radioButtonBuilding     = $scope.ticket.radioButtonBuilding!=undefined?$scope.ticket.radioButtonBuilding:null;
                         for (var door in obj2){
@@ -2934,7 +2934,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     productSelected.categoryName        = "Departamento";
                                     productSelected.idClientKf          = null;
                                     productSelected.idDepartmenKf       = departmentSelected;
-                                    //productSelected.isKeyTenantOnly   = userSelected!=undefined && userSelected.idTypeTenantKf!=null && userSelected.idTypeTenantKf == "2"?1:null;
+                                    //productSelected.isKeyTenantOnly   = userKeySelected!=undefined && userKeySelected.idTypeTenantKf!=null && userKeySelected.idTypeTenantKf == "2"?1:null;
                                     productSelected.isKeyTenantOnly     = $scope.ticket.userRequestBy.idTypeTenantKf!=null && $scope.ticket.userRequestBy.idTypeTenantKf == "2"?1:null;
                                     $scope.keysAllowedTmp               = $scope.keysAllowed;
                                 }else{
@@ -2953,7 +2953,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     productSelected.categoryName        = "Departamento";
                                     productSelected.idClientKf          = null;
                                     productSelected.idDepartmenKf       = departmentSelected;
-                                    //productSelected.isKeyTenantOnly     = userSelected!=undefined && userSelected.idTypeTenantKf!=null && userSelected.idTypeTenantKf == "2"?1:null;
+                                    //productSelected.isKeyTenantOnly     = userKeySelected!=undefined && userKeySelected.idTypeTenantKf!=null && userKeySelected.idTypeTenantKf == "2"?1:null;
                                     productSelected.isKeyTenantOnly     = $scope.ticket.userRequestBy.idTypeTenantKf!=null && $scope.ticket.userRequestBy.idTypeTenantKf == "2"?1:null;
                                     $scope.keysAllowedTmp               = $scope.keysAllowed;
                                 }else{
@@ -3013,7 +3013,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 productSelected.priceFabric = Number($scope.select.buildings.selected.initial_delivery[0].initial_price);
                             }
                             console.log(productSelected);
-                            $scope.list_keys.push({'id':id, 'optionTypeSelected':$scope.ticket.optionTypeSelected.name, 'radioButtonDepartment':radioButtonDepartment, 'radioButtonBuilding':radioButtonBuilding, 'key':productSelected, 'user':userSelected, 'doors':doorsSelected});
+                            $scope.list_keys.push({'id':id, 'optionTypeSelected':$scope.ticket.optionTypeSelected.name, 'radioButtonDepartment':radioButtonDepartment, 'radioButtonBuilding':radioButtonBuilding, 'key':productSelected, 'user':userKeySelected, 'doors':doorsSelected});
                             $scope.item_added = true;
                             if (productSelected.isLicenseDevice==1){
                                 $scope.ticket.isLicenseDevice = true;
@@ -3023,7 +3023,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }else{
                             if ($scope.list_keys.length<$scope.keysAllowedTmp){
                                 for (var key in $scope.list_keys){
-                                    if ($scope.list_keys[key].isLicenseDevice==null && $scope.list_keys[key].user!=null && userSelected!=null && $scope.list_keys[key].user.idUser == $scope.selectedUser.idUser){
+                                    if ($scope.list_keys[key].isLicenseDevice==null && $scope.list_keys[key].user!=null && userKeySelected!=null && $scope.list_keys[key].user.idUser == $scope.selectedUser.idUser){
                                         inform.add($scope.ticket.deviceTypeSelected.deviceName.toLowerCase()+" seleccionado/a no ha sido agregado a la lista.",{
                                             ttl:5000, type: 'warning'
                                         });
@@ -3076,7 +3076,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     }else if ($scope.ticket.departmentHasTicketsInitialDelivery && $scope.select.buildings.selected.initial_delivery.length>0 && !$scope.select.buildings.selected.initial_delivery[0].expiration_state && ((($scope.list_keys.length+1))<parseInt($scope.select.buildings.selected.initial_delivery[0].initial_qtty) || (($scope.list_keys.length+1))>=parseInt($scope.select.buildings.selected.initial_delivery[0].initial_qtty))){
                                         productSelected.priceFabric = Number($scope.select.buildings.selected.initial_delivery[0].initial_price);
                                     }
-                                    $scope.list_keys.push({'id':id, 'optionTypeSelected':$scope.ticket.optionTypeSelected.name, 'radioButtonDepartment':radioButtonDepartment, 'radioButtonBuilding':radioButtonBuilding, 'key':productSelected, 'user':userSelected, 'doors':doorsSelected});
+                                    $scope.list_keys.push({'id':id, 'optionTypeSelected':$scope.ticket.optionTypeSelected.name, 'radioButtonDepartment':radioButtonDepartment, 'radioButtonBuilding':radioButtonBuilding, 'key':productSelected, 'user':userKeySelected, 'doors':doorsSelected});
                                     $scope.item_added = true;
                                     if (productSelected.isLicenseDevice==1){
                                         $scope.ticket.isLicenseDevice = true;
@@ -3092,23 +3092,23 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }
                         if ($scope.item_added){
                             if($scope.ticket.optionTypeSelected.name=='department'){
-                                if (userSelected==null){
+                                if (userKeySelected==null){
                                     inform.add('El dispositivo '+productSelected.descriptionProduct+' asociado al Departamento:  '+$scope.ticket.idClientDepartament.Depto+' ha sido agregado al pedido.',{
                                         ttl:5000, type: 'success'
                                     });
                                 }else{
-                                    inform.add('El dispositivo '+productSelected.descriptionProduct+' asociado usuario '+userSelected.fullNameUser+' ha sido agregado al pedido.',{
+                                    inform.add('El dispositivo '+productSelected.descriptionProduct+' asociado usuario '+userKeySelected.fullNameUser+' ha sido agregado al pedido.',{
                                         ttl:5000, type: 'success'
                                     });
                                 }
                             }else{
                                 if($scope.ticket.radioButtonBuilding=="1"){
-                                    if (userSelected==null){
+                                    if (userKeySelected==null){
                                         inform.add('El dispositivo '+productSelected.descriptionProduct+' asociado al Personal del Edificio:  '+$scope.select.buildings.selected.name+' ha sido agregado al pedido.',{
                                             ttl:5000, type: 'success'
                                         });
                                     }else{
-                                        inform.add('El dispositivo '+productSelected.descriptionProduct+' asociado usuario '+userSelected.fullNameUser+' ha sido agregado al pedido.',{
+                                        inform.add('El dispositivo '+productSelected.descriptionProduct+' asociado usuario '+userKeySelected.fullNameUser+' ha sido agregado al pedido.',{
                                             ttl:5000, type: 'success'
                                         });
                                     }
@@ -3186,7 +3186,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }else{
                             productSelected = null;
                         }
-                        var userSelected = $scope.selectedUser!=undefined?$scope.selectedUser:null;
+                        var userKeySelected = $scope.selectedUser!=undefined?$scope.selectedUser:null;
                         var radioButtonDepartment = $scope.ticket.radioButtonDepartment!=undefined?$scope.ticket.radioButtonDepartment:null;
                         var radioButtonBuilding = $scope.ticket.radioButtonBuilding!=undefined?$scope.ticket.radioButtonBuilding:null;
                         for (var door in obj2){
@@ -3204,7 +3204,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     productSelected.categoryName        = "Departamento";
                                     productSelected.idClientKf          = null;
                                     productSelected.idDepartmenKf       = departmentSelected;
-                                    //productSelected.isKeyTenantOnly     = userSelected!=undefined && userSelected.idTypeTenantKf!=null && userSelected.idTypeTenantKf == "2"?1:null;
+                                    //productSelected.isKeyTenantOnly     = userKeySelected!=undefined && userKeySelected.idTypeTenantKf!=null && userKeySelected.idTypeTenantKf == "2"?1:null;
                                     productSelected.isKeyTenantOnly     = $scope.ticket.userRequestBy.idTypeTenantKf!=null && $scope.ticket.userRequestBy.idTypeTenantKf == "2"?1:null;
                                 }else{
                                     productSelected.idCategoryKf        = 6;
@@ -3220,7 +3220,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     productSelected.categoryName        = "Departamento";
                                     productSelected.idClientKf          = null;
                                     productSelected.idDepartmenKf       = departmentSelected;
-                                    //productSelected.isKeyTenantOnly     = userSelected!=undefined && userSelected.idTypeTenantKf!=null && userSelected.idTypeTenantKf == "2"?1:null;
+                                    //productSelected.isKeyTenantOnly     = userKeySelected!=undefined && userKeySelected.idTypeTenantKf!=null && userKeySelected.idTypeTenantKf == "2"?1:null;
                                     productSelected.isKeyTenantOnly     = $scope.ticket.userRequestBy.idTypeTenantKf!=null && $scope.ticket.userRequestBy.idTypeTenantKf == "2"?1:null;
                                 }else{
                                     productSelected.idCategoryKf        = 5;
@@ -3261,7 +3261,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $scope.ticket.isLicenseDevice = null
                         }
                         for (var i = 0; i < $scope.ticket.keyQtty; i++) {
-                            $scope.list_keys.push({'id':(i+1), 'optionTypeSelected':$scope.ticket.optionTypeSelected.name, 'radioButtonDepartment':radioButtonDepartment, 'radioButtonBuilding':radioButtonBuilding, 'key':productSelected, 'user':userSelected, 'doors':doorsSelected});
+                            $scope.list_keys.push({'id':(i+1), 'optionTypeSelected':$scope.ticket.optionTypeSelected.name, 'radioButtonDepartment':radioButtonDepartment, 'radioButtonBuilding':radioButtonBuilding, 'key':productSelected, 'user':userKeySelected, 'doors':doorsSelected});
                         }
                         $scope.enabledNextBtn();
                         console.log($scope.list_keys);
@@ -3332,23 +3332,23 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }
                         if ($scope.item_added){
                             if($scope.ticket.optionTypeSelected.name=='department'){
-                                if (userSelected==null){
+                                if (userKeySelected==null){
                                     inform.add('El llavero '+productSelected.descriptionProduct+' asociado al Departamento:  '+$scope.ticket.idClientDepartament.Depto+' ha sido agregado al pedido.',{
                                         ttl:5000, type: 'success'
                                     });
                                 }else{
-                                    inform.add('El llavero '+productSelected.descriptionProduct+' asociado usuario '+userSelected.fullNameUser+' ha sido agregado al pedido.',{
+                                    inform.add('El llavero '+productSelected.descriptionProduct+' asociado usuario '+userKeySelected.fullNameUser+' ha sido agregado al pedido.',{
                                         ttl:5000, type: 'success'
                                     });
                                 }
                             }else{
                                 if($scope.ticket.radioButtonBuilding=="1"){
-                                    if (userSelected==null){
+                                    if (userKeySelected==null){
                                         inform.add('El llavero '+productSelected.descriptionProduct+' asociado al Personal del Edificio:  '+$scope.select.buildings.selected.name+' ha sido agregado al pedido.',{
                                             ttl:5000, type: 'success'
                                         });
                                     }else{
-                                        inform.add('El llavero '+productSelected.descriptionProduct+' asociado usuario '+userSelected.fullNameUser+' ha sido agregado al pedido.',{
+                                        inform.add('El llavero '+productSelected.descriptionProduct+' asociado usuario '+userKeySelected.fullNameUser+' ha sido agregado al pedido.',{
                                             ttl:5000, type: 'success'
                                         });
                                     }
