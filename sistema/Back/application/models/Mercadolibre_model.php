@@ -625,6 +625,7 @@ class Mercadolibre_model extends CI_Model
 			$subject = null;
 			$body = null;
 			$to = null;
+			$resource = $lastTicketUpdatedQuery['idDeviceTypeKf']!=2 || $lastTicketUpdatedQuery['idDeviceTypeKf']==null ? "Llavero" : "Licencia Face ID";
 			$title = "Link de Pago Generado";
 			if ($lastTicketUpdatedQuery['idTypeRequestFor'] == 1) {
 				if ((!@$data['isManualPayment'] || $lastTicketUpdatedQuery['isManualPayment'] == 0 || is_null($lastTicketUpdatedQuery['isManualPayment'])) && ($lastTicketUpdatedQuery['sendNotify'] == 1 || $lastTicketUpdatedQuery['sendNotify'] == null)) {
@@ -638,10 +639,10 @@ class Mercadolibre_model extends CI_Model
 						$building = $queryBuilding->row_array();
 					}
 					if (!$data['paymentForDelivery']) {
-						$subject = "Pedido Llavero :: " . $building['Depto'] . " :: Link de Pago";
+						$subject = "Pedido " . $resource . " :: " . $building['Depto'] . " :: Link de Pago";
 						$link_mp = $lastTicketUpdatedQuery['paymentDetails']['mp_prod_init_point'];
 					} else {
-						$subject = "Pedido Llavero :: " . $building['Depto'] . " :: Link de Pago de Envío";
+						$subject = "Pedido " . $resource . " :: " . $building['Depto'] . " :: Link de Pago de Envío";
 						$link_mp = $lastTicketUpdatedQuery['paymentDeliveryDetails']['mp_prod_init_point'];
 					}
 					//GET USER
