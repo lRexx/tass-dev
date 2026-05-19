@@ -2844,6 +2844,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 $scope.whoPickUpList[key].type="Usuarios";
                             }
                         }
+                        var userSelected = null;
                         if(($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && !$scope.ticket.building.initial_delivery[0].expiration_state) ||
                             ($scope.ticket.building!=undefined && $scope.ticket.building.isStockInBuilding=='1' && $scope.ticket.building.isStockInBuilding!=null && $scope.ticket.building.isStockInBuilding!='0' && ($scope.ticket.building.isStockInOffice=='0' || $scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')) ||
                             ($scope.ticket.building!=undefined && $scope.ticket.building.isStockInOffice=='0' && $scope.ticket.building.isStockInBuilding=='0') ||
@@ -2854,8 +2855,12 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     $scope.initialLoopExecuted = true;
                                     var initialQtty     = parseInt($scope.ticket.building.initial_delivery[0].initial_qtty, 10);
                                     if ($scope.ticket.radioButtonBuilding=='1' && (userSelected==null || userSelected==undefined)){
-                                        var userSelected    = $scope.selectedUser;
+                                        console.log("userSelected is null or undefined, assigning selectedUser to userSelected");
+                                        console.log("$scope.selectedUser: " + $scope.selectedUser);
+                                        userSelected    = $scope.selectedUser;
                                     }else if ($scope.ticket.radioButtonBuilding=='1' && ($scope.selectedUser==null || $scope.selectedUser==undefined)){
+                                        console.log("userSelected is null or undefined, assigning selectedUser to userSelected");
+                                        console.log("$scope.selectedUser: " + $scope.selectedUser);
                                         $scope.selectedUser = userSelected;
                                     }
                                     console.log(initialQtty);
