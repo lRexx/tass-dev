@@ -164,7 +164,8 @@ class Ticket_model extends CI_Model
 			$body = null;
 			$to = null;
 			$rs = null;
-			$title = "Pedido Alta Llavero";
+			$resource = $lastTicketAddQuery['idDeviceTypeKf']!=2 || $lastTicketAddQuery['idDeviceTypeKf']==null ? "Llavero" : "Licencia Face ID";
+			$title = "Pedido Alta " . $resource;
 			if ($ticket['idTypeRequestFor'] == 1) {
 				//DEPARTMENT, BUILDING & ADMINISTRATION DETAILS
 				$this->db->select("*,b.idClient as idBuilding, b.name, tb_client_type.ClientType, UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto")->from("tb_client_departament");
@@ -175,7 +176,8 @@ class Ticket_model extends CI_Model
 				if ($queryBuilding->num_rows() > 0) {
 					$building = $queryBuilding->row_array();
 				}
-				$subject = "Pedido Alta Llavero :: " . $building['Depto'];
+
+				$subject = "Pedido Alta ".$resource." :: " . $building['Depto'];
 				//GET USER
 				$this->db->select("*")->from("tb_user");
 				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
@@ -233,13 +235,14 @@ class Ticket_model extends CI_Model
 								$userMadeByEmail = "";
 							}
 							log_message('info', 'Client Key Email Addresses: ' . $to);
-							$title = "Pedido Alta Llavero";
-							$subject = "Pedido Alta Llavero :: " . $building['Depto'];
+							$resource = $lastTicketAddQuery['idDeviceTypeKf']!=2 || $lastTicketAddQuery['idDeviceTypeKf']==null ? "Llavero" : "Licencia Face ID";
+							$title = "Pedido Alta " . $resource;
+							$subject = "Pedido Alta ".$resource." :: " . $building['Depto'];
 							$body = '<tr width="100%" bgcolor="#ffffff">';
 							$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">El usuario <b>' . $user['fullNameUser'] . '</b>,</td>';
 							$body .= '</tr>';
 							$body .= '<tr width="100%" bgcolor="#ffffff">';
-							$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha solicitado el Alta de Llavero  N°: <b>' . $lastTicketAddQuery['codTicket'] . '</b> para el Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' . $building['Depto'] . '</span> del ' . $building['ClientType'] . '<b> ' . $building['name'] . '</b></td>';
+							$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha solicitado el Alta de ' . $resource . '  N°: <b>' . $lastTicketAddQuery['codTicket'] . '</b> para el Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' . $building['Depto'] . '</span> del ' . $building['ClientType'] . '<b> ' . $building['name'] . '</b></td>';
 							$body .= '</tr>';
 							$body .= '<tr width="100%" bgcolor="#ffffff">';
 							$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Estado: ';
@@ -298,8 +301,9 @@ class Ticket_model extends CI_Model
 							$userMadeByEmail = "";
 						}
 						log_message('info', 'Client Key Email Addresses: ' . $to);
-						$title = "Pedido Alta Llavero";
-						$subject = "Pedido Alta Llavero :: " . $lastTicketAddQuery['typeRequestFor']['name'];
+						$resource = $lastTicketAddQuery['idDeviceTypeKf']!=2 || $lastTicketAddQuery['idDeviceTypeKf']==null ? "Llavero" : "Licencia Face ID";
+						$title = "Pedido Alta " . $resource;
+						$subject = "Pedido Alta ".$resource." :: " . $lastTicketAddQuery['typeRequestFor']['name'];
 						$body = '<tr width="100%" bgcolor="#ffffff">';
 						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Hola <b>' . $lastTicketAddQuery['clientAdmin']['name'] . '</b>,</td>';
 						$body .= '</tr>';
@@ -4186,7 +4190,6 @@ class Ticket_model extends CI_Model
 		}
 
 	}
-
 
 	public function isTechnicianAssigned($ticket)
 	{
