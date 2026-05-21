@@ -252,16 +252,15 @@ class Ticket_model extends CI_Model
 								$body .= '<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">';
 							}
 							$body .= $lastTicketAddQuery['statusTicket']['statusName'] . '</span>';
-							$body .= '</td>';
+							$body .= '</td></tr>';
 							if ($lastTicketAddQuery['idStatusTicketKf'] == 2 || $lastTicketAddQuery['idStatusTicketKf'] == '9') {
 								$secureToken = base64_encode($lastTicketAddQuery['idTicket'] . ":" . $lastTicketAddQuery['urlToken']);
 								$body .= '<tr width="100%" bgcolor="#ffffff">';
-								$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;color: #f80000 !important">Para aprobar el pedido haga click en el siguiente enlace/boton: ';
+								$body .= '<td width="100%" align="left" valign="middle"><span style="font-size:1.5vw; text-decoration: underline !important; font-family: sans-serif; padding-left:4%;padding-right:4%;color: #f80000 !important">Para aprobar el pedido haga click en el siguiente enlace/boton: </span>';
 								$approval_url = "https://" . BSS_HOST . "/login/approve/ticket/up/token/" . $secureToken;
-								$body .= '&nbsp;&nbsp;<span style="font-size:2vw; font-family: sans-serif; background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="' . $approval_url . '" target="_blank" title="Aprobar" style="font-size:2vw; font-family: sans-serif; text-decoration: none; color: #ffffff;">APROBAR</a></span></td>';
+								$body .= '&nbsp;&nbsp;<span style="font-size:1.5vw; font-family: sans-serif; background-color:#5cb85c;border-color: #4cae4c !important; text-decoration: none !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="' . $approval_url . '" target="_blank" title="Aprobar" style="text-decoration: none !important; color: #ffffff;">APROBAR</a></span></td>';
 								$body .= '</tr>';
 							}
-							$body .= '</tr>';
 							$body .= '<tr width="100%" bgcolor="#ffffff">';
 							$body .= '<td width="100%" align="center" valign="middle" style="background-color:#ffffff;padding-bottom:3%;">' . $ticket['mail'] . '</td>';
 							$body .= '</tr>';
