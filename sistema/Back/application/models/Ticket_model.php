@@ -264,7 +264,7 @@ class Ticket_model extends CI_Model
 							$body .= '<tr width="100%" bgcolor="#ffffff">';
 							$body .= '<td width="100%" align="center" valign="middle" style="background-color:#ffffff;padding-bottom:3%;">' . $ticket['mail'] . '</td>';
 							$body .= '</tr>';
-							if ($lastTicketAddQuery['idStatusTicketKf'] == 2 || $lastTicketAddQuery['idStatusTicketKf'] == '9') {
+							if ($lastTicketAddQuery['idDeviceTypeKf']==1 && ($lastTicketAddQuery['idStatusTicketKf'] == 2 || $lastTicketAddQuery['idStatusTicketKf'] == '9')) {
 								$secureToken = base64_encode($lastTicketAddQuery['idTicket'] . ":" . $lastTicketAddQuery['urlToken']);
 								$body .= '<tr width="100%" bgcolor="#ffffff">';
 								$body .= '<td width="100%" align="left" valign="middle" style="padding-bottom: 50px;"><span style="font-size:1.5vw; text-decoration: underline !important; font-family: sans-serif; padding-left:4%;padding-right:4%;color: #f80000 !important">Para aprobar el pedido haga click en el siguiente enlace/boton: </span>';
