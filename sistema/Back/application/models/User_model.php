@@ -647,7 +647,7 @@ class User_model extends CI_Model
 				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
 				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
 				$query = $this->db->where("tb_user.idUser = ", $idUser)->get();
-				log_message('info', $this->db->last_query());
+
 				if ($query->num_rows() > 0) {
 					if ($user['requireAuthentication']!==0){
 						$userRs = $query->row_array();
