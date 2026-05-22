@@ -967,7 +967,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }
                     });
                 }else{
-                    if ($ticket.idDeviceTypeKf!=undefined && $ticket.idDeviceTypeKf!=null && $ticket.idDeviceTypeKf!="2"){
+                    if ($scope.ticket.idDeviceTypeKf!=undefined && $scope.ticket.idDeviceTypeKf!=null && $scope.ticket.idDeviceTypeKf!="2"){
                         DepartmentsServices.listTenantsWithoutKeyAssignedByIdDepto(idDepto).then(function(response) {
                             console.log('typeTenant = '+ typeTenant + ' / Profile = '+$scope.sysLoggedUser.idProfileKf);
                             if(response.status==200){
