@@ -967,50 +967,95 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }
                     });
                 }else{
-                    DepartmentsServices.listTenantsWithoutKeyAssignedByIdDepto(idDepto).then(function(response) {
-                        console.log('typeTenant = '+ typeTenant + ' / Profile = '+$scope.sysLoggedUser.idProfileKf);
-                        if(response.status==200){
-                            console.log(response.data);
-                            switch (typeTenant){
-                                case "1":
-                                    console.log('typeTenant = '+ typeTenant + ' / Profile = '+$scope.sysLoggedUser.idProfileKf);
-                                    for (var user in response.data){
-                                        if (response.data[user].idTypeTenantKf==typeTenant){
-                                            $scope.listTenantByDepto.push(response.data[user]);
-                                            break;
+                    if ($ticket.idDeviceTypeKf!=undefined && $ticket.idDeviceTypeKf!=null && $ticket.idDeviceTypeKf!="2"){
+                        DepartmentsServices.listTenantsWithoutKeyAssignedByIdDepto(idDepto).then(function(response) {
+                            console.log('typeTenant = '+ typeTenant + ' / Profile = '+$scope.sysLoggedUser.idProfileKf);
+                            if(response.status==200){
+                                console.log(response.data);
+                                switch (typeTenant){
+                                    case "1":
+                                        console.log('typeTenant = '+ typeTenant + ' / Profile = '+$scope.sysLoggedUser.idProfileKf);
+                                        for (var user in response.data){
+                                            if (response.data[user].idTypeTenantKf==typeTenant){
+                                                $scope.listTenantByDepto.push(response.data[user]);
+                                                break;
+                                            }
                                         }
-                                    }
-                                break;
-                                case "2":
-                                    console.log('typeTenant = '+ typeTenant + ' / Profile = '+$scope.sysLoggedUser.idProfileKf);
-                                    for (var user in response.data){
-                                        if (response.data[user].idTypeTenantKf==typeTenant){
-                                            $scope.listTenantByDepto.push(response.data[user]);
+                                    break;
+                                    case "2":
+                                        console.log('typeTenant = '+ typeTenant + ' / Profile = '+$scope.sysLoggedUser.idProfileKf);
+                                        for (var user in response.data){
+                                            if (response.data[user].idTypeTenantKf==typeTenant){
+                                                $scope.listTenantByDepto.push(response.data[user]);
+                                            }
                                         }
-                                    }
-                                break;
-                                default:
-                                    $scope.listTenantByDepto=response.data;
+                                    break;
+                                    default:
+                                        $scope.listTenantByDepto=response.data;
+                                }
+                                console.log($scope.listTenantByDepto);
+                                $scope.tenantNotFound=false;
+                            }else if (response.status==404){
+                                $scope.tenantNotFound=true;
+                                $scope.listTenantByDepto =[];
+                                $scope.messageInform1 = " Propietario registrado.";
+                                $scope.messageInform2 = " inquilinos registrados.";
+                                $scope.messageInform  = typeTenant == 1 ? $scope.messageInform1 : $scope.messageInform2;
+                                inform.add('El departamento no presenta'+$scope.messageInform+'.',{
+                                    ttl:3000, type: 'warning'
+                                });
+                            }else if (response.status==500){
+                                $scope.tenantNotFound=true;
+                                $scope.listTenantByDepto =[];
+                                inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
+                                    ttl:3000, type: 'danger'
+                                });
                             }
-                            console.log($scope.listTenantByDepto);
-                            $scope.tenantNotFound=false;
-                        }else if (response.status==404){
-                            $scope.tenantNotFound=true;
-                            $scope.listTenantByDepto =[];
-                            $scope.messageInform1 = " Propietario registrado.";
-                            $scope.messageInform2 = " inquilinos registrados.";
-                            $scope.messageInform  = typeTenant == 1 ? $scope.messageInform1 : $scope.messageInform2;
-                            inform.add('El departamento no presenta'+$scope.messageInform+'.',{
-                                ttl:3000, type: 'warning'
-                            });
-                        }else if (response.status==500){
-                            $scope.tenantNotFound=true;
-                            $scope.listTenantByDepto =[];
-                            inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
-                                ttl:3000, type: 'danger'
-                            });
-                        }
-                    });
+                        });
+                    }else{
+                        DepartmentsServices.listTenant2AssignedDeptoByIdDepto(idDepto).then(function(response) {
+                            if(response.status==200){
+                                switch (typeTenant){
+                                    case "1":
+                                        console.log('typeTenant = '+ typeTenant + ' / Profile = '+$scope.sysLoggedUser.idProfileKf);
+                                        for (var user in response.data.tenant){
+                                            if (response.data.tenant[user].idTypeTenantKf==typeTenant){
+                                                $scope.listTenantByType = response.data.tenant;
+                                                break;
+                                            }
+                                        }
+                                    break;
+                                    case "2":
+                                        console.log('typeTenant = '+ typeTenant + ' / Profile = '+$scope.sysLoggedUser.idProfileKf);
+                                        for (var user in response.data.tenant){
+                                            if (response.data.tenant[user].idTypeTenantKf==typeTenant){
+                                                $scope.listTenantByType.push(response.data.tenant[user]);
+                                            }
+                                        }
+                                    break;
+                                    default:
+                                }
+                                $scope.tenantNotFound=false;
+                                console.log(response.data.tenant);
+                                console.log($scope.listTenantByType);
+
+                            }else if (response.status==404){
+                                $scope.tenantNotFound=true;
+                                $scope.listTenantByType =[];
+                                $scope.messageInform1 = " Propietario registrado.";
+                                $scope.messageInform2 = " inquilinos registrados.";
+                                $scope.messageInform  = typeTenant == 1 ? $scope.messageInform1 : $scope.messageInform2;
+                                inform.add('El departamento no presenta'+$scope.messageInform+'.',{
+                                    ttl:3000, type: 'warning'
+                                });
+                            }else if (response.status==500){
+                                $scope.tenantNotFound=true;
+                                inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
+                                    ttl:3000, type: 'danger'
+                                });
+                            }
+                        });
+                    }
                 }
             }
         /**************************************************
