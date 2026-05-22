@@ -2834,7 +2834,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                             ttl:5000, type: 'warning'
                             });
                         }else if($scope.sysLoggedUser.idProfileKf==3 && $scope.ticket.radioButtonDepartment=="1"){
-                            $scope.getData(1);
+                            //$scope.getData(1);
+                            $scope.lisTenantsByDepto($scope.ticket.idClientDepartament.idClientDepartament, null);
                         }else if($scope.sysLoggedUser.idProfileKf!=0 && $scope.ticket.radioButtonDepartment!="0"){
                             $scope.IsTenant=true;
                             console.log("$scope.ticket.radioButtonDepartment :"+$scope.ticket.radioButtonDepartment)
