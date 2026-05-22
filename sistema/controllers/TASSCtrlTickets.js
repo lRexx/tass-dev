@@ -953,6 +953,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
             $scope.listTenantByDepto = [];
             $scope.lisTenantsByDepto = function(idDepto, idTypeTenant){
                 $scope.listTenantByDepto = [];
+                console.log('typeTenant = '+ idTypeTenant + ' / Profile = '+$scope.sysLoggedUser.idProfileKf);
                 var typeTenant=idTypeTenant==null?-1:idTypeTenant;
                 if (($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==5 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf!=null){
                     DepartmentsServices.listTenant2AssignedDeptoByIdDeptoByTypeTenant(idDepto, typeTenant).then(function(response) {
@@ -1020,7 +1021,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         console.log('typeTenant = '+ typeTenant + ' / Profile = '+$scope.sysLoggedUser.idProfileKf);
                                         for (var user in response.data.tenant){
                                             if (response.data.tenant[user].idTypeTenantKf==typeTenant){
-                                                $scope.listTenantByType = response.data.tenant;
+                                                $scope.listTenantByDepto = response.data.tenant;
                                                 break;
                                             }
                                         }
@@ -1029,7 +1030,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         console.log('typeTenant = '+ typeTenant + ' / Profile = '+$scope.sysLoggedUser.idProfileKf);
                                         for (var user in response.data.tenant){
                                             if (response.data.tenant[user].idTypeTenantKf==typeTenant){
-                                                $scope.listTenantByType.push(response.data.tenant[user]);
+                                                $scope.listTenantByDepto.push(response.data.tenant[user]);
                                             }
                                         }
                                     break;
