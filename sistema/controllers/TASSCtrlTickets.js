@@ -2802,7 +2802,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.mainSwitchFn('setWhoPickUpList', null, null);
                         if ($scope.isRequest=="up" && !$scope.ticket.deviceSelected && $scope.ticket.isHasMutiplesDevicesTypes){
                             $scope.mainSwitchFn('selectDeviceType', null, null);
-                        }else if ($scope.isRequest=="up" && !$scope.ticket.deviceSelected && !$scope.ticket.isHasMutiplesDevicesTypes){
+                        }else if ($scope.isRequest=="up" && ($scope.ticket.deviceSelected || !$scope.ticket.deviceSelected) && !$scope.ticket.isHasMutiplesDevicesTypes){
                             $scope.ticket.deviceTypeSelected = $scope.rsTicketDevicesType.find(s => s.idDeviceType == "1");
                             $scope.ticket.idDeviceTypeKf = $scope.ticket.deviceTypeSelected.idDeviceType;
                             $scope.ticket.deviceSelected = true;
