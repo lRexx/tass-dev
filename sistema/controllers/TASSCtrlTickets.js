@@ -956,15 +956,46 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 console.log('typeTenant = '+ idTypeTenant + ' / Profile = '+$scope.sysLoggedUser.idProfileKf);
                 var typeTenant=idTypeTenant==null?$scope.ticket.userRequestBy.idTypeTenant:idTypeTenant;
                 if (($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==5 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf!=null){
-                    DepartmentsServices.listTenant2AssignedDeptoByIdDeptoByTypeTenant(idDepto, typeTenant).then(function(response) {
-                        console.log('typeTenant = '+ typeTenant + ' / Profile = '+$scope.sysLoggedUser.idProfileKf);
+                    DepartmentsServices.listTenant2AssignedDeptoByIdDepto(idDepto).then(function(response) {
                         if(response.status==200){
-                            console.log(response);
-                            $scope.listTenantByDepto = response.data.tenant;
+                            switch (typeTenant){
+                                case "1":
+                                    console.log('typeTenant = '+ typeTenant + ' / Profile = '+$scope.sysLoggedUser.idProfileKf);
+                                    for (var user in response.data.tenant){
+                                        if (response.data.tenant[user].idTypeTenantKf==typeTenant){
+                                            $scope.listTenantByDepto = response.data.tenant;
+                                            break;
+                                        }
+                                    }
+                                break;
+                                case "2":
+                                    console.log('typeTenant = '+ typeTenant + ' / Profile = '+$scope.sysLoggedUser.idProfileKf);
+                                    for (var user in response.data.tenant){
+                                        if (response.data.tenant[user].idTypeTenantKf==typeTenant){
+                                            $scope.listTenantByDepto.push(response.data.tenant[user]);
+                                        }
+                                    }
+                                break;
+                                default:
+                            }
+                            $scope.tenantNotFound=false;
+                            console.log(response.data.tenant);
+                            console.log($scope.listTenantByType);
+
                         }else if (response.status==404){
-                            $scope.listTenantByDepto =[];
+                            $scope.tenantNotFound=true;
+                            $scope.listTenantByType =[];
+                            $scope.messageInform1 = " Propietario registrado.";
+                            $scope.messageInform2 = " inquilinos registrados.";
+                            $scope.messageInform  = typeTenant == 1 ? $scope.messageInform1 : $scope.messageInform2;
+                            inform.add('El departamento no presenta'+$scope.messageInform+'.',{
+                                ttl:3000, type: 'warning'
+                            });
                         }else if (response.status==500){
-                            $scope.listTenantByDepto =[];
+                            $scope.tenantNotFound=true;
+                            inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
+                                ttl:3000, type: 'danger'
+                            });
                         }
                     });
                 }else{
