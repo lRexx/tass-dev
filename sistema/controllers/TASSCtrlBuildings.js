@@ -3667,6 +3667,69 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
 
                     return fullNumber;
                 };
+                $scope.parsePhoneE164 = function (fullNumber, countryPhoneCodesList) {
+                    if (!fullNumber || !countryPhoneCodesList || countryPhoneCodesList.length === 0) {
+                        return null;
+                    }
+
+                    // 1️⃣ Limpiar el número dejando solo el '+' inicial y los dígitos
+                    let cleanNumber = fullNumber.replace(/[^\d+]/g, '');
+
+                    // 2️⃣ Encontrar el país correspondiente que coincida al inicio del string
+                    // Ordenamos por longitud descrita para que coincidan primero códigos largos (ej: +1246 antes que +1)
+                    let sortedCountries = [...countryPhoneCodesList].sort((a, b) => b.phoneCode.length - a.phoneCode.length);
+                    let matchedCountry = sortedCountries.find(c => cleanNumber.startsWith(c.phoneCode));
+
+                    if (!matchedCountry) {
+                        return null; // No se encontró un país válido en la lista
+                    }
+
+                    // 3️⃣ Remover el código de país para procesar el resto del número
+                    let remaining = cleanNumber.substring(matchedCountry.phoneCode.length);
+
+                    let prefixNumber = "";
+                    let phoneNumber = "";
+
+                    // 4️⃣ Lógica específica para Argentina (+54)
+                    if (matchedCountry.isoCode === "AR" || matchedCountry.phoneCode === "+54") {
+                        // En Argentina, los prefijos más comunes son de 2 dígitos (11) o 3 dígitos (341, 261, etc)
+                        // Probamos primero con el prefijo AMBA / Buenos Aires que es "11"
+                        if (remaining.startsWith("11")) {
+                            prefixNumber = "11";
+                            let afterPrefix = remaining.substring(2);
+
+                            // Verificamos si incluye el "15" de celular
+                            if (afterPrefix.startsWith("15")) {
+                                phoneNumber = "15" + afterPrefix.substring(2);
+                            } else {
+                                phoneNumber = afterPrefix;
+                            }
+                        } else {
+                            // Para otros prefijos de provincias de 3 dígitos (ej: 341, 261)
+                            // Tomamos 3 dígitos como prefijo estándar fuera de BsAs
+                            prefixNumber = remaining.substring(0, 3);
+                            let afterPrefix = remaining.substring(3);
+
+                            if (afterPrefix.startsWith("15")) {
+                                phoneNumber = "15" + afterPrefix.substring(2);
+                            } else {
+                                phoneNumber = afterPrefix;
+                            }
+                        }
+                    } else {
+                        // 5️⃣ Lógica genérica para otros países (Mitad prefijo, mitad número como fallback)
+                        let mid = Math.floor(remaining.length / 2);
+                        prefixNumber = remaining.substring(0, mid);
+                        phoneNumber = remaining.substring(mid);
+                    }
+
+                    // Retorna el objeto desarmado listo para asignar a tus variables de $scope
+                    return {
+                        countryCodeTmp: matchedCountry,
+                        prefixNumber: prefixNumber,
+                        phoneNumber: phoneNumber
+                    };
+                };
             /**************************************************
             *                                                 *
             *            BUILDING MENU FUNCTION                *
@@ -3755,7 +3818,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.register.guest .emailAddress = obj.mail;
                             $scope.register.guest.phoneNumber   = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberGuest);
                             console.log($scope.register.guest);
-                            //$scope.sysRegisterGuestFn($scope.register);
+                            $scope.sysRegisterGuestFn($scope.register);
                         break;
                         case "editGuest":
                             $scope.guest          = {'update':{'idGuest':'','idDepartmentKf':'', 'idStatusKf':'', 'fullname':'','dni':'','mail':'','phoneNumber':'','depto':'','address':''}};
@@ -3766,7 +3829,12 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.guest.update.fullname        = obj.names;
                             //$scope.guest.update.dni             = obj.dni;
                             $scope.guest.update.mail            = obj.emailAddress;
-                            $scope.guest.update.phoneNumber     = obj.phoneNumber;
+                            const phoneParsed = $scope.parsePhoneE164(obj.phoneNumber, $scope.countryPhoneCodesList);
+                             if (phoneParsed) {
+                                $scope.select.phoneCountryMovil.selected    = phoneParsed.countryCodeTmp;
+                                $scope.guest.update.phoneMovilPrefixNumber  = phoneParsed.prefixNumber;
+                                $scope.guest.update.phoneMovilNumberGuest   = phoneParsed.phoneNumber;
+                            }
                             $scope.guest.update.depto           = $scope.departmentSelected.Depto;
                             $scope.guest.update.address         = $scope.departmentSelected.address;
 
@@ -3780,10 +3848,11 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                         break;
                         case "updateGuest":
                             $scope.update={'guest':{}};
-                            $scope.update.guest              = obj;
-                            $scope.update.guest.emailAddress = obj.mail;
+                            $scope.update.guest                 = obj;
+                            $scope.update.guest.emailAddress    = obj.mail;
+                            $scope.update.guest.phoneNumber     = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberGuest);
                             console.log($scope.update.guest);
-                            $scope.sysUpdateGuestFn($scope.update);
+                            //$scope.sysUpdateGuestFn($scope.update);
                         break;
                         case "edit":
                             $scope.tenant={

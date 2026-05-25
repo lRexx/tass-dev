@@ -2102,7 +2102,7 @@ class User_model extends CI_Model
 				'tb_user_guest',
 				[
 					'names' => $guest['fullname'],
-					'dni' => $guest['dni'],
+					'dni' => @$guest['dni'],
 					'emailAddress' => @$guest['emailAddress'],
 					'phoneNumber' => @$guest['phoneNumber'],
 					'idDepartmentKf' => $guest['idDepartmentKf'],
@@ -2128,7 +2128,7 @@ class User_model extends CI_Model
 			$this->db->set(
 				[
 					'names' => $guest['fullname'],
-					'dni' => $guest['dni'],
+					'dni' => @$guest['dni'],
 					'emailAddress' => @$guest['emailAddress'],
 					'phoneNumber' => @$guest['phoneNumber'],
 					'idDepartmentKf' => $guest['idDepartmentKf']
