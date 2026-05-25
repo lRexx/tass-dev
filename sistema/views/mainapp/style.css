@@ -1512,16 +1512,6 @@ input.fileUpload{
     font-size: 16px;
     line-height: 1.4;
 }
-.ui-select-bootstrap-phone .ui-select-match-text {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 14px;
-}
-
-.ui-select-bootstrap-phone .ui-select-choices-row-inner strong {
-    font-size: 14px;
-}
 /*MONITOR TICKETS */
 .filter-bar{
   position: fixed;
