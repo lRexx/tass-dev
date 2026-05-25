@@ -3844,8 +3844,8 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $('#UpdateGuest').modal({backdrop: 'static', keyboard: false});
                             $('#UpdateGuest').on('shown.bs.modal', function () {
                                 $('#fullname').focus();
-                                $scope.fnLoadPhoneMask();
                             });
+                            $scope.fnLoadPhoneMask();
                         break;
                         case "updateGuest":
                             $scope.update={'guest':{}};
