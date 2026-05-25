@@ -3822,7 +3822,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                         break;
                         case "editGuest":
                             $scope.guest          = {'update':{'idGuest':'','idDepartmentKf':'', 'idStatusKf':'', 'fullname':'','dni':'','mail':'','phoneNumber':'', 'phoneMovilPrefixNumber':'', 'phoneMovilNumberGuest':'','depto':'','address':''}};
-                            const phoneParsed = null;
+                            let phoneParsed = null;
                             //$scope.guest.update   = obj;
                             $scope.guest.update.idGuest         = obj.idGuest;
                             $scope.guest.update.idDepartmentKf  = obj.idDepartmentKf;
