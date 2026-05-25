@@ -793,7 +793,7 @@
                 },
                 placeholder: '____'
               });
-              $('.input--movil-new').mask('(15) ####-####',
+              $('.input-movil').mask('(15) ####-####',
               {
                 reverse: false,
                 translation:{
@@ -822,7 +822,7 @@
                 },
                 placeholder: "+54 (_____) (15) ____ ____"
               });
-              $('.input--local-new').mask('(####) ####-####',
+              $('.input-local').mask('####-####',
               {
                 reverse: false,
                 translation:{
@@ -835,7 +835,7 @@
                     pattern: /[0-9]/
                   }
                 },
-                placeholder: "(_____) ____ ____"
+                placeholder: "____ ____"
               });
               $('.input--local').mask('+54 (####) ####-####',
               {
