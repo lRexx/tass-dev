@@ -3850,12 +3850,8 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 }, 50);
                                 $timeout(function() {
                                     $scope.fnLoadPhoneMask();
-                                });
+                                }, 200);
                             });
-                            $timeout(function() {
-                                $scope.fnLoadPhoneMask();
-                            }, 200);
-
                         break;
                         case "updateGuest":
                             $scope.update={'guest':{}};
