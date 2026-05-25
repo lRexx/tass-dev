@@ -3554,8 +3554,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     break;
                     case "newTenant":
                         $scope.tenant={
-                        'new':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf':'','depto':''},
-                        'update':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf2':''},
+                        'new':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'phoneMovilPrefixNumber':'', 'phonelocalPrefixNumber':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf':'','depto':''},
+                        'update':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'phoneMovilPrefixNumber':'', 'phonelocalPrefixNumber':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf2':''},
                         'tmp':{'dni':'','mail':''},'blockUserLoginTmp':false};
                         $scope.depto={'department':{'idDepartment':null, 'idUserKf':null}};
                         $scope.ownerFound=false;
@@ -3594,13 +3594,15 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     break;
                     case "addTenant":
                         console.log(obj);
+                        console.log($scope.select.phoneCountryMovil.selected);
+                        console.log($scope.select.phoneCountryWired.selected);
                         $scope.register={'user':{'fullNameUser':null, 'emailUser': null, 'phoneNumberUser': null, 'phoneLocalNumberUser': null, 'idAddresKf': null, 'idProfileKf': null, 'idTypeTenantKf': null, 'idCompanyKf': null, 'idTyepeAttendantKf': null, 'descOther': null, 'idDepartmentKf':null, 'isEdit': null, 'requireAuthentication': null, 'dni': null, 'idSysProfileFk': null, 'isCreateByAdmin': null}};
                         $scope.register.user.idProfileKf            = $scope.isNewTenant && obj.idTypeTenantKf!=undefined && obj.idTypeTenantKf==1?3:5;
                         $scope.register.user.idSysProfileFk         = obj.idSysProfileFk;
                         $scope.register.user.fullNameUser           = obj.fullname;
                         $scope.register.user.emailUser              = obj.mail;
-                        $scope.register.user.phoneNumberUser        = $scope.normalizePhoneE164($scope.select.phoneCountry.selected,obj.phoneMovilNumberUser);
-                        $scope.register.user.phoneLocalNumberUser   = $scope.normalizePhoneE164($scope.select.phoneCountry.selected,obj.phonelocalNumberUser);
+                        $scope.register.user.phoneNumberUser        = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilNumberUser);
+                        $scope.register.user.phoneLocalNumberUser   = $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,obj.phonelocalNumberUser);
                         $scope.register.user.idTyepeAttendantKf     = obj.idProfileKf==6?obj.idTyepeAttendantKf:null;
                         $scope.register.user.dni                    = obj.dni;
                         $scope.register.user.isCreateByAdmin        = $scope.sysLoggedUser.idProfileKf==4?1:null;
@@ -3609,8 +3611,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.register.user.idDepartmentKf         = (obj.idProfileKf==5 || obj.idProfileKf==6) && obj.idTypeTenantKf==2?obj.idDepartmentKf:null;
                         $scope.register.user.idDeparment_Tmp        = (obj.idProfileKf==3 || obj.idProfileKf==6) && obj.idTypeTenantKf==1?obj.idDepartmentKf:null;
                         $scope.register.user.requireAuthentication  = obj.blockUserLoginTmp!=undefined && obj.blockUserLoginTmp?0:1;
-                        console.log($scope.select.phoneCountry.selected);
-                        console.log($scope.select.phoneCountry.selected);
                         console.log($scope.register.user);
                         //$scope.sysRegisterTenantFn();
                     break;
