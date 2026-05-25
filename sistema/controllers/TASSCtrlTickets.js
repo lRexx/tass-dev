@@ -3583,13 +3583,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $scope.tenant.new.idProfileKf           = "5";
                         }
                         //$scope.closeMembersTypeModal();
-                        const defaultCountry = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
-                        console.log(defaultCountry);
                         $('#RegisterTenant').modal({backdrop: 'static', keyboard: false});
                         $('#RegisterTenant').on('shown.bs.modal', function () {
-                            if (defaultCountry) {
-                                $scope.select.phoneCountry.selected=defaultCountry;
-                            }
+                            $scope.select.phoneCountry.selected=$scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
                         });
                         console.log($scope.ticket);
                         console.log($scope.tenant.new);
