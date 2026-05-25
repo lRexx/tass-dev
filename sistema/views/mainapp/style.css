@@ -1500,6 +1500,16 @@ input.fileUpload{
   border-top-right-radius: 0px !important;
   border-bottom-right-radius: 0px !important;
 }
+.ui-select-bootstrap-phone .ui-select-match-text {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+}
+
+.ui-select-bootstrap-phone .ui-select-choices-row-inner strong {
+    font-size: 14px;
+}
 /*MONITOR TICKETS */
 .filter-bar{
   position: fixed;
