@@ -793,6 +793,7 @@
                 },
                 placeholder: '____'
               });
+              $('.input-movil').unmask();
               $('.input-movil').mask('(15) ####-####',
               {
                 reverse: false,
