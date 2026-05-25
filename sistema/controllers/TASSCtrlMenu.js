@@ -708,6 +708,7 @@
           $scope.CallFilterFormU = function(){
             userServices.filterForm().then(function(response){
               if(response.status==200){
+                console.log(response.data);
                 $scope.listProfile      = response.data.profile;
                 $scope.listProfiles     = response.data.profiles;
                 $scope.lisTypeTenant    = response.data.typeTenant;
