@@ -223,10 +223,7 @@
                                             <ui-select-choices repeat="item in countryPhoneCodesList | filter: $select.search">
                                                 <div ng-bind-html="item.phoneCode | highlight: $select.search"></div>
                                                 <small  ng-bind-html="item.countryName | highlight: $select.search" class="label label-default">
-                                                    <img
-        ng-src="https://flagcdn.com/24x18/{{$select.selected.isoCode | lowercase}}.png"
-        width="18"
-        style="margin-right:5px;"> {{item.countryName}}
+                                                    <img ng-src="https://flagcdn.com/24x18/{{item.isoCode | lowercase}}.png" width="18" style="margin-right:5px;"> {{item.countryName}}
                                                 </small>
                                             </ui-select-choices>
                                         </ui-select>
