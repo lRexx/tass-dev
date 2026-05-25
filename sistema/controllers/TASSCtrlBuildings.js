@@ -3821,7 +3821,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.sysRegisterGuestFn($scope.register);
                         break;
                         case "editGuest":
-                            $scope.guest          = {'update':{'idGuest':'','idDepartmentKf':'', 'idStatusKf':'', 'fullname':'','dni':'','mail':'','phoneNumber':'','depto':'','address':''}};
+                            $scope.guest          = {'update':{'idGuest':'','idDepartmentKf':'', 'idStatusKf':'', 'fullname':'','dni':'','mail':'','phoneNumber':'', 'phoneMovilPrefixNumber':'', 'phoneMovilNumberGuest':'','depto':'','address':''}};
                             //$scope.guest.update   = obj;
                             $scope.guest.update.idGuest         = obj.idGuest;
                             $scope.guest.update.idDepartmentKf  = obj.idDepartmentKf;
@@ -3850,6 +3850,9 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                     $scope.fnLoadPhoneMask();
                                 });
                             });
+                            $timeout(function() {
+                                $scope.fnLoadPhoneMask();
+                            }, 100);
 
                         break;
                         case "updateGuest":
