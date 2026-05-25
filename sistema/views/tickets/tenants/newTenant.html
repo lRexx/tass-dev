@@ -59,7 +59,7 @@
                     </div>
                     <div class="col-md-12 n-padding-l n-padding-r">
                         <!-- Text DNI-->
-                        <div class="form-group col-md-6" ng-class="
+                        <div ng-if="!tenant.new.blockUserLoginTmp" class="form-group col-md-6" ng-class="
                         {	'has-success':
                             tenant.new.dni!='' && fNewTenant.dniUser.$valid,
                             'has-error':
@@ -69,7 +69,7 @@
                             <div class="col-xs-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fas fa-id-card"></i></span>
-                                    <input id="dniUser" name="dniUser" ng-blur="sysCheck4Duplicates(tenant.new.dni, 'dni');" placeholder="Documento de identidad" class="form-control input--dni" ng-model="tenant.new.dni"  type="text" ng-keydown="fnLoadPhoneMask();" required autofocus />
+                                    <input id="dniUser" name="dniUser" ng-blur="sysCheck4Duplicates(tenant.new.dni, 'dni');" placeholder="Documento de identidad" class="form-control input--dni" ng-model="tenant.new.dni"  type="text" ng-keydown="fnLoadPhoneMask();" ng-required="!tenant.new.blockUserLoginTmp" autofocus />
                                 </div>
                             </div>
                         </div>
@@ -81,10 +81,11 @@
                                 (tenant.new.mail=='' || tenant.new.mail==undefined) && fNewTenant.emailUser.$touched,
                             }">
                             <label style="padding-left: 15px;">E-Mail</label>
+                            <label ng-if="tenant.new.blockUserLoginTmp" style="padding-left: 15px;">E-Mail (Opcional)</label>
                                 <div class="col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                        <input name="emailUser" ng-blur="sysCheck4Duplicates(tenant.new.mail, 'mail');" placeholder="E-Mail" class="form-control" ng-model="tenant.new.mail"  type="email" ng-disabled="sysDNIRegistered" required autofocus />
+                                        <input name="emailUser" ng-blur="sysCheck4Duplicates(tenant.new.mail, 'mail');" placeholder="E-Mail" class="form-control" ng-model="tenant.new.mail"  type="email" ng-disabled="sysDNIRegistered" ng-required="!tenant.new.blockUserLoginTmp" autofocus />
                                     </div>
                                 </div>
                         </div>
@@ -131,11 +132,15 @@
                         </div>
                     </div>
                     <!-- Form First & Last Name -->
-                    <div class="form-group col-md-12" ng-class="
+                    <div class="form-group" ng-class="
                     {	'has-success':
                         tenant.new.fullname!='' && fNewTenant.fullname.$valid,
                         'has-error':
                         (tenant.new.fullname=='' || tenant.new.fullname==undefined) && fNewTenant.fullname.$touched,
+                        'col-md-6':
+                        tenant.new.blockUserLoginTmp,
+                        'col-md-12':
+                        !tenant.new.blockUserLoginTmp
                     }">
                     <label style="padding-left: 15px;" >Nombres y Apellidos</label>
                         <div class="col-xs-12">
