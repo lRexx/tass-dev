@@ -1501,18 +1501,21 @@ input.fileUpload{
   border-bottom-right-radius: 0px !important;
 }
 
-.ui-select-bootstrap-phone .ui-select-match-text,
-.ui-select-bootstrap-phone .ui-select-choices-row-inner {
-    font-family:
-        "Segoe UI Emoji",
-        "Noto Color Emoji",
-        "Apple Color Emoji",
-        sans-serif;
-
-    font-size: 16px;
-    line-height: 1.4;
+.ui-select-bootstrap-phone .ui-select-match-text {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
 }
-
+.country-flag {
+    display: inline-block;
+    width: 24px;
+    text-align: center;
+    margin-right: 4px;
+}
+.ui-select-bootstrap-phone .ui-select-choices-row-inner strong {
+    font-size: 14px;
+}
 /*MONITOR TICKETS */
 .filter-bar{
   position: fixed;
