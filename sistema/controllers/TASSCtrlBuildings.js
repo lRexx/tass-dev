@@ -3834,6 +3834,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 $scope.select.phoneCountryMovil.selected    = phoneParsed.countryCodeTmp;
                                 $scope.guest.update.phoneMovilPrefixNumber  = phoneParsed.prefixNumber;
                                 $scope.guest.update.phoneMovilNumberGuest   = phoneParsed.phoneNumber;
+                                $scope.fnLoadPhoneMask();
                             }
                             $scope.guest.update.depto           = $scope.departmentSelected.Depto;
                             $scope.guest.update.address         = $scope.departmentSelected.address;
