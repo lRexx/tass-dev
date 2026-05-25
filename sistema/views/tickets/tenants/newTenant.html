@@ -57,12 +57,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="n-padding-l n-padding-r" ng-class="{
-                        'col-md-6':
-                        tenant.new.blockUserLoginTmp,
-                        'col-md-12':
-                        !tenant.new.blockUserLoginTmp
-                    }">
+                    <div class="col-md-12 n-padding-l n-padding-r">
                         <!-- Text DNI-->
                         <div ng-if="!tenant.new.blockUserLoginTmp" class="form-group col-md-6" ng-class="
                         {	'has-success':
@@ -79,15 +74,11 @@
                             </div>
                         </div>
                         <!-- Text Mail-->
-                        <div class="form-group" ng-class="
+                        <div class="form-group col-md-6" ng-class="
                             {	'has-success':
                                 tenant.new.mail!='' && fNewTenant.emailUser.$valid,
                                 'has-error':
                                 (tenant.new.mail=='' || tenant.new.mail==undefined) && fNewTenant.emailUser.$touched,
-                                'col-md-12':
-                                tenant.new.blockUserLoginTmp,
-                                'col-md-6':
-                                !tenant.new.blockUserLoginTmp
                             }">
                             <label ng-if="!tenant.new.blockUserLoginTmp" style="padding-left: 15px;">E-Mail</label>
                             <label ng-if="tenant.new.blockUserLoginTmp" style="padding-left: 15px;">E-Mail (Opcional)</label>
@@ -99,7 +90,7 @@
                                 </div>
                         </div>
                         <!-- Form First & Last Name -->
-                        <div ng-if="tenant.new.blockUserLoginTmp" class="form-group col-md-12" ng-class="
+                        <div ng-if="tenant.new.blockUserLoginTmp" class="form-group col-md-6" ng-class="
                         {	'has-success':
                             tenant.new.fullname!='' && fNewTenant.fullname.$valid,
                             'has-error':
