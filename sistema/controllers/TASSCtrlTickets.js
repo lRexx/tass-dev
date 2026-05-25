@@ -2201,6 +2201,19 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         );
                     });
             };
+            $scope.filterTenantTypes = function(item) {
+                // If no radio button is selected, show all items (or return false to show none)
+                if (!$scope.ticket || !$scope.ticket.radioButtonDepartment) {
+                    return true;
+                }
+
+                // Convert both values to Strings to bypass the data type difference safely
+                var filterValue = String($scope.ticket.radioButtonDepartment);
+                var itemValue = String(item.idTypeTenant);
+
+                // Return true if they match, keeping the item in the list
+                return itemValue === filterValue;
+            };
         /**************************************************
         *                                                 *
         *            TICKETS MENU FUNCTION                *

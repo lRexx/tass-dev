@@ -25,7 +25,7 @@
                         <div class="col-xs-12 selectContainer">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fas fa-id-card-alt"></i></span>
-                                    <select id="idTypeTenantKf" name="idTypeTenantKf" class="form-control" ng-readonly="ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2')" ng-disabled="ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2')" ng-change="checkDeptoOwner(tenant.new.idDepartmentKf)" ng-options="item.idTypeTenant as item.typeTenantName for item in lisTypeTenant | filter:{idTypeTenant: ticket.radioButtonDepartment}:true" ng-model="tenant.new.idTypeTenantKf" autofocus >
+                                    <select id="idTypeTenantKf" name="idTypeTenantKf" class="form-control" ng-readonly="ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2')" ng-disabled="ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2')" ng-change="checkDeptoOwner(tenant.new.idDepartmentKf)" ng-options="item.idTypeTenant as item.typeTenantName for item in lisTypeTenant | filter:filterTenantTypes" ng-model="tenant.new.idTypeTenantKf" autofocus >
                                         <option value=""></option>
                                     </select>
                             </div>
