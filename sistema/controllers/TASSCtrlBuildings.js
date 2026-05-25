@@ -3853,7 +3853,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.update.guest.emailAddress    = obj.mail;
                             $scope.update.guest.phoneNumber     = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberGuest);
                             console.log($scope.update.guest);
-                            //$scope.sysUpdateGuestFn($scope.update);
+                            $scope.sysUpdateGuestFn($scope.update);
                         break;
                         case "edit":
                             $scope.tenant={
