@@ -3584,7 +3584,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         //$scope.closeMembersTypeModal();
                         $('#RegisterTenant').modal({backdrop: 'static', keyboard: false});
                         $('#RegisterTenant').on('shown.bs.modal', function () {
-                            $('#dniUser').focus();
                         });
                         console.log($scope.ticket);
                         console.log($scope.tenant.new);
