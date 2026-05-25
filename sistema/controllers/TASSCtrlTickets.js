@@ -2202,7 +2202,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     });
             };
             $scope.filterTenantTypes = function(item) {
-                console.log("Filtering item:", item);
+                //console.log("Filtering item:", item);
                 // If no radio button is selected, show all items (or return false to show none)
                 if (!$scope.ticket || !$scope.ticket.radioButtonDepartment) {
                     return true;
