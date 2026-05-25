@@ -3588,7 +3588,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $('#RegisterTenant').modal({backdrop: 'static', keyboard: false});
                         $('#RegisterTenant').on('shown.bs.modal', function () {
                             if (defaultCountry) {
-                                $scope.select.phoneCountry.selected(defaultCountry);
+                                $scope.select.phoneCountry.selected={defaultCountry};
                             }
                         });
                         console.log($scope.ticket);
