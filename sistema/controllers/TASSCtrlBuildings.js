@@ -2961,6 +2961,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
 
                                     });
                                     blockUI.stop();
+                                    $('.input-movil').unmask();
                                 }, 5000);
                             }
                             if ($scope.sysSubContent=="departments"){
