@@ -748,7 +748,6 @@
               });
           };
           $scope.fnLoadPhoneMask = function(){
-            $('.input-movil').inputmask('remove'); // Elimina la máscara previa si existía
             /**********************************************
             *               INPUT PHONE MASK              *
             **********************************************/
