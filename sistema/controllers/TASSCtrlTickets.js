@@ -2190,6 +2190,17 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 const regex = /^\+[1-9]\d{1,14}$/;
                 return regex.test(number);
             };
+            $scope.getFlagEmoji = function (isoCode) {
+                if (!isoCode) return '';
+
+                return isoCode
+                    .toUpperCase()
+                    .replace(/./g, function(char) {
+                        return String.fromCodePoint(
+                            127397 + char.charCodeAt()
+                        );
+                    });
+            };
         /**************************************************
         *                                                 *
         *            TICKETS MENU FUNCTION                *

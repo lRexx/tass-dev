@@ -214,9 +214,9 @@
                                         <ui-select
                                             class="ui-select-bootstrap-phone"
                                             name="countryCode"
-                                            ng-model="select.countryCodeMovil.selected"
+                                            ng-model="select.phoneCountry.selected"
                                             search-enabled="true">
-                                            <ui-select-match allow-clear="false">{{$select.selected.countryCode}}</ui-select-match>
+                                            <ui-select-match allow-clear="false">{{ getFlagEmoji($select.selected.isoCode) }} {{$select.selected.countryCode}}</ui-select-match>
                                             <ui-select-choices repeat="item in countryPhoneCodesList | filter: $select.search">
                                                 <div ng-bind-html="item.countryCode | highlight: $select.search"></div>
                                                 <small  ng-bind-html="item.countryName | highlight: $select.search" class="label label-default">
