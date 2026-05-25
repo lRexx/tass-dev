@@ -3822,6 +3822,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                         break;
                         case "editGuest":
                             $scope.guest          = {'update':{'idGuest':'','idDepartmentKf':'', 'idStatusKf':'', 'fullname':'','dni':'','mail':'','phoneNumber':'', 'phoneMovilPrefixNumber':'', 'phoneMovilNumberGuest':'','depto':'','address':''}};
+                            const phoneParsed = null;
                             //$scope.guest.update   = obj;
                             $scope.guest.update.idGuest         = obj.idGuest;
                             $scope.guest.update.idDepartmentKf  = obj.idDepartmentKf;
@@ -3829,7 +3830,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.guest.update.fullname        = obj.names;
                             //$scope.guest.update.dni             = obj.dni;
                             $scope.guest.update.mail            = obj.emailAddress;
-                            const phoneParsed = $scope.parsePhoneE164(obj.phoneNumber, $scope.countryPhoneCodesList);
+                            phoneParsed = $scope.parsePhoneE164(obj.phoneNumber, $scope.countryPhoneCodesList);
                             if (phoneParsed) {
                                 $scope.select.phoneCountryMovil.selected    = phoneParsed.countryCodeTmp;
                                 $scope.guest.update.phoneMovilPrefixNumber  = phoneParsed.prefixNumber;
