@@ -3700,6 +3700,10 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $('#RegisterTenant').modal({backdrop: 'static', keyboard: false});
                             $('#RegisterTenant').on('shown.bs.modal', function () {
                                 $('#idTypeTenantKf').focus();
+                                $scope.select.phoneCountryWired.selected = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+                                $scope.select.phoneCountryMovil.selected = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+                                $scope.tenant.new.phonelocalPrefixNumber = "11"
+                                $scope.tenant.new.phoneMovilPrefixNumber = "11"
                             });
                             console.log($scope.tenant.new);
                         break;
@@ -3736,6 +3740,8 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.guest.new.idSysProfileFk             = "10";
                             $scope.guest.new.idDepartmentKf             = obj.idClientDepartament;
                             $scope.guest.new.depto                      = obj.Depto;
+                            $scope.select.phoneCountryMovil.selected    = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+                            $scope.tenant.new.phoneMovilPrefixNumber    = "11"
                             $scope.closeTenantMembersTypeModal();
                             $('#RegisterGuest').modal({backdrop: 'static', keyboard: false});
                             $('#RegisterGuest').on('shown.bs.modal', function () {
