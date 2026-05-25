@@ -360,7 +360,7 @@ class Util_model extends CI_Model {
         $query = $this->db
             ->select("*")
             ->from("tb_country_phone_codes")
-            ->order_by('countryCode', 'ASC')
+            ->order_by('countryName', 'ASC')
             ->get();
 
         return $query->result();
