@@ -3593,6 +3593,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         console.log($scope.tenant.new);
                     break;
                     case "addTenant":
+                        console.log(obj);
                         $scope.register={'user':{'fullNameUser':null, 'emailUser': null, 'phoneNumberUser': null, 'phoneLocalNumberUser': null, 'idAddresKf': null, 'idProfileKf': null, 'idTypeTenantKf': null, 'idCompanyKf': null, 'idTyepeAttendantKf': null, 'descOther': null, 'idDepartmentKf':null, 'isEdit': null, 'requireAuthentication': null, 'dni': null, 'idSysProfileFk': null, 'isCreateByAdmin': null}};
                         $scope.register.user.idProfileKf            = $scope.isNewTenant && obj.idTypeTenantKf!=undefined && obj.idTypeTenantKf==1?3:5;
                         $scope.register.user.idSysProfileFk         = obj.idSysProfileFk;
@@ -3611,7 +3612,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         console.log($scope.select.phoneCountry.selected);
                         console.log($scope.select.phoneCountry.selected);
                         console.log($scope.register.user);
-                        $scope.sysRegisterTenantFn();
+                        //$scope.sysRegisterTenantFn();
                     break;
                     case "associateTenant":
                         console.log(obj);
