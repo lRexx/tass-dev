@@ -3753,7 +3753,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.register={'guest':{}};
                             $scope.register.guest               = obj;
                             $scope.register.guest .emailAddress = obj.mail;
-                            $scope.register.guest.phoneNumber   = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberUser);
+                            $scope.register.guest.phoneNumber   = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberGuest);
                             console.log($scope.register.guest);
                             //$scope.sysRegisterGuestFn($scope.register);
                         break;

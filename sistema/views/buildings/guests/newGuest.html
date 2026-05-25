@@ -42,7 +42,12 @@
                         </div>
                     </div>-->
                     <!-- Text Mail-->
-                    <div class="form-group col-md-6" >
+                    <div class="form-group col-md-6" ng-class="
+                            {	'has-success':
+                                guest.new.mail!='' && fNewGuest.emailUser.$valid,
+                                'has-warning':
+                                (guest.new.mail=='' || guest.new.mail==undefined) && fNewGuest.emailUser.$touched,
+                            }">
                         <label style="padding-left: 15px;">E-Mail (opcional)</label>
                             <div class="col-xs-12">
                                 <div class="input-group">
@@ -54,11 +59,11 @@
                     <!-- Movil Phone-->
                     <div class="form-group col-md-6" ng-class="{
                     'has-success':
-                        guest.new.phoneNumber!='' && guest.new.phoneNumber!=null  && fNewTenant.phoneMovil.$valid,
+                        guest.new.phoneMovilNumberGuest!='' && guest.new.phoneMovilNumberGuest!=null  && fNewGuest.phoneMovilNumberGuest.$valid,
                     'has-warning':
-                        !guest.new.phoneNumber && tenant.new.phonelocalNumberUser,
+                        !guest.new.phoneMovilNumberGuest && tenant.new.phonelocalNumberUser,
                     'has-error':
-                        !guest.new.phoneNumber && !tenant.new.phonelocalNumberUser && fNewTenant.phoneMovil.$touched,
+                        !guest.new.phoneMovilNumberGuest && !tenant.new.phonelocalNumberUser && fNewGuest.phoneMovilNumberGuest.$touched,
                     }">
                         <label style="padding-left: 15px;">Teléfono Móvil (Opcional)</label>
 
@@ -97,8 +102,8 @@
                                 />
                                 <!-- Phone number -->
                                 <input
-                                    name="phoneMovil"
-                                    ng-model="guest.new.phoneNumber"
+                                    name="phoneMovilNumberGuest"
+                                    ng-model="guest.new.phoneMovilNumberGuest"
                                     type="text"
                                     class="form-control input-movil"
                                     ng-minlength="8"
