@@ -3853,7 +3853,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             });
                             $timeout(function() {
                                 $scope.fnLoadPhoneMask();
-                            }, 100);
+                            }, 200);
 
                         break;
                         case "updateGuest":
