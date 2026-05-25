@@ -3563,7 +3563,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.isUpdateTenant                       = false;
                         $scope.sysDNIRegistered                     = false;
                         $scope.sysEmailRegistered                   = false;
-
+                        $scope.select.phoneCountry= {'selected':undefined};
                         $scope.tenant.new.idDepartmentKf            = obj.idClientDepartament;
                         $scope.tenant.new.depto                     = obj.Depto;
                         if (($scope.ticket.idDeviceTypeKf==null || $scope.ticket.idDeviceTypeKf!=2) && $scope.ticket.optionTypeSelected.name=="department" && $scope.ticket.radioButtonDepartment=="1"){
@@ -3595,8 +3595,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.register.user.idSysProfileFk         = obj.idSysProfileFk;
                         $scope.register.user.fullNameUser           = obj.fullname;
                         $scope.register.user.emailUser              = obj.mail;
-                        $scope.register.user.phoneNumberUser        = $scope.normalizePhoneE164($scope.select.countryCodeMovil.selected,obj.phoneMovilNumberUser);
-                        $scope.register.user.phoneLocalNumberUser   = $scope.normalizePhoneE164($scope.select.countryCodeLocal.selected,obj.phonelocalNumberUser);
+                        $scope.register.user.phoneNumberUser        = $scope.normalizePhoneE164($scope.select.phoneCountry.selected,obj.phoneMovilNumberUser);
+                        $scope.register.user.phoneLocalNumberUser   = $scope.normalizePhoneE164($scope.select.phoneCountry.selected,obj.phonelocalNumberUser);
                         $scope.register.user.idTyepeAttendantKf     = obj.idProfileKf==6?obj.idTyepeAttendantKf:null;
                         $scope.register.user.dni                    = obj.dni;
                         $scope.register.user.isCreateByAdmin        = $scope.sysLoggedUser.idProfileKf==4?1:null;
@@ -3605,8 +3605,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.register.user.idDepartmentKf         = (obj.idProfileKf==5 || obj.idProfileKf==6) && obj.idTypeTenantKf==2?obj.idDepartmentKf:null;
                         $scope.register.user.idDeparment_Tmp        = (obj.idProfileKf==3 || obj.idProfileKf==6) && obj.idTypeTenantKf==1?obj.idDepartmentKf:null;
                         $scope.register.user.requireAuthentication  = obj.blockUserLoginTmp!=undefined && obj.blockUserLoginTmp?0:1;
-                        console.log($scope.select.countryCodeMovil.selected);
-                        console.log($scope.select.countryCodeLocal.selected);
+                        console.log($scope.select.phoneCountry.selected);
+                        console.log($scope.select.phoneCountry.selected);
                         console.log($scope.register.user);
                         $scope.sysRegisterTenantFn();
                     break;
