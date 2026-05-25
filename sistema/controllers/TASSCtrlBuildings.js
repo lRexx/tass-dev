@@ -3741,7 +3741,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.guest.new.idDepartmentKf             = obj.idClientDepartament;
                             $scope.guest.new.depto                      = obj.Depto;
                             $scope.select.phoneCountryMovil.selected    = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
-                            $scope.tenant.new.phoneMovilPrefixNumber    = "11"
+                            $scope.guest.new.phoneMovilPrefixNumber     = "11"
                             $scope.closeTenantMembersTypeModal();
                             $('#RegisterGuest').modal({backdrop: 'static', keyboard: false});
                             $('#RegisterGuest').on('shown.bs.modal', function () {
