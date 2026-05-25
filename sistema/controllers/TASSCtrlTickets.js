@@ -3584,7 +3584,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         //$scope.closeMembersTypeModal();
                         $('#RegisterTenant').modal({backdrop: 'static', keyboard: false});
                         $('#RegisterTenant').on('shown.bs.modal', function () {
-                            $scope.select.phoneCountry.selected = $scope.countryPhoneCodesList.find(c => c.isoCode == "AR");
+                            $scope.select.phoneCountry.selected({$scope.countryPhoneCodesList.find(c => c.isoCode == "AR")});
                         });
                         console.log($scope.ticket);
                         console.log($scope.tenant.new);
