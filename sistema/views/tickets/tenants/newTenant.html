@@ -218,7 +218,7 @@
                                             search-enabled="true">
                                             <ui-select-match allow-clear="false">{{ getFlagEmoji($select.selected.isoCode) }} {{ $select.selected.phoneCode }}</ui-select-match>
                                             <ui-select-choices repeat="item in countryPhoneCodesList | filter: $select.search">
-                                                <div ng-bind-html="item.countryCode | highlight: $select.search"></div>
+                                                <div ng-bind-html="item.phoneCode | highlight: $select.search"></div>
                                                 <small  ng-bind-html="item.countryName | highlight: $select.search" class="label label-default">
                                                     {{item.countryName}}
                                                 </small>
