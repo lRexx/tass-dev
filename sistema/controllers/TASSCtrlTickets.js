@@ -60,7 +60,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
         'history': []
     };
     $scope.customerSearch={'name':'', 'typeClient':null};
-    $scope.select={'admins':{'selected':undefined}, 'buildings':{'selected':undefined},'depto':undefined,'floor':undefined, 'product':{'selected':undefined}, 'phoneCountry':{'selected':undefined}};
+    $scope.select={'admins':{'selected':undefined}, 'buildings':{'selected':undefined},'depto':undefined,'floor':undefined, 'product':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined}, 'phoneCountryMovil':{'selected':undefined}};
     $scope.tenant = {'namesTenant':null, 'addressTenant':null, 'movilPhoneTenant':null, 'localPhoneTenant':null, 'emailTenant':null}
     $scope.ticket = {'administration':undefined, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'userRequestBy':{}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':undefined, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
     $scope.costs={'keys':{'cost':0, 'manual':false}, 'delivery':{'cost':0, 'manual':false}, 'service':{'cost':0, 'manual':false}, 'total':0};
@@ -3563,7 +3563,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.isUpdateTenant                       = false;
                         $scope.sysDNIRegistered                     = false;
                         $scope.sysEmailRegistered                   = false;
-                        $scope.select.phoneCountry={'selected':{}};
+                        $scope.select.phoneCountryWired={'selected':{}};
+                        $scope.select.phoneCountryMovil={'selected':{}};
                         console.log($scope.select.phoneCountry);
                         $scope.tenant.new.idDepartmentKf            = obj.idClientDepartament;
                         $scope.tenant.new.depto                     = obj.Depto;
@@ -3585,7 +3586,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         //$scope.closeMembersTypeModal();
                         $('#RegisterTenant').modal({backdrop: 'static', keyboard: false});
                         $('#RegisterTenant').on('shown.bs.modal', function () {
-                            $scope.select.phoneCountry.selected=$scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+                            $scope.select.phoneCountryWired.selected=$scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+                            $scope.select.phoneCountryMovil.selected=$scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
                         });
                         console.log($scope.ticket);
                         console.log($scope.tenant.new);

@@ -161,17 +161,20 @@
                             <div class="col-xs-12">
                                 <div class="input-group">
                                     <!-- Country Code -->
-                                    <div class="input-group-btn" style="width: 120px;">
+                                    <div class="input-group-btn" style="width: 100px;">
                                         <ui-select
                                             class="ui-select-bootstrap-phone"
                                             name="countryCode"
-                                            ng-model="select.countryCodeLocal.selected"
+                                            ng-model="select.phoneCountryWired.selected"
                                             search-enabled="true">
-                                            <ui-select-match allow-clear="false">{{$select.selected.countryCode}}</ui-select-match>
+                                            <ui-select-match allow-clear="false"><span class="country-flag"><img
+        ng-src="https://flagcdn.com/24x18/{{$select.selected.isoCode | lowercase}}.png"
+        width="18"
+        style="margin-right:5px;"> {{ $select.selected.phoneCode }}</ui-select-match>
                                             <ui-select-choices repeat="item in countryPhoneCodesList | filter: $select.search">
-                                                <div ng-bind-html="item.countryCode | highlight: $select.search"></div>
+                                                <div ng-bind-html="item.phoneCode | highlight: $select.search"></div>
                                                 <small  ng-bind-html="item.countryName | highlight: $select.search" class="label label-default">
-                                                    {{item.countryName}}
+                                                    <img ng-src="https://flagcdn.com/24x18/{{item.isoCode | lowercase}}.png" width="18" style="margin-right:5px;"> {{item.countryName}}
                                                 </small>
                                             </ui-select-choices>
                                         </ui-select>
@@ -214,7 +217,7 @@
                                         <ui-select
                                             class="ui-select-bootstrap-phone"
                                             name="countryCode"
-                                            ng-model="select.phoneCountry.selected"
+                                            ng-model="select.phoneCountryMovil.selected"
                                             search-enabled="true">
                                             <ui-select-match allow-clear="false"><span class="country-flag"><img
         ng-src="https://flagcdn.com/24x18/{{$select.selected.isoCode | lowercase}}.png"
@@ -228,7 +231,18 @@
                                             </ui-select-choices>
                                         </ui-select>
                                     </div>
-
+                                    <!-- Phone Prefix number -->
+                                    <input
+                                        name="phoneMovil"
+                                        ng-model="tenant.new.phoneMovilPrefixNumber"
+                                        type="text"
+                                        class="form-control input-phone-prefix"
+                                        ng-minlength="4"
+                                        ng-keydown="fnLoadPhoneMask();"
+                                        ng-disabled="sysDNIRegistered"
+                                        placeholder="Número de teléfono"
+                                        ng-required="tenant.new.phonelocalNumberUser==''"
+                                    />
                                     <!-- Phone number -->
                                     <input
                                         name="phoneMovil"

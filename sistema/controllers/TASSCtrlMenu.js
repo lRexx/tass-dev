@@ -783,6 +783,16 @@
               $('.input-movil-phone').mask('9 11 0000-0000', {
                 placeholder: '9 11 ____-____'
               });
+              $('.input-phone-prefix').mask('####', {
+                reverse: false,
+                translation:{
+                  '0': null,
+                  '#':{
+                    pattern: /[1-9]/
+                  },
+                },
+                placeholder: '____'
+              });
               $('.input--movil-new').mask('(15) ####-####',
               {
                 reverse: false,
