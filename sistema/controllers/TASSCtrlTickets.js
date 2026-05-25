@@ -2165,7 +2165,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     return null;
                 }
 
-                let countryCode = countryCodeTmp.countryCode;
+                let countryCode = countryCodeTmp.isoCode;
                 let localNumber = phoneNumber;
 
                 // 1️⃣ Quitar todo lo que no sea número
@@ -2189,17 +2189,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
             $scope.isValidE164 = function (number) {
                 const regex = /^\+[1-9]\d{1,14}$/;
                 return regex.test(number);
-            };
-            $scope.getFlagEmoji = function (isoCode) {
-                if (!isoCode) return '';
-
-                return isoCode
-                    .toUpperCase()
-                    .replace(/./g, function(char) {
-                        return String.fromCodePoint(
-                            127397 + char.charCodeAt()
-                        );
-                    });
             };
             $scope.filterTenantTypes = function(item) {
                 //console.log("Filtering item:", item);
