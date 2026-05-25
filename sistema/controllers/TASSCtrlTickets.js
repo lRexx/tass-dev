@@ -2165,7 +2165,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     return null;
                 }
 
-                let countryCode = countryCodeTmp.isoCode;
+                let countryCode = countryCodeTmp.phoneCode;
                 let localNumber = phoneNumber;
 
                 // 1️⃣ Quitar todo lo que no sea número
