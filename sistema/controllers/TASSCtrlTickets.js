@@ -2158,9 +2158,10 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     break;
                 }
             }
-            $scope.normalizePhoneE164 = function (countryCodeTmp, phoneNumber) {
+            $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber) {
 
                 if (!countryCodeTmp ||
+                    !prefixNumber ||
                     !phoneNumber) {
                     return null;
                 }
@@ -2177,7 +2178,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 // 3️⃣ Quitar + del countryCode
                 countryCode = countryCode.replace('+', '');
 
-                let fullNumber = '+' + countryCode + localNumber;
+                let fullNumber = '+' + countryCode + prefixNumber + localNumber;
 
                 // 4️⃣ Validar longitud máxima E.164
                 if (fullNumber.length > 16) { // + incluido
@@ -3592,8 +3593,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.register.user.idSysProfileFk         = obj.idSysProfileFk;
                         $scope.register.user.fullNameUser           = obj.fullname;
                         $scope.register.user.emailUser              = obj.mail;
-                        $scope.register.user.phoneNumberUser        = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilNumberUser);
-                        $scope.register.user.phoneLocalNumberUser   = $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,obj.phonelocalNumberUser);
+                        $scope.register.user.phoneNumberUser        = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberUser);
+                        $scope.register.user.phoneLocalNumberUser   = $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,obj.phonelocalPrefixNumber,obj.phonelocalNumberUser);
                         $scope.register.user.idTyepeAttendantKf     = obj.idProfileKf==6?obj.idTyepeAttendantKf:null;
                         $scope.register.user.dni                    = obj.dni;
                         $scope.register.user.isCreateByAdmin        = $scope.sysLoggedUser.idProfileKf==4?1:null;
