@@ -3563,7 +3563,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.isUpdateTenant                       = false;
                         $scope.sysDNIRegistered                     = false;
                         $scope.sysEmailRegistered                   = false;
-                        $scope.select.phoneCountry={'selected':undefined};
+                        $scope.select.phoneCountry={'selected':{}};
                         console.log($scope.select.phoneCountry);
                         $scope.tenant.new.idDepartmentKf            = obj.idClientDepartament;
                         $scope.tenant.new.depto                     = obj.Depto;
