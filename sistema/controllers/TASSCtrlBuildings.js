@@ -3830,11 +3830,10 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             //$scope.guest.update.dni             = obj.dni;
                             $scope.guest.update.mail            = obj.emailAddress;
                             const phoneParsed = $scope.parsePhoneE164(obj.phoneNumber, $scope.countryPhoneCodesList);
-                             if (phoneParsed) {
+                            if (phoneParsed) {
                                 $scope.select.phoneCountryMovil.selected    = phoneParsed.countryCodeTmp;
                                 $scope.guest.update.phoneMovilPrefixNumber  = phoneParsed.prefixNumber;
                                 $scope.guest.update.phoneMovilNumberGuest   = phoneParsed.phoneNumber;
-                                $scope.fnLoadPhoneMask();
                             }
                             $scope.guest.update.depto           = $scope.departmentSelected.Depto;
                             $scope.guest.update.address         = $scope.departmentSelected.address;
@@ -3845,6 +3844,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $('#UpdateGuest').modal({backdrop: 'static', keyboard: false});
                             $('#UpdateGuest').on('shown.bs.modal', function () {
                                 $('#fullname').focus();
+                                $scope.fnLoadPhoneMask();
                             });
                         break;
                         case "updateGuest":
