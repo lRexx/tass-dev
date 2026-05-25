@@ -3564,6 +3564,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.sysDNIRegistered                     = false;
                         $scope.sysEmailRegistered                   = false;
                         $scope.select.phoneCountry={'selected':undefined};
+                        console.log($scope.select.phoneCountry);
                         $scope.tenant.new.idDepartmentKf            = obj.idClientDepartament;
                         $scope.tenant.new.depto                     = obj.Depto;
                         if (($scope.ticket.idDeviceTypeKf==null || $scope.ticket.idDeviceTypeKf!=2) && $scope.ticket.optionTypeSelected.name=="department" && $scope.ticket.radioButtonDepartment=="1"){
@@ -3584,7 +3585,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         //$scope.closeMembersTypeModal();
                         $('#RegisterTenant').modal({backdrop: 'static', keyboard: false});
                         $('#RegisterTenant').on('shown.bs.modal', function () {
-                            $scope.select.phoneCountry.selected($scope.countryPhoneCodesList.find(c => c.isoCode == "AR"));
+                            $scope.select.phoneCountry.selected($scope.countryPhoneCodesList.find(c => c.isoCode === "AR"));
                         });
                         console.log($scope.ticket);
                         console.log($scope.tenant.new);
