@@ -98,6 +98,21 @@
                                     </div>
                                 </div>
                         </div>
+                        <!-- Form First & Last Name -->
+                        <div ng-if="tenant.new.blockUserLoginTmp" class="form-group col-md-6" ng-class="
+                        {	'has-success':
+                            tenant.new.fullname!='' && fNewTenant.fullname.$valid,
+                            'has-error':
+                            (tenant.new.fullname=='' || tenant.new.fullname==undefined) && fNewTenant.fullname.$touched,
+                        }">
+                        <label style="padding-left: 15px;" >Nombres y Apellidos</label>
+                            <div class="col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input name="fullname" placeholder="Nombres y Apellidos" class="form-control" ng-model="tenant.new.fullname" type="text" ng-disabled="sysDNIRegistered" required autofocus />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div ng-if="sysDNIRegistered || sysEmailRegistered" class="form-group row n-margin-t n-margin-b">
                         <div ng-if="sysDNIRegistered" class="form-group n-margin-t n-margin-b" ng-class="{
@@ -141,15 +156,11 @@
                         </div>
                     </div>
                     <!-- Form First & Last Name -->
-                    <div class="form-group" ng-class="
+                    <div ng-if="!tenant.new.blockUserLoginTmp"class="form-group col-md-12" ng-class="
                     {	'has-success':
                         tenant.new.fullname!='' && fNewTenant.fullname.$valid,
                         'has-error':
                         (tenant.new.fullname=='' || tenant.new.fullname==undefined) && fNewTenant.fullname.$touched,
-                        'col-md-6':
-                        tenant.new.blockUserLoginTmp,
-                        'col-md-12':
-                        !tenant.new.blockUserLoginTmp
                     }">
                     <label style="padding-left: 15px;" >Nombres y Apellidos</label>
                         <div class="col-xs-12">
