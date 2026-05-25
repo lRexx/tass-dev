@@ -216,7 +216,10 @@
                                             name="countryCode"
                                             ng-model="select.phoneCountry.selected"
                                             search-enabled="true">
-                                            <ui-select-match allow-clear="false"><span class="country-flag"><img src="https://flagcdn.com/24x18/{{item.isoCode | lowercase}}.png" width="18"></span> {{ $select.selected.phoneCode }}</ui-select-match>
+                                            <ui-select-match allow-clear="false"><span class="country-flag">    <img
+        ng-src="https://flagcdn.com/24x18/{{$select.selected.isoCode | lowercase}}.png"
+        width="18"
+        style="margin-right:5px;"> {{ $select.selected.phoneCode }}</ui-select-match>
                                             <ui-select-choices repeat="item in countryPhoneCodesList | filter: $select.search">
                                                 <div ng-bind-html="item.phoneCode | highlight: $select.search"></div>
                                                 <small  ng-bind-html="item.countryName | highlight: $select.search" class="label label-default">
