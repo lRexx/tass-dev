@@ -2211,7 +2211,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 // Convert both values to Strings to bypass the data type difference safely
                 var filterValue = String($scope.ticket.radioButtonDepartment);
                 var itemValue = String(item.idTypeTenant);
-                console.log("Comparing itemValue:", itemValue, "with filterValue:", filterValue);
+
                 // Return true if they match, keeping the item in the list
                 return itemValue === filterValue;
             };
