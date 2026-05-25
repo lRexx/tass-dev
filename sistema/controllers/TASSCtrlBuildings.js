@@ -58,7 +58,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
     $scope.filter={'filterCategoryKey':'', 'idKeychainStatusKf':'', 'department':'', 'keychainStatus':{}, 'idTypeTicketKf':null,
                             'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined},
                             'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
-    $scope.select={'admins':{'selected':undefined}, 'buildings':{'selected':undefined},'depto':undefined,'floor':undefined};
+    $scope.select={'admins':{'selected':undefined}, 'buildings':{'selected':undefined},'depto':undefined,'floor':undefined, 'phoneCountryMovil':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined}};
     $scope.keys={'llavero':{},
     'new':{'address':{'selected':undefined}, 'products':{'selected':undefined}, 'categoryKey':'', 'department':{}, 'codigo':'', 'codigoExt':''},
     'update':{'address':{'selected':undefined}, 'products':{'selected':undefined}, 'categoryKey':'', 'department':{}, 'codigo':'', 'codigoExt':''},
@@ -3637,6 +3637,36 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                     });
                 };$scope.getStatusKeychainFn();
 
+
+                $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber) {
+
+                    if (!countryCodeTmp ||
+                        !prefixNumber ||
+                        !phoneNumber) {
+                        return null;
+                    }
+
+                    let countryCode = countryCodeTmp.phoneCode;
+                    let localNumber = phoneNumber;
+
+                    // 1️⃣ Quitar todo lo que no sea número
+                    localNumber = localNumber.replace(/\D/g, '');
+
+                    // 2️⃣ Eliminar ceros iniciales
+                    localNumber = localNumber.replace(/^0+/, '');
+
+                    // 3️⃣ Quitar + del countryCode
+                    countryCode = countryCode.replace('+', '');
+
+                    let fullNumber = '+' + countryCode + prefixNumber + localNumber;
+
+                    // 4️⃣ Validar longitud máxima E.164
+                    if (fullNumber.length > 16) { // + incluido
+                        return null;
+                    }
+
+                    return fullNumber;
+                };
             /**************************************************
             *                                                 *
             *            BUILDING MENU FUNCTION                *
@@ -3717,8 +3747,9 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.register={'guest':{}};
                             $scope.register.guest               = obj;
                             $scope.register.guest .emailAddress = obj.mail;
+                            $scope.register.guest.phoneNumber   = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberUser);
                             console.log($scope.register.guest);
-                            $scope.sysRegisterGuestFn($scope.register);
+                            //$scope.sysRegisterGuestFn($scope.register);
                         break;
                         case "editGuest":
                             $scope.guest          = {'update':{'idGuest':'','idDepartmentKf':'', 'idStatusKf':'', 'fullname':'','dni':'','mail':'','phoneNumber':'','depto':'','address':''}};
@@ -3727,7 +3758,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.guest.update.idDepartmentKf  = obj.idDepartmentKf;
                             $scope.guest.update.idStatusKf      = obj.idStatusKf;
                             $scope.guest.update.fullname        = obj.names;
-                            $scope.guest.update.dni             = obj.dni;
+                            //$scope.guest.update.dni             = obj.dni;
                             $scope.guest.update.mail            = obj.emailAddress;
                             $scope.guest.update.phoneNumber     = obj.phoneNumber;
                             $scope.guest.update.depto           = $scope.departmentSelected.Depto;
