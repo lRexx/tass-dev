@@ -871,9 +871,14 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
 
           $scope.selectUserDataFn = function (obj) {
             $("#UpdateUser").modal({backdrop: 'static', keyboard: false});
-            $scope.users.update = {'idUser':null,'idProfileKf':{}, 'idSysProfileFk':null, 'fname':'','lname':'', 'dni':'','email':'', 'phonelocalNumberUser':'', 'phoneMovilNumberUser':'', 'idDepartmentKf':null, 'idTypeAttKf':null, 'typeOtherAtt':'', 'idTypeTenantKf':''}
-            $scope.users.tmp    = {'dni':'','email':''}
-            $scope.ListDpto     = {};
+            $scope.users.update  = {'idUser':null,'idProfileKf':{}, 'idSysProfileFk':null, 'fname':'','lname':'', 'dni':'','email':'', 'phonelocalNumberUser':'', 'phoneMovilNumberUser':'', 'idDepartmentKf':null, 'idTypeAttKf':null, 'typeOtherAtt':'', 'idTypeTenantKf':''}
+            $scope.users.tmp     = {'dni':'','email':''}
+            $scope.ListDpto      = {};
+            let phoneParsedMovil = null;
+            let phoneParsedLocal = null;
+
+            phoneParsedMovil = $scope.parsePhoneE164(obj.phoneNumberUser, $scope.countryPhoneCodesList);
+            phoneParsedLocal = $scope.parsePhoneE164(obj.phoneLocalNumberUser, $scope.countryPhoneCodesList);
             $scope.filterAddressKf.selected   = undefined;
             $scope.filterCompanyKf.selected   = undefined;
             $scope.sysDNIRegistered           = 0;
@@ -905,8 +910,14 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
             $scope.users.tmp.dni                      = obj.dni;
             $scope.users.update.email                 = obj.emailUser;
             $scope.users.tmp.email                    = obj.emailUser;
-            $scope.users.update.phonelocalNumberUser  = obj.phoneLocalNumberUser;
-            $scope.users.update.phoneMovilNumberUser  = obj.phoneNumberUser;
+            if (phoneParsedMovil || phoneParsedLocal) {
+                $scope.select.phoneCountryMovil.selected    = phoneParsedMovil==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedMovil.countryCodeTmp;
+                $scope.select.phoneCountryWired.selected    = phoneParsedLocal==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedLocal.countryCodeTmp;
+                $scope.users.update.phoneMovilPrefixNumber  = phoneParsedMovil==null?"11":phoneParsedMovil.prefixNumber;
+                $scope.users.update.phoneMovilNumberUser    = phoneParsedMovil?phoneParsedMovil.phoneNumber:obj.phoneNumberUser;
+                $scope.users.update.phonelocalPrefixNumber  = phoneParsedLocal==null?"11":phoneParsedLocal.prefixNumber;
+                $scope.users.update.phonelocalNumberUser    = phoneParsedLocal?phoneParsedLocal.phoneNumber:obj.phoneLocalNumberUser;
+            }
             $scope.users.update.idStatusKf            = obj.idStatusKf;
             $scope.users.update.statusTenantName      = obj.statusTenantName;
             $scope.users.update.deptos                = obj.deptos!=undefined?obj.deptos:[];
@@ -1140,6 +1151,136 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
 
               });
           }
+          $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber) {
+
+              if (!countryCodeTmp ||
+                  !prefixNumber ||
+                  !phoneNumber) {
+                  return null;
+              }
+
+              let countryCode = countryCodeTmp.phoneCode;
+              let localNumber = phoneNumber;
+
+              // 1️⃣ Quitar todo lo que no sea número (elimina paréntesis, espacios y guiones de la máscara)
+              localNumber = localNumber.replace(/\D/g, '');
+
+              // 2️⃣ Eliminar ceros iniciales
+              localNumber = localNumber.replace(/^0+/, '');
+
+              // 2.5️⃣ ELIMINAR EL "15" INICIAL (Solo para almacenamiento en Base de Datos)
+              // Si el número limpio empieza con 15, lo removemos para guardar solo el número de abonado real
+              if (localNumber.startsWith('15')) {
+                  localNumber = localNumber.substring(2);
+              }
+
+              // 3️⃣ Quitar + del countryCode
+              countryCode = countryCode.replace('+', '');
+
+              // Se unifica: Código País + Prefijo de Área (ej: 11) + Número local sin el 15 (ej: 22356388)
+              let fullNumber = '+' + countryCode + prefixNumber + localNumber;
+
+              // 4️⃣ Validar longitud máxima E.164
+              if (fullNumber.length > 16) { // + incluido
+                  return null;
+              }
+
+              return fullNumber;
+          };
+          $scope.parsePhoneE164 = function (fullNumber, countryPhoneCodesList) {
+
+              let defaultIsoCode = "AR"; // Default to Argentina if no match found
+
+              if (!fullNumber || !countryPhoneCodesList || countryPhoneCodesList.length === 0) {
+                  return null;
+              }
+
+              // 1️⃣ Strip ALL leading zeros from the raw input before anything else
+              while (fullNumber.startsWith("0")) {
+                  fullNumber = fullNumber.substring(1);
+              }
+
+              // 2️⃣ Clean the number, keeping only '+' and digits
+              let cleanNumber = fullNumber.replace(/[^\d+]/g, '');
+
+              // 3️⃣ Match country by phone code (longest match first)
+              let sortedCountries = [...countryPhoneCodesList].sort((a, b) => b.phoneCode.length - a.phoneCode.length);
+              let matchedCountry = sortedCountries.find(c => cleanNumber.startsWith(c.phoneCode));
+
+              // 4️ Fallback to default country if no match found
+              if (!matchedCountry) {
+                  if (defaultIsoCode) {
+                      matchedCountry = countryPhoneCodesList.find(c => c.isoCode === defaultIsoCode);
+                  }
+
+                  // If still nothing, give up
+                  if (!matchedCountry) {
+                      return null;
+                  }
+
+                  // Prepend the country code since the number didn't have it
+                  cleanNumber = matchedCountry.phoneCode + cleanNumber;
+              }
+
+              // 5️⃣ Extract remaining digits after country code, stripping leading zeros
+              let remaining = cleanNumber.substring(matchedCountry.phoneCode.length);
+
+              // Strip leading zeros from remaining (e.g. national trunk prefix "0")
+              while (remaining.startsWith("0")) {
+                  remaining = remaining.substring(1);
+              }
+
+              let prefixNumber = "";
+              let phoneNumber = "";
+
+              // 6️⃣ Argentina-specific logic (+54)
+              if (matchedCountry.isoCode === "AR" || matchedCountry.phoneCode === "+54") {
+                  if (remaining.startsWith("11")) {
+                      prefixNumber = "11";
+                      let afterPrefix = remaining.substring(2);
+
+                      // Strip leading zeros after prefix too
+                      while (afterPrefix.startsWith("0")) {
+                          afterPrefix = afterPrefix.substring(1);
+                      }
+
+                      if (afterPrefix.startsWith("15")) {
+                          phoneNumber = "15" + afterPrefix.substring(2);
+                      } else {
+                          phoneNumber = afterPrefix;
+                      }
+                  } else {
+                      let remainingLength = remaining.length;
+                      // 11 digits → 3-digit prefix, 12 digits → 4-digit prefix
+                      let cutPosition = remainingLength === 11 ? 3 : 4;
+
+                      prefixNumber = remaining.substring(0, cutPosition);
+                      let afterPrefix = remaining.substring(cutPosition);
+
+                      // Strip leading zeros after prefix
+                      while (afterPrefix.startsWith("0")) {
+                          afterPrefix = afterPrefix.substring(1);
+                      }
+
+                      if (afterPrefix.startsWith("15")) {
+                          phoneNumber = "15" + afterPrefix.substring(2);
+                      } else {
+                          phoneNumber = afterPrefix;
+                      }
+                  }
+              } else {
+                  // 7️⃣ Generic fallback: split remaining in half
+                  let mid = Math.floor(remaining.length / 2);
+                  prefixNumber = remaining.substring(0, mid);
+                  phoneNumber = remaining.substring(mid);
+              }
+
+              return {
+                  countryCodeTmp: matchedCountry,
+                  prefixNumber: prefixNumber,
+                  phoneNumber: phoneNumber
+              };
+          };
         /**************************************************
         *                                                 *
         *                 SWITCH USER DATA                *
@@ -1158,6 +1299,10 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 $scope.register.user.emailUser               = obj.email;
                 $scope.register.user.phoneLocalNumberUser    = obj.phonelocalNumberUser;
                 $scope.register.user.phoneNumberUser         = obj.phoneMovilNumberUser;
+                $scope.select.phoneCountryWired.selected     = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+                $scope.select.phoneCountryMovil.selected     = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+                $scope.register.user.phonelocalPrefixNumber  = "11"
+                $scope.register.user.phoneMovilPrefixNumber  = "11"
                 $scope.register.user.isEdit                  = 1;
                 $scope.register.user.isCreateByAdmin         = 1;
                 $scope.register.user.loggedUser              = $scope.sysLoggedUser;
@@ -2543,7 +2688,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
               "date_from":null,
               "date_to":null
             };
-         $scope.getUSersListFn = function(filters,limit,offset){
+          $scope.getUSersListFn = function(filters,limit,offset){
               var idProfileKf            = filters.userProfile!=undefined && filters.userProfile!=null?filters.userProfile.idProfile:null;
               var search                 = filters.searchboxfilter!=undefined && filters.searchboxfilter!="" && filters.searchboxfilter!=null?filters.searchboxfilter:null;
               var date_from              = filters.date_from!=undefined && filters.date_from!="" && filters.date_from!=null?filters.date_from:null;
