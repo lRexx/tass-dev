@@ -3831,7 +3831,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.register.user.isApprovalRequired     = false;
                             $scope.register.user.loggedUser             = $scope.sysLoggedUser;
                             console.log($scope.register.user);
-                            $scope.sysRegisterTenantFn();
+                            //$scope.sysRegisterTenantFn();
                         break;
                         case "newGuest":
                             $scope.guest={
