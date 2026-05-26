@@ -3896,6 +3896,8 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 $scope.tenant.update.idProfileKf            = obj.idProfileKf;
                                 $scope.tenant.update.dni                    = obj.dni;
                                 $scope.tenant.update.fullname               = obj.fullNameUser;
+                                console.log(phoneParsedMovil);
+                                console.log(phoneParsedLocal);
                                 if (phoneParsedMovil || phoneParsedLocal) {
                                     $scope.select.phoneCountryMovil.selected    = phoneParsedMovil.countryCodeTmp;
                                     $scope.select.phoneCountryWired.selected    = phoneParsedLocal.countryCodeTmp;
