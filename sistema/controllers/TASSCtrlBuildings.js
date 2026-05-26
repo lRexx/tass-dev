@@ -3870,13 +3870,13 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                         break;
                         case "edit":
                             $scope.tenant={
-                                'new':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf':'', 'depto':''},
-                                'update':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf2':'', 'depto':''},
+                                'new':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phoneMovilPrefixNumber': '', 'phonelocalNumberUser':'', 'phoneLocalPrefixNumber': '', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf':'', 'depto':''},
+                                'update':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phoneMovilPrefixNumber': '', 'phonelocalNumberUser':'', 'phoneLocalPrefixNumber': '', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf2':'', 'depto':''},
                                 'tmp':{'dni':'','mail':''}};
                             $scope.depto={'department':{'idDepartment':null, 'idUserKf':null}};
                             $scope.attendant={
-                                'new':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf':'','depto':'', 'idTypeAttKf':{}},
-                                'update':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf2':'','depto':'', 'idTypeAttKf':{}},
+                                'new':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phoneMovilPrefixNumber': '', 'phonelocalNumberUser':'', 'phoneLocalPrefixNumber': '', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf':'','depto':'', 'idTypeAttKf':{}},
+                                'update':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phoneMovilPrefixNumber': '', 'phonelocalNumberUser':'', 'phoneLocalPrefixNumber': '', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf2':'','depto':'', 'idTypeAttKf':{}},
                                 'tmp':{'dni':'','mail':''}};
                             $scope.att= {'ownerOption':undefined}
                             $scope.ownerFound                                  = false;
@@ -3901,7 +3901,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                     $scope.select.phoneCountryWired.selected    = phoneParsedLocal.countryCodeTmp;
                                     $scope.tenant.update.phoneMovilPrefixNumber = phoneParsedMovil.prefixNumber;
                                     $scope.tenant.update.phoneMovilNumberUser   = phoneParsedMovil?phoneParsedMovil.phoneNumber:obj.phoneNumberUser;
-                                    $scope.tenant.update.phoneMovilPrefixNumber = phoneParsedLocal.prefixNumber;
+                                    $scope.tenant.update.phoneLocalPrefixNumber = phoneParsedLocal.prefixNumber;
                                     $scope.tenant.update.phonelocalNumberUser   = phoneParsedLocal?phoneParsedLocal.phoneNumber:obj.phoneLocalNumberUser;
                                 }
                                 $scope.tenant.update.idTypeTenantKf         = obj.idTypeTenantKf;
