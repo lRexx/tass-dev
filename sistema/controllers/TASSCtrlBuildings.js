@@ -3678,6 +3678,9 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                     return fullNumber;
                 };
                 $scope.parsePhoneE164 = function (fullNumber, countryPhoneCodesList) {
+
+                    let defaultIsoCode = "AR"; // Default to Argentina if no match found
+
                     if (!fullNumber || !countryPhoneCodesList || countryPhoneCodesList.length === 0) {
                         return null;
                     }
