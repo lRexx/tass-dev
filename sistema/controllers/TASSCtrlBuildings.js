@@ -2632,6 +2632,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                     }, 2000);
                                 }
                             }
+                            $('.input-movil').unmask();
                         }else if (response.status==404){
                                 $timeout(function() {
                                     inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
