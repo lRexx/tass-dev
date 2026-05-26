@@ -4000,19 +4000,17 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 }else if (obj.idTypeTenantKf==null){
                                     $scope.att.ownerOption              = "3";
                                 }
-                                $timeout(function() {
-                                    $('#UpdateAttendant').modal({backdrop: 'static', keyboard: false});
-                                    $('.input-movil').unmask();
-                                    $('.input-local').unmask();
-                                    $('.input-movil').off('input keydown keyup blur focus');
-                                    $('.input-local').off('input keydown keyup blur focus');
-                                    $('#UpdateAttendant').on('shown.bs.modal', function () {
-                                        $('#idTypeAttKf').focus();
-                                        $timeout(function() {
-                                            $scope.fnLoadPhoneMask();
-                                        }, 250);
-                                    });
-                                }, 1000);
+                                $('#UpdateAttendant').modal({backdrop: 'static', keyboard: false});
+                                $('.input-movil').unmask();
+                                $('.input-local').unmask();
+                                $('.input-movil').off('input keydown keyup blur focus');
+                                $('.input-local').off('input keydown keyup blur focus');
+                                $('#UpdateAttendant').on('shown.bs.modal', function () {
+                                    $('#idTypeAttKf').focus();
+                                    $timeout(function() {
+                                        $scope.fnLoadPhoneMask();
+                                    }, 250);
+                                });
                                 console.log($scope.attendant.update);
                             }
                         break;
