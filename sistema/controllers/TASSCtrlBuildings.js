@@ -3991,7 +3991,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                         $('#idTypeAttKf').focus();
                                         $timeout(function() {
                                             $scope.fnLoadPhoneMask();
-                                        }, 150);
+                                        }, 250);
                                     });
                                 }, 1000);
                                 console.log($scope.attendant.update);
