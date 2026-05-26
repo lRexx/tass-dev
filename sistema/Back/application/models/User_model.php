@@ -2079,8 +2079,7 @@ class User_model extends CI_Model
 		}
 
 		$this->db->group_start();
-		$this->db->where("tb_user_guest.dni", $guest['dni']);
-		$this->db->or_where("tb_user_guest.idGuest", @$guest['idGuest']);
+		$this->db->where("tb_user_guest.emailAddress", $guest['emailAddress']);
 		$this->db->group_end();
 		$query = $this->db->order_by("tb_user_guest.idGuest", "ASC")->get();
 
