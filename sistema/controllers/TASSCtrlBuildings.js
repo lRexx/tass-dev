@@ -3683,9 +3683,9 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                     if (!fullNumber || !countryPhoneCodesList || countryPhoneCodesList.length === 0) {
                         return null;
                     }
-                     if (fullNumber.startsWith("0")) {
-                        fullNumber = fullNumber.substring(1);
-                     }
+                    if (fullNumber.startsWith("0")) {
+                    fullNumber = fullNumber.substring(1);
+                    }
                     // 1️⃣ Limpiar el número dejando solo el '+' inicial y los dígitos
                     let cleanNumber = fullNumber.replace(/[^\d+]/g, '');
 
