@@ -3886,6 +3886,10 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             console.log($scope.departmentSelected);
 
                             $('#UpdateGuest').modal({backdrop: 'static', keyboard: false});
+                            $('.input-movil').unmask();
+                            $('.input-local').unmask();
+                            $('.input-movil').off('input keydown keyup blur focus');
+                            $('.input-local').off('input keydown keyup blur focus');
                             $('#UpdateGuest').on('shown.bs.modal', function () {
                                 $timeout(function() {
                                     $('#fullname').focus();
