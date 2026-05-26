@@ -30,7 +30,6 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
     $scope.filterAddressKf = {'selected':undefined};
     $scope.filterCompanyKf = {'selected':undefined};
     $scope.customerSearch={'searchFilter':'', 'typeClient':'', 'isNotCliente':undefined, 'isInDebt':false, 'isStockInBuilding': false, 'isStockInOffice': false, 'strict':false};
-
       /**************************************************
       *                                                 *
       *       GET LIST OF CUSTOMER BY CUSTOMER ID       *
@@ -2799,12 +2798,12 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
           /**************************************************************************************/
             $scope.cleanFilters = function(){
               $scope.filters={'companies':{'selected':undefined},'buildings':{'selected':undefined},'attProfile':{},'status':{}, 'tenantProfile':{}, 'userProfile':{}, 'searchboxfilter':''}
-              $scope.select={'companies':{'selected':undefined}, 'address':{'selected':undefined},'company':{'selected':undefined},'addressAttendant':{'selected':undefined}, 'deptos':{}, 'departmentList':{}}
+              $scope.select={'companies':{'selected':undefined}, 'address':{'selected':undefined},'company':{'selected':undefined},'addressAttendant':{'selected':undefined}, 'deptos':{}, 'departmentList':{},'phoneCountryMovil':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined}}
             }
 
             //$scope.getUserLists("","");
             $scope.filters={'companies':{'selected':undefined},'buildings':{'selected':undefined},'attProfile':{},'status':{}, 'tenantProfile':{}, 'userProfile':{}, 'searchboxfilter':''}
-            $scope.select={'companies':{'selected':undefined}, 'address':{'selected':undefined},'company':{'selected':undefined}, 'addressAttendant':{'selected':undefined}, 'deptos':{}, 'departmentList':{}}
+            $scope.select={'companies':{'selected':undefined}, 'address':{'selected':undefined},'company':{'selected':undefined}, 'addressAttendant':{'selected':undefined}, 'deptos':{}, 'departmentList':{},'phoneCountryMovil':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined}}
             $scope.users={'new':{}, 'update':{}, 'details':{}}
             $scope.register={'user':{}};
             $scope.register.user={'fullNameUser':null, 'emailUser': null, 'phoneNumberUser': null, 'phoneLocalNumberUser': null, 'idAddresKf': null, 'idProfileKf': null, 'idTypeTenantKf': null, 'idCompanyKf': null, 'idTyepeAttendantKf': null, 'descOther': null, 'idDepartmentKf':null, 'isEdit': null, 'requireAuthentication': null, 'dni': null, 'idSysProfileFk': null, 'isCreateByAdmin': null};
@@ -2835,7 +2834,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                             $scope.form.fNewUser.$setPristine();
                             $scope.userDepartamentList = [];
                             $scope.users={'new':{}, 'update':{}, 'details':{}, 'register':{}}
-                            $scope.select={'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'company':{'selected':undefined}, 'addressAttendant':{'selected':undefined}, 'departmentList':{}}
+                            $scope.select={'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'company':{'selected':undefined}, 'addressAttendant':{'selected':undefined}, 'departmentList':{}, 'phoneCountryMovil':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined}}
                             $scope.users.new={'idUser':null,'idProfileKf':{}, 'idSysProfileFk':null, 'fname':'','lname':'', 'dni':'','email':'', 'phonelocalNumberUser':'', 'phoneMovilNumberUser':'', 'idDepartmentKf':null, 'idTypeAttKf':null, 'typeOtherAtt':''}
                             $scope.att={'ownerOption':null};
                             $scope.isNewUser=true;$scope.isUpdateUser=false;
