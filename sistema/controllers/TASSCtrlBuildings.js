@@ -3960,6 +3960,8 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 $scope.attendant.update.idProfileKf            = obj.idProfileKf;
                                 $scope.attendant.update.dni                    = obj.dni;
                                 $scope.attendant.update.fullname               = obj.fullNameUser;
+                                console.log(phoneParsedMovil);
+                                console.log(phoneParsedLocal);
                                 if (phoneParsedMovil || phoneParsedLocal) {
                                     $scope.select.phoneCountryMovil.selected       = phoneParsedMovil.countryCodeTmp;
                                     $scope.select.phoneCountryWired.selected       = phoneParsedLocal.countryCodeTmp;
