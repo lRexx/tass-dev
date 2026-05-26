@@ -2352,6 +2352,8 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             }else{
                                 $scope.getAttendantListFn($scope.select.buildings.selected.idClient);
                             }
+                            $('.input-movil').unmask();
+                            $('.input-local').unmask();
                         }else if (response_tenantRegister.status==404){
                             inform.add('[Error]: '+response_tenantRegister.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
                                 ttl:5000, type: 'warning'
@@ -2633,6 +2635,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 }
                             }
                             $('.input-movil').unmask();
+                            $('.input-local').unmask();
                         }else if (response.status==404){
                                 $timeout(function() {
                                     inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
