@@ -2837,13 +2837,14 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                             $scope.isNewProfileRole=false;$scope.isUpdateProfileRole=false;
                             $scope.sysDNIRegistered = 0;
                             $scope.sysEmailRegistered = 0;
-                            $scope.select.phoneCountryWired.selected    = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
-                            $scope.select.phoneCountryMovil.selected    = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
-                            $scope.users.new.phonelocalPrefixNumber     = "11"
-                            $scope.users.new.phoneMovilPrefixNumber     = "11"
+
                             $("#RegisterUser").modal({backdrop: 'static', keyboard: false});
                             $("#RegisterUser").on('shown.bs.modal', function () {
                               $("#profile").focus();
+                              $scope.select.phoneCountryWired.selected    = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+                              $scope.select.phoneCountryMovil.selected    = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+                              $scope.users.new.phonelocalPrefixNumber     = "11"
+                              $scope.users.new.phoneMovilPrefixNumber     = "11"
                             });
                           break;
                           case "profileRole":
