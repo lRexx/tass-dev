@@ -2634,8 +2634,6 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                     }, 2000);
                                 }
                             }
-                            $('.input-movil').unmask();
-                            $('.input-local').unmask();
                         }else if (response.status==404){
                                 $timeout(function() {
                                     inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
@@ -3683,36 +3681,45 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                     if (!fullNumber || !countryPhoneCodesList || countryPhoneCodesList.length === 0) {
                         return null;
                     }
-                    if (fullNumber.startsWith("0")) {
-                    fullNumber = fullNumber.substring(1);
+
+                    // 1️⃣ Strip ALL leading zeros from the raw input before anything else
+                    while (fullNumber.startsWith("0")) {
+                        fullNumber = fullNumber.substring(1);
                     }
-                    // 1️⃣ Limpiar el número dejando solo el '+' inicial y los dígitos
+
+                    // 2️⃣ Clean the number, keeping only '+' and digits
                     let cleanNumber = fullNumber.replace(/[^\d+]/g, '');
 
-                    // 2️⃣ Encontrar el país correspondiente que coincida al inicio del string
-                    // Ordenamos por longitud descrita para que coincidan primero códigos largos (ej: +1246 antes que +1)
+                    // 3️⃣ Match country by phone code (longest match first)
                     let sortedCountries = [...countryPhoneCodesList].sort((a, b) => b.phoneCode.length - a.phoneCode.length);
                     let matchedCountry = sortedCountries.find(c => cleanNumber.startsWith(c.phoneCode));
 
                     if (!matchedCountry) {
-                        return null; // No se encontró un país válido en la lista
+                        return null;
                     }
 
-                    // 3️⃣ Remover el código de país para procesar el resto del número
+                    // 4️⃣ Extract remaining digits after country code, stripping leading zeros
                     let remaining = cleanNumber.substring(matchedCountry.phoneCode.length);
+
+                    // Strip leading zeros from remaining (e.g. national trunk prefix "0")
+                    while (remaining.startsWith("0")) {
+                        remaining = remaining.substring(1);
+                    }
 
                     let prefixNumber = "";
                     let phoneNumber = "";
 
-                    // 4️⃣ Lógica específica para Argentina (+54)
+                    // 5️⃣ Argentina-specific logic (+54)
                     if (matchedCountry.isoCode === "AR" || matchedCountry.phoneCode === "+54") {
-                        // En Argentina, los prefijos más comunes son de 2 dígitos (11) o 3 dígitos (341, 261, etc)
-                        // Probamos primero con el prefijo AMBA / Buenos Aires que es "11"
                         if (remaining.startsWith("11")) {
                             prefixNumber = "11";
                             let afterPrefix = remaining.substring(2);
 
-                            // Verificamos si incluye el "15" de celular
+                            // Strip leading zeros after prefix too
+                            while (afterPrefix.startsWith("0")) {
+                                afterPrefix = afterPrefix.substring(1);
+                            }
+
                             if (afterPrefix.startsWith("15")) {
                                 phoneNumber = "15" + afterPrefix.substring(2);
                             } else {
@@ -3720,17 +3727,16 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             }
                         } else {
                             let remainingLength = remaining.length;
-                            let cutPosition = 4; // Por defecto asumimos 4 dígitos de prefijo para casos como "3415" que es común en celulares de provincia
-                            // REGLA: Extraer 3 dígitos si el total de "remaining" es igual a 11 o extraer 4 digitos si el total son 12 dígitos
-                                if (remainingLength === 11) {
-                                    cutPosition = 3;
-                                }else
+                            // 11 digits → 3-digit prefix, 12 digits → 4-digit prefix
+                            let cutPosition = remainingLength === 11 ? 3 : 4;
 
-                            // Para otros prefijos de provincias de 3 dígitos (ej: 341, 261)
-                            // Tomamos 3 dígitos como prefijo estándar fuera de BsAs
-                            // Cortamos dinámicamente según la regla anterior
                             prefixNumber = remaining.substring(0, cutPosition);
                             let afterPrefix = remaining.substring(cutPosition);
+
+                            // Strip leading zeros after prefix
+                            while (afterPrefix.startsWith("0")) {
+                                afterPrefix = afterPrefix.substring(1);
+                            }
 
                             if (afterPrefix.startsWith("15")) {
                                 phoneNumber = "15" + afterPrefix.substring(2);
@@ -3739,19 +3745,20 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             }
                         }
                     } else {
-                        // 5️⃣ Lógica genérica para otros países (Mitad prefijo, mitad número como fallback)
+                        // 6️⃣ Generic fallback: split remaining in half
                         let mid = Math.floor(remaining.length / 2);
                         prefixNumber = remaining.substring(0, mid);
                         phoneNumber = remaining.substring(mid);
                     }
 
-                    // Retorna el objeto desarmado listo para asignar a tus variables de $scope
                     return {
                         countryCodeTmp: matchedCountry,
                         prefixNumber: prefixNumber,
                         phoneNumber: phoneNumber
                     };
                 };
+
+
             /**************************************************
             *                                                 *
             *            BUILDING MENU FUNCTION                *
@@ -3931,6 +3938,10 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 $scope.tenant.tmp.dni                       = obj.dni;
                                 $scope.tenant.tmp.email                     = obj.emailUser;
                                 $('#UpdateTenant').modal({backdrop: 'static', keyboard: false});
+                                $('.input-movil').unmask();
+                                $('.input-local').unmask();
+                                $('.input-movil').off('input keydown keyup blur focus');
+                                $('.input-local').off('input keydown keyup blur focus');
                                 $('#UpdateTenant').on('shown.bs.modal', function () {
                                     $('#idTypeTenantKf').focus();
                                     $timeout(function() {
@@ -3989,6 +4000,10 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 }
                                 $timeout(function() {
                                     $('#UpdateAttendant').modal({backdrop: 'static', keyboard: false});
+                                    $('.input-movil').unmask();
+                                    $('.input-local').unmask();
+                                    $('.input-movil').off('input keydown keyup blur focus');
+                                    $('.input-local').off('input keydown keyup blur focus');
                                     $('#UpdateAttendant').on('shown.bs.modal', function () {
                                         $('#idTypeAttKf').focus();
                                         $timeout(function() {
