@@ -4008,7 +4008,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 }, 1000);
                                 $timeout(function() {
                                     console.log($scope.update.user);
-                                    $scope.sysUpdateTenantFn();
+                                    //$scope.sysUpdateTenantFn();
                                 }, 2500);
                             }else if(obj.idProfileKf=="6" && (obj.idTypeTenantKf>=1 || obj.idTypeTenantKf==null)){
                                 blockUI.start('Actualizando encargado.');
@@ -4041,7 +4041,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 }, 1000);
                                 $timeout(function() {
                                     console.log($scope.update.user);
-                                    $scope.sysUpdateTenantFn();
+                                    //$scope.sysUpdateTenantFn();
                                 }, 2500);
                             }
                         break;
