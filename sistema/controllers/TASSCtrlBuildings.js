@@ -3881,6 +3881,11 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.att= {'ownerOption':undefined}
                             $scope.ownerFound                                  = false;
                             console.log(obj);
+                            let phoneParsedMovil = null;
+                            let phoneParsedLocal = null;
+
+                            phoneParsedMovil = $scope.parsePhoneE164(obj.phoneNumberUser, $scope.countryPhoneCodesList);
+                            phoneParsedLocal = $scope.parsePhoneE164(obj.phoneLocalNumberUser, $scope.countryPhoneCodesList);
                             //TENANT & OWNERS / ELSE / ATTENANDANTS
                             if (obj.idProfileKf=="3" || obj.idProfileKf=="5"){
                                 $scope.isNewTenant=false;
@@ -3891,8 +3896,14 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 $scope.tenant.update.idProfileKf            = obj.idProfileKf;
                                 $scope.tenant.update.dni                    = obj.dni;
                                 $scope.tenant.update.fullname               = obj.fullNameUser;
-                                $scope.tenant.update.phoneMovilNumberUser   = obj.phoneNumberUser;
-                                $scope.tenant.update.phonelocalNumberUser   = obj.phoneLocalNumberUser;
+                                if (phoneParsedMovil || phoneParsedLocal) {
+                                    $scope.select.phoneCountryMovil.selected    = phoneParsedMovil.countryCodeTmp;
+                                    $scope.select.phoneCountryWired.selected    = phoneParsedLocal.countryCodeTmp;
+                                    $scope.tenant.update.phoneMovilPrefixNumber = phoneParsedMovil.prefixNumber;
+                                    $scope.tenant.update.phoneMovilNumberUser   = phoneParsedMovil?phoneParsedMovil.phoneNumber:obj.phoneNumberUser;
+                                    $scope.tenant.update.phoneMovilPrefixNumber = phoneParsedLocal.prefixNumber;
+                                    $scope.tenant.update.phonelocalNumberUser   = phoneParsedLocal?phoneParsedLocal.phoneNumber:obj.phoneLocalNumberUser;
+                                }
                                 $scope.tenant.update.idTypeTenantKf         = obj.idTypeTenantKf;
                                 $scope.tenant.update.idTypeTenantKf_tmp     = obj.idTypeTenantKf;
                                 $scope.tenant.update.mail                   = obj.emailUser;
@@ -3919,8 +3930,14 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 $scope.attendant.update.idProfileKf            = obj.idProfileKf;
                                 $scope.attendant.update.dni                    = obj.dni;
                                 $scope.attendant.update.fullname               = obj.fullNameUser;
-                                $scope.attendant.update.phoneMovilNumberUser   = obj.phoneNumberUser;
-                                $scope.attendant.update.phonelocalNumberUser   = obj.phoneLocalNumberUser;
+                                if (phoneParsedMovil || phoneParsedLocal) {
+                                    $scope.select.phoneCountryMovil.selected       = phoneParsedMovil.countryCodeTmp;
+                                    $scope.select.phoneCountryWired.selected       = phoneParsedLocal.countryCodeTmp;
+                                    $scope.attendant.update.phoneMovilPrefixNumber = phoneParsedMovil.prefixNumber;
+                                    $scope.attendant.update.phoneMovilNumberUser   = phoneParsedMovil?phoneParsedMovil.phoneNumber:obj.phoneNumberUser;
+                                    $scope.attendant.update.phoneMovilPrefixNumber = phoneParsedLocal.prefixNumber;
+                                    $scope.attendant.update.phonelocalNumberUser   = phoneParsedLocal?phoneParsedLocal.phoneNumber:obj.phoneLocalNumberUser;
+                                }
                                 $scope.attendant.update.idTypeTenantKf         = obj.idTypeTenantKf;
                                 $scope.attendant.update.idTypeTenantKf_tmp     = obj.idTypeTenantKf;
                                 $scope.attendant.update.email                  = obj.emailUser;
