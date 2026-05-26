@@ -1305,12 +1305,8 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 $scope.register.user.idSysProfileFk          = obj.idSysProfileFk;
                 $scope.register.user.dni                     = obj.dni;
                 $scope.register.user.emailUser               = obj.email;
-                $scope.register.user.phoneLocalNumberUser    = obj.phonelocalNumberUser;
-                $scope.register.user.phoneNumberUser         = obj.phoneMovilNumberUser;
-                $scope.select.phoneCountryWired.selected     = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
-                $scope.select.phoneCountryMovil.selected     = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
-                $scope.register.user.phonelocalPrefixNumber  = "11"
-                $scope.register.user.phoneMovilPrefixNumber  = "11"
+                $scope.register.user.phoneNumberUser        = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberUser);
+                $scope.register.user.phoneLocalNumberUser   = $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,obj.phonelocalPrefixNumber,obj.phonelocalNumberUser);
                 $scope.register.user.isEdit                  = 1;
                 $scope.register.user.isCreateByAdmin         = 1;
                 $scope.register.user.loggedUser              = $scope.sysLoggedUser;
@@ -2841,6 +2837,10 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                             $scope.isNewProfileRole=false;$scope.isUpdateProfileRole=false;
                             $scope.sysDNIRegistered = 0;
                             $scope.sysEmailRegistered = 0;
+                            $scope.select.phoneCountryWired.selected    = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+                            $scope.select.phoneCountryMovil.selected    = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+                            $scope.users.new.phonelocalPrefixNumber     = "11"
+                            $scope.users.new.phoneMovilPrefixNumber     = "11"
                             $("#RegisterUser").modal({backdrop: 'static', keyboard: false});
                             $("#RegisterUser").on('shown.bs.modal', function () {
                               $("#profile").focus();
