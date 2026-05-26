@@ -3694,11 +3694,22 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                     let sortedCountries = [...countryPhoneCodesList].sort((a, b) => b.phoneCode.length - a.phoneCode.length);
                     let matchedCountry = sortedCountries.find(c => cleanNumber.startsWith(c.phoneCode));
 
+                    // 4️ Fallback to default country if no match found
                     if (!matchedCountry) {
-                        return null;
+                        if (defaultIsoCode) {
+                            matchedCountry = countryPhoneCodesList.find(c => c.isoCode === defaultIsoCode);
+                        }
+
+                        // If still nothing, give up
+                        if (!matchedCountry) {
+                            return null;
+                        }
+
+                        // Prepend the country code since the number didn't have it
+                        cleanNumber = matchedCountry.phoneCode + cleanNumber;
                     }
 
-                    // 4️⃣ Extract remaining digits after country code, stripping leading zeros
+                    // 5️⃣ Extract remaining digits after country code, stripping leading zeros
                     let remaining = cleanNumber.substring(matchedCountry.phoneCode.length);
 
                     // Strip leading zeros from remaining (e.g. national trunk prefix "0")
@@ -3709,7 +3720,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                     let prefixNumber = "";
                     let phoneNumber = "";
 
-                    // 5️⃣ Argentina-specific logic (+54)
+                    // 6️⃣ Argentina-specific logic (+54)
                     if (matchedCountry.isoCode === "AR" || matchedCountry.phoneCode === "+54") {
                         if (remaining.startsWith("11")) {
                             prefixNumber = "11";
@@ -3745,7 +3756,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             }
                         }
                     } else {
-                        // 6️⃣ Generic fallback: split remaining in half
+                        // 7️⃣ Generic fallback: split remaining in half
                         let mid = Math.floor(remaining.length / 2);
                         prefixNumber = remaining.substring(0, mid);
                         phoneNumber = remaining.substring(mid);
