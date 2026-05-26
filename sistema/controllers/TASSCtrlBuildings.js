@@ -3650,15 +3650,22 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                     let countryCode = countryCodeTmp.phoneCode;
                     let localNumber = phoneNumber;
 
-                    // 1️⃣ Quitar todo lo que no sea número
+                    // 1️⃣ Quitar todo lo que no sea número (elimina paréntesis, espacios y guiones de la máscara)
                     localNumber = localNumber.replace(/\D/g, '');
 
                     // 2️⃣ Eliminar ceros iniciales
                     localNumber = localNumber.replace(/^0+/, '');
 
+                    // 2.5️⃣ ELIMINAR EL "15" INICIAL (Solo para almacenamiento en Base de Datos)
+                    // Si el número limpio empieza con 15, lo removemos para guardar solo el número de abonado real
+                    if (localNumber.startsWith('15')) {
+                        localNumber = localNumber.substring(2);
+                    }
+
                     // 3️⃣ Quitar + del countryCode
                     countryCode = countryCode.replace('+', '');
 
+                    // Se unifica: Código País + Prefijo de Área (ej: 11) + Número local sin el 15 (ej: 22356388)
                     let fullNumber = '+' + countryCode + prefixNumber + localNumber;
 
                     // 4️⃣ Validar longitud máxima E.164
