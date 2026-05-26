@@ -3819,8 +3819,8 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.register.user.idSysProfileFk         = obj.idSysProfileFk;
                             $scope.register.user.fullNameUser           = obj.fullname;
                             $scope.register.user.emailUser              = obj.mail;
-                            $scope.register.user.phoneNumberUser        = obj.phoneMovilNumberUser;
-                            $scope.register.user.phoneLocalNumberUser   = obj.phonelocalNumberUser;
+                            $scope.register.user.phoneNumberUser        = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberUser);
+                            $scope.register.user.phoneLocalNumberUser   = $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,obj.phonelocalPrefixNumber,obj.phonelocalNumberUser);
                             $scope.register.user.idTyepeAttendantKf     = obj.idProfileKf==6?obj.idTyepeAttendantKf:null;
                             $scope.register.user.dni                    = obj.dni;
                             $scope.register.user.isCreateByAdmin        = $scope.sysLoggedUser.idProfileKf==1 || $scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==4?1:null;
