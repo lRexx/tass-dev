@@ -3989,8 +3989,8 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                     $scope.update.user.idTypeTenantKf              = obj.idTypeTenantKf;
                                     $scope.update.user.fullNameUser                = obj.fullname;
                                     $scope.update.user.emailUser                   = obj.mail;
-                                    $scope.update.user.phoneLocalNumberUser        = obj.phonelocalNumberUser;
-                                    $scope.update.user.phoneNumberUser             = obj.phoneMovilNumberUser;
+                                    $scope.update.user.phoneNumberUser             = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberUser);
+                                    $scope.update.user.phoneLocalNumberUser        = $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,obj.phonelocalPrefixNumber,obj.phonelocalNumberUser);
                                     $scope.update.user.isEdit                      = 1;
                                     $scope.update.user.loggedUser                  = $scope.sysLoggedUser;
                                     $scope.update.user.idAddresKf                  = ($scope.update.user.idProfileKf==4 || $scope.update.user.idProfileKf==5) && ($scope.update.user.idTypeTenantKf!=null || $scope.update.user.idTypeTenantKf!=0)?obj.idAddresKf:null;
@@ -4017,8 +4017,8 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                     $scope.update.user.idTypeTenantKf              = $scope.att.ownerOption==undefined || $scope.att.ownerOption==null || $scope.att.ownerOption==3 || obj.idTypeAttKf.idTyepeAttendant==1?null:$scope.att.ownerOption;
                                     $scope.update.user.fullNameUser                = obj.fullname;
                                     $scope.update.user.emailUser                   = obj.email;
-                                    $scope.update.user.phoneLocalNumberUser        = obj.phonelocalNumberUser;
-                                    $scope.update.user.phoneNumberUser             = obj.phoneMovilNumberUser;
+                                    $scope.update.user.phoneNumberUser             = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberUser);
+                                    $scope.update.user.phoneLocalNumberUser        = $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,obj.phonelocalPrefixNumber,obj.phonelocalNumberUser);
                                     $scope.update.user.idAddresKf                  = (obj.idProfileKf==6) && $scope.att.ownerOption!=null || $scope.att.ownerOption!=0?obj.idAddresKf:null;
                                     $scope.update.user.idDepartmentKf              = $scope.sysSubContent=="departments" && (obj.idProfileKf==6) && $scope.update.user.idTypeTenantKf==2 && $scope.att.ownerOption!=3 && obj.idTypeAttKf.idTyepeAttendant!=1?$scope.idDeptoKf:null;
                                     $scope.update.user.idDeparment_Tmp             = $scope.sysSubContent=="departments" && (obj.idProfileKf==6) && $scope.update.user.idTypeTenantKf==1 && $scope.att.ownerOption!=3 && obj.idTypeAttKf.idTyepeAttendant!=1?$scope.idDeptoKf:null;
