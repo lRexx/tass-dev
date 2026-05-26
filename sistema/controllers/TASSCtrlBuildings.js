@@ -3714,10 +3714,18 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 phoneNumber = afterPrefix;
                             }
                         } else {
+                            let remainingLength = remaining.length;
+                            let cutPosition = 4; // Por defecto asumimos 4 dígitos de prefijo para casos como "3415" que es común en celulares de provincia
+                            // REGLA: Extraer 3 dígitos si el total de "remaining" es igual a 11 o extraer 4 digitos si el total son 12 dígitos
+                                if (remainingLength === 11) {
+                                    cutPosition = 3;
+                                }else
+
                             // Para otros prefijos de provincias de 3 dígitos (ej: 341, 261)
                             // Tomamos 3 dígitos como prefijo estándar fuera de BsAs
-                            prefixNumber = remaining.substring(0, 3);
-                            let afterPrefix = remaining.substring(3);
+                            // Cortamos dinámicamente según la regla anterior
+                            prefixNumber = remaining.substring(0, cutPosition);
+                            let afterPrefix = remaining.substring(cutPosition);
 
                             if (afterPrefix.startsWith("15")) {
                                 phoneNumber = "15" + afterPrefix.substring(2);
