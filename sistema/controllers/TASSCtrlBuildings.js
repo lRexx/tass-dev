@@ -3934,11 +3934,11 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 console.log(phoneParsedMovil);
                                 console.log(phoneParsedLocal);
                                 if (phoneParsedMovil || phoneParsedLocal) {
-                                    $scope.select.phoneCountryMovil.selected    = phoneParsedMovil.countryCodeTmp;
-                                    $scope.select.phoneCountryWired.selected    = phoneParsedLocal.countryCodeTmp;
-                                    $scope.tenant.update.phoneMovilPrefixNumber = phoneParsedMovil.prefixNumber;
+                                    $scope.select.phoneCountryMovil.selected    = phoneParsedMovil==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedMovil.countryCodeTmp;
+                                    $scope.select.phoneCountryWired.selected    = phoneParsedLocal==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedLocal.countryCodeTmp;
+                                    $scope.tenant.update.phoneMovilPrefixNumber = phoneParsedMovil==null?"11":phoneParsedMovil.prefixNumber;
                                     $scope.tenant.update.phoneMovilNumberUser   = phoneParsedMovil?phoneParsedMovil.phoneNumber:obj.phoneNumberUser;
-                                    $scope.tenant.update.phonelocalPrefixNumber = phoneParsedLocal.prefixNumber;
+                                    $scope.tenant.update.phonelocalPrefixNumber = phoneParsedLocal==null?"11":phoneParsedLocal.prefixNumber;
                                     $scope.tenant.update.phonelocalNumberUser   = phoneParsedLocal?phoneParsedLocal.phoneNumber:obj.phoneLocalNumberUser;
                                 }
                                 $scope.tenant.update.idTypeTenantKf         = obj.idTypeTenantKf;
@@ -3977,12 +3977,12 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 console.log(phoneParsedMovil);
                                 console.log(phoneParsedLocal);
                                 if (phoneParsedMovil || phoneParsedLocal) {
-                                    $scope.select.phoneCountryMovil.selected       = phoneParsedMovil.countryCodeTmp;
-                                    $scope.select.phoneCountryWired.selected       = phoneParsedLocal.countryCodeTmp;
-                                    $scope.attendant.update.phoneMovilPrefixNumber = phoneParsedMovil.prefixNumber;
-                                    $scope.attendant.update.phoneMovilNumberUser   = phoneParsedMovil?phoneParsedMovil.phoneNumber:obj.phoneNumberUser;
-                                    $scope.attendant.update.phonelocalPrefixNumber = phoneParsedLocal.prefixNumber;
-                                    $scope.attendant.update.phonelocalNumberUser   = phoneParsedLocal?phoneParsedLocal.phoneNumber:obj.phoneLocalNumberUser;
+                                    $scope.select.phoneCountryMovil.selected        = phoneParsedMovil==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedMovil.countryCodeTmp;
+                                    $scope.select.phoneCountryWired.selected        = phoneParsedLocal==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedLocal.countryCodeTmp;
+                                    $scope.attendant.update.phoneMovilPrefixNumber  = phoneParsedMovil==null?"11":phoneParsedMovil.prefixNumber;
+                                    $scope.attendant.update.phoneMovilNumberUser    = phoneParsedMovil?phoneParsedMovil.phoneNumber:obj.phoneNumberUser;
+                                    $scope.attendant.update.phonelocalPrefixNumber  = phoneParsedLocal==null?"11":phoneParsedLocal.prefixNumber;
+                                    $scope.attendant.update.phonelocalNumberUser    = phoneParsedLocal?phoneParsedLocal.phoneNumber:obj.phoneLocalNumberUser;
                                 }
                                 $scope.attendant.update.idTypeTenantKf         = obj.idTypeTenantKf;
                                 $scope.attendant.update.idTypeTenantKf_tmp     = obj.idTypeTenantKf;
