@@ -3935,7 +3935,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                     $scope.select.phoneCountryWired.selected       = phoneParsedLocal.countryCodeTmp;
                                     $scope.attendant.update.phoneMovilPrefixNumber = phoneParsedMovil.prefixNumber;
                                     $scope.attendant.update.phoneMovilNumberUser   = phoneParsedMovil?phoneParsedMovil.phoneNumber:obj.phoneNumberUser;
-                                    $scope.attendant.update.phoneMovilPrefixNumber = phoneParsedLocal.prefixNumber;
+                                    $scope.attendant.update.phoneLocalPrefixNumber = phoneParsedLocal.prefixNumber;
                                     $scope.attendant.update.phonelocalNumberUser   = phoneParsedLocal?phoneParsedLocal.phoneNumber:obj.phoneLocalNumberUser;
                                 }
                                 $scope.attendant.update.idTypeTenantKf         = obj.idTypeTenantKf;
