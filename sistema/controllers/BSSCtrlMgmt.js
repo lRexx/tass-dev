@@ -422,6 +422,31 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   }
                 }
               break;
+              case "setDeliveryInOfficePending":
+                if (confirm==0){
+                  $scope.keyObj=obj;
+                  console.log($scope.keyObj);
+                  if ($scope.keyObj.ticket.idNewStatusKf== "7"){
+                    $scope.mess2show="El Pedido pasara automaticamente a \"Listo para Retirar\",     Confirmar?";
+                  }else{
+                    $scope.mess2show="El Pedido permanece \"En Preparación\", pendiente habilitación de llaveros,     Confirmar?";
+                  }
+                  console.log($scope.mess2show);
+                  $timeout(function() {
+                    $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
+                  }, 1500);
+                }else if (confirm==1){
+                  console.log($scope.keyObj);
+                    $scope.keyObj.ticket.newTicketStatus={'idStatus':null};
+                    $scope.keyObj.ticket.newTicketStatus.idStatus = "7";
+                    console.log($scope.keyObj.ticket);
+                    $scope.mainSwitchFn('apply_change_ticket_status_single', $scope.keyObj.ticket, null);
+                $('#confirmRequestModalCustom').modal('hide');
+                }else if (confirm==null){
+                  $('#confirmRequestModalCustom').modal('toggle');
+                  $scope.tkupdate.idStatusTicketKf    = $scope.tkupdate.idStatusTicketKf
+                }
+              break;
               case "ticketDelivered":
                 if (confirm==0){
                   $scope.keyObj=obj;
@@ -515,7 +540,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.update.ticket = {};
                   $scope.update.ticket = $scope.keyObj;
                   $scope.update.ticket.newTicketStatus = {'idStatus':null}
-                  $scope.update.ticket.newTicketStatus.idStatus = "1";
+                  $scope.update.ticket.newTicketStatus.idStatus = "13";
                   $scope.mainSwitchFn('ticketDisabledKeys', $scope.update.ticket, null);
                   $('#confirmRequestModalCustom').modal('hide');
                 }
@@ -3118,7 +3143,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $scope.monitor.filter.isHasRefundsOpen        = $scope.filters.isHasRefundsOpen?1:0;
               break;
             }
-            console.log($scope.filters.ticketStatus);
+            console.info($scope.slider.value);
+            $scope.filters.topDH = $scope.slider.value!=null && $scope.slider.value!=undefined?$scope.slider.value:10;
+            console.log($scope.filters);
             $scope.mainSwitchFn('search', null);
           }
           $scope.isAssignButtonDisabled = function() {
@@ -3226,7 +3253,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     //  //console.log($scope.listCompany);
                     //});
                   console.log($scope.sysLoggedUser);
-                  $scope.filters.topDH="10";
+                  $scope.filters.topDH                        = "10";
                   $scope.monitor.filter.idProfileKf           = $scope.sysLoggedUser.idProfileKf;
                   $scope.monitor.filter.isBillingInitiated    = 1;
                   $scope.monitor.filter.isBillingUploaded     = null;
@@ -4308,7 +4335,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         }
                       break;
                     }
-
                       var idKeychainStatusKf                  = 1;
                   break;
                   case "2":
@@ -4717,14 +4743,14 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           ttl:6000, type: 'warning'
                         });
                         $scope.update.ticket.idStatusTicketKf       = "3";
-                      }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo!=obj.delivery.idDeliveryTo && obj.cost.delivery!=undefined && obj.cost.delivery!=null && ($scope.costDelivery==null || $scope.costDelivery==0) && obj.cost.delivery>0){
+                      }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo!=obj.delivery.idDeliveryTo && obj.cost.delivery!=undefined && obj.cost.delivery!=null && ($scope.costDelivery==null || num($scope.costDelivery)==0) && num(obj.cost.delivery)>0){
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
                         $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"17"});
                         inform.add('Se adicionaran ($ '+obj.cost.delivery+'), por concepto de envío, al costo total de su pedido, BSS Seguridad.',{
                           ttl:6000, type: 'warning'
                         });
                         $scope.update.ticket.idStatusTicketKf       = "3";
-                      }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo!=obj.delivery.idDeliveryTo && obj.cost.delivery!=undefined && obj.cost.delivery!=null && $scope.costDelivery!=null && $scope.costDelivery>0 && obj.cost.delivery>0 && obj.cost.delivery>$scope.costDelivery){
+                      }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo!=obj.delivery.idDeliveryTo && obj.cost.delivery!=undefined && obj.cost.delivery!=null && $scope.costDelivery!=null && Number($scope.costDelivery)>0 && Number(obj.cost.delivery)>0 && Number(obj.cost.delivery)>Number($scope.costDelivery)){
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
                         $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"17"});
                         $scope.subTotalDelivery = 0;
@@ -4735,7 +4761,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           ttl:6000, type: 'warning'
                         });
                         $scope.update.ticket.idStatusTicketKf       = "3";
-                      }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo!=obj.delivery.idDeliveryTo && obj.cost.delivery!=undefined && obj.cost.delivery!=null && $scope.costDelivery!=null && $scope.costDelivery>0 && obj.cost.delivery>0 && obj.cost.delivery<$scope.costDelivery){
+                      }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo!=obj.delivery.idDeliveryTo && obj.cost.delivery!=undefined && obj.cost.delivery!=null && $scope.costDelivery!=null && Number($scope.costDelivery)>0 && obj.cost.delivery>0 && Number(obj.cost.delivery)<Number($scope.costDelivery)){
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
                         $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"16"});
                         $scope.subTotalRefunDelivery = 0;
@@ -4745,7 +4771,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         inform.add('El pedido '+obj.codTicket+' tendra un descuento de ($ '+$scope.subTotalRefunDelivery+') por envío, BSS Seguridad.',{
                           ttl:12000, type: 'info'
                         });
-                      }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo==obj.delivery.idDeliveryTo && obj.cost.delivery==obj.selected.costDelivery){
+                      }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo==obj.delivery.idDeliveryTo && Number(obj.cost.delivery)==Number(obj.selected.costDelivery)){
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
                         inform.add('No se registran costos adicionales, por concepto de envío, al costo total de su pedido, BSS Seguridad.',{
                           ttl:6000, type: 'info'
@@ -4761,9 +4787,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       if (obj.selected.idTypeDeliveryKf!=obj.delivery.idTypeDeliveryKf && obj.delivery.idTypeDeliveryKf=="1"){
                         if((obj.selected.paymentDetails!=undefined && obj.selected.paymentDetails!=null) && obj.selected.paymentDetails.mp_collection_status=='approved' && obj.selected.paymentDetails.mp_status_detail=='accredited'){
                           $scope.update.ticket.refund = [];
-                          $scope.update.ticket.refund.push({'idTicketKf': obj.selected.idTicket, 'idRefundTypeKf':'1',  'description':'',  'refundAmount':obj.selected.costDelivery});
                           $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
                           if ((num($scope.costDelivery)!=null || num($scope.costDelivery)>0) && num(obj.cost.delivery)>0){
+                            $scope.update.ticket.refund.push({'idTicketKf': obj.selected.idTicket, 'idRefundTypeKf':'1',  'description':'',  'refundAmount':obj.selected.costDelivery});
                             $scope.update.ticket.isHasRefundsOpen = 1;
                             $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"15"});
                             inform.add('Se realizara un reintegro de ($ '+obj.selected.costDelivery+'), del costo inicial de su pedido, BSS Seguridad.',{
@@ -4817,7 +4843,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             console.log($scope.update.ticket.idStatusTicketKf);
                             $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                         }
-                      }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo!=obj.delivery.idDeliveryTo && obj.cost.delivery!=undefined && obj.cost.delivery!=null && ($scope.costDelivery==null || $scope.costDelivery==0) && obj.cost.delivery>0){
+                      }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo!=obj.delivery.idDeliveryTo && obj.cost.delivery!=undefined && obj.cost.delivery!=null && ($scope.costDelivery==null || Number($scope.costDelivery)==0) && Number(obj.cost.delivery)>0){
                         if((obj.selected.paymentDetails!=undefined && obj.selected.paymentDetails!=null) && obj.selected.paymentDetails.mp_collection_status=='approved' && obj.selected.paymentDetails.mp_status_detail=='accredited'){
                           console.info(obj.cost);
                           //console.info(obj.cost);
@@ -4839,7 +4865,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           console.log($scope.update.ticket.idStatusTicketKf);
                           $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                         }
-                      }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo!=obj.delivery.idDeliveryTo && obj.cost.delivery!=undefined && obj.cost.delivery!=null && $scope.costDelivery!=null && $scope.costDelivery>0 && obj.cost.delivery>0 && obj.cost.delivery>$scope.costDelivery){
+                      }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo!=obj.delivery.idDeliveryTo && obj.cost.delivery!=undefined && obj.cost.delivery!=null && $scope.costDelivery!=null && Number($scope.costDelivery)>0 && Number(obj.cost.delivery)>0 && Number(obj.cost.delivery)>Number($scope.costDelivery)){
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
                         $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"17"});
                         $scope.subTotalDelivery = 0;
@@ -4863,7 +4889,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                           $scope.update.ticket.createNewMPLink        = true;
                         }
-                      }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo!=obj.delivery.idDeliveryTo && obj.cost.delivery!=undefined && obj.cost.delivery!=null && $scope.costDelivery!=null && $scope.costDelivery>0 && obj.cost.delivery>0 && obj.cost.delivery<$scope.costDelivery){
+                      }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo!=obj.delivery.idDeliveryTo && obj.cost.delivery!=undefined && obj.cost.delivery!=null && $scope.costDelivery!=null && Number($scope.costDelivery)>0 && Number(obj.cost.delivery)>0 && Number(obj.cost.delivery)<Number($scope.costDelivery)){
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
                         $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"16"});
                         $scope.subTotalRefunDelivery  = 0;
@@ -4891,7 +4917,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           console.log($scope.update.ticket.idStatusTicketKf);
                           $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                         }
-                      }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo==obj.delivery.idDeliveryTo && obj.cost.delivery==obj.selected.costDelivery){
+                      }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo==obj.delivery.idDeliveryTo && Number(obj.cost.delivery)==Number(obj.selected.costDelivery)){
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
                         inform.add('No se registran costos adicionales, por concepto de envío, al costo total de su pedido, BSS Seguridad.',{
                           ttl:6000, type: 'info'
@@ -4998,6 +5024,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         console.log("SE MODIFICA Status");
                         $scope.update.ticket.idStatusTicketKf="7"
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"46"});
+                        if(obj.selected.building.isHasInternetOnline === null){ //NO INTERNET
+                          $scope.update.ticket.whereKeysAreEnable=obj.selected.whereKeysAreEnable==null?"2":obj.selected.whereKeysAreEnable;
+                        }else{
+                          $scope.update.ticket.whereKeysAreEnable=obj.selected.whereKeysAreEnable==null?"1":obj.selected.whereKeysAreEnable;
+                        }
                       }
                       if ($scope.update.ticket.idTypeDeliveryKf=="2"){
                         console.log("SE MODIFICA Status");
@@ -5013,10 +5044,20 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                               case "6":
                                     if (obj.selected.building.isStockInBuilding == "1"){$scope.update.ticket.idDeliveryCompanyKf="3";}
                                     if (obj.selected.building.isStockInOffice == "1"){$scope.update.ticket.idDeliveryCompanyKf="1";}
+                                    if(obj.selected.building.isHasInternetOnline === null){ //NO INTERNET
+                                      $scope.update.ticket.whereKeysAreEnable="2"
+                                    }else{
+                                      $scope.update.ticket.whereKeysAreEnable="1"
+                                    }
                               break;
                               case "4":
                                 if (obj.selected.building.isStockInBuilding == "1"){$scope.update.ticket.idDeliveryCompanyKf="3";}
                                 if (obj.selected.building.isStockInOffice == "1"){$scope.update.ticket.idDeliveryCompanyKf="1";}
+                                    if(obj.selected.building.isHasInternetOnline === null){ //NO INTERNET
+                                      $scope.update.ticket.whereKeysAreEnable="2"
+                                    }else{
+                                      $scope.update.ticket.whereKeysAreEnable="1"
+                                    }
                               break;
                             }
                           break;
@@ -5032,10 +5073,20 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                       }else{
                                         $scope.update.ticket.idDeliveryCompanyKf="2";
                                       }
+                                      if(obj.selected.building.isHasInternetOnline === null){ //NO INTERNET
+                                        $scope.update.ticket.whereKeysAreEnable="2"
+                                      }else{
+                                        $scope.update.ticket.whereKeysAreEnable="1"
+                                      }
                                     }
                               break;
                               case "2":
                                 $scope.update.ticket.idDeliveryCompanyKf="2";
+                                if(obj.selected.building.isHasInternetOnline === null){ //NO INTERNET
+                                  $scope.update.ticket.whereKeysAreEnable="2"
+                                }else{
+                                  $scope.update.ticket.whereKeysAreEnable="1"
+                                }
                               break;
                             }
                           break;
@@ -5056,7 +5107,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $('#UpdateModalTicket').modal('hide');
                   //$('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
                   $timeout(function() {
-                    //$scope.updateUpRequestFn($scope.update);
+                    $scope.updateUpRequestFn($scope.update);
                   }, 2000);
                   //$scope.ticket = {'administration':undefined, 'idTypeRequestFor':null, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'userRequestBy':{}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':null, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
                   //$scope.ticket.building              = obj.building;
@@ -5368,6 +5419,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 break;
                 case '5':
                   $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"43"});
+                break;
+                case '7':
+                  $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"46"});
                 break;
               }
               console.log($scope.update);
@@ -7280,7 +7334,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     });
 
                   if (city.toUpperCase()=="CIUDAD AUTONOMA DE BUENOS AIRES"){
-                    var newLocation = "CABA";
+                    //var newLocation = "CABA";
+                    var newLocation = location;
                   }else{
                     var newLocation = location;
                   }
