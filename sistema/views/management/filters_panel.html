@@ -166,19 +166,19 @@
                     </div>
                     <div class="clearfix"> </div>
                     <!-- Filter Type of Ticket for Onwer User-->
-                    <div ng-if="sysLoggedUser.idProfileKf!=2 && sysLoggedUser.idProfileKf!=1" class="form-group col-md-6 col-xs-12">
-                        <label>Tipo de Ticket</label>
+                    <div ng-if="sysLoggedUser.idProfileKf!=2 && sysLoggedUser.idProfileKf!=1" class="form-group col-md-3 col-xs-12">
+                        <label>Dispositivos</label>
                         <div class="col-xl-12 selectContainer">
                         <div class="input-group">
                                 <span class="input-group-addon"><i class="fas fa-tag"></i></span>
-                                <select name="idTypeTicketKf" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="item as item.TypeTicketName for item in listTypeTicket | filter:differentThan" ng-required="sysLoggedUser.idProfileKf!=2 && sysLoggedUser.idProfileKf!=1" ng-model="filters.typeTicket"  >
+                                <select name="deviceTypeKf" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="item as item.deviceName for item in rsTicketDevicesType" ng-required="sysLoggedUser.idProfileKf!=2 && sysLoggedUser.idProfileKf!=1" ng-model="filters.deviceType"  >
                                 <option value="">Todos</option>
                                 </select>
                         </div>
                         </div>
                     </div>
                     <!-- Filter Type of Ticket for Sys User-->
-                    <div ng-if="sysLoggedUser.idProfileKf==1" class="form-group col-md-4 col-xs-12" ng-class="
+                    <div ng-if="sysLoggedUser.idProfileKf==1" class="form-group col-md-3 col-xs-12" ng-class="
                     {	'has-success':
                         filters.typeTicket.idTypeTicket!='' && filtersTicket.typeTicket.$valid,
                     }">
@@ -193,7 +193,7 @@
                         </div>
                     </div>
                     <!-- Filter Type of Status-->
-                    <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-4 col-xs-12" ng-class="
+                    <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-3 col-xs-12" ng-class="
                         {	'has-success':
                             filters.ticketStatus.idStatus!='' && filtersTicket.ticketStatus.$valid,
                         }">
@@ -208,7 +208,7 @@
                         </div>
                     </div>
                     <!-- Filter Type of Delivery-->
-                    <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-4 col-xs-12" ng-class="
+                    <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-3 col-xs-12" ng-class="
                         {	'has-success':
                             filters.typDelivery.idTypeDelivery!='' && filtersTicket.typDelivery.$valid,
                         }">

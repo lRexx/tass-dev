@@ -747,6 +747,29 @@
               }
               });
           };
+        /**************************************************
+        *                                                 *
+        *              LIST DEVICES TYPES                 *
+        *                                                 *
+        **************************************************/
+            $scope.rsTicketDevicesType = [];
+            $scope.getTicketDevicesTypeFn = function(){
+                $scope.rsTicketDevicesType = [];
+                //console.log("Getting --> TicketDevicesTypeFn");
+                ticketServices.getTicketDevicesTypeServices().then(function(response){
+                    console.log(response.data);
+                    if(response.status==200){
+                        $scope.rsTicketDevicesType = response.data;
+                    }else if (response.status==404){
+                        $scope.rsTicketDevicesType = [];
+                    }else if (response.status==500){
+                        inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                            ttl:5000, type: 'danger'
+                        });
+                    }
+                });
+                //console.log($scope.rsTicketDevicesType);
+            }
           $scope.fnLoadPhoneMask = function(){
             /**********************************************
             *               INPUT PHONE MASK              *
@@ -1294,6 +1317,7 @@
           $scope.getInternetTypesFn();
           $scope.CallFilterFormU();
           $scope.getCountryPhoneCodesFn();
+          $scope.getTicketDevicesTypeFn();
           $scope.fnLoadPhoneMask();
           $timeout(function() {
             inform.add('Bienvenido Sr/a '+ $scope.sysLoggedUser.fullNameUser,{
