@@ -1,7 +1,7 @@
   /**
    * Menu Controller
    */
-  var menu = angular.module("module.Menu", ["tokenSystem", "angular.filter", "services.Customers", "services.Address", "services.User", "services.Profiles", "services.Utilities"]);
+  var menu = angular.module("module.Menu", ["tokenSystem", "angular.filter", "services.Customers", "services.Address", "services.Ticket", "services.User", "services.Profiles", "services.Utilities"]);
   menu.directive('allowTyping', function () {
     return {
       restrict : 'A',
@@ -53,7 +53,7 @@
       }
     };
   });
-  menu.controller('MenuCtrl', function($scope, $cookies, $http, $location, $routeParams, $document, $interval, blockUI, $timeout, inform, inputService, CustomerServices, userServices, ProfileServices, tokenSystem, addressServices, UtilitiesServices, $window, $filter,serverHost, serverBackend, APP_SYS, APP_REGEX){
+  menu.controller('MenuCtrl', function($scope, $cookies, $http, $location, $routeParams, $document, $interval, blockUI, $timeout, inform, ticketServices, inputService, CustomerServices, userServices, ProfileServices, tokenSystem, addressServices, UtilitiesServices, $window, $filter,serverHost, serverBackend, APP_SYS, APP_REGEX){
       //if ($location.path() == "/login"){console.log($location.path());}
       console.log("Bienvenido al sistema de "+APP_SYS.app_name);
       console.log("Version v"+APP_SYS.version);
