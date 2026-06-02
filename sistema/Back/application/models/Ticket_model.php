@@ -4811,6 +4811,64 @@ class Ticket_model extends CI_Model
 
 		return $rs;
 	}
+
+	public function syncPostBillingCron()
+	{
+		log_message('info', ':::::::::::::::::syncBillingCompletedCron START');
+
+		try {
+
+			// Ejecutar Stored Procedure en modo real (FALSE = aplica cambios)
+			$query = $this->db->query("CALL sp_sync_billing_completed(TRUE)");
+
+			$result = $query->row_array();
+
+			// Liberar resultados del SP
+			$query->next_result();
+			$query->free_result();
+
+			$ticketsAffected = isset($result['tb_tickets_2_affected'])
+				? $result['tb_tickets_2_affected']
+				: 0;
+
+			$billingAffected = isset($result['tb_tickets_billing_affected'])
+				? $result['tb_tickets_billing_affected']
+				: 0;
+
+			$message = sprintf(
+				'Proceso syncBillingCompleted ejecutado correctamente. Tickets actualizados: %s. Billing actualizados: %s.',
+				$ticketsAffected,
+				$billingAffected
+			);
+
+			log_message('info', $message);
+
+			// Registrar evento
+			$this->addEventLog(
+				null,
+				null,
+				'syncBillingCompletedCron',
+				$message
+			);
+
+			return true;
+
+		} catch (Exception $e) {
+
+			$message = 'Error ejecutando syncBillingCompletedCron: ' . $e->getMessage();
+
+			log_message('error', $message);
+
+			$this->addEventLog(
+				null,
+				null,
+				'syncBillingCompletedCron',
+				$message
+			);
+
+			return false;
+		}
+	}
 }
 ?>
 
