@@ -4643,7 +4643,7 @@ class Ticket_model extends CI_Model
 	{
 		$now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));
 		$this->db->insert(
-			'event_log',
+			'tb_event_log',
 			[
 				'event_name' => $eventName,
 				'idTicketKf' => $id,
@@ -4653,7 +4653,7 @@ class Ticket_model extends CI_Model
 			]
 		);
 		if ($this->db->affected_rows() === 1) {
-			return true;
+			return $this->db->insert_id(); // 🔥
 		} else {
 			return false;
 		}
@@ -4730,7 +4730,7 @@ class Ticket_model extends CI_Model
 									log_message('info', 'PostBillingTicket Ticket ' . $ticket['codTicket'] . ' ID:' . $ticket['idTicket'] . ' isPostBilled updated successfully in tb_tickets_billing.');
 									$msg = "Pedido " . $ticket['codTicket'] . " de tb_tickets_billing procesado y actualizado campo isPostBilled satisfactoriamente";
 									if ($this->addEventLog($ticket['idTicket'], $ticket['codTicket'], "postTicketBillingProcess", $msg)) {
-										log_message('info', 'PostBillingTicket Ticket ' . $ticket['codTicket'] . ' ID:' . $ticket['idTicket'] . ' event_log entry added successfully.');
+										log_message('info', 'PostBillingTicket Ticket ' . $ticket['codTicket'] . ' ID:' . $ticket['idTicket'] . ' tb_event_log entry added successfully.');
 									}
 								}
 							}
@@ -4751,7 +4751,7 @@ class Ticket_model extends CI_Model
 					}
 					$msg = "Pedido " . $ticket['codTicket'] . " Factura " . $fileName . " no encontrada en el directorio /facturas";
 					if ($this->addEventLog($ticket['idTicket'], $ticket['codTicket'], "postTicketBillingProcess", $msg)) {
-						log_message('info', 'PostBillingTicket Ticket ' . $ticket['codTicket'] . ' ID: ' . $ticket['idTicket'] . ' event_log entry added successfully.');
+						log_message('info', 'PostBillingTicket Ticket ' . $ticket['codTicket'] . ' ID: ' . $ticket['idTicket'] . ' tb_event_log entry added successfully.');
 					}
 				}
 			}
@@ -4814,19 +4814,30 @@ class Ticket_model extends CI_Model
 
 	public function syncPostBillingCron()
 	{
-		log_message('info', ':::::::::::::::::syncBillingCompletedCron START');
+		log_message('info', '::::::::::::::::: syncPostBillingCron START');
 
 		try {
 
-			// Ejecutar Stored Procedure en modo real (FALSE = aplica cambios)
-			$query = $this->db->query("CALL sp_sync_billing_completed(TRUE)");
+			$message = 'Inicio sync billing completed cron';
 
-			$result = $query->result_array();
+			$eventId = $this->addEventLog(
+				null,
+				null,
+				'syncBillingCompletedCron',
+				$message
+			);
 
-			// Liberar resultado
+			if (!$eventId) {
+				throw new Exception('No se pudo crear event log');
+			}
+
+			$query = $this->db->query(
+				"CALL sp_sync_billing_completed(TRUE, " . (int)$eventId . ")"
+			);
+
+			$resultRow = $query->row_array();
 			$query->free_result();
 
-			// Limpiar resultados pendientes del SP
 			while ($this->db->conn_id->more_results()) {
 				$this->db->conn_id->next_result();
 				$extraResult = $this->db->conn_id->store_result();
@@ -4835,44 +4846,33 @@ class Ticket_model extends CI_Model
 				}
 			}
 
-			$ticketsAffected = isset($result['tb_tickets_2_affected'])
-				? $result['tb_tickets_2_affected']
-				: 0;
+			$ticketsAffected = $resultRow['tb_tickets_2_affected'] ?? 0;
+			$billingAffected = $resultRow['tb_tickets_billing_affected'] ?? 0;
+			$status = $resultRow['status'] ?? 'UNKNOWN';
 
-			$billingAffected = isset($result['tb_tickets_billing_affected'])
-				? $result['tb_tickets_billing_affected']
-				: 0;
-
-			$message = sprintf(
-				'Proceso syncBillingCompleted ejecutado correctamente. Tickets actualizados: %s. Billing actualizados: %s.',
+			$finalMessage = sprintf(
+				'syncBillingCompleted %s. Tickets: %d. Billing: %d. EventID: %d',
+				$status,
 				$ticketsAffected,
-				$billingAffected
+				$billingAffected,
+				$eventId
 			);
 
-			log_message('info', $message);
+			log_message('info', $finalMessage);
 
-			// Registrar evento
-			$this->addEventLog(
-				null,
-				null,
-				'syncBillingCompletedCron',
-				$message
-			);
+			// opcional: actualizar mensaje final del evento
+			$this->db->where('idEvent', $eventId);
+			$this->db->update('tb_event_log', [
+				'message' => $finalMessage
+			]);
 
 			return true;
 
 		} catch (Exception $e) {
 
-			$message = 'Error ejecutando syncBillingCompletedCron: ' . $e->getMessage();
+			$errorMsg = 'Error syncPostBillingCron: ' . $e->getMessage();
 
-			log_message('error', $message);
-
-			$this->addEventLog(
-				null,
-				null,
-				'syncBillingCompletedCron',
-				$message
-			);
+			log_message('error', $errorMsg);
 
 			return false;
 		}
