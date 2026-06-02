@@ -4821,11 +4821,19 @@ class Ticket_model extends CI_Model
 			// Ejecutar Stored Procedure en modo real (FALSE = aplica cambios)
 			$query = $this->db->query("CALL sp_sync_billing_completed(TRUE)");
 
-			$result = $query->row_array();
+			$result = $query->result_array();
 
-			// Liberar resultados del SP
-			$query->next_result();
+			// Liberar resultado
 			$query->free_result();
+
+			// Limpiar resultados pendientes del SP
+			while ($this->db->conn_id->more_results()) {
+				$this->db->conn_id->next_result();
+				$extraResult = $this->db->conn_id->store_result();
+				if ($extraResult instanceof mysqli_result) {
+					$extraResult->free();
+				}
+			}
 
 			$ticketsAffected = isset($result['tb_tickets_2_affected'])
 				? $result['tb_tickets_2_affected']
