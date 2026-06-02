@@ -753,7 +753,7 @@ class Ticket extends REST_Controller
         }
     }
 
-    public function cronPostSyncBilling()
+    public function cronPostSyncBilling_get()
     {
 
         $headers = $this->input->request_headers();
