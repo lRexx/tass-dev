@@ -4832,7 +4832,7 @@ class Ticket_model extends CI_Model
 			}
 
 			$query = $this->db->query(
-				"CALL sp_sync_billing_completed(TRUE, " . (int)$eventId . ")"
+				"CALL sp_sync_billing_completed(FALSE, " . (int)$eventId . ")"
 			);
 
 			$resultRow = $query->row_array();
