@@ -26,7 +26,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
     $scope.wLoader  = true;
      $timeout(function() {
        $('#loader').fadeOut();
-       $('#wLoader').delay(350).fadeOut('slow'); 
+       $('#wLoader').delay(350).fadeOut('slow');
        $scope.wLoader  = false;
      }, 5500);
    }
@@ -50,7 +50,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
           $('#idProfileKf').addClass('active');
           $('#idProfileKf').focus();
       }, 100);
-  
+
     }
     if($scope.email2Register!=undefined && APP_REGEX.checkDNI.test($scope.email2Register.emailAttempted)){
       $scope.register.dni = $scope.email2Register.emailAttempted;
@@ -58,7 +58,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
         $('#dniUser').addClass('active');
         $('#idProfileKf').focus();
       }, 100);
-  
+
     }
     if($scope.email2Register!=undefined && APP_REGEX.checkEmail.test($scope.email2Register.emailAttempted)){
       $scope.register.email = $scope.email2Register.emailAttempted;
@@ -66,13 +66,13 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
           $('#emailRegister').addClass('active');
           $('#idProfileKf').focus();
         }, 100);
-  
+
     }
   }else{
     tokenSystem.destroyTokenStorage(2);
     tokenSystem.destroyTokenStorage(3);
     $location.path("/");
-  }   
+  }
 
   //tokenSystem.destroyTokenStorage(2);
   //$scope.sysToken      = tokenSystem.getTokenStorage(1);
@@ -146,12 +146,12 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
                     $scope.depto.department.idUserKf=response_userFound.data[0].idUser;
                     $scope.depto.department.isApprovalRequired = true;
                     $scope.depto.department.idDepartment=$scope.register.idDepartmentKf;
-                  }, 1500); 
+                  }, 1500);
                   $timeout(function() {
                     $scope.fnAssignDepto($scope.depto);
                     console.log($scope.depto)
                     blockUI.stop();
-                  }, 1500); 
+                  }, 1500);
                 }
               });
             }else{
@@ -160,7 +160,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
             }
           }
         });
-   
+
     }
     $scope.userData2Add = function () {
       if($scope.register.idProfileKf==3){
@@ -349,7 +349,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
           console.log($this)
         break;
       }
-        
+
         console.log($this)
         var inputObj   = $this
         var inputValue = !$this.val()?$this[0].innerText:$this.val();
@@ -409,14 +409,14 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
                   $scope.ownerFound=false;
                   console.log("EL DEPTO: "+idDepto+" No tiene un propietario Asignado");
                 }
-                  
+
             }, function myError(response) {
                 if (!idDepto){
                   inform.add('Contacte con la administracion del consorcio.',{
                         ttl:6000, type: 'danger'
                   });
                 }
-              
+
           });
         }else{
           inform.add('Debe seleccionar un departamento para continuar con el registro de usuario.',{
@@ -435,7 +435,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
       //console.log(item);
       return item.idProfile == 3 ||  item.idProfile == 5;
     };
-  /**************************************************/ 
+  /**************************************************/
   /**************************************************
   *                                                 *
   * DEPARTMENT LIST BY SELECTED ADDRESS AND TENANT  *
@@ -471,7 +471,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
     console.log(item);
     return function(item){
       if(($scope.register.idProfileKf==3 || $scope.register.idProfileKf==5) && (item.idUserKf!=null || item.idUserKf==null)  && (item.floor=="pb" || item.floor=="ba" || item.floor=="co" || item.floor=="lo")){
-      
+
         //$scope.ownerFound=true;
         //console.log("ownerFound1: "+$scope.ownerFound+"item.idUserKf: "+item.idUserKf)
         return false;
@@ -487,3 +487,28 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
     }
   };
 });
+/**************************************************
+*                                                 *
+*              GET TICKET TYPES LIST              *
+*                                                 *
+**************************************************/
+  $scope.countryPhoneCodesList = [];
+  $scope.getCountryPhoneCodesFn = function(){
+      UtilitiesServices.getCountryPhoneCodes().then(function(response){
+        //console.log(response);
+      if(response.status==200){
+              $scope.countryPhoneCodesList = response.data;
+      }else if (response.status==404){
+          inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
+              ttl:3000, type: 'danger'
+          });
+              $scope.countryPhoneCodesList = undefined;
+      }else if (response.status==500){
+          inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
+          ttl:3000, type: 'danger'
+          });
+          $scope.countryPhoneCodesList = undefined;
+      }
+      });
+  };
+$scope.getCountryPhoneCodesFn();
