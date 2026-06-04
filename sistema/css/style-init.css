@@ -128,3 +128,47 @@ body{
     justify-content: flex-end;
     padding-bottom: 2px;
 }
+
+/* Strip default Bootstrap button style from ui-select */
+.ui-select-bootstrap-phone .ui-select-toggle {
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid #ccc !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 6px 4px !important;
+    height: 34px;
+    width: 100% !important;
+    box-sizing: border-box;
+    display: flex !important;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Remove the caret/arrow button border */
+.ui-select-bootstrap-phone .ui-select-toggle > .caret {
+    margin-left: 4px;
+}
+
+/* Match focus state to your other inputs */
+.ui-select-bootstrap-phone.open .ui-select-toggle,
+.ui-select-bootstrap-phone .ui-select-toggle:focus,
+.ui-select-bootstrap-phone .ui-select-toggle:active {
+    background: transparent !important;
+    border-bottom-color: #5cb85c !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Remove the input-group-btn wrapper styling */
+.ui-select-bootstrap-phone .input-group-btn,
+.ui-select-bootstrap-phone > div {
+    border: none !important;
+    background: transparent !important;
+}
+
+/* Match the bottom bar animation if your other inputs use it */
+.ui-select-bootstrap-phone ~ .bar:before,
+.ui-select-bootstrap-phone ~ .bar:after {
+    background: #5cb85c;
+}
