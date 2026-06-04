@@ -486,7 +486,6 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
       return false;
     }
   };
-});
 /**************************************************
 *                                                 *
 *              GET TICKET TYPES LIST              *
@@ -512,3 +511,5 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
       });
   };
 $scope.getCountryPhoneCodesFn();
+});
+
