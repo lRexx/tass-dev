@@ -464,6 +464,22 @@
 						<!-- Text Phone-->
 						<div class="form-group col-md-6 ">
 						    <div class="inner-addon right-addon">
+                                <!-- Country Code -->
+                                <div class="input-group-btn" style="width: 100px;">
+                                    <ui-select
+                                        class="ui-select-bootstrap-phone"
+                                        name="countryCode"
+                                        ng-model="select.phoneCountryMovil.selected"
+                                        search-enabled="true">
+                                        <ui-select-match allow-clear="false"><span class="country-flag"><img ng-src="https://flagcdn.com/24x18/{{$select.selected.isoCode | lowercase}}.png" width="18" style="margin-right:5px;"> {{ $select.selected.phoneCode }}</ui-select-match>
+                                        <ui-select-choices repeat="item in countryPhoneCodesList | filter: $select.search">
+                                            <div ng-bind-html="item.phoneCode | highlight: $select.search"></div>
+                                            <small  ng-bind-html="item.countryName | highlight: $select.search" class="label label-default">
+                                                <img ng-src="https://flagcdn.com/24x18/{{item.isoCode | lowercase}}.png" width="18" style="margin-right:5px;"> {{item.countryName}}
+                                            </small>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
 						  		<input
 						  				name="phoneMovilPrefix"
 						  				class="form-input input-phone-prefix"
