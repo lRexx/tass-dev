@@ -500,23 +500,25 @@
 											name="phoneMovilPrefix"
 											class="form-input input-phone-prefix"
 											ng-keydown="fnLoadPhoneMask();"
+											ng-minlength="2"
+											ng-maxlength="4"
 											ng-class="{
 												'input-login-error':
 													(register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) &&
-													(register.phoneMovilPrefix.length>0 && register.phoneMovilPrefix.length<8) &&
+													(register.phoneMovilPrefix.length>0 && register.phoneMovilPrefix.length<2) &&
 													(!fNewUser.phoneMovil.$touched || fNewUser.phoneMovil.$touched) ||
 													(register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) &&
-													(register.phoneMovilPrefix.length==0 && register.phoneMovilPrefix.length<1) &&
+													(register.phoneMovilPrefix.length==0 && register.phoneMovilPrefix.length<2) &&
 													fNewUser.phoneMovilPrefix.$touched ||
 													(register.phoneMovilNumberUser=='' || register.phoneMovilNumberUser==undefined) &&
 													(register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) &&
 													fNewUser.phoneMovilPrefix.$touched,
 												'input-login-warning':
 													(!register.phonelocalNumberUser=='' || !register.phonelocalNumberUser==undefined) &&
-													(register.phoneMovilPrefix.length>0 && register.phoneMovilPrefix.length<8) &&
+													(register.phoneMovilPrefix.length>0 && register.phoneMovilPrefix.length<2) &&
 													fNewUser.phoneMovilPrefix.$touched,
 												'input-login-success':
-													register.phoneMovilPrefix.length>=8 && fNewUser.phoneMovil.$valid}"
+													register.phoneMovilPrefix.length>=2 && fNewUser.phoneMovil.$valid}"
 											ng-blur="inputCheckCss('phoneMovilPrefix', 'i');"
 											ng-model="register.phoneMovilPrefix"
 											type="text"
