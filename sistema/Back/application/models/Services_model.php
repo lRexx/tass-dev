@@ -1393,11 +1393,13 @@ class Services_model extends CI_Model
                                                     //return $item3[0];
                                                     foreach ($data[$id] as $idFk => $item3Fk) {
                                                         //return $item['idClientServices'];
-
-                                                        $dataG = $this->db->select(" * ")
-                                                            ->from($item3Fk[0])
-                                                            ->where($item3Fk[1], $item['idClientServicesAccessControl'])
-                                                            ->get();
+                                                        log_message('info', ':::::::::::::::::START DETAILS');
+                                                        log_message('info', 'FROM: ' . $item3Fk[0] . " WHERE " . $item3Fk[1] . " = " . $item['idClientServicesAccessControl']);
+                                                        log_message('info', print_r($item3Fk, true));
+                                                        log_message('info', ':::::::::::::::::END DETAILS');
+                                                            $this->db->select(" * ")->from($item3Fk[0]);
+                                                            $this->db->where($item3Fk[1], $item['idClientServicesAccessControl']);
+                                                            $dataG = $this->db->get();
                                                         $aux = [];
                                                         //return $dataG->num_rows();
                                                         if ($item3Fk[0] == 'tb_detalles_control_acceso') {
@@ -1415,6 +1417,22 @@ class Services_model extends CI_Model
                                                             if ($dataG->num_rows() > 0) {
                                                                 $aux = [];
                                                                 foreach ($dataG->result_array() as $ite2) {
+
+
+                                                                    if ($item3Fk[0] == 'tb_open_devices_access_control') {
+                                                                        $this->db->select(" * ")->from("tb_products");
+                                                                        log_message('info', print_r($ite2, true));
+                                                                        $this->db->where('tb_products.idProduct', $ite2['idOpenDevice']);
+                                                                        $productRs = $this->db->get();
+                                                                        if ($productRs->num_rows() > 0) {
+                                                                            foreach ($productRs->result_array() as $ite22) {
+                                                                                $ite2['product_info'] = $ite22;
+                                                                            }
+                                                                        } else {
+                                                                            $ite2['product_info'] = null;
+                                                                        }
+
+                                                                    }
                                                                     array_push($aux, $ite2);
                                                                 }
 
