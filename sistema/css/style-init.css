@@ -71,3 +71,45 @@ body{
   text-shadow: #fff 0 0 5px, #ADFF00 0 0 0px;
   cursor: default;
 }
+
+.phone-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #999;
+    padding-bottom: 6px;
+}
+
+.phone-country {
+    width: 110px;
+}
+
+.phone-prefix {
+    width: 70px;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+.phone-number {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+.phone-container label {
+    position: absolute;
+    top: -20px;
+    left: 0;
+    font-size: 14px;
+    color: #777;
+}
+
+.phone-container .bar {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+}
