@@ -1,4 +1,4 @@
-var registerUser = angular.module("module.RegisterUser", ["tokenSystem", "services.User" , "ngSanitize", "services.Departments", "ui.select"]);
+var registerUser = angular.module("module.RegisterUser", ["tokenSystem", "services.User" , "ngSanitize", "services.Departments", "services.Utilities"]);
 
 /**************************************************************************
 *                                                                         *
@@ -20,7 +20,7 @@ registerUser.service("inputService",function(){
   }
 });
 
-registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope, $location, $http, blockUI, inputService, userServices, DepartmentsServices, $timeout, tokenSystem, serverHost, serverBackend, $window, APP_SYS, APP_REGEX){
+registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope, $location, $http, blockUI, inputService, userServices, UtilitiesServices, DepartmentsServices, $timeout, tokenSystem, serverHost, serverBackend, $window, APP_SYS, APP_REGEX){
   console.log(APP_SYS.app_name+" Modulo Register User");
   $scope.launchLoader = function(){
     $scope.wLoader  = true;
