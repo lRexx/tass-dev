@@ -72,21 +72,36 @@ body{
   cursor: default;
 }
 /* PHONE */
-/* 1️⃣ Fix label overlap — ensure they sit below their own column only */
+/* Force each column to be a block-level flex column */
+.phone-field-wrap > div {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+}
+
+/* Labels sit on top, fixed height so inputs align on the same baseline */
 .phone-sublabel {
     display: block;
     font-size: 11px;
     color: #999;
-    margin-top: 2px;
+    margin-bottom: 4px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    height: 16px;
+    line-height: 16px;
 }
 
-/* 2️⃣ Fix ui-select overflowing its flex container */
+/* ui-select fills its column */
 .ui-select-bootstrap-phone {
     width: 100% !important;
-    min-width: 0 !important;        /* critical: prevents flex blowout */
+    min-width: 0 !important;
+    display: block !important;
+}
+
+.ui-select-bootstrap-phone > div {
+    width: 100% !important;
 }
 
 .ui-select-bootstrap-phone .ui-select-toggle {
@@ -94,18 +109,22 @@ body{
     padding: 6px 8px;
     width: 100% !important;
     box-sizing: border-box;
+    display: flex !important;
+    align-items: center;
 }
 
-/* 3️⃣ Fix inputs ignoring flex container width */
+/* Inputs fill their column */
 .input-phone-prefix,
 .input-movil {
     width: 100% !important;
-    min-width: 0 !important;        /* critical: prevents flex blowout */
+    min-width: 0 !important;
     box-sizing: border-box;
+    display: block !important;
+    height: 34px;
 }
 
-/* 4️⃣ Ensure each flex child can't overflow its defined size */
-.phone-field-wrap > div {
-    min-width: 0;
-    overflow: hidden;
+/* Align the icon column to center vertically */
+.phone-field-wrap > div:last-child {
+    justify-content: flex-end;
+    padding-bottom: 2px;
 }
