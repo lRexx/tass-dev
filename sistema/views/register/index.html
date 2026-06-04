@@ -475,6 +475,7 @@
 											class="ui-select-bootstrap-phone"
 											name="countryCode"
 											ng-model="select.phoneCountryMovil.selected"
+											ng-blur="inputCheckCss('countryCode', 'i');"
 											search-enabled="true">
 											<ui-select-match allow-clear="false">
 												<span class="country-flag">
@@ -516,7 +517,7 @@
 													fNewUser.phoneMovilPrefix.$touched,
 												'input-login-success':
 													register.phoneMovilPrefix.length>=8 && fNewUser.phoneMovil.$valid}"
-											ng-blur="inputCheckCss('phoneMovil', 'i');"
+											ng-blur="inputCheckCss('phoneMovilPrefix', 'i');"
 											ng-model="register.phoneMovilPrefix"
 											type="text"
 											ng-required="register.phonelocalNumberUser=='';"
