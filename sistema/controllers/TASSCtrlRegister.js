@@ -299,6 +299,33 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
       /**********************************************
       *               INPUT PHONE MASK              *
       **********************************************/
+
+        $('.input-phone-prefix').mask('####', {
+          reverse: false,
+          translation:{
+            '0': null,
+            '#':{
+              pattern: /[1-9]/
+            },
+          },
+          placeholder: '____'
+        });
+
+        $('.input-movil').mask('(15) ####-####',
+        {
+          reverse: false,
+          translation:{
+            '0': null,
+            '1': null,
+            '4': null,
+            '5': null,
+            '#':{
+              pattern: /[0-9]/
+            }
+          },
+          placeholder: "(15) ____ ____"
+        });
+
         $('.input--phone').mask('+54 (####) (15) ####-####',
         {
           reverse: false,
