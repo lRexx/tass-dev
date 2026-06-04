@@ -72,83 +72,16 @@ body{
   cursor: default;
 }
 /* PHONE */
-.phone-container {
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding-top: 20px;
-    min-height: 56px;
+.phone-sublabel {
+    display: block;
+    font-size: 11px;
+    color: #999;
+    margin-top: 2px;
+    white-space: nowrap;
 }
 
-.phone-container label {
-    position: absolute;
-    top: 0;
-    left: 0;
-    font-size: 14px;
-    color: #555;
-    font-weight: normal;
-    pointer-events: none;
-}
-
-.phone-country {
-    width: 95px;
-    margin-right: 8px;
-}
-
-.phone-prefix {
-    width: 60px;
-    margin-right: 8px;
-}
-
-.phone-number {
-    flex: 1;
-}
-
-.phone-prefix,
-.phone-number {
-    border: none !important;
-    border-bottom: 1px solid transparent !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    padding: 6px 4px;
+/* Make ui-select match input height */
+.ui-select-bootstrap-phone .ui-select-toggle {
     height: 34px;
-}
-
-.phone-prefix:focus,
-.phone-number:focus {
-    outline: none;
-    box-shadow: none;
-}
-
-.phone-container .glyphicon {
-    position: absolute;
-    right: 10px;
-    top: 30px;
-}
-
-.phone-container .bar {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-}
-
-.ui-select-bootstrap-phone .ui-select-match {
-    height: 34px !important;
-    line-height: 22px !important;
-    border: none !important;
-    box-shadow: none !important;
-    background: transparent !important;
-    padding-left: 0 !important;
-}
-
-.ui-select-bootstrap-phone > .ui-select-match {
-    border: none !important;
-    background: transparent !important;
-}
-
-.ui-select-bootstrap-phone .btn-default {
-    border: none !important;
-    background: transparent !important;
-    box-shadow: none !important;
+    padding: 6px 10px;
 }
