@@ -172,3 +172,61 @@ body{
 .ui-select-bootstrap-phone ~ .bar:after {
     background: #5cb85c;
 }
+/* 1️⃣ Fix checkmark vertical alignment */
+.phone-field-wrap > div:last-child {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    padding-bottom: 2px;
+}
+
+/* 2️⃣ Keep input-group-btn but strip its visual styling */
+.ui-select-bootstrap-phone.input-group-btn {
+    width: 100% !important;
+    display: block !important;
+    position: relative !important;
+    border: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    float: none !important;
+}
+
+/* Strip button appearance, match underline style */
+.ui-select-bootstrap-phone .ui-select-toggle {
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid #ccc !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 6px 4px !important;
+    height: 34px;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    text-align: left !important;
+}
+
+/* Focus/open state — green underline like other inputs */
+.ui-select-bootstrap-phone.open .ui-select-toggle,
+.ui-select-bootstrap-phone .ui-select-toggle:focus,
+.ui-select-bootstrap-phone .ui-select-toggle:active {
+    background: transparent !important;
+    border-bottom-color: #5cb85c !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Dropdown panel positioning */
+.ui-select-bootstrap-phone .ui-select-dropdown {
+    width: auto !important;
+    min-width: 220px !important;
+    z-index: 9999 !important;
+    margin-top: 0 !important;
+}
+
+/* Search input inside dropdown */
+.ui-select-bootstrap-phone .ui-select-search {
+    width: 100% !important;
+    display: block !important;
+}
