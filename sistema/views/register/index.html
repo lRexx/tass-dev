@@ -467,7 +467,7 @@
 							<!-- Country Code -->
 							<div style="flex: 0 0 120px; min-width: 0;"
 								ng-class="{
-									'input-login-error': (register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) && (register.phoneCountryMovil.selected==undefined || !register.phoneCountryMovil.selected.phoneCode) && (!fNewUser.countryCode.$touched || fNewUser.countryCode.$touched),
+									'input-login-error': (register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) && (register.phoneCountryMovil.selected==undefined || !register.phoneCountryMovil.selected.phoneCode) && fNewUser.countryCode.$touched,
 									'input-login-warning': (!register.phonelocalNumberUser=='' || !register.phonelocalNumberUser==undefined) && (register.phoneCountryMovil.selected==undefined || !register.phoneCountryMovil.selected.phoneCode) && fNewUser.countryCode.$touched,
 									'input-login-success': register.phoneCountryMovil.selected!=undefined && register.phoneCountryMovil.selected.phoneCode && fNewUser.countryCode.$valid}">
 								<label class="phone-sublabel">Cod. País</label>
