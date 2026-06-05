@@ -101,12 +101,8 @@ body{
     width: 100% !important;
     min-width: 0 !important;
     height: 34px;
-    padding: 6px 4px !important;
     box-sizing: border-box !important;
     background: transparent !important;
-    border: none !important;
-    border-bottom: 1px solid #ccc !important;
-    border-radius: 0 !important;
     font-size: inherit !important;
     color: inherit !important;
 }
