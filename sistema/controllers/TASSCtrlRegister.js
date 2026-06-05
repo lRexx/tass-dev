@@ -327,7 +327,21 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
           },
           placeholder: "(15) ____ ____"
         });
-
+        $('.input-local').mask('####-####',
+        {
+          reverse: false,
+          translation:{
+            '0': null,
+            '1': null,
+            '4': null,
+            '5': null,
+            '+': null,
+            '#':{
+              pattern: /[0-9]/
+            }
+          },
+          placeholder: "____ ____"
+        });
         $('.input--phone').mask('+54 (####) (15) ####-####',
         {
           reverse: false,
