@@ -466,28 +466,27 @@
 							style="display: flex; align-items: flex-start; gap: 6px;">
 
 							<!-- Country Code -->
-							<div style="flex: 0 0 110px; min-width: 0;">
+							<div style="flex: 0 0 120px; min-width: 0; display: flex; flex-direction: column;">
 								<label class="phone-sublabel">Cod. País</label>
-								<div class="input-group-btn" style="width: 100%; display: block; position: relative;">
+								<div class="input-group-btn"
+									style="display: block; width: 100%; position: relative; border: none; background: transparent;">
 									<ui-select
 										class="ui-select-bootstrap-phone"
-										id="countryCode"
 										name="countryCode"
 										ng-model="select.phoneCountryMovil.selected"
-										search-enabled="true"
-										theme="bootstrap">
+										search-enabled="true">
 										<ui-select-match allow-clear="false">
 											<img ng-src="https://flagcdn.com/24x18/{{$select.selected.isoCode | lowercase}}.png"
-												width="18" style="margin-right: 5px; vertical-align: middle;">
-											{{ $select.selected.phoneCode }}
+												width="18"
+												style="margin-right: 5px; vertical-align: middle;">
+											<span>{{ $select.selected.phoneCode }}</span>
 										</ui-select-match>
 										<ui-select-choices repeat="item in countryPhoneCodesList | filter: $select.search">
-											<div ng-bind-html="item.phoneCode | highlight: $select.search"></div>
-											<small class="label label-default">
-												<img ng-src="https://flagcdn.com/24x18/{{item.isoCode | lowercase}}.png"
-													width="18" style="margin-right:5px;">
-												{{item.countryName}}
-											</small>
+											<img ng-src="https://flagcdn.com/24x18/{{item.isoCode | lowercase}}.png"
+												width="18" style="margin-right: 5px; vertical-align: middle;">
+											<span ng-bind-html="item.phoneCode | highlight: $select.search"></span>
+											&nbsp;
+											<small ng-bind-html="item.countryName | highlight: $select.search"></small>
 										</ui-select-choices>
 									</ui-select>
 								</div>
