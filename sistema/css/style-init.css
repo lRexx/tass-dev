@@ -73,162 +73,137 @@ body{
 }
 /* PHONE */
 
-/* Force each column to be a block-level flex column */
+/* ═══════════════════════════════════════════════════════════════ */
+/* PHONE FIELD WRAPPER & COLUMN LAYOUT */
+/* ═══════════════════════════════════════════════════════════════ */
+
 .phone-field-wrap > div {
     display: flex;
     flex-direction: column;
     min-width: 0;
-    overflow: hidden;
 }
 
-/* Labels sit on top, fixed height so inputs align on the same baseline */
 .phone-sublabel {
     display: block;
     font-size: 11px;
     color: #999;
     margin-bottom: 4px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    height: 16px;
-    line-height: 16px;
+    height: 14px;
+    line-height: 14px;
 }
 
-/* ui-select fills its column */
+/* ═══════════════════════════════════════════════════════════════ */
+/* REGULAR INPUTS (Prefix & Mobile Number) */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.input-phone-prefix,
+.input-movil {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 34px;
+    padding: 6px 4px !important;
+    box-sizing: border-box !important;
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid #ccc !important;
+    border-radius: 0 !important;
+    font-size: inherit !important;
+    color: inherit !important;
+}
+
+.input-phone-prefix:focus,
+.input-movil:focus {
+    outline: none !important;
+    border-bottom-color: #5cb85c !important;
+    box-shadow: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* UI-SELECT CONTAINER */
+/* ═══════════════════════════════════════════════════════════════ */
+
 .ui-select-bootstrap-phone {
     width: 100% !important;
     min-width: 0 !important;
     display: block !important;
 }
 
-.ui-select-bootstrap-phone > div {
+.ui-select-bootstrap-phone .input-group-btn {
     width: 100% !important;
-}
-
-.ui-select-bootstrap-phone .ui-select-toggle {
-    height: 34px;
-    padding: 6px 8px;
-    width: 100% !important;
-    box-sizing: border-box;
-    display: flex !important;
-    align-items: center;
-}
-
-/* Inputs fill their column */
-.input-phone-prefix,
-.input-movil {
-    width: 100% !important;
-    min-width: 0 !important;
-    box-sizing: border-box;
-    display: block !important;
-    height: 34px;
-}
-
-/* Align the icon column to center vertically */
-.phone-field-wrap > div:last-child {
-    justify-content: flex-end;
-    padding-bottom: 2px;
-}
-
-/* Strip default Bootstrap button style from ui-select */
-.ui-select-bootstrap-phone .ui-select-toggle {
-    background: transparent !important;
-    border: none !important;
-    border-bottom: 1px solid #ccc !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    padding: 6px 4px !important;
-    height: 34px;
-    width: 100% !important;
-    box-sizing: border-box;
-    display: flex !important;
-    align-items: center;
-    cursor: pointer;
-}
-
-/* Remove the caret/arrow button border */
-.ui-select-bootstrap-phone .ui-select-toggle > .caret {
-    margin-left: 4px;
-}
-
-/* Match focus state to your other inputs */
-.ui-select-bootstrap-phone.open .ui-select-toggle,
-.ui-select-bootstrap-phone .ui-select-toggle:focus,
-.ui-select-bootstrap-phone .ui-select-toggle:active {
-    background: transparent !important;
-    border-bottom-color: #5cb85c !important;
-    outline: none !important;
-    box-shadow: none !important;
-}
-
-/* Remove the input-group-btn wrapper styling */
-.ui-select-bootstrap-phone .input-group-btn,
-.ui-select-bootstrap-phone > div {
-    border: none !important;
-    background: transparent !important;
-}
-
-/* Match the bottom bar animation if your other inputs use it */
-.ui-select-bootstrap-phone ~ .bar:before,
-.ui-select-bootstrap-phone ~ .bar:after {
-    background: #5cb85c;
-}
-/* 1️⃣ Fix checkmark vertical alignment */
-.phone-field-wrap > div:last-child {
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: flex-end !important;
-    padding-bottom: 2px;
-}
-
-/* 2️⃣ Keep input-group-btn but strip its visual styling */
-.ui-select-bootstrap-phone.input-group-btn {
-    width: 100% !important;
-    display: block !important;
     position: relative !important;
     border: none !important;
     background: transparent !important;
     padding: 0 !important;
     float: none !important;
+    display: block !important;
 }
 
-/* Strip button appearance, match underline style */
-.ui-select-bootstrap-phone .ui-select-toggle {
+.ui-select-bootstrap-phone > div {
+    width: 100% !important;
+    border: none !important;
     background: transparent !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════ */
+/* UI-SELECT BUTTON (Toggle) */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.ui-select-bootstrap-phone .ui-select-toggle.btn.btn-default {
+    background: transparent !important;
+    background-image: none !important;
     border: none !important;
     border-bottom: 1px solid #ccc !important;
     border-radius: 0 !important;
     box-shadow: none !important;
-    padding: 6px 4px !important;
-    height: 34px;
+    outline: none !important;
     width: 100% !important;
-    box-sizing: border-box !important;
+    height: 34px !important;
+    padding: 6px 4px !important;
+    margin: 0 !important;
+    text-align: left !important;
     display: flex !important;
     align-items: center !important;
-    text-align: left !important;
+    color: inherit !important;
+    font-size: inherit !important;
+    font-weight: normal !important;
+    cursor: pointer;
 }
 
-/* Focus/open state — green underline like other inputs */
-.ui-select-bootstrap-phone.open .ui-select-toggle,
-.ui-select-bootstrap-phone .ui-select-toggle:focus,
-.ui-select-bootstrap-phone .ui-select-toggle:active {
+/* Hover, Focus, Active, Open states */
+.ui-select-bootstrap-phone .ui-select-toggle.btn:hover,
+.ui-select-bootstrap-phone .ui-select-toggle.btn:focus,
+.ui-select-bootstrap-phone .ui-select-toggle.btn:active,
+.ui-select-bootstrap-phone.open .ui-select-toggle.btn {
     background: transparent !important;
+    background-image: none !important;
     border-bottom-color: #5cb85c !important;
-    outline: none !important;
     box-shadow: none !important;
+    outline: none !important;
 }
 
-/* Dropdown panel positioning */
-.ui-select-bootstrap-phone .ui-select-dropdown {
+/* ═══════════════════════════════════════════════════════════════ */
+/* UI-SELECT DROPDOWN & SEARCH */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.ui-select-bootstrap-phone .ui-select-dropdown.dropdown-menu {
     width: auto !important;
-    min-width: 220px !important;
-    z-index: 9999 !important;
-    margin-top: 0 !important;
+    min-width: 250px !important;
+    z-index: 99999 !important;
+    margin-top: 1px !important;
+    left: 0 !important;
 }
 
-/* Search input inside dropdown */
-.ui-select-bootstrap-phone .ui-select-search {
-    width: 100% !important;
+.ui-select-bootstrap-phone .ui-select-search.form-control {
     display: block !important;
+    width: 100% !important;
+    border-radius: 0 !important;
 }
 
+/* ═══════════════════════════════════════════════════════════════ */
+/* STATUS ICON COLUMN */
+/* ═══════════════════════════════════════════════════════════════ */
+
+.phone-field-wrap > div:last-child {
+    justify-content: flex-end;
+    padding-bottom: 2px;
+}
