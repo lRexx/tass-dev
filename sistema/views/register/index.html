@@ -467,9 +467,9 @@
 							<!-- Country Code -->
 							<div style="flex: 0 0 120px; min-width: 0;"
 								ng-class="{
-									'input-login-error': (register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) && (register.countryCode=='' || register.countryCode==undefined) && (!fNewUser.countryCode.$touched || fNewUser.countryCode.$touched),
-									'input-login-warning': (!register.phonelocalNumberUser=='' || !register.phonelocalNumberUser==undefined) && (register.countryCode=='' || register.countryCode==undefined) && fNewUser.countryCode.$touched,
-									'input-login-success': register.countryCode!=undefined && register.countryCode!='' && fNewUser.countryCode.$valid}">
+									'input-login-error': (register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) && (register.countryCode.selected=='' || register.countryCode.selected==undefined) && (!fNewUser.countryCode.$touched || fNewUser.countryCode.$touched),
+									'input-login-warning': (!register.phonelocalNumberUser=='' || !register.phonelocalNumberUser==undefined) && (register.countryCode.selected=='' || register.countryCode.selected==undefined) && fNewUser.countryCode.$touched,
+									'input-login-success': register.countryCode.selected!=undefined && register.countryCode.selected!='' && fNewUser.countryCode.$valid}">
 								<label class="phone-sublabel">Cod. País</label>
 								<ui-select
 									class="ui-select-bootstrap-phone"
