@@ -297,6 +297,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
 
 
     $scope.fnLoadPhoneMask = function(){
+      console.log($scope.register)
       /**********************************************
       *               INPUT PHONE MASK              *
       **********************************************/
