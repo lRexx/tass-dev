@@ -93,28 +93,6 @@ body{
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
-/* REGULAR INPUTS (Prefix & Mobile Number) */
-/* ═══════════════════════════════════════════════════════════════ */
-
-.input-phone-prefix,
-.input-movil {
-    width: 100% !important;
-    min-width: 0 !important;
-    height: 34px;
-    box-sizing: border-box !important;
-    background: transparent !important;
-    font-size: inherit !important;
-    color: inherit !important;
-}
-
-.input-phone-prefix:focus,
-.input-movil:focus {
-    outline: none !important;
-    border-bottom-color: #5cb85c !important;
-    box-shadow: none !important;
-}
-
-/* ═══════════════════════════════════════════════════════════════ */
 /* UI-SELECT CONTAINER */
 /* ═══════════════════════════════════════════════════════════════ */
 
