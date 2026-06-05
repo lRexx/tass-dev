@@ -207,3 +207,8 @@ body{
     justify-content: flex-end;
     padding-bottom: 2px;
 }
+
+/* Completely hide the search input */
+.ui-select-bootstrap-phone .ui-select-search.form-control {
+    display: none !important;
+}
