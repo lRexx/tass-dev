@@ -471,6 +471,7 @@
 								<div class="input-group-btn" style="width: 100%; display: block; position: relative;">
 									<ui-select
 										class="ui-select-bootstrap-phone"
+										id="countryCode"
 										name="countryCode"
 										ng-model="select.phoneCountryMovil.selected"
 										search-enabled="true"
@@ -496,6 +497,7 @@
 							<div style="flex: 0 0 75px;">
 								<label class="phone-sublabel">Prefijo</label>
 								<input
+									id="phoneMovilPrefix"
 									name="phoneMovilPrefix"
 									class="form-input input-phone-prefix"
 									ng-keydown="fnLoadPhoneMask();"
@@ -526,6 +528,7 @@
 							<div style="flex: 1 1 0;">
 								<label class="phone-sublabel">Teléfono Móvil</label>
 								<input
+									id="phoneMovil"
 									name="phoneMovil"
 									class="form-input input-movil"
 									ng-keydown="fnLoadPhoneMask();"
