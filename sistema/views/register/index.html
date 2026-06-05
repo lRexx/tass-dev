@@ -469,9 +469,9 @@
 								<label class="phone-sublabel">Cod. País</label>
 								<ui-select
 										ng-class="{
-										'input-login-error': (register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) && (register.countryCode=='' || register.countryCode==undefined) && (!fNewUser.phoneMovil.$touched || fNewUser.phoneMovil.$touched),
+										'input-login-error': (register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) && (register.countryCode=='' || register.countryCode==undefined) && (!fNewUser.countryCode.$touched || fNewUser.countryCode.$touched),
 										'input-login-warning': (!register.phonelocalNumberUser=='' || !register.phonelocalNumberUser==undefined) && (register.countryCode=='' || register.countryCode==undefined) && fNewUser.countryCode.$touched,
-										'input-login-success': register.countryCode!=undefined && register.countryCode!='' && fNewUser.phoneMovil.$valid}"
+										'input-login-success': register.countryCode!=undefined && register.countryCode!='' && fNewUser.countryCode.$valid }"
 									class="ui-select-bootstrap-phone"
 									name="countryCode"
 									ng-model="select.phoneCountryMovil.selected"
@@ -500,9 +500,9 @@
 									class="form-input input-phone-prefix"
 									ng-keydown="fnLoadPhoneMask();"
 									ng-class="{
-										'input-login-error': (register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) && (register.phoneMovilPrefix.length>0 && register.phoneMovilPrefix.length<2) && (!fNewUser.phoneMovil.$touched || fNewUser.phoneMovil.$touched),
+										'input-login-error': (register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) && (register.phoneMovilPrefix.length>0 && register.phoneMovilPrefix.length<2) && (!fNewUser.phoneMovilPrefix.$touched || fNewUser.phoneMovilPrefix.$touched),
 										'input-login-warning': (!register.phonelocalNumberUser=='' || !register.phonelocalNumberUser==undefined) && (register.phoneMovilPrefix.length>0 && register.phoneMovilPrefix.length<2) && fNewUser.phoneMovilPrefix.$touched,
-										'input-login-success': register.phoneMovilPrefix.length>=2 && register.phoneMovilPrefix.length<=4 && fNewUser.phoneMovil.$valid}"
+										'input-login-success': register.phoneMovilPrefix.length>=2 && register.phoneMovilPrefix.length<=4 && fNewUser.phoneMovilPrefix.$valid}"
 									ng-blur="inputCheckCss('phoneMovil', 'i');"
 									ng-model="register.phoneMovilPrefix"
 									type="text">
