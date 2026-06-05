@@ -212,16 +212,3 @@ body{
 .ui-select-bootstrap-phone .ui-select-search.form-control {
     display: none !important;
 }
-
-.phone-field-wrap ~ .bar,
-.phone-field-wrap + .bar {
-    display: block !important;
-    height: 1px;
-    background: #ddd !important;
-    margin-top: 0 !important;
-}
-
-.phone-field-wrap ~ .bar:before,
-.phone-field-wrap ~ .bar:after {
-    display: none !important;
-}
