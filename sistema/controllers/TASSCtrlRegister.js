@@ -41,7 +41,8 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
   $scope.rsInputLength = 0;
   $scope.sysEmailRegistered=false;
   $scope.sysDNIRegistered=false;
-  $scope.register = {'idProfileKf':'', 'fname':'', 'lname':'', 'dni':'', 'email':'', 'phonelocalNumberUser':'', 'phoneMovilNumberUser': '', 'idProfileKf':'', 'idCompanyKf':'', 'idAddresKf':'', 'idTyepeAttendantKf':'', 'idTypeTenantKf':'', 'descOther':'', 'idDepartmentKf':'', 'isDepartmentApproved':'', 'requireAuthentication':''};
+  $scope.select={'admins':{'selected':undefined}, 'buildings':{'selected':undefined},'depto':undefined,'floor':undefined, 'phoneCountryMovil':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined}};
+  $scope.register = {'idProfileKf':'', 'fname':'', 'lname':'', 'dni':'', 'email':'', 'phoneCountryMovil':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined}, 'phonelocalNumberUser':'', 'phoneMovilNumberUser': '', 'idProfileKf':'', 'idCompanyKf':'', 'idAddresKf':'', 'idTyepeAttendantKf':'', 'idTypeTenantKf':'', 'descOther':'', 'idDepartmentKf':'', 'isDepartmentApproved':'', 'requireAuthentication':''};
   $scope.depto={'department':{'idDepartment':null, 'idUserKf':null}};
 
   if (!$scope.sysToken && !$scope.sysLoggedUser){
