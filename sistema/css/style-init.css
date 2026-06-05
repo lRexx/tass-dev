@@ -193,6 +193,10 @@ body{
     display: block !important;
     width: 100% !important;
     border-radius: 0 !important;
+    height: 34px;
+    padding: 6px 4px !important;
+    border: none !important;
+    margin-bottom: 4px;
 }
 
 /* ═══════════════════════════════════════════════════════════════ */
@@ -204,7 +208,22 @@ body{
     padding: 0;           /* Remove padding-bottom */
 }
 
-/* Completely hide the search input */
-.ui-select-bootstrap-phone .ui-select-search.form-control {
+/* Hide search input when dropdown is closed */
+.ui-select-bootstrap-phone .ui-select-search.form-control.ng-hide {
     display: none !important;
+}
+
+/* Error state */
+.input-login-error .ui-select-bootstrap-phone .ui-select-toggle.btn {
+    border-bottom-color: #d32f2f !important;
+}
+
+/* Warning state */
+.input-login-warning .ui-select-bootstrap-phone .ui-select-toggle.btn {
+    border-bottom-color: #f0ad4e !important;
+}
+
+/* Success state */
+.input-login-success .ui-select-bootstrap-phone .ui-select-toggle.btn {
+    border-bottom-color: #5cb85c !important;
 }
