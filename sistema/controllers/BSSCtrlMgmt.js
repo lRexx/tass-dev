@@ -4651,7 +4651,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       $scope.update.ticket.delivered_at          = null
                       $scope.update.ticket.history               = [];
                       $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': "El pago ha sido registro de forma manual", 'idCambiosTicketKf':"4"});
-                      $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"13"});
+                      $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"3"});
                       console.log($scope.update);
                       $timeout(function() {
                         $('#registerManualPayment').modal('hide');
