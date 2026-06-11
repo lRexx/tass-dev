@@ -2518,7 +2518,11 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                       });
                       $scope.update.ticket.idTicket              = obj.selected.idTicket;
                       $scope.update.ticket.idTypeTicketKf        = obj.selected.idTypeTicketKf;
-                      $scope.update.ticket.idNewStatusKf         = "8";
+                      if (obj.selected.idStatusTicketKf=="9"){
+                        $scope.update.ticket.idNewStatusKf         = "11";
+                      }else{
+                        $scope.update.ticket.idNewStatusKf         = "8";
+                      }
                       $scope.update.ticket.delivery_schedule_at  = null;
                       $scope.update.ticket.delivered_at          = null
                       $scope.update.ticket.history               = [];
