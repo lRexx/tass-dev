@@ -2329,12 +2329,12 @@ class Services_model extends CI_Model
     {
         $quuery = null;
         $rs = null;
-        var_dump($item);
         //$this->db->select('COUNT(t2.idTicket) as ticket_count');
         $this->db->select('*');
         $this->db->from('tb_ticket_keychain_doors td');
         $this->db->join('tb_access_control_door acd', 'acd.idAccessControlDoor = td.idAccessControlDoorKf', 'left');
         $this->db->join('tb_contratos tc', 'tc.idContrato = td.idContractKf', 'left');
+        $this->db->join('tb_client tclient', 'tclient.idClient = tc.idClientKf', 'left');
         $this->db->join('tb_status tst', 'tst.idStatusTenant = tc.idStatusFk', 'left');
         $this->db->join('tb_ticket_keychain tkc', 'tkc.idTicketKeychain = td.idTicketKeychainKf', 'left');
         $this->db->join('tb_products tp', 'tp.idProduct = tkc.idProductKf', 'left');
@@ -2342,7 +2342,7 @@ class Services_model extends CI_Model
         $this->db->join('tb_tickets_2 t2', 't2.idTicket = tkc.idTicketKf', 'left');
         $this->db->join('tb_statusticket st', 'st.idStatus = t2.idStatusTicketKf', 'left');
         $this->db->where('td.idServiceKf', $item['idService']);
-        $this->db->where('td.idClientKf', $item['idClientFk']);
+        $this->db->where('tc.idClientKf', $item['idClientFk']);
         $this->db->where('td.idContractKf', $item['idContracAssociated_SE']);
         $this->db->where_not_in('t2.idStatusTicketKf', [1, 6, 13]);
         $this->db->group_by('t2.idTicket');
