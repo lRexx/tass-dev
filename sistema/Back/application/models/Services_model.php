@@ -2329,7 +2329,7 @@ class Services_model extends CI_Model
     {
         $quuery = null;
         $rs = null;
-
+        var_dump($item);
         //$this->db->select('COUNT(t2.idTicket) as ticket_count');
         $this->db->select('*');
         $this->db->from('tb_ticket_keychain_doors td');
