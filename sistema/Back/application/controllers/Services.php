@@ -534,7 +534,9 @@ class Services extends REST_Controller
         log_message('info', 'Content-Length     :' . @$headers['Content-Length']);
         log_message('info', 'Connection         :' . @$headers['Connection']);
         $body = file_get_contents('php://input');
-        log_message('info', 'checkTicketsActiveByService Body: ' . $body);
+        log_message('info', 'checkTicketsActiveByService Body: ' . $body['idContracAssociated_SE']);
+        log_message('info', 'checkTicketsActiveByService Body: ' . $body['idClientFk']);
+        log_message('info', 'checkTicketsActiveByService Body: ' . $body['idServicesFk']);
         $rs = null;
         if (!$this->post('data')) {
             $this->response(null, 404);
