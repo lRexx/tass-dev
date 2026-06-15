@@ -2342,7 +2342,7 @@ class Services_model extends CI_Model
         $this->db->join('tb_tickets_2 t2', 't2.idTicket = tkc.idTicketKf', 'left');
         $this->db->join('tb_statusticket st', 'st.idStatus = t2.idStatusTicketKf', 'left');
         $this->db->where('td.idServiceKf', $idService);
-        $this->db->where_not_in('t2.idStatusTicketKf', [1, 6]);
+        $this->db->where_not_in('t2.idStatusTicketKf', [1, 6, 13]);
         $this->db->group_by('t2.idTicket');
         $this->db->order_by('t2.created_at', 'DESC');
         $quuery = $this->db->get();
