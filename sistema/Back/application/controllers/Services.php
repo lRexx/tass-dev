@@ -540,7 +540,7 @@ class Services extends REST_Controller
         log_message('info', 'checkTicketsActiveByService -> idServicesFk           : ' . $body['idServicesFk']);
 
         $rs = null;
-        if (!$this->post('data')) {
+        if (!$body) {
             $this->response(null, 404);
         }
         $rs = $this->services_model->checkTicketsActiveByService($body);
