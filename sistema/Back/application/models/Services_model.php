@@ -2341,7 +2341,7 @@ class Services_model extends CI_Model
         $this->db->join('tb_products_classification tpc', 'tpc.idProductClassification = tp.idProductClassificationFk', 'left');
         $this->db->join('tb_tickets_2 t2', 't2.idTicket = tkc.idTicketKf', 'left');
         $this->db->join('tb_statusticket st', 'st.idStatus = t2.idStatusTicketKf', 'left');
-        $this->db->where('td.idServiceKf', $item['idService']);
+        $this->db->where('td.idServiceKf', $item['idServicesFk']);
         $this->db->where('tc.idClientFk', $item['idClientFk']);
         $this->db->where('td.idContractKf', $item['idContracAssociated_SE']);
         $this->db->where_not_in('t2.idStatusTicketKf', [1, 6, 13]);
