@@ -4150,7 +4150,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                                     blockUI.message('Verificando si existen Pedidos Activos Asociados.');
                                                     console.log("checkTicketsActiveByServiceFn");
                                                     console.log(serv);
-                                                    serviceServices.checkTicketsActiveByService(serv.idServicesFk).then(function(response_ticket){
+                                                    serviceServices.checkTicketsActiveByService(serv).then(function(response_ticket){
                                                         if(response_ticket.status==200){
                                                             $scope.rsTicketDataTmp=$scope.rsTicketDataTmp.concat(response_ticket.data.ticket_active);
                                                         }else if (response_ticket.status==404){
@@ -4460,7 +4460,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         $scope.rsTicketData = []
                         console.log("checkTicketsActiveByServiceFn");
                         console.log(service);
-                        serviceServices.checkTicketsActiveByService(service.idServicesFk).then(function(response){
+                        serviceServices.checkTicketsActiveByService(service).then(function(response){
                             console.log(response);
                             if(response.status==200){
                                 console.log("The service is associated with Internet Service.");
