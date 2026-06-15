@@ -546,11 +546,10 @@ class Services extends REST_Controller
         $rs = $this->services_model->checkTicketsActiveByService($body);
 
         if (!is_null($rs)) {
-            log_message('info', 'Tickets found for the given service data: ');
-            log_message('info', $rs);
+            log_message('info', 'Tickets found for the given service data ');
             $this->response(['ticket_active' => $rs], 200);
         } else {
-            log_message('error', 'No ticket found for the given service data: ' . $rs);
+            log_message('error', 'No ticket found for the given service data');
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
