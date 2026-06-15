@@ -2349,6 +2349,7 @@ class Services_model extends CI_Model
         $this->db->order_by('t2.created_at', 'DESC');
         $quuery = $this->db->get();
         //$rs = $quuery->row()->ticket_count;
+        log_message('debug', 'SQL: ' . $this->db->last_query());
         $rs = $quuery->result_array();
 
         if ($quuery->num_rows() > 0) {

@@ -534,7 +534,7 @@ class Services extends REST_Controller
         log_message('info', 'Content-Length     :' . @$headers['Content-Length']);
         log_message('info', 'Connection         :' . @$headers['Connection']);
         $body = file_get_contents('php://input');
-        log_message('info', 'checkTicketsActiveByService Body: ' . json_encode($body, JSON_PRETTY_PRINT));
+        log_message('info', 'checkTicketsActiveByService Body: ' . json_decode($body, true, JSON_UNESCAPED_SLASHES));
         $rs = null;
         if (!$this->post('data')) {
             $this->response(null, 404);
