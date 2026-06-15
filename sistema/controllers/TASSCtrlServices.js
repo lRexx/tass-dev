@@ -4148,6 +4148,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             switch (serv.nameDataBase){
                                                 case "tb_client_services_access_control":
                                                     blockUI.message('Verificando si existen Pedidos Activos Asociados.');
+                                                    console.log("checkTicketsActiveByServiceFn");
+                                                    console.log(serv);
                                                     serviceServices.checkTicketsActiveByService(serv.idServicesFk).then(function(response_ticket){
                                                         if(response_ticket.status==200){
                                                             $scope.rsTicketDataTmp=$scope.rsTicketDataTmp.concat(response_ticket.data.ticket_active);
