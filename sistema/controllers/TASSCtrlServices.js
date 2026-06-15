@@ -4456,6 +4456,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     $scope.rsTicketData = [];
                     $scope.checkTicketsActiveByServiceFn = function(service){
                         $scope.rsTicketData = []
+                        console.log("checkTicketsActiveByServiceFn");
                         console.log(service);
                         serviceServices.checkTicketsActiveByService(service.idServicesFk).then(function(response){
                             console.log(response);
