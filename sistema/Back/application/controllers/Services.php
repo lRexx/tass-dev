@@ -535,9 +535,9 @@ class Services extends REST_Controller
         log_message('info', 'Connection         :' . @$headers['Connection']);
         $body = file_get_contents('php://input');
         $body = json_decode($body, true);
-        log_message('info', 'checkTicketsActiveByService Body: ' . $body['idContracAssociated_SE']);
-        log_message('info', 'checkTicketsActiveByService Body: ' . $body['idClientFk']);
-        log_message('info', 'checkTicketsActiveByService Body: ' . $body['idServicesFk']);
+        log_message('info', 'checkTicketsActiveByService idContracAssociated_SE : ' . $body['idContracAssociated_SE']);
+        log_message('info', 'checkTicketsActiveByService idClientFk             : ' . $body['idClientFk']);
+        log_message('info', 'checkTicketsActiveByService idServicesFk           : ' . $body['idServicesFk']);
 
         $rs = null;
         if (!$this->post('data')) {
