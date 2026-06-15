@@ -252,7 +252,6 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
 
           checkTicketsActiveByService: function(data) {
             console.log("[Service][checkTicketsActiveByService]: Get Ticket Active related By Service ID");
-            console.assert(data.idService!=null, "Service ID is null");
             console.log(data);
             return $http.post(serverHost+serverBackend+"rates/checkTicketsActiveByService",data, serverHeaders)
               .then(function mySuccess(response) {
