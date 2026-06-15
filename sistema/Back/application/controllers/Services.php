@@ -535,9 +535,9 @@ class Services extends REST_Controller
         log_message('info', 'Connection         :' . @$headers['Connection']);
         $body = file_get_contents('php://input');
         $body = json_decode($body, true);
-        log_message('info', 'checkTicketsActiveByService idContracAssociated_SE : ' . $body['idContracAssociated_SE']);
-        log_message('info', 'checkTicketsActiveByService idClientFk             : ' . $body['idClientFk']);
-        log_message('info', 'checkTicketsActiveByService idServicesFk           : ' . $body['idServicesFk']);
+        log_message('info', 'checkTicketsActiveByService -> idContracAssociated_SE : ' . $body['idContracAssociated_SE']);
+        log_message('info', 'checkTicketsActiveByService -> idClientFk             : ' . $body['idClientFk']);
+        log_message('info', 'checkTicketsActiveByService -> idServicesFk           : ' . $body['idServicesFk']);
 
         $rs = null;
         if (!$this->post('data')) {
@@ -546,8 +546,10 @@ class Services extends REST_Controller
         $rs = $this->services_model->checkTicketsActiveByService($this->post('data'));
 
         if (!is_null($rs)) {
+            log_message('info', 'Tickets found for the given service data: ' . $rs);
             $this->response(['ticket_active' => $rs], 200);
         } else {
+            log_message('error', 'No ticket found for the given service data: ' . $rs);
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
