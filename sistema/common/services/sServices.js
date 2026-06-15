@@ -250,16 +250,16 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
             });
           },
 
-          checkTicketsActiveByService: function(id) {
+          checkTicketsActiveByService: function(data) {
             console.log("[Service][checkTicketsActiveByService]: Get Ticket Active related By Service ID");
-              return $http({
-                    method : "GET",
-                    url : serverHost+serverBackend+"services/checkTicketsActiveByService/"+id
-                  }).then(function mySuccess(response) {
-                    return response;
-                  }).catch(function onError(response) {
-                    console.log("Error: "+response.data.error);
-                    return response;
+            console.assert(data.idService!=null, "Service ID is null");
+            console.log(data);
+            return $http.post(serverHost+serverBackend+"rates/checkTicketsActiveByService",data, serverHeaders)
+              .then(function mySuccess(response) {
+              return response;
+            }).catch(function onError(response) {
+              console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+              return response;
             });
           },
 
