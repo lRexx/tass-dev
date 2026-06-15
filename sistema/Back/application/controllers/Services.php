@@ -520,14 +520,26 @@ class Services extends REST_Controller
             $this->response(['error' => 'NO HAY RESULTADOS'], 404);
         }
     }
-    public function checkTicketsActiveByService_get($id)
+    public function checkTicketsActiveByService_post()
     {
-        if (!$id) {
-            $this->response(NULL, 404);
-        }
-
+        $headers = $this->input->request_headers();
+        log_message('info', ':::::::::::::::::checkTicketsActiveByService Process Initiated');
+        log_message('info', 'Host               :' . @$headers['Host']);
+        log_message('info', 'User-Agent         :' . @$headers['User-Agent']);
+        log_message('info', 'Accept             :' . @$headers['Accept']);
+        log_message('info', 'Content-Typ        :' . @$headers['Content-Type']);
+        log_message('info', 'X-Forwarded-For    :' . @$headers['X-Forwarded-For']);
+        log_message('info', 'X-Forwarded-Host   :' . @$headers['X-Forwarded-Host']);
+        log_message('info', 'X-Forwarded-Server :' . @$headers['X-Forwarded-Server']);
+        log_message('info', 'Content-Length     :' . @$headers['Content-Length']);
+        log_message('info', 'Connection         :' . @$headers['Connection']);
+        $body = file_get_contents('php://input');
+        log_message('info', 'Cuerpo del pedido de Baja: ' . $body);
         $rs = null;
-        $rs = $this->services_model->checkTicketsActiveByService($id);
+        if (!$this->post('data')) {
+            $this->response(null, 404);
+        }
+        $rs = $this->services_model->checkTicketsActiveByService($this->post('data'));
 
         if (!is_null($rs)) {
             $this->response(['ticket_active' => $rs], 200);
