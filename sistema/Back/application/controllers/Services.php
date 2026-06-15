@@ -543,7 +543,7 @@ class Services extends REST_Controller
         if (!$this->post('data')) {
             $this->response(null, 404);
         }
-        $rs = $this->services_model->checkTicketsActiveByService($this->post('data'));
+        $rs = $this->services_model->checkTicketsActiveByService($body);
 
         if (!is_null($rs)) {
             log_message('info', 'Tickets found for the given service data: ' . $rs);
