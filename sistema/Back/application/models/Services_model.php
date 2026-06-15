@@ -2325,7 +2325,7 @@ class Services_model extends CI_Model
         return null;
 
     }
-    public function checkTicketsActiveByService($idService)
+    public function checkTicketsActiveByService($item)
     {
         $quuery = null;
         $rs = null;
@@ -2341,7 +2341,9 @@ class Services_model extends CI_Model
         $this->db->join('tb_products_classification tpc', 'tpc.idProductClassification = tp.idProductClassificationFk', 'left');
         $this->db->join('tb_tickets_2 t2', 't2.idTicket = tkc.idTicketKf', 'left');
         $this->db->join('tb_statusticket st', 'st.idStatus = t2.idStatusTicketKf', 'left');
-        $this->db->where('td.idServiceKf', $idService);
+        $this->db->where('td.idServiceKf', $item['idService']);
+        $this->db->where('td.idClientKf', $item['idClientFk']);
+        $this->db->where('td.idContractKf', $item['idContracAssociated_SE']);
         $this->db->where_not_in('t2.idStatusTicketKf', [1, 6, 13]);
         $this->db->group_by('t2.idTicket');
         $this->db->order_by('t2.created_at', 'DESC');
