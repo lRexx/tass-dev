@@ -953,7 +953,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
               break;
               case "5": //TENANT USER
                 $scope.rsCustomerListSelectData       = $scope.rsCustomerSelectData;
-                $scope.filterAddressKf.selected        = obj.idAddresKf!=null?{'idClient': obj.building[0].idClient, 'address': obj.building[0].address}:null;
+                $scope.filterAddressKf.selected        = obj.idAddresKf!=null && obj.building!=undefined?{'idClient': obj.building[0].idClient, 'address': obj.building[0].address}:null;
                 $scope.customerSearch.name = obj.building[0].address;
                 if(obj.idAddresKf!=null){
                   $scope.getDeptoListByAddress(obj.building[0].idClient);
@@ -972,8 +972,8 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 }else if (obj.idTyepeAttendantKf!=1 && obj.idTypeTenantKf==null){
                   $scope.att.ownerOption              = "3";
                 }
-                $scope.filterAddressKf.selected        = obj.idAddresKf!=null?{'idClient': obj.building[0].idClient, 'address': obj.building[0].address}:null;
-                $scope.filterCompanyKf.selected        = obj.idAddresKf!=null?{'idClient': obj.building[0].idClient, 'address': obj.building[0].address}:null;
+                $scope.filterAddressKf.selected        = obj.idAddresKf!=null && obj.building!=undefined?{'idClient': obj.building[0].idClient, 'address': obj.building[0].address}:null;
+                $scope.filterCompanyKf.selected        = obj.idAddresKf!=null && obj.building!=undefined?{'idClient': obj.building[0].idClient, 'address': obj.building[0].address}:null;
                 $scope.customerSearch.name = obj.building[0].address;
                 //$scope.getLisOfCustomersByIdFn(obj.company[0].idClient, true)
                 $scope.users.update.typeOtherAtt      = obj.descOther;
