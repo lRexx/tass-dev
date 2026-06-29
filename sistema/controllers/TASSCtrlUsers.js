@@ -1923,7 +1923,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                       //      blockUI.stop();
                       //    }, 3000);
                       //});
-                      $q.all(approvePromises).then(function () {
+                      /*$q.all(approvePromises).then(function () {
                         console.log("UPDATE SUCCESSFULLY");
                         inform.add('Usuario '+$scope.update.user.fullNameUser+' actualizado satisfactoriamente.',{
                           ttl:5000, type: 'success'
@@ -1936,7 +1936,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                           //$scope.refreshList();
                           blockUI.stop();
                         }, 1500);
-                      });
+                      });*/
                     }else{
                       $timeout(function() {
                         blockUI.message('Usuario: '+$scope.update.user.fullNameUser+' actualizado con exito');
