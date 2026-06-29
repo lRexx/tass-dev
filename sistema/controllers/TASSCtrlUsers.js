@@ -1395,8 +1395,8 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   $scope.update.user.idSysProfileFk              = obj.idSysProfileFk;
                   $scope.update.user.dni                         = obj.dni;
                   $scope.update.user.emailUser                   = obj.email;
-                  $scope.update.user.phoneLocalNumberUser        = obj.phonelocalNumberUser;
-                  $scope.update.user.phoneNumberUser             = obj.phoneMovilNumberUser;
+                  $scope.update.user.phoneNumberUser             = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberUser);
+                  $scope.update.user.phoneLocalNumberUser        = $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,obj.phonelocalPrefixNumber,obj.phonelocalNumberUser);
                   $scope.update.user.isEdit                      = 1;
                   $scope.update.user.isCreateByAdmin             = 1;
                   $scope.update.user.loggedUser                  = $scope.sysLoggedUser;
@@ -1580,12 +1580,20 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                                       }, 3000);
                                   });
                                   $q.all(assignPromises).then(function () {
-                                      inform.add('Departamentos Asignados y en proceso de aprobacion automatica.',{
-                                        ttl:5000, type: 'success'
-                                      });
+                                    inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
+                                      ttl:5000, type: 'success'
+                                    });
+                                    inform.add('Departamentos Asignados, deberan ser aprobados por la Administracion.',{
+                                      ttl:5000, type: 'success'
+                                    });
+                                    console.log("REGISTERED SUCCESSFULLY");
+                                    $timeout(function() {
+                                      $scope.managedUsers('search', $scope.filters);
+                                      blockUI.stop();
+                                    }, 1500);
                                   });
                                   var approvePromises = [];
-                                  angular.forEach($scope.userDepartamentList,function(depto){
+                                  /*angular.forEach($scope.userDepartamentList,function(depto){
                                       var deferred = $q.defer();
                                       approvePromises.push(deferred.promise);
                                       blockUI.start('Aprobando el departamento '+depto.floor+'-'+depto.departament+' seleccionado.');
@@ -1626,7 +1634,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                                       $scope.refreshList();
                                       blockUI.stop();
                                     }, 1500);
-                                  });
+                                  });*/
                               }else{
                                 $timeout(function() {
                                   console.log("REGISTERED SUCCESSFULLY");
@@ -1802,12 +1810,12 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                         }
                       });
                       $q.all(assignPromises).then(function () {
-                          inform.add('Departamentos Asignados y en proceso de aprobacion automatica.',{
-                            ttl:5000, type: 'success'
-                          });
+                        inform.add('El Usuario: '+$scope.update.user.fullNameUser+' ha sido actualizado con exito. ',{
+                              ttl:3000, type: 'success'
+                        });
                       });
                       var approvePromises = [];
-                      angular.forEach($scope.userDepartamentList,function(depto){
+                      /*angular.forEach($scope.userDepartamentList,function(depto){
                           var deferred = $q.defer();
                           approvePromises.push(deferred.promise);
                           if (depto.isNew){
@@ -1848,7 +1856,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                         inform.add('Departamentos Aprobados Satisfactoriamente.',{
                           ttl:5000, type: 'success'
                         });
-                      });
+                      });*/
                       $timeout(function() {
                         $scope.refreshList();
                         blockUI.stop();
