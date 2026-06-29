@@ -486,7 +486,7 @@ class User_model extends CI_Model
 						$query2 = $this->db->select("*")->from("tb_clients");
 						$query2 = $this->db->where('idClient', $item['idAddresKf']);
 						$query2 = $this->db->get();
-						log_message('info', 'Última query ejecutada: ' . $this->db->last_query());
+						log_message('info', '$user[$key][\'building\'] query ejecutada: ' . $this->db->last_query());
 						if ($query2->num_rows() > 0) {
 							$user[$key]['building'] = $query2->result_array();
 						}
