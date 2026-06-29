@@ -955,7 +955,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 $scope.rsCustomerListSelectData       = $scope.rsCustomerSelectData;
                 $scope.filterAddressKf.selected       = obj.idAddresKf!=null && obj.building!=undefined?{'idClient': obj.building[0].idClient, 'address': obj.building[0].address}:null;
                 $scope.customerSearch.name            = obj.idAddresKf!=null && obj.building!=undefined?obj.building[0].address:null;
-                if(obj.idAddresKf!=null){
+                if(obj.idAddresKf!=null && obj.building!=undefined){
                   $scope.getDeptoListByAddress(obj.building[0].idClient);
                   $timeout(function() {
                     $scope.users.update.idDepartmentKf = obj.idDepartmentKf;
