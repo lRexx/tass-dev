@@ -725,7 +725,7 @@
           };
         /**************************************************
         *                                                 *
-        *              GET TICKET TYPES LIST              *
+        *          GET COUNTRY PHONE CODES LIST           *
         *                                                 *
         **************************************************/
           $scope.countryPhoneCodesList = [];

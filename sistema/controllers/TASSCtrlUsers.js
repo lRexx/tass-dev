@@ -1305,8 +1305,8 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 $scope.register.user.idSysProfileFk          = obj.idSysProfileFk;
                 $scope.register.user.dni                     = obj.dni;
                 $scope.register.user.emailUser               = obj.email;
-                $scope.register.user.phoneNumberUser        = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberUser);
-                $scope.register.user.phoneLocalNumberUser   = $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,obj.phonelocalPrefixNumber,obj.phonelocalNumberUser);
+                $scope.register.user.phoneNumberUser         = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberUser);
+                $scope.register.user.phoneLocalNumberUser    = $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,obj.phonelocalPrefixNumber,obj.phonelocalNumberUser);
                 $scope.register.user.isEdit                  = 1;
                 $scope.register.user.isCreateByAdmin         = 1;
                 $scope.register.user.loggedUser              = $scope.sysLoggedUser;
