@@ -69,6 +69,10 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
         }, 100);
 
     }
+    $scope.select.phoneCountryWired.selected=$scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+    $scope.select.phoneCountryMovil.selected=$scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+    $scope.register.phonelocalPrefixNumber = "11"
+    $scope.register.phoneMovilPrefixNumber = "11"
   }else{
     tokenSystem.destroyTokenStorage(2);
     tokenSystem.destroyTokenStorage(3);
@@ -124,7 +128,105 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
         });
       }
     }
+    $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber) {
 
+        if (!countryCodeTmp ||
+            !prefixNumber ||
+            !phoneNumber) {
+            return null;
+        }
+
+        let countryCode = countryCodeTmp.phoneCode;
+        let localNumber = phoneNumber;
+
+        // 1️⃣ Quitar todo lo que no sea número (elimina paréntesis, espacios y guiones de la máscara)
+        localNumber = localNumber.replace(/\D/g, '');
+
+        // 2️⃣ Eliminar ceros iniciales
+        localNumber = localNumber.replace(/^0+/, '');
+
+        // 2.5️⃣ ELIMINAR EL "15" INICIAL (Solo para almacenamiento en Base de Datos)
+        // Si el número limpio empieza con 15, lo removemos para guardar solo el número de abonado real
+        if (localNumber.startsWith('15')) {
+            localNumber = localNumber.substring(2);
+        }
+
+        // 3️⃣ Quitar + del countryCode
+        countryCode = countryCode.replace('+', '');
+
+        // Se unifica: Código País + Prefijo de Área (ej: 11) + Número local sin el 15 (ej: 22356388)
+        let fullNumber = '+' + countryCode + prefixNumber + localNumber;
+
+        // 4️⃣ Validar longitud máxima E.164
+        if (fullNumber.length > 16) { // + incluido
+            return null;
+        }
+
+        return fullNumber;
+    };
+    $scope.parsePhoneE164 = function (fullNumber, countryPhoneCodesList) {
+        if (!fullNumber || !countryPhoneCodesList || countryPhoneCodesList.length === 0) {
+            return null;
+        }
+
+        // 1️⃣ Limpiar el número dejando solo el '+' inicial y los dígitos
+        let cleanNumber = fullNumber.replace(/[^\d+]/g, '');
+
+        // 2️⃣ Encontrar el país correspondiente que coincida al inicio del string
+        // Ordenamos por longitud descrita para que coincidan primero códigos largos (ej: +1246 antes que +1)
+        let sortedCountries = [...countryPhoneCodesList].sort((a, b) => b.phoneCode.length - a.phoneCode.length);
+        let matchedCountry = sortedCountries.find(c => cleanNumber.startsWith(c.phoneCode));
+
+        if (!matchedCountry) {
+            return null; // No se encontró un país válido en la lista
+        }
+
+        // 3️⃣ Remover el código de país para procesar el resto del número
+        let remaining = cleanNumber.substring(matchedCountry.phoneCode.length);
+
+        let prefixNumber = "";
+        let phoneNumber = "";
+
+        // 4️⃣ Lógica específica para Argentina (+54)
+        if (matchedCountry.isoCode === "AR" || matchedCountry.phoneCode === "+54") {
+            // En Argentina, los prefijos más comunes son de 2 dígitos (11) o 3 dígitos (341, 261, etc)
+            // Probamos primero con el prefijo AMBA / Buenos Aires que es "11"
+            if (remaining.startsWith("11")) {
+                prefixNumber = "11";
+                let afterPrefix = remaining.substring(2);
+
+                // Verificamos si incluye el "15" de celular
+                if (afterPrefix.startsWith("15")) {
+                    phoneNumber = "15" + afterPrefix.substring(2);
+                } else {
+                    phoneNumber = afterPrefix;
+                }
+            } else {
+                // Para otros prefijos de provincias de 3 dígitos (ej: 341, 261)
+                // Tomamos 3 dígitos como prefijo estándar fuera de BsAs
+                prefixNumber = remaining.substring(0, 3);
+                let afterPrefix = remaining.substring(3);
+
+                if (afterPrefix.startsWith("15")) {
+                    phoneNumber = "15" + afterPrefix.substring(2);
+                } else {
+                    phoneNumber = afterPrefix;
+                }
+            }
+        } else {
+            // 5️⃣ Lógica genérica para otros países (Mitad prefijo, mitad número como fallback)
+            let mid = Math.floor(remaining.length / 2);
+            prefixNumber = remaining.substring(0, mid);
+            phoneNumber = remaining.substring(mid);
+        }
+
+        // Retorna el objeto desarmado listo para asignar a tus variables de $scope
+        return {
+            countryCodeTmp: matchedCountry,
+            prefixNumber: prefixNumber,
+            phoneNumber: phoneNumber
+        };
+    };
   /**************************************************
   *                                                 *
   *               REGISTRO DE USUARIO               *
@@ -196,8 +298,8 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
                           fullNameUser            : $scope.register.fname+' '+$scope.register.lname,
                           emailUser               : $scope.register.email,
                           dni                     : $scope.register.dni,
-                          phoneNumberUser         : $scope.register.phoneMovilNumberUser,
-                          phoneLocalNumberUser    : $scope.register.phonelocalNumberUser,
+                          phoneNumberUser         : $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,$scope.register.phoneMovilPrefixNumber,$scope.register.phoneMovilNumberUser),
+                          phoneLocalNumberUser    : $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,$scope.register.phonelocalPrefixNumber,$scope.register.phonelocalNumberUser),
                           idProfileKf             : $scope.register.idProfileKf,
                           idCompanyKf             : $scope.register.idCompanyKf,
                           /*-----------------------------------------*/
@@ -553,6 +655,6 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
       }
       });
   };
-$scope.getCountryPhoneCodesFn();
+  $scope.getCountryPhoneCodesFn();
 });
 

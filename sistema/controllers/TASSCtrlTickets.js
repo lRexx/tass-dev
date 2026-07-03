@@ -3695,7 +3695,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.register.user.idDeparment_Tmp        = (obj.idProfileKf==3 || obj.idProfileKf==6) && obj.idTypeTenantKf==1?obj.idDepartmentKf:null;
                         $scope.register.user.requireAuthentication  = obj.blockUserLoginTmp!=undefined && obj.blockUserLoginTmp?0:1;
                         console.log($scope.register.user);
-                        //$scope.sysRegisterTenantFn();
+                        $scope.sysRegisterTenantFn();
                     break;
                     case "associateTenant":
                         console.log(obj);
@@ -3886,8 +3886,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     break;
                     case "newAttendant":
                         $scope.attendant={
-                            'new':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf':'','depto':''},
-                            'update':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf2':'','depto':''},
+                            'new':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilPrefixNumber':'', 'phoneMovilNumberUser':'', 'phonelocalPrefixNumber':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf':'','depto':''},
+                            'update':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilPrefixNumber':'', 'phoneMovilNumberUser':'', 'phonelocalPrefixNumber':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf2':'','depto':''},
                             'tmp':{'dni':'','mail':''}};
                         $scope.depto={'department':{'idDepartment':null, 'idUserKf':null}};
                         $scope.att= {'ownerOption':undefined}
@@ -3910,6 +3910,10 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $('#RegisterAttendant').modal({backdrop: 'static', keyboard: false});
                         $('#RegisterAttendant').on('shown.bs.modal', function () {
                             $('#idTypeAttKf').focus();
+                            $scope.select.phoneCountryWired.selected        = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+                            $scope.select.phoneCountryMovil.selected        = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+                            $scope.attendant.new.phonelocalPrefixNumber     = "11"
+                            $scope.attendant.new.phoneMovilPrefixNumber     = "11"
                         });
                         console.log($scope.attendant.new);
                     break;
@@ -3919,8 +3923,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.register.user.idProfileKf            = obj.idProfileKf;
                         $scope.register.user.fullNameUser           = obj.fullname;
                         $scope.register.user.emailUser              = obj.email;
-                        $scope.register.user.phoneNumberUser        = obj.phoneMovilNumberUser;
-                        $scope.register.user.phoneLocalNumberUser   = obj.phonelocalNumberUser;
+                        $scope.register.user.phoneNumberUser        = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberUser);
+                        $scope.register.user.phoneLocalNumberUser   = $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,obj.phonelocalPrefixNumber,obj.phonelocalNumberUser);
                         $scope.register.user.idTyepeAttendantKf     = obj.idProfileKf==6?obj.idTypeAttKf.idTyepeAttendant:null;
                         $scope.register.user.dni                    = obj.dni;
                         $scope.register.user.idTypeTenantKf         = $scope.att.ownerOption==undefined || $scope.att.ownerOption==null || $scope.att.ownerOption==3 || obj.idTypeAttKf.idTyepeAttendant==1?null:$scope.att.ownerOption;
