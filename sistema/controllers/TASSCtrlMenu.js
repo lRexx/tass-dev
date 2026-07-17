@@ -974,6 +974,10 @@
             $scope.profile.phoneLocalPrefixNumber       = phoneParsedLocal==null?"11":phoneParsedLocal.prefixNumber;
             $scope.profile.phoneLocalNumberUser         = phoneParsedLocal?phoneParsedLocal.phoneNumber:$scope.profile.phoneLocalNumberUser;
             $("#ProfileModalUser").modal({backdrop: 'static', keyboard: false});
+            $('.input-movil').unmask();
+            $('.input-local').unmask();
+            $('.input-movil').off('input keydown keyup blur focus');
+            $('.input-local').off('input keydown keyup blur focus');
             $('#ProfileModalUser').on('shown.bs.modal', function () {
               $('#profileNames').focus();
                 $timeout(function() {
@@ -1006,9 +1010,6 @@
                   $('#showModalEmailChange').modal({backdrop: 'static', keyboard: false});
                 }
                 $('#ProfileModalUser').modal('hide');
-                $timeout(function() {
-                    $scope.fnLoadPhoneMask();
-                }, 550);
                 $timeout(function() {
                   $scope.updateSysUserLoggedSession($scope.rsUser.user.idUser);
                 }, 1000);
