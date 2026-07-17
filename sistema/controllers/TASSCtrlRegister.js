@@ -71,8 +71,8 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
     }
     $scope.select.phoneCountryWired.selected=$scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
     $scope.select.phoneCountryMovil.selected=$scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
-    $scope.register.phonelocalPrefixNumber = "11"
-    $scope.register.phoneMovilPrefixNumber = "11"
+    $scope.register.phoneWiredPrefix = "11"
+    $scope.register.phoneMovilPrefix = "11"
   }else{
     tokenSystem.destroyTokenStorage(2);
     tokenSystem.destroyTokenStorage(3);
@@ -298,8 +298,8 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
                           fullNameUser            : $scope.register.fname+' '+$scope.register.lname,
                           emailUser               : $scope.register.email,
                           dni                     : $scope.register.dni,
-                          phoneNumberUser         : $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,$scope.register.phoneMovilPrefixNumber,$scope.register.phoneMovilNumberUser),
-                          phoneLocalNumberUser    : $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,$scope.register.phonelocalPrefixNumber,$scope.register.phonelocalNumberUser),
+                          phoneNumberUser         : $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,$scope.register.phoneMovilPrefix,$scope.register.phoneMovilNumberUser),
+                          phoneLocalNumberUser    : $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,$scope.register.phoneWiredPrefix,$scope.register.phonelocalNumberUser),
                           idProfileKf             : $scope.register.idProfileKf,
                           idCompanyKf             : $scope.register.idCompanyKf,
                           /*-----------------------------------------*/
