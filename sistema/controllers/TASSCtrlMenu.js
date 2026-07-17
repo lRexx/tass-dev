@@ -959,52 +959,36 @@
         *     (status, profile, typeTenant, company)      *
         **************************************************/
           $scope.profile={};
+          $scope.select={'companies':{'selected':undefined}, 'address':{'selected':undefined},'company':{'selected':undefined},'addressAttendant':{'selected':undefined}, 'deptos':{}, 'departmentList':{},'phoneCountryMovil':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined}}
+          $scope.profile = {'idUser':null,'idProfileKf':{}, 'idSysProfileFk':null, 'fname':'','lname':'', 'dni':'','email':'', 'phonelocalNumberUser':'', 'phoneMovilNumberUser':'', 'idDepartmentKf':null, 'idTypeAttKf':null, 'typeOtherAtt':'', 'idTypeTenantKf':''}
           $scope.profileUserOpen = function(){
             $scope.profile={};
+            $scope.select={'companies':{'selected':undefined}, 'address':{'selected':undefined},'company':{'selected':undefined},'addressAttendant':{'selected':undefined}, 'deptos':{}, 'departmentList':{},'phoneCountryMovil':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined}}
+            $scope.profile = {'idUser':null,'idProfileKf':{}, 'idSysProfileFk':null, 'fname':'','lname':'', 'dni':'','email':'', 'phonelocalNumberUser':'', 'phoneMovilNumberUser':'', 'idDepartmentKf':null, 'idTypeAttKf':null, 'typeOtherAtt':'', 'idTypeTenantKf':''}
             $scope.profile=tokenSystem.getTokenStorage(2);
-            $('#ProfileModalUser').modal({backdrop: 'static', keyboard: false});
+            console.log($scope.profile);
+            phoneParsedMovil = $scope.parsePhoneE164($scope.profile.phoneNumberUser, $scope.countryPhoneCodesList);
+            phoneParsedLocal = $scope.parsePhoneE164($scope.profile.phoneLocalNumberUser, $scope.countryPhoneCodesList);
+            if (phoneParsedMovil || phoneParsedLocal) {
+                $scope.select.phoneCountryMovil.selected    = phoneParsedMovil==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedMovil.countryCodeTmp;
+                $scope.select.phoneCountryWired.selected    = phoneParsedLocal==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedLocal.countryCodeTmp;
+                $scope.profile.phoneMovilPrefixNumber       = phoneParsedMovil==null?"11":phoneParsedMovil.prefixNumber;
+                $scope.profile.phoneMovilNumberUser         = phoneParsedMovil?phoneParsedMovil.phoneNumber:$scope.profile.phoneNumberUser;
+                $scope.profile.phonelocalPrefixNumber       = phoneParsedLocal==null?"11":phoneParsedLocal.prefixNumber;
+                $scope.profile.phonelocalNumberUser         = phoneParsedLocal?phoneParsedLocal.phoneNumber:$scope.profile.phoneLocalNumberUser;
+            }
+            $("#ProfileModalUser").modal({backdrop: 'static', keyboard: false});
+            $('.input-movil').unmask();
+            $('.input-local').unmask();
+            $('.input-movil').off('input keydown keyup blur focus');
+            $('.input-local').off('input keydown keyup blur focus');
             $('#ProfileModalUser').on('shown.bs.modal', function () {
-                $('#profileNames').focus();
+              $('#profileNames').focus();
+                $timeout(function() {
+                    $scope.fnLoadPhoneMask();
+                }, 150);
             });
             //console.log($scope.profile);
-          }
-          $scope.updateProfileLoggedUser=function(){
-            $scope.rsUser = {'user':{}}
-            var isEmailChange = $scope.sysLoggedUser.emailUser != $scope.profile.emailUser?true:false;
-            console.log("==========================================");
-                $scope.sysLoggedUser.fullNameUser         = $scope.profile.fullNameUser;
-                $scope.sysLoggedUser.emailUser            = $scope.profile.emailUser;
-                $scope.sysLoggedUser.phoneNumberUser      = $scope.profile.phoneNumberUser;
-                $scope.sysLoggedUser.phoneLocalNumberUser = $scope.profile.phoneLocalNumberUser;
-                $scope.sysLoggedUser.isEdit               = 1;
-                $scope.rsUser.user=$scope.sysLoggedUser;
-                $scope.rsUser.user.isEmailChange = isEmailChange;
-            console.log($scope.rsUser)
-            console.log("==========================================");
-            userServices.updateUser($scope.rsUser).then(function(response){
-              if(response.status==200){
-                console.log("Usuario: "+$scope.rsUser.user.fullNameUser+" Successfully updated");
-                inform.add($scope.rsUser.user.fullNameUser+', su perfil ha sido actualizado con exito. ',{
-                      ttl:4000, type: 'success'
-                });
-                if ($scope.rsUser.user.isEmailChange){
-                  $('#showModalEmailChange').modal({backdrop: 'static', keyboard: false});
-                }
-                $('#ProfileModalUser').modal('hide');
-                $timeout(function() {
-                  $scope.updateSysUserLoggedSession($scope.rsUser.user.idUser);
-                }, 1000);
-              }else if(response.status==404){
-                inform.add('[Error]: '+response.status+', Ocurrio error verifique los datos e intenta de nuevo o contacta el area de soporte. ',{
-                  ttl:5000, type: 'danger'
-                  });
-              }else if(response.status==500){
-                console.log("User not updated, contact administrator");
-                inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con servidor, contacta el area de soporte. ',{
-                  ttl:5000, type: 'danger'
-                  });
-              }
-            });
           }
         /**************************************************
         *                                                 *
