@@ -67,11 +67,11 @@
                     <!-- Text Phone-->
                     <div class="form-group col-md-6" ng-class="{
                     'has-success':
-                        profile.phoneLocalNumberUser!='' && profile.phoneLocalNumberUser!=null  && fUserProfile.phoneLocal.$valid,
+                        profile.phoneLocalNumberUser!='' && profile.phoneLocalNumberUser!=null  && fUserProfile.profilePhoneLocal.$valid,
                     'has-warning':
                         !profile.phoneLocalNumberUser && profile.phoneMovilNumberUser,
                     'has-error':
-                        !profile.phoneMovilNumberUser && !profile.phoneLocalNumberUser && fUserProfile.phoneLocal.$touched,
+                        !profile.phoneMovilNumberUser && !profile.phoneLocalNumberUser && fUserProfile.profilePhoneLocal.$touched,
                     }">
                         <label style="padding-left: 15px;">Cod. Pais&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prefijo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Telfono Fijo</label>
 
@@ -82,7 +82,7 @@
                                     <ui-select
                                         class="ui-select-bootstrap-phone"
                                         name="profileCountryCode"
-                                        ng-model="select.phoneCountryWired.selected"
+                                        ng-model="profile.phoneCountryWired.selected"
                                         search-enabled="true">
                                         <ui-select-match allow-clear="false"><span class="country-flag"><img ng-src="https://flagcdn.com/24x18/{{$select.selected.isoCode | lowercase}}.png" width="18" style="margin-right:5px;"> {{ $select.selected.phoneCode }}</span></ui-select-match>
                                         <ui-select-choices repeat="item in countryPhoneCodesList | filter: $select.search">
@@ -130,11 +130,11 @@
                     <!-- Movil Phone-->
                     <div class="form-group col-md-6" ng-class="{
                     'has-success':
-                        profile.phoneMovilNumberUser!='' && profile.phoneMovilNumberUser!=null  && fUserProfile.phoneMovil.$valid,
+                        profile.phoneMovilNumberUser!='' && profile.phoneMovilNumberUser!=null  && fUserProfile.profilePhoneMovil.$valid,
                     'has-warning':
                         !profile.phoneMovilNumberUser && profile.phoneLocalNumberUser,
                     'has-error':
-                        !profile.phoneMovilNumberUser && !profile.phoneLocalNumberUser && fUserProfile.phoneMovil.$touched,
+                        !profile.phoneMovilNumberUser && !profile.phoneLocalNumberUser && fUserProfile.profilePhoneMovil.$touched,
                     }">
                         <label style="padding-left: 15px;">Cod. Pais&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prefijo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Telfono Móvil</label>
 
@@ -145,7 +145,7 @@
                                     <ui-select
                                         class="ui-select-bootstrap-phone"
                                         name="profileCountryCode"
-                                        ng-model="select.phoneCountryMovil.selected"
+                                        ng-model="profile.phoneCountryMovil.selected"
                                         search-enabled="true">
                                         <ui-select-match allow-clear="false"><span class="country-flag"><img ng-src="https://flagcdn.com/24x18/{{$select.selected.isoCode | lowercase}}.png" width="18" style="margin-right:5px;"> {{ $select.selected.phoneCode }}</span></ui-select-match>
                                         <ui-select-choices repeat="item in countryPhoneCodesList | filter: $select.search">
@@ -158,7 +158,7 @@
                                 </div>
                                 <!-- Phone Prefix number -->
                                 <input
-                                    name="phoneMovilPrefix"
+                                    name="profilePhoneMovilPrefix"
                                     ng-model="profile.phoneMovilPrefixNumber"
                                     type="text"
                                     class="form-control input-phone-prefix"
@@ -172,7 +172,7 @@
                                 />
                                 <!-- Phone number -->
                                 <input
-                                    name="phoneMovil"
+                                    name="profilePhoneMovil"
                                     ng-model="profile.phoneMovilNumberUser"
                                     type="text"
                                     class="form-control input-movil"
