@@ -261,9 +261,8 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
   *                                                 *
   **************************************************/
     $scope.sysRegisterFn = function(obj){
-      console.log(obj);
       console.log($scope.userData2Add());
-        /*userServices.addUser($scope.userData2Add()).then(function(response_userRegister){
+        userServices.addUser($scope.userData2Add()).then(function(response_userRegister){
           if(response_userRegister.status==200){
             inform.add('Su Cuenta de usuario ha sido creada satisfactoriamente, verifique su casilla de correo electronico para continuar.',{
               ttl:6000, type: 'success'
@@ -291,7 +290,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
               $scope.redirectSuccessfull = true;
             }
           }
-        });*/
+        });
 
     }
     $scope.userData2Add = function () {
