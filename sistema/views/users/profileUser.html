@@ -81,7 +81,7 @@
                                 <div class="input-group-btn" style="width: 100px;">
                                     <ui-select
                                         class="ui-select-bootstrap-phone"
-                                        name="countryCode"
+                                        name="profileCountryCode"
                                         ng-model="select.phoneCountryWired.selected"
                                         search-enabled="true">
                                         <ui-select-match allow-clear="false"><span class="country-flag"><img ng-src="https://flagcdn.com/24x18/{{$select.selected.isoCode | lowercase}}.png" width="18" style="margin-right:5px;"> {{ $select.selected.phoneCode }}</span></ui-select-match>
@@ -95,7 +95,7 @@
                                 </div>
                                 <!-- Phone Prefix number -->
                                 <input
-                                    name="phoneLocalPrefix"
+                                    name="profilePhoneLocalPrefix"
                                     ng-model="profile.phoneLocalPrefixNumber"
                                     type="text"
                                     class="form-control input-phone-prefix"
@@ -109,7 +109,7 @@
                                 />
                                 <!-- Phone number -->
                                 <input
-                                    name="phoneLocal"
+                                    name="profilePhoneLocal"
                                     ng-model="profile.phoneLocalNumberUser"
                                     type="text"
                                     class="form-control input-local"
@@ -144,7 +144,7 @@
                                 <div class="input-group-btn" style="width: 100px;">
                                     <ui-select
                                         class="ui-select-bootstrap-phone"
-                                        name="countryCode"
+                                        name="profileCountryCode"
                                         ng-model="select.phoneCountryMovil.selected"
                                         search-enabled="true">
                                         <ui-select-match allow-clear="false"><span class="country-flag"><img ng-src="https://flagcdn.com/24x18/{{$select.selected.isoCode | lowercase}}.png" width="18" style="margin-right:5px;"> {{ $select.selected.phoneCode }}</span></ui-select-match>
