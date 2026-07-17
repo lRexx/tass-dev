@@ -13,7 +13,7 @@
 
     		<div class="modal-body">
 				<!-- FORM CONTAINER-->
-				<form class="form-horizontal" name="fUserProfile"  autocomplete="off" novalidate>
+				<form class="form-horizontal" name="form.fUserProfile"  autocomplete="off" novalidate>
 					<!-- Select profile -->
 					<div class="col-md-6 form-group">
 					  	<label style="padding-left: 15px;">Perfil</label>
@@ -67,11 +67,11 @@
                     <!-- Text Phone-->
                     <div class="form-group col-md-6" ng-class="{
                     'has-success':
-                        profile.phoneLocalNumberUser!='' && profile.phoneLocalNumberUser!=null  && fUserProfile.phoneLocal.$valid,
+                        profile.phoneLocalNumberUser!='' && profile.phoneLocalNumberUser!=null  && form.fUserProfile.phoneLocal.$valid,
                     'has-warning':
                         !profile.phoneLocalNumberUser && profile.phoneMovilNumberUser,
                     'has-error':
-                        !profile.phoneMovilNumberUser && !profile.phoneLocalNumberUser && fUserProfile.phoneLocal.$touched,
+                        !profile.phoneMovilNumberUser && !profile.phoneLocalNumberUser && form.fUserProfile.phoneLocal.$touched,
                     }">
                         <label style="padding-left: 15px;">Cod. Pais&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prefijo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Telfono Fijo</label>
 
@@ -130,11 +130,11 @@
                     <!-- Movil Phone-->
                     <div class="form-group col-md-6" ng-class="{
                     'has-success':
-                        profile.phoneMovilNumberUser!='' && profile.phoneMovilNumberUser!=null  && fUserProfile.phoneMovil.$valid,
+                        profile.phoneMovilNumberUser!='' && profile.phoneMovilNumberUser!=null  && form.fUserProfile.phoneMovil.$valid,
                     'has-warning':
                         !profile.phoneMovilNumberUser && profile.phoneLocalNumberUser,
                     'has-error':
-                        !profile.phoneMovilNumberUser && !profile.phoneLocalNumberUser && fUserProfile.phoneMovil.$touched,
+                        !profile.phoneMovilNumberUser && !profile.phoneLocalNumberUser && form.fUserProfile.phoneMovil.$touched,
                     }">
                         <label style="padding-left: 15px;">Cod. Pais&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prefijo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Telfono Móvil</label>
 
@@ -197,7 +197,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
-                        <button type="submit" ng-click="modalConfirmationMenu('updateSysUser', 0, profile)" ng-disabled="fUserProfile.$invalid" class="btn btn-labeled btn-success">
+                        <button type="submit" ng-click="modalConfirmationMenu('updateSysUser', 0, profile)" ng-disabled="form.fUserProfile.$invalid" class="btn btn-labeled btn-success">
                             <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
                         <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
                             <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
