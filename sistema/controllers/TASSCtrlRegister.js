@@ -69,6 +69,31 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
         }, 100);
 
     }
+/**************************************************
+*                                                 *
+*               GET PHONE CODES LIST              *
+*                                                 *
+**************************************************/
+  $scope.countryPhoneCodesList = [];
+  $scope.getCountryPhoneCodesFn = function(){
+      UtilitiesServices.getCountryPhoneCodes().then(function(response){
+        //console.log(response);
+      if(response.status==200){
+              $scope.countryPhoneCodesList = response.data;
+      }else if (response.status==404){
+          inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
+              ttl:3000, type: 'danger'
+          });
+              $scope.countryPhoneCodesList = undefined;
+      }else if (response.status==500){
+          inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
+          ttl:3000, type: 'danger'
+          });
+          $scope.countryPhoneCodesList = undefined;
+      }
+      });
+  };
+  $scope.getCountryPhoneCodesFn();
     setTimeout(function() {
       $scope.select.phoneCountryWired.selected=$scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
       $scope.select.phoneCountryMovil.selected=$scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
@@ -633,30 +658,5 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
       return false;
     }
   };
-/**************************************************
-*                                                 *
-*              GET TICKET TYPES LIST              *
-*                                                 *
-**************************************************/
-  $scope.countryPhoneCodesList = [];
-  $scope.getCountryPhoneCodesFn = function(){
-      UtilitiesServices.getCountryPhoneCodes().then(function(response){
-        //console.log(response);
-      if(response.status==200){
-              $scope.countryPhoneCodesList = response.data;
-      }else if (response.status==404){
-          inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
-              ttl:3000, type: 'danger'
-          });
-              $scope.countryPhoneCodesList = undefined;
-      }else if (response.status==500){
-          inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
-          ttl:3000, type: 'danger'
-          });
-          $scope.countryPhoneCodesList = undefined;
-      }
-      });
-  };
-  $scope.getCountryPhoneCodesFn();
 });
 
