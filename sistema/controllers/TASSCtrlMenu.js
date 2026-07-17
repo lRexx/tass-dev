@@ -975,6 +975,10 @@
             console.log(phoneParsedLocal);
             $scope.select.phoneCountryMovil.selected    = phoneParsedMovil==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedMovil.countryCodeTmp;
             $scope.select.phoneCountryWired.selected    = phoneParsedLocal==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedLocal.countryCodeTmp;
+            console.log("select.phoneCountryMovil.selected: ");
+            console.log($scope.select.phoneCountryMovil.selected);
+            console.log("select.phoneCountryWired.selected: ");
+            console.log($scope.select.phoneCountryWired.selected);
             $scope.profile.phoneMovilPrefixNumber       = phoneParsedMovil==null?"11":phoneParsedMovil.prefixNumber;
             $scope.profile.phoneMovilNumberUser         = phoneParsedMovil?phoneParsedMovil.phoneNumber:$scope.profile.phoneNumberUser;
             $scope.profile.phoneLocalPrefixNumber       = phoneParsedLocal==null?"11":phoneParsedLocal.prefixNumber;
