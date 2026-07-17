@@ -990,6 +990,174 @@
             });
             //console.log($scope.profile);
           }
+          $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber) {
+
+              if (!countryCodeTmp ||
+                  !prefixNumber ||
+                  !phoneNumber) {
+                  return null;
+              }
+
+              let countryCode = countryCodeTmp.phoneCode;
+              let localNumber = phoneNumber;
+
+              // 1️⃣ Quitar todo lo que no sea número (elimina paréntesis, espacios y guiones de la máscara)
+              localNumber = localNumber.replace(/\D/g, '');
+
+              // 2️⃣ Eliminar ceros iniciales
+              localNumber = localNumber.replace(/^0+/, '');
+
+              // 2.5️⃣ ELIMINAR EL "15" INICIAL (Solo para almacenamiento en Base de Datos)
+              // Si el número limpio empieza con 15, lo removemos para guardar solo el número de abonado real
+              if (localNumber.startsWith('15')) {
+                  localNumber = localNumber.substring(2);
+              }
+
+              // 3️⃣ Quitar + del countryCode
+              countryCode = countryCode.replace('+', '');
+
+              // Se unifica: Código País + Prefijo de Área (ej: 11) + Número local sin el 15 (ej: 22356388)
+              let fullNumber = '+' + countryCode + prefixNumber + localNumber;
+
+              // 4️⃣ Validar longitud máxima E.164
+              if (fullNumber.length > 16) { // + incluido
+                  return null;
+              }
+
+              return fullNumber;
+          };
+          $scope.parsePhoneE164 = function (fullNumber, countryPhoneCodesList) {
+
+              let defaultIsoCode = "AR"; // Default to Argentina if no match found
+
+              if (!fullNumber || !countryPhoneCodesList || countryPhoneCodesList.length === 0) {
+                  return null;
+              }
+
+              // 1️⃣ Strip ALL leading zeros from the raw input before anything else
+              while (fullNumber.startsWith("0")) {
+                  fullNumber = fullNumber.substring(1);
+              }
+
+              // 2️⃣ Clean the number, keeping only '+' and digits
+              let cleanNumber = fullNumber.replace(/[^\d+]/g, '');
+
+              // 3️⃣ Match country by phone code (longest match first)
+              let sortedCountries = [...countryPhoneCodesList].sort((a, b) => b.phoneCode.length - a.phoneCode.length);
+              let matchedCountry = sortedCountries.find(c => cleanNumber.startsWith(c.phoneCode));
+
+              // 4️ Fallback to default country if no match found
+              if (!matchedCountry) {
+                  if (defaultIsoCode) {
+                      matchedCountry = countryPhoneCodesList.find(c => c.isoCode === defaultIsoCode);
+                  }
+
+                  // If still nothing, give up
+                  if (!matchedCountry) {
+                      return null;
+                  }
+
+                  // Prepend the country code since the number didn't have it
+                  cleanNumber = matchedCountry.phoneCode + cleanNumber;
+              }
+
+              // 5️⃣ Extract remaining digits after country code, stripping leading zeros
+              let remaining = cleanNumber.substring(matchedCountry.phoneCode.length);
+
+              // Strip leading zeros from remaining (e.g. national trunk prefix "0")
+              while (remaining.startsWith("0")) {
+                  remaining = remaining.substring(1);
+              }
+
+              let prefixNumber = "";
+              let phoneNumber = "";
+
+              // 6️⃣ Argentina-specific logic (+54)
+              if (matchedCountry.isoCode === "AR" || matchedCountry.phoneCode === "+54") {
+                  if (remaining.startsWith("11")) {
+                      prefixNumber = "11";
+                      let afterPrefix = remaining.substring(2);
+
+                      // Strip leading zeros after prefix too
+                      while (afterPrefix.startsWith("0")) {
+                          afterPrefix = afterPrefix.substring(1);
+                      }
+
+                      if (afterPrefix.startsWith("15")) {
+                          phoneNumber = "15" + afterPrefix.substring(2);
+                      } else {
+                          phoneNumber = afterPrefix;
+                      }
+                  } else {
+                      let remainingLength = remaining.length;
+                      // 11 digits → 3-digit prefix, 12 digits → 4-digit prefix
+                      let cutPosition = remainingLength === 11 ? 3 : 4;
+
+                      prefixNumber = remaining.substring(0, cutPosition);
+                      let afterPrefix = remaining.substring(cutPosition);
+
+                      // Strip leading zeros after prefix
+                      while (afterPrefix.startsWith("0")) {
+                          afterPrefix = afterPrefix.substring(1);
+                      }
+
+                      if (afterPrefix.startsWith("15")) {
+                          phoneNumber = "15" + afterPrefix.substring(2);
+                      } else {
+                          phoneNumber = afterPrefix;
+                      }
+                  }
+              } else {
+                  // 7️⃣ Generic fallback: split remaining in half
+                  let mid = Math.floor(remaining.length / 2);
+                  prefixNumber = remaining.substring(0, mid);
+                  phoneNumber = remaining.substring(mid);
+              }
+
+              return {
+                  countryCodeTmp: matchedCountry,
+                  prefixNumber: prefixNumber,
+                  phoneNumber: phoneNumber
+              };
+          };
+          $scope.updateProfileLoggedUser=function(){
+            $scope.rsUser = {'user':{}}
+            var isEmailChange = $scope.sysLoggedUser.emailUser != $scope.profile.emailUser?true:false;
+            console.log("==========================================");
+                $scope.sysLoggedUser.fullNameUser         = $scope.profile.fullNameUser;
+                $scope.sysLoggedUser.emailUser            = $scope.profile.emailUser;
+                $scope.sysLoggedUser.phoneNumberUser      = $scope.profile.phoneNumberUser;
+                $scope.sysLoggedUser.phoneLocalNumberUser = $scope.profile.phoneLocalNumberUser;
+                $scope.sysLoggedUser.isEdit               = 1;
+                $scope.rsUser.user=$scope.sysLoggedUser;
+                $scope.rsUser.user.isEmailChange = isEmailChange;
+            console.log($scope.rsUser)
+            console.log("==========================================");
+            userServices.updateUser($scope.rsUser).then(function(response){
+              if(response.status==200){
+                console.log("Usuario: "+$scope.rsUser.user.fullNameUser+" Successfully updated");
+                inform.add($scope.rsUser.user.fullNameUser+', su perfil ha sido actualizado con exito. ',{
+                      ttl:4000, type: 'success'
+                });
+                if ($scope.rsUser.user.isEmailChange){
+                  $('#showModalEmailChange').modal({backdrop: 'static', keyboard: false});
+                }
+                $('#ProfileModalUser').modal('hide');
+                $timeout(function() {
+                  $scope.updateSysUserLoggedSession($scope.rsUser.user.idUser);
+                }, 1000);
+              }else if(response.status==404){
+                inform.add('[Error]: '+response.status+', Ocurrio error verifique los datos e intenta de nuevo o contacta el area de soporte. ',{
+                  ttl:5000, type: 'danger'
+                  });
+              }else if(response.status==500){
+                console.log("User not updated, contact administrator");
+                inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con servidor, contacta el area de soporte. ',{
+                  ttl:5000, type: 'danger'
+                  });
+              }
+            });
+          }
         /**************************************************
         *                                                 *
         *        REMOVER TENANT DE UN DEPARTAMENTO        *
