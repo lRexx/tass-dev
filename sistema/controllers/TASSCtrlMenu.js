@@ -965,15 +965,10 @@
             $scope.profile=tokenSystem.getTokenStorage(2);
             $scope.profile.phoneCountryWired={'selected':undefined};
             $scope.profile.phoneCountryMovil={'selected':undefined};
-            console.log($scope.profile);
             phoneParsedMovil = $scope.parsePhoneE164($scope.profile.phoneNumberUser, $scope.countryPhoneCodesList);
             phoneParsedLocal = $scope.parsePhoneE164($scope.profile.phoneLocalNumberUser, $scope.countryPhoneCodesList);
             $scope.profile.phoneCountryMovil.selected    = phoneParsedMovil==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):$scope.countryPhoneCodesList.find(c => c.isoCode === phoneParsedMovil.countryCodeTmp.isoCode);
             $scope.profile.phoneCountryWired.selected    = phoneParsedLocal==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):$scope.countryPhoneCodesList.find(c => c.isoCode === phoneParsedLocal.countryCodeTmp.isoCode);
-            console.log("profile.phoneCountryMovil.selected: ");
-            console.log($scope.profile.phoneCountryMovil.selected);
-            console.log("profile.phoneCountryWired.selected: ");
-            console.log($scope.profile.phoneCountryWired.selected);
             $scope.profile.phoneMovilPrefixNumber       = phoneParsedMovil==null?"11":phoneParsedMovil.prefixNumber;
             $scope.profile.phoneMovilNumberUser         = phoneParsedMovil?phoneParsedMovil.phoneNumber:$scope.profile.phoneNumberUser;
             $scope.profile.phoneLocalPrefixNumber       = phoneParsedLocal==null?"11":phoneParsedLocal.prefixNumber;
@@ -1011,6 +1006,9 @@
                   $('#showModalEmailChange').modal({backdrop: 'static', keyboard: false});
                 }
                 $('#ProfileModalUser').modal('hide');
+                $timeout(function() {
+                    $scope.fnLoadPhoneMask();
+                }, 550);
                 $timeout(function() {
                   $scope.updateSysUserLoggedSession($scope.rsUser.user.idUser);
                 }, 1000);
