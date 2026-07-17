@@ -401,14 +401,14 @@
 							<!-- Country Code -->
 							<div style="flex: 0 0 120px; min-width: 0;"
 								ng-class="{
-									'input-login-error': (register.phoneMovilNumberUser=='' || register.phoneMovilNumberUser==undefined) && (register.phoneCountryWired.selected==undefined || !register.phoneCountryWired.selected.phoneCode) && fNewUser.phoneCountryWired.$touched,
-									'input-login-warning': (!register.phoneMovilNumberUser=='' || !register.phoneMovilNumberUser==undefined) && (register.phoneCountryWired.selected==undefined || !register.phoneCountryWired.selected.phoneCode) && fNewUser.phoneCountryWired.$touched,
-									'input-login-success': register.phoneCountryWired.selected!=undefined && register.phoneCountryWired.selected.phoneCode && fNewUser.phoneCountryWired.$valid}">
+									'input-login-error': (register.phoneMovilNumberUser=='' || register.phoneMovilNumberUser==undefined) && (select.phoneCountryWired.selected==undefined || !select.phoneCountryWired.selected.phoneCode) && fNewUser.phoneCountryWired.$touched,
+									'input-login-warning': (!register.phoneMovilNumberUser=='' || !register.phoneMovilNumberUser==undefined) && (select.phoneCountryWired.selected==undefined || !select.phoneCountryWired.selected.phoneCode) && fNewUser.phoneCountryWired.$touched,
+									'input-login-success': select.phoneCountryWired.selected!=undefined && select.phoneCountryWired.selected.phoneCode && fNewUser.phoneCountryWired.$valid}">
 								<label class="phone-sublabel">Cod. País</label>
 								<ui-select
 									class="ui-select-bootstrap-phone"
 									name="phoneCountryWired"
-									ng-model="register.phoneCountryWired.selected"
+									ng-model="select.phoneCountryWired.selected"
 									search-enabled="true">
 									<ui-select-match allow-clear="false">
 										<img ng-src="https://flagcdn.com/24x18/{{$select.selected.isoCode | lowercase}}.png"
@@ -480,14 +480,14 @@
 							<!-- Country Code -->
 							<div style="flex: 0 0 120px; min-width: 0;"
 								ng-class="{
-									'input-login-error': (register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) && (register.phoneCountryMovil.selected==undefined || !register.phoneCountryMovil.selected.phoneCode) && fNewUser.countryCode.$touched,
-									'input-login-warning': (!register.phonelocalNumberUser=='' || !register.phonelocalNumberUser==undefined) && (register.phoneCountryMovil.selected==undefined || !register.phoneCountryMovil.selected.phoneCode) && fNewUser.countryCode.$touched,
-									'input-login-success': register.phoneCountryMovil.selected!=undefined && register.phoneCountryMovil.selected.phoneCode && fNewUser.countryCode.$valid}">
+									'input-login-error': (register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) && (select.phoneCountryMovil.selected==undefined || !select.phoneCountryMovil.selected.phoneCode) && fNewUser.countryCode.$touched,
+									'input-login-warning': (!register.phonelocalNumberUser=='' || !register.phonelocalNumberUser==undefined) && (select.phoneCountryMovil.selected==undefined || !select.phoneCountryMovil.selected.phoneCode) && fNewUser.countryCode.$touched,
+									'input-login-success': select.phoneCountryMovil.selected!=undefined && select.phoneCountryMovil.selected.phoneCode && fNewUser.countryCode.$valid}">
 								<label class="phone-sublabel">Cod. País</label>
 								<ui-select
 									class="ui-select-bootstrap-phone"
 									name="countryCode"
-									ng-model="register.phoneCountryMovil.selected"
+									ng-model="select.phoneCountryMovil.selected"
 									search-enabled="true">
 									<ui-select-match allow-clear="false">
 										<img ng-src="https://flagcdn.com/24x18/{{$select.selected.isoCode | lowercase}}.png"
