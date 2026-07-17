@@ -544,10 +544,10 @@
 								ng-show="register.phoneMovilNumberUser.length>=8 && fNewUser.phoneMovil.$valid"
 								class="glyphicon glyphicon-ok"></i>
 								<i style="color: red;"
-								ng-show="(register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) && (register.phoneMovilNumberUser.length>0 && register.phoneMovilNumberUser.length<8) && (!fNewUser.phoneMovil.$touched || fNewUser.phoneMovil.$touched)"
+								ng-show="(register.phoneLocalNumberUser=='' || register.phoneLocalNumberUser==undefined) && (register.phoneMovilNumberUser.length>0 && register.phoneMovilNumberUser.length<8) && (!fNewUser.phoneMovil.$touched || fNewUser.phoneMovil.$touched)"
 								class="glyphicon glyphicon-asterisk"></i>
 								<i style="color: #f0ad4e;"
-								ng-show="(!register.phonelocalNumberUser=='' || !register.phonelocalNumberUser==undefined) && (register.phoneMovilNumberUser.length>0 && register.phoneMovilNumberUser.length<8) && fNewUser.phoneMovil.$touched"
+								ng-show="(!register.phoneLocalNumberUser=='' || !register.phoneLocalNumberUser==undefined) && (register.phoneMovilNumberUser.length>0 && register.phoneMovilNumberUser.length<8) && fNewUser.phoneMovil.$touched"
 								class="glyphicon glyphicon-asterisk"></i>
 								<i ng-show="(register.phoneMovilNumberUser.length==0 && register.phoneMovilNumberUser.length<1) && (!fNewUser.phoneMovil.$touched)"
 								class="glyphicon glyphicon-phone"></i>

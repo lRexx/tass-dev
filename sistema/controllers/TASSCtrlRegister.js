@@ -42,7 +42,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
   $scope.sysEmailRegistered=false;
   $scope.sysDNIRegistered=false;
   $scope.select={'admins':{'selected':undefined}, 'buildings':{'selected':undefined},'depto':undefined,'floor':undefined, 'phoneCountryMovil':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined}};
-  $scope.register = {'idProfileKf':'', 'fname':'', 'lname':'', 'dni':'', 'email':'', 'phoneCountryMovil':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined}, 'phonelocalNumberUser':'', 'phoneMovilNumberUser': '', 'idProfileKf':'', 'idCompanyKf':'', 'idAddresKf':'', 'idTyepeAttendantKf':'', 'idTypeTenantKf':'', 'descOther':'', 'idDepartmentKf':'', 'isDepartmentApproved':'', 'requireAuthentication':''};
+  $scope.register = {'idProfileKf':'', 'fname':'', 'lname':'', 'dni':'', 'email':'', 'phoneCountryMovil':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined}, 'phoneLocalNumberUser':'', 'phoneMovilNumberUser': '', 'idProfileKf':'', 'idCompanyKf':'', 'idAddresKf':'', 'idTyepeAttendantKf':'', 'idTypeTenantKf':'', 'descOther':'', 'idDepartmentKf':'', 'isDepartmentApproved':'', 'requireAuthentication':''};
   $scope.depto={'department':{'idDepartment':null, 'idUserKf':null}};
 
   if (!$scope.sysToken && !$scope.sysLoggedUser){
@@ -328,7 +328,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
                           emailUser               : $scope.register.email,
                           dni                     : $scope.register.dni,
                           phoneNumberUser         : $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,$scope.register.phoneMovilPrefix,$scope.register.phoneMovilNumberUser),
-                          phoneLocalNumberUser    : $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,$scope.register.phoneWiredPrefix,$scope.register.phonelocalNumberUser),
+                          phoneLocalNumberUser    : $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,$scope.register.phoneWiredPrefix,$scope.register.phoneLocalNumberUser),
                           idProfileKf             : $scope.register.idProfileKf,
                           idCompanyKf             : $scope.register.idCompanyKf,
                           /*-----------------------------------------*/
