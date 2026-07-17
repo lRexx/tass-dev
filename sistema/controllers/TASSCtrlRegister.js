@@ -339,6 +339,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
                           idDepartmentKf          : $scope.register.idDepartment_tmp,
                           isEdit                  : 1,
                           idSysProfileFk          : 10,
+                          isTyCAccepted           : 0,
                           isDepartmentApproved    : $scope.register.isDepartmentApproved,
                           requireAuthentication   : $scope.register.isRequireAuthentication
                     }
