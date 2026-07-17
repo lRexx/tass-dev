@@ -95,6 +95,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
   };
   $scope.getCountryPhoneCodesFn();
     setTimeout(function() {
+      console.log($scope.countryPhoneCodesList);
       $scope.select.phoneCountryWired.selected=$scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
       $scope.select.phoneCountryMovil.selected=$scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
       $scope.register.phoneWiredPrefix = "11"
