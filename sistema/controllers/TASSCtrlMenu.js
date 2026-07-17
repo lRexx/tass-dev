@@ -969,9 +969,8 @@
             console.log($scope.profile);
             phoneParsedMovil = $scope.parsePhoneE164($scope.profile.phoneNumberUser, $scope.countryPhoneCodesList);
             phoneParsedLocal = $scope.parsePhoneE164($scope.profile.phoneLocalNumberUser, $scope.countryPhoneCodesList);
-            console.log($scope.countryPhoneCodesList);
-            $scope.select.phoneCountryMovil.selected    = phoneParsedMovil==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedMovil.countryCodeTmp;
-            $scope.select.phoneCountryWired.selected    = phoneParsedLocal==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedLocal.countryCodeTmp;
+            $scope.select.phoneCountryMovil.selected    = phoneParsedMovil==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):$scope.countryPhoneCodesList.find(c => c.isoCode === phoneParsedMovil.countryCodeTmp.isoCode);
+            $scope.select.phoneCountryWired.selected    = phoneParsedLocal==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):$scope.countryPhoneCodesList.find(c => c.isoCode === phoneParsedMovil.countryCodeTmp.isoCode);
             console.log("select.phoneCountryMovil.selected: ");
             console.log($scope.select.phoneCountryMovil.selected);
             console.log("select.phoneCountryWired.selected: ");
