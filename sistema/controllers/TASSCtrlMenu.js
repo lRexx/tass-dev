@@ -983,7 +983,7 @@
               $('#profileNames').focus();
                 $timeout(function() {
                     $scope.fnLoadPhoneMask();
-                }, 150);
+                }, 550);
             });
             //console.log($scope.profile);
           }
