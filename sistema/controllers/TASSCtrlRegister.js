@@ -261,7 +261,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
   *                                                 *
   **************************************************/
     $scope.sysRegisterFn = function(obj){
-      console.log(pbj);
+      console.log(obj);
       console.log($scope.userData2Add());
         /*userServices.addUser($scope.userData2Add()).then(function(response_userRegister){
           if(response_userRegister.status==200){
