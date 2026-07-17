@@ -69,10 +69,12 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
         }, 100);
 
     }
-    $scope.select.phoneCountryWired.selected=$scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
-    $scope.select.phoneCountryMovil.selected=$scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
-    $scope.register.phoneWiredPrefix = "11"
-    $scope.register.phoneMovilPrefix = "11"
+    setTimeout(function() {
+      $scope.select.phoneCountryWired.selected=$scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+      $scope.select.phoneCountryMovil.selected=$scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+      $scope.register.phoneWiredPrefix = "11"
+      $scope.register.phoneMovilPrefix = "11"
+    }, 1000);
   }else{
     tokenSystem.destroyTokenStorage(2);
     tokenSystem.destroyTokenStorage(3);
