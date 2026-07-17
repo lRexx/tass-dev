@@ -959,8 +959,8 @@
         *     (status, profile, typeTenant, company)      *
         **************************************************/
             $scope.profile={}
+            $scope.profile = {'idUser':null,'idProfileKf':{}, 'idSysProfileFk':null, 'fname':'','lname':'', 'dni':'','email':'', 'phoneCountryMovil':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined},'phoneLocalPrefixNumber':'', 'phoneLocalNumberUser':'', 'phoneMovilPrefixNumber':'', 'phoneMovilNumberUser':'', 'idDepartmentKf':null, 'idTypeAttKf':null, 'typeOtherAtt':'', 'idTypeTenantKf':''}
           $scope.profileUserOpen = function(){
-            $scope.profile={};
             $scope.select={'companies':{'selected':undefined}, 'address':{'selected':undefined},'company':{'selected':undefined},'addressAttendant':{'selected':undefined}, 'deptos':{}, 'departmentList':{}}
             $scope.profile = {'idUser':null,'idProfileKf':{}, 'idSysProfileFk':null, 'fname':'','lname':'', 'dni':'','email':'', 'phoneCountryMovil':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined},'phoneLocalPrefixNumber':'', 'phoneLocalNumberUser':'', 'phoneMovilPrefixNumber':'', 'phoneMovilNumberUser':'', 'idDepartmentKf':null, 'idTypeAttKf':null, 'typeOtherAtt':'', 'idTypeTenantKf':''}
             $scope.profile=tokenSystem.getTokenStorage(2);
