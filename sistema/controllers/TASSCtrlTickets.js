@@ -1191,16 +1191,28 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     switch (opt){
                                         case "dni":
                                             $scope.sysDNIRegistered=true;
-                                            inform.add('La número de documeto ya se encuentra registrado, Verifique por favor los datos en pantalla, si desea asociarlo tambien a este departamento, para completar el proceso haga click en el boton Asociar.',{
+                                            inform.add('La número de documento ya se encuentra registrado, Verifique por favor los datos en pantalla, si desea asociarlo tambien a este departamento, para completar el proceso haga click en el boton Asociar.',{
                                                 ttl:30000, type: 'warning'
                                             });
+                                            let phoneParsedMovil = null;
+                                            let phoneParsedLocal = null;
                                             if ($scope.isNewTenant && $scope.tenant.new.idTypeTenantKf=="1"){
-                                                $scope.tenant.new.idUser = response.data[0].idUser;
-                                                $scope.tenant.new.fullname = response.data[0].fullNameUser;
-                                                $scope.tenant.new.dni = response.data[0].dni;
-                                                $scope.tenant.new.mail = response.data[0].emailUser;
-                                                $scope.tenant.new.phoneMovilNumberUser = response.data[0].phoneNumberUser;
-                                                $scope.tenant.new.phonelocalNumberUser = response.data[0].phoneLocalNumberUser;
+                                                phoneParsedMovil = $scope.parsePhoneE164(response.data[0].phoneNumberUser, $scope.countryPhoneCodesList);
+                                                phoneParsedLocal = $scope.parsePhoneE164(response.data[0].phoneLocalNumberUser, $scope.countryPhoneCodesList);
+                                                $scope.tenant.new.idUser    = response.data[0].idUser;
+                                                $scope.tenant.new.fullname  = response.data[0].fullNameUser;
+                                                $scope.tenant.new.dni       = response.data[0].dni;
+                                                $scope.tenant.new.mail      = response.data[0].emailUser;
+                                                console.log(phoneParsedMovil);
+                                                console.log(phoneParsedLocal);
+                                                if (phoneParsedMovil || phoneParsedLocal) {
+                                                    $scope.select.phoneCountryMovil.selected    = phoneParsedMovil==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedMovil.countryCodeTmp;
+                                                    $scope.select.phoneCountryWired.selected    = phoneParsedLocal==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedLocal.countryCodeTmp;
+                                                    $scope.tenant.new.phoneMovilPrefixNumber    = phoneParsedMovil==null?"11":phoneParsedMovil.prefixNumber;
+                                                    $scope.tenant.new.phoneMovilNumberUser      = phoneParsedMovil?phoneParsedMovil.phoneNumber:response.data[0].phoneNumberUser;
+                                                    $scope.tenant.new.phonelocalPrefixNumber    = phoneParsedLocal==null?"11":phoneParsedLocal.prefixNumber;
+                                                    $scope.tenant.new.phonelocalNumberUser      = phoneParsedLocal?phoneParsedLocal.phoneNumber:response.data[0].phoneLocalNumberUser;
+                                                }
                                             }else{
                                                 $scope.tenant.new.dni=undefined;
                                             }
@@ -3738,6 +3750,11 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.att= {'ownerOption':undefined}
                         $scope.ownerFound                                  = false;
                         console.log(obj);
+                        let phoneParsedMovil = null;
+                        let phoneParsedLocal = null;
+
+                        phoneParsedMovil = $scope.parsePhoneE164(obj.phoneNumberUser, $scope.countryPhoneCodesList);
+                        phoneParsedLocal = $scope.parsePhoneE164(obj.phoneLocalNumberUser, $scope.countryPhoneCodesList);
                         //TENANT & OWNERS / ELSE / ATTENANDANTS
                         if (obj.idProfileKf=="3" || obj.idProfileKf=="5"){
                             $scope.isNewTenant=false;
@@ -3748,8 +3765,14 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $scope.tenant.update.idProfileKf            = obj.idProfileKf;
                             $scope.tenant.update.dni                    = obj.dni;
                             $scope.tenant.update.fullname               = obj.fullNameUser;
-                            $scope.tenant.update.phoneMovilNumberUser   = obj.phoneNumberUser;
-                            $scope.tenant.update.phonelocalNumberUser   = obj.phoneLocalNumberUser;
+                            if (phoneParsedMovil || phoneParsedLocal) {
+                                $scope.select.phoneCountryMovil.selected    = phoneParsedMovil==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedMovil.countryCodeTmp;
+                                $scope.select.phoneCountryWired.selected    = phoneParsedLocal==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedLocal.countryCodeTmp;
+                                $scope.tenant.update.phoneMovilPrefixNumber = phoneParsedMovil==null?"11":phoneParsedMovil.prefixNumber;
+                                $scope.tenant.update.phoneMovilNumberUser   = phoneParsedMovil?phoneParsedMovil.phoneNumber:obj.phoneNumberUser;
+                                $scope.tenant.update.phonelocalPrefixNumber = phoneParsedLocal==null?"11":phoneParsedLocal.prefixNumber;
+                                $scope.tenant.update.phonelocalNumberUser   = phoneParsedLocal?phoneParsedLocal.phoneNumber:obj.phoneLocalNumberUser;
+                            }
                             $scope.tenant.update.idTypeTenantKf         = obj.idTypeTenantKf;
                             $scope.tenant.update.idTypeTenantKf_tmp     = obj.idTypeTenantKf;
                             $scope.tenant.update.mail                   = obj.emailUser;
@@ -3763,6 +3786,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $('#UpdateTenant').modal({backdrop: 'static', keyboard: false});
                             $('#UpdateTenant').on('shown.bs.modal', function () {
                                 $('#idTypeTenantKf').focus();
+                                $scope.fnLoadPhoneMask();
                             });
                             console.log($scope.tenant.update);
                         }else if(obj.idProfileKf=="4" || obj.idProfileKf=="6" && (obj.idTypeTenantKf>=1 || obj.idTypeTenantKf==null)){
@@ -3776,8 +3800,16 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $scope.attendant.update.idProfileKf            = obj.idProfileKf;
                             $scope.attendant.update.dni                    = obj.dni;
                             $scope.attendant.update.fullname               = obj.fullNameUser;
-                            $scope.attendant.update.phoneMovilNumberUser   = obj.phoneNumberUser;
-                            $scope.attendant.update.phonelocalNumberUser   = obj.phoneLocalNumberUser;
+                            console.log(phoneParsedMovil);
+                            console.log(phoneParsedLocal);
+                            if (phoneParsedMovil || phoneParsedLocal) {
+                                $scope.select.phoneCountryMovil.selected        = phoneParsedMovil==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedMovil.countryCodeTmp;
+                                $scope.select.phoneCountryWired.selected        = phoneParsedLocal==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedLocal.countryCodeTmp;
+                                $scope.attendant.update.phoneMovilPrefixNumber  = phoneParsedMovil==null?"11":phoneParsedMovil.prefixNumber;
+                                $scope.attendant.update.phoneMovilNumberUser    = phoneParsedMovil?phoneParsedMovil.phoneNumber:obj.phoneNumberUser;
+                                $scope.attendant.update.phonelocalPrefixNumber  = phoneParsedLocal==null?"11":phoneParsedLocal.prefixNumber;
+                                $scope.attendant.update.phonelocalNumberUser    = phoneParsedLocal?phoneParsedLocal.phoneNumber:obj.phoneLocalNumberUser;
+                            }
                             $scope.attendant.update.idTypeTenantKf         = obj.idTypeTenantKf;
                             $scope.attendant.update.idTypeTenantKf_tmp     = obj.idTypeTenantKf;
                             $scope.attendant.update.email                  = obj.emailUser;
@@ -3812,6 +3844,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 $('#UpdateAttendant').modal({backdrop: 'static', keyboard: false});
                                 $('#UpdateAttendant').on('shown.bs.modal', function () {
                                     $('#idTypeAttKf').focus();
+                                    $scope.fnLoadPhoneMask();
                                 });
                             }, 1000);
                             console.log($scope.attendant.update);
