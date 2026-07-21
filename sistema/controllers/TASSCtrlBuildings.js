@@ -3838,6 +3838,8 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             'new':{'names':'', 'dni':'', 'emailAddress':'', 'phoneNumber':'', 'idDepartmentKf':'', 'idKeychainKf':''},
                             'update':{'names':'', 'dni':'', 'emailAddress':'', 'phoneNumber':'', 'idDepartmentKf':'', 'idKeychainKf':''}};
                             $scope.depto={'department':{'idDepartment':null, 'idUserKf':null}};
+                            $scope.select.phoneCountryWired={'selected':{}};
+                            $scope.select.phoneCountryMovil={'selected':{}};
                             $scope.ownerFound=false;
                             $scope.isNewTenant                          = true;
                             $scope.isUpdateTenant                       = false;
@@ -3846,20 +3848,20 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.guest.new.idSysProfileFk             = "10";
                             $scope.guest.new.idDepartmentKf             = obj.idClientDepartament;
                             $scope.guest.new.depto                      = obj.Depto;
-                            $scope.select.phoneCountryMovil.selected    = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
-                            $scope.guest.new.phoneMovilPrefixNumber     = "11"
                             $scope.closeTenantMembersTypeModal();
                             $('#RegisterGuest').modal({backdrop: 'static', keyboard: false});
                             $('#RegisterGuest').on('shown.bs.modal', function () {
                                 $('#fullname').focus();
+                                $scope.select.phoneCountryMovil.selected    = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+                                $scope.guest.new.phoneMovilPrefixNumber    = "11"
                             });
-                            console.log($scope.tenant.new);
+                            console.log($scope.guest.new);
                         break;
                         case "addGuest":
                             $scope.register={'guest':{}};
-                            $scope.register.guest               = obj;
-                            $scope.register.guest .emailAddress = obj.mail;
-                            $scope.register.guest.phoneNumber   = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberGuest);
+                            $scope.register.guest                      = obj;
+                            $scope.register.guest.emailAddress         = obj.mail;
+                            $scope.register.guest.phoneNumber          = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberGuest);
                             console.log($scope.register.guest);
                             $scope.sysRegisterGuestFn($scope.register);
                         break;
@@ -3871,7 +3873,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.guest.update.idDepartmentKf  = obj.idDepartmentKf;
                             $scope.guest.update.idStatusKf      = obj.idStatusKf;
                             $scope.guest.update.fullname        = obj.names;
-                            //$scope.guest.update.dni             = obj.dni;
+                            $scope.guest.update.dni             = obj.dni;
                             $scope.guest.update.mail            = obj.emailAddress;
                             phoneParsed = $scope.parsePhoneE164(obj.phoneNumber, $scope.countryPhoneCodesList);
                             if (phoneParsed) {
@@ -3901,9 +3903,9 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                         break;
                         case "updateGuest":
                             $scope.update={'guest':{}};
-                            $scope.update.guest                 = obj;
-                            $scope.update.guest.emailAddress    = obj.mail;
-                            $scope.update.guest.phoneNumber     = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberGuest);
+                            $scope.update.guest              = obj;
+                            $scope.update.guest.emailAddress = obj.mail;
+                            $scope.update.guest.phoneNumber  = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberGuest);
                             console.log($scope.update.guest);
                             $scope.sysUpdateGuestFn($scope.update);
                         break;
