@@ -1468,10 +1468,10 @@ class Ticket_model extends CI_Model
 							#MAIL TO USER
 							$rs = null;
 							$to = $user['emailUser'];
-							$body .= '<tr width="100%" bgcolor="#ffffff">';
-							$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hola <b>' . $user['fullNameUser'] . '</b>,</td>';
-							$body .= '</tr>';
 							if ($lastTicketUpdatedQuery['idStatusTicketKf'] != 13 && $lastTicketUpdatedQuery['idDeviceTypeKf'] != "2"){
+								$body .= '<tr width="100%" bgcolor="#ffffff">';
+								$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hola <b>' . $user['fullNameUser'] . '</b>,</td>';
+								$body .= '</tr>';
 								$body .= '<tr width="100%" bgcolor="#ffffff">';
 								$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Su Pedido N°: <b>' . $lastTicketUpdatedQuery['codTicket'] . '</b>, se encuentra <b>' . $lastTicketUpdatedQuery['statusTicket']['statusName'] . '</b></td>';
 								$body .= '</tr>';
@@ -1483,7 +1483,7 @@ class Ticket_model extends CI_Model
 							$deliveryDate = null;
 							$body .= '<tr width="100%" bgcolor="#ffffff">';
 							if ($lastTicketUpdatedQuery['idTypeTicketKf'] == 1) {
-								if ($lastTicketUpdatedQuery['idTypeDeliveryKf'] == 1) {
+								if ($lastTicketUpdatedQuery['idTypeDeliveryKf'] == 1 && $lastTicketUpdatedQuery['idDeviceTypeKf'] != "2") {
 									if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 7) {
 										$deliveryMethod = 'retirar por nuestras oficinas, Dirección: Carlos Calvo 3430 <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #fff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://www.google.com/maps?ll=-34.623655,-58.414103&z=16&t=m&hl=es-ES&gl=US&mapclient=embed&q=Carlos+Calvo+3430+C1230ABH+CABA" target="_blank" style="text-decoration: none; color: #ffffff;">Ver en el mapa</a></span>';
 										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Puede pasar a ' . $deliveryMethod . '</td>';
@@ -1503,7 +1503,7 @@ class Ticket_model extends CI_Model
 										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
 										$body .= '</tr>';
 									}
-								} else if ($lastTicketUpdatedQuery['idTypeDeliveryKf'] == 2) {
+								} else if ($lastTicketUpdatedQuery['idTypeDeliveryKf'] == 2 && $lastTicketUpdatedQuery['idDeviceTypeKf'] != "2") {
 									setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
 									if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 5) {
@@ -1562,8 +1562,8 @@ class Ticket_model extends CI_Model
 									$subject = "Pedido de Licencia :: " . $building['Depto'] . " :: La licencia Face ID de tu usuario adicional ya está lista";
 									setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
-									$deliveredDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivered_at']));
-									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">El Pedido ha sido completado, el dia ' . $deliveredDate . '</td>';
+									$body .= '<tr width="100%" bgcolor="#ffffff">';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hola <b>' . $user['fullNameUser'] . '</b>,</td>';
 									$body .= '</tr>';
 									$body .= '<tr width="100%" bgcolor="#ffffff">';
 									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">¡Buenas noticias! Ya procesamos la licencia de Face ID de BSS que solicitaste para un usuario adicional de tu unidad funcional.</td>';
@@ -1634,7 +1634,7 @@ class Ticket_model extends CI_Model
 												$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Para entender cómo configurar la app y tus accesos paso a paso, mirá el video tutorial:</td>';
 												$body .= '</tr>';
 												$body .= '<tr width="100%" bgcolor="#ffffff">';
-												$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;"><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" style="color: #ff0000; text-decoration: none;" target="_blank"><bold>LINK AL VIDEO TUTORIAL</bold></a></td>';
+												$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;"><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" style="color: #ff0000; text-decoration: none; font-weight: bold;" target="_blank"><b>LINK AL VIDEO TUTORIAL</b></a></td>';
 												$body .= '</tr>';
 												$body .= '<tr width="100%" bgcolor="#ffffff">';
 												$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Una vez que completes el registro, vas a poder entrar al edificio simplemente mostrando tu rostro, sin llaves ni llaveros.</td>';
