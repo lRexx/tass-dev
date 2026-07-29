@@ -1568,17 +1568,17 @@ class Ticket_model extends CI_Model
 									$body .= '</tr>';
 									if (count($lastTicketUpdatedQuery['keys']) >=2){
 										$body .= '<tr width="100%" bgcolor="#ffffff">';
-										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Acabamos de enviarle un correo a cada uno ' . $userLicenseList . ' con su licencia, a su casilla de email. Para terminar de habilitar su acceso, solo le queda revisar su correo (y, por las dudas, la carpeta de spam o correo no deseado), encontrarlo y completar el registro.</td>';
+										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Acabamos de enviarle un correo a cada uno <b>' . $userLicenseList . '</b> con su licencia, a su casilla de email. Para terminar de habilitar su acceso, solo le queda revisar su correo (y, por las dudas, la carpeta de spam o correo no deseado), encontrarlo y completar el registro.</td>';
 										$body .= '</tr>';
 										$body .= '<tr width="100%" bgcolor="#ffffff">';
-										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Te pedimos que le avises a  a cada uno' . $userLicenseList . ' que ya tiene el correo, así puede registrarse cuanto antes. Una vez que lo haga, va a poder ingresar al edificio simplemente mostrando su rostro, sin llaves ni llaveros.</td>';
+										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Te pedimos que le avises a  a cada uno <b>' . $userLicenseList . '</b> que ya tiene el correo, así puede registrarse cuanto antes. Una vez que lo haga, va a poder ingresar al edificio simplemente mostrando su rostro, sin llaves ni llaveros.</td>';
 										$body .= '</tr>';
 									}else{
 										$body .= '<tr width="100%" bgcolor="#ffffff">';
-										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Acabamos de enviarle un correo a ' . $userLicenseList . ' con su licencia, a su casilla de email. Para terminar de habilitar su acceso, solo le queda revisar su correo (y, por las dudas, la carpeta de spam o correo no deseado), encontrarlo y completar el registro.</td>';
+										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Acabamos de enviarle un correo a <b>' . $userLicenseList . '</b> con su licencia, a su casilla de email. Para terminar de habilitar su acceso, solo le queda revisar su correo (y, por las dudas, la carpeta de spam o correo no deseado), encontrarlo y completar el registro.</td>';
 										$body .= '</tr>';
 										$body .= '<tr width="100%" bgcolor="#ffffff">';
-										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Te pedimos que le avises a  ' . $userLicenseList . ' que ya tiene el correo, así puede registrarse cuanto antes. Una vez que lo haga, va a poder ingresar al edificio simplemente mostrando su rostro, sin llaves ni llaveros.</td>';
+										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Te pedimos que le avises a  <b>' . $userLicenseList . '</b> que ya tiene el correo, así puede registrarse cuanto antes. Una vez que lo haga, va a poder ingresar al edificio simplemente mostrando su rostro, sin llaves ni llaveros.</td>';
 										$body .= '</tr>';
 									}
 									$body .= '<tr width="100%" bgcolor="#ffffff">';
@@ -1619,7 +1619,7 @@ class Ticket_model extends CI_Model
 											if (!is_null($userLicense) && isset($userLicense['fullNameUser']) && isset($userLicense['emailUser'])) {
 												$rs = null;
 												$to = $userLicense['emailUser'];
-												$body .= '<tr width="100%" bgcolor="#ffffff">';
+												$body = '<tr width="100%" bgcolor="#ffffff">';
 												$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hola <b>' . $userLicense['fullNameUser'] . '</b>,</td>';
 												$body .= '</tr>';
 												$body .= '<tr width="100%" bgcolor="#ffffff">';
