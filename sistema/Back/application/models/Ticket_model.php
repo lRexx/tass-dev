@@ -1441,8 +1441,6 @@ class Ticket_model extends CI_Model
 				$title = $lastTicketUpdatedQuery['statusTicket']['statusName'];
 				if ($lastTicketUpdatedQuery['idDeviceTypeKf'] != "2" || is_null($lastTicketUpdatedQuery['idDeviceTypeKf'])){
 					$subject = "Pedido de Llavero :: " . $building['Depto'] . " :: " . $lastTicketUpdatedQuery['statusTicket']['statusName'];
-				}else{
-					$subject = "Pedido de Dispositivo :: " . $building['Depto'] . " :: " . $lastTicketUpdatedQuery['statusTicket']['statusName'];
 				}
 				//GET LICENSE USERS
 				$userFullNames = [];
@@ -1453,8 +1451,8 @@ class Ticket_model extends CI_Model
 							$userFullNames[] = $userLicense['fullNameUser'];
 						}
 					}
+					$userLicenseList = implode(', ', $userFullNames);
 				}
-				$userLicenseList = implode(', ', $userFullNames);
 				//GET USER
 				$this->db->select("*")->from("tb_user");
 				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
@@ -1558,7 +1556,7 @@ class Ticket_model extends CI_Model
 										$body .= '</tr>';
 									}
 
-								} else if (is_null($lastTicketUpdatedQuery['idTypeDeliveryKf']) && $lastTicketUpdatedQuery['idStatusTicketKf'] == 13 && $lastTicketUpdatedQuery['idDeviceTypeKf'] == "2") {
+								} else if ((is_null($lastTicketUpdatedQuery['idTypeDeliveryKf']) || !is_null($lastTicketUpdatedQuery['idTypeDeliveryKf'])) && $lastTicketUpdatedQuery['idStatusTicketKf'] == 13 && $lastTicketUpdatedQuery['idDeviceTypeKf'] == "2") {
 									$subject = "Pedido de Licencia :: " . $building['Depto'] . " :: La licencia Face ID de tu usuario adicional ya está lista";
 									setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
