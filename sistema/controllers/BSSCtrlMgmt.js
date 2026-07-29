@@ -6780,7 +6780,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       ttl:3000, type: 'success'
                     });
                     $timeout(function() {
-                      if (ticket.idTypePaymentKf=="2" && ticket.idStatusTicketKf!=9 && ticket.idStatusTicketKf!=11){
+                      if (ticket.idTypePaymentKf=="2" && ticket.paymentDetails==null && ticket.idStatusTicketKf!=9 && ticket.idStatusTicketKf!=11){
                         $scope.mainSwitchFn("linkMP",response.data,null);
                       }
                       $scope.mainSwitchFn('search', null);

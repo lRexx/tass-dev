@@ -770,7 +770,7 @@ class Ticket_model extends CI_Model
 			$subject = null;
 			$body = null;
 			$to = null;
-			$title = "Pedido de Llavero Aprobado";
+
 			if ($lastTicketUpdatedQuery['idTypeRequestFor'] == 1) {
 				//DEPARTMENT, BUILDING & ADMINISTRATION DETAILS
 				$this->db->select("*,b.idClient as idBuilding, b.name, tb_client_type.ClientType, UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto")->from("tb_client_departament");
@@ -781,7 +781,13 @@ class Ticket_model extends CI_Model
 				if ($queryBuilding->num_rows() > 0) {
 					$building = $queryBuilding->row_array();
 				}
-				$subject = "Pedido de Llavero :: " . $building['Depto'] . " :: Aprobado";
+				if ($lastTicketUpdatedQuery['idDeviceTypeKf'] != "2" || is_null($lastTicketUpdatedQuery['idDeviceTypeKf'])){
+					$title = "Pedido de Llavero Aprobado";
+					$subject = "Pedido de Llavero :: " . $building['Depto'] . " :: Aprobado";
+				}else{
+					$title = "Pedido de Licencia Aprobado";
+					$subject = "Pedido de Licencia :: " . $building['Depto'] . " :: Aprobado";
+				}
 				//GET USER
 				$this->db->select("*")->from("tb_user");
 				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');

@@ -313,7 +313,7 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
                       rsJsonTicket = response.data;
                       return rsJsonTicket;
                   },function myError(response) {
-                           checkResult = 0;
+                    checkResult = 0;
                     return checkResult;
             });
           },
