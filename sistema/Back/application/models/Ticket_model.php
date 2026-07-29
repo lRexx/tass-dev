@@ -1557,7 +1557,8 @@ class Ticket_model extends CI_Model
 									}
 
 								} else if ((is_null($lastTicketUpdatedQuery['idTypeDeliveryKf']) || !is_null($lastTicketUpdatedQuery['idTypeDeliveryKf'])) && $lastTicketUpdatedQuery['idStatusTicketKf'] == 13 && $lastTicketUpdatedQuery['idDeviceTypeKf'] == "2") {
-									$subject = "Pedido de Licencia :: " . $building['Depto'] . " :: La licencia Face ID de tu usuario adicional ya está lista";
+									$title = "Face ID BSS";
+									$subject = "La licencia Face ID de tu usuario adicional ya está lista";
 									setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
 									$body .= '<tr width="100%" bgcolor="#ffffff">';
@@ -1608,6 +1609,7 @@ class Ticket_model extends CI_Model
 									//SEND MAIL TO LICENSE USERS
 									$subject = "Te dieron acceso al Face ID de tu edificio — registrate en pocos pasos";
 									if (!is_null($lastTicketUpdatedQuery['idDeviceTypeKf']) && $lastTicketUpdatedQuery['idDeviceTypeKf'] == "2" && count($lastTicketUpdatedQuery['keys']) > 0 && $lastTicketUpdatedQuery['idStatusTicketKf'] == 13) {
+										$title = "Face ID BSS";
 										for ($i = 0; $i < count($lastTicketUpdatedQuery['keys']); $i++) {
 											$userLicense = $lastTicketUpdatedQuery['keys'][$i]['user'] ?? null;
 											if (!is_null($userLicense) && isset($userLicense['fullNameUser']) && isset($userLicense['emailUser'])) {
