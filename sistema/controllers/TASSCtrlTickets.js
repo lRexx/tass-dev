@@ -2260,6 +2260,23 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 // Return true if they match, keeping the item in the list
                 return itemValue === filterValue;
             };
+            $scope.filterByInitialDelivery = function(item) {
+                //console.log("Filtering item:", item);
+                //console.log("$scope.ticket.idDeviceTypeKf                               : ", $scope.ticket.idDeviceTypeKf);
+                //console.log("item.idTypeTenant                                          : ", item.idTypeTenant);
+                //console.log("$scope.ticket.building.isInitialDeliveryActive             : ", $scope.ticket.building.isInitialDeliveryActive);
+                //console.log("$scope.ticket.building.initial_delivery.expiration_state   : ", $scope.ticket.building.initial_delivery[0].expiration_state);
+                //console.log("--------------------------------------------");
+                //console.log($scope.ticket ? 'Ticket is defined' : 'Ticket is undefined');
+                //console.log($scope.ticket.building ? 'Ticket building is defined' : 'Ticket building is undefined');
+                //console.log("--------------------------------------------");
+                if ($scope.ticket.idDeviceTypeKf=="2" && item.idTypeTenant!=1 && $scope.ticket && $scope.ticket.building && $scope.ticket.building.isInitialDeliveryActive && !$scope.ticket.building.initial_delivery[0].$expiration_state) {
+                    return item;
+                }else if ($scope.ticket.idDeviceTypeKf=="2" && $scope.ticket && $scope.ticket.building && !$scope.ticket.building.isInitialDeliveryActive && $scope.ticket.building.initial_delivery[0].expiration_state) {
+                    return item;
+                }
+
+            };
         /**************************************************
         *                                                 *
         *            TICKETS MENU FUNCTION                *
@@ -2480,7 +2497,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.selectedRequestKeyOwnerUser      = undefined;
                         console.log(obj);
 
-                        if ($scope.ticket.optionTypeSelected.name=="building" && $scope.ticket.radioButtonBuilding!="1" && $scope.ticket.radioButtonBuilding!="4" && $scope.ticket.radioButtonBuilding!="5"){
+                        if ($scope.ticket.optionTypeSelected.name=="building" && $scope.ticket.radioButtonBuilding!="1" && $scope.ticket.radioButtonBuilding!="2" && $scope.ticket.radioButtonBuilding!="4" && $scope.ticket.radioButtonBuilding!="5"){
                                 $scope.getUsersByCompanyClientIdFn(obj.idClient);
                         }else{
                             if ($scope.ticket.radioButtonBuilding=="4" && ((obj.isStockInBuilding == null && obj.isStockInOffice==null) || (obj.isStockInBuilding == "0" && obj.isStockInOffice=="0") || (obj.isStockInBuilding == null && obj.isStockInOffice=="0") || (obj.isStockInBuilding == "0" && obj.isStockInOffice==null))){
