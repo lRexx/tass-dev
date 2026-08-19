@@ -1302,7 +1302,11 @@ class User_model extends CI_Model
 				if ($user['isConfirmatedMail'] == 1 && $user['idStatusKf'] == 1) {
 					$subject = "Correo confirmado";
 					$body = '<tr width="100%" bgcolor="#ffffff">';
-					$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding:4%;">Estimado/a, <b>' . $user['fullNameUser'] . '</b>, <br><br> Su cuenta de usuario se encuentra <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' . $user['statusTenantName'] . '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+					if ($user['requireAuthentication']!=0){
+						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding:4%;">Estimado/a, <b>' . $user['fullNameUser'] . '</b>, <br><br> Su cuenta de usuario se encuentra <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' . $user['statusTenantName'] . '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+					}else{
+						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding:4%;">Estimado/a, <b>' . $user['fullNameUser'] . '</b>, <br><br> Ha validado su correo electrónico de forma exitosa.</td>';
+					}
 					$body .= '</tr>';
 				}
 				$this->mail_model->sendMail($title, $to, $body, $subject);

@@ -785,8 +785,8 @@ class Ticket_model extends CI_Model
 					$title = "Pedido de Llavero Aprobado";
 					$subject = "Pedido de Llavero :: " . $building['Depto'] . " :: Aprobado";
 				}else{
-					$title = "Pedido de Licencia Aprobado";
-					$subject = "Pedido de Licencia :: " . $building['Depto'] . " :: Aprobado";
+					$title = "Pedido de Licencia Face ID Aprobado";
+					$subject = "Pedido de Licencia Face ID :: " . $building['Depto'] . " :: Aprobado";
 				}
 				//GET USER
 				$this->db->select("*")->from("tb_user");
@@ -1589,7 +1589,7 @@ class Ticket_model extends CI_Model
 										$body .= '</tr>';
 									}
 									$body .= '<tr width="100%" bgcolor="#ffffff">';
-									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Si más adelante necesitás dar de alta otros usuarios para tu unidad, o tenés cualquier duda, escribinos y te ayudamos.</td>';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Si más adelante necesitás dar de alta otros usuarios para tu unidad, o tenés cualquier duda, comunicate con nosotros por WhatsApp al <a href="https://wa.me/541128079331" style="color: #25D366; text-decoration: none;">+54 11 2807-9331</a></td>';
 									$body .= '</tr>';
 									$body .= '<tr width="100%" bgcolor="#ffffff">';
 									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Un saludo, <br>Equipo BSS</br></td>';
@@ -1634,7 +1634,7 @@ class Ticket_model extends CI_Model
 												$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Para entender cómo configurar la app y tus accesos paso a paso, mirá el video tutorial:</td>';
 												$body .= '</tr>';
 												$body .= '<tr width="100%" bgcolor="#ffffff">';
-												$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;"><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" style="color: #ff0000; text-decoration: none; font-weight: bold;" target="_blank"><b>LINK AL VIDEO TUTORIAL</b></a></td>';
+												$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;"><a href="https://youtu.be/0hqENLD4MX8" style="color: #ff0000; text-decoration: none; font-weight: bold;" target="_blank"><b>LINK AL VIDEO TUTORIAL</b></a></td>';
 												$body .= '</tr>';
 												$body .= '<tr width="100%" bgcolor="#ffffff">';
 												$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Una vez que completes el registro, vas a poder entrar al edificio simplemente mostrando tu rostro, sin llaves ni llaveros.</td>';
@@ -1644,6 +1644,9 @@ class Ticket_model extends CI_Model
 												$body .= '</tr>';
 												$body .= '<tr width="100%" bgcolor="#ffffff">';
 												$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Te damos la bienvenida a una forma más simple y segura de entrar a tu casa.</td>';
+												$body .= '</tr>';
+												$body .= '<tr width="100%" bgcolor="#ffffff">';
+												$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Si tenes dudas, comunicate con nosotros por WhatsApp al <a href="https://wa.me/541128079331" style="color: #25D366; text-decoration: none;">+54 11 2807-9331</a></td>';
 												$body .= '</tr>';
 												$body .= '<tr width="100%" bgcolor="#ffffff">';
 												$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Un saludo, <br>Equipo BSS</br></td>';
