@@ -4298,7 +4298,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                             $scope.customer.select.main.department=$scope.customer.update.idClientDepartamentFk;
                             $timeout(function() {
                               console.log($scope.rsBuildingDepartmentsData[0]);
-                              $scope.customerSearch.address = $scope.customer.update.idClientDepartamentFk!=null?$scope.rsBuildingDepartmentsData[0].Building:undefined;
+                              $scope.customerSearch.address = $scope.customer.update.idClientDepartamentFk!=null && $scope.customer.update.idClientDepartamentFk!="" && $scope.customer.update.idClientDepartamentFk!=0?$scope.rsBuildingDepartmentsData[0].Building:undefined;
                               $scope.customer.select.main.address.selected=$scope.customer.update.idClientDepartamentFk!=null?$scope.rsBuildingDepartmentsData[0].Building:undefined;
                               $scope.customer.select.main.address.selected.address=$scope.rsBuildingDepartmentsData[0].Building;
                               $scope.customer.update.nameAddress='';
