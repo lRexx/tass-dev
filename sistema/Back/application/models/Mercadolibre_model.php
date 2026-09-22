@@ -663,7 +663,7 @@ class Mercadolibre_model extends CI_Model
 						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Se ha generado el siguiente link de MercadoPago para pagar el Pedido N°: <b>' . $lastTicketUpdatedQuery['codTicket'] . '</b></td>';
 						$body .= '</tr>';
 						$body .= '<tr width="100%" bgcolor="#ffffff">';
-						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:1%;">Puede efectuar el pago haciendo click en el siguiente boton:</td>';
+						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:1%;">Puede efectuar el pago haciendo click en el siguiente boton:&nbsp;';
 						$body .= '<a href="' . $link_mp . '" target="_blank" style="background-color:#FFE600;color:#100079;border:2px solid #917d00;display:inline-block;border-radius:10px;padding:6px 12px;font-family: sans-serif;font-weight:bold;text-decoration:none;text-align:center;">';
 						$body .= '<img src="' . 'https://'.BSS_HOST.'/images/mp_logo_mini.png' . '" style="height:28px;vertical-align:middle;margin-right:8px;">mercado pago</a></td>';
 						$body .= '</tr>';
@@ -718,6 +718,9 @@ class Mercadolibre_model extends CI_Model
 						$body .= '</tr>';
 						$body .= '<tr width="100%" bgcolor="#ffffff">';
 						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:1%;">Puede efectuar el pago haciendo click en el siguiente boton:</td>';
+						$body .= '</tr>';
+						$body .= '<tr width="100%" bgcolor="#ffffff">';
+						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:1%;">Puede efectuar el pago haciendo click en el siguiente boton:&nbsp;';
 						$body .= '<a href="' . $link_mp . '" target="_blank" style="background-color:#FFE600;color:#100079;border:2px solid #917d00;display:inline-block;border-radius:10px;padding:6px 12px;font-family: sans-serif;font-weight:bold;text-decoration:none;text-align:center;">';
 						$body .= '<img src="' . 'https://'.BSS_HOST.'/images/mp_logo_mini.png' . '" style="height:28px;vertical-align:middle;margin-right:8px;">mercado pago</a></td>';
 						$body .= '</tr>';
