@@ -1090,7 +1090,7 @@ class User_model extends CI_Model
 						$query2 = $this->db->get();
 						if ($query2->num_rows() > 0) {
 							$user[$key]['deptos'] = $query2->result_array();
-							$deptos = $query->result_array();
+							$deptos = $query2->result_array();
 							foreach ($deptos as $key => $item) {
 								$query3 = $this->db->select("*")->from("tb_clients");
 								$query3 = $this->db->where('idClient', $item['idClientFk']);
