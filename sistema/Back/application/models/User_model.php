@@ -1060,24 +1060,8 @@ class User_model extends CI_Model
 							$user[$key]['company'] = $query2->result_array();
 						}
 					}
-					if ($idProfile == 5 || ($idProfile == 4 && $item['idTypeTenantKf'] == 2) || ($idProfile == 6 && $item['idTyepeAttendantKf'] != 1 && $item['idTypeTenantKf'] == 2)) {
-						$query2 = $this->db->select("*")->from("tb_clients");
-						$query2 = $this->db->where('idClient', $item['idAddresKf']);
-						$query2 = $this->db->get();
-						if ($query2->num_rows() > 0) {
-							$user[$key]['building'] = $query2->result_array();
-						}
-					}
 					if ($idProfile == 6 && $item['idTyepeAttendantKf'] != null && ($item['idTypeTenantKf'] == null || $item['idTypeTenantKf'] != null)) {
 						$query2 = null;
-						$query2 = $this->db->select("*")->from("tb_clients");
-						$query2 = $this->db->where('idClient', $item['idAddresKf']);
-						$query2 = $this->db->get();
-						if ($query2->num_rows() > 0) {
-							$user[$key]['building'] = $query2->result_array();
-						}
-					}
-					if (($idProfile == 4 || $idProfile == 6) && $item['idTypeTenantKf'] == 1) {
 						$query2 = $this->db->select("*")->from("tb_clients");
 						$query2 = $this->db->where('idClient', $item['idAddresKf']);
 						$query2 = $this->db->get();
@@ -1108,11 +1092,21 @@ class User_model extends CI_Model
 					if ($idProfile == 5 || ($idProfile == 4 && $item['idTypeTenantKf'] == 2) || ($idProfile == 6 && $item['idTyepeAttendantKf'] != 1 && $item['idTypeTenantKf'] == 2)) {
 						$query2 = $this->db->select("*")->from("tb_client_departament");
 						$query2 = $this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
-						$query2 = $this->db->join('tb_clients', ' tb_clients.idClient= tb_client_departament.idClientFk', 'left');
 						$query2 = $this->db->where('idClientDepartament', $item['idDepartmentKf']);
 						$query2 = $this->db->get();
 						if ($query2->num_rows() > 0) {
 							$user[$key]['deptos'] = $query2->result_array();
+							log_message('debug', 'SQL: ' . $this->db->last_query());
+							log_message('debug', 'Num rows: ' . $query2->num_rows());
+							$deptos = $query2->result_array();
+							foreach ($deptos as $key2 => $item) {
+								log_message('debug', 'Processing depto: ' . print_r($item, true));
+								$query3 = $this->Client_model->getadmin($item['idClientFk'], null, null, null, null, null, null, null, null, null);
+								log_message('debug', 'Num rows: ' . count($query3));
+								if (count($query3) > 0) {
+									$user[$key]['deptos'][$key2]['building'] = $query3;
+								}
+							}
 						}
 					}
 				}
