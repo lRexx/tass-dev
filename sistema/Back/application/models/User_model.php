@@ -1086,7 +1086,6 @@ class User_model extends CI_Model
 					if ($idProfile == 3 || ($idProfile == 4 && $item['idTypeTenantKf'] == 1) || ($idProfile == 6 && $item['idTypeTenantKf'] == 1)) {
 						$query2 = $this->db->select("*")->from("tb_client_departament");
 						$query2 = $this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
-						$query2 = $this->db->join('tb_clients', ' tb_clients.idClient= tb_client_departament.idClientFk', 'left');
 						$query2 = $this->db->where('idUserKf', $item['idUser']);
 						$query2 = $this->db->get();
 						if ($query2->num_rows() > 0) {
