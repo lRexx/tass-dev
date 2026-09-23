@@ -600,26 +600,26 @@ class User_model extends CI_Model
 			$this->db->insert(
 				'tb_user',
 				array(
-					'fullNameUser' => $user['fullNameUser'],
-					'emailUser' => $user['emailUser'],
-					'phoneNumberUser' => $user['phoneNumberUser'],
-					'phoneLocalNumberUser' => @$user['phoneLocalNumberUser'],
-					'idAddresKf' => @$user['idAddresKf'],
-					'passwordUser' => sha1(md5($ramdonPwd)),
-					'idProfileKf' => $user['idProfileKf'],
-					'idTypeTenantKf' => $user['idTypeTenantKf'],
-					'idStatusKf' => 0,
-					'idCompanyKf' => @$user['idCompanyKf'],
-					'idTyepeAttendantKf' => @$user['idTyepeAttendantKf'],
-					'descOther' => @$user['descOther'],
-					'idDepartmentKf' => @$user['idDepartmentKf'],
-					'isDepartmentApproved' => $isDepartmentApproved,
-					'isEdit' => @$user['isEdit'],
+					'fullNameUser' 			=> $user['fullNameUser'],
+					'emailUser' 			=> $user['emailUser'],
+					'phoneNumberUser' 		=> $user['phoneNumberUser'],
+					'phoneLocalNumberUser' 	=> @$user['phoneLocalNumberUser'],
+					'idAddresKf' 			=> @$user['idAddresKf'],
+					'passwordUser' 			=> sha1(md5($ramdonPwd)),
+					'idProfileKf' 			=> $user['idProfileKf'],
+					'idTypeTenantKf' 		=> $user['idTypeTenantKf'],
+					'idStatusKf' 			=> 0,
+					'idCompanyKf' 			=> @$user['idCompanyKf'],
+					'idTyepeAttendantKf' 	=> @$user['idTyepeAttendantKf'],
+					'descOther' 			=> @$user['descOther'],
+					'idDepartmentKf' 		=> @$user['idDepartmentKf'],
+					'isDepartmentApproved' 	=> $isDepartmentApproved,
+					'isEdit' 				=> @$user['isEdit'],
 					'requireAuthentication' => @$user['requireAuthentication'],
-					'resetPasword' => 1,
-					'tokenMail' => $tokenMail,
-					'dni' => $user['dni'],
-					'idSysProfileFk' => @$user['idSysProfileFk']
+					'resetPasword' 			=> 1,
+					'tokenMail' 			=> $tokenMail,
+					'dni' 					=> $user['dni'],
+					'idSysProfileFk' 		=> @$user['idSysProfileFk']
 				)
 			);
 
@@ -1091,6 +1091,15 @@ class User_model extends CI_Model
 						$query2 = $this->db->get();
 						if ($query2->num_rows() > 0) {
 							$user[$key]['deptos'] = $query2->result_array();
+							$deptos = $query->result_array();
+							foreach ($deptos as $key => $item) {
+								$query3 = $this->db->select("*")->from("tb_clients");
+								$query3 = $this->db->where('idClient', $item['idClientFk']);
+								$query3 = $this->db->get();
+								if ($query3->num_rows() > 0) {
+									$user[$key]['deptos'][$key]['building'] = $query3->result_array();
+								}
+							}
 						}
 					}
 					if ($idProfile == 5 || ($idProfile == 4 && $item['idTypeTenantKf'] == 2) || ($idProfile == 6 && $item['idTyepeAttendantKf'] != 1 && $item['idTypeTenantKf'] == 2)) {
