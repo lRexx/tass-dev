@@ -1101,7 +1101,7 @@ class User_model extends CI_Model
 								log_message('debug', 'SQL: ' . $this->db->last_query());
 								log_message('debug', 'Num rows: ' . $query3->num_rows());
 								if ($query3->num_rows() > 0) {
-									$user[$key]['deptos'][$key2]['building'] = $query3->result_array();
+									$user[$key]['deptos'][$key2]['building'] = $query3->result_array()[0];
 								}
 							}
 						}
