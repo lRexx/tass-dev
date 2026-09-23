@@ -7,6 +7,8 @@ class User_model extends CI_Model
 	public function __construct()
 	{
 		parent::__construct();
+		/*CLIENT*/
+		$this->load->model('Client_model');
 	}
 	function encode($x)
 	{
@@ -1095,9 +1097,10 @@ class User_model extends CI_Model
 							$deptos = $query2->result_array();
 							foreach ($deptos as $key2 => $item) {
 								log_message('debug', 'Processing depto: ' . print_r($item, true));
-								$query3 = $this->db->select("*")->from("tb_clients");
-								$query3 = $this->db->where('idClient', $item['idClientFk']);
-								$query3 = $this->db->get();
+								$query3 = $this->mail_model->getadmin($item['idClientFk']);
+								print_r($query3->result_array(), true);
+								log_message('debug', 'Query3 result: ' . print_r($query3->result_array(), true));
+								log_message('debug', 'Query3 result: ' . print_r($query3->result_array(), true));
 								log_message('debug', 'SQL: ' . $this->db->last_query());
 								log_message('debug', 'Num rows: ' . $query3->num_rows());
 								if ($query3->num_rows() > 0) {
