@@ -1097,7 +1097,7 @@ class User_model extends CI_Model
 							$deptos = $query2->result_array();
 							foreach ($deptos as $key2 => $item) {
 								log_message('debug', 'Processing depto: ' . print_r($item, true));
-								$query3 = $this->client_model->getadmin($item['idClientFk'], null, null, null, null, null, null, null, null, null);
+								$query3 = $this->Client_model->getadmin($item['idClientFk'], null, null, null, null, null, null, null, null, null);
 								print_r($query3->result_array(), true);								
 								#log_message('debug', 'SQL: ' . $this->db->last_query());
 								#log_message('debug', 'Num rows: ' . $query3->num_rows());
