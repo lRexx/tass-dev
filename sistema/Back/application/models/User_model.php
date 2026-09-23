@@ -1091,15 +1091,17 @@ class User_model extends CI_Model
 						if ($query2->num_rows() > 0) {
 							$user[$key]['deptos'] = $query2->result_array();
 							log_message('debug', 'SQL: ' . $this->db->last_query());
+							log_message('debug', 'Num rows: ' . $query2->num_rows());
 							$deptos = $query2->result_array();
-							foreach ($deptos as $key => $item) {
+							foreach ($deptos as $key2 => $item) {
 								log_message('debug', 'Processing depto: ' . print_r($item, true));
 								$query3 = $this->db->select("*")->from("tb_clients");
 								$query3 = $this->db->where('idClient', $item['idClientFk']);
 								$query3 = $this->db->get();
 								log_message('debug', 'SQL: ' . $this->db->last_query());
+								log_message('debug', 'Num rows: ' . $query3->num_rows());
 								if ($query3->num_rows() > 0) {
-									$user[$key]['deptos'][$key]['building'] = $query3->result_array();
+									$user[$key]['deptos'][$key2]['building'] = $query3->result_array();
 								}
 							}
 						}
