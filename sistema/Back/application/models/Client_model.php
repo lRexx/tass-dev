@@ -2054,7 +2054,7 @@ class Client_model extends CI_Model
             $this->db->join('tb_location', 'tb_location.idLocation = tb_clients.idLocationFk', 'left');
             $this->db->join('tb_province', 'tb_province.idProvince = tb_clients.idProvinceFk', 'left');
             $quuery = $this->db->where("tb_clients.idClient =", $id)->get();
-
+            log_message('debug', 'SQL: ' . $this->db->last_query());
             if ($quuery->num_rows() === 1) {
                 $rs = $quuery->row_array();
 
@@ -2095,7 +2095,7 @@ class Client_model extends CI_Model
                 $this->db->join('tb_province', 'tb_province.idProvince = tb_client_billing_information.idProvinceBillingFk', 'inner');
                 $this->db->join('tb_client_cost_center', 'tb_client_cost_center.idCostCenter = tb_client_billing_information.idCostCenterFk', 'left');
                 $quuery = $this->db->where("tb_client_billing_information.idClientFk =", $id)->get();
-
+                log_message('debug', 'SQL: ' . $this->db->last_query());
                 $rs4 = $quuery->result_array();
                 $rs['billing_information'] = $rs4;
 
