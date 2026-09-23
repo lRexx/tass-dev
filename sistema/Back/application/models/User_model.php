@@ -1098,12 +1098,10 @@ class User_model extends CI_Model
 							foreach ($deptos as $key2 => $item) {
 								log_message('debug', 'Processing depto: ' . print_r($item, true));
 								$query3 = $this->Client_model->getadmin($item['idClientFk'], null, null, null, null, null, null, null, null, null);
-								print_r($query3);
-								#log_message('debug', 'SQL: ' . $this->db->last_query());
-								#log_message('debug', 'Num rows: ' . $query3->num_rows());
-								#if ($query3->num_rows() > 0) {
-								#	$user[$key]['deptos'][$key2]['building'] = $query3->result_array()[0];
-								#}
+								log_message('debug', 'Num rows: ' . count($query3));
+								if (count($query3) > 0) {
+									$user[$key]['deptos'][$key2]['building'] = $query3;
+								}
 							}
 						}
 					}
