@@ -236,6 +236,51 @@
 	<div ng-view></div>
 	<!-- //ng-view div -->
 
+<!-- START Botmaker Webchat -->
+    <script>
+        (function () {
+
+            console.log("Loading Botmaker...");
+
+            let js = document.createElement("script");
+
+            js.type = "text/javascript";
+            js.async = true;
+
+            js.src =
+                "https://go.botmaker.com/rest/webchat/p/JOUAJ4MVL4/init.js";
+
+            js.onload = function () {
+
+                console.log("Botmaker loaded");
+
+                setTimeout(function () {
+
+                    console.log(
+                        "bmShow:",
+                        typeof window.bmShow
+                    );
+
+                    console.log(
+                        "bmMaximize:",
+                        typeof window.bmMaximize
+                    );
+
+                }, 3000);
+            };
+
+            js.onerror = function () {
+                console.error(
+                    "Could not load Botmaker"
+                );
+            };
+
+            document.body.appendChild(js);
+
+        })();
+    </script>
+    <!-- END Botmaker Webchat -->
+
 	<!-- Response Inform Meessage plugin -->
 	<div inform class="inform-fixed inform-shadow inform-animate"></div>
 
