@@ -71,13 +71,16 @@
         var parts = fullName.split(/\s+/);
         $window.loadBotmaker({
           userIdOnBusiness: String(u.idUser),
+          userAuthenticated: true,
           firstName: parts[0] || '',
           lastName: parts.slice(1).join(' ')+ ' (' + u.nameProfile + ')',
-          fullNameUser: fullName,
-          emailUser: u.emailUser || '',
+          fullName: fullName,
+          mail: u.emailUser || '',
           phoneNumberUser: u.phoneNumberUser || '',
           phoneLocalNumberUser: u.phoneLocalNumberUser || '',
           dni: u.dni || '',
+          typeTenantName: u.idTypeTenantKf || '',
+          statusTenantName: u.statusTenantName || '',
           idProfileKf: u.idProfileKf || '',
           nameProfile: u.nameProfile || '',
           idCompanyKf: u.idCompanyKf || '',
