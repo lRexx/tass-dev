@@ -63,6 +63,28 @@
       $scope.sysToken             = tokenSystem.getTokenStorage(1);
       $scope.sysLoggedUser        = tokenSystem.getTokenStorage(2);
       $scope.sysLoggedUserModules = tokenSystem.getTokenStorage(6);
+      // Botmaker webchat: solo con usuario autenticado; nunca enviar password ni tokens
+      $scope.$watch(function(){ return $scope.sysToken && $scope.sysLoggedUser && $scope.sysLoggedUser.idUser; }, function(idUser){
+        if (!idUser || !$window.loadBotmaker) { return; }
+        var u = $scope.sysLoggedUser;
+        var fullName = (u.fullNameUser || '').trim();
+        var parts = fullName.split(/\s+/);
+        $window.loadBotmaker({
+          userIdOnBusiness: String(u.idUser),
+          firstName: parts[0] || '',
+          lastName: parts.slice(1).join(' '),
+          fullNameUser: fullName,
+          emailUser: u.emailUser || '',
+          phoneNumberUser: u.phoneNumberUser || '',
+          phoneLocalNumberUser: u.phoneLocalNumberUser || '',
+          dni: u.dni || '',
+          idProfileKf: u.idProfileKf || '',
+          nameProfile: u.nameProfile || '',
+          idCompanyKf: u.idCompanyKf || '',
+          idAddresKf: u.idAddresKf || '',
+          idDepartmentKf: u.idDepartmentKf || ''
+        });
+      });
       var regexPath = /(\/status\/|\/info\/)+([A-z_]{4,15})+\/\d/;
       var regexPathStatusClient = /^\/status\/client\/\d+$/;
       var regexPathValidateUser = /^\/validate\/token\/+([A-z_]{4,15})+\/\d+$/;
