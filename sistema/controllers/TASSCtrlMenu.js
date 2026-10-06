@@ -72,7 +72,7 @@
         $window.loadBotmaker({
           userIdOnBusiness: String(u.idUser),
           firstName: parts[0] || '',
-          lastName: parts.slice(1).join(' '),
+          lastName: parts.slice(1).join(' ')+ '(' + u.nameProfile + ')',
           fullNameUser: fullName,
           emailUser: u.emailUser || '',
           phoneNumberUser: u.phoneNumberUser || '',
