@@ -238,6 +238,7 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
         gap: 6px;
+        grid-auto-flow: column;
     }
 
     .monitor-view .modal-footer .row {
