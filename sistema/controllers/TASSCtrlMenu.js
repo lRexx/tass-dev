@@ -27,6 +27,17 @@
       }
     };
   });
+  menu.directive('scrollToEnd', function ($timeout) {
+    return {
+      link: function (scope, element, attrs) {
+        var el = element[0];
+        var toEnd = function () { $timeout(function () { el.scrollLeft = el.scrollWidth; }, 0, false); };
+        scope.$watchCollection(attrs.scrollToEnd, toEnd);
+        // El modal está oculto al renderizar, por eso se repite al mostrarse.
+        element.closest('.modal').on('shown.bs.modal', toEnd);
+      }
+    };
+  });
   menu.directive('noSpaces', function() {
     return {
       require: 'ngModel',

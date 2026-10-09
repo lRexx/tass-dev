@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-12">
             <legend style="text-align: left;">Historial</legend>
-            <div style="display:inline-block;width:100%;overflow-y:auto;">
+            <div class="timeline-scroll" scroll-to-end="tkupdate.changes_history">
                 <ul class="timeline timeline-horizontal">
                     <li ng-repeat="history in tkupdate.changes_history" class="timeline-item">
                         <div ng-if="history.idCambiosTicketKf=='1'" class="timeline-badge primary"><i class="fas fa-file-invoice"></i></div>
