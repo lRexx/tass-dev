@@ -4,13 +4,15 @@
 
 @media screen and (max-width: 991px) {
     .monitor-view #wrapper {
-        margin-top: 162px !important;
+        margin-top: 124px !important;
         padding-right: 6px;
         padding-left: 6px;
     }
 
     .monitor-view .filter-bar {
-        position: relative;
+        position: sticky;
+        top: 124px;
+        z-index: 999;
         width: auto;
         height: auto;
         margin: 0;
@@ -219,6 +221,78 @@
 
     .monitor-view .modal-footer .btn {
         width: 100%;
+    }
+
+    .monitor-view .modal-body {
+        font-size: 14px;
+    }
+
+    .monitor-view .modal-body legend {
+        margin-bottom: 10px;
+        font-size: 17px;
+    }
+
+    .monitor-view .modal-body label {
+        font-size: 13px;
+    }
+
+    .monitor-view .modal-body .font-size-22px {
+        font-size: 16px;
+    }
+
+    .monitor-view .customer-frame,
+    .monitor-view .well-checkbox {
+        padding: 8px;
+    }
+
+    .monitor-view .customer-frame [class*="col-"] {
+        padding-right: 6px;
+        padding-left: 6px;
+    }
+
+    .monitor-view .modal-body .card-customer {
+        min-height: 64px;
+        margin-bottom: 8px;
+        padding: 8px;
+    }
+
+    .monitor-view .modal-body .card-customer > .card-icon i {
+        font-size: 30px;
+    }
+
+    .monitor-view .modal-body .card-customer .card-title h4 {
+        margin: 4px 0 0;
+        font-size: 14px;
+        text-align: right;
+    }
+
+    .monitor-view .modal-body .counter-ticket {
+        padding: 4px 0;
+    }
+
+    .monitor-view .modal-body .count-ticket-text {
+        margin: 0;
+        font-size: 12px;
+    }
+
+    .monitor-view .modal-body .switch {
+        margin-bottom: 4px;
+    }
+
+    .monitor-view .modal-body .rzslider {
+        margin: 28px 8px 24px;
+    }
+
+    .monitor-view .modal-body .rzslider .rz-tick-value {
+        font-size: 10px;
+    }
+
+    .monitor-view .modal-body .rzslider .rz-tick:nth-child(even) .rz-tick-value {
+        display: none;
+    }
+
+    .monitor-view .modal-body .input-group-addon {
+        padding: 6px 10px;
     }
 
     .monitor-view .modal-dialog {
