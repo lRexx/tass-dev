@@ -223,17 +223,75 @@
         width: 100%;
     }
 
+    .monitor-view .modal-footer,
+    .monitor-view .modal-footer .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .monitor-view .modal-footer [class*="col-"] {
+        float: none !important;
+        flex: 1 1 calc(50% - 6px);
+        width: auto;
+        min-width: 130px;
+        padding: 0;
+    }
+
+    .monitor-view .modal-footer [class*="col-"] [class*="col-"] {
+        flex: none;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .monitor-view .modal-footer .btn {
+        margin: 0;
+    }
+
+    .monitor-view .modal-body .card-customer::after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+
+    .monitor-view .modal-body .card-customer .card-icon,
+    .monitor-view .modal-body .card-customer .card-sticky {
+        float: left;
+        width: 50%;
+    }
+
+    .monitor-view .modal-body .card-customer .card-title {
+        clear: both;
+        float: none;
+        width: 100%;
+    }
+
+    .monitor-view .modal-title {
+        font-size: clamp(15px, 4.6vw, 20px);
+    }
+
     .monitor-view .modal-body {
-        font-size: 14px;
+        font-size: clamp(13px, 3.6vw, 16px);
     }
 
     .monitor-view .modal-body legend {
-        margin-bottom: 10px;
-        font-size: 17px;
+        font-size: clamp(15px, 4.4vw, 18px);
     }
 
-    .monitor-view .modal-body label {
-        font-size: 13px;
+    .monitor-view .modal-body label,
+    .monitor-view .modal-body .label,
+    .monitor-view .modal-body .badge {
+        font-size: clamp(11px, 3.2vw, 13px);
+    }
+
+    .monitor-view .modal-body table {
+        font-size: clamp(11px, 3.2vw, 13px);
+    }
+
+    .monitor-view .modal-body .counter-ticket h2 {
+        font-size: clamp(16px, 5vw, 22px);
     }
 
     .monitor-view .modal-body .font-size-22px {
@@ -318,7 +376,6 @@
     }
 
     .monitor-view .modal-header .modal-title {
-        font-size: 18px;
         line-height: 1.35;
         overflow-wrap: anywhere;
     }
@@ -340,7 +397,6 @@
     }
 
     .monitor-view .modal-footer .btn {
-        margin: 2px;
         white-space: normal;
     }
 
