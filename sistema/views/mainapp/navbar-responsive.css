@@ -10,26 +10,6 @@
     }
     .navbar-custom .jumbotron .navbar-nav > li {
         float: none;
-        text-align: center;
-    }
-    .navbar-custom .jumbotron .navbar-nav > li > a {
-        padding: 10px 12px;
-    }
-    .navbar-custom .jumbotron .navbar-nav > li .icon-4x {
-        font-size: 3em;
-    }
-}
-
-@media (min-width: 768px) and (max-width: 1199px) {
-    .navbar-custom .jumbotron .navbar-nav > li > a {
-        padding: 8px 8px;
-        font-size: 12px;
-    }
-    .navbar-custom .jumbotron .navbar-nav > li .icon-4x {
-        font-size: 2.4em;
-    }
-    .navbar-custom .nav-role h3 {
-        font-size: 16px;
     }
 }
 
