@@ -33,6 +33,7 @@
 
     .monitor-view .filter-bar .search_box {
         display: block;
+        order: 3;
         float: none !important;
         flex: 1 1 100%;
         width: 100%;
@@ -51,6 +52,7 @@
     }
 
     .monitor-view .filter-bar .filter-bar-sticker {
+        order: 4;
         float: none !important;
         flex: 1 1 100%;
         width: 100%;
@@ -110,9 +112,15 @@
     }
 
     .monitor-view #bodyContent .row_body .col-margin-27 {
-        flex: 1 1 calc(100% - 42px);
+        flex: 1 1 0;
         width: auto;
         min-width: 0;
+        margin: 0;
+    }
+
+    .monitor-view #bodyContent .row_body .margin-ul-1,
+    .monitor-view #bodyContent .row_body .margin-ul-2 {
+        margin: 0 !important;
     }
 
     .monitor-view #bodyContent .row_body .col-margin-26,
@@ -148,9 +156,13 @@
         margin: 0;
     }
 
-    .monitor-view #bodyContent .row_body .btn_action .btn {
-        min-width: 36px;
+    .monitor-view #bodyContent .row_body .btn_action > .btn {
+        flex: 1 1 0;
+        width: auto;
+        min-width: 44px;
         min-height: 34px;
+        margin: 0;
+        border-radius: 3px;
     }
 
     .monitor-view .modal[style] {
