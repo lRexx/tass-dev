@@ -55,7 +55,9 @@
         float: right;
         margin: 0;
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        align-items: flex-end;
+        max-width: calc(100% - 150px);
     }
     .navbar-custom .navbar-inner .nav-role > li {
         float: none;
@@ -76,12 +78,19 @@
         padding: 9px 18px;
     }
     .navbar-custom .navbar-inner .nav-role h3 {
-        font-size: 13px;
-        margin: 10px 8px 0 0;
+        font-size: 12px;
+        line-height: 1.3;
+        margin: 8px 8px 0 0;
+        text-align: right;
+        word-wrap: break-word;
     }
     .navbar-custom .navbar-inner .nav-user {
         font-size: 12px;
-        padding: 8px 10px;
+        padding: 4px 8px;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     .navbar-custom .navbar-inner .nav-user .fa-2x {
         font-size: 1.5em;
@@ -135,8 +144,11 @@
         text-align: center;
         vertical-align: middle;
     }
-    .sys-logo {
-        display: block;
+    .navbar-custom .navbar-inner .sys-logo {
+        display: block !important;
         height: 40px;
+        max-width: 140px;
+        width: auto;
+        margin-top: 8px;
     }
 }
