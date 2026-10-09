@@ -240,9 +240,20 @@
     }
 
     .monitor-view .modal-footer {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 6px;
+    }
+
+    .monitor-view .modal-footer > .btn {
+        float: none;
+        min-width: 80px;
+    }
+
+    .monitor-view .modal-footer:has(> .row) {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-        gap: 6px;
     }
 
     .monitor-view .modal-footer .row {
