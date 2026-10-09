@@ -176,7 +176,7 @@
 
     .monitor-view .modal-body .col-md-12,
     .monitor-view .modal-body [class*="col-md-"] {
-        float: none;
+        margin-bottom: 0em !important;
         width: 100%;
     }
 
@@ -220,7 +220,18 @@
     }
 
     .monitor-view .modal-footer .btn {
-        width: 100%;
+        width: fit-content;
+        float: inline-start;
+    }
+
+    .monitor-view .modal-footer .pull-right .btn {
+        float: inline-end;
+    }
+
+    .monitor-view .modal-footer [class*="col-"]::after {
+        content: "";
+        display: table;
+        clear: both;
     }
 
     .monitor-view .modal-footer {
@@ -242,7 +253,7 @@
     }
 
     .monitor-view .modal-footer [class*="col-"] [class*="col-"] {
-        width: 100%;
+        width: auto;
     }
 
     .monitor-view .modal-footer .btn {
@@ -340,6 +351,7 @@
     .monitor-view .modal-body .card-customer {
         min-height: 64px;
         margin-bottom: 8px;
+        margin-top: 2px;
         padding: 8px;
     }
 
