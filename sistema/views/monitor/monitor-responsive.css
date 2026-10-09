@@ -319,7 +319,8 @@
 
     .monitor-view .modal-footer [class*="col-"] {
         display: flex;
-        flex: 0 1 auto;
+        flex: 0 0 auto;
+        max-width: 100%;
         float: none !important;
         width: auto;
         min-width: 0;
