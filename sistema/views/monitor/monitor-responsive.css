@@ -17,6 +17,37 @@
     white-space: normal;
 }
 
+@media screen and (max-width: 991px) {
+    .monitor-view .timeline-scroll .timeline-horizontal {
+        padding: 12px 0 20px;
+    }
+
+    .monitor-view .timeline-scroll .timeline-horizontal .timeline-item {
+        height: auto;
+        vertical-align: top;
+    }
+
+    .monitor-view .timeline-scroll .timeline-horizontal .timeline-item .timeline-panel {
+        bottom: auto;
+        margin-bottom: 76px;
+        padding: 12px;
+    }
+
+    .monitor-view .timeline-scroll .timeline-title {
+        margin-bottom: 8px;
+        font-size: clamp(13px, 3.8vw, 16px);
+    }
+
+    .monitor-view .timeline-scroll .timeline-body .label {
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 3px;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        font-size: clamp(10px, 3vw, 12px);
+    }
+}
+
 @media screen and (max-width: 600px) {
     .monitor-view .timeline-scroll .timeline-horizontal .timeline-item {
         width: 78vw;
