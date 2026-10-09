@@ -1,0 +1,106 @@
+/* Menu horizontal responsive. Cargar despues de style.css */
+
+/* Desktop / tablet: items en fila, con salto de linea si no entran */
+@media (min-width: 768px) {
+    .navbar-custom .jumbotron .navbar-nav {
+        display: flex;
+        flex-wrap: wrap;
+        float: none;
+        margin: 0;
+    }
+    .navbar-custom .jumbotron .navbar-nav > li {
+        float: none;
+        text-align: center;
+    }
+    .navbar-custom .jumbotron .navbar-nav > li > a {
+        padding: 10px 12px;
+    }
+    .navbar-custom .jumbotron .navbar-nav > li .icon-4x {
+        font-size: 3em;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+    .navbar-custom .jumbotron .navbar-nav > li > a {
+        padding: 8px 8px;
+        font-size: 12px;
+    }
+    .navbar-custom .jumbotron .navbar-nav > li .icon-4x {
+        font-size: 2.4em;
+    }
+    .navbar-custom .nav-role h3 {
+        font-size: 16px;
+    }
+}
+
+/* Mobile: menu colapsable con items verticales */
+@media (max-width: 767px) {
+    .navbar-custom .navbar-inner .nav-role {
+        float: right;
+        margin: 0;
+    }
+    .navbar-custom .navbar-inner .nav-role h3 {
+        font-size: 13px;
+        margin: 10px 8px 0 0;
+    }
+    .navbar-custom .navbar-inner .nav-user {
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+    .navbar-custom .navbar-inner .nav-user .fa-2x {
+        font-size: 1.5em;
+    }
+    .navbar-custom .jumbotron .navbar-header {
+        float: none;
+        min-height: 44px;
+    }
+    .navbar-custom .jumbotron .navbar-toggle {
+        display: block;
+        float: right;
+        margin: 6px 10px;
+        border-color: #8fb2c1;
+    }
+    .navbar-custom .jumbotron .navbar-collapse {
+        max-height: calc(100vh - 120px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        border-top: 1px solid #19475E;
+        padding: 0;
+    }
+    .navbar-custom .jumbotron .navbar-collapse.collapse {
+        display: none !important;
+    }
+    .navbar-custom .jumbotron .navbar-collapse.collapse.in {
+        display: block !important;
+    }
+    .navbar-custom .jumbotron .navbar-nav {
+        margin: 0;
+        float: none;
+    }
+    .navbar-custom .jumbotron .navbar-nav > li {
+        float: none;
+        border-bottom: 1px solid rgba(15, 42, 55, .35);
+    }
+    .navbar-custom .jumbotron .navbar-nav > li > a {
+        display: block;
+        padding: 12px 16px;
+        text-align: left;
+    }
+    .navbar-custom .jumbotron .navbar-nav > li > a br {
+        display: none;
+    }
+    .navbar-custom .jumbotron .navbar-nav > li > a i,
+    .navbar-custom .jumbotron .navbar-nav > li.icon-m > a i {
+        display: inline-block;
+        width: 1.8em;
+        margin: 0 8px 0 0 !important;
+        padding: 0;
+        font-size: 1.6em;
+        text-align: center;
+        vertical-align: middle;
+    }
+    .sys-logo {
+        display: block;
+        height: 40px;
+    }
+}
