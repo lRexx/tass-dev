@@ -1,4 +1,4 @@
-<div ng-if="sysRouteParams==undefined">
+<div ng-if="sysRouteParams==undefined" class="monitor-view">
     <div id="wrapper" ng-init="mainSwitchFn('dashboard', null);" style="margin-top:162px" class="container-fluid">
         <div ng-if="sysToken" ng-include="'views/monitor/filters_bar.html'"></div>
         <!-- Monitor Body -->
@@ -255,19 +255,19 @@
     </div>
 </div>
 <!-- APPROVAL TICKET -->
-<div ng-if="sysRouteParams!=undefined && sysContent=='approval'" class="col-md-10 col-md-offset-1 col-xs-8">
+<div ng-if="sysRouteParams!=undefined && sysContent=='approval'" class="monitor-view col-md-10 col-md-offset-1 col-xs-8">
     <div class="col-md-12">
       <div ng-include="'views/monitor/ticket_approval.html'"></div>
     </div>
 </div>
-<div ng-include="'views/monitor/tickets/updateTicket.html'"></div>
-<div ng-include="'views/monitor/tickets/filters.html'"></div>
-<div ng-include="'views/utilities/modalCancelConfirmation.html'"></div>
-<div ng-include="'views/utilities/expirationWarningWindows.html'"></div>
-<div ng-include="'views/tickets/delivery/setDeliveryToOtherAddress.html'"></div>
-<div ng-include="'views/tickets/delivery/deliveryAddressType.html'"></div>
-<div ng-include="'views/tickets/list/deliveryAttendantList.html'"></div>
-<div ng-include="'views/tickets/delivery/thirdPerson.html'"></div>
-<div ng-include="'views/monitor/attachBillingTicketFiles.html'"></div>
-<div ng-include="'views/monitor/tickets/statusChange.html'"></div>
-<div ng-include="'views/utilities/modalConfirmationCustom.html'"></div>
+<div class="monitor-view" ng-include="'views/monitor/tickets/updateTicket.html'"></div>
+<div class="monitor-view" ng-include="'views/monitor/tickets/filters.html'"></div>
+<div class="monitor-view" ng-include="'views/utilities/modalCancelConfirmation.html'"></div>
+<div class="monitor-view" ng-include="'views/utilities/expirationWarningWindows.html'"></div>
+<div class="monitor-view" ng-include="'views/tickets/delivery/setDeliveryToOtherAddress.html'"></div>
+<div class="monitor-view" ng-include="'views/tickets/delivery/deliveryAddressType.html'"></div>
+<div class="monitor-view" ng-include="'views/tickets/list/deliveryAttendantList.html'"></div>
+<div class="monitor-view" ng-include="'views/tickets/delivery/thirdPerson.html'"></div>
+<div class="monitor-view" ng-include="'views/monitor/attachBillingTicketFiles.html'"></div>
+<div class="monitor-view" ng-include="'views/monitor/tickets/statusChange.html'"></div>
+<div class="monitor-view" ng-include="'views/utilities/modalConfirmationCustom.html'"></div>
