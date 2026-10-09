@@ -9,6 +9,11 @@
         padding-left: 6px;
     }
 
+    .monitor-view #wrapper > [ng-include*="filters_bar"],
+    .monitor-filters-row {
+        display: contents;
+    }
+
     .monitor-view .filter-bar {
         position: sticky;
         top: 124px;
@@ -238,7 +243,6 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
         gap: 6px;
-        grid-auto-flow: column;
     }
 
     .monitor-view .modal-footer .row {
