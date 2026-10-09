@@ -337,6 +337,13 @@
 
 
 <script src="lib/jquery/mainAppJs/coferbaJsMainApp.js"></script>  <!-- BSS Seguridad Jquery  -->
+<script>
+// Contrae el menú móvil al elegir una opción (delegado: los ítems se renderizan con ng-if).
+$(document).on('click', '#bs-example-navbar-collapse-1 .nav a:not(.dropdown-toggle)', function () {
+    var $menu = $('#bs-example-navbar-collapse-1');
+    if ($menu.hasClass('in')) { $menu.collapse('hide'); }
+});
+</script>
 <!--ANGULAR MODULES -->
 
 
