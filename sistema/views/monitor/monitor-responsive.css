@@ -326,6 +326,8 @@
         min-width: 0;
         margin: 0;
         padding: 0;
+        flex-direction: column-reverse;
+        justify-content: center;
     }
 
     .monitor-view .modal-footer [class*="col-"].pull-right {
