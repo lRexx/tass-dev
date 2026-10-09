@@ -1,5 +1,37 @@
 /* Menu horizontal responsive. Cargar despues de style.css */
 
+/* Menu de perfil de usuario */
+.navbar-custom .nav-role .dropdown-menu {
+    background-color: #0F2A37;
+    border: 1px solid #19475E;
+    border-radius: 4px;
+    min-width: 220px;
+    padding: 6px 0;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, .45);
+}
+.navbar-custom .nav-role .dropdown-menu > li > a {
+    color: #fff;
+    padding: 9px 18px;
+    white-space: nowrap;
+}
+.navbar-custom .nav-role .dropdown-menu > li > a:hover,
+.navbar-custom .nav-role .dropdown-menu > li > a:focus {
+    background-color: #427A9D;
+    color: #fff;
+}
+.navbar-custom .nav-role .dropdown-menu > li > a > i {
+    width: 1.4em;
+    text-align: center;
+    margin-right: 4px;
+}
+.navbar-custom .nav-role .dropdown-menu > li > a.text-warning {
+    color: #ffbc57;
+}
+.navbar-custom .nav-role .dropdown-menu .divider {
+    background-color: #19475E;
+    margin: 6px 0;
+}
+
 /* Desktop / tablet: items en fila, con salto de linea si no entran */
 @media (min-width: 768px) {
     .navbar-custom .jumbotron .navbar-nav {
@@ -15,9 +47,33 @@
 
 /* Mobile: menu colapsable con items verticales */
 @media (max-width: 767px) {
+    .navbar-custom .navbar-inner .navbar-left {
+        float: left;
+        margin: 0;
+    }
     .navbar-custom .navbar-inner .nav-role {
         float: right;
         margin: 0;
+        display: flex;
+        align-items: center;
+    }
+    .navbar-custom .navbar-inner .nav-role > li {
+        float: none;
+        position: relative;
+    }
+    /* Dropdown flotante en vez de empujar el contenido */
+    .navbar-custom .navbar-inner .nav-role .open > .dropdown-menu {
+        position: absolute;
+        float: none;
+        right: 0;
+        left: auto;
+        margin-top: 0;
+        background-color: #0F2A37;
+        border: 1px solid #19475E;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, .45);
+    }
+    .navbar-custom .navbar-inner .nav-role .open > .dropdown-menu > li > a {
+        padding: 9px 18px;
     }
     .navbar-custom .navbar-inner .nav-role h3 {
         font-size: 13px;
