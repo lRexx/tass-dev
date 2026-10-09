@@ -1,5 +1,5 @@
 <!-- APPROVAL TICKET -->
-<div  ng-if="approval!=undefined" class="col-md-10 col-md-offset-1">
+<div  ng-if="approval!=undefined" class="monitor-view col-md-10 col-md-offset-1">
   <div class="panel padding-panel" ng-class="{'panel-warning':(tkupdate.idStatusTicketKf=='2' || tkupdate.idStatusTicketKf=='9' || tkupdate.idStatusTicketKf=='11'), 'panel-success':(tkupdate.idStatusTicketKf!='2' && tkupdate.idStatusTicketKf!='9' && tkupdate.idStatusTicketKf!='11' && tkupdate.idStatusTicketKf=='3')}">
     <div class="panel-heading">
         <h3 class="modal-title">
@@ -145,7 +145,7 @@
     </div>
   </div>
 </div>
-<div  ng-if="approval==undefined" class="col-md-10 col-md-offset-1">
+<div  ng-if="approval==undefined" class="monitor-view col-md-10 col-md-offset-1">
     <div class="panel panel-warning padding-panel">
       <div class="panel-heading">
           <h3 class="modal-title"><i class="fas fa-exclamation-triangle"></i>
@@ -170,7 +170,7 @@
     </div>
 </div>
 
-<div ng-show="serviceResponse.status==404 && sysLoggedUser.idProfileKf!=0" class="col-md-6 col-md-offset-3">
+<div ng-show="serviceResponse.status==404 && sysLoggedUser.idProfileKf!=0" class="monitor-view col-md-6 col-md-offset-3">
   <div class="panel panel-warning padding-panel">
     <div class="panel-heading">
       <h3 class="panel-title">ESTATUS DEL CLIENTE</h3>

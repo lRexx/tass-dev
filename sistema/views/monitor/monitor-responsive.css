@@ -4,7 +4,9 @@
 
 @media screen and (max-width: 991px) {
     .monitor-view #wrapper {
-        margin-top: 110px !important;
+        margin-top: 162px !important;
+        padding-right: 6px;
+        padding-left: 6px;
     }
 
     .monitor-view .filter-bar {
@@ -66,7 +68,7 @@
     }
 
     .monitor-view #bodyContent {
-        padding: 0 12px;
+        padding: 0;
     }
 
     .monitor-view #bodyContent .row_body {
@@ -165,8 +167,58 @@
         border-radius: 3px;
     }
 
-    .monitor-view .modal[style] {
+    .monitor-view .modal[style],
+    .modal.monitor-view[style] {
         top: 0 !important;
+    }
+
+    .monitor-view .modal-body .col-md-12,
+    .monitor-view .modal-body [class*="col-md-"] {
+        float: none;
+        width: 100%;
+    }
+
+    .monitor-view .modal-body .col-xs-3,
+    .monitor-view .modal-body .col-xs-6 {
+        float: left;
+    }
+
+    .monitor-view .modal-body .col-xs-3 {
+        width: 50%;
+    }
+
+    .monitor-view .modal-body .col-xs-6 {
+        width: 50%;
+    }
+
+    .monitor-view .form-horizontal .form-group {
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .monitor-view .counter-ticket h2 {
+        font-size: 20px;
+    }
+
+    .monitor-view .timeline-horizontal {
+        max-width: 100%;
+    }
+
+    .monitor-view .file-list {
+        display: flex;
+        flex-wrap: wrap;
+        padding-left: 0;
+    }
+
+    .monitor-view .table-responsive,
+    .monitor-view .modal-body .table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .monitor-view .modal-footer .btn {
+        width: 100%;
     }
 
     .monitor-view .modal-dialog {
