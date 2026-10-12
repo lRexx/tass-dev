@@ -1,0 +1,107 @@
+.tickets-view {
+    min-width: 0;
+}
+
+.tickets-view .tickets-content {
+    min-width: 0;
+    overflow-x: hidden;
+}
+
+.tickets-view .depto-widget {
+    cursor: pointer;
+}
+
+@media screen and (max-width: 991px) {
+    .tickets-view .panel-body {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .tickets-view .tickets-actions {
+        display: flex;
+        flex: 1 1 100%;
+        flex-direction: row;
+        gap: 8px;
+        float: none;
+        width: 100%;
+        padding-right: 8px;
+        padding-left: 8px;
+    }
+
+    .tickets-view .tickets-actions .depto-widget {
+        flex: 1 1 0;
+        float: none;
+        width: auto;
+        margin-bottom: 0;
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    .tickets-view .well .depto-icon i {
+        margin-bottom: 8px;
+        font-size: 44px;
+        line-height: 44px;
+    }
+
+    .tickets-view .text-badge .badge {
+        max-width: 100%;
+        white-space: normal;
+        font-size: clamp(10px, 3vw, 12px);
+    }
+
+    .tickets-view .tickets-content {
+        flex: 1 1 100%;
+        float: none;
+        width: 100%;
+        padding-right: 8px;
+        padding-left: 8px;
+    }
+
+    .tickets-view .tickets-content > div > [class*="col-"] {
+        float: none;
+        width: 100%;
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .tickets-view .form-horizontal .form-group {
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .tickets-view .table-responsive,
+    .tickets-view .tickets-content .table {
+        display: block;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .tickets-view .modal-body [class*="col-md-"] {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 991px) {
+    .modal.tickets-view[style] {
+        top: 0 !important;
+    }
+
+    .tickets-view .modal-dialog {
+        width: auto;
+        margin: 8px;
+    }
+
+    .tickets-view .modal-body {
+        max-height: calc(100vh - 140px);
+        overflow-y: auto;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .tickets-view .tickets-actions {
+        flex-direction: column;
+    }
+}
