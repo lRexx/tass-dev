@@ -16,7 +16,18 @@
         display: flex;
         flex-wrap: wrap;
         align-items: flex-start;
-        gap: 8px;
+        gap: 4px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+    }
+
+    .tickets-view .tickets-actions.tickets-actions-collapsed {
+        display: none;
+    }
+
+    .tickets-view .tickets-content > div > [class*="col-"] {
+        margin-top: 0;
+        padding-top: 0;
     }
 
     .tickets-view .tickets-actions {
