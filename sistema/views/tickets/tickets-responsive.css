@@ -206,6 +206,51 @@
     .tickets-view fieldset .table .font-size-18px {
         font-size: 14px;
     }
+
+    .tickets-view fieldset .radio-custom + .radio-custom-label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 100%;
+        margin: 5px 0;
+        text-align: center;
+        line-height: 1.3;
+    }
+
+    .tickets-view fieldset .radio-custom + .radio-custom-label:before {
+        margin-right: 0;
+        margin-bottom: 4px;
+    }
+
+    .tickets-view fieldset .radio-custom-label .label {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        max-width: 100%;
+        margin-top: 4px;
+        border-width: 3px !important;
+        font-size: 12px !important;
+        white-space: normal;
+    }
+
+    .tickets-view fieldset .radio-custom-label .label .close {
+        margin-top: 0 !important;
+        line-height: 1;
+    }
+
+    .tickets-view fieldset .input-group,
+    .tickets-view fieldset .ui-select-container {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .tickets-view fieldset .ui-select-match-text {
+        display: block;
+        overflow: hidden;
+        padding-right: 22px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 }
 
 @media screen and (max-width: 991px) {
