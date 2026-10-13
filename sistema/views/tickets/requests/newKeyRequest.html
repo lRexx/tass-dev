@@ -36,14 +36,14 @@
 
 							<div ng-if="sysLoggedUser.idProfileKf=='1'" class="form-group col-lg-12 n-padding-l n-padding-r">
 								<div class="col-md-12 col-xs-12">
-								  <div class="col-md-2 col-xs-2" ><label class="clf-size">Buscar Cliente</label></div>
-								  <div class="col-md-1 col-xs-2">
+								  <div class="col-md-3 col-xs-12" ><label class="clf-size">Buscar Cliente</label></div>
+								  <div class="col-md-1 col-xs-2 n-padding-l">
 									<label class="switch switch-2x" for="strict-search">
 										<input type="checkbox" class="success" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" ng-model="customerSearch.strict" id="strict-search">
 										<span class="slider slider-2x flat"></span>
 									</label>
 								  </div>
-								  <div class="col-md-7 col-xs-7 n-padding-l" style="margin-top: 0.2%;margin-left: -3.5% !important;">
+								  <div class="col-md-3 col-xs-7" style="margin-top: 0.2%;margin-left: -3.5% !important;">
 									<label ng-if="customerSearch.strict" style="cursor: pointer;" class="badge badge-success">Busquéda exacta</label>
 									<label ng-if="!customerSearch.strict" style="cursor: pointer;" class="badge badge-warning">Busquéda exacta</label>
 								  </div>

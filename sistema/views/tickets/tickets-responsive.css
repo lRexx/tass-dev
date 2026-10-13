@@ -110,8 +110,10 @@
     }
 
     .tickets-view .modal-body {
-        max-height: calc(100vh - 140px);
         overflow-y: auto;
+        height: 120% !important;
+        padding-bottom: 1em !important;
+
     }
 }
 
