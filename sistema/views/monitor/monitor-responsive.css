@@ -62,7 +62,7 @@
 
 @media screen and (max-width: 991px) {
     .monitor-view #wrapper {
-        margin-top: 124px !important;
+        margin-top: calc(var(--sys-nav-h, 116px) + 8px) !important;
         padding-right: 6px;
         padding-left: 6px;
     }
@@ -74,7 +74,7 @@
 
     .monitor-view .filter-bar {
         position: sticky;
-        top: 124px;
+        top: var(--sys-nav-h, 116px);
         z-index: 999;
         width: auto;
         height: auto;

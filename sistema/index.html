@@ -48,8 +48,8 @@
 <link href="css/timeline_history.css" type="text/css" rel="stylesheet" media="all">
 <link href="css/form-controls.css" type="text/css" rel="stylesheet" media="all">
 <link href="views/mainapp/sys_sidebar.css" type="text/css" rel="stylesheet" media="all">
-<link href="views/monitor/monitor-responsive.css?v=1" type="text/css" rel="stylesheet" media="all">
-<link href="views/tickets/tickets-responsive.css?v=4" type="text/css" rel="stylesheet" media="all">
+<link href="views/monitor/monitor-responsive.css?v=2" type="text/css" rel="stylesheet" media="all">
+<link href="views/tickets/tickets-responsive.css?v=5" type="text/css" rel="stylesheet" media="all">
 <!-- User Style Sheets -->
 <link rel="shortcut icon" href="favicon.ico">
 </head>
@@ -390,5 +390,20 @@ $(document).on('click', '#bs-example-navbar-collapse-1 .nav a:not(.dropdown-togg
 <!--  //Seguridad TASS Angular Login Functions -->
 
 
+<script>
+(function () {
+	// Expone la altura real del navbar fijo (colapsado) como --sys-nav-h
+	function setNavH() {
+		var nav = document.querySelector('.navbar-fixed-top');
+		if (!nav) return;
+		var open = nav.querySelector('.navbar-collapse.in');
+		var h = nav.offsetHeight - (open ? open.offsetHeight : 0);
+		document.documentElement.style.setProperty('--sys-nav-h', h + 'px');
+	}
+	window.addEventListener('resize', setNavH);
+	window.addEventListener('orientationchange', setNavH);
+	new MutationObserver(setNavH).observe(document.body, { childList: true, subtree: true });
+})();
+</script>
 </body>
 </html>

@@ -32,7 +32,7 @@
     }
 
     .padding-panel {
-        margin-top: 35% !important
+        margin-top: calc(var(--sys-nav-h, 124px) + 8px) !important;
     }
     .tickets-view .panel-body {
         display: flex;
@@ -129,6 +129,22 @@
 
     .tickets-view .modal-body [class*="col-md-"] {
         width: 100%;
+    }
+
+    .tickets-view .col-xs-12 > .col-md-6:has(> #department),
+    .tickets-view .col-xs-12 > .col-md-6:has(> #building) {
+        float: left;
+        width: 50%;
+        padding: 0 4px;
+    }
+
+    .tickets-view #department,
+    .tickets-view #building {
+        display: block;
+        float: none;
+        width: 100%;
+        margin: 0;
+        white-space: normal;
     }
 }
 
