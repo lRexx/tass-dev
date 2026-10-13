@@ -1,13 +1,17 @@
 <!-- MANAGE TICKETS-->
-<div class="col-md-12 n-padding-l n-padding-r tickets-view">
+<div class="col-md-12 n-padding-l n-padding-r tickets-view" ng-init="ticketsUI={showActions:false}">
     <div class="panel panel-default padding-panel">
       <div class="panel-heading">
-        <h3 class="panel-title">PEDIDOS </h3>
+        <h3 class="panel-title">PEDIDOS
+          <button type="button" class="btn btn-xs btn-default pull-right tickets-actions-toggle" ng-if="sysContent=='tickets' || sysContent=='services'" ng-click="ticketsUI.showActions=!ticketsUI.showActions">
+            <i class="fas" ng-class="ticketsUI.showActions ? 'fa-chevron-up' : 'fa-chevron-down'"></i> Opciones
+          </button>
+        </h3>
       </div>
       <div class="panel-body n-padding-l n-padding-r">
-        <div class="col-md-2 col-xs-6 n-padding-r tickets-actions" ng-class="{'tickets-actions-collapsed': sysContent=='tickets' || sysContent=='services'}">
+        <div class="col-md-2 col-xs-6 n-padding-r tickets-actions" ng-class="{'tickets-actions-collapsed': (sysContent=='tickets' || sysContent=='services') && !ticketsUI.showActions}">
             <!-- NEW TICKET -->
-              <div class="col-md-12 col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="NUEVO TICKET" ng-click="(sysLoggedUser.idProfileKf=='4' && sysLoggedUser.idTypeTenantKf==null) || (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='3' ||  sysLoggedUser.idProfileKf=='5')?mainSwitchFn('selectTicketType', null):mainSwitchFn('selectPlace', null)">
+              <div class="col-md-12 col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="NUEVO TICKET" ng-click="ticketsUI.showActions=false; (sysLoggedUser.idProfileKf=='4' && sysLoggedUser.idTypeTenantKf==null) || (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='3' ||  sysLoggedUser.idProfileKf=='5')?mainSwitchFn('selectTicketType', null):mainSwitchFn('selectPlace', null)">
                 <div class="depto-icon">
                       <span><i class="product-success fas fa-clipboard-list"></i></span>
                 </div>
@@ -17,7 +21,7 @@
               </div>
             <!-- //NEW TICKET -->
             <!-- SERVICES COST -->
-              <div class="col-md-12 col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="VER COSTOS DE SERVICIOS" ng-click="mainSwitchFn('costServices', null)">
+              <div class="col-md-12 col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="VER COSTOS DE SERVICIOS" ng-click="ticketsUI.showActions=false; mainSwitchFn('costServices', null)">
                 <!-- <div class="ribbon ribbon-top-right"><span>proximamente</span></div>-->
                 <div class="depto-icon">
                       <span><i class="product-success glyphicon icon-dollar"></i></span>

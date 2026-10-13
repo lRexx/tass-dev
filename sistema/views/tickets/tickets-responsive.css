@@ -11,7 +11,15 @@
     cursor: pointer;
 }
 
+.tickets-view .tickets-actions-toggle {
+    display: none;
+}
+
 @media screen and (max-width: 991px) {
+    .tickets-view .tickets-actions-toggle {
+        display: inline-block;
+    }
+
     .padding-panel {
         margin-top: 35% !important
     }
