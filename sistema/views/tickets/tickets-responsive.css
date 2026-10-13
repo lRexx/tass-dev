@@ -34,9 +34,24 @@
         flex: 1 1 0;
         float: none;
         width: auto;
+        height: auto;
+        min-height: 0;
         margin-bottom: 0;
         padding-top: 12px;
         padding-bottom: 12px;
+        overflow: hidden;
+    }
+
+    .tickets-view .modal-content[class*="win-d-unit"] {
+        width: auto;
+        margin-left: 0;
+    }
+
+    .tickets-view .modal-body .radio-inline,
+    .tickets-view .modal-body .checkbox-inline {
+        display: inline-block;
+        margin-left: 0;
+        padding-right: 10px;
     }
 
     .tickets-view .well .depto-icon i {
@@ -103,5 +118,9 @@
 @media screen and (max-width: 480px) {
     .tickets-view .tickets-actions {
         flex-direction: column;
+    }
+
+    .tickets-view .tickets-actions .depto-widget {
+        flex: 0 0 auto;
     }
 }
