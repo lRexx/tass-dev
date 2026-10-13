@@ -90,7 +90,7 @@
 								</div>
 							</div>
 							<div ng-if="sysLoggedUser.idProfileKf=='1'" class="clearfix"> </div>
-							<div ng-if="sysLoggedUser.idProfileKf=='1'" class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-r" ng-class="{'col-md-6 col-xs-6 col-sm-6': buildingList.length>0}">
+							<div ng-if="sysLoggedUser.idProfileKf=='1'" class="form-group col-md-12 col-xs-12 col-sm-12" ng-class="{'col-md-6 col-xs-6 col-sm-6': buildingList.length>0}">
 								<label style="padding-left: 15px" ng-show="buildingList.length>=0">{{customerFound.ClientType}}</label>
 								<div class="input-group s-ui-width s-ui-m-left">
 									<span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
@@ -143,13 +143,13 @@
 							<div ng-if="(sysLoggedUser.idProfileKf==1 && select.buildings.selected!=undefined)||(select.buildings.selected.IsInDebt!='1' && select.buildings.selected!=undefined && sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && !isHomeSelected)" class="col-md-12 col-xs-12" style="padding-bottom: 2em;">
 								<!-- NEW TICKET -->
 								<div class="col-md-6">
-									<button ng-click="setOptionType($event); mainSwitchFn('autoSelectDoors', null, null);enabledNextBtn();" id="department" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.optionTypeSelected.name=='department', 'btn-primary': ticket.optionTypeSelected.name==undefined || ticket.optionTypeSelected.name!='department'}">
+									<button ng-click="setOptionType($event); mainSwitchFn('autoSelectDoors', null, null);enabledNextBtn();" id="department" class="col-md-12 col-xs-6 btn btn-lg btn-sm" ng-class="{'btn-success': ticket.optionTypeSelected.name=='department', 'btn-primary': ticket.optionTypeSelected.name==undefined || ticket.optionTypeSelected.name!='department'}">
 										<i class="glyphicon glyphicon-home"></i> Departamento</button>
 								</div>
 								<!-- //NEW TICKET -->
 								<!-- SERVICES COST -->
 								<div class="col-md-6">
-									<button ng-click="setOptionType($event); mainSwitchFn('autoSelectDoors', null, null);enabledNextBtn();" id="building" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.optionTypeSelected.name=='building', 'btn-primary': ticket.optionTypeSelected.name==undefined || ticket.optionTypeSelected.name!='building'}">
+									<button ng-click="setOptionType($event); mainSwitchFn('autoSelectDoors', null, null);enabledNextBtn();" id="building" class="col-md-12 col-xs-6 btn btn-lg btn-sm" ng-class="{'btn-success': ticket.optionTypeSelected.name=='building', 'btn-primary': ticket.optionTypeSelected.name==undefined || ticket.optionTypeSelected.name!='building'}">
 										<i class="icon-building"></i> Edificio</button>
 								</div>
 								<!-- //SERVICES COST -->
@@ -169,7 +169,7 @@
 										<!-- Select Department -->
 										<div ng-show="!dptoNotFound" class="form-group">
 											<label class="col-md-4 control-label font-size-18px">Departamento</label>
-											<div class="col-md-4 selectContainer">
+											<div class="col-md-4 col-xs-12 selectContainer">
 												<div class="input-group">
 													<span style="cursor: pointer;" class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
 													<select ng-model="ticket.idClientDepartament" ng-change="enabledNextBtn(); mainSwitchFn('changeDepartment', null, null);" ng-disabled="dptoNotFound!=false" class="form-control" ng-options=" item as item.Depto for item in ListDpto "  required autofocus >
