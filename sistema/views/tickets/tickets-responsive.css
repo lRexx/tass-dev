@@ -12,6 +12,9 @@
 }
 
 @media screen and (max-width: 991px) {
+    .padding-panel {
+        margin-top: 35% !important
+    }
     .tickets-view .panel-body {
         display: flex;
         flex-wrap: wrap;
@@ -22,7 +25,7 @@
     }
 
     .tickets-view .tickets-actions.tickets-actions-collapsed {
-        display: none;
+        display: none !important;
     }
 
     .tickets-view .tickets-content > div > [class*="col-"] {
