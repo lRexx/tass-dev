@@ -146,6 +146,66 @@
         margin: 0;
         white-space: normal;
     }
+
+    .tickets-view fieldset legend {
+        margin-bottom: 10px;
+        font-size: 18px;
+    }
+
+    .tickets-view .panel-heading .panel-title,
+    .tickets-view .panel-heading h3 {
+        font-size: 16px;
+        line-height: 1.3;
+    }
+
+    .tickets-view fieldset .panel-body {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .tickets-view fieldset .col-md-offset-3,
+    .tickets-view fieldset .col-md-offset-2 {
+        margin-left: 0;
+    }
+
+    .tickets-view fieldset .alert {
+        margin-bottom: 10px;
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+
+    .tickets-view fieldset .form-group.col-md-6,
+    .tickets-view fieldset .form-group.col-md-2 {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .tickets-view fieldset .form-group > label {
+        padding-left: 0 !important;
+    }
+
+    .tickets-view fieldset .selectContainer {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .tickets-view fieldset .btn-labeled[style*="margin-top"] {
+        margin-top: 6px !important;
+        margin-right: 4px;
+    }
+
+    .tickets-view fieldset .table {
+        font-size: 12px;
+    }
+
+    .tickets-view fieldset .table > thead > tr > th,
+    .tickets-view fieldset .table > tbody > tr > td {
+        padding: 4px 6px;
+    }
+
+    .tickets-view fieldset .table .font-size-18px {
+        font-size: 14px;
+    }
 }
 
 @media screen and (max-width: 991px) {
