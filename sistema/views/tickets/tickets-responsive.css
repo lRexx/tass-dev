@@ -230,7 +230,7 @@
         margin-top: 4px;
         border-width: 3px !important;
         font-size: 12px !important;
-        white-space: normal;
+        /* white-space: normal; */
     }
 
     .tickets-view fieldset .radio-custom-label .label .close {
@@ -279,4 +279,20 @@
     .tickets-view .tickets-actions .depto-widget {
         flex: 0 0 auto;
     }
+}
+
+/* ui-select inside input-group: behave as table-cell next to the addon */
+.tickets-view fieldset .input-group > .ui-select-container.ui-select-bootstrap {
+    display: table-cell;
+    width: 100%;
+    max-width: none;
+    margin: 0 !important;
+    float: none;
+}
+.tickets-view fieldset .input-group > .ui-select-container.ui-select-bootstrap > .ui-select-match > .btn {
+    width: 100% !important;
+    margin: 0 !important;
+    float: none;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
