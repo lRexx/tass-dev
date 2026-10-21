@@ -671,3 +671,18 @@
         overflow-wrap: normal;
     }
 }
+
+@media screen and (max-width: 991px) {
+    /* The form is a flex item of .panel-body; without this its content width pushes the whole page wider than the screen */
+    .tickets-view .panel-body > div:has(> form) {
+        flex: 1 1 100%;
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    /* Wide tables scroll inside the fieldset instead of widening ancestors */
+    .tickets-view form > div > fieldset {
+        contain: inline-size;
+        width: 100%;
+    }
+}
