@@ -570,3 +570,54 @@
         font-size: 1.1em !important;
     }
 }
+
+@media screen and (max-width: 767px) {
+    /* Confirmation step: nested tables must not break words mid-word */
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] td > table th,
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] td > table td {
+        overflow-wrap: normal;
+        word-break: normal;
+        hyphens: none;
+    }
+
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] td > table th {
+        padding: 4px 6px;
+        white-space: nowrap;
+    }
+
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] td > table td[style*="text-align: right"] {
+        white-space: nowrap;
+    }
+
+    /* Costs table: two label/value pairs per row */
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] td > table:has(> tbody[style*="text-align: right"]),
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] td > table > tbody[style*="text-align: right"] {
+        display: block;
+        width: 100%;
+        overflow: visible;
+    }
+
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] td > table > tbody[style*="text-align: right"] > tr {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] td > table > tbody[style*="text-align: right"] > tr > td {
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        width: auto !important;
+        padding: 6px;
+        white-space: nowrap;
+    }
+
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] td > table > tbody[style*="text-align: right"] > tr > td[style*="background"] {
+        flex: 0 0 30%;
+        justify-content: center;
+    }
+
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] td > table > tbody[style*="text-align: right"] > tr > td:not([style*="background"]) {
+        flex: 0 0 20%;
+        justify-content: flex-end;
+    }
+}
