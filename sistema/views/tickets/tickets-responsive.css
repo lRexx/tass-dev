@@ -521,3 +521,52 @@
         margin: 4px 0 0;
     }
 }
+
+@media screen and (max-width: 767px) {
+    /* Confirmation step: one font size for outer/inner tables, centered vertically */
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] .col-xs-12 > table > tbody > tr {
+        align-items: stretch;
+    }
+
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] .col-xs-12 > table > tbody > tr > td {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        align-content: center;
+        gap: 2px 4px;
+        font-size: clamp(11px, 3.1vw, 13px) !important;
+        line-height: 1.3;
+    }
+
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] .col-xs-12 > table > tbody > tr > td[colspan="4"],
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] .col-xs-12 > table > tbody > tr > td[colspan="10"] {
+        font-size: clamp(13px, 3.8vw, 16px) !important;
+    }
+
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] td > table {
+        font-size: clamp(11px, 3.1vw, 13px);
+    }
+
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] td > table th,
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] td > table td {
+        vertical-align: middle !important;
+        line-height: 1.3;
+    }
+
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] .badge,
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] .label {
+        display: inline-block;
+        max-width: 100%;
+        font-size: 0.9em !important;
+        line-height: 1.3;
+        white-space: normal;
+        overflow-wrap: normal;
+        word-break: normal;
+        vertical-align: middle;
+    }
+
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] td .font-size-18px,
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] td .font-size-16px {
+        font-size: 1.1em !important;
+    }
+}
