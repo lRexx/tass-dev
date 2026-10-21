@@ -2,7 +2,7 @@
     <div class="form-group col-md-12">
         <div ng-if="myDepartamentlist.length > 0" class="row">
             <ul ng-repeat="item in myDepartamentlist"  class="col-md-2">
-                <li id="card-depto-{{item.idClientDepartament}}" ng-click="mainSwitchFn('selectDepartment', item, null); enabledNextBtn();" ng-class="{ cardactive: ticket.idClientDepartament.idClientDepartament===item.idClientDepartament}" class="widget-head-color-box lazur-bg p-lg text-center card-deparment lazur-bg" style="background-color: #23c5c84b !important;">
+                <li id="card-depto-{{item.idClientDepartament}}" ng-click="mainSwitchFn('selectDepartment', item, null); enabledNextBtn(); scrollToNextBtn();" ng-class="{ cardactive: ticket.idClientDepartament.idClientDepartament===item.idClientDepartament}" class="widget-head-color-box lazur-bg p-lg text-center card-deparment lazur-bg" style="background-color: #23c5c84b !important;">
                     <div class="m-b-md">
                         <h2 class="font-bold no-margins text-uppercase" style="color: #555555">
                             {{item.floor}}-{{item.departament}}

@@ -180,7 +180,7 @@
 											<div class="col-md-4 selectContainer">
 												<div class="input-group">
 													<span style="cursor: pointer;" class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-													<select ng-model="ticket.idClientDepartament" ng-change="enabledNextBtn(); mainSwitchFn('changeDepartment', item, null);" ng-disabled="dptoNotFound!=false" class="form-control" ng-options=" item as item.Depto for item in ListDpto "  required autofocus >
+													<select ng-model="ticket.idClientDepartament" ng-change="enabledNextBtn(); mainSwitchFn('changeDepartment', item, null); scrollToNextBtn();" ng-disabled="dptoNotFound!=false" class="form-control" ng-options=" item as item.Depto for item in ListDpto "  required autofocus >
 														<option value="" >Seleccione</option>
 														</select>
 														<!--<span style="cursor: pointer;" ng-click="mainSwitchFn('search_and_list', null)" ng-show="sysLoggedUser.idProfileKf==3 && ticket.radioButtonDepartment==2 || sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && ticket.radioButtonDepartment!=0" class="input-group-addon"><a><i class="glyphicon glyphicon-search"></i> Buscar</a></span>-->

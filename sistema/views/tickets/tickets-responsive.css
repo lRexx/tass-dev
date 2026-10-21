@@ -621,3 +621,53 @@
         justify-content: flex-end;
     }
 }
+
+@media screen and (max-width: 767px) {
+    /* fieldset defaults to min-width: min-content, which widens the whole form */
+    .tickets-view .panel-body,
+    .tickets-view form,
+    .tickets-view fieldset,
+    .tickets-view fieldset > .col-xs-12 {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .tickets-view .panel-body {
+        overflow-x: hidden;
+    }
+
+    /* Footer buttons: fit side by side instead of overflowing */
+    .tickets-view .modal-footer > .row {
+        display: flex;
+        flex-direction: row-reverse;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .tickets-view .modal-footer > .row > [class*="col-"] {
+        float: none;
+        width: auto;
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .tickets-view .modal-footer .btn {
+        white-space: nowrap;
+    }
+
+    /* Costs table: grid keeps each label next to its value */
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] td > table > tbody[style*="text-align: right"] > tr {
+        display: grid;
+        grid-template-columns: minmax(0, 30fr) minmax(0, 20fr) minmax(0, 30fr) minmax(0, 20fr);
+    }
+
+    .tickets-view fieldset[ng-switch-when="VERIFICAR Y CONFIRMAR"] td > table > tbody[style*="text-align: right"] > tr > td {
+        flex: none;
+        min-width: 0;
+        height: 100%;
+        white-space: normal;
+        overflow-wrap: normal;
+    }
+}

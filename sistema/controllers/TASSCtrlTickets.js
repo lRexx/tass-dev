@@ -366,6 +366,18 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 }
             }
             };
+            // Waits for the digest to enable/show the button, then scrolls it into view.
+            $scope.scrollToNextBtn=function(){
+                $timeout(function(){
+                    var btns = document.querySelectorAll('.tickets-view button[ng-click*="incrementStep"]');
+                    for (var i = 0; i < btns.length; i++) {
+                        if (btns[i].offsetParent !== null) {
+                            btns[i].scrollIntoView({behavior: 'smooth', block: 'center'});
+                            break;
+                        }
+                    }
+                }, 300);
+            };
             $scope.enabledNextBtn=function(obj){
                 //console.clear();
                 console.log($scope.fSwitch);
