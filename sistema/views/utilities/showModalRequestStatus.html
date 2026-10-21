@@ -11,12 +11,12 @@
               <div class="checkmark draw"></div>
             </div>
           </div>
-          <table ng-if="ticketRegistered!=null">
+          <table ng-if="ticketRegistered!=null" class="request-status-ticket">
             <tr>
-              <td style="vertical-align: middle;text-align: right; transform: translateX(60%) !important;">
+              <td>
                 <h3>Pedido N°: </h3>
               </td>
-              <td style="vertical-align: middle;text-align: right; transform: translateX(50%) !important;">
+              <td>
                 <span style="font-size: 30px;" class="badge badge-success">{{ticketRegistered.codTicket}}</span>
               </td>
             </tr>

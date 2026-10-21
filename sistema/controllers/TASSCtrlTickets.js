@@ -378,6 +378,15 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     }
                 }, 300);
             };
+            // On mobile, entering the devices step starts at the top instead of keeping the previous scroll.
+            $scope.$watch('mySwitch', function(step){
+                if (typeof step === 'string' && /^PASO 2: DISPOSITIVOS/.test(step) && $window.innerWidth <= 767) {
+                    $timeout(function(){
+                        var head = document.querySelector('.tickets-view .panel-heading');
+                        if (head) { head.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+                    }, 100);
+                }
+            });
             $scope.enabledNextBtn=function(obj){
                 //console.clear();
                 console.log($scope.fSwitch);

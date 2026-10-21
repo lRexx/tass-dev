@@ -688,3 +688,64 @@
         width: 100%;
     }
 }
+
+@media screen and (max-width: 767px) {
+    /* Keeps the heading below the fixed navbar when scrolled into view */
+    .tickets-view .panel-heading {
+        scroll-margin-top: calc(var(--sys-nav-h, 124px) + 8px);
+    }
+}
+
+/* Request status modal: centered ticket number that fits any width */
+#showModalRequestStatus .request-status-ticket {
+    margin: 0 auto;
+}
+
+#showModalRequestStatus .request-status-ticket td {
+    padding: 0 6px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+#showModalRequestStatus .request-status-ticket h3 {
+    margin: 0;
+}
+
+@media screen and (max-width: 767px) {
+    #showModalRequestStatus .modal-dialog {
+        width: auto;
+        margin: 10px;
+    }
+
+    #showModalRequestStatus .request-status-ticket {
+        max-width: 100%;
+    }
+
+    #showModalRequestStatus .request-status-ticket h3 {
+        font-size: 18px;
+        white-space: nowrap;
+    }
+
+    #showModalRequestStatus .request-status-ticket .badge {
+        display: inline-block;
+        max-width: 100%;
+        font-size: clamp(16px, 5.5vw, 26px) !important;
+        white-space: nowrap;
+    }
+
+    #showModalRequestStatus .modal-footer > .row {
+        display: flex;
+        justify-content: center;
+        margin: 0;
+    }
+
+    #showModalRequestStatus .modal-footer > .row > [class*="col-"] {
+        float: none;
+        width: auto;
+        padding: 0;
+    }
+
+    #showModalRequestStatus .modal-footer .btn {
+        white-space: nowrap;
+    }
+}
