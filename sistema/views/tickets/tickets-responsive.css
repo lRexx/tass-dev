@@ -1,4 +1,4 @@
-.tickets-view {
+﻿.tickets-view {
     min-width: 0;
 }
 
@@ -15,7 +15,7 @@
     display: none;
 }
 
-/* Evita que el botón Siguiente tape la lista del buscador */
+/* Evita que el botÃ³n Siguiente tape la lista del buscador */
 .tickets-view .list-group-item {
     z-index: 1 !important;
 }
@@ -281,18 +281,31 @@
     }
 }
 
-/* ui-select inside input-group: behave as table-cell next to the addon */
-.tickets-view fieldset .input-group > .ui-select-container.ui-select-bootstrap {
-    display: table-cell;
-    width: 100%;
-    max-width: none;
-    margin: 0 !important;
-    float: none;
+/* ui-select inside input-group: flex layout so it sits flush against the addon */
+.tickets-view fieldset .input-group:has(> .ui-select-container) {
+    display: flex !important;
+    flex-wrap: nowrap;
+    align-items: stretch;
 }
-.tickets-view fieldset .input-group > .ui-select-container.ui-select-bootstrap > .ui-select-match > .btn {
+.tickets-view fieldset .input-group:has(> .ui-select-container) > .input-group-addon {
+    display: flex;
+    align-items: center;
+    width: auto;
+}
+.tickets-view fieldset .input-group > .ui-select-container {
+    display: block !important;
+    flex: 1 1 0%;
+    width: auto !important;
+    min-width: 0;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    float: none !important;
+}
+.tickets-view fieldset .input-group > .ui-select-container > .ui-select-match > .btn {
     width: 100% !important;
     margin: 0 !important;
-    float: none;
+    float: none !important;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
