@@ -309,3 +309,56 @@
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
+
+@media screen and (max-width: 767px) {
+    .tickets-view fieldset .col-xs-12.form-group,
+    .tickets-view fieldset .col-xs-12.form-group > .form-group {
+        margin-right: 0;
+        margin-left: 0;
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .tickets-view fieldset .col-xs-12.form-group > .form-group > table {
+        display: table;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 0 10px;
+        table-layout: fixed;
+        word-wrap: break-word;
+    }
+
+    .tickets-view fieldset .col-xs-12.form-group > .form-group > table th,
+    .tickets-view fieldset .col-xs-12.form-group > .form-group > table td {
+        padding: 4px 3px;
+        font-size: 11px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .tickets-view fieldset .col-md-12:has(> [class*="col-xs-4"] > input[name="idTypeDeliveryKf"]) {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .tickets-view fieldset .col-md-12 > [class*="col-xs-4"]:has(> input[name="idTypeDeliveryKf"]) {
+        float: none;
+        width: 50%;
+        margin-left: 0 !important;
+        text-align: center;
+    }
+
+    .tickets-view fieldset .alert-success table,
+    .tickets-view fieldset .alert-success tbody,
+    .tickets-view fieldset .alert-success tr {
+        display: block;
+        width: 100%;
+    }
+
+    .tickets-view fieldset .alert-success td {
+        display: block;
+        padding: 2px 0 !important;
+        text-align: center;
+    }
+}
