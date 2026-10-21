@@ -282,6 +282,7 @@
 }
 
 /* ui-select inside input-group: flex layout so it sits flush against the addon */
+@media screen and (max-width: 767px) {
 .tickets-view fieldset .input-group:has(> .ui-select-container) {
     display: flex !important;
     flex-wrap: nowrap;
@@ -308,6 +309,7 @@
     float: none !important;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
+}
 }
 
 @media screen and (max-width: 767px) {
