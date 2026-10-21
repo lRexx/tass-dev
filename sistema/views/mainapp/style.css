@@ -3470,7 +3470,11 @@ img.circle-border {
   }
   .inform-fixed {
     position: fixed;
-    top: 360px;
+    top: 10px;
+    left: auto;
+    right: 10px;
+    width: 85%;
+    max-width: 360px;
   }
   .verticalAllign{
     padding-top: 70px;
@@ -4491,4 +4495,18 @@ img.circle-border {
   .label-badge {
     font-size: 0.7rem;
   }
+}
+
+/* Remove gap between addon icon and ui-select */
+.input-group > ui-select[name="products"] {
+  display: table-cell;
+  width: 100%;
+  margin-left: 0 !important;
+}
+.input-group > ui-select[name="products"] > .ui-select-match > .btn {
+  width: 100% !important;
+  margin-left: 0 !important;
+  float: none;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
 }
