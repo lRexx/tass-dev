@@ -240,7 +240,7 @@
 
     .tickets-view fieldset .input-group,
     .tickets-view fieldset .ui-select-container {
-        width: 100%;
+        /* width: 100%; */
         max-width: 100%;
     }
 
